@@ -22,3 +22,7 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+bun.lockb
+/node_modules/.bin/bun
+bun.lockb
+/node_modules/.bin/bun
