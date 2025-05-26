@@ -39,7 +39,7 @@ const Header: React.FC = () => {
 
     return (
         <header className="flex border-b border-gray-300 min-h-[70px] tracking-wide relative z-50 shadow-[0_4px_12px_0_rgba(0,0,0,0.07)] bg-gradient-to-r from-[#e9f7ef] to-[#fff7e6]">
-            <div className="w-full flex flex-wrap items-center justify-center gap-6 sm:px-10 px-6 py-3 relative">
+            <div className="w-full flex flex-wrap items-center justify-center gap-6 sm:px-10 px-6 py-0 relative">
                 <div className="flex items-center absolute left-0 top-0 h-full pl-2">
                     <a href="javascript:void(0)"><img src="/logo.png" alt="logo" className="h-[50px] w-auto object-contain drop-shadow-md m-[10px]" /></a>
                 </div>
@@ -221,14 +221,17 @@ const Header: React.FC = () => {
                                 className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-blue-700 text-slate-900 font-medium text-[15px] block">Feature</a></li>
                         </ul>
                         <div className="hidden lg:flex items-center ml-6 h-full">
-                            <div className="flex items-center gap-3 bg-gradient-to-r from-[#e9f7ef] to-[#fff7e6] px-5 py-2 rounded-xl border border-green-200 shadow-md">
+                            {/* bg-gradient-to-r from-[#e9f7ef] to-[#fff7e6] rounded-xl border border-green-200 shadow-md*/}
+                            <div className="flex items-center gap-3  px-5 py-2 ">
                                 <span className="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-[#3a8d3a] to-[#f9a825] shadow text-white">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-                                    </svg>
+                                    <a href="tel:+925822924244" >
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                                        </svg>
+                                    </a>
                                 </span>
                                 <div className="flex flex-col">
-                                    <span className="text-xs text-green-700 font-semibold tracking-wide">UAN</span>
+                                    <span className="text-xs text-green-800 font-bold tracking-wide text-center">UAN</span>
                                     <a href="tel:+925822924244" className="text-green-800 font-bold text-lg leading-tight hover:text-orange-600 transition-colors">+92-5822-924244</a>
                                     <span className="text-[11px] text-gray-500 mt-1">We're here to help you 24/7</span>
                                 </div>
