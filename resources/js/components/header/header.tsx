@@ -38,7 +38,10 @@ const Header: React.FC = () => {
     }, []);
 
     return (
+
+
         <header className="flex border-b border-gray-300 min-h-[70px] tracking-wide relative z-50 shadow-[0_4px_12px_0_rgba(0,0,0,0.07)] bg-gradient-to-r from-[#e9f7ef] to-[#fff7e6]">
+
             <div className="w-full flex flex-wrap items-center justify-center gap-6 sm:px-10 px-6 py-0 relative">
                 <div className="flex items-center absolute left-0 top-0 h-full pl-2">
                     <a href="javascript:void(0)"><img src="/logo.png" alt="logo" className="h-[50px] w-auto object-contain m-[10px]" /></a>

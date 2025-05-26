@@ -1,5 +1,6 @@
 import Footer from '@/components/footer';
 import Header from '@/components/header/header';
+import AddressMarqueeSection from '@/components/topnavbar/top-nav-bar';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
@@ -17,8 +18,10 @@ export default function Dashboard() {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
 
+
+            <AddressMarqueeSection />
             <Header />
-            {/* <Footer /> */}
+            <Footer />
 
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
                 <div className="grid auto-rows-min gap-4 md:grid-cols-3">
