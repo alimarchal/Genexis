@@ -46,26 +46,66 @@ const Header: React.FC = () => {
                 {/* Spacer for logo on left */}
                 <div id="collapseMenu" ref={collapseMenuRef}
                     className="max-lg:hidden lg:!block max-lg:before:fixed max-lg:before:bg-black max-lg:before:opacity-40 max-lg:before:inset-0 max-lg:before:z-50">
-                    <button id="toggleClose" ref={toggleCloseRef} className="lg:hidden fixed top-2 right-4 z-[100] rounded-full bg-white w-9 h-9 flex items-center justify-center border border-gray-200 cursor-pointer">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5 fill-black" viewBox="0 0 320.591 320.591">
-                            <path
-                                d="M30.391 318.583a30.37 30.37 0 0 1-21.56-7.288c-11.774-11.844-11.774-30.973 0-42.817L266.643 10.665c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875L51.647 311.295a30.366 30.366 0 0 1-21.256 7.288z"
-                                data-original="#000000"></path>
-                            <path
-                                d="M287.9 318.583a30.37 30.37 0 0 1-21.257-8.806L8.83 51.963C-2.078 39.225-.595 20.055 12.143 9.146c11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414a30.368 30.368 0 0 1-23.078 7.288z"
-                                data-original="#000000"></path>
-                        </svg>
-                    </button>
-                    <ul className="lg:flex lg:ml-10 lg:gap-x-10 max-lg:space-y-3 max-lg:fixed max-lg:bg-white max-lg:w-2/3 max-lg:min-w-[300px] max-lg:top-0 max-lg:left-0 max-lg:p-4 max-lg:h-full max-lg:shadow-md max-lg:overflow-auto z-50">
-                        <li className="max-lg:pb-4 px-3 lg:hidden">
-                            <a href="javascript:void(0)"><img src="/logo.png" alt="logo" className="h-[50px] w-auto object-contain drop-shadow-md m-[10px]" />
-                            </a>
-                        </li>
-                        <li className="max-lg:px-3 max-lg:py-2"><a href='javascript:void(0)'
-                            className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-blue-700 text-blue-700 font-medium text-[15px] block">Home</a></li>
-                        <li className="group text-[14px] max-lg:px-3 max-lg:py-2 relative">
-                            <a href='javascript:void(0)'
-                                className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-blue-700 hover:fill-[#007bff] text-slate-900 font-medium text-[15px] block">Agencies<svg
+                    <div className="flex items-center">
+                        <button id="toggleClose" ref={toggleCloseRef} className="lg:hidden fixed top-2 right-4 z-[100] rounded-full bg-white w-9 h-9 flex items-center justify-center border border-gray-200 cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5 fill-black" viewBox="0 0 320.591 320.591">
+                                <path
+                                    d="M30.391 318.583a30.37 30.37 0 0 1-21.56-7.288c-11.774-11.844-11.774-30.973 0-42.817L266.643 10.665c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875L51.647 311.295a30.366 30.366 0 0 1-21.256 7.288z"
+                                    data-original="#000000"></path>
+                                <path
+                                    d="M287.9 318.583a30.37 30.37 0 0 1-21.257-8.806L8.83 51.963C-2.078 39.225-.595 20.055 12.143 9.146c11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414a30.368 30.368 0 0 1-23.078 7.288z"
+                                    data-original="#000000"></path>
+                            </svg>
+                        </button>
+                        <ul className="lg:flex lg:ml-10 lg:gap-x-10 max-lg:space-y-3 max-lg:fixed max-lg:bg-white max-lg:w-2/3 max-lg:min-w-[300px] max-lg:top-0 max-lg:left-0 max-lg:p-4 max-lg:h-full max-lg:shadow-md max-lg:overflow-auto z-50">
+                            <li className="max-lg:pb-4 px-3 lg:hidden">
+                                <a href="javascript:void(0)"><img src="/logo.png" alt="logo" className="h-[50px] w-auto object-contain drop-shadow-md m-[10px]" />
+                                </a>
+                            </li>
+                            <li className="max-lg:px-3 max-lg:py-2"><a href='javascript:void(0)'
+                                className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-blue-700 text-blue-700 font-medium text-[15px] block">Home</a></li>
+                            <li className="group text-[14px] max-lg:px-3 max-lg:py-2 relative">
+                                <a href='javascript:void(0)'
+                                    className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-blue-700 hover:fill-[#007bff] text-slate-900 font-medium text-[15px] block">Agencies<svg
+                                        xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" className="ml-1 inline-block"
+                                        viewBox="0 0 24 24">
+                                        <path
+                                            d="M12 16a1 1 0 0 1-.71-.29l-6-6a1 1 0 0 1 1.42-1.42l5.29 5.3 5.29-5.29a1 1 0 0 1 1.41 1.41l-6 6a1 1 0 0 1-.7.29z"
+                                            data-name="16" data-original="#000000" />
+                                    </svg>
+                                </a>
+                                <div className="absolute lg:top-5 max-lg:top-8 -left-6 z-50 flex shadow-lg bg-white max-h-0 overflow-hidden group-hover:opacity-100 group-hover:max-h-[700px] px-8 group-hover:pb-8 group-hover:pt-6 transition-all duration-500">
+                                    <div className="lg:min-w-[180px] max-lg:min-w-[140px]">
+                                        <h6 className="text-base text-blue-700 font-medium">USA</h6>
+                                        <ul className="mt-3 pt-3 border-t border-gray-300 space-y-3">
+                                            <li className="py-1"><a href='javascript:void(0)'
+                                                className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">New York</a></li>
+                                            <li className="py-1"><a href='javascript:void(0)'
+                                                className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">San Francisco</a></li>
+                                            <li className="py-1"><a href='javascript:void(0)'
+                                                className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Houston</a></li>
+                                            <li className="py-1"><a href='javascript:void(0)'
+                                                className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Dallas</a></li>
+                                            <li className="py-1"><a href='javascript:void(0)'
+                                                className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Philadelphia</a></li>
+                                            <li className="py-1"><a href='javascript:void(0)'
+                                                className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">San Diego</a></li>
+                                            <li className="py-1"><a href='javascript:void(0)'
+                                                className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Atlanta</a></li>
+                                            <li className="py-1"><a href='javascript:void(0)'
+                                                className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Austin</a></li>
+                                            <li className="py-1"><a href='javascript:void(0)'
+                                                className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Portland</a></li>
+                                            <li className="py-1"><a href='javascript:void(0)'
+                                                className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Denver</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                            <li className="max-lg:px-3 max-lg:py-2"><a href='javascript:void(0)'
+                                className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-blue-700 text-slate-900 font-medium text-[15px] block">Team</a></li>
+                            <li className="group text-[14px] max-lg:px-3 max-lg:py-2 relative"><a href='javascript:void(0)'
+                                className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-blue-700 text-slate-900 font-medium text-[15px] block">Contact<svg
                                     xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" className="ml-1 inline-block"
                                     viewBox="0 0 24 24">
                                     <path
@@ -73,95 +113,68 @@ const Header: React.FC = () => {
                                         data-name="16" data-original="#000000" />
                                 </svg>
                             </a>
-                            <div className="absolute lg:top-5 max-lg:top-8 -left-6 z-50 flex shadow-lg bg-white max-h-0 overflow-hidden group-hover:opacity-100 group-hover:max-h-[700px] px-8 group-hover:pb-8 group-hover:pt-6 transition-all duration-500">
-                                <div className="lg:min-w-[180px] max-lg:min-w-[140px]">
-                                    <h6 className="text-base text-blue-700 font-medium">USA</h6>
-                                    <ul className="mt-3 pt-3 border-t border-gray-300 space-y-3">
-                                        <li className="py-1"><a href='javascript:void(0)'
-                                            className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">New York</a></li>
-                                        <li className="py-1"><a href='javascript:void(0)'
-                                            className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">San Francisco</a></li>
-                                        <li className="py-1"><a href='javascript:void(0)'
-                                            className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Houston</a></li>
-                                        <li className="py-1"><a href='javascript:void(0)'
-                                            className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Dallas</a></li>
-                                        <li className="py-1"><a href='javascript:void(0)'
-                                            className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Philadelphia</a></li>
-                                        <li className="py-1"><a href='javascript:void(0)'
-                                            className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">San Diego</a></li>
-                                        <li className="py-1"><a href='javascript:void(0)'
-                                            className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Atlanta</a></li>
-                                        <li className="py-1"><a href='javascript:void(0)'
-                                            className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Austin</a></li>
-                                        <li className="py-1"><a href='javascript:void(0)'
-                                            className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Portland</a></li>
-                                        <li className="py-1"><a href='javascript:void(0)'
-                                            className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Denver</a></li>
-                                    </ul>
+                                <div className="absolute lg:top-5 max-lg:top-8 -left-6 z-50 flex shadow-lg bg-white max-h-0 overflow-hidden group-hover:opacity-100 group-hover:max-h-[700px] px-8 group-hover:pb-8 group-hover:pt-6 transition-all duration-500">
+                                    <div className="lg:min-w-[180px] max-lg:min-w-[140px]">
+                                        <h6 className="text-base text-blue-700 font-medium">UK</h6>
+                                        <ul className="mt-3 pt-3 border-t border-gray-300 space-y-3">
+                                            <li className="py-1"><a href='javascript:void(0)'
+                                                className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">London</a></li>
+                                            <li className="py-1"><a href='javascript:void(0)'
+                                                className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Bristol</a></li>
+                                            <li className="py-1"><a href='javascript:void(0)'
+                                                className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Birmingham</a></li>
+                                            <li className="py-1"><a href='javascript:void(0)'
+                                                className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Liverpool</a></li>
+                                            <li className="py-1"><a href='javascript:void(0)'
+                                                className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Manchester</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                            <li className="max-lg:px-3 max-lg:py-2"><a href='javascript:void(0)'
+                                className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-blue-700 text-slate-900 font-medium text-[15px] block">Source</a></li>
+                            <li className="group text-[14px] max-lg:px-3 max-lg:py-2 relative"><a href='javascript:void(0)'
+                                className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-blue-700 text-slate-900 font-medium text-[15px] block">Partner<svg
+                                    xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" className="ml-1 inline-block"
+                                    viewBox="0 0 24 24">
+                                    <path
+                                        d="M12 16a1 1 0 0 1-.71-.29l-6-6a1 1 0 0 1 1.42-1.42l5.29 5.3 5.29-5.29a1 1 0 0 1 1.41 1.41l-6 6a1 1 0 0 1-.7.29z"
+                                        data-name="16" data-original="#000000" />
+                                </svg>
+                            </a>
+                                <div className="absolute lg:top-5 max-lg:top-8 -left-6 z-50 flex shadow-lg bg-white max-h-0 overflow-hidden group-hover:opacity-100 group-hover:max-h-[700px] px-8 group-hover:pb-8 group-hover:pt-6 transition-all duration-500">
+                                    <div className="lg:min-w-[180px] max-lg:min-w-[140px]">
+                                        <h6 className="text-base text-blue-700 font-medium">Canada</h6>
+                                        <ul className="mt-3 pt-3 border-t border-gray-300 space-y-3">
+                                            <li className="py-1"><a href='javascript:void(0)'
+                                                className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Toronto</a></li>
+                                            <li className="py-1"><a href='javascript:void(0)'
+                                                className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Calgary</a></li>
+                                            <li className="py-1"><a href='javascript:void(0)'
+                                                className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Ottawa</a></li>
+                                            <li className="py-1"><a href='javascript:void(0)'
+                                                className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Vancouver</a></li>
+                                            <li className="py-1"><a href='javascript:void(0)'
+                                                className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Montréal</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                            <li className="max-lg:px-3 max-lg:py-2"><a href='javascript:void(0)'
+                                className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-blue-700 text-slate-900 font-medium text-[15px] block">Feature</a></li>
+                        </ul>
+                        <div className="hidden lg:flex items-center ml-6 h-full">
+                            <div className="flex items-center gap-2 bg-blue-50 px-4 py-2 rounded-lg border border-blue-100 shadow-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-blue-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                                </svg>
+                                <div>
+                                    <p className="text-xs text-gray-600">Requesting A Call:</p>
+                                    <a href="tel:+925822924244" className="text-blue-700 font-semibold text-[15px] hover:text-blue-800">+92-5822-924244</a>
                                 </div>
                             </div>
-                        </li>
-                        <li className="max-lg:px-3 max-lg:py-2"><a href='javascript:void(0)'
-                            className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-blue-700 text-slate-900 font-medium text-[15px] block">Team</a></li>
-                        <li className="group text-[14px] max-lg:px-3 max-lg:py-2 relative"><a href='javascript:void(0)'
-                            className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-blue-700 text-slate-900 font-medium text-[15px] block">Contact<svg
-                                xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" className="ml-1 inline-block"
-                                viewBox="0 0 24 24">
-                                <path
-                                    d="M12 16a1 1 0 0 1-.71-.29l-6-6a1 1 0 0 1 1.42-1.42l5.29 5.3 5.29-5.29a1 1 0 0 1 1.41 1.41l-6 6a1 1 0 0 1-.7.29z"
-                                    data-name="16" data-original="#000000" />
-                            </svg>
-                        </a>
-                            <div className="absolute lg:top-5 max-lg:top-8 -left-6 z-50 flex shadow-lg bg-white max-h-0 overflow-hidden group-hover:opacity-100 group-hover:max-h-[700px] px-8 group-hover:pb-8 group-hover:pt-6 transition-all duration-500">
-                                <div className="lg:min-w-[180px] max-lg:min-w-[140px]">
-                                    <h6 className="text-base text-blue-700 font-medium">UK</h6>
-                                    <ul className="mt-3 pt-3 border-t border-gray-300 space-y-3">
-                                        <li className="py-1"><a href='javascript:void(0)'
-                                            className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">London</a></li>
-                                        <li className="py-1"><a href='javascript:void(0)'
-                                            className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Bristol</a></li>
-                                        <li className="py-1"><a href='javascript:void(0)'
-                                            className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Birmingham</a></li>
-                                        <li className="py-1"><a href='javascript:void(0)'
-                                            className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Liverpool</a></li>
-                                        <li className="py-1"><a href='javascript:void(0)'
-                                            className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Manchester</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </li>
-                        <li className="max-lg:px-3 max-lg:py-2"><a href='javascript:void(0)'
-                            className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-blue-700 text-slate-900 font-medium text-[15px] block">Source</a></li>
-                        <li className="group text-[14px] max-lg:px-3 max-lg:py-2 relative"><a href='javascript:void(0)'
-                            className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-blue-700 text-slate-900 font-medium text-[15px] block">Partner<svg
-                                xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" className="ml-1 inline-block"
-                                viewBox="0 0 24 24">
-                                <path
-                                    d="M12 16a1 1 0 0 1-.71-.29l-6-6a1 1 0 0 1 1.42-1.42l5.29 5.3 5.29-5.29a1 1 0 0 1 1.41 1.41l-6 6a1 1 0 0 1-.7.29z"
-                                    data-name="16" data-original="#000000" />
-                            </svg>
-                        </a>
-                            <div className="absolute lg:top-5 max-lg:top-8 -left-6 z-50 flex shadow-lg bg-white max-h-0 overflow-hidden group-hover:opacity-100 group-hover:max-h-[700px] px-8 group-hover:pb-8 group-hover:pt-6 transition-all duration-500">
-                                <div className="lg:min-w-[180px] max-lg:min-w-[140px]">
-                                    <h6 className="text-base text-blue-700 font-medium">Canada</h6>
-                                    <ul className="mt-3 pt-3 border-t border-gray-300 space-y-3">
-                                        <li className="py-1"><a href='javascript:void(0)'
-                                            className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Toronto</a></li>
-                                        <li className="py-1"><a href='javascript:void(0)'
-                                            className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Calgary</a></li>
-                                        <li className="py-1"><a href='javascript:void(0)'
-                                            className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Ottawa</a></li>
-                                        <li className="py-1"><a href='javascript:void(0)'
-                                            className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Vancouver</a></li>
-                                        <li className="py-1"><a href='javascript:void(0)'
-                                            className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Montréal</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </li>
-                        <li className="max-lg:px-3 max-lg:py-2"><a href='javascript:void(0)'
-                            className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-blue-700 text-slate-900 font-medium text-[15px] block">Feature</a></li>
-                    </ul>
+                        </div>
+                    </div>
                 </div>
 
                 <div className="flex items-center ml-auto lg:hidden">
