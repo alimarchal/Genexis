@@ -38,16 +38,15 @@ const Header: React.FC = () => {
     }, []);
 
     return (
-
-
         <header className="flex border-b border-gray-300 min-h-[70px] tracking-wide relative z-50 shadow-[0_4px_12px_0_rgba(0,0,0,0.07)] bg-gradient-to-r from-[#e9f7ef] to-[#fff7e6]">
-
             <div className="w-full flex flex-wrap items-center justify-center gap-6 sm:px-10 px-6 py-0 relative">
                 <div className="flex items-center absolute left-0 top-0 h-full pl-2">
-                    <a href="javascript:void(0)"><img src="/logo.png" alt="logo" className="h-[50px] w-auto object-contain m-[10px]" /></a>
+                    <a href="javascript:void(0)">
+                        <img src="/logo.png" alt="logo" className="h-[50px] w-auto object-contain m-[10px]" />
+                    </a>
                 </div>
                 <div style={{ width: '70px' }} className="hidden sm:block" />
-                {/* Spacer for logo on left */}
+
                 <div id="collapseMenu" ref={collapseMenuRef}
                     className="max-lg:hidden lg:!block max-lg:before:fixed max-lg:before:bg-black max-lg:before:opacity-40 max-lg:before:inset-0 max-lg:before:z-50">
                     <div className="flex items-center">
@@ -61,173 +60,196 @@ const Header: React.FC = () => {
                                     data-original="#000000"></path>
                             </svg>
                         </button>
-                        <ul className="lg:flex lg:ml-10 lg:gap-x-10 max-lg:space-y-3 max-lg:fixed max-lg:bg-white max-lg:w-2/3 max-lg:min-w-[300px] max-lg:top-0 max-lg:left-0 max-lg:p-4 max-lg:h-full max-lg:shadow-md max-lg:overflow-auto z-50 lg:bg-gradient-to-r lg:from-[#e9f7ef] lg:to-[#fff7e6] lg:rounded-xl lg:px-4 lg:py-1">
+                        <ul className="lg:flex lg:items-center lg:ml-10 lg:gap-x-10 max-lg:space-y-3 max-lg:fixed max-lg:bg-white max-lg:w-2/3 max-lg:min-w-[300px] max-lg:top-0 max-lg:left-0 max-lg:p-4 max-lg:h-full max-lg:shadow-md max-lg:overflow-auto z-50 lg:bg-gradient-to-r lg:from-[#e9f7ef] lg:to-[#fff7e6] lg:rounded-xl lg:px-4 lg:py-1">
                             <li className="max-lg:pb-4 px-3 lg:hidden">
-                                <a href="javascript:void(0)"><img src="/logo.png" alt="logo" className="h-[50px] w-auto object-contain drop-shadow-md m-[10px]" />
+                                <a href="javascript:void(0)">
+                                    <img src="/logo.png" alt="logo" className="h-[50px] w-auto object-contain drop-shadow-md m-[10px]" />
                                 </a>
                             </li>
-                            <li className="max-lg:px-3 max-lg:py-2"><a href='javascript:void(0)'
-                                className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-blue-700 text-blue-700 font-medium text-[15px] block">Home</a></li>
-                            <li className="group text-[14px] max-lg:px-3 max-lg:py-2 relative">
+                            <li className="max-lg:px-3 max-lg:py-2 lg:flex lg:items-center">
                                 <a href='javascript:void(0)'
-                                    className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-blue-700 hover:fill-[#007bff] text-slate-900 font-medium text-[15px] block flex items-center justify-between"
-                                    onClick={e => {
-                                        if (window.innerWidth < 1024) {
-                                            e.preventDefault();
-                                            setOpenMobileSubmenu(openMobileSubmenu === 'agencies' ? null : 'agencies');
-                                        }
-                                    }}
-                                >Agencies
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="16px"
-                                        height="16px"
-                                        className="ml-1 inline-block"
-                                        viewBox="0 0 24 24"
+                                    className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-blue-700 text-blue-700 font-medium text-[15px] block lg:px-2 lg:py-1">Home</a>
+                            </li>
+
+                            {/* Agencies Dropdown */}
+                            <li className="text-[14px] max-lg:px-3 max-lg:py-2 lg:flex lg:items-center relative">
+                                <div className="group lg:inline-block">
+                                    <a href='javascript:void(0)'
+                                        className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-blue-700 hover:fill-[#007bff] text-slate-900 font-medium text-[15px] flex items-center justify-between lg:px-2 lg:py-1"
+                                        onClick={e => {
+                                            if (window.innerWidth < 1024) {
+                                                e.preventDefault();
+                                                setOpenMobileSubmenu(openMobileSubmenu === 'agencies' ? null : 'agencies');
+                                            }
+                                        }}
+                                    >Agencies
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="16px"
+                                            height="16px"
+                                            className="ml-1 inline-block"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                d="M12 16a1 1 0 0 1-.71-.29l-6-6a1 1 0 0 1 1.42-1.42l5.29 5.3 5.29-5.29a1 1 0 0 1 1.41 1.41l-6 6a1 1 0 0 1-.7.29z"
+                                                data-name="16"
+                                                data-original="#000000"
+                                            />
+                                        </svg>
+                                    </a>
+                                    <div
+                                        className={`absolute lg:top-full lg:left-0 max-lg:top-8 max-lg:left-0 z-50 lg:mt-1 shadow-lg bg-white transition-all duration-300 px-8 opacity-0 max-h-0 overflow-hidden group-hover:opacity-100 group-hover:max-h-[700px] group-hover:pb-8 group-hover:pt-6
+                                            ${openMobileSubmenu === 'agencies' ? 'max-lg:max-h-[700px] max-lg:pb-8 max-lg:pt-6 max-lg:opacity-100' : 'max-lg:max-h-0 max-lg:overflow-hidden max-lg:opacity-0'}
+                                        `}
                                     >
-                                        <path
-                                            d="M12 16a1 1 0 0 1-.71-.29l-6-6a1 1 0 0 1 1.42-1.42l5.29 5.3 5.29-5.29a1 1 0 0 1 1.41 1.41l-6 6a1 1 0 0 1-.7.29z"
-                                            data-name="16"
-                                            data-original="#000000"
-                                        />
-                                    </svg>
-                                </a>
-                                <div
-                                    className={`absolute lg:top-5 max-lg:top-8 -left-6 z-50 flex shadow-lg bg-white transition-all duration-500 px-8 group-hover:opacity-100 group-hover:max-h-[700px] group-hover:pb-8 group-hover:pt-6
-                                        ${openMobileSubmenu === 'agencies' ? 'max-lg:max-h-[700px] max-lg:pb-8 max-lg:pt-6 opacity-100' : 'max-lg:max-h-0 max-lg:overflow-hidden opacity-0'}
-                                    `}
-                                >
-                                    <div className="lg:min-w-[180px] max-lg:min-w-[140px]">
-                                        <h6 className="text-base text-blue-700 font-medium">USA</h6>
-                                        <ul className="mt-3 pt-3 border-t border-gray-300 space-y-3">
-                                            <li className="py-1"><a href='javascript:void(0)'
-                                                className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">New York</a></li>
-                                            <li className="py-1"><a href='javascript:void(0)'
-                                                className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">San Francisco</a></li>
-                                            <li className="py-1"><a href='javascript:void(0)'
-                                                className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Houston</a></li>
-                                            <li className="py-1"><a href='javascript:void(0)'
-                                                className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Dallas</a></li>
-                                            <li className="py-1"><a href='javascript:void(0)'
-                                                className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Philadelphia</a></li>
-                                            <li className="py-1"><a href='javascript:void(0)'
-                                                className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">San Diego</a></li>
-                                            <li className="py-1"><a href='javascript:void(0)'
-                                                className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Atlanta</a></li>
-                                            <li className="py-1"><a href='javascript:void(0)'
-                                                className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Austin</a></li>
-                                            <li className="py-1"><a href='javascript:void(0)'
-                                                className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Portland</a></li>
-                                            <li className="py-1"><a href='javascript:void(0)'
-                                                className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Denver</a></li>
-                                        </ul>
+                                        <div className="lg:min-w-[180px] max-lg:min-w-[140px]">
+                                            <h6 className="text-base text-blue-700 font-medium">USA</h6>
+                                            <ul className="mt-3 pt-3 border-t border-gray-300 space-y-3">
+                                                <li className="py-1"><a href='javascript:void(0)'
+                                                    className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">New York</a></li>
+                                                <li className="py-1"><a href='javascript:void(0)'
+                                                    className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">San Francisco</a></li>
+                                                <li className="py-1"><a href='javascript:void(0)'
+                                                    className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Houston</a></li>
+                                                <li className="py-1"><a href='javascript:void(0)'
+                                                    className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Dallas</a></li>
+                                                <li className="py-1"><a href='javascript:void(0)'
+                                                    className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Philadelphia</a></li>
+                                                <li className="py-1"><a href='javascript:void(0)'
+                                                    className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">San Diego</a></li>
+                                                <li className="py-1"><a href='javascript:void(0)'
+                                                    className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Atlanta</a></li>
+                                                <li className="py-1"><a href='javascript:void(0)'
+                                                    className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Austin</a></li>
+                                                <li className="py-1"><a href='javascript:void(0)'
+                                                    className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Portland</a></li>
+                                                <li className="py-1"><a href='javascript:void(0)'
+                                                    className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Denver</a></li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </li>
-                            <li className="max-lg:px-3 max-lg:py-2"><a href='javascript:void(0)'
-                                className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-blue-700 text-slate-900 font-medium text-[15px] block">Team</a></li>
-                            <li className="group text-[14px] max-lg:px-3 max-lg:py-2 relative">
+
+                            <li className="max-lg:px-3 max-lg:py-2 lg:flex lg:items-center">
                                 <a href='javascript:void(0)'
-                                    className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-blue-700 text-slate-900 font-medium text-[15px] block flex items-center justify-between"
-                                    onClick={e => {
-                                        if (window.innerWidth < 1024) {
-                                            e.preventDefault();
-                                            setOpenMobileSubmenu(openMobileSubmenu === 'contact' ? null : 'contact');
-                                        }
-                                    }}
-                                >Contact
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="16px"
-                                        height="16px"
-                                        className="ml-1 inline-block"
-                                        viewBox="0 0 24 24"
+                                    className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-blue-700 text-slate-900 font-medium text-[15px] block lg:px-2 lg:py-1">Team</a>
+                            </li>
+
+                            {/* Contact Dropdown */}
+                            <li className="text-[14px] max-lg:px-3 max-lg:py-2 lg:flex lg:items-center relative">
+                                <div className="group lg:inline-block">
+                                    <a href='javascript:void(0)'
+                                        className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-blue-700 text-slate-900 font-medium text-[15px] flex items-center justify-between lg:px-2 lg:py-1"
+                                        onClick={e => {
+                                            if (window.innerWidth < 1024) {
+                                                e.preventDefault();
+                                                setOpenMobileSubmenu(openMobileSubmenu === 'contact' ? null : 'contact');
+                                            }
+                                        }}
+                                    >Contact
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="16px"
+                                            height="16px"
+                                            className="ml-1 inline-block"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                d="M12 16a1 1 0 0 1-.71-.29l-6-6a1 1 0 0 1 1.42-1.42l5.29 5.3 5.29-5.29a1 1 0 0 1 1.41 1.41l-6 6a1 1 0 0 1-.7.29z"
+                                                data-name="16"
+                                                data-original="#000000"
+                                            />
+                                        </svg>
+                                    </a>
+                                    <div
+                                        className={`absolute lg:top-full lg:left-0 max-lg:top-8 max-lg:left-0 z-50 lg:mt-1 shadow-lg bg-white transition-all duration-300 px-8 opacity-0 max-h-0 overflow-hidden group-hover:opacity-100 group-hover:max-h-[700px] group-hover:pb-8 group-hover:pt-6
+                                            ${openMobileSubmenu === 'contact' ? 'max-lg:max-h-[700px] max-lg:pb-8 max-lg:pt-6 max-lg:opacity-100' : 'max-lg:max-h-0 max-lg:overflow-hidden max-lg:opacity-0'}
+                                        `}
                                     >
-                                        <path
-                                            d="M12 16a1 1 0 0 1-.71-.29l-6-6a1 1 0 0 1 1.42-1.42l5.29 5.3 5.29-5.29a1 1 0 0 1 1.41 1.41l-6 6a1 1 0 0 1-.7.29z"
-                                            data-name="16"
-                                            data-original="#000000"
-                                        />
-                                    </svg>
-                                </a>
-                                <div
-                                    className={`absolute lg:top-5 max-lg:top-8 -left-6 z-50 flex shadow-lg bg-white transition-all duration-500 px-8 group-hover:opacity-100 group-hover:max-h-[700px] group-hover:pb-8 group-hover:pt-6
-                                        ${openMobileSubmenu === 'contact' ? 'max-lg:max-h-[700px] max-lg:pb-8 max-lg:pt-6 opacity-100' : 'max-lg:max-h-0 max-lg:overflow-hidden opacity-0'}
-                                    `}
-                                >
-                                    <div className="lg:min-w-[180px] max-lg:min-w-[140px]">
-                                        <h6 className="text-base text-blue-700 font-medium">UK</h6>
-                                        <ul className="mt-3 pt-3 border-t border-gray-300 space-y-3">
-                                            <li className="py-1"><a href='javascript:void(0)'
-                                                className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">London</a></li>
-                                            <li className="py-1"><a href='javascript:void(0)'
-                                                className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Bristol</a></li>
-                                            <li className="py-1"><a href='javascript:void(0)'
-                                                className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Birmingham</a></li>
-                                            <li className="py-1"><a href='javascript:void(0)'
-                                                className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Liverpool</a></li>
-                                            <li className="py-1"><a href='javascript:void(0)'
-                                                className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Manchester</a></li>
-                                        </ul>
+                                        <div className="lg:min-w-[180px] max-lg:min-w-[140px]">
+                                            <h6 className="text-base text-blue-700 font-medium">UK</h6>
+                                            <ul className="mt-3 pt-3 border-t border-gray-300 space-y-3">
+                                                <li className="py-1"><a href='javascript:void(0)'
+                                                    className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">London</a></li>
+                                                <li className="py-1"><a href='javascript:void(0)'
+                                                    className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Bristol</a></li>
+                                                <li className="py-1"><a href='javascript:void(0)'
+                                                    className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Birmingham</a></li>
+                                                <li className="py-1"><a href='javascript:void(0)'
+                                                    className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Liverpool</a></li>
+                                                <li className="py-1"><a href='javascript:void(0)'
+                                                    className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Manchester</a></li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </li>
-                            <li className="max-lg:px-3 max-lg:py-2"><a href='javascript:void(0)'
-                                className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-blue-700 text-slate-900 font-medium text-[15px] block">Source</a></li>
-                            <li className="group text-[14px] max-lg:px-3 max-lg:py-2 relative">
+
+                            <li className="max-lg:px-3 max-lg:py-2 lg:flex lg:items-center">
                                 <a href='javascript:void(0)'
-                                    className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-blue-700 text-slate-900 font-medium text-[15px] block flex items-center justify-between"
-                                    onClick={e => {
-                                        if (window.innerWidth < 1024) {
-                                            e.preventDefault();
-                                            setOpenMobileSubmenu(openMobileSubmenu === 'partner' ? null : 'partner');
-                                        }
-                                    }}
-                                >Partner
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="16px"
-                                        height="16px"
-                                        className="ml-1 inline-block"
-                                        viewBox="0 0 24 24"
+                                    className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-blue-700 text-slate-900 font-medium text-[15px] block lg:px-2 lg:py-1">Source</a>
+                            </li>
+
+                            {/* Partner Dropdown */}
+                            <li className="text-[14px] max-lg:px-3 max-lg:py-2 lg:flex lg:items-center relative">
+                                <div className="group lg:inline-block">
+                                    <a href='javascript:void(0)'
+                                        className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-blue-700 text-slate-900 font-medium text-[15px] flex items-center justify-between lg:px-2 lg:py-1"
+                                        onClick={e => {
+                                            if (window.innerWidth < 1024) {
+                                                e.preventDefault();
+                                                setOpenMobileSubmenu(openMobileSubmenu === 'partner' ? null : 'partner');
+                                            }
+                                        }}
+                                    >Partner
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="16px"
+                                            height="16px"
+                                            className="ml-1 inline-block"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                d="M12 16a1 1 0 0 1-.71-.29l-6-6a1 1 0 0 1 1.42-1.42l5.29 5.3 5.29-5.29a1 1 0 0 1 1.41 1.41l-6 6a1 1 0 0 1-.7.29z"
+                                                data-name="16"
+                                                data-original="#000000"
+                                            />
+                                        </svg>
+                                    </a>
+                                    <div
+                                        className={`absolute lg:top-full lg:left-0 max-lg:top-8 max-lg:left-0 z-50 lg:mt-1 shadow-lg bg-white transition-all duration-300 px-8 opacity-0 max-h-0 overflow-hidden group-hover:opacity-100 group-hover:max-h-[700px] group-hover:pb-8 group-hover:pt-6
+                                            ${openMobileSubmenu === 'partner' ? 'max-lg:max-h-[700px] max-lg:pb-8 max-lg:pt-6 max-lg:opacity-100' : 'max-lg:max-h-0 max-lg:overflow-hidden max-lg:opacity-0'}
+                                        `}
                                     >
-                                        <path
-                                            d="M12 16a1 1 0 0 1-.71-.29l-6-6a1 1 0 0 1 1.42-1.42l5.29 5.3 5.29-5.29a1 1 0 0 1 1.41 1.41l-6 6a1 1 0 0 1-.7.29z"
-                                            data-name="16"
-                                            data-original="#000000"
-                                        />
-                                    </svg>
-                                </a>
-                                <div
-                                    className={`absolute lg:top-5 max-lg:top-8 -left-6 z-50 flex shadow-lg bg-white transition-all duration-500 px-8 group-hover:opacity-100 group-hover:max-h-[700px] group-hover:pb-8 group-hover:pt-6
-                                        ${openMobileSubmenu === 'partner' ? 'max-lg:max-h-[700px] max-lg:pb-8 max-lg:pt-6 opacity-100' : 'max-lg:max-h-0 max-lg:overflow-hidden opacity-0'}
-                                    `}
-                                >
-                                    <div className="lg:min-w-[180px] max-lg:min-w-[140px]">
-                                        <h6 className="text-base text-blue-700 font-medium">Canada</h6>
-                                        <ul className="mt-3 pt-3 border-t border-gray-300 space-y-3">
-                                            <li className="py-1"><a href='javascript:void(0)'
-                                                className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Toronto</a></li>
-                                            <li className="py-1"><a href='javascript:void(0)'
-                                                className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Calgary</a></li>
-                                            <li className="py-1"><a href='javascript:void(0)'
-                                                className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Ottawa</a></li>
-                                            <li className="py-1"><a href='javascript:void(0)'
-                                                className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Vancouver</a></li>
-                                            <li className="py-1"><a href='javascript:void(0)'
-                                                className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Montréal</a></li>
-                                        </ul>
+                                        <div className="lg:min-w-[180px] max-lg:min-w-[140px]">
+                                            <h6 className="text-base text-blue-700 font-medium">Canada</h6>
+                                            <ul className="mt-3 pt-3 border-t border-gray-300 space-y-3">
+                                                <li className="py-1"><a href='javascript:void(0)'
+                                                    className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Toronto</a></li>
+                                                <li className="py-1"><a href='javascript:void(0)'
+                                                    className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Calgary</a></li>
+                                                <li className="py-1"><a href='javascript:void(0)'
+                                                    className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Ottawa</a></li>
+                                                <li className="py-1"><a href='javascript:void(0)'
+                                                    className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Vancouver</a></li>
+                                                <li className="py-1"><a href='javascript:void(0)'
+                                                    className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block">Montréal</a></li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </li>
-                            <li className="max-lg:px-3 max-lg:py-2"><a href='javascript:void(0)'
-                                className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-blue-700 text-slate-900 font-medium text-[15px] block">Feature</a></li>
+
+                            <li className="max-lg:px-3 max-lg:py-2 lg:flex lg:items-center">
+                                <a href='javascript:void(0)'
+                                    className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-blue-700 text-slate-900 font-medium text-[15px] block lg:px-2 lg:py-1">Feature</a>
+                            </li>
                         </ul>
                         <div className="hidden lg:flex items-center ml-6 h-full">
-                            {/* bg-gradient-to-r from-[#e9f7ef] to-[#fff7e6] rounded-xl border border-green-200 shadow-md*/}
-                            <div className="flex items-center gap-3  px-5 py-2 ">
+                            <div className="flex items-center gap-3 px-5 py-2">
                                 <span className="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-[#3a8d3a] to-[#f9a825] shadow text-white">
-                                    <a href="tel:+925822924244" >
+                                    <a href="tel:+925822924244">
                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
                                         </svg>
