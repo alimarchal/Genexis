@@ -1,9 +1,10 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 const Header: React.FC = () => {
     const toggleOpenRef = useRef<HTMLButtonElement>(null);
     const toggleCloseRef = useRef<HTMLButtonElement>(null);
     const collapseMenuRef = useRef<HTMLDivElement>(null);
+    const [openMobileSubmenu, setOpenMobileSubmenu] = useState<string | null>(null);
 
     const handleClick = () => {
         if (collapseMenuRef.current) {
@@ -66,15 +67,33 @@ const Header: React.FC = () => {
                                 className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-blue-700 text-blue-700 font-medium text-[15px] block">Home</a></li>
                             <li className="group text-[14px] max-lg:px-3 max-lg:py-2 relative">
                                 <a href='javascript:void(0)'
-                                    className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-blue-700 hover:fill-[#007bff] text-slate-900 font-medium text-[15px] block">Agencies<svg
-                                        xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" className="ml-1 inline-block"
-                                        viewBox="0 0 24 24">
+                                    className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-blue-700 hover:fill-[#007bff] text-slate-900 font-medium text-[15px] block flex items-center justify-between"
+                                    onClick={e => {
+                                        if (window.innerWidth < 1024) {
+                                            e.preventDefault();
+                                            setOpenMobileSubmenu(openMobileSubmenu === 'agencies' ? null : 'agencies');
+                                        }
+                                    }}
+                                >Agencies
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="16px"
+                                        height="16px"
+                                        className="ml-1 inline-block"
+                                        viewBox="0 0 24 24"
+                                    >
                                         <path
                                             d="M12 16a1 1 0 0 1-.71-.29l-6-6a1 1 0 0 1 1.42-1.42l5.29 5.3 5.29-5.29a1 1 0 0 1 1.41 1.41l-6 6a1 1 0 0 1-.7.29z"
-                                            data-name="16" data-original="#000000" />
+                                            data-name="16"
+                                            data-original="#000000"
+                                        />
                                     </svg>
                                 </a>
-                                <div className="absolute lg:top-5 max-lg:top-8 -left-6 z-50 flex shadow-lg bg-white max-h-0 overflow-hidden group-hover:opacity-100 group-hover:max-h-[700px] px-8 group-hover:pb-8 group-hover:pt-6 transition-all duration-500">
+                                <div
+                                    className={`absolute lg:top-5 max-lg:top-8 -left-6 z-50 flex shadow-lg bg-white transition-all duration-500 px-8 group-hover:opacity-100 group-hover:max-h-[700px] group-hover:pb-8 group-hover:pt-6
+                                        ${openMobileSubmenu === 'agencies' ? 'max-lg:max-h-[700px] max-lg:pb-8 max-lg:pt-6 opacity-100' : 'max-lg:max-h-0 max-lg:overflow-hidden opacity-0'}
+                                    `}
+                                >
                                     <div className="lg:min-w-[180px] max-lg:min-w-[140px]">
                                         <h6 className="text-base text-blue-700 font-medium">USA</h6>
                                         <ul className="mt-3 pt-3 border-t border-gray-300 space-y-3">
@@ -104,16 +123,35 @@ const Header: React.FC = () => {
                             </li>
                             <li className="max-lg:px-3 max-lg:py-2"><a href='javascript:void(0)'
                                 className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-blue-700 text-slate-900 font-medium text-[15px] block">Team</a></li>
-                            <li className="group text-[14px] max-lg:px-3 max-lg:py-2 relative"><a href='javascript:void(0)'
-                                className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-blue-700 text-slate-900 font-medium text-[15px] block">Contact<svg
-                                    xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" className="ml-1 inline-block"
-                                    viewBox="0 0 24 24">
-                                    <path
-                                        d="M12 16a1 1 0 0 1-.71-.29l-6-6a1 1 0 0 1 1.42-1.42l5.29 5.3 5.29-5.29a1 1 0 0 1 1.41 1.41l-6 6a1 1 0 0 1-.7.29z"
-                                        data-name="16" data-original="#000000" />
-                                </svg>
-                            </a>
-                                <div className="absolute lg:top-5 max-lg:top-8 -left-6 z-50 flex shadow-lg bg-white max-h-0 overflow-hidden group-hover:opacity-100 group-hover:max-h-[700px] px-8 group-hover:pb-8 group-hover:pt-6 transition-all duration-500">
+                            <li className="group text-[14px] max-lg:px-3 max-lg:py-2 relative">
+                                <a href='javascript:void(0)'
+                                    className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-blue-700 text-slate-900 font-medium text-[15px] block flex items-center justify-between"
+                                    onClick={e => {
+                                        if (window.innerWidth < 1024) {
+                                            e.preventDefault();
+                                            setOpenMobileSubmenu(openMobileSubmenu === 'contact' ? null : 'contact');
+                                        }
+                                    }}
+                                >Contact
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="16px"
+                                        height="16px"
+                                        className="ml-1 inline-block"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            d="M12 16a1 1 0 0 1-.71-.29l-6-6a1 1 0 0 1 1.42-1.42l5.29 5.3 5.29-5.29a1 1 0 0 1 1.41 1.41l-6 6a1 1 0 0 1-.7.29z"
+                                            data-name="16"
+                                            data-original="#000000"
+                                        />
+                                    </svg>
+                                </a>
+                                <div
+                                    className={`absolute lg:top-5 max-lg:top-8 -left-6 z-50 flex shadow-lg bg-white transition-all duration-500 px-8 group-hover:opacity-100 group-hover:max-h-[700px] group-hover:pb-8 group-hover:pt-6
+                                        ${openMobileSubmenu === 'contact' ? 'max-lg:max-h-[700px] max-lg:pb-8 max-lg:pt-6 opacity-100' : 'max-lg:max-h-0 max-lg:overflow-hidden opacity-0'}
+                                    `}
+                                >
                                     <div className="lg:min-w-[180px] max-lg:min-w-[140px]">
                                         <h6 className="text-base text-blue-700 font-medium">UK</h6>
                                         <ul className="mt-3 pt-3 border-t border-gray-300 space-y-3">
@@ -133,16 +171,35 @@ const Header: React.FC = () => {
                             </li>
                             <li className="max-lg:px-3 max-lg:py-2"><a href='javascript:void(0)'
                                 className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-blue-700 text-slate-900 font-medium text-[15px] block">Source</a></li>
-                            <li className="group text-[14px] max-lg:px-3 max-lg:py-2 relative"><a href='javascript:void(0)'
-                                className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-blue-700 text-slate-900 font-medium text-[15px] block">Partner<svg
-                                    xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" className="ml-1 inline-block"
-                                    viewBox="0 0 24 24">
-                                    <path
-                                        d="M12 16a1 1 0 0 1-.71-.29l-6-6a1 1 0 0 1 1.42-1.42l5.29 5.3 5.29-5.29a1 1 0 0 1 1.41 1.41l-6 6a1 1 0 0 1-.7.29z"
-                                        data-name="16" data-original="#000000" />
-                                </svg>
-                            </a>
-                                <div className="absolute lg:top-5 max-lg:top-8 -left-6 z-50 flex shadow-lg bg-white max-h-0 overflow-hidden group-hover:opacity-100 group-hover:max-h-[700px] px-8 group-hover:pb-8 group-hover:pt-6 transition-all duration-500">
+                            <li className="group text-[14px] max-lg:px-3 max-lg:py-2 relative">
+                                <a href='javascript:void(0)'
+                                    className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-blue-700 text-slate-900 font-medium text-[15px] block flex items-center justify-between"
+                                    onClick={e => {
+                                        if (window.innerWidth < 1024) {
+                                            e.preventDefault();
+                                            setOpenMobileSubmenu(openMobileSubmenu === 'partner' ? null : 'partner');
+                                        }
+                                    }}
+                                >Partner
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="16px"
+                                        height="16px"
+                                        className="ml-1 inline-block"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            d="M12 16a1 1 0 0 1-.71-.29l-6-6a1 1 0 0 1 1.42-1.42l5.29 5.3 5.29-5.29a1 1 0 0 1 1.41 1.41l-6 6a1 1 0 0 1-.7.29z"
+                                            data-name="16"
+                                            data-original="#000000"
+                                        />
+                                    </svg>
+                                </a>
+                                <div
+                                    className={`absolute lg:top-5 max-lg:top-8 -left-6 z-50 flex shadow-lg bg-white transition-all duration-500 px-8 group-hover:opacity-100 group-hover:max-h-[700px] group-hover:pb-8 group-hover:pt-6
+                                        ${openMobileSubmenu === 'partner' ? 'max-lg:max-h-[700px] max-lg:pb-8 max-lg:pt-6 opacity-100' : 'max-lg:max-h-0 max-lg:overflow-hidden opacity-0'}
+                                    `}
+                                >
                                     <div className="lg:min-w-[180px] max-lg:min-w-[140px]">
                                         <h6 className="text-base text-blue-700 font-medium">Canada</h6>
                                         <ul className="mt-3 pt-3 border-t border-gray-300 space-y-3">
