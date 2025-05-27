@@ -44,7 +44,7 @@ class ManagmentController extends Controller
 
         Managment::create($data);
 
-        return redirect()->route('managment.index')
+        return redirect()->route('managments.index')
             ->with('success', 'Management member created successfully.');
     }
 
@@ -78,7 +78,7 @@ class ManagmentController extends Controller
 
         $managment->update($data);
 
-        return redirect()->route('managment.index')
+        return redirect()->route('managments.index')
             ->with('success', 'Management member updated successfully.');
     }
 
@@ -91,7 +91,7 @@ class ManagmentController extends Controller
         
         $managment->delete();
 
-        return redirect()->route('managment.index')
+        return redirect()->route('managments.index')
             ->with('success', 'Management member deleted successfully.');
     }
 }

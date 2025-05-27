@@ -1,23 +1,55 @@
+import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
 import { useState } from 'react';
+import Heading from '@/components/heading';
 import AppLayout from '@/layouts/app-layout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { type BreadcrumbItem } from '@/types';
-import { Edit, Eye, Plus, Search, Trash2, User } from 'lucide-react';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/components/ui/table';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
+import { MoreHorizontal, Plus, Search, Eye, Edit, Trash } from 'lucide-react';
 
-interface Managment {
+const breadcrumbs: BreadcrumbItem[] = [
+    {
+        title: 'Dashboard',
+        href: route('dashboard'),
+    },
+    {
+        title: 'Management',
+        href: route('managments.index'),
+    },
+];
+
+interface Management {
     id: number;
-    title?: string;
+    title: string | null;
     full_name: string;
     designation: string;
-    description?: string;
-    attachment?: string;
-    attachment_url?: string;
+    description: string | null;
+    attachment: string | null;
+    attachment_url: string | null;
     order: number;
     status: 'active' | 'inactive';
     created_at: string;
@@ -26,210 +58,201 @@ interface Managment {
 
 interface Props {
     managments: {
-        data: Managment[];
+        data: Management[];
         current_page: number;
         last_page: number;
         per_page: number;
         total: number;
-        links: Array<{
-            url: string | null;
-            label: string;
-            active: boolean;
-        }>;
     };
     filters: {
-        search?: string;
-        status?: string;
-    };
-    flash?: {
-        success?: string;
-        error?: string;
+        filter?: {
+            full_name?: string;
+            status?: string;
+        };
+        sort?: string;
     };
 }
 
-const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Dashboard', href: '/dashboard' },
-    { title: 'Management', href: '/managment' },
-];
-
-export default function Index({ managments, filters, flash }: Props) {
-    const [search, setSearch] = useState(filters.search || '');
-    const [deleteId, setDeleteId] = useState<number | null>(null);
+export default function ManagementIndex({ managments, filters }: Props) {
+    const [searchTerm, setSearchTerm] = useState(filters.filter?.full_name || '');
+    const [statusFilter, setStatusFilter] = useState(filters.filter?.status || 'all');
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
-        router.get('/managment', { search }, { preserveState: true });
-    };
+        const params: any = {};
 
-    const handleDelete = (id: number) => {
-        router.delete(`/managment/${id}`, {
-            onSuccess: () => setDeleteId(null),
+        if (searchTerm) {
+            params['filter[full_name]'] = searchTerm;
+        }
+
+        if (statusFilter && statusFilter !== 'all') {
+            params['filter[status]'] = statusFilter;
+        }
+
+        router.get(route('managments.index'), params, {
+            preserveState: true,
+            preserveScroll: true,
         });
     };
 
-    const getStatusBadge = (status: string) => {
-        return status === 'active' ? (
-            <Badge variant="default" className="bg-green-100 text-green-800">Active</Badge>
-        ) : (
-            <Badge variant="secondary" className="bg-red-100 text-red-800">Inactive</Badge>
-        );
+    const handleDelete = (id: number) => {
+        if (confirm('Are you sure you want to delete this management member?')) {
+            router.delete(route('managments.destroy', id));
+        }
     };
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Management" />
 
-            <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-                {flash?.success && (
-                    <Alert className="border-green-200 bg-green-50">
-                        <AlertDescription className="text-green-800">
-                            {flash.success}
-                        </AlertDescription>
-                    </Alert>
-                )}
+            <div className="px-4 py-6">
+                <div className="flex justify-between items-center mb-6">
+                    <Heading
+                        title="Management Members"
+                        description="Manage your organization's management team members"
+                    />
+                    <Button asChild>
+                        <Link href={route('managments.create')}>
+                            <Plus className="mr-2 h-4 w-4" />
+                            Add Member
+                        </Link>
+                    </Button>
+                </div>
 
-                {flash?.error && (
-                    <Alert className="border-red-200 bg-red-50">
-                        <AlertDescription className="text-red-800">
-                            {flash.error}
-                        </AlertDescription>
-                    </Alert>
-                )}
-
-                <Card>
-                    <CardHeader>
-                        <div className="flex items-center justify-between">
-                            <CardTitle className="flex items-center gap-2">
-                                <User className="h-5 w-5" />
-                                Management ({managments.total})
-                            </CardTitle>
-                            <Link href="/managment/create">
-                                <Button>
-                                    <Plus className="h-4 w-4 mr-2" />
-                                    Add Management
-                                </Button>
-                            </Link>
+                {/* Filters */}
+                <form onSubmit={handleSearch} className="mb-6">
+                    <div className="flex gap-4">
+                        <div className="relative flex-1 max-w-sm">
+                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                            <Input
+                                type="text"
+                                placeholder="Search by name..."
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                className="pl-10"
+                            />
                         </div>
+                        <Select value={statusFilter} onValueChange={setStatusFilter}>
+                            <SelectTrigger className="w-[180px]">
+                                <SelectValue placeholder="Filter by status" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="all">All Status</SelectItem>
+                                <SelectItem value="active">Active</SelectItem>
+                                <SelectItem value="inactive">Inactive</SelectItem>
+                            </SelectContent>
+                        </Select>
+                        <Button type="submit">Filter</Button>
+                    </div>
+                </form>
 
-                        <form onSubmit={handleSearch} className="flex gap-2">
-                            <div className="relative flex-1">
-                                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                                <Input
-                                    placeholder="Search by name or designation..."
-                                    value={search}
-                                    onChange={(e) => setSearch(e.target.value)}
-                                    className="pl-10"
-                                />
-                            </div>
-                            <Button type="submit" variant="outline">
-                                Search
-                            </Button>
-                        </form>
-                    </CardHeader>
-
-                    <CardContent>
-                        {managments.data.length === 0 ? (
-                            <div className="text-center py-12">
-                                <User className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                                <p className="text-gray-500">No management members found.</p>
-                                <Link href="/managment/create">
-                                    <Button className="mt-4">
-                                        <Plus className="h-4 w-4 mr-2" />
-                                        Add First Management Member
-                                    </Button>
-                                </Link>
-                            </div>
-                        ) : (
-                            <div className="grid gap-4">
-                                {managments.data.map((member) => (
-                                    <div key={member.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
-                                        <div className="flex items-start justify-between">
-                                            <div className="flex gap-4 flex-1">
+                {/* Table */}
+                <div className="rounded-md border">
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead className="w-[50px]">Order</TableHead>
+                                <TableHead>Name</TableHead>
+                                <TableHead>Designation</TableHead>
+                                <TableHead>Status</TableHead>
+                                <TableHead className="text-right">Actions</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {managments.data.length === 0 ? (
+                                <TableRow>
+                                    <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
+                                        No management members found.
+                                    </TableCell>
+                                </TableRow>
+                            ) : (
+                                managments.data.map((member) => (
+                                    <TableRow key={member.id}>
+                                        <TableCell className="font-medium">{member.order}</TableCell>
+                                        <TableCell>
+                                            <div>
+                                                <p className="font-medium">
+                                                    {member.title && `${member.title} `}
+                                                    {member.full_name}
+                                                </p>
                                                 {member.attachment_url && (
-                                                    <img
-                                                        src={member.attachment_url}
-                                                        alt={member.full_name}
-                                                        className="w-16 h-16 rounded-full object-cover"
-                                                    />
+                                                    <a
+                                                        href={member.attachment_url}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="text-sm text-blue-600 hover:underline"
+                                                    >
+                                                        View Attachment
+                                                    </a>
                                                 )}
-                                                <div className="flex-1">
-                                                    <div className="flex items-center gap-2 mb-1">
-                                                        <h3 className="font-semibold text-lg">
-                                                            {member.title} {member.full_name}
-                                                        </h3>
-                                                        {getStatusBadge(member.status)}
-                                                    </div>
-                                                    <p className="text-gray-600 mb-2">{member.designation}</p>
-                                                    {member.description && (
-                                                        <p className="text-sm text-gray-500 line-clamp-2">
-                                                            {member.description}
-                                                        </p>
-                                                    )}
-                                                    <div className="text-xs text-gray-400 mt-2">
-                                                        Order: {member.order} | Created: {new Date(member.created_at).toLocaleDateString()}
-                                                    </div>
-                                                </div>
                                             </div>
-                                            <div className="flex gap-2">
-                                                <Link href={`/managment/${member.id}`}>
-                                                    <Button variant="outline" size="sm">
-                                                        <Eye className="h-4 w-4" />
+                                        </TableCell>
+                                        <TableCell>{member.designation}</TableCell>
+                                        <TableCell>
+                                            <Badge variant={member.status === 'active' ? 'default' : 'secondary'}>
+                                                {member.status}
+                                            </Badge>
+                                        </TableCell>
+                                        <TableCell className="text-right">
+                                            <DropdownMenu>
+                                                <DropdownMenuTrigger asChild>
+                                                    <Button variant="ghost" className="h-8 w-8 p-0">
+                                                        <span className="sr-only">Open menu</span>
+                                                        <MoreHorizontal className="h-4 w-4" />
                                                     </Button>
-                                                </Link>
-                                                <Link href={`/managment/${member.id}/edit`}>
-                                                    <Button variant="outline" size="sm">
-                                                        <Edit className="h-4 w-4" />
-                                                    </Button>
-                                                </Link>
-                                                <Dialog>
-                                                    <DialogTrigger asChild>
-                                                        <Button variant="outline" size="sm" className="text-red-600 hover:text-red-700">
-                                                            <Trash2 className="h-4 w-4" />
-                                                        </Button>
-                                                    </DialogTrigger>
-                                                    <DialogContent>
-                                                        <DialogHeader>
-                                                            <DialogTitle>Delete Management Member</DialogTitle>
-                                                            <DialogDescription>
-                                                                Are you sure you want to delete {member.full_name}? This action cannot be undone.
-                                                            </DialogDescription>
-                                                        </DialogHeader>
-                                                        <div className="flex gap-2 justify-end">
-                                                            <Button variant="outline">Cancel</Button>
-                                                            <Button
-                                                                variant="destructive"
-                                                                onClick={() => handleDelete(member.id)}
-                                                            >
-                                                                Delete
-                                                            </Button>
-                                                        </div>
-                                                    </DialogContent>
-                                                </Dialog>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
+                                                </DropdownMenuTrigger>
+                                                <DropdownMenuContent align="end">
+                                                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                                    <DropdownMenuSeparator />
+                                                    <DropdownMenuItem asChild>
+                                                        <Link href={route('managments.show', member.id)}>
+                                                            <Eye className="mr-2 h-4 w-4" />
+                                                            View
+                                                        </Link>
+                                                    </DropdownMenuItem>
+                                                    <DropdownMenuItem asChild>
+                                                        <Link href={route('managments.edit', member.id)}>
+                                                            <Edit className="mr-2 h-4 w-4" />
+                                                            Edit
+                                                        </Link>
+                                                    </DropdownMenuItem>
+                                                    <DropdownMenuItem
+                                                        onClick={() => handleDelete(member.id)}
+                                                        className="text-red-600"
+                                                    >
+                                                        <Trash className="mr-2 h-4 w-4" />
+                                                        Delete
+                                                    </DropdownMenuItem>
+                                                </DropdownMenuContent>
+                                            </DropdownMenu>
+                                        </TableCell>
+                                    </TableRow>
+                                ))
+                            )}
+                        </TableBody>
+                    </Table>
+                </div>
 
-                        {managments.last_page > 1 && (
-                            <div className="flex justify-center mt-6">
-                                <div className="flex gap-2">
-                                    {managments.links.map((link, index) => (
-                                        <Button
-                                            key={index}
-                                            variant={link.active ? "default" : "outline"}
-                                            size="sm"
-                                            disabled={!link.url}
-                                            onClick={() => link.url && router.get(link.url)}
-                                            dangerouslySetInnerHTML={{ __html: link.label }}
-                                        />
-                                    ))}
-                                </div>
-                            </div>
-                        )}
-                    </CardContent>
-                </Card>
+                {/* Pagination */}
+                {managments.last_page > 1 && (
+                    <div className="flex items-center justify-between mt-6">
+                        <p className="text-sm text-muted-foreground">
+                            Showing {managments.data.length} of {managments.total} results
+                        </p>
+                        <div className="flex gap-2">
+                            {Array.from({ length: managments.last_page }, (_, i) => i + 1).map((page) => (
+                                <Button
+                                    key={page}
+                                    variant={page === managments.current_page ? 'default' : 'outline'}
+                                    size="sm"
+                                    onClick={() => router.get(route('managments.index', { page }))}
+                                >
+                                    {page}
+                                </Button>
+                            ))}
+                        </div>
+                    </div>
+                )}
             </div>
         </AppLayout>
     );
