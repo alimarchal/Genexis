@@ -66,7 +66,19 @@ const Header: React.FC = () => {
             after:h-[2px] after:w-0 after:bg-[#F9B912]
             after:transition-all after:duration-300
             hover:after:w-full">
-                                    About
+                                    About Us
+                                </a>
+                            </div>
+
+
+                            <div className="max-lg:px-3 max-lg:py-2 lg:flex lg:items-center">
+                                <a href="/team"
+                                    className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-[#F9B912] text-slate-900 font-medium text-[15px] block lg:px-2 lg:py-1 relative
+            after:content-[''] after:absolute after:left-0 after:-bottom-0.5
+            after:h-[2px] after:w-0 after:bg-[#F9B912]
+            after:transition-all after:duration-300
+            hover:after:w-full">
+                                    Financials
                                 </a>
                             </div>
 
@@ -159,16 +171,7 @@ const Header: React.FC = () => {
                             </div>
 
                             {/* Team */}
-                            <div className="max-lg:px-3 max-lg:py-2 lg:flex lg:items-center">
-                                <a href="/team"
-                                    className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-[#F9B912] text-slate-900 font-medium text-[15px] block lg:px-2 lg:py-1 relative
-            after:content-[''] after:absolute after:left-0 after:-bottom-0.5
-            after:h-[2px] after:w-0 after:bg-[#F9B912]
-            after:transition-all after:duration-300
-            hover:after:w-full">
-                                    Team
-                                </a>
-                            </div>
+
 
                             {/* Portfolio Dropdown */}
                             <div className="text-[14px] max-lg:px-3 max-lg:py-2 lg:flex lg:items-center relative">
@@ -183,7 +186,7 @@ const Header: React.FC = () => {
                                         aria-expanded={openMobileSubmenu === 'portfolio'}
                                         aria-haspopup="true"
                                     >
-                                        Portfolio
+                                        Rate & Charges
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             width="16px"
@@ -262,7 +265,7 @@ const Header: React.FC = () => {
                                         aria-expanded={openMobileSubmenu === 'resources'}
                                         aria-haspopup="true"
                                     >
-                                        Resources
+                                        Branch Network
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             width="16px"
@@ -336,18 +339,7 @@ const Header: React.FC = () => {
                                     </div>
                                 </div>
                             </div>
-
-                            {/* Partners */}
-                            <div className="max-lg:px-3 max-lg:py-2 lg:flex lg:items-center">
-                                <a href="/partners"
-                                    className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-[#F9B912] text-slate-900 font-medium text-[15px] block lg:px-2 lg:py-1 relative
-            after:content-[''] after:absolute after:left-0 after:-bottom-0.5
-            after:h-[2px] after:w-0 after:bg-[#F9B912]
-            after:transition-all after:duration-300
-            hover:after:w-full">
-                                    Partners
-                                </a>
-                            </div>
+                            ``
 
                             {/* Contact */}
                             <div className="max-lg:px-3 max-lg:py-2 lg:flex lg:items-center">
