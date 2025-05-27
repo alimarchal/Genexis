@@ -40,7 +40,7 @@ const AddressMarqueeSection = () => {
             <section className="py-2 bg-gradient-to-r from-green-50 to-orange-50 text-black px-4 md:px-10 border-b border-gray-300">
                 <div className="flex items-center justify-between gap-4">
                     {/* Left Column - Address with Icon (Hidden on Mobile) */}
-                    <div className="hidden md:flex items-center justify-center flex-shrink-0 min-w-0 flex-1">
+                    <div className="hidden md:flex items-center justify-start flex-shrink-0 min-w-0 flex-1">
                         <div className="flex items-center">
                             <svg
                                 className="w-5 h-5 mr-3 text-green-700 flex-shrink-0"
