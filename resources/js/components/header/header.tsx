@@ -339,7 +339,6 @@ const Header: React.FC = () => {
                                     </div>
                                 </div>
                             </div>
-                            ``
 
                             {/* Contact */}
                             <div className="max-lg:px-3 max-lg:py-2 lg:flex lg:items-center">

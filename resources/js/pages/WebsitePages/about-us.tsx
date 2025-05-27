@@ -29,10 +29,6 @@ export default function AboutUs({ children, title, description }: AppLayoutProps
             <main className=" max-w-7xl mx-auto px-6 py-3">
                 {children}
 
-
-
-                <h1 className='text-2xl font-bold'>shlsoo </h1>
-
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mx-auto">
                     <ExecutiveCard
                         name="Mr. Shahid Shahzad Mir"

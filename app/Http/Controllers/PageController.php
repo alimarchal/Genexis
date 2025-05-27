@@ -9,13 +9,20 @@ use App\Http\Requests\UpdatePageRequest;
 
 class PageController extends Controller
 {
+    public function home(){
+        return Inertia::render('welcome');
+    }
     public function aboutUs()
     {
         return Inertia::render('WebsitePages/about-us');
     }
-    /**
-     * Display a listing of the resource.
-     */
+
+
+    public function testComponent()
+    {
+        return Inertia::render('TestComponent');
+    }
+
     public function index()
     {
         //
