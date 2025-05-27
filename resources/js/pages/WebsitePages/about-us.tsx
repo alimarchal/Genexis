@@ -25,13 +25,16 @@ export default function AboutUs({ children, title, description }: AppLayoutProps
             ]} />
 
             {/* Main Content */}
-            <main className="flex-1">
+            <main className=" max-w-7xl mx-auto px-6 py-3">
                 {children}
-                <h1 className=''>Hello About Us</h1>
-            </main>
+
+
+
+                <h1 className='text-2xl font-bold'>shlsoo </h1>
+            </main >
 
             {/* Footer */}
-            <Footer />
+            < Footer />
 
 
         </>
