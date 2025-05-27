@@ -49,7 +49,11 @@ const Header: React.FC = () => {
                             {/* Home */}
                             <div className="max-lg:px-3 max-lg:py-2 lg:flex lg:items-center">
                                 <a href="/"
-                                    className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-blue-700 text-blue-700 font-medium text-[15px] block lg:px-2 lg:py-1 transition-colors">
+                                    className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-[#F9B912] text-blue-700 font-medium text-[15px] block lg:px-2 lg:py-1 relative
+            after:content-[''] after:absolute after:left-0 after:-bottom-0.5
+            after:h-[2px] after:w-0 after:bg-[#F9B912]
+            after:transition-all after:duration-300
+            hover:after:w-full">
                                     Home
                                 </a>
                             </div>
@@ -57,7 +61,11 @@ const Header: React.FC = () => {
                             {/* About */}
                             <div className="max-lg:px-3 max-lg:py-2 lg:flex lg:items-center">
                                 <a href="/about"
-                                    className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-blue-700 text-slate-900 font-medium text-[15px] block lg:px-2 lg:py-1 transition-colors">
+                                    className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-[#F9B912] text-slate-900 font-medium text-[15px] block lg:px-2 lg:py-1 relative
+            after:content-[''] after:absolute after:left-0 after:-bottom-0.5
+            after:h-[2px] after:w-0 after:bg-[#F9B912]
+            after:transition-all after:duration-300
+            hover:after:w-full">
                                     About
                                 </a>
                             </div>
@@ -66,7 +74,11 @@ const Header: React.FC = () => {
                             <div className="text-[14px] max-lg:px-3 max-lg:py-2 lg:flex lg:items-center relative">
                                 <div className="group lg:inline-block">
                                     <button
-                                        className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-blue-700 hover:fill-[#007bff] text-slate-900 font-medium text-[15px] flex items-center justify-between lg:px-2 lg:py-1 w-full text-left transition-colors"
+                                        className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-[#F9B912] hover:fill-[#007bff] text-slate-900 font-medium text-[15px] flex items-center justify-between lg:px-2 lg:py-1 w-full text-left relative
+                after:content-[''] after:absolute after:left-0 after:-bottom-0.5
+                after:h-[2px] after:w-0 after:bg-[#F9B912]
+                after:transition-all after:duration-300
+                hover:after:w-full"
                                         onClick={() => handleSubmenuToggle('services')}
                                         aria-expanded={openMobileSubmenu === 'services'}
                                         aria-haspopup="true"
@@ -88,35 +100,55 @@ const Header: React.FC = () => {
                                     </button>
                                     <div
                                         className={`absolute lg:top-[53px] lg:left-0 max-lg:top-8 max-lg:left-0 z-50 shadow-lg bg-gradient-to-r from-[#e9f7ef] to-[#fff7e6] transition-all duration-300 px-8 opacity-0 max-h-0 overflow-hidden group-hover:opacity-100 group-hover:max-h-[700px] group-hover:pb-8 group-hover:pt-6
-                                            ${openMobileSubmenu === 'services' ? 'max-lg:max-h-[700px] max-lg:pb-8 max-lg:pt-6 max-lg:opacity-100' : 'max-lg:max-h-0 max-lg:overflow-hidden max-lg:opacity-0'}
-                                        `}
+                    ${openMobileSubmenu === 'services' ? 'max-lg:max-h-[700px] max-lg:pb-8 max-lg:pt-6 max-lg:opacity-100' : 'max-lg:max-h-0 max-lg:overflow-hidden max-lg:opacity-0'}
+                `}
                                         role="menu"
                                     >
                                         <div className="lg:min-w-[200px] max-lg:min-w-[160px]">
                                             <h6 className="text-base text-blue-700 font-medium">Our Services</h6>
                                             <ul className="mt-3 pt-3 border-t border-gray-300 space-y-3" role="none">
                                                 <li className="py-1" role="none">
-                                                    <a href="/services/web-development" className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block transition-colors" role="menuitem">
+                                                    <a href="/services/web-development" className="hover:text-[#F9B912] text-slate-900 font-normal text-[15px] block relative
+                            after:content-[''] after:absolute after:left-0 after:-bottom-0.5
+                            after:h-[2px] after:w-0 after:bg-[#F9B912]
+                            after:transition-all after:duration-300
+                            hover:after:w-full" role="menuitem">
                                                         Web Development
                                                     </a>
                                                 </li>
                                                 <li className="py-1" role="none">
-                                                    <a href="/services/mobile-apps" className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block transition-colors" role="menuitem">
+                                                    <a href="/services/mobile-apps" className="hover:text-[#F9B912] text-slate-900 font-normal text-[15px] block relative
+                            after:content-[''] after:absolute after:left-0 after:-bottom-0.5
+                            after:h-[2px] after:w-0 after:bg-[#F9B912]
+                            after:transition-all after:duration-300
+                            hover:after:w-full" role="menuitem">
                                                         Mobile Apps
                                                     </a>
                                                 </li>
                                                 <li className="py-1" role="none">
-                                                    <a href="/services/digital-marketing" className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block transition-colors" role="menuitem">
+                                                    <a href="/services/digital-marketing" className="hover:text-[#F9B912] text-slate-900 font-normal text-[15px] block relative
+                            after:content-[''] after:absolute after:left-0 after:-bottom-0.5
+                            after:h-[2px] after:w-0 after:bg-[#F9B912]
+                            after:transition-all after:duration-300
+                            hover:after:w-full" role="menuitem">
                                                         Digital Marketing
                                                     </a>
                                                 </li>
                                                 <li className="py-1" role="none">
-                                                    <a href="/services/consulting" className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block transition-colors" role="menuitem">
+                                                    <a href="/services/consulting" className="hover:text-[#F9B912] text-slate-900 font-normal text-[15px] block relative
+                            after:content-[''] after:absolute after:left-0 after:-bottom-0.5
+                            after:h-[2px] after:w-0 after:bg-[#F9B912]
+                            after:transition-all after:duration-300
+                            hover:after:w-full" role="menuitem">
                                                         Consulting
                                                     </a>
                                                 </li>
                                                 <li className="py-1" role="none">
-                                                    <a href="/services/design" className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block transition-colors" role="menuitem">
+                                                    <a href="/services/design" className="hover:text-[#F9B912] text-slate-900 font-normal text-[15px] block relative
+                            after:content-[''] after:absolute after:left-0 after:-bottom-0.5
+                            after:h-[2px] after:w-0 after:bg-[#F9B912]
+                            after:transition-all after:duration-300
+                            hover:after:w-full" role="menuitem">
                                                         UI/UX Design
                                                     </a>
                                                 </li>
@@ -129,7 +161,11 @@ const Header: React.FC = () => {
                             {/* Team */}
                             <div className="max-lg:px-3 max-lg:py-2 lg:flex lg:items-center">
                                 <a href="/team"
-                                    className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-blue-700 text-slate-900 font-medium text-[15px] block lg:px-2 lg:py-1 transition-colors">
+                                    className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-[#F9B912] text-slate-900 font-medium text-[15px] block lg:px-2 lg:py-1 relative
+            after:content-[''] after:absolute after:left-0 after:-bottom-0.5
+            after:h-[2px] after:w-0 after:bg-[#F9B912]
+            after:transition-all after:duration-300
+            hover:after:w-full">
                                     Team
                                 </a>
                             </div>
@@ -138,7 +174,11 @@ const Header: React.FC = () => {
                             <div className="text-[14px] max-lg:px-3 max-lg:py-2 lg:flex lg:items-center relative">
                                 <div className="group lg:inline-block">
                                     <button
-                                        className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-blue-700 text-slate-900 font-medium text-[15px] flex items-center justify-between lg:px-2 lg:py-1 w-full text-left transition-colors"
+                                        className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-[#F9B912] text-slate-900 font-medium text-[15px] flex items-center justify-between lg:px-2 lg:py-1 w-full text-left relative
+                after:content-[''] after:absolute after:left-0 after:-bottom-0.5
+                after:h-[2px] after:w-0 after:bg-[#F9B912]
+                after:transition-all after:duration-300
+                hover:after:w-full"
                                         onClick={() => handleSubmenuToggle('portfolio')}
                                         aria-expanded={openMobileSubmenu === 'portfolio'}
                                         aria-haspopup="true"
@@ -160,30 +200,46 @@ const Header: React.FC = () => {
                                     </button>
                                     <div
                                         className={`absolute lg:top-[53px] lg:left-0 max-lg:top-8 max-lg:left-0 z-50 shadow-lg bg-gradient-to-r from-[#e9f7ef] to-[#fff7e6] transition-all duration-300 px-8 opacity-0 max-h-0 overflow-hidden group-hover:opacity-100 group-hover:max-h-[700px] group-hover:pb-8 group-hover:pt-6
-                                            ${openMobileSubmenu === 'portfolio' ? 'max-lg:max-h-[700px] max-lg:pb-8 max-lg:pt-6 max-lg:opacity-100' : 'max-lg:max-h-0 max-lg:overflow-hidden max-lg:opacity-0'}
-                                        `}
+                    ${openMobileSubmenu === 'portfolio' ? 'max-lg:max-h-[700px] max-lg:pb-8 max-lg:pt-6 max-lg:opacity-100' : 'max-lg:max-h-0 max-lg:overflow-hidden max-lg:opacity-0'}
+                `}
                                         role="menu"
                                     >
                                         <div className="lg:min-w-[200px] max-lg:min-w-[160px]">
                                             <h6 className="text-base text-blue-700 font-medium">Our Work</h6>
                                             <ul className="mt-3 pt-3 border-t border-gray-300 space-y-3" role="none">
                                                 <li className="py-1" role="none">
-                                                    <a href="/portfolio/websites" className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block transition-colors" role="menuitem">
+                                                    <a href="/portfolio/websites" className="hover:text-[#F9B912] text-slate-900 font-normal text-[15px] block relative
+                            after:content-[''] after:absolute after:left-0 after:-bottom-0.5
+                            after:h-[2px] after:w-0 after:bg-[#F9B912]
+                            after:transition-all after:duration-300
+                            hover:after:w-full" role="menuitem">
                                                         Websites
                                                     </a>
                                                 </li>
                                                 <li className="py-1" role="none">
-                                                    <a href="/portfolio/mobile-apps" className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block transition-colors" role="menuitem">
+                                                    <a href="/portfolio/mobile-apps" className="hover:text-[#F9B912] text-slate-900 font-normal text-[15px] block relative
+                            after:content-[''] after:absolute after:left-0 after:-bottom-0.5
+                            after:h-[2px] after:w-0 after:bg-[#F9B912]
+                            after:transition-all after:duration-300
+                            hover:after:w-full" role="menuitem">
                                                         Mobile Apps
                                                     </a>
                                                 </li>
                                                 <li className="py-1" role="none">
-                                                    <a href="/portfolio/branding" className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block transition-colors" role="menuitem">
+                                                    <a href="/portfolio/branding" className="hover:text-[#F9B912] text-slate-900 font-normal text-[15px] block relative
+                            after:content-[''] after:absolute after:left-0 after:-bottom-0.5
+                            after:h-[2px] after:w-0 after:bg-[#F9B912]
+                            after:transition-all after:duration-300
+                            hover:after:w-full" role="menuitem">
                                                         Branding
                                                     </a>
                                                 </li>
                                                 <li className="py-1" role="none">
-                                                    <a href="/portfolio/ecommerce" className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block transition-colors" role="menuitem">
+                                                    <a href="/portfolio/ecommerce" className="hover:text-[#F9B912] text-slate-900 font-normal text-[15px] block relative
+                            after:content-[''] after:absolute after:left-0 after:-bottom-0.5
+                            after:h-[2px] after:w-0 after:bg-[#F9B912]
+                            after:transition-all after:duration-300
+                            hover:after:w-full" role="menuitem">
                                                         E-commerce
                                                     </a>
                                                 </li>
@@ -197,7 +253,11 @@ const Header: React.FC = () => {
                             <div className="text-[14px] max-lg:px-3 max-lg:py-2 lg:flex lg:items-center relative">
                                 <div className="group lg:inline-block">
                                     <button
-                                        className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-blue-700 text-slate-900 font-medium text-[15px] flex items-center justify-between lg:px-2 lg:py-1 w-full text-left transition-colors"
+                                        className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-[#F9B912] text-slate-900 font-medium text-[15px] flex items-center justify-between lg:px-2 lg:py-1 w-full text-left relative
+                after:content-[''] after:absolute after:left-0 after:-bottom-0.5
+                after:h-[2px] after:w-0 after:bg-[#F9B912]
+                after:transition-all after:duration-300
+                hover:after:w-full"
                                         onClick={() => handleSubmenuToggle('resources')}
                                         aria-expanded={openMobileSubmenu === 'resources'}
                                         aria-haspopup="true"
@@ -219,35 +279,55 @@ const Header: React.FC = () => {
                                     </button>
                                     <div
                                         className={`absolute lg:top-[53px] lg:left-0 max-lg:top-8 max-lg:left-0 z-50 shadow-lg bg-gradient-to-r from-[#e9f7ef] to-[#fff7e6] transition-all duration-300 px-8 opacity-0 max-h-0 overflow-hidden group-hover:opacity-100 group-hover:max-h-[700px] group-hover:pb-8 group-hover:pt-6
-                                            ${openMobileSubmenu === 'resources' ? 'max-lg:max-h-[700px] max-lg:pb-8 max-lg:pt-6 max-lg:opacity-100' : 'max-lg:max-h-0 max-lg:overflow-hidden max-lg:opacity-0'}
-                                        `}
+                    ${openMobileSubmenu === 'resources' ? 'max-lg:max-h-[700px] max-lg:pb-8 max-lg:pt-6 max-lg:opacity-100' : 'max-lg:max-h-0 max-lg:overflow-hidden max-lg:opacity-0'}
+                `}
                                         role="menu"
                                     >
                                         <div className="lg:min-w-[200px] max-lg:min-w-[160px]">
                                             <h6 className="text-base text-blue-700 font-medium">Learn & Explore</h6>
                                             <ul className="mt-3 pt-3 border-t border-gray-300 space-y-3" role="none">
                                                 <li className="py-1" role="none">
-                                                    <a href="/blog" className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block transition-colors" role="menuitem">
+                                                    <a href="/blog" className="hover:text-[#F9B912] text-slate-900 font-normal text-[15px] block relative
+                            after:content-[''] after:absolute after:left-0 after:-bottom-0.5
+                            after:h-[2px] after:w-0 after:bg-[#F9B912]
+                            after:transition-all after:duration-300
+                            hover:after:w-full" role="menuitem">
                                                         Blog
                                                     </a>
                                                 </li>
                                                 <li className="py-1" role="none">
-                                                    <a href="/case-studies" className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block transition-colors" role="menuitem">
+                                                    <a href="/case-studies" className="hover:text-[#F9B912] text-slate-900 font-normal text-[15px] block relative
+                            after:content-[''] after:absolute after:left-0 after:-bottom-0.5
+                            after:h-[2px] after:w-0 after:bg-[#F9B912]
+                            after:transition-all after:duration-300
+                            hover:after:w-full" role="menuitem">
                                                         Case Studies
                                                     </a>
                                                 </li>
                                                 <li className="py-1" role="none">
-                                                    <a href="/downloads" className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block transition-colors" role="menuitem">
+                                                    <a href="/downloads" className="hover:text-[#F9B912] text-slate-900 font-normal text-[15px] block relative
+                            after:content-[''] after:absolute after:left-0 after:-bottom-0.5
+                            after:h-[2px] after:w-0 after:bg-[#F9B912]
+                            after:transition-all after:duration-300
+                            hover:after:w-full" role="menuitem">
                                                         Downloads
                                                     </a>
                                                 </li>
                                                 <li className="py-1" role="none">
-                                                    <a href="/documentation" className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block transition-colors" role="menuitem">
+                                                    <a href="/documentation" className="hover:text-[#F9B912] text-slate-900 font-normal text-[15px] block relative
+                            after:content-[''] after:absolute after:left-0 after:-bottom-0.5
+                            after:h-[2px] after:w-0 after:bg-[#F9B912]
+                            after:transition-all after:duration-300
+                            hover:after:w-full" role="menuitem">
                                                         Documentation
                                                     </a>
                                                 </li>
                                                 <li className="py-1" role="none">
-                                                    <a href="/faq" className="hover:text-blue-700 text-slate-900 font-normal text-[15px] block transition-colors" role="menuitem">
+                                                    <a href="/faq" className="hover:text-[#F9B912] text-slate-900 font-normal text-[15px] block relative
+                            after:content-[''] after:absolute after:left-0 after:-bottom-0.5
+                            after:h-[2px] after:w-0 after:bg-[#F9B912]
+                            after:transition-all after:duration-300
+                            hover:after:w-full" role="menuitem">
                                                         FAQ
                                                     </a>
                                                 </li>
@@ -260,7 +340,11 @@ const Header: React.FC = () => {
                             {/* Partners */}
                             <div className="max-lg:px-3 max-lg:py-2 lg:flex lg:items-center">
                                 <a href="/partners"
-                                    className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-blue-700 text-slate-900 font-medium text-[15px] block lg:px-2 lg:py-1 transition-colors">
+                                    className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-[#F9B912] text-slate-900 font-medium text-[15px] block lg:px-2 lg:py-1 relative
+            after:content-[''] after:absolute after:left-0 after:-bottom-0.5
+            after:h-[2px] after:w-0 after:bg-[#F9B912]
+            after:transition-all after:duration-300
+            hover:after:w-full">
                                     Partners
                                 </a>
                             </div>
@@ -268,7 +352,11 @@ const Header: React.FC = () => {
                             {/* Contact */}
                             <div className="max-lg:px-3 max-lg:py-2 lg:flex lg:items-center">
                                 <a href="/contact"
-                                    className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-blue-700 text-slate-900 font-medium text-[15px] block lg:px-2 lg:py-1 transition-colors">
+                                    className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-[#F9B912] text-slate-900 font-medium text-[15px] block lg:px-2 lg:py-1 relative
+            after:content-[''] after:absolute after:left-0 after:-bottom-0.5
+            after:h-[2px] after:w-0 after:bg-[#F9B912]
+            after:transition-all after:duration-300
+            hover:after:w-full">
                                     Contact
                                 </a>
                             </div>
