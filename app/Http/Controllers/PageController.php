@@ -6,6 +6,7 @@ use App\Models\Page;
 use Inertia\Inertia;
 use App\Http\Requests\StorePageRequest;
 use App\Http\Requests\UpdatePageRequest;
+use App\Models\Managment;
 
 class PageController extends Controller
 {
@@ -14,7 +15,10 @@ class PageController extends Controller
     }
     public function aboutUs()
     {
-        return Inertia::render('WebsitePages/about-us');
+        $managment = Managment::where('status','active')->get();
+        return Inertia::render('WebsitePages/about-us', [
+            'managment' => $managment,
+        ]);
     }
 
 

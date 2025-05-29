@@ -10,11 +10,12 @@ import ExecutiveCard from '@/components/ExecutiveCard';
 interface AppLayoutProps extends PropsWithChildren {
     title?: string;
     description?: string;
+    managment?: any[];
 }
 
 
 
-export default function AboutUs({ children, title, description }: AppLayoutProps) {
+export default function AboutUs({ children, title, description, managment }: AppLayoutProps & { managment: any[] }) {
     return (
         <>
             <Head title="About Us" />
@@ -29,57 +30,19 @@ export default function AboutUs({ children, title, description }: AppLayoutProps
             <main className=" max-w-7xl mx-auto px-6 py-3">
                 {children}
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mx-auto">
-                    <ExecutiveCard
-                        name="Mr. Shahid Shahzad Mir"
-                        title="President/CEO and CFO"
-                        image="/managment-pictures/ssmir.jpg"
-                        description="Leading the bank with over 20 years of experience in financial services and strategic management."
-                    />
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mx-auto">
+
+                    {managment.map((member, index) => (
+                        <ExecutiveCard
+                            key={index}
+                            name={`${member.title} ${member.full_name}`}
+                            title={member.designation}
+                            image={member.attachment}
+                            description={member.description}
+                        />
+                    ))}
 
 
-                    <ExecutiveCard
-                        name="Mr. Shahid Shahzad Mir"
-                        title="President/CEO and CFO"
-                        image="/managment-pictures/ssmir.jpg"
-                        description="Leading the bank with over 20 years of experience in financial services and strategic management."
-                    />
-
-
-
-                    <ExecutiveCard
-                        name="Mr. Shahid Shahzad Mir"
-                        title="President/CEO and CFO"
-                        image="/managment-pictures/ssmir.jpg"
-                        description="Leading the bank with over 20 years of experience in financial services and strategic management."
-                    />
-
-
-
-                    <ExecutiveCard
-                        name="Mr. Shahid Shahzad Mir"
-                        title="President/CEO and CFO"
-                        image="/managment-pictures/ssmir.jpg"
-                        description="Leading the bank with over 20 years of experience in financial services and strategic management."
-                    />
-                    <ExecutiveCard
-                        name="Executive Name"
-                        title="Executive Title"
-                        image="/managment-pictures/ssmir.jpg"
-                        description="Executive description here."
-                    />
-                    <ExecutiveCard
-                        name="Executive Name"
-                        title="Executive Title"
-                        image="/managment-pictures/ssmir.jpg"
-                        description="Executive description here."
-                    />
-                    <ExecutiveCard
-                        name="Executive Name"
-                        title="Executive Title"
-                        image="/managment-pictures/ssmir.jpg"
-                        description="Executive description here."
-                    />
                 </div>
 
 
