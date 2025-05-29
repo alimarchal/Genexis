@@ -13,7 +13,12 @@ class PageController extends Controller
     public function home(){
         return Inertia::render('welcome');
     }
-    public function aboutUs()
+
+    public function about()
+    {
+        return Inertia::render('WebsitePages/about');
+    }
+    public function managment()
     {
         $managment = Managment::where('status','active')->get();
         return Inertia::render('WebsitePages/about-us', [

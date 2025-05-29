@@ -1,6 +1,7 @@
 import WebsiteLayout from '@/layouts/WebsiteLayout';
 import ExecutiveCard from '@/components/ExecutiveCard';
 
+
 interface ManagementMember {
     id: number;
     title: string;
@@ -50,7 +51,7 @@ AboutUs.layout = (page: any) => (
     <WebsiteLayout
         title="About Us"
         breadcrumbs={[
-            { label: 'About Us', href: '/about' },
+            { label: 'About Us', href: route('about') },
             { label: 'Management', isActive: true }
         ]}
     >

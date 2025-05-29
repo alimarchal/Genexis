@@ -15,7 +15,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 Route::get('/', [PageController::class, 'home'])->name(name: 'home');
-Route::get('/about-us', [PageController::class, 'aboutUs'])->name('about-us');
+Route::get('/about-us', [PageController::class, 'about'])->name('about');
+Route::get('/about-us/managment', [PageController::class, 'managment'])->name('about.managment');
 Route::get('/test-component', [PageController::class, 'testComponent'])->name('test-component');
 
 
