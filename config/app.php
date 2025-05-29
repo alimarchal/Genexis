@@ -2,6 +2,7 @@
 
 return [
 
+    'bank_branches_count' => (int) env('BANK_BRANCHES_COUNT', 0),
     /*
     |--------------------------------------------------------------------------
     | Application Name
