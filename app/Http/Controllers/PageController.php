@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Page;
-use Inertia\Inertia;
 use App\Http\Requests\StorePageRequest;
 use App\Http\Requests\UpdatePageRequest;
 use App\Models\Managment;
+use App\Models\Page;
+use Inertia\Inertia;
 
 class PageController extends Controller
 {
-    public function home(){
+    public function home()
+    {
         return Inertia::render('welcome');
     }
 
@@ -18,14 +19,24 @@ class PageController extends Controller
     {
         return Inertia::render('WebsitePages/about');
     }
-    public function managment()
+
+    public function bod()
     {
-        $managment = Managment::where('status','active')->get();
-        return Inertia::render('WebsitePages/about-us', [
+        $managment = Managment::where('status', 'active')->get();
+
+        return Inertia::render('WebsitePages/board-of-directors', [
             'managment' => $managment,
         ]);
     }
 
+    public function managment()
+    {
+        $managment = Managment::where('status', 'active')->get();
+
+        return Inertia::render('WebsitePages/about-us', [
+            'managment' => $managment,
+        ]);
+    }
 
     public function testComponent()
     {
