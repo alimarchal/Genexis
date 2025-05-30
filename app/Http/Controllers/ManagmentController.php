@@ -6,9 +6,9 @@ use App\Http\Requests\StoreManagmentRequest;
 use App\Http\Requests\UpdateManagmentRequest;
 use App\Models\Managment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Spatie\QueryBuilder\QueryBuilder;
-use Illuminate\Support\Facades\Storage;
 
 class ManagmentController extends Controller
 {
@@ -35,7 +35,7 @@ class ManagmentController extends Controller
     public function store(StoreManagmentRequest $request)
     {
         $data = $request->validated();
-        
+
         if ($request->hasFile('attachment')) {
             $data['attachment'] = $request->file('attachment')->store('managment-attachments', 'public');
         }
@@ -65,13 +65,16 @@ class ManagmentController extends Controller
     public function update(UpdateManagmentRequest $request, Managment $managment)
     {
         $data = $request->validated();
-        
+
         if ($request->hasFile('attachment')) {
             // Delete old attachment if exists
             if ($managment->attachment) {
                 Storage::disk('public')->delete($managment->attachment);
             }
             $data['attachment'] = $request->file('attachment')->store('managment-attachments', 'public');
+        } else {
+            // Remove attachment from update data to preserve existing value
+            unset($data['attachment']);
         }
 
         $data['updated_by'] = auth()->id();
@@ -88,7 +91,7 @@ class ManagmentController extends Controller
         if ($managment->attachment) {
             Storage::disk('public')->delete($managment->attachment);
         }
-        
+
         $managment->delete();
 
         return redirect()->route('managments.index')

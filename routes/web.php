@@ -29,9 +29,7 @@ Route::prefix('about')->name('about.')->group(function () {
         return inertia('About/BoardDirectors');
     })->name('board-directors');
 
-    Route::get('/management', function () {
-        return inertia('About/Management');
-    })->name('management');
+    Route::get('/management', [PageController::class, 'managment'])->name('management');
 });
 
 Route::prefix('products')->name('products.')->group(function () {

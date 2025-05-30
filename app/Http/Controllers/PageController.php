@@ -33,7 +33,7 @@ class PageController extends Controller
     {
         $managment = Managment::where('status', 'active')->get();
 
-        return Inertia::render('WebsitePages/managment', [
+        return Inertia::render('About/Management', [
             'managment' => $managment,
         ]);
     }
