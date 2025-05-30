@@ -1,5 +1,6 @@
 import WebsiteLayout from '@/layouts/WebsiteLayout';
 import ExecutiveCard from '@/components/ExecutiveCard';
+import BodCard from '@/components/BodCard';
 
 
 interface ManagementMember {
@@ -21,16 +22,8 @@ export default function BoardOfDirectors({ managment }: BoardOfDirectorsProps) {
     return (
         <div className="max-w-7xl mx-auto px-6 py-8">
             <div className="mb-12">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {managment.map((member) => (
-                        <ExecutiveCard
-                            key={member.id}
-                            name={`${member.title} ${member.full_name}`}
-                            title={member.designation}
-                            image={member.attachment_url || `/storage/${member.attachment}`}
-                            description={member.description}
-                        />
-                    ))}
+                <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <BodCard />
                 </div>
             </div>
         </div>
