@@ -80,9 +80,7 @@ Route::prefix('rates')->name('rates.')->group(function () {
     })->name('profit-rates');
 });
 
-Route::get('/contact', function () {
-    return inertia('Contact/Index');
-})->name('contact');
+Route::get('/contact-us', [PageController::class, 'contact'])->name('contact');
 
 // Admin routes (protected by auth middleware)
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(function () {

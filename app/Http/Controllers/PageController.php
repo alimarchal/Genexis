@@ -38,6 +38,11 @@ class PageController extends Controller
         ]);
     }
 
+    public function contact()
+    {
+        return inertia('Contact/Index');
+    }
+
     public function testComponent()
     {
         return Inertia::render('TestComponent');
