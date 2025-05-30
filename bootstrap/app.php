@@ -20,6 +20,9 @@ return Application::configure(basePath: dirname(__DIR__))
             HandleAppearance::class,
             HandleInertiaRequests::class,
             AddLinkHeadersForPreloadedAssets::class,
+            \App\Http\Middleware\ShareMenuData::class, // Add this line
+            \App\Http\Middleware\AutoBreadcrumbMiddleware::class, // Add auto breadcrumbs
+
         ]);
 
         $middleware->alias([

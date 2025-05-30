@@ -1,17 +1,184 @@
 import React, { useState } from 'react';
 
-const Header: React.FC = () => {
+interface MenuItem {
+    id: number;
+    title: string;
+    url: string;
+    target: string;
+    icon?: string;
+    cssClass?: string;
+    isActive: boolean;
+    hasChildren: boolean;
+    isMegaMenu: boolean;
+    children: MenuItem[];
+}
+
+interface HeaderProps {
+    menuItems?: MenuItem[];
+}
+
+const Header: React.FC<HeaderProps> = ({ menuItems = [] }) => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [openMobileSubmenu, setOpenMobileSubmenu] = useState<string | null>(null);
 
     const toggleMobileMenu = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen);
-        setOpenMobileSubmenu(null); // Close any open submenus when toggling main menu
+        setOpenMobileSubmenu(null);
     };
 
-    const handleSubmenuToggle = (menuName: string) => {
-        setOpenMobileSubmenu(openMobileSubmenu === menuName ? null : menuName);
+    const handleSubmenuToggle = (menuId: string) => {
+        setOpenMobileSubmenu(openMobileSubmenu === menuId ? null : menuId);
     };
+
+    const renderMenuItem = (item: MenuItem, isMobile: boolean = false) => {
+        const hasDropdown = item.hasChildren;
+        const menuId = `menu-${item.id}`;
+
+        if (hasDropdown) {
+            return (
+                <div
+                    key={item.id}
+                    className={`text-[14px] max-lg:px-3 max-lg:py-2 lg:flex lg:items-center relative ${item.cssClass || ''}`}
+                >
+                    <div className="group lg:inline-block">
+                        <button
+                            className={`max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-[#F9B912] text-slate-900 font-medium text-[15px] flex items-center justify-between lg:px-2 lg:py-1 w-full text-left relative
+                                after:content-[''] after:absolute after:left-0 after:-bottom-0.5
+                                after:h-[2px] after:w-0 after:bg-[#F9B912]
+                                after:transition-all after:duration-300
+                                hover:after:w-full ${item.isActive ? 'text-blue-700' : ''}`}
+                            onClick={() => isMobile && handleSubmenuToggle(menuId)}
+                            aria-expanded={openMobileSubmenu === menuId}
+                            aria-haspopup="true"
+                        >
+                            {item.title}
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16px"
+                                height="16px"
+                                className={`ml-1 inline-block transition-transform ${openMobileSubmenu === menuId ? 'max-lg:rotate-180' : ''}`}
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    d="M12 16a1 1 0 0 1-.71-.29l-6-6a1 1 0 0 1 1.42-1.42l5.29 5.3 5.29-5.29a1 1 0 0 1 1.41 1.41l-6 6a1 1 0 0 1-.7.29z"
+                                    data-name="16"
+                                    data-original="#000000"
+                                />
+                            </svg>
+                        </button>
+                        <div
+                            className={`absolute lg:top-[53px] lg:left-0 max-lg:top-8 max-lg:left-0 z-50 shadow-lg bg-gradient-to-r from-[#e9f7ef] to-[#fff7e6] transition-all duration-300 px-8 opacity-0 max-h-0 overflow-hidden group-hover:opacity-100 group-hover:max-h-[700px] group-hover:pb-8 group-hover:pt-6
+                                ${openMobileSubmenu === menuId ? 'max-lg:max-h-[700px] max-lg:pb-8 max-lg:pt-6 max-lg:opacity-100' : 'max-lg:max-h-0 max-lg:overflow-hidden max-lg:opacity-0'}
+                                ${item.isMegaMenu ? 'lg:min-w-[400px] lg:grid lg:grid-cols-2 lg:gap-6' : 'lg:min-w-[200px]'}`}
+                            role="menu"
+                        >
+                            {item.isMegaMenu ? renderMegaMenu(item.children) : renderSubmenu(item.children)}
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        return (
+            <div key={item.id} className="max-lg:px-3 max-lg:py-2 lg:flex lg:items-center">
+                <a
+                    href={item.url}
+                    target={item.target}
+                    className={`max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-[#F9B912] font-medium text-[15px] block lg:px-2 lg:py-1 relative
+                        after:content-[''] after:absolute after:left-0 after:-bottom-0.5
+                        after:h-[2px] after:w-0 after:bg-[#F9B912]
+                        after:transition-all after:duration-300
+                        hover:after:w-full ${item.isActive ? 'text-blue-700' : 'text-slate-900'}`}
+                >
+                    {item.title}
+                </a>
+            </div>
+        );
+    };
+
+    const renderSubmenu = (children: MenuItem[]) => (
+        <div className="lg:min-w-[200px] max-lg:min-w-[160px]">
+            <ul className="space-y-3" role="none">
+                {children.map((child) => (
+                    <li key={child.id} className="py-1" role="none">
+                        {child.hasChildren ? (
+                            <div className="relative group/nested">
+                                <button className="hover:text-[#F9B912] text-slate-900 font-normal text-[15px] flex items-center justify-between w-full text-left relative
+                                    after:content-[''] after:absolute after:left-0 after:-bottom-0.5
+                                    after:h-[2px] after:w-0 after:bg-[#F9B912]
+                                    after:transition-all after:duration-300
+                                    hover:after:w-full">
+                                    {child.title}
+                                    <svg className="w-3 h-3 ml-1" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M8.59 16.59L13.17 12L8.59 7.41L10 6l6 6-6 6l-1.41-1.41z" />
+                                    </svg>
+                                </button>
+                                <div className="absolute left-full top-0 ml-2 opacity-0 invisible group-hover/nested:opacity-100 group-hover/nested:visible transition-all duration-300 bg-gradient-to-r from-[#e9f7ef] to-[#fff7e6] shadow-lg px-6 py-4 min-w-[200px] z-60">
+                                    <ul className="space-y-2">
+                                        {child.children.map((grandchild) => (
+                                            <li key={grandchild.id}>
+                                                <a
+                                                    href={grandchild.url}
+                                                    target={grandchild.target}
+                                                    className="hover:text-[#F9B912] text-slate-900 font-normal text-[14px] block relative
+                                                        after:content-[''] after:absolute after:left-0 after:-bottom-0.5
+                                                        after:h-[2px] after:w-0 after:bg-[#F9B912]
+                                                        after:transition-all after:duration-300
+                                                        hover:after:w-full"
+                                                >
+                                                    {grandchild.title}
+                                                </a>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
+                        ) : (
+                            <a
+                                href={child.url}
+                                target={child.target}
+                                className="hover:text-[#F9B912] text-slate-900 font-normal text-[15px] block relative
+                                    after:content-[''] after:absolute after:left-0 after:-bottom-0.5
+                                    after:h-[2px] after:w-0 after:bg-[#F9B912]
+                                    after:transition-all after:duration-300
+                                    hover:after:w-full"
+                                role="menuitem"
+                            >
+                                {child.title}
+                            </a>
+                        )}
+                    </li>
+                ))}
+            </ul>
+        </div>
+    );
+
+    const renderMegaMenu = (children: MenuItem[]) => (
+        <>
+            {children.map((section) => (
+                <div key={section.id} className="space-y-3">
+                    <h6 className="text-base text-blue-700 font-medium">{section.title}</h6>
+                    <ul className="space-y-2 pt-2 border-t border-gray-300">
+                        {section.children.map((item) => (
+                            <li key={item.id}>
+                                <a
+                                    href={item.url}
+                                    target={item.target}
+                                    className="hover:text-[#F9B912] text-slate-900 font-normal text-[14px] block relative
+                                        after:content-[''] after:absolute after:left-0 after:-bottom-0.5
+                                        after:h-[2px] after:w-0 after:bg-[#F9B912]
+                                        after:transition-all after:duration-300
+                                        hover:after:w-full"
+                                >
+                                    {item.title}
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            ))}
+        </>
+    );
 
     return (
         <header className="flex border-b border-gray-300 min-h-[70px] tracking-wide relative z-50 shadow-[0_4px_12px_0_rgba(0,0,0,0.07)] bg-gradient-to-r from-[#e9f7ef] to-[#fff7e6]">
@@ -46,311 +213,8 @@ const Header: React.FC = () => {
                                 </a>
                             </div>
 
-                            {/* Home */}
-                            <div className="max-lg:px-3 max-lg:py-2 lg:flex lg:items-center">
-                                <a href="/"
-                                    className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-[#F9B912] text-blue-700 font-medium text-[15px] block lg:px-2 lg:py-1 relative
-            after:content-[''] after:absolute after:left-0 after:-bottom-0.5
-            after:h-[2px] after:w-0 after:bg-[#F9B912]
-            after:transition-all after:duration-300
-            hover:after:w-full">
-                                    Home
-                                </a>
-                            </div>
-
-                            {/* About */}
-                            <div className="max-lg:px-3 max-lg:py-2 lg:flex lg:items-center">
-                                <a href="/about"
-                                    className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-[#F9B912] text-slate-900 font-medium text-[15px] block lg:px-2 lg:py-1 relative
-            after:content-[''] after:absolute after:left-0 after:-bottom-0.5
-            after:h-[2px] after:w-0 after:bg-[#F9B912]
-            after:transition-all after:duration-300
-            hover:after:w-full">
-                                    About Us
-                                </a>
-                            </div>
-
-
-                            <div className="max-lg:px-3 max-lg:py-2 lg:flex lg:items-center">
-                                <a href="/team"
-                                    className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-[#F9B912] text-slate-900 font-medium text-[15px] block lg:px-2 lg:py-1 relative
-            after:content-[''] after:absolute after:left-0 after:-bottom-0.5
-            after:h-[2px] after:w-0 after:bg-[#F9B912]
-            after:transition-all after:duration-300
-            hover:after:w-full">
-                                    Financials
-                                </a>
-                            </div>
-
-                            {/* Services Dropdown */}
-                            <div className="text-[14px] max-lg:px-3 max-lg:py-2 lg:flex lg:items-center relative">
-                                <div className="group lg:inline-block">
-                                    <button
-                                        className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-[#F9B912] hover:fill-[#007bff] text-slate-900 font-medium text-[15px] flex items-center justify-between lg:px-2 lg:py-1 w-full text-left relative
-                after:content-[''] after:absolute after:left-0 after:-bottom-0.5
-                after:h-[2px] after:w-0 after:bg-[#F9B912]
-                after:transition-all after:duration-300
-                hover:after:w-full"
-                                        onClick={() => handleSubmenuToggle('services')}
-                                        aria-expanded={openMobileSubmenu === 'services'}
-                                        aria-haspopup="true"
-                                    >
-                                        Services
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            width="16px"
-                                            height="16px"
-                                            className={`ml-1 inline-block transition-transform ${openMobileSubmenu === 'services' ? 'max-lg:rotate-180' : ''}`}
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <path
-                                                d="M12 16a1 1 0 0 1-.71-.29l-6-6a1 1 0 0 1 1.42-1.42l5.29 5.3 5.29-5.29a1 1 0 0 1 1.41 1.41l-6 6a1 1 0 0 1-.7.29z"
-                                                data-name="16"
-                                                data-original="#000000"
-                                            />
-                                        </svg>
-                                    </button>
-                                    <div
-                                        className={`absolute lg:top-[53px] lg:left-0 max-lg:top-8 max-lg:left-0 z-50 shadow-lg bg-gradient-to-r from-[#e9f7ef] to-[#fff7e6] transition-all duration-300 px-8 opacity-0 max-h-0 overflow-hidden group-hover:opacity-100 group-hover:max-h-[700px] group-hover:pb-8 group-hover:pt-6
-                    ${openMobileSubmenu === 'services' ? 'max-lg:max-h-[700px] max-lg:pb-8 max-lg:pt-6 max-lg:opacity-100' : 'max-lg:max-h-0 max-lg:overflow-hidden max-lg:opacity-0'}
-                `}
-                                        role="menu"
-                                    >
-                                        <div className="lg:min-w-[200px] max-lg:min-w-[160px]">
-                                            <h6 className="text-base text-blue-700 font-medium">Our Services</h6>
-                                            <ul className="mt-3 pt-3 border-t border-gray-300 space-y-3" role="none">
-                                                <li className="py-1" role="none">
-                                                    <a href="/services/web-development" className="hover:text-[#F9B912] text-slate-900 font-normal text-[15px] block relative
-                            after:content-[''] after:absolute after:left-0 after:-bottom-0.5
-                            after:h-[2px] after:w-0 after:bg-[#F9B912]
-                            after:transition-all after:duration-300
-                            hover:after:w-full" role="menuitem">
-                                                        Web Development
-                                                    </a>
-                                                </li>
-                                                <li className="py-1" role="none">
-                                                    <a href="/services/mobile-apps" className="hover:text-[#F9B912] text-slate-900 font-normal text-[15px] block relative
-                            after:content-[''] after:absolute after:left-0 after:-bottom-0.5
-                            after:h-[2px] after:w-0 after:bg-[#F9B912]
-                            after:transition-all after:duration-300
-                            hover:after:w-full" role="menuitem">
-                                                        Mobile Apps
-                                                    </a>
-                                                </li>
-                                                <li className="py-1" role="none">
-                                                    <a href="/services/digital-marketing" className="hover:text-[#F9B912] text-slate-900 font-normal text-[15px] block relative
-                            after:content-[''] after:absolute after:left-0 after:-bottom-0.5
-                            after:h-[2px] after:w-0 after:bg-[#F9B912]
-                            after:transition-all after:duration-300
-                            hover:after:w-full" role="menuitem">
-                                                        Digital Marketing
-                                                    </a>
-                                                </li>
-                                                <li className="py-1" role="none">
-                                                    <a href="/services/consulting" className="hover:text-[#F9B912] text-slate-900 font-normal text-[15px] block relative
-                            after:content-[''] after:absolute after:left-0 after:-bottom-0.5
-                            after:h-[2px] after:w-0 after:bg-[#F9B912]
-                            after:transition-all after:duration-300
-                            hover:after:w-full" role="menuitem">
-                                                        Consulting
-                                                    </a>
-                                                </li>
-                                                <li className="py-1" role="none">
-                                                    <a href="/services/design" className="hover:text-[#F9B912] text-slate-900 font-normal text-[15px] block relative
-                            after:content-[''] after:absolute after:left-0 after:-bottom-0.5
-                            after:h-[2px] after:w-0 after:bg-[#F9B912]
-                            after:transition-all after:duration-300
-                            hover:after:w-full" role="menuitem">
-                                                        UI/UX Design
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Team */}
-
-
-                            {/* Portfolio Dropdown */}
-                            <div className="text-[14px] max-lg:px-3 max-lg:py-2 lg:flex lg:items-center relative">
-                                <div className="group lg:inline-block">
-                                    <button
-                                        className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-[#F9B912] text-slate-900 font-medium text-[15px] flex items-center justify-between lg:px-2 lg:py-1 w-full text-left relative
-                after:content-[''] after:absolute after:left-0 after:-bottom-0.5
-                after:h-[2px] after:w-0 after:bg-[#F9B912]
-                after:transition-all after:duration-300
-                hover:after:w-full"
-                                        onClick={() => handleSubmenuToggle('portfolio')}
-                                        aria-expanded={openMobileSubmenu === 'portfolio'}
-                                        aria-haspopup="true"
-                                    >
-                                        Rate & Charges
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            width="16px"
-                                            height="16px"
-                                            className={`ml-1 inline-block transition-transform ${openMobileSubmenu === 'portfolio' ? 'max-lg:rotate-180' : ''}`}
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <path
-                                                d="M12 16a1 1 0 0 1-.71-.29l-6-6a1 1 0 0 1 1.42-1.42l5.29 5.3 5.29-5.29a1 1 0 0 1 1.41 1.41l-6 6a1 1 0 0 1-.7.29z"
-                                                data-name="16"
-                                                data-original="#000000"
-                                            />
-                                        </svg>
-                                    </button>
-                                    <div
-                                        className={`absolute lg:top-[53px] lg:left-0 max-lg:top-8 max-lg:left-0 z-50 shadow-lg bg-gradient-to-r from-[#e9f7ef] to-[#fff7e6] transition-all duration-300 px-8 opacity-0 max-h-0 overflow-hidden group-hover:opacity-100 group-hover:max-h-[700px] group-hover:pb-8 group-hover:pt-6
-                    ${openMobileSubmenu === 'portfolio' ? 'max-lg:max-h-[700px] max-lg:pb-8 max-lg:pt-6 max-lg:opacity-100' : 'max-lg:max-h-0 max-lg:overflow-hidden max-lg:opacity-0'}
-                `}
-                                        role="menu"
-                                    >
-                                        <div className="lg:min-w-[200px] max-lg:min-w-[160px]">
-                                            <h6 className="text-base text-blue-700 font-medium">Our Work</h6>
-                                            <ul className="mt-3 pt-3 border-t border-gray-300 space-y-3" role="none">
-                                                <li className="py-1" role="none">
-                                                    <a href="/portfolio/websites" className="hover:text-[#F9B912] text-slate-900 font-normal text-[15px] block relative
-                            after:content-[''] after:absolute after:left-0 after:-bottom-0.5
-                            after:h-[2px] after:w-0 after:bg-[#F9B912]
-                            after:transition-all after:duration-300
-                            hover:after:w-full" role="menuitem">
-                                                        Websites
-                                                    </a>
-                                                </li>
-                                                <li className="py-1" role="none">
-                                                    <a href="/portfolio/mobile-apps" className="hover:text-[#F9B912] text-slate-900 font-normal text-[15px] block relative
-                            after:content-[''] after:absolute after:left-0 after:-bottom-0.5
-                            after:h-[2px] after:w-0 after:bg-[#F9B912]
-                            after:transition-all after:duration-300
-                            hover:after:w-full" role="menuitem">
-                                                        Mobile Apps
-                                                    </a>
-                                                </li>
-                                                <li className="py-1" role="none">
-                                                    <a href="/portfolio/branding" className="hover:text-[#F9B912] text-slate-900 font-normal text-[15px] block relative
-                            after:content-[''] after:absolute after:left-0 after:-bottom-0.5
-                            after:h-[2px] after:w-0 after:bg-[#F9B912]
-                            after:transition-all after:duration-300
-                            hover:after:w-full" role="menuitem">
-                                                        Branding
-                                                    </a>
-                                                </li>
-                                                <li className="py-1" role="none">
-                                                    <a href="/portfolio/ecommerce" className="hover:text-[#F9B912] text-slate-900 font-normal text-[15px] block relative
-                            after:content-[''] after:absolute after:left-0 after:-bottom-0.5
-                            after:h-[2px] after:w-0 after:bg-[#F9B912]
-                            after:transition-all after:duration-300
-                            hover:after:w-full" role="menuitem">
-                                                        E-commerce
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Resources Dropdown */}
-                            <div className="text-[14px] max-lg:px-3 max-lg:py-2 lg:flex lg:items-center relative">
-                                <div className="group lg:inline-block">
-                                    <button
-                                        className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-[#F9B912] text-slate-900 font-medium text-[15px] flex items-center justify-between lg:px-2 lg:py-1 w-full text-left relative
-                after:content-[''] after:absolute after:left-0 after:-bottom-0.5
-                after:h-[2px] after:w-0 after:bg-[#F9B912]
-                after:transition-all after:duration-300
-                hover:after:w-full"
-                                        onClick={() => handleSubmenuToggle('resources')}
-                                        aria-expanded={openMobileSubmenu === 'resources'}
-                                        aria-haspopup="true"
-                                    >
-                                        Branch Network
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            width="16px"
-                                            height="16px"
-                                            className={`ml-1 inline-block transition-transform ${openMobileSubmenu === 'resources' ? 'max-lg:rotate-180' : ''}`}
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <path
-                                                d="M12 16a1 1 0 0 1-.71-.29l-6-6a1 1 0 0 1 1.42-1.42l5.29 5.3 5.29-5.29a1 1 0 0 1 1.41 1.41l-6 6a1 1 0 0 1-.7.29z"
-                                                data-name="16"
-                                                data-original="#000000"
-                                            />
-                                        </svg>
-                                    </button>
-                                    <div
-                                        className={`absolute lg:top-[53px] lg:left-0 max-lg:top-8 max-lg:left-0 z-50 shadow-lg bg-gradient-to-r from-[#e9f7ef] to-[#fff7e6] transition-all duration-300 px-8 opacity-0 max-h-0 overflow-hidden group-hover:opacity-100 group-hover:max-h-[700px] group-hover:pb-8 group-hover:pt-6
-                    ${openMobileSubmenu === 'resources' ? 'max-lg:max-h-[700px] max-lg:pb-8 max-lg:pt-6 max-lg:opacity-100' : 'max-lg:max-h-0 max-lg:overflow-hidden max-lg:opacity-0'}
-                `}
-                                        role="menu"
-                                    >
-                                        <div className="lg:min-w-[200px] max-lg:min-w-[160px]">
-                                            <h6 className="text-base text-blue-700 font-medium">Learn & Explore</h6>
-                                            <ul className="mt-3 pt-3 border-t border-gray-300 space-y-3" role="none">
-                                                <li className="py-1" role="none">
-                                                    <a href="/blog" className="hover:text-[#F9B912] text-slate-900 font-normal text-[15px] block relative
-                            after:content-[''] after:absolute after:left-0 after:-bottom-0.5
-                            after:h-[2px] after:w-0 after:bg-[#F9B912]
-                            after:transition-all after:duration-300
-                            hover:after:w-full" role="menuitem">
-                                                        Blog
-                                                    </a>
-                                                </li>
-                                                <li className="py-1" role="none">
-                                                    <a href="/case-studies" className="hover:text-[#F9B912] text-slate-900 font-normal text-[15px] block relative
-                            after:content-[''] after:absolute after:left-0 after:-bottom-0.5
-                            after:h-[2px] after:w-0 after:bg-[#F9B912]
-                            after:transition-all after:duration-300
-                            hover:after:w-full" role="menuitem">
-                                                        Case Studies
-                                                    </a>
-                                                </li>
-                                                <li className="py-1" role="none">
-                                                    <a href="/downloads" className="hover:text-[#F9B912] text-slate-900 font-normal text-[15px] block relative
-                            after:content-[''] after:absolute after:left-0 after:-bottom-0.5
-                            after:h-[2px] after:w-0 after:bg-[#F9B912]
-                            after:transition-all after:duration-300
-                            hover:after:w-full" role="menuitem">
-                                                        Downloads
-                                                    </a>
-                                                </li>
-                                                <li className="py-1" role="none">
-                                                    <a href="/documentation" className="hover:text-[#F9B912] text-slate-900 font-normal text-[15px] block relative
-                            after:content-[''] after:absolute after:left-0 after:-bottom-0.5
-                            after:h-[2px] after:w-0 after:bg-[#F9B912]
-                            after:transition-all after:duration-300
-                            hover:after:w-full" role="menuitem">
-                                                        Documentation
-                                                    </a>
-                                                </li>
-                                                <li className="py-1" role="none">
-                                                    <a href="/faq" className="hover:text-[#F9B912] text-slate-900 font-normal text-[15px] block relative
-                            after:content-[''] after:absolute after:left-0 after:-bottom-0.5
-                            after:h-[2px] after:w-0 after:bg-[#F9B912]
-                            after:transition-all after:duration-300
-                            hover:after:w-full" role="menuitem">
-                                                        FAQ
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Contact */}
-                            <div className="max-lg:px-3 max-lg:py-2 lg:flex lg:items-center">
-                                <a href="/contact"
-                                    className="max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 hover:text-[#F9B912] text-slate-900 font-medium text-[15px] block lg:px-2 lg:py-1 relative
-            after:content-[''] after:absolute after:left-0 after:-bottom-0.5
-            after:h-[2px] after:w-0 after:bg-[#F9B912]
-            after:transition-all after:duration-300
-            hover:after:w-full">
-                                    Contact
-                                </a>
-                            </div>
+                            {/* Dynamic Menu Items */}
+                            {menuItems.map((item) => renderMenuItem(item, true))}
                         </nav>
 
                         <div className="hidden lg:flex items-center ml-4 h-full">
