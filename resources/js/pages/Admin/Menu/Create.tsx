@@ -11,20 +11,20 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Checkbox } from '@/components/ui/checkbox';
 import InputError from '@/components/input-error';
 import { Card, CardContent } from '@/components/ui/card';
-import { Save, ArrowLeft } from 'lucide-react';
+import { Save } from 'lucide-react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Dashboard',
-        href: route('dashboard'),
+        href: '/dashboard',
     },
     {
         title: 'Menus',
-        href: route('admin.menus.index'),
+        href: '/admin/menus',
     },
     {
         title: 'Create',
-        href: route('admin.menus.create'),
+        href: '/admin/menus/create',
     },
 ];
 
@@ -71,22 +71,27 @@ export default function CreateMenu({ parentMenus }: Props) {
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
-        // Convert route_params string to JSON if not empty
         const formData = {
             ...data,
-            route_params: data.route_params ? JSON.parse(data.route_params) : null,
-            parent_id: data.parent_id || null,
+            parent_id: data.parent_id === '' || data.parent_id === 'none' ? null : parseInt(data.parent_id),
         };
 
-        post(route('admin.menus.store'), {
-            data: formData
-        });
+        if (data.route_params.trim()) {
+            try {
+                formData.route_params = JSON.parse(data.route_params);
+            } catch (error) {
+                formData.route_params = null;
+            }
+        } else {
+            formData.route_params = null;
+        }
+
+        post(route('admin.menus.store'), formData);
     };
 
-    // Auto-generate slug from title
     const handleTitleChange = (value: string) => {
         setData('title', value);
-        if (!data.slug) {
+        if (!data.slug || data.slug === '') {
             const slug = value.toLowerCase()
                 .replace(/[^a-z0-9\s-]/g, '')
                 .replace(/\s+/g, '-')
@@ -101,23 +106,13 @@ export default function CreateMenu({ parentMenus }: Props) {
             <Head title="Create Menu Item" />
 
             <div className="px-4 py-6">
-                <div className="mb-6">
-                    <Button variant="ghost" size="sm" asChild>
-                        <Link href={route('admin.menus.index')}>
-                            <ArrowLeft className="mr-2 h-4 w-4" />
-                            Back to Menu Items
-                        </Link>
-                    </Button>
-                </div>
-
                 <Heading title="Create Menu Item" description="Add a new menu item to your website navigation" />
 
-                <form onSubmit={submit} className="w-full">
-                    <Card>
-                        <CardContent className="pt-6">
-                            {/* First Row - Basic Information */}
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                                <div>
+                <Card>
+                    <CardContent className="pt-6">
+                        <form onSubmit={submit} className="space-y-6">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div className="space-y-2">
                                     <Label htmlFor="title">Menu Title *</Label>
                                     <Input
                                         id="title"
@@ -127,10 +122,10 @@ export default function CreateMenu({ parentMenus }: Props) {
                                         required
                                         placeholder="e.g., About Us"
                                     />
-                                    <InputError message={errors.title} className="mt-2" />
+                                    <InputError message={errors.title} />
                                 </div>
 
-                                <div>
+                                <div className="space-y-2">
                                     <Label htmlFor="slug">Slug *</Label>
                                     <Input
                                         id="slug"
@@ -140,13 +135,13 @@ export default function CreateMenu({ parentMenus }: Props) {
                                         required
                                         placeholder="e.g., about-us"
                                     />
-                                    <p className="text-xs text-muted-foreground mt-1">
+                                    <p className="text-xs text-muted-foreground">
                                         URL-friendly identifier (auto-generated from title)
                                     </p>
-                                    <InputError message={errors.slug} className="mt-2" />
+                                    <InputError message={errors.slug} />
                                 </div>
 
-                                <div>
+                                <div className="space-y-2">
                                     <Label htmlFor="sort_order">Display Order</Label>
                                     <Input
                                         id="sort_order"
@@ -156,13 +151,12 @@ export default function CreateMenu({ parentMenus }: Props) {
                                         min="0"
                                         placeholder="0"
                                     />
-                                    <InputError message={errors.sort_order} className="mt-2" />
+                                    <InputError message={errors.sort_order} />
                                 </div>
                             </div>
 
-                            {/* Second Row - URL/Route Configuration */}
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                                <div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div className="space-y-2">
                                     <Label htmlFor="url">URL (Direct Link)</Label>
                                     <Input
                                         id="url"
@@ -171,13 +165,13 @@ export default function CreateMenu({ parentMenus }: Props) {
                                         onChange={(e) => setData('url', e.target.value)}
                                         placeholder="e.g., /about-us or https://external.com"
                                     />
-                                    <p className="text-xs text-muted-foreground mt-1">
+                                    <p className="text-xs text-muted-foreground">
                                         Use either URL OR Route Name (not both)
                                     </p>
-                                    <InputError message={errors.url} className="mt-2" />
+                                    <InputError message={errors.url} />
                                 </div>
 
-                                <div>
+                                <div className="space-y-2">
                                     <Label htmlFor="route_name">Route Name</Label>
                                     <Input
                                         id="route_name"
@@ -186,37 +180,42 @@ export default function CreateMenu({ parentMenus }: Props) {
                                         onChange={(e) => setData('route_name', e.target.value)}
                                         placeholder="e.g., about.index"
                                     />
-                                    <p className="text-xs text-muted-foreground mt-1">
+                                    <p className="text-xs text-muted-foreground">
                                         Laravel route name (preferred over direct URL)
                                     </p>
-                                    <InputError message={errors.route_name} className="mt-2" />
+                                    <InputError message={errors.route_name} />
                                 </div>
                             </div>
 
-                            {/* Third Row - Advanced Options */}
-                            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-                                <div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                                <div className="space-y-2">
                                     <Label htmlFor="parent_id">Parent Menu</Label>
-                                    <Select value={data.parent_id} onValueChange={(value) => setData('parent_id', value)}>
-                                        <SelectTrigger id="parent_id">
+                                    <Select
+                                        value={data.parent_id}
+                                        onValueChange={(value) => setData('parent_id', value)}
+                                    >
+                                        <SelectTrigger>
                                             <SelectValue placeholder="Select parent (optional)" />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem value="">No Parent (Top Level)</SelectItem>
-                                            {parentMenus.map((parent) => (
+                                            <SelectItem value="none">No Parent (Top Level)</SelectItem>
+                                            {parentMenus?.map((parent) => (
                                                 <SelectItem key={parent.id} value={parent.id.toString()}>
                                                     {parent.title}
                                                 </SelectItem>
                                             ))}
                                         </SelectContent>
                                     </Select>
-                                    <InputError message={errors.parent_id} className="mt-2" />
+                                    <InputError message={errors.parent_id} />
                                 </div>
 
-                                <div>
+                                <div className="space-y-2">
                                     <Label htmlFor="target">Link Target</Label>
-                                    <Select value={data.target} onValueChange={(value: '_self' | '_blank') => setData('target', value)}>
-                                        <SelectTrigger id="target">
+                                    <Select
+                                        value={data.target}
+                                        onValueChange={(value: '_self' | '_blank') => setData('target', value)}
+                                    >
+                                        <SelectTrigger>
                                             <SelectValue placeholder="Select target" />
                                         </SelectTrigger>
                                         <SelectContent>
@@ -224,10 +223,10 @@ export default function CreateMenu({ parentMenus }: Props) {
                                             <SelectItem value="_blank">New Window/Tab</SelectItem>
                                         </SelectContent>
                                     </Select>
-                                    <InputError message={errors.target} className="mt-2" />
+                                    <InputError message={errors.target} />
                                 </div>
 
-                                <div>
+                                <div className="space-y-2">
                                     <Label htmlFor="icon">Icon Class</Label>
                                     <Input
                                         id="icon"
@@ -236,13 +235,13 @@ export default function CreateMenu({ parentMenus }: Props) {
                                         onChange={(e) => setData('icon', e.target.value)}
                                         placeholder="e.g., fas fa-home"
                                     />
-                                    <p className="text-xs text-muted-foreground mt-1">
+                                    <p className="text-xs text-muted-foreground">
                                         CSS class for icon (optional)
                                     </p>
-                                    <InputError message={errors.icon} className="mt-2" />
+                                    <InputError message={errors.icon} />
                                 </div>
 
-                                <div>
+                                <div className="space-y-2">
                                     <Label htmlFor="css_class">CSS Class</Label>
                                     <Input
                                         id="css_class"
@@ -251,16 +250,15 @@ export default function CreateMenu({ parentMenus }: Props) {
                                         onChange={(e) => setData('css_class', e.target.value)}
                                         placeholder="custom-class"
                                     />
-                                    <p className="text-xs text-muted-foreground mt-1">
+                                    <p className="text-xs text-muted-foreground">
                                         Additional CSS classes
                                     </p>
-                                    <InputError message={errors.css_class} className="mt-2" />
+                                    <InputError message={errors.css_class} />
                                 </div>
                             </div>
 
-                            {/* Fourth Row - Route Parameters and Options */}
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                                <div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div className="space-y-2">
                                     <Label htmlFor="route_params">Route Parameters (JSON)</Label>
                                     <Textarea
                                         id="route_params"
@@ -269,10 +267,10 @@ export default function CreateMenu({ parentMenus }: Props) {
                                         rows={3}
                                         placeholder='{"id": 1, "slug": "example"}'
                                     />
-                                    <p className="text-xs text-muted-foreground mt-1">
+                                    <p className="text-xs text-muted-foreground">
                                         JSON object for route parameters (leave empty if none)
                                     </p>
-                                    <InputError message={errors.route_params} className="mt-2" />
+                                    <InputError message={errors.route_params} />
                                 </div>
 
                                 <div className="space-y-4">
@@ -300,7 +298,6 @@ export default function CreateMenu({ parentMenus }: Props) {
                                 </div>
                             </div>
 
-                            {/* Action Buttons */}
                             <div className="flex justify-end gap-2">
                                 <Button variant="outline" asChild>
                                     <Link href={route('admin.menus.index')}>Cancel</Link>
@@ -310,9 +307,9 @@ export default function CreateMenu({ parentMenus }: Props) {
                                     {processing ? 'Creating...' : 'Create Menu Item'}
                                 </Button>
                             </div>
-                        </CardContent>
-                    </Card>
-                </form>
+                        </form>
+                    </CardContent>
+                </Card>
             </div>
         </AppLayout>
     );

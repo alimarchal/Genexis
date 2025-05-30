@@ -79,7 +79,7 @@ export default function EditMenu({ menu, parentMenus }: Props) {
         route_params: menu.route_params ? JSON.stringify(menu.route_params, null, 2) : '',
         target: menu.target,
         icon: menu.icon || '',
-        parent_id: menu.parent_id?.toString() || '',
+        parent_id: menu.parent_id?.toString() || 'none',
         sort_order: menu.sort_order,
         is_active: menu.is_active,
         is_mega_menu: menu.is_mega_menu,
@@ -90,12 +90,20 @@ export default function EditMenu({ menu, parentMenus }: Props) {
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
-        // Convert route_params string to JSON if not empty
         const formData = {
             ...data,
-            route_params: data.route_params ? JSON.parse(data.route_params) : null,
-            parent_id: data.parent_id || null,
+            parent_id: data.parent_id === 'none' ? null : parseInt(data.parent_id),
         };
+
+        if (data.route_params.trim()) {
+            try {
+                formData.route_params = JSON.parse(data.route_params);
+            } catch (error) {
+                formData.route_params = null;
+            }
+        } else {
+            formData.route_params = null;
+        }
 
         router.post(route('admin.menus.update', menu.id), {
             ...formData,
@@ -108,15 +116,6 @@ export default function EditMenu({ menu, parentMenus }: Props) {
             <Head title="Edit Menu Item" />
 
             <div className="px-4 py-6">
-                <div className="mb-6">
-                    <Button variant="ghost" size="sm" asChild>
-                        <Link href={route('admin.menus.index')}>
-                            <ArrowLeft className="mr-2 h-4 w-4" />
-                            Back to Menu Items
-                        </Link>
-                    </Button>
-                </div>
-
                 <Heading
                     title="Edit Menu Item"
                     description="Update menu item details and navigation settings"
@@ -125,7 +124,6 @@ export default function EditMenu({ menu, parentMenus }: Props) {
                 <form onSubmit={submit} className="max-w-4xl">
                     <Card>
                         <CardContent className="pt-6">
-                            {/* First Row - Basic Information */}
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                                 <div>
                                     <Label htmlFor="title">Menu Title *</Label>
@@ -170,7 +168,6 @@ export default function EditMenu({ menu, parentMenus }: Props) {
                                 </div>
                             </div>
 
-                            {/* Second Row - URL/Route Configuration */}
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                                 <div>
                                     <Label htmlFor="url">URL (Direct Link)</Label>
@@ -203,7 +200,6 @@ export default function EditMenu({ menu, parentMenus }: Props) {
                                 </div>
                             </div>
 
-                            {/* Third Row - Advanced Options */}
                             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
                                 <div>
                                     <Label htmlFor="parent_id">Parent Menu</Label>
@@ -212,7 +208,7 @@ export default function EditMenu({ menu, parentMenus }: Props) {
                                             <SelectValue placeholder="Select parent (optional)" />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem value="">No Parent (Top Level)</SelectItem>
+                                            <SelectItem value="none">No Parent (Top Level)</SelectItem>
                                             {parentMenus.filter(parent => parent.id !== menu.id).map((parent) => (
                                                 <SelectItem key={parent.id} value={parent.id.toString()}>
                                                     {parent.title}
@@ -268,7 +264,6 @@ export default function EditMenu({ menu, parentMenus }: Props) {
                                 </div>
                             </div>
 
-                            {/* Fourth Row - Route Parameters and Options */}
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                                 <div>
                                     <Label htmlFor="route_params">Route Parameters (JSON)</Label>
@@ -310,7 +305,6 @@ export default function EditMenu({ menu, parentMenus }: Props) {
                                 </div>
                             </div>
 
-                            {/* Action Buttons */}
                             <div className="flex justify-end gap-2">
                                 <Button variant="outline" asChild>
                                     <Link href={route('admin.menus.index')}>Cancel</Link>

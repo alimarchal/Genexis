@@ -5,7 +5,7 @@ import AppLayout from '@/layouts/app-layout';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowLeft, Edit, Menu as MenuIcon, ExternalLink, Users, Link as LinkIcon, Hash, Calendar, Settings, Eye } from 'lucide-react';
+import { ArrowLeft, Edit, Menu as MenuIcon, ExternalLink, Users, Link as LinkIcon, Hash, Calendar, Settings, Eye, Plus } from 'lucide-react';
 
 interface MenuItem {
     id: number;
