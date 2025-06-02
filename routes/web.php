@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\ManagmentController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\ServiceController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -33,25 +34,18 @@ Route::prefix('about')->name('about.')->group(function () {
 });
 
 Route::prefix('products')->name('products.')->group(function () {
-
     Route::get('/deposit-accounts', [PageController::class, 'depositAccounts'])->name('deposit-accounts');
     Route::get('/term-deposit', [PageController::class, 'termDeposit'])->name('term-deposit');
-
     Route::get('/consumer-finances', [PageController::class, 'consumerFinances'])->name('consumer-finances');
     Route::get('/commercial-sme-finances', [PageController::class, 'commercialSME'])->name('commercial-sme-finances');
     Route::get('/agriculture-finances', [PageController::class, 'agriculture'])->name('agriculture-finances');
     Route::get('/micro-finances', [PageController::class, 'microFinance'])->name('micro-finances');
-
 });
 
 Route::prefix('services')->name('services.')->group(function () {
-    Route::get('/', function () {
-        return inertia('Services/Index');
-    })->name('index');
 
-    Route::get('/home-remittance', function () {
-        return inertia('Services/HomeRemittance');
-    })->name('home-remittance');
+    Route::get('/all-services', [ServiceController::class, 'index'])->name('index');
+    Route::get('/{service}', [ServiceController::class, 'show'])->name('home-remittance');
 });
 
 Route::prefix('financials')->name('financials.')->group(function () {

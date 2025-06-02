@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('service_attributes', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('service_id')->constrained()->onDelete('cascade');
+            $table->string('attribute_name');
+            $table->text('attribute_value');
+            $table->integer('sort_order')->default(0);
             $table->timestamps();
         });
     }

@@ -7,6 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class ServiceAttribute extends Model
 {
-    /** @use HasFactory<\Database\Factories\ServiceAttributeFactory> */
     use HasFactory;
+
+    protected $fillable = [
+        'service_id',
+        'attribute_name',
+        'attribute_value',
+        'sort_order',
+    ];
+
+    public function service()
+    {
+        return $this->belongsTo(Service::class);
+    }
 }

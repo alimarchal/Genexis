@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             ProductTypeSeeder::class,
             ProductTypeAccountSeeder::class,
             ProductSchemeAttributeSeeder::class,
+            ServiceSeeder::class,
         ]);
 
         // \App\Models\User::factory()->create([
