@@ -1,6 +1,8 @@
 import BankingAccountComponent from '@/components/BankingAccountComponent';
 import CommercialFinance from '@/components/CommercialFinance';
+import HomeRemittancePage from '@/components/HomeRemittance';
 import LoanSchemes from '@/components/LoanSchemesComponent';
+import ServicesPage from '@/components/Service';
 import WebsiteLayout from '@/layouts/WebsiteLayout';
 
 export default function HomePage() {
@@ -14,8 +16,6 @@ export default function HomePage() {
                 designed to meet your financial needs. From personal banking to commercial
                 solutions, we're here to serve you.
             </p>
-
-
 
 
         </div>
