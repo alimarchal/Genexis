@@ -17,6 +17,8 @@ export default function HomePage() {
                 solutions, we're here to serve you.
             </p>
 
+            <ServicesPage />
+
 
         </div>
     );
