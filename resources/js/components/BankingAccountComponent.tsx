@@ -49,21 +49,17 @@ const BankingAccountComponent: React.FC<BankingAccountComponentProps> = ({
     };
 
     const getFeatures = (): string[] => {
-        const featuresAttr = activeScheme.attributes.find(a =>
-            a.attribute_name.toLowerCase().includes('feature') ||
-            a.attribute_name.toLowerCase().includes('salient')
-        );
-        if (featuresAttr) {
-            return featuresAttr.attribute_value.split('\n').filter(f => f.trim());
-        }
-        return [];
+        return activeScheme.attributes
+            .filter(a => a.attribute_name.toLowerCase().startsWith('feature'))
+            .sort((a, b) => a.sort_order - b.sort_order)
+            .map(a => a.attribute_value);
     };
 
     const eligibility = getAttributeValue('Eligibility');
     const features = getFeatures();
 
     return (
-        <div className="py-2 px-4">
+        <div className="py-8 px-4">
             <div className="max-w-7xl mx-auto">
                 {/* Navigation Tabs - Responsive with icons */}
                 <div className="mb-8">
