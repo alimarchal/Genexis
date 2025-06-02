@@ -1,4 +1,6 @@
 import BankingAccountComponent from '@/components/BankingAccountComponet';
+import CommercialFinance from '@/components/CommercialFinance';
+import LoanSchemes from '@/components/LoanScheme';
 import WebsiteLayout from '@/layouts/WebsiteLayout';
 
 export default function HomePage() {
@@ -14,7 +16,7 @@ export default function HomePage() {
             </p>
 
 
-            <BankingAccountComponent />
+            <LoanSchemes />
 
 
         </div>
