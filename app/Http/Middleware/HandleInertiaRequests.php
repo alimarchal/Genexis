@@ -51,7 +51,7 @@ class HandleInertiaRequests extends Middleware
                 'location' => $request->url(),
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
-                        // now every Inertia page has `bankBranchesCount` in props
+            // now every Inertia page has `bankBranchesCount` in props
             'bankBranchesCount' => config('app.bank_branches_count'),
         ];
     }

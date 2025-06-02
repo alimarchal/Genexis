@@ -19,7 +19,7 @@ class Managment extends Model
         'order',
         'status',
         'created_by',
-        'updated_by'
+        'updated_by',
     ];
 
     protected $casts = [
@@ -63,8 +63,9 @@ class Managment extends Model
     public function getAttachmentUrlAttribute(): ?string
     {
         if ($this->attachment) {
-            return asset('storage/' . $this->attachment);
+            return asset('storage/'.$this->attachment);
         }
+
         return null;
     }
 }

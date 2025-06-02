@@ -23,7 +23,7 @@ class ManagmentFactory extends Factory
                 'Assistant General Manager',
                 'Senior Manager',
                 'Manager',
-                'Assistant Manager'
+                'Assistant Manager',
             ]),
             'description' => fake()->paragraph(3),
             'order' => fake()->numberBetween(1, 100),
