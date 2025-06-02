@@ -9,30 +9,128 @@ class ManagmentSeeder extends Seeder
 {
     public function run(): void
     {
-        // Create some sample management members
-        Managment::create([
-            'title' => 'Mr.',
-            'full_name' => 'Shahid Shahzad Mir',
-            'designation' => 'President/CEO and CFO',
-            'description' => 'Leading the bank with over 20 years of experience in financial services and strategic management.',
-            'order' => 1,
-            'status' => 'active',
-            'created_by' => 1,
-            'updated_by' => 1,
-        ]);
 
-        Managment::create([
-            'title' => 'Mr.',
-            'full_name' => 'Ahmad Ali Khan',
-            'designation' => 'Chief Operating Officer',
-            'description' => 'Overseeing daily operations with expertise in banking operations and customer service excellence.',
-            'order' => 2,
-            'status' => 'active',
-            'created_by' => 1,
-            'updated_by' => 1,
+        $user = \App\Models\User::create([
+            'name' => 'System Admin',
+            'email' => 'admin@example.com',
+            'password' => bcrypt('password'),
         ]);
+        $managementData = [
+            [
+                'title' => 'Mr.',
+                'full_name' => 'Shahid Shahzad Mir',
+                'designation' => 'President/CEO and CFO',
+                'description' => null,
+                'attachment' => 'management/sahidmir.jpg',
+                'order' => 1,
+                'status' => 'active',
+            ],
+            [
+                'title' => 'Mr.',
+                'full_name' => 'Ahtasham Malik',
+                'designation' => 'Divisional Head Operations',
+                'description' => null,
+                'attachment' => 'management/atm.jpg',
+                'order' => 2,
+                'status' => 'active',
+            ],
+            [
+                'title' => 'Syed',
+                'full_name' => 'Tashfeen Gilani',
+                'designation' => 'Divisional Head Treasury Division & CCO',
+                'description' => null,
+                'attachment' => 'management/tg.jpg',
+                'order' => 3,
+                'status' => 'active',
+            ],
+            [
+                'title' => 'Ms.',
+                'full_name' => 'Rahila Javed',
+                'designation' => 'Divisional Head Human Resource Management Division',
+                'description' => null,
+                'attachment' => 'management/raheela.jpg',
+                'order' => 4,
+                'status' => 'active',
+            ],
+            [
+                'title' => 'Mr.',
+                'full_name' => 'Raja Ghulam Mustafa',
+                'designation' => 'Divisional Head Commercial & Retail Banking Division',
+                'description' => null,
+                'attachment' => 'management/raja-mustafa.png',
+                'order' => 5,
+                'status' => 'active',
+            ],
+            [
+                'title' => 'Mr.',
+                'full_name' => 'Akhter Hussain',
+                'designation' => 'Divisional Head Credit Administration Division',
+                'description' => null,
+                'attachment' => 'management/akt.jpg',
+                'order' => 6,
+                'status' => 'active',
+            ],
+            [
+                'title' => 'Mr.',
+                'full_name' => 'Amjad Mahmood Gilani',
+                'designation' => 'Divisional Head Risk Management Division',
+                'description' => null,
+                'attachment' => null, // Using dummy image from HTML
+                'order' => 7,
+                'status' => 'active',
+            ],
+            [
+                'title' => 'Mr.',
+                'full_name' => 'Imtiaz Shaheen',
+                'designation' => 'Divisional Head Credit Management Division',
+                'description' => null,
+                'attachment' => null, // Using dummy image from HTML
+                'order' => 8,
+                'status' => 'active',
+            ],
+            [
+                'title' => 'Mr.',
+                'full_name' => 'Gulzar A. Rao',
+                'designation' => 'Divisional Head, IT Division (CIO)',
+                'description' => null,
+                'attachment' => 'management/gulzar-a-rao.jpg',
+                'order' => 9,
+                'status' => 'active',
+            ],
+            [
+                'title' => 'Mr.',
+                'full_name' => 'Muhammad Aslam Awan',
+                'designation' => 'Divisional Head Islamic Banking Division (A)',
+                'description' => null,
+                'attachment' => null, // Using dummy image from HTML
+                'order' => 10,
+                'status' => 'active',
+            ],
+            [
+                'title' => 'Raja',
+                'full_name' => 'Masood Khan',
+                'designation' => 'Divisional Head Special Asset Management Division',
+                'description' => null,
+                'attachment' => null, // Using dummy image from HTML
+                'order' => 11,
+                'status' => 'active',
+            ],
+            [
+                'title' => 'Mr.',
+                'full_name' => 'Javed Iqbal',
+                'designation' => 'Chief Compliance Officer, Compliance Division',
+                'description' => null,
+                'attachment' => null, // Using dummy image from HTML
+                'order' => 12,
+                'status' => 'active',
+            ],
+        ];
 
-        // Create additional random members
-        Managment::factory(8)->active()->create();
+        foreach ($managementData as $index => $data) {
+            Managment::create(array_merge($data, [
+                'created_by' => 1,
+                'updated_by' => 1,
+            ]));
+        }
     }
 }

@@ -32,13 +32,7 @@ export default function BoardOfDirectors({ managment }: BoardOfDirectorsProps) {
 
 // Set the persistent layout and page props
 BoardOfDirectors.layout = (page: any) => (
-    <WebsiteLayout
-        title="About Us"
-        breadcrumbs={[
-            { label: 'About Us', href: route('about') },
-            { label: 'Board of Directors (BOD)', isActive: true }
-        ]}
-    >
+    <WebsiteLayout title="About Us - Board of Directors">
         {page}
     </WebsiteLayout>
 );

@@ -21,7 +21,7 @@ class PageController extends Controller
         return Inertia::render('WebsitePages/about');
     }
 
-    public function bod()
+    public function boardOfDirectors()
     {
         $managment = Managment::where('status', 'active')->get();
 
@@ -30,7 +30,7 @@ class PageController extends Controller
         ]);
     }
 
-    public function managment()
+    public function management()
     {
         $managment = Managment::where('status', 'active')->get();
 

@@ -16,21 +16,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 Route::get('/', [PageController::class, 'home'])->name(name: 'home');
-Route::get('/about-us', [PageController::class, 'about'])->name('about');
-Route::get('/about-us/board-of-directors', [PageController::class, 'bod'])->name('about.bod');
-// Route::get('/about-us/managment', [PageController::class, 'managment'])->name('about.managment');
-Route::get('/test-component', [PageController::class, 'testComponent'])->name('test-component');
+// Route::get('/about-us', [PageController::class, 'about'])->name('about');
+// Route::get('/about-us/board-of-directors', [PageController::class, 'bod'])->name('about.bod');
+// // Route::get('/about-us/managment', [PageController::class, 'managment'])->name('about.managment');
+// Route::get('/test-component', [PageController::class, 'testComponent'])->name('test-component');
 
-Route::prefix('about')->name('about.')->group(function () {
-    Route::get('/', function () {
-        return inertia('About/Index');
-    })->name('index');
-
-    Route::get('/board-directors', function () {
-        return inertia('About/BoardDirectors');
-    })->name('board-directors');
-
-    Route::get('/management', [PageController::class, 'managment'])->name('management');
+Route::prefix('about-us')->name('about.')->group(function () {
+    Route::get('/board-of-directors', [PageController::class, 'boardOfDirectors'])->name('board-directors');
+    Route::get('/management', [PageController::class, 'management'])->name('management');
 });
 
 Route::prefix('products')->name('products.')->group(function () {
