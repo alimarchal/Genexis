@@ -6,6 +6,7 @@ use App\Http\Requests\StorePageRequest;
 use App\Http\Requests\UpdatePageRequest;
 use App\Models\Managment;
 use App\Models\Page;
+use App\Models\ProductTypeAccount;
 use Inertia\Inertia;
 
 class PageController extends Controller
@@ -41,6 +42,98 @@ class PageController extends Controller
     public function contact()
     {
         return inertia('Contact/Index');
+    }
+
+    public function depositAccounts()
+    {
+
+        $depositAccount = ProductTypeAccount::where('name', 'Deposit Accounts')->first();
+
+        $schemes = $depositAccount->productSchemes()
+            ->with(['attributes' => function ($query) {
+                $query->where('is_active', true)
+                    ->orderBy('sort_order');
+            }])
+            ->where('is_active', true)
+            ->get();
+
+        return inertia('Products/DepositAccounts', [
+            'schemes' => $schemes,
+        ]);
+    }
+
+    public function termDeposit()
+    {
+
+        $termDeposit = ProductTypeAccount::where('name', 'Term Deposit')->first();
+
+        $schemes = $termDeposit->productSchemes()
+            ->with(['attributes' => function ($query) {
+                $query->where('is_active', true)
+                    ->orderBy('sort_order');
+            }])
+            ->where('is_active', true)
+            ->get();
+
+        return inertia('Products/TermDeposit', [
+            'schemes' => $schemes,
+        ]);
+    }
+
+    public function consumerFinances()
+    {
+        $consumerFinance = ProductTypeAccount::where('name', 'Consumer Finances')->first();
+
+        $schemes = $consumerFinance->productSchemes()
+            ->with(['attributes' => function ($query) {
+                $query->where('is_active', true)->orderBy('sort_order');
+            }])
+            ->where('is_active', true)
+            ->get();
+
+        return inertia('Products/ConsumerFinances', ['schemes' => $schemes]);
+    }
+
+    public function commercialSME()
+    {
+        $commercialSME = ProductTypeAccount::where('name', 'Commercial / SME Finances')->first();
+
+        $schemes = $commercialSME->productSchemes()
+            ->with(['attributes' => function ($query) {
+                $query->where('is_active', true)->orderBy('sort_order');
+            }])
+            ->where('is_active', true)
+            ->get();
+
+        return inertia('Products/CommercialSmeFinances', ['schemes' => $schemes]);
+    }
+
+    public function agriculture()
+    {
+        $agriculture = ProductTypeAccount::where('name', 'Agriculture Finances')->first();
+
+        $schemes = $agriculture->productSchemes()
+            ->with(['attributes' => function ($query) {
+                $query->where('is_active', true)->orderBy('sort_order');
+            }])
+            ->where('is_active', true)
+            ->get();
+
+        return inertia('Products/AgricultureFinances', ['schemes' => $schemes]);
+    }
+
+    public function microFinance()
+    {
+        $microFinance = ProductTypeAccount::where('name', 'Micro Finances')->first();
+
+        $schemes = $microFinance->productSchemes()
+            ->with(['attributes' => function ($query) {
+                $query->where('is_active', true)->orderBy('sort_order');
+            }])
+            ->where('is_active', true)
+            ->get();
+
+        return inertia('Products/MicroFinances', ['schemes' => $schemes]);
     }
 
     public function testComponent()

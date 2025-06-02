@@ -441,7 +441,13 @@ class ProductSchemeAttributeSeeder extends Seeder
 
         $this->createAttributes($scheme->id, [
             ['Eligibility', 'Individuals, Business People, Business Entities (Sole Proprietors, Companies (Public, Private, Listed, Non listed), Partnership Firms (Registered/ Un-Registered), Govt. Departments, Local Bodies and Corporations, Trusts, Clubs, Associations, Societies, NGOs, Public Sector Corporations/ Autonomous Bodies', 1],
-            ['Salient Features', 'Chequing account.\nCan be opened singly in one name or jointly in two or more names.\nInitial/ Minimum deposit requirement is Rs. 1000/-\nNo withdrawal Limit.\nNo Zakat deduction.\nFree Cheque Book and other Services as per applicable schedule of charges for account holders having average balance of Rs. 25,000/- and above.\nFree of Charge Locker facility for account holders having average balance of Rs. 50,000/- and above.', 2],
+            ['Feature 1', 'Chequing account', 2],
+            ['Feature 2', 'Can be opened singly in one name or jointly in two or more names', 3],
+            ['Feature 3', 'Initial/ Minimum deposit requirement is Rs. 1000/-', 4],
+            ['Feature 4', 'No withdrawal Limit', 5],
+            ['Feature 5', 'No Zakat deduction', 6],
+            ['Feature 6', 'Free Cheque Book and other Services as per applicable schedule of charges for account holders having average balance of Rs. 25,000/- and above', 7],
+            ['Feature 7', 'Free of Charge Locker facility for account holders having average balance of Rs. 50,000/- and above', 8],
         ]);
 
         // PLS Savings Account
@@ -454,7 +460,13 @@ class ProductSchemeAttributeSeeder extends Seeder
 
         $this->createAttributes($scheme->id, [
             ['Eligibility', 'Individuals, singly or jointly can open their savings accounts. Business/Government entities can open savings accounts for placing funds of provident and benevolent nature.', 1],
-            ['Features', 'Profit earning chequing account\nInitial deposit/ minimum balance requirement of Rs. 500/-.\nAccounts can be opened singly in one name or jointly in two or more names.\nFree Cheque Book and other Services as per applicable schedule of charges for account holders having average balance of Rs. 100,000/- and above.\nNo Limit on withdrawals.\nHalf yearly profit payment.\nZakat applicable as per law.', 2],
+            ['Feature 1', 'Profit earning chequing account', 2],
+            ['Feature 2', 'Initial deposit/ minimum balance requirement of Rs. 500/-', 3],
+            ['Feature 3', 'Accounts can be opened singly in one name or jointly in two or more names', 4],
+            ['Feature 4', 'Free Cheque Book and other Services as per applicable schedule of charges for account holders having average balance of Rs. 100,000/- and above', 5],
+            ['Feature 5', 'No Limit on withdrawals', 6],
+            ['Feature 6', 'Half yearly profit payment', 7],
+            ['Feature 7', 'Zakat applicable as per law', 8],
         ]);
 
         // Special Deposit Account
@@ -467,7 +479,12 @@ class ProductSchemeAttributeSeeder extends Seeder
 
         $this->createAttributes($scheme->id, [
             ['Eligibility', 'Individuals, Business People, Business Entities (Sole Proprietors, Companies (Public, Private, Listed, Non-listed), Partnership Firms (Registered/ Un-Registered), Govt. Departments, Local Bodies and Corporations, Trusts, Clubs, Associations, Societies, NGOs, Public Sector Corporations/ Autonomous Bodies', 1],
-            ['Features', 'Suitable for business\nProfit payment on half yearly basis on daily product basis.\nProfit accrues on daily product basis\nNo restriction on withdrawals\nDaily Balance of Rs. 50,000/- required for profit eligibility.\nFree services as per applicable schedule of charges for all the customers having average balance of Rs.100,000/- or above.', 2],
+            ['Feature 1', 'Suitable for business', 2],
+            ['Feature 2', 'Profit payment on half yearly basis on daily product basis', 3],
+            ['Feature 3', 'Profit accrues on daily product basis', 4],
+            ['Feature 4', 'No restriction on withdrawals', 5],
+            ['Feature 5', 'Daily Balance of Rs. 50,000/- required for profit eligibility', 6],
+            ['Feature 6', 'Free services as per applicable schedule of charges for all the customers having average balance of Rs.100,000/- or above', 7],
         ]);
 
         // Bemisal Mahana Bachat Account (BMBA)
@@ -480,7 +497,11 @@ class ProductSchemeAttributeSeeder extends Seeder
 
         $this->createAttributes($scheme->id, [
             ['Eligibility', 'Individuals, Business People, Business Entities (Sole Proprietors, Companies (Public, Private, Listed, Non-listed), Partnership Firms (Registered/ Un-Registered), Govt. Departments, Local Bodies and Corporations, Trusts, Clubs, Associations, Societies, NGOs, Public Sector Corporations/ Autonomous Bodies', 1],
-            ['Features', 'Minimum Deposit Limit for profit is Rs. 25,000/-, however, the account can be opened with Rs. 1,000/-\nMaximum Two withdrawals allowed between 6th and last day of month for profit qualification. No restriction on number of withdrawals before 6th of the month.\nProfit payment on monthly basis.\nFree locker facility for customers having average balance of Rs. 50,000/-.\nUp to 95% quick financing facility available on low markup.', 2],
+            ['Feature 1', 'Minimum Deposit Limit for profit is Rs. 25,000/-, however, the account can be opened with Rs. 1,000/-', 2],
+            ['Feature 2', 'Maximum Two withdrawals allowed between 6th and last day of month for profit qualification. No restriction on number of withdrawals before 6th of the month', 3],
+            ['Feature 3', 'Profit payment on monthly basis', 4],
+            ['Feature 4', 'Free locker facility for customers having average balance of Rs. 50,000/-', 5],
+            ['Feature 5', 'Up to 95% quick financing facility available on low markup', 6],
         ]);
 
         // Premium Plus Remittance Saving Account (PPRSA)
@@ -492,8 +513,16 @@ class ProductSchemeAttributeSeeder extends Seeder
         ]);
 
         $this->createAttributes($scheme->id, [
-            ['Eligibility', 'Any individual customer who sends/receives the foreign remittances through Money Gram, IME (International Money Exchange), IC (Instant Cash), Western Union, Ria can open single/joint account under this scheme.\nRemittances received under the above channels with documentary proof would be eligible for opening the account under the product.\nPrint out of Remittances extracted at the time of payment will be kept with the Credit Voucher as evidence of Home Remittances.\nNO OTHER DEPOSIT will be accepted in the account except the remittance amount received through the aforementioned modes of Home Remittances.', 1],
-            ['Salient Features', 'Extra profit @1% over and above the prevailing saving profit rate will be paid on Premium Plus Remittance Saving Account.\nDeposits received under the above sources of remittance will only be eligible for extra profit.\nProfit will be paid on monthly basis resulting in enhanced annualized rate as well.\nCheque book will be provided free of charge to all accounts opened under the product.\nMinimum Deposit required for retention under this scheme will be Rs. 1,000/\nZakat & Withholding Tax to be recovered as per rules.', 2],
+            ['Eligibility 1', 'Any individual customer who sends/receives the foreign remittances through Money Gram, IME (International Money Exchange), IC (Instant Cash), Western Union, Ria can open single/joint account under this scheme', 1],
+            ['Eligibility 2', 'Remittances received under the above channels with documentary proof would be eligible for opening the account under the product', 2],
+            ['Eligibility 3', 'Print out of Remittances extracted at the time of payment will be kept with the Credit Voucher as evidence of Home Remittances', 3],
+            ['Eligibility 4', 'NO OTHER DEPOSIT will be accepted in the account except the remittance amount received through the aforementioned modes of Home Remittances', 4],
+            ['Feature 1', 'Extra profit @1% over and above the prevailing saving profit rate will be paid on Premium Plus Remittance Saving Account', 5],
+            ['Feature 2', 'Deposits received under the above sources of remittance will only be eligible for extra profit', 6],
+            ['Feature 3', 'Profit will be paid on monthly basis resulting in enhanced annualized rate as well', 7],
+            ['Feature 4', 'Cheque book will be provided free of charge to all accounts opened under the product', 8],
+            ['Feature 5', 'Minimum Deposit required for retention under this scheme will be Rs. 1,000/', 9],
+            ['Feature 6', 'Zakat & Withholding Tax to be recovered as per rules', 10],
         ]);
     }
 
@@ -511,7 +540,11 @@ class ProductSchemeAttributeSeeder extends Seeder
 
         $this->createAttributes($scheme->id, [
             ['Eligibility', 'Individuals, Business People, Business Entities (Sole Proprietors, Companies (Public, Private, Listed, Non-listed), Partnership Firms (Registered/ Un-Registered), Govt. Departments, Local Bodies and Corporations, Trusts, Clubs, Associations, Societies, NGOs, Public Sector Corporations/ Autonomous Bodies', 1],
-            ['Features', 'Customer has to open linked account (Current/ PLS/ BMBA/ SDA) for payment of profit.\nMinimum deposit requirement Rs. 100,000/- for Individuals & Rs.1,000,000/- for Corporate Customers\nProfit payment on quarterly basis.\nShort term financing facility available on nominal rate of markup.\nDeduction of Zakat and Withholding tax applicable as per law.', 2],
+            ['Feature 1', 'Customer has to open linked account (Current/ PLS/ BMBA/ SDA) for payment of profit', 2],
+            ['Feature 2', 'Minimum deposit requirement Rs. 100,000/- for Individuals & Rs.1,000,000/- for Corporate Customers', 3],
+            ['Feature 3', 'Profit payment on quarterly basis', 4],
+            ['Feature 4', 'Short term financing facility available on nominal rate of markup', 5],
+            ['Feature 5', 'Deduction of Zakat and Withholding tax applicable as per law', 6],
         ]);
 
         // PLS Term Deposit
@@ -524,7 +557,11 @@ class ProductSchemeAttributeSeeder extends Seeder
 
         $this->createAttributes($scheme->id, [
             ['Eligibility', 'Individuals, Business People, Business Entities (Sole Proprietors, Companies (Public, Private, Listed, non-listed), Partnership Firms (Registered/ Un-Registered), Govt. Departments, Local Bodies and Corporations, Trusts, Clubs, Associations, Societies, NGOs, Public Sector Corporations/ Autonomous Bodies', 1],
-            ['Features', 'Tenure 03 Months to 05 Years.\nZakat applicable as per rules\nProfit payment on maturity.\nCompatible rates of profit.\nUpto 95% quick financing facility available on low markup.', 2],
+            ['Feature 1', 'Tenure 03 Months to 05 Years', 2],
+            ['Feature 2', 'Zakat applicable as per rules', 3],
+            ['Feature 3', 'Profit payment on maturity', 4],
+            ['Feature 4', 'Compatible rates of profit', 5],
+            ['Feature 5', 'Upto 95% quick financing facility available on low markup', 6],
         ]);
     }
 

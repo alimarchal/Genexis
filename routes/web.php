@@ -33,29 +33,15 @@ Route::prefix('about')->name('about.')->group(function () {
 });
 
 Route::prefix('products')->name('products.')->group(function () {
-    Route::get('/deposit-accounts', function () {
-        return inertia('Products/DepositAccounts');
-    })->name('deposit-accounts');
 
-    Route::get('/term-deposit', function () {
-        return inertia('Products/TermDeposit');
-    })->name('term-deposit');
+    Route::get('/deposit-accounts', [PageController::class, 'depositAccounts'])->name('deposit-accounts');
+    Route::get('/term-deposit', [PageController::class, 'termDeposit'])->name('term-deposit');
 
-    Route::get('/consumer-finances', function () {
-        return inertia('Products/ConsumerFinances');
-    })->name('consumer-finances');
+    Route::get('/consumer-finances', [PageController::class, 'consumerFinances'])->name('consumer-finances');
+    Route::get('/commercial-sme-finances', [PageController::class, 'commercialSME'])->name('commercial-sme-finances');
+    Route::get('/agriculture-finances', [PageController::class, 'agriculture'])->name('agriculture-finances');
+    Route::get('/micro-finances', [PageController::class, 'microFinance'])->name('micro-finances');
 
-    Route::get('/commercial-sme-finances', function () {
-        return inertia('Products/CommercialSmeFinances');
-    })->name('commercial-sme-finances');
-
-    Route::get('/agriculture-finances', function () {
-        return inertia('Products/AgricultureFinances');
-    })->name('agriculture-finances');
-
-    Route::get('/micro-finances', function () {
-        return inertia('Products/MicroFinances');
-    })->name('micro-finances');
 });
 
 Route::prefix('services')->name('services.')->group(function () {

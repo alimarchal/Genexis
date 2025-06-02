@@ -2,65 +2,110 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreProductRequest;
-use App\Http\Requests\UpdateProductRequest;
-use App\Models\Product;
+use App\Models\ProductTypeAccount;
+use Inertia\Inertia;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function depositAccounts()
     {
-        //
+        $depositAccount = ProductTypeAccount::where('name', 'Deposit Accounts')->first();
+
+        $schemes = $depositAccount->productSchemes()
+            ->with(['attributes' => function ($query) {
+                $query->where('is_active', true)
+                    ->orderBy('sort_order');
+            }])
+            ->where('is_active', true)
+            ->get();
+
+        return Inertia::render('DepositAccounts', [
+            'schemes' => $schemes,
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function termDeposit()
     {
-        //
+        $termDeposit = ProductTypeAccount::where('name', 'Term Deposit')->first();
+
+        $schemes = $termDeposit->productSchemes()
+            ->with(['attributes' => function ($query) {
+                $query->where('is_active', true)
+                    ->orderBy('sort_order');
+            }])
+            ->where('is_active', true)
+            ->get();
+
+        return Inertia::render('TermDeposit', [
+            'schemes' => $schemes,
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreProductRequest $request)
+    public function consumerFinances()
     {
-        //
+        $consumerFinance = ProductTypeAccount::where('name', 'Consumer Finances')->first();
+
+        $schemes = $consumerFinance->productSchemes()
+            ->with(['attributes' => function ($query) {
+                $query->where('is_active', true)
+                    ->orderBy('sort_order');
+            }])
+            ->where('is_active', true)
+            ->get();
+
+        return Inertia::render('ConsumerFinances', [
+            'schemes' => $schemes,
+        ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Product $product)
+    public function commercialSME()
     {
-        //
+        $commercialSME = ProductTypeAccount::where('name', 'Commercial / SME Finances')->first();
+
+        $schemes = $commercialSME->productSchemes()
+            ->with(['attributes' => function ($query) {
+                $query->where('is_active', true)
+                    ->orderBy('sort_order');
+            }])
+            ->where('is_active', true)
+            ->get();
+
+        return Inertia::render('CommercialSME', [
+            'schemes' => $schemes,
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Product $product)
+    public function agriculture()
     {
-        //
+        $agriculture = ProductTypeAccount::where('name', 'Agriculture Finances')->first();
+
+        $schemes = $agriculture->productSchemes()
+            ->with(['attributes' => function ($query) {
+                $query->where('is_active', true)
+                    ->orderBy('sort_order');
+            }])
+            ->where('is_active', true)
+            ->get();
+
+        return Inertia::render('Agriculture', [
+            'schemes' => $schemes,
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateProductRequest $request, Product $product)
+    public function microFinance()
     {
-        //
-    }
+        $microFinance = ProductTypeAccount::where('name', 'Micro Finances')->first();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Product $product)
-    {
-        //
+        $schemes = $microFinance->productSchemes()
+            ->with(['attributes' => function ($query) {
+                $query->where('is_active', true)
+                    ->orderBy('sort_order');
+            }])
+            ->where('is_active', true)
+            ->get();
+
+        return Inertia::render('MicroFinance', [
+            'schemes' => $schemes,
+        ]);
     }
 }

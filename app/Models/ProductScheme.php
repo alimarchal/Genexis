@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductScheme extends Model
 {
-    /** @use HasFactory<\Database\Factories\ProductSchemeFactory> */
     use HasFactory;
 
     protected $fillable = [
