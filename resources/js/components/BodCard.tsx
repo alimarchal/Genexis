@@ -35,15 +35,11 @@ const BodCard: React.FC<BodCardProps> = ({ boardMember }) => {
         is_chairman
     } = boardMember;
 
-    // Create display name with title
     const displayName = title ? `${title} ${full_name}` : full_name;
-
-    // Default image if none provided
     const displayImage = image
         ? `/storage/${image}`
         : "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&crop=face";
 
-    // Function to truncate text
     const truncateText = (text: string, limit: number) => {
         return text && text.length > limit ? text.substring(0, limit) + '...' : text;
     };
@@ -66,7 +62,6 @@ const BodCard: React.FC<BodCardProps> = ({ boardMember }) => {
                     `}
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
-                    onClick={() => setOpenModal(true)}
                 >
                     {/* Chairman Badge */}
                     {is_chairman && (
@@ -133,6 +128,7 @@ const BodCard: React.FC<BodCardProps> = ({ boardMember }) => {
                                 transform transition-all duration-300
                                 hover:text-[#F9B912]
                                 text-center
+                                min-h-[60px] flex items-center justify-center
                             ">
                                 {displayName}
                             </h3>
@@ -143,6 +139,7 @@ const BodCard: React.FC<BodCardProps> = ({ boardMember }) => {
                                     text-sm sm:text-base font-semibold 
                                     text-gray-600
                                     transform transition-all duration-300
+                                    min-h-[50px] flex items-center justify-center
                                 ">
                                     {designation}
                                 </p>
@@ -172,23 +169,16 @@ const BodCard: React.FC<BodCardProps> = ({ boardMember }) => {
                                         <span>Click to view full profile and achievements.</span>
                                     )}
                                 </div>
-
-                                <button
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        setOpenModal(true);
-                                    }}
-                                    className="mt-2 text-[#4A7C59] hover:text-[#F9B912] font-medium text-sm transition-colors underline"
-                                >
-                                    View full profile
-                                </button>
                             </div>
 
-                            {/* Click to learn more hint */}
+                            {/* View Profile Button */}
                             <div className="mt-4 pt-2 border-t border-gray-100 text-center">
-                                <p className="text-xs text-[#4A7C59] font-medium opacity-70 hover:opacity-100 transition-opacity">
-                                    Click to learn more →
-                                </p>
+                                <button
+                                    onClick={() => setOpenModal(true)}
+                                    className="text-xs text-[#4A7C59] font-medium opacity-70 hover:opacity-100 transition-all hover:text-[#F9B912]"
+                                >
+                                    View Profile →
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -206,7 +196,7 @@ const BodCard: React.FC<BodCardProps> = ({ boardMember }) => {
 
             {/* Modal */}
             {openModal && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center">
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
                     {/* Backdrop */}
                     <div
                         className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm"
@@ -214,7 +204,7 @@ const BodCard: React.FC<BodCardProps> = ({ boardMember }) => {
                     />
 
                     {/* Modal Content */}
-                    <div className="relative bg-white rounded-2xl shadow-2xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-hidden">
+                    <div className="relative bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden z-10">
                         {/* Modal Header */}
                         <div className="bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A] px-6 py-4 relative">
                             <div className="flex items-center space-x-4">

@@ -208,12 +208,16 @@ class BoardOfDirectorSeeder extends Seeder
         ];
 
         foreach ($boardMembers as $member) {
-            BoardOfDirector::create([
-                ...array_merge($member, [
-                    'experience' => json_encode($member['experience']),
-                    'achievements' => json_encode($member['achievements']),
-                ]),
-            ]);
+            BoardOfDirector::create($member);
         }
+
+        // foreach ($boardMembers as $member) {
+        //     BoardOfDirector::create([
+        //         ...array_merge($member, [
+        //             'experience' => json_encode($member['experience']),
+        //             'achievements' => json_encode($member['achievements']),
+        //         ]),
+        //     ]);
+        // }
     }
 }
