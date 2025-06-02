@@ -1,3 +1,4 @@
+import BankingAccountComponent from '@/components/BankingAccountComponet';
 import WebsiteLayout from '@/layouts/WebsiteLayout';
 
 export default function HomePage() {
@@ -11,6 +12,11 @@ export default function HomePage() {
                 designed to meet your financial needs. From personal banking to commercial
                 solutions, we're here to serve you.
             </p>
+
+
+            <BankingAccountComponent />
+
+
         </div>
     );
 }
