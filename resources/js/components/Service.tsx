@@ -153,8 +153,8 @@ const ServicesPage = () => {
                                     key={service.id}
                                     onClick={() => setActiveServiceIndex(index)}
                                     className={`flex items-center gap-2 px-4 py-3 bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 border flex-shrink-0 ${activeServiceIndex === index
-                                        ? 'border-[#4A7C59] shadow-lg scale-105'
-                                        : 'border-gray-200 hover:border-[#4A7C59]/30'
+                                            ? 'border-[#4A7C59] shadow-lg scale-105'
+                                            : 'border-gray-200 hover:border-[#4A7C59]/30'
                                         }`}
                                 >
                                     <span className="text-lg">{getIconEmoji(service.name)}</span>
@@ -263,9 +263,7 @@ const ServicesPage = () => {
                         </div>
                     </div>
 
-                    {/* Corner Accents */}
-                    <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-[#F9B912]/30 via-[#F9B912]/10 to-transparent rounded-full transform translate-x-8 -translate-y-8 transition-all duration-500 hover:opacity-60 hover:scale-125" />
-                    <div className="absolute bottom-0 left-0 w-16 h-16 bg-gradient-to-tr from-[#4A7C59]/20 via-[#4A7C59]/5 to-transparent rounded-full transform -translate-x-6 translate-y-6 transition-all duration-500 hover:opacity-60 hover:scale-125" />
+
                 </div>
             </div>
         </div>

@@ -53,9 +53,9 @@ export default function WebsiteLayout({ children, title, breadcrumbs = [] }: Web
             )}
 
             {/* Main Content */}
-            <main className="min-h-screen">
+            <div className="min-h-screen">
                 {children}
-            </main>
+            </div>
 
             {/* Footer */}
             <Footer />
