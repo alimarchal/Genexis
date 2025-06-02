@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             ProductTypeAccountSeeder::class,
             ProductSchemeAttributeSeeder::class,
             ServiceSeeder::class,
+            BoardOfDirectorSeeder::class,
         ]);
 
         // \App\Models\User::factory()->create([

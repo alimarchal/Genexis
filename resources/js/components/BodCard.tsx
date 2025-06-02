@@ -1,76 +1,82 @@
 import React, { useState } from 'react';
 
-interface BodCardProps {
-    name?: string;
-    title?: string;
-    image?: string;
-    description?: string;
-    fullBio?: string;
-    experience?: string[];
-    achievements?: string[];
+interface BoardOfDirector {
+    id: number;
+    title: string | null;
+    full_name: string;
+    designation: string;
+    short_description: string | null;
+    full_biography: string | null;
+    experience: string[] | null;
+    achievements: string[] | null;
+    image: string | null;
+    sort_order: number;
+    is_active: boolean;
+    is_chairman: boolean;
 }
 
-const BodCard: React.FC<BodCardProps> = ({
-    name = "Mr. Shahid Shehzad Mir",
-    title = "Acting President/CEO & CFO",
-    image = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&crop=face",
-    description = `Mr. Shahid Shehzad Mir is a seasoned banking professional with an illustrious career spanning several key leadership roles within the financial sector. Currently serving as the Executive Vice President and Chief Financial Officer (CFO) of The Bank of Azad Jammu & Kashmir, he brings a wealth of expertise in financial management, strategic leadership, and executive decision-making.<br/><br/>
-    Mr. Shahid Shehzad Mir commenced his journey with the Bank of Azad Jammu & Kashmir in 2006, initially joining as an OG-II. Through his unwavering commitment and diligent efforts, he progressively earned promotions within the organization. In 2014, in recognition of his hard work and dedication, Mr. Mir achieved the esteemed position of Divisional Head of the Financial Control Division and Treasury. Prior to joining Bank of AJK, he remained associated with Sehgal Group of Industries, Pakistan's one of the most reputed Business Group as Manager Finance.<br/><br/>
-    He has been looking after the Financial Control and Treasury Management of the Bank, playing a pivotal role in shaping and executing the bank's financial strategies. In addition to his core financial responsibilities, he holds significant leadership roles within the Bank. As Head of Finance & Treasury at the Head Office, he demonstrated exceptional financial acumen. His role extended to treasury functions, where he effectively managed day-to-day operations, investments in various financial instruments, and ensured robust and fund management. His meticulous approach to financial governance is evident from the Profitability of the Bank, which has been sky rocketed through viable investments.<br/><br/>
-    Mr. Shahid Shehzad Mir beings with him ample knowledge and experience of Commercial and Retail Banking, and in his previous role in the field of Business, he provided inspirational leadership ensuring the successful delivery of business plans.<br/><br/>
-    His academic journey reflects a commitment to continuous learning and professional development. Holding a Master's degree in Economics, and MBA in Finance, he has also earned diplomas and certifications in Islamic Banking and Finance and certified Islamic Fund Manager, further enhancing his expertise in this specialized domain.<br/><br/>
-    Recently assuming the charge of Acting President/CEO, Mr. Shahid Shehzad Mir brings a visionary approach to his leadership. Known for his strategic thinking and commitment to excellence, he is poised to steer The Bank of Azad Jammu & Kashmir towards new heights. His extensive experience, coupled with a comprehensive understanding of financial dynamics, positions him as a dynamic and capable leader ready to navigate the bank through evolving challenges and opportunities.<br/><br/>
-    Mr. Shahid Shehzad Mir's leadership philosophy revolves around fostering a culture of innovation, collaboration, and customer-centricity. As Acting President/CEO, he is dedicated to upholding the bank's legacy of trust, transparency, and service excellence, ensuring the continued success and growth of The Bank of Azad Jammu & Kashmir`,
-    fullBio = `Mr. Shahid Shehzad Mir is a seasoned banking professional with an illustrious career spanning several key leadership roles within the financial sector. Currently serving as the Executive Vice President and Chief Financial Officer (CFO) of The Bank of Azad Jammu & Kashmir, he brings a wealth of expertise in financial management, strategic leadership, and executive decision-making.<br/><br/>
-    Mr. Shahid Shehzad Mir commenced his journey with the Bank of Azad Jammu & Kashmir in 2006, initially joining as an OG-II. Through his unwavering commitment and diligent efforts, he progressively earned promotions within the organization. In 2014, in recognition of his hard work and dedication, Mr. Mir achieved the esteemed position of Divisional Head of the Financial Control Division and Treasury. Prior to joining Bank of AJK, he remained associated with Sehgal Group of Industries, Pakistan's one of the most reputed Business Group as Manager Finance.<br/><br/>
-    He has been looking after the Financial Control and Treasury Management of the Bank, playing a pivotal role in shaping and executing the bank's financial strategies. In addition to his core financial responsibilities, he holds significant leadership roles within the Bank. As Head of Finance & Treasury at the Head Office, he demonstrated exceptional financial acumen. His role extended to treasury functions, where he effectively managed day-to-day operations, investments in various financial instruments, and ensured robust and fund management. His meticulous approach to financial governance is evident from the Profitability of the Bank, which has been sky rocketed through viable investments.<br/><br/>
-    Mr. Shahid Shehzad Mir beings with him ample knowledge and experience of Commercial and Retail Banking, and in his previous role in the field of Business, he provided inspirational leadership ensuring the successful delivery of business plans.<br/><br/>
-    His academic journey reflects a commitment to continuous learning and professional development. Holding a Master's degree in Economics, and MBA in Finance, he has also earned diplomas and certifications in Islamic Banking and Finance and certified Islamic Fund Manager, further enhancing his expertise in this specialized domain.<br/><br/>
-    Recently assuming the charge of Acting President/CEO, Mr. Shahid Shehzad Mir brings a visionary approach to his leadership. Known for his strategic thinking and commitment to excellence, he is poised to steer The Bank of Azad Jammu & Kashmir towards new heights. His extensive experience, coupled with a comprehensive understanding of financial dynamics, positions him as a dynamic and capable leader ready to navigate the bank through evolving challenges and opportunities.<br/><br/>
-    Mr. Shahid Shehzad Mir's leadership philosophy revolves around fostering a culture of innovation, collaboration, and customer-centricity. As Acting President/CEO, he is dedicated to upholding the bank's legacy of trust, transparency, and service excellence, ensuring the continued success and growth of The Bank of Azad Jammu & Kashmir`,
-    experience = [
-        "Executive Vice President and CFO at Bank of Azad Jammu & Kashmir",
-        "Divisional Head of Financial Control Division and Treasury (2014)",
-        "Manager Finance at Sehgal Group of Industries",
-        "Progressive career growth from OG-II since 2006"
-    ],
-    achievements = [
-        "Recently appointed as Acting President/CEO",
-        "Significantly increased bank profitability through strategic investments",
-        "Successfully managed treasury operations and fund management",
-        "Master's degree in Economics and MBA in Finance",
-        "Certified Islamic Fund Manager and Islamic Banking specialist"
-    ]
-}) => {
+interface BodCardProps {
+    boardMember: BoardOfDirector;
+}
+
+const BodCard: React.FC<BodCardProps> = ({ boardMember }) => {
     const [isHovered, setIsHovered] = useState(false);
     const [openModal, setOpenModal] = useState(false);
-    // Function to truncate HTML content
-    const truncateHtmlText = (html: string, limit: number) => {
-        const div = document.createElement('div');
-        div.innerHTML = html;
-        const text = div.textContent || div.innerText || '';
-        return text.length > limit ? text.substring(0, limit) : text;
+
+    const {
+        title,
+        full_name,
+        designation,
+        short_description,
+        full_biography,
+        experience = [],
+        achievements = [],
+        image,
+        is_chairman
+    } = boardMember;
+
+    // Create display name with title
+    const displayName = title ? `${title} ${full_name}` : full_name;
+
+    // Default image if none provided
+    const displayImage = image
+        ? `/storage/${image}`
+        : "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&crop=face";
+
+    // Function to truncate text
+    const truncateText = (text: string, limit: number) => {
+        return text && text.length > limit ? text.substring(0, limit) + '...' : text;
     };
 
-    const shouldTruncate = description.replace(/<[^>]*>/g, '').length > 200;
-    const truncatedText = shouldTruncate ? truncateHtmlText(description, 200) : description;
+    const shouldTruncate = short_description && short_description.length > 150;
+    const truncatedDescription = shouldTruncate ? truncateText(short_description, 150) : short_description;
 
     return (
         <>
             <div className="w-full max-w-sm mx-auto">
                 <div
-                    className="
+                    className={`
                         relative bg-white rounded-xl overflow-hidden
                         shadow-lg hover:shadow-2xl
                         transform transition-all duration-500 ease-in-out
                         hover:-translate-y-2 hover:scale-105
                         border border-gray-100
                         cursor-pointer
-                    "
+                        ${is_chairman ? 'ring-2 ring-[#F9B912] ring-opacity-50' : ''}
+                    `}
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
                     onClick={() => setOpenModal(true)}
                 >
+                    {/* Chairman Badge */}
+                    {is_chairman && (
+                        <div className="absolute top-3 left-3 z-10">
+                            <span className="bg-[#F9B912] text-white text-xs font-bold px-2 py-1 rounded-full shadow-md">
+                                Chairman
+                            </span>
+                        </div>
+                    )}
+
                     {/* Image Container */}
                     <div className="relative overflow-hidden">
                         <div
@@ -87,8 +93,8 @@ const BodCard: React.FC<BodCardProps> = ({
                             }}
                         >
                             <img
-                                src={image}
-                                alt={name}
+                                src={displayImage}
+                                alt={displayName}
                                 className="
                                     w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48
                                     rounded-full object-cover
@@ -128,17 +134,17 @@ const BodCard: React.FC<BodCardProps> = ({
                                 hover:text-[#F9B912]
                                 text-center
                             ">
-                                {name}
+                                {displayName}
                             </h3>
 
-                            {/* Title */}
+                            {/* Designation */}
                             <div className="relative text-center">
                                 <p className="
                                     text-sm sm:text-base font-semibold 
                                     text-gray-600
                                     transform transition-all duration-300
                                 ">
-                                    {title}
+                                    {designation}
                                 </p>
                                 <div
                                     className={`
@@ -156,25 +162,26 @@ const BodCard: React.FC<BodCardProps> = ({
                                     text-sm text-gray-500 leading-relaxed
                                     transform transition-all duration-300
                                     hover:text-gray-700
+                                    min-h-[100px] flex items-start
                                 ">
-                                    {shouldTruncate ? (
-                                        <span>{truncatedText}...</span>
+                                    {short_description && shouldTruncate ? (
+                                        <span>{truncatedDescription}</span>
+                                    ) : short_description ? (
+                                        <span>{short_description}</span>
                                     ) : (
-                                        <div dangerouslySetInnerHTML={{ __html: description }} />
+                                        <span>Click to view full profile and achievements.</span>
                                     )}
                                 </div>
 
-                                {shouldTruncate && (
-                                    <button
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            setOpenModal(true);
-                                        }}
-                                        className="mt-2 text-[#4A7C59] hover:text-[#F9B912] font-medium text-sm transition-colors underline"
-                                    >
-                                        Read more
-                                    </button>
-                                )}
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setOpenModal(true);
+                                    }}
+                                    className="mt-2 text-[#4A7C59] hover:text-[#F9B912] font-medium text-sm transition-colors underline"
+                                >
+                                    View full profile
+                                </button>
                             </div>
 
                             {/* Click to learn more hint */}
@@ -207,18 +214,25 @@ const BodCard: React.FC<BodCardProps> = ({
                     />
 
                     {/* Modal Content */}
-                    <div className="relative bg-white rounded-2xl shadow-2xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-hidden">
+                    <div className="relative bg-white rounded-2xl shadow-2xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-hidden">
                         {/* Modal Header */}
                         <div className="bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A] px-6 py-4 relative">
                             <div className="flex items-center space-x-4">
                                 <img
-                                    src={image}
-                                    alt={name}
+                                    src={displayImage}
+                                    alt={displayName}
                                     className="w-16 h-16 rounded-full object-cover border-3 border-white shadow-lg"
                                 />
                                 <div className="text-white">
-                                    <h2 className="text-2xl font-bold">{name}</h2>
-                                    <p className="text-[#F9B912] font-semibold">{title}</p>
+                                    <div className="flex items-center gap-2">
+                                        <h2 className="text-2xl font-bold">{displayName}</h2>
+                                        {is_chairman && (
+                                            <span className="bg-[#F9B912] text-white text-xs font-bold px-2 py-1 rounded-full">
+                                                Chairman
+                                            </span>
+                                        )}
+                                    </div>
+                                    <p className="text-[#F9B912] font-semibold">{designation}</p>
                                 </div>
                             </div>
 
@@ -237,39 +251,44 @@ const BodCard: React.FC<BodCardProps> = ({
                         <div className="p-6 overflow-y-auto max-h-[60vh]">
                             <div className="space-y-6">
                                 {/* Biography */}
-                                <div>
-                                    <h3 className="text-lg font-semibold text-[#4A7C59] mb-3">Biography</h3>
-                                    <div
-                                        className="text-gray-600 leading-relaxed"
-                                        dangerouslySetInnerHTML={{ __html: fullBio }}
-                                    />
-                                </div>
+                                {full_biography && (
+                                    <div>
+                                        <h3 className="text-lg font-semibold text-[#4A7C59] mb-3">Biography</h3>
+                                        <div className="text-gray-600 leading-relaxed whitespace-pre-line">
+                                            {full_biography}
+                                        </div>
+                                    </div>
+                                )}
 
                                 {/* Experience */}
-                                <div>
-                                    <h3 className="text-lg font-semibold text-[#4A7C59] mb-3">Key Experience</h3>
-                                    <ul className="space-y-2">
-                                        {experience.map((item, index) => (
-                                            <li key={index} className="flex items-start space-x-3">
-                                                <div className="w-2 h-2 bg-[#F9B912] rounded-full mt-2 flex-shrink-0"></div>
-                                                <span className="text-gray-600">{item}</span>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
+                                {experience && experience.length > 0 && (
+                                    <div>
+                                        <h3 className="text-lg font-semibold text-[#4A7C59] mb-3">Key Experience</h3>
+                                        <ul className="space-y-2">
+                                            {experience.map((item, index) => (
+                                                <li key={index} className="flex items-start space-x-3">
+                                                    <div className="w-2 h-2 bg-[#F9B912] rounded-full mt-2 flex-shrink-0"></div>
+                                                    <span className="text-gray-600">{item}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )}
 
                                 {/* Achievements */}
-                                <div>
-                                    <h3 className="text-lg font-semibold text-[#4A7C59] mb-3">Notable Achievements</h3>
-                                    <ul className="space-y-2">
-                                        {achievements.map((item, index) => (
-                                            <li key={index} className="flex items-start space-x-3">
-                                                <div className="w-2 h-2 bg-[#4A7C59] rounded-full mt-2 flex-shrink-0"></div>
-                                                <span className="text-gray-600">{item}</span>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
+                                {achievements && achievements.length > 0 && (
+                                    <div>
+                                        <h3 className="text-lg font-semibold text-[#4A7C59] mb-3">Notable Achievements</h3>
+                                        <ul className="space-y-2">
+                                            {achievements.map((item, index) => (
+                                                <li key={index} className="flex items-start space-x-3">
+                                                    <div className="w-2 h-2 bg-[#4A7C59] rounded-full mt-2 flex-shrink-0"></div>
+                                                    <span className="text-gray-600">{item}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )}
                             </div>
                         </div>
 

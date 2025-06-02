@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePageRequest;
 use App\Http\Requests\UpdatePageRequest;
+use App\Models\BoardOfDirector;
 use App\Models\Managment;
 use App\Models\Page;
 use App\Models\ProductTypeAccount;
@@ -23,10 +24,13 @@ class PageController extends Controller
 
     public function boardOfDirectors()
     {
-        $managment = Managment::where('status', 'active')->get();
 
-        return Inertia::render('WebsitePages/board-of-directors', [
-            'managment' => $managment,
+        $boardOfDirectors = BoardOfDirector::active()
+            ->ordered()
+            ->get();
+
+        return Inertia::render('About/BoardOfDirectors', [
+            'boardOfDirectors' => $boardOfDirectors,
         ]);
     }
 
