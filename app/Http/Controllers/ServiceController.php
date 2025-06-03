@@ -27,4 +27,44 @@ class ServiceController extends Controller
             'service' => $service,
         ]);
     }
+
+    public function lockersFacility()
+    {
+        $service = Service::where('slug', 'lockers-facility')->firstOrFail();
+        $service->load('attributes');
+
+        return Inertia::render('Services/Show', [
+            'service' => $service,
+        ]);
+    }
+
+    public function utilityBillsCollection()
+    {
+        $service = Service::where('slug', 'utility-bills-collection')->firstOrFail();
+        $service->load('attributes');
+
+        return Inertia::render('Services/Show', [
+            'service' => $service,
+        ]);
+    }
+
+    public function servicesForAjkPsc()
+    {
+        $service = Service::where('slug', 'services-for-ajk-psc')->firstOrFail();
+        $service->load('attributes');
+
+        return Inertia::render('Services/Show', [
+            'service' => $service,
+        ]);
+    }
+
+    public function homeRemittance()
+    {
+        $service = Service::where('slug', 'home-remittance')->firstOrFail();
+        $service->load('attributes');
+
+        return Inertia::render('Services/Show', [
+            'service' => $service,
+        ]);
+    }
 }

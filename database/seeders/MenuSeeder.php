@@ -123,6 +123,24 @@ class MenuSeeder extends Seeder
                         'route_name' => 'services.home-remittance',
                         'sort_order' => 2,
                     ],
+                    [
+                        'title' => 'Lockers Facility',
+                        'slug' => 'lockers-facility',
+                        'route_name' => 'services.lockers-facility',
+                        'sort_order' => 3,
+                    ],
+                    [
+                        'title' => 'Utility Bills Collection',
+                        'slug' => 'utility-bills-collection',
+                        'route_name' => 'services.utility-bills-collection',
+                        'sort_order' => 4,
+                    ],
+                    [
+                        'title' => 'Services for AJK PSC',
+                        'slug' => 'services-for-ajk-psc',
+                        'route_name' => 'services.services-for-ajk-psc',
+                        'sort_order' => 5,
+                    ],
                 ],
             ],
             [

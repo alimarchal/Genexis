@@ -38,7 +38,11 @@ Route::prefix('products')->name('products.')->group(function () {
 Route::prefix('services')->name('services.')->group(function () {
 
     Route::get('/all-services', [ServiceController::class, 'index'])->name('index');
-    Route::get('/{service}', [ServiceController::class, 'show'])->name('home-remittance');
+    Route::get('/lockers-facility', [ServiceController::class, 'lockersFacility'])->name('lockers-facility');
+    Route::get('/utility-bills-collection', [ServiceController::class, 'utilityBillsCollection'])->name('utility-bills-collection');
+    Route::get('/services-for-ajk-psc', [ServiceController::class, 'servicesForAjkPsc'])->name('services-for-ajk-psc');
+    Route::get('/home-remittance', [ServiceController::class, 'homeRemittance'])->name('home-remittance');
+    // Route::get('/{service}', [ServiceController::class, 'show'])->name('home-remittance');
 });
 
 Route::prefix('financials')->name('financials.')->group(function () {
