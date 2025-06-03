@@ -149,7 +149,7 @@ const ServiceShow = ({ service }: ServiceShowProps) => {
                 {/* Back to Services Button */}
                 <div className="mt-8 text-center">
                     <a
-                        href="{route('services.index')}"
+                        href={route('services.index')}
                         className="inline-flex items-center rounded-lg bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A] px-6 py-3 font-medium text-white transition-all duration-300 hover:scale-105 hover:shadow-lg"
                     >
                         <svg className="mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
