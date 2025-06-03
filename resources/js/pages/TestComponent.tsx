@@ -1,12 +1,6 @@
 import WebsiteLayout from '@/layouts/WebsiteLayout';
 
-// Define your page props interface
-interface TestComponentProps {
-    // Add your props here
-    data?: any;
-}
-
-export default function TestComponent({ data }: TestComponentProps) {
+export default function TestComponent() {
     return (
         <div className="mx-auto max-w-7xl px-6 py-8">
             {/* Page Header Section */}
@@ -85,7 +79,7 @@ export default function TestComponent({ data }: TestComponentProps) {
 }
 
 // Set the persistent layout and page props
-TestComponent.layout = (page: any) => (
+TestComponent.layout = (page: React.ReactNode) => (
     <WebsiteLayout
         title="Test Component"
         breadcrumbs={[

@@ -75,7 +75,7 @@ export default function MenuIndex({ menus, filters }: Props) {
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
-        const params: any = {};
+        const params: Record<string, unknown> = {};
 
         if (searchTerm) {
             params['filter[title]'] = searchTerm;

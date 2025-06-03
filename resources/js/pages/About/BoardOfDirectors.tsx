@@ -73,4 +73,4 @@ export default function BoardOfDirectors() {
     );
 }
 
-BoardOfDirectors.layout = (page: any) => <WebsiteLayout title="About Us - Board of Directors">{page}</WebsiteLayout>;
+BoardOfDirectors.layout = (page: React.ReactNode) => <WebsiteLayout title="About Us - Board of Directors">{page}</WebsiteLayout>;

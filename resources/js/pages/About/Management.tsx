@@ -44,4 +44,4 @@ export default function ManagementPage() {
     );
 }
 
-ManagementPage.layout = (page: any) => <WebsiteLayout title="Management Team">{page}</WebsiteLayout>;
+ManagementPage.layout = (page: React.ReactNode) => <WebsiteLayout title="Management Team">{page}</WebsiteLayout>;

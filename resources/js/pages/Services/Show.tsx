@@ -1,6 +1,5 @@
 import WebsiteLayout from '@/layouts/WebsiteLayout';
 import { Shield } from 'lucide-react';
-import { useState } from 'react';
 
 interface ServiceAttribute {
     id: number;
@@ -26,8 +25,6 @@ interface ServiceShowProps {
 }
 
 const ServiceShow = ({ service }: ServiceShowProps) => {
-    const [isHovered, setIsHovered] = useState(false);
-
     const getAttributeValue = (attributeName: string): string => {
         const attr = service.attributes.find((a) => a.attribute_name.toLowerCase() === attributeName.toLowerCase());
         return attr?.attribute_value || '';
@@ -49,11 +46,6 @@ const ServiceShow = ({ service }: ServiceShowProps) => {
     const features = getFeatures();
     const specialAttributes = getSpecialAttributes();
 
-    const breadcrumbs = [
-        { label: 'Services', href: '/services' },
-        { label: service.name, isActive: true },
-    ];
-
     return (
         <div className="min-h-screen bg-gradient-to-br from-[#e9f7ef] to-[#fff7e6]">
             <div className="mx-auto max-w-7xl px-6 py-8">
@@ -69,19 +61,10 @@ const ServiceShow = ({ service }: ServiceShowProps) => {
                 </div>
 
                 {/* Service Details */}
-                <div
-                    className="relative transform overflow-hidden rounded-xl border border-gray-100 bg-white shadow-xl transition-all duration-500 hover:shadow-2xl"
-                    onMouseEnter={() => setIsHovered(true)}
-                    onMouseLeave={() => setIsHovered(false)}
-                >
+                <div className="relative transform overflow-hidden rounded-xl border border-gray-100 bg-white shadow-xl transition-all duration-500 hover:shadow-2xl">
                     {/* Header with Image */}
                     <div className="relative">
                         <div className="relative overflow-hidden bg-gradient-to-r from-[#4A7C59] via-[#5D8A6A] to-[#6B9B7A] px-8 py-6">
-                            <div
-                                className={`absolute inset-0 bg-gradient-to-t from-[#F9B912]/10 via-transparent to-transparent transition-opacity duration-500 ${
-                                    isHovered ? 'opacity-100' : 'opacity-0'
-                                }`}
-                            />
                             <div className="relative z-10 flex items-center gap-6">
                                 <div className="text-4xl text-white">{service.icon}</div>
                                 <div>
@@ -180,14 +163,8 @@ const ServiceShow = ({ service }: ServiceShowProps) => {
     );
 };
 
-ServiceShow.layout = (page: any) => (
-    <WebsiteLayout
-        title={`${page.props.service.name} - Services`}
-        breadcrumbs={[
-            { label: 'Services', href: '/services' },
-            { label: page.props.service.name, isActive: true },
-        ]}
-    >
+ServiceShow.layout = (page: React.ReactNode) => (
+    <WebsiteLayout title="Service Details" breadcrumbs={[{ label: 'Services', href: '/services' }]}>
         {page}
     </WebsiteLayout>
 );

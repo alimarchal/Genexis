@@ -44,4 +44,4 @@ export default function DepositAccountsPage({ schemes }: Props) {
     );
 }
 
-DepositAccountsPage.layout = (page: any) => <WebsiteLayout title="Deposit Accounts">{page}</WebsiteLayout>;
+DepositAccountsPage.layout = (page: React.ReactNode) => <WebsiteLayout title="Deposit Accounts">{page}</WebsiteLayout>;

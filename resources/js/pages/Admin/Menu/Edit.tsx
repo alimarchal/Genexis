@@ -19,7 +19,7 @@ interface MenuItem {
     slug: string;
     url: string | null;
     route_name: string | null;
-    route_params: any;
+    route_params: Record<string, unknown>;
     target: '_self' | '_blank';
     icon: string | null;
     parent_id: number | null;
@@ -71,7 +71,7 @@ export default function EditMenu({ menu, parentMenus }: Props) {
         },
     ];
 
-    const { data, setData, post, processing, errors } = useForm<MenuForm>({
+    const { data, setData, processing, errors } = useForm<MenuForm>({
         title: menu.title,
         slug: menu.slug,
         url: menu.url || '',
@@ -98,7 +98,7 @@ export default function EditMenu({ menu, parentMenus }: Props) {
         if (data.route_params.trim()) {
             try {
                 formData.route_params = JSON.parse(data.route_params);
-            } catch (error) {
+            } catch {
                 formData.route_params = null;
             }
         } else {

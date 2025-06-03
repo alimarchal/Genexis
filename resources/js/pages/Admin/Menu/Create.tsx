@@ -79,7 +79,7 @@ export default function CreateMenu({ parentMenus }: Props) {
         if (data.route_params.trim()) {
             try {
                 formData.route_params = JSON.parse(data.route_params);
-            } catch (error) {
+            } catch {
                 formData.route_params = null;
             }
         } else {

@@ -15,7 +15,7 @@ export default function HomePage() {
     );
 }
 
-HomePage.layout = (page: any) => (
+HomePage.layout = (page: React.ReactNode) => (
     <WebsiteLayout title="Home" breadcrumbs={[{ label: 'Home', href: '/', isActive: true }]}>
         {page}
     </WebsiteLayout>

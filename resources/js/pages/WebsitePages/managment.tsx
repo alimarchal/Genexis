@@ -13,7 +13,7 @@ export default function ManagementPage() {
 }
 
 // Notice: No manual breadcrumbs provided - auto breadcrumbs will be used
-ManagementPage.layout = (page: any) => <WebsiteLayout title="Management Team">{page}</WebsiteLayout>;
+ManagementPage.layout = (page: React.ReactNode) => <WebsiteLayout title="Management Team">{page}</WebsiteLayout>;
 
 // Alternative with manual breadcrumbs (this will override auto breadcrumbs):
 /*

@@ -1,6 +1,5 @@
 import LoanSchemesComponent from '@/components/LoanSchemesComponent';
 import WebsiteLayout from '@/layouts/WebsiteLayout';
-import { useState } from 'react';
 
 interface ProductSchemeAttribute {
     id: number;
@@ -21,14 +20,8 @@ interface Props {
 }
 
 export default function CommercialSmeFinances({ schemes }: Props) {
-    const [isHovered, setIsHovered] = useState(false);
-
     return (
-        <div
-            className="min-h-screen bg-gradient-to-br from-[#e9f7ef] to-[#fff7e6]"
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-        >
+        <div className="min-h-screen bg-gradient-to-br from-[#e9f7ef] to-[#fff7e6]">
             <div className="mx-auto max-w-7xl px-6 py-8">
                 {/* Hero Section */}
                 <div className="mb-3 text-center">
@@ -44,4 +37,4 @@ export default function CommercialSmeFinances({ schemes }: Props) {
     );
 }
 
-CommercialSmeFinances.layout = (page: any) => <WebsiteLayout title="Commercial / SME Finances">{page}</WebsiteLayout>;
+CommercialSmeFinances.layout = (page: React.ReactNode) => <WebsiteLayout title="Commercial / SME Finances">{page}</WebsiteLayout>;

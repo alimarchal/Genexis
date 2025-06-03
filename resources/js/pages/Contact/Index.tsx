@@ -283,4 +283,4 @@ export default function ContactPage() {
     );
 }
 
-ContactPage.layout = (page: any) => <WebsiteLayout title="Contact Us">{page}</WebsiteLayout>;
+ContactPage.layout = (page: React.ReactNode) => <WebsiteLayout title="Contact Us">{page}</WebsiteLayout>;

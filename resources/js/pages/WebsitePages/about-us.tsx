@@ -46,7 +46,7 @@ export default function AboutUs({ managment }: AboutUsProps) {
 }
 
 // Set the persistent layout and page props
-AboutUs.layout = (page: any) => (
+AboutUs.layout = (page: React.ReactNode) => (
     <WebsiteLayout
         title="About Us"
         breadcrumbs={[

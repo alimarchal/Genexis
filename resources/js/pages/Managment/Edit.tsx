@@ -55,7 +55,7 @@ export default function EditManagement({ managment }: Props) {
         },
     ];
 
-    const { data, setData, post, processing, errors } = useForm<ManagementForm>({
+    const { data, setData, processing, errors } = useForm<ManagementForm>({
         title: managment.title || 'none',
         full_name: managment.full_name,
         designation: managment.designation,

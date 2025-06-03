@@ -44,4 +44,4 @@ export default function TermDeposit({ schemes }: Props) {
     );
 }
 
-TermDeposit.layout = (page: any) => <WebsiteLayout title="Term Deposit">{page}</WebsiteLayout>;
+TermDeposit.layout = (page: React.ReactNode) => <WebsiteLayout title="Term Deposit">{page}</WebsiteLayout>;
