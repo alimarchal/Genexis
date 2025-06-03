@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope } from 'react-icons/fa';
+import { FaEnvelope, FaMapMarkerAlt, FaPhoneAlt } from 'react-icons/fa';
 
 const ContactInfo: React.FC = () => (
     <div className="space-y-4">
@@ -7,9 +7,11 @@ const ContactInfo: React.FC = () => (
         <ul className="space-y-3 text-sm">
             <li className="flex items-start">
                 <FaMapMarkerAlt className="mt-1 mr-2 text-[#F9B912]" />
-                <address className="not-italic leading-relaxed">
-                    Head Office, Bank Square,<br />
-                    Chattar Domel, Muzaffarabad, 13100<br />
+                <address className="leading-relaxed not-italic">
+                    Head Office, Bank Square,
+                    <br />
+                    Chattar Domel, Muzaffarabad, 13100
+                    <br />
                     Azad Jammu & Kashmir, Pakistan
                 </address>
             </li>
@@ -17,14 +19,7 @@ const ContactInfo: React.FC = () => (
                 <FaPhoneAlt className="mr-2 text-[#F9B912]" />
                 <a
                     href="tel:+925822924244"
-                    className="
-                        relative inline-block
-                        hover:text-[#F9B912]
-                        after:content-[''] after:absolute after:left-0 after:-bottom-0.5
-                        after:h-[2px] after:w-0 after:bg-[#F9B912]
-                        after:transition-all after:duration-300
-                        hover:after:w-full
-                    "
+                    className="relative inline-block after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-0 after:bg-[#F9B912] after:transition-all after:duration-300 after:content-[''] hover:text-[#F9B912] hover:after:w-full"
                 >
                     +92 (5822) 924244
                 </a>
@@ -33,14 +28,7 @@ const ContactInfo: React.FC = () => (
                 <FaEnvelope className="mr-2 text-[#F9B912]" />
                 <a
                     href="mailto:info@bankajk.com"
-                    className="
-                        relative inline-block
-                        hover:text-[#F9B912]
-                        after:content-[''] after:absolute after:left-0 after:-bottom-0.5
-                        after:h-[2px] after:w-0 after:bg-[#F9B912]
-                        after:transition-all after:duration-300
-                        hover:after:w-full
-                    "
+                    className="relative inline-block after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-0 after:bg-[#F9B912] after:transition-all after:duration-300 after:content-[''] hover:text-[#F9B912] hover:after:w-full"
                 >
                     info@bankajk.com
                 </a>
@@ -49,4 +37,4 @@ const ContactInfo: React.FC = () => (
     </div>
 );
 
-export default ContactInfo; 
+export default ContactInfo;

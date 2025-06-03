@@ -1,16 +1,16 @@
-import { type BreadcrumbItem } from '@/types';
-import { Head, useForm, Link, router } from '@inertiajs/react';
-import { FormEventHandler } from 'react';
 import Heading from '@/components/heading';
-import AppLayout from '@/layouts/app-layout';
+import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import InputError from '@/components/input-error';
-import { Card, CardContent } from '@/components/ui/card';
+import { Textarea } from '@/components/ui/textarea';
+import AppLayout from '@/layouts/app-layout';
+import { type BreadcrumbItem } from '@/types';
+import { Head, Link, router, useForm } from '@inertiajs/react';
 import { ArrowLeft, Save } from 'lucide-react';
+import { FormEventHandler } from 'react';
 
 interface Management {
     id: number;
@@ -93,16 +93,13 @@ export default function EditManagement({ managment }: Props) {
                     </Button>
                 </div>
 
-                <Heading
-                    title="Edit Management Member"
-                    description="Update management member details and profile information"
-                />
+                <Heading title="Edit Management Member" description="Update management member details and profile information" />
 
                 <form onSubmit={submit} className="max-w-4xl">
                     <Card>
                         <CardContent className="pt-6">
                             {/* First Row - 4 columns */}
-                            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                            <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-4">
                                 <div>
                                     <Label htmlFor="title">Title</Label>
                                     <Select value={data.title || 'none'} onValueChange={(value) => setData('title', value === 'none' ? '' : value)}>
@@ -159,7 +156,7 @@ export default function EditManagement({ managment }: Props) {
                             </div>
 
                             {/* Second Row - 2 columns */}
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                            <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-2">
                                 <div>
                                     <Label htmlFor="status">Status</Label>
                                     <Select value={data.status} onValueChange={(value: 'active' | 'inactive') => setData('status', value)}>
@@ -183,12 +180,13 @@ export default function EditManagement({ managment }: Props) {
                                         accept=".jpg,.jpeg,.png,.pdf"
                                         className="cursor-pointer"
                                     />
-                                    <p className="text-xs text-muted-foreground mt-1">
-                                        Supported formats: JPG, JPEG, PNG, PDF (Max: 2MB)
-                                    </p>
+                                    <p className="text-muted-foreground mt-1 text-xs">Supported formats: JPG, JPEG, PNG, PDF (Max: 2MB)</p>
                                     {managment.attachment_url && !data.attachment && (
-                                        <p className="text-xs text-blue-600 mt-1">
-                                            Current file: <a href={managment.attachment_url} target="_blank" rel="noopener noreferrer" className="underline">View attachment</a>
+                                        <p className="mt-1 text-xs text-blue-600">
+                                            Current file:{' '}
+                                            <a href={managment.attachment_url} target="_blank" rel="noopener noreferrer" className="underline">
+                                                View attachment
+                                            </a>
                                         </p>
                                     )}
                                     <InputError message={errors.attachment} className="mt-2" />

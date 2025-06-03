@@ -1,6 +1,6 @@
-import { useState } from 'react';
 import WebsiteLayout from '@/layouts/WebsiteLayout';
 import { Shield } from 'lucide-react';
+import { useState } from 'react';
 
 interface ServiceAttribute {
     id: number;
@@ -29,23 +29,19 @@ const ServiceShow = ({ service }: ServiceShowProps) => {
     const [isHovered, setIsHovered] = useState(false);
 
     const getAttributeValue = (attributeName: string): string => {
-        const attr = service.attributes.find(a =>
-            a.attribute_name.toLowerCase() === attributeName.toLowerCase()
-        );
+        const attr = service.attributes.find((a) => a.attribute_name.toLowerCase() === attributeName.toLowerCase());
         return attr?.attribute_value || '';
     };
 
     const getFeatures = (): ServiceAttribute[] => {
         return service.attributes
-            .filter(a => !['eligibility', 'required documents', 'annual charges', 'service charges'].includes(a.attribute_name.toLowerCase()))
+            .filter((a) => !['eligibility', 'required documents', 'annual charges', 'service charges'].includes(a.attribute_name.toLowerCase()))
             .sort((a, b) => a.sort_order - b.sort_order);
     };
 
     const getSpecialAttributes = (): ServiceAttribute[] => {
         return service.attributes
-            .filter(attr =>
-                ['required documents', 'annual charges', 'service charges'].includes(attr.attribute_name.toLowerCase())
-            )
+            .filter((attr) => ['required documents', 'annual charges', 'service charges'].includes(attr.attribute_name.toLowerCase()))
             .sort((a, b) => a.sort_order - b.sort_order);
     };
 
@@ -55,48 +51,45 @@ const ServiceShow = ({ service }: ServiceShowProps) => {
 
     const breadcrumbs = [
         { label: 'Services', href: '/services' },
-        { label: service.name, isActive: true }
+        { label: service.name, isActive: true },
     ];
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-[#e9f7ef] to-[#fff7e6]">
-            <div className="max-w-7xl mx-auto px-6 py-8">
+            <div className="mx-auto max-w-7xl px-6 py-8">
                 {/* Hero Section */}
-                <div className="text-center mb-12">
-                    <div className="flex justify-center mb-6">
-                        <div className="p-4 bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A] rounded-full">
-                            <Shield className="w-12 h-12 text-white" />
+                <div className="mb-12 text-center">
+                    <div className="mb-6 flex justify-center">
+                        <div className="rounded-full bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A] p-4">
+                            <Shield className="h-12 w-12 text-white" />
                         </div>
                     </div>
-                    <h1 className="text-4xl font-bold text-gray-900 mb-4">{service.name}</h1>
-                    <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-                        {service.description}
-                    </p>
+                    <h1 className="mb-4 text-4xl font-bold text-gray-900">{service.name}</h1>
+                    <p className="mx-auto mb-8 max-w-3xl text-xl text-gray-600">{service.description}</p>
                 </div>
 
                 {/* Service Details */}
                 <div
-                    className="bg-white rounded-xl shadow-xl overflow-hidden transform transition-all duration-500 hover:shadow-2xl border border-gray-100 relative"
+                    className="relative transform overflow-hidden rounded-xl border border-gray-100 bg-white shadow-xl transition-all duration-500 hover:shadow-2xl"
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
                 >
                     {/* Header with Image */}
                     <div className="relative">
-                        <div className="bg-gradient-to-r from-[#4A7C59] via-[#5D8A6A] to-[#6B9B7A] px-8 py-6 relative overflow-hidden">
+                        <div className="relative overflow-hidden bg-gradient-to-r from-[#4A7C59] via-[#5D8A6A] to-[#6B9B7A] px-8 py-6">
                             <div
-                                className={`absolute inset-0 bg-gradient-to-t from-[#F9B912]/10 via-transparent to-transparent transition-opacity duration-500 ${isHovered ? 'opacity-100' : 'opacity-0'
-                                    }`}
+                                className={`absolute inset-0 bg-gradient-to-t from-[#F9B912]/10 via-transparent to-transparent transition-opacity duration-500 ${
+                                    isHovered ? 'opacity-100' : 'opacity-0'
+                                }`}
                             />
-                            <div className="flex items-center gap-6 relative z-10">
-                                <div className="text-white text-4xl">
-                                    {service.icon}
-                                </div>
+                            <div className="relative z-10 flex items-center gap-6">
+                                <div className="text-4xl text-white">{service.icon}</div>
                                 <div>
                                     <h1 className="text-3xl font-bold text-white">{service.name}</h1>
-                                    <p className="text-white/90 mt-2">Complete details and information</p>
+                                    <p className="mt-2 text-white/90">Complete details and information</p>
                                 </div>
                             </div>
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[#F9B912]/20 to-transparent rounded-full transform translate-x-16 -translate-y-16" />
+                            <div className="absolute top-0 right-0 h-32 w-32 translate-x-16 -translate-y-16 transform rounded-full bg-gradient-to-bl from-[#F9B912]/20 to-transparent" />
                         </div>
 
                         {/* Service Image */}
@@ -105,7 +98,7 @@ const ServiceShow = ({ service }: ServiceShowProps) => {
                                 <img
                                     src={service.image}
                                     alt={service.name}
-                                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                                    className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
                             </div>
@@ -116,12 +109,12 @@ const ServiceShow = ({ service }: ServiceShowProps) => {
                         {/* Eligibility Section */}
                         {eligibility && (
                             <div className="mb-10">
-                                <h2 className="text-xl font-semibold text-[#4A7C59] mb-4 flex items-center">
-                                    <div className="w-1 h-6 bg-gradient-to-b from-[#4A7C59] to-[#F9B912] rounded-full mr-3"></div>
+                                <h2 className="mb-4 flex items-center text-xl font-semibold text-[#4A7C59]">
+                                    <div className="mr-3 h-6 w-1 rounded-full bg-gradient-to-b from-[#4A7C59] to-[#F9B912]"></div>
                                     Eligibility
                                 </h2>
-                                <div className="bg-gradient-to-r from-white via-[#4A7C59]/5 to-[#6B9B7A]/10 rounded-xl p-6 border border-[#4A7C59]/20 shadow-sm">
-                                    <p className="text-gray-700 leading-relaxed">{eligibility}</p>
+                                <div className="rounded-xl border border-[#4A7C59]/20 bg-gradient-to-r from-white via-[#4A7C59]/5 to-[#6B9B7A]/10 p-6 shadow-sm">
+                                    <p className="leading-relaxed text-gray-700">{eligibility}</p>
                                 </div>
                             </div>
                         )}
@@ -129,20 +122,20 @@ const ServiceShow = ({ service }: ServiceShowProps) => {
                         {/* Service Features */}
                         {features.length > 0 && (
                             <div className="mb-10">
-                                <h2 className="text-xl font-semibold text-[#4A7C59] mb-6 flex items-center">
-                                    <div className="w-1 h-6 bg-gradient-to-b from-[#F9B912] to-[#4A7C59] rounded-full mr-3"></div>
+                                <h2 className="mb-6 flex items-center text-xl font-semibold text-[#4A7C59]">
+                                    <div className="mr-3 h-6 w-1 rounded-full bg-gradient-to-b from-[#F9B912] to-[#4A7C59]"></div>
                                     Service Details
                                 </h2>
                                 <div className="grid gap-4">
                                     {features.map((feature) => (
                                         <div
                                             key={feature.id}
-                                            className="flex items-start p-4 bg-gradient-to-r from-white via-[#4A7C59]/5 to-[#F9B912]/10 rounded-xl border border-[#F9B912]/20 hover:shadow-lg hover:border-[#F9B912]/40 transition-all duration-300 hover:scale-[1.02]"
+                                            className="flex items-start rounded-xl border border-[#F9B912]/20 bg-gradient-to-r from-white via-[#4A7C59]/5 to-[#F9B912]/10 p-4 transition-all duration-300 hover:scale-[1.02] hover:border-[#F9B912]/40 hover:shadow-lg"
                                         >
-                                            <div className="flex-shrink-0 w-2 h-2 bg-[#F9B912] rounded-full mt-2 mr-4"></div>
+                                            <div className="mt-2 mr-4 h-2 w-2 flex-shrink-0 rounded-full bg-[#F9B912]"></div>
                                             <div>
-                                                <h4 className="font-semibold text-[#4A7C59] mb-1">{feature.attribute_name}</h4>
-                                                <p className="text-gray-700 leading-relaxed whitespace-pre-line">{feature.attribute_value}</p>
+                                                <h4 className="mb-1 font-semibold text-[#4A7C59]">{feature.attribute_name}</h4>
+                                                <p className="leading-relaxed whitespace-pre-line text-gray-700">{feature.attribute_value}</p>
                                             </div>
                                         </div>
                                     ))}
@@ -152,16 +145,17 @@ const ServiceShow = ({ service }: ServiceShowProps) => {
 
                         {/* Special Attributes */}
                         {specialAttributes.length > 0 && (
-                            <div className="grid md:grid-cols-2 gap-6">
+                            <div className="grid gap-6 md:grid-cols-2">
                                 {specialAttributes.map((attr) => (
-                                    <div key={attr.id} className="bg-gradient-to-br from-[#4A7C59]/5 to-[#F9B912]/5 p-6 rounded-xl border border-gray-200">
-                                        <h3 className="font-semibold text-[#4A7C59] mb-3 flex items-center">
-                                            <div className="w-2 h-2 bg-[#F9B912] rounded-full mr-2"></div>
+                                    <div
+                                        key={attr.id}
+                                        className="rounded-xl border border-gray-200 bg-gradient-to-br from-[#4A7C59]/5 to-[#F9B912]/5 p-6"
+                                    >
+                                        <h3 className="mb-3 flex items-center font-semibold text-[#4A7C59]">
+                                            <div className="mr-2 h-2 w-2 rounded-full bg-[#F9B912]"></div>
                                             {attr.attribute_name}
                                         </h3>
-                                        <p className="text-gray-700 leading-relaxed whitespace-pre-line">
-                                            {attr.attribute_value}
-                                        </p>
+                                        <p className="leading-relaxed whitespace-pre-line text-gray-700">{attr.attribute_value}</p>
                                     </div>
                                 ))}
                             </div>
@@ -170,12 +164,12 @@ const ServiceShow = ({ service }: ServiceShowProps) => {
                 </div>
 
                 {/* Back to Services Button */}
-                <div className="text-center mt-8">
+                <div className="mt-8 text-center">
                     <a
                         href="/services"
-                        className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A] text-white font-medium rounded-lg hover:shadow-lg transition-all duration-300 hover:scale-105"
+                        className="inline-flex items-center rounded-lg bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A] px-6 py-3 font-medium text-white transition-all duration-300 hover:scale-105 hover:shadow-lg"
                     >
-                        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                         </svg>
                         Back to All Services
@@ -187,10 +181,13 @@ const ServiceShow = ({ service }: ServiceShowProps) => {
 };
 
 ServiceShow.layout = (page: any) => (
-    <WebsiteLayout title={`${page.props.service.name} - Services`} breadcrumbs={[
-        { label: 'Services', href: '/services' },
-        { label: page.props.service.name, isActive: true }
-    ]}>
+    <WebsiteLayout
+        title={`${page.props.service.name} - Services`}
+        breadcrumbs={[
+            { label: 'Services', href: '/services' },
+            { label: page.props.service.name, isActive: true },
+        ]}
+    >
         {page}
     </WebsiteLayout>
 );

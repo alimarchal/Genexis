@@ -1,6 +1,5 @@
 import LoanSchemesComponent from '@/components/LoanSchemesComponent';
 import WebsiteLayout from '@/layouts/WebsiteLayout';
-import { Head } from '@inertiajs/react';
 import { useState } from 'react';
 
 interface ProductSchemeAttribute {
@@ -30,12 +29,13 @@ export default function AgricultureFinances({ schemes }: Props) {
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
-            <div className="max-w-7xl mx-auto px-6 py-8">
+            <div className="mx-auto max-w-7xl px-6 py-8">
                 {/* Hero Section */}
-                <div className="text-center mb-3">
-                    <h1 className="text-4xl font-bold text-gray-900 mb-4">Agriculture Finances</h1>
-                    <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                        Supporting the backbone of our economy with specialized agricultural financing solutions. From crop production to farm development, we're here to help your agricultural ventures thrive.
+                <div className="mb-3 text-center">
+                    <h1 className="mb-4 text-4xl font-bold text-gray-900">Agriculture Finances</h1>
+                    <p className="mx-auto max-w-3xl text-xl text-gray-600">
+                        Supporting the backbone of our economy with specialized agricultural financing solutions. From crop production to farm
+                        development, we're here to help your agricultural ventures thrive.
                     </p>
                 </div>
                 <LoanSchemesComponent schemes={schemes} />
@@ -44,8 +44,4 @@ export default function AgricultureFinances({ schemes }: Props) {
     );
 }
 
-AgricultureFinances.layout = (page: any) => (
-    <WebsiteLayout title="Agriculture Finances">
-        {page}
-    </WebsiteLayout>
-);
+AgricultureFinances.layout = (page: any) => <WebsiteLayout title="Agriculture Finances">{page}</WebsiteLayout>;

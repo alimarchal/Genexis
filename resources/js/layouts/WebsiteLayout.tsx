@@ -1,9 +1,9 @@
-import { PropsWithChildren } from 'react';
-import { Head, usePage } from '@inertiajs/react';
-import TopNavbar from '@/components/topnavbar/top-nav-bar';
-import Header from '@/components/header/header';
-import Footer from '@/components/footer';
 import BreadcrumbNav from '@/components/BreadcrumbNav';
+import Footer from '@/components/footer';
+import Header from '@/components/header/header';
+import TopNavbar from '@/components/topnavbar/top-nav-bar';
+import { Head, usePage } from '@inertiajs/react';
+import { PropsWithChildren } from 'react';
 
 interface MenuItem {
     id: number;
@@ -48,14 +48,10 @@ export default function WebsiteLayout({ children, title, breadcrumbs = [] }: Web
             <TopNavbar />
             <Header menuItems={menu} />
 
-            {finalBreadcrumbs.length > 0 && (
-                <BreadcrumbNav items={finalBreadcrumbs} />
-            )}
+            {finalBreadcrumbs.length > 0 && <BreadcrumbNav items={finalBreadcrumbs} />}
 
             {/* Main Content */}
-            <div className="min-h-screen">
-                {children}
-            </div>
+            <div className="min-h-screen">{children}</div>
 
             {/* Footer */}
             <Footer />

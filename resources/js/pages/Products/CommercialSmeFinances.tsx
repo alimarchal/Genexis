@@ -1,6 +1,5 @@
 import LoanSchemesComponent from '@/components/LoanSchemesComponent';
 import WebsiteLayout from '@/layouts/WebsiteLayout';
-import { Head } from '@inertiajs/react';
 import { useState } from 'react';
 
 interface ProductSchemeAttribute {
@@ -30,12 +29,13 @@ export default function CommercialSmeFinances({ schemes }: Props) {
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
-            <div className="max-w-7xl mx-auto px-6 py-8">
+            <div className="mx-auto max-w-7xl px-6 py-8">
                 {/* Hero Section */}
-                <div className="text-center mb-3">
-                    <h1 className="text-4xl font-bold text-gray-900 mb-4">Commercial / SME Finances</h1>
-                    <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                        Empower your business growth with our tailored commercial and SME financing solutions. From working capital to equipment financing, we support your business ambitions.
+                <div className="mb-3 text-center">
+                    <h1 className="mb-4 text-4xl font-bold text-gray-900">Commercial / SME Finances</h1>
+                    <p className="mx-auto max-w-3xl text-xl text-gray-600">
+                        Empower your business growth with our tailored commercial and SME financing solutions. From working capital to equipment
+                        financing, we support your business ambitions.
                     </p>
                 </div>
                 <LoanSchemesComponent schemes={schemes} />
@@ -44,8 +44,4 @@ export default function CommercialSmeFinances({ schemes }: Props) {
     );
 }
 
-CommercialSmeFinances.layout = (page: any) => (
-    <WebsiteLayout title="Commercial / SME Finances">
-        {page}
-    </WebsiteLayout>
-);
+CommercialSmeFinances.layout = (page: any) => <WebsiteLayout title="Commercial / SME Finances">{page}</WebsiteLayout>;

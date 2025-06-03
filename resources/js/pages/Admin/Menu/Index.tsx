@@ -1,19 +1,6 @@
-import { type BreadcrumbItem } from '@/types';
-import { Head, Link, router } from '@inertiajs/react';
-import { useState } from 'react';
 import Heading from '@/components/heading';
-import AppLayout from '@/layouts/app-layout';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from '@/components/ui/table';
+import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -22,14 +9,14 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from '@/components/ui/select';
-import { MoreHorizontal, Plus, Search, Eye, Edit, Trash, Menu as MenuIcon, ExternalLink } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import AppLayout from '@/layouts/app-layout';
+import { type BreadcrumbItem } from '@/types';
+import { Head, Link, router } from '@inertiajs/react';
+import { Edit, ExternalLink, Eye, Menu as MenuIcon, MoreHorizontal, Plus, Search, Trash } from 'lucide-react';
+import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -111,11 +98,15 @@ export default function MenuIndex({ menus, filters }: Props) {
     };
 
     const clearMenuCache = () => {
-        router.post('/admin/clear-menu-cache', {}, {
-            onSuccess: () => {
-                alert('Menu cache cleared successfully!');
-            }
-        });
+        router.post(
+            '/admin/clear-menu-cache',
+            {},
+            {
+                onSuccess: () => {
+                    alert('Menu cache cleared successfully!');
+                },
+            },
+        );
     };
 
     return (
@@ -123,11 +114,8 @@ export default function MenuIndex({ menus, filters }: Props) {
             <Head title="Menu Management" />
 
             <div className="px-4 py-6">
-                <div className="flex justify-between items-center mb-6">
-                    <Heading
-                        title="Menu Management"
-                        description="Manage your website navigation menu structure"
-                    />
+                <div className="mb-6 flex items-center justify-between">
+                    <Heading title="Menu Management" description="Manage your website navigation menu structure" />
                     <div className="flex gap-2">
                         <Button variant="outline" onClick={clearMenuCache}>
                             Clear Cache
@@ -144,8 +132,8 @@ export default function MenuIndex({ menus, filters }: Props) {
                 {/* Filters */}
                 <form onSubmit={handleSearch} className="mb-6">
                     <div className="flex gap-4">
-                        <div className="relative flex-1 max-w-sm">
-                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                        <div className="relative max-w-sm flex-1">
+                            <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
                             <Input
                                 type="text"
                                 placeholder="Search menu items..."
@@ -185,7 +173,7 @@ export default function MenuIndex({ menus, filters }: Props) {
                         <TableBody>
                             {menus.data.length === 0 ? (
                                 <TableRow>
-                                    <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
+                                    <TableCell colSpan={7} className="text-muted-foreground py-8 text-center">
                                         No menu items found.
                                     </TableCell>
                                 </TableRow>
@@ -195,25 +183,21 @@ export default function MenuIndex({ menus, filters }: Props) {
                                         <TableCell className="font-medium">{menu.sort_order}</TableCell>
                                         <TableCell>
                                             <div className="flex items-center gap-2">
-                                                <MenuIcon className="h-4 w-4 text-muted-foreground" />
+                                                <MenuIcon className="text-muted-foreground h-4 w-4" />
                                                 <div>
                                                     <p className="font-medium">{menu.title}</p>
-                                                    <p className="text-sm text-muted-foreground">{menu.slug}</p>
+                                                    <p className="text-muted-foreground text-sm">{menu.slug}</p>
                                                 </div>
                                             </div>
                                         </TableCell>
                                         <TableCell>
                                             <div className="max-w-[200px] truncate">
                                                 {menu.route_name ? (
-                                                    <span className="text-blue-600 text-sm">
-                                                        Route: {menu.route_name}
-                                                    </span>
+                                                    <span className="text-sm text-blue-600">Route: {menu.route_name}</span>
                                                 ) : menu.url ? (
                                                     <div className="flex items-center gap-1">
                                                         <span className="text-sm">{menu.url}</span>
-                                                        {menu.target === '_blank' && (
-                                                            <ExternalLink className="h-3 w-3 text-muted-foreground" />
-                                                        )}
+                                                        {menu.target === '_blank' && <ExternalLink className="text-muted-foreground h-3 w-3" />}
                                                     </div>
                                                 ) : (
                                                     <span className="text-muted-foreground text-sm">No URL</span>
@@ -230,7 +214,9 @@ export default function MenuIndex({ menus, filters }: Props) {
                                         <TableCell>
                                             <div className="flex flex-col gap-1">
                                                 {menu.is_mega_menu && (
-                                                    <Badge variant="outline" className="text-xs">Mega Menu</Badge>
+                                                    <Badge variant="outline" className="text-xs">
+                                                        Mega Menu
+                                                    </Badge>
                                                 )}
                                                 {menu.children_count && menu.children_count > 0 && (
                                                     <Badge variant="secondary" className="text-xs">
@@ -240,9 +226,7 @@ export default function MenuIndex({ menus, filters }: Props) {
                                             </div>
                                         </TableCell>
                                         <TableCell>
-                                            <Badge variant={menu.is_active ? 'default' : 'secondary'}>
-                                                {menu.is_active ? 'Active' : 'Inactive'}
-                                            </Badge>
+                                            <Badge variant={menu.is_active ? 'default' : 'secondary'}>{menu.is_active ? 'Active' : 'Inactive'}</Badge>
                                         </TableCell>
                                         <TableCell className="text-right">
                                             <DropdownMenu>
@@ -267,10 +251,7 @@ export default function MenuIndex({ menus, filters }: Props) {
                                                             Edit
                                                         </Link>
                                                     </DropdownMenuItem>
-                                                    <DropdownMenuItem
-                                                        onClick={() => handleDelete(menu.id)}
-                                                        className="text-red-600"
-                                                    >
+                                                    <DropdownMenuItem onClick={() => handleDelete(menu.id)} className="text-red-600">
                                                         <Trash className="mr-2 h-4 w-4" />
                                                         Delete
                                                     </DropdownMenuItem>
@@ -286,8 +267,8 @@ export default function MenuIndex({ menus, filters }: Props) {
 
                 {/* Pagination */}
                 {menus.last_page > 1 && (
-                    <div className="flex items-center justify-between mt-6">
-                        <p className="text-sm text-muted-foreground">
+                    <div className="mt-6 flex items-center justify-between">
+                        <p className="text-muted-foreground text-sm">
                             Showing {menus.data.length} of {menus.total} results
                         </p>
                         <div className="flex gap-2">

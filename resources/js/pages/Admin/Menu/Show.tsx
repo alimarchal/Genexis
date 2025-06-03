@@ -1,11 +1,11 @@
+import Heading from '@/components/heading';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
-import Heading from '@/components/heading';
-import AppLayout from '@/layouts/app-layout';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowLeft, Edit, Menu as MenuIcon, ExternalLink, Users, Link as LinkIcon, Hash, Calendar, Settings, Eye, Plus } from 'lucide-react';
+import { ArrowLeft, Calendar, Edit, ExternalLink, Eye, Hash, Link as LinkIcon, Menu as MenuIcon, Plus, Settings, Users } from 'lucide-react';
 
 interface MenuItem {
     id: number;
@@ -76,7 +76,7 @@ export default function ShowMenu({ menu }: Props) {
             <Head title={`${menu.title} - Menu Details`} />
 
             <div className="px-4 py-6">
-                <div className="mb-6 flex justify-between items-center">
+                <div className="mb-6 flex items-center justify-between">
                     <Button variant="ghost" size="sm" asChild>
                         <Link href={route('admin.menus.index')}>
                             <ArrowLeft className="mr-2 h-4 w-4" />
@@ -102,14 +102,11 @@ export default function ShowMenu({ menu }: Props) {
                     </div>
                 </div>
 
-                <Heading
-                    title="Menu Item Details"
-                    description="View complete information about this menu item and its configuration"
-                />
+                <Heading title="Menu Item Details" description="View complete information about this menu item and its configuration" />
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-6xl">
+                <div className="grid max-w-6xl grid-cols-1 gap-6 lg:grid-cols-3">
                     {/* Main Information */}
-                    <div className="lg:col-span-2 space-y-6">
+                    <div className="space-y-6 lg:col-span-2">
                         <Card>
                             <CardHeader>
                                 <CardTitle className="flex items-center gap-2">
@@ -118,43 +115,38 @@ export default function ShowMenu({ menu }: Props) {
                                 </CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-4">
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                                     <div>
-                                        <p className="text-sm text-muted-foreground">Menu Title</p>
-                                        <p className="font-medium text-lg">{menu.title}</p>
+                                        <p className="text-muted-foreground text-sm">Menu Title</p>
+                                        <p className="text-lg font-medium">{menu.title}</p>
                                     </div>
                                     <div>
-                                        <p className="text-sm text-muted-foreground">Slug</p>
-                                        <p className="font-medium font-mono text-sm bg-muted px-2 py-1 rounded">
-                                            {menu.slug}
-                                        </p>
+                                        <p className="text-muted-foreground text-sm">Slug</p>
+                                        <p className="bg-muted rounded px-2 py-1 font-mono text-sm font-medium">{menu.slug}</p>
                                     </div>
                                     <div>
-                                        <p className="text-sm text-muted-foreground">Display Order</p>
-                                        <p className="font-medium flex items-center gap-1">
+                                        <p className="text-muted-foreground text-sm">Display Order</p>
+                                        <p className="flex items-center gap-1 font-medium">
                                             <Hash className="h-4 w-4" />
                                             {menu.sort_order}
                                         </p>
                                     </div>
                                     <div>
-                                        <p className="text-sm text-muted-foreground">Status</p>
-                                        <Badge
-                                            variant={menu.is_active ? 'default' : 'secondary'}
-                                            className="mt-1"
-                                        >
+                                        <p className="text-muted-foreground text-sm">Status</p>
+                                        <Badge variant={menu.is_active ? 'default' : 'secondary'} className="mt-1">
                                             {menu.is_active ? 'Active' : 'Inactive'}
                                         </Badge>
                                     </div>
                                 </div>
 
                                 {menu.parent && (
-                                    <div className="pt-4 border-t">
-                                        <p className="text-sm text-muted-foreground mb-2">Parent Menu</p>
+                                    <div className="border-t pt-4">
+                                        <p className="text-muted-foreground mb-2 text-sm">Parent Menu</p>
                                         <div className="flex items-center gap-2">
                                             <Badge variant="outline">{menu.parent.title}</Badge>
                                             <Button variant="ghost" size="sm" asChild>
                                                 <Link href={route('admin.menus.show', menu.parent.id)}>
-                                                    <Eye className="h-3 w-3 mr-1" />
+                                                    <Eye className="mr-1 h-3 w-3" />
                                                     View Parent
                                                 </Link>
                                             </Button>
@@ -173,24 +165,22 @@ export default function ShowMenu({ menu }: Props) {
                                 </CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-4">
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                                     <div>
-                                        <p className="text-sm text-muted-foreground">URL</p>
+                                        <p className="text-muted-foreground text-sm">URL</p>
                                         {menu.url ? (
                                             <div className="flex items-center gap-2">
                                                 <p className="font-medium break-all">{menu.url}</p>
-                                                {menu.target === '_blank' && (
-                                                    <ExternalLink className="h-4 w-4 text-muted-foreground" />
-                                                )}
+                                                {menu.target === '_blank' && <ExternalLink className="text-muted-foreground h-4 w-4" />}
                                             </div>
                                         ) : (
                                             <p className="text-muted-foreground">Not set</p>
                                         )}
                                     </div>
                                     <div>
-                                        <p className="text-sm text-muted-foreground">Route Name</p>
+                                        <p className="text-muted-foreground text-sm">Route Name</p>
                                         {menu.route_name ? (
-                                            <p className="font-medium font-mono text-sm bg-blue-50 text-blue-700 px-2 py-1 rounded">
+                                            <p className="rounded bg-blue-50 px-2 py-1 font-mono text-sm font-medium text-blue-700">
                                                 {menu.route_name}
                                             </p>
                                         ) : (
@@ -198,21 +188,19 @@ export default function ShowMenu({ menu }: Props) {
                                         )}
                                     </div>
                                     <div>
-                                        <p className="text-sm text-muted-foreground">Link Target</p>
-                                        <Badge variant="outline">
-                                            {menu.target === '_blank' ? 'New Window/Tab' : 'Same Window'}
-                                        </Badge>
+                                        <p className="text-muted-foreground text-sm">Link Target</p>
+                                        <Badge variant="outline">{menu.target === '_blank' ? 'New Window/Tab' : 'Same Window'}</Badge>
                                     </div>
                                     <div>
-                                        <p className="text-sm text-muted-foreground">Generated URL</p>
-                                        <p className="font-medium text-sm break-all">{getMenuUrl()}</p>
+                                        <p className="text-muted-foreground text-sm">Generated URL</p>
+                                        <p className="text-sm font-medium break-all">{getMenuUrl()}</p>
                                     </div>
                                 </div>
 
                                 {menu.route_params && Object.keys(menu.route_params).length > 0 && (
-                                    <div className="pt-4 border-t">
-                                        <p className="text-sm text-muted-foreground mb-2">Route Parameters</p>
-                                        <pre className="text-sm bg-muted p-3 rounded overflow-x-auto">
+                                    <div className="border-t pt-4">
+                                        <p className="text-muted-foreground mb-2 text-sm">Route Parameters</p>
+                                        <pre className="bg-muted overflow-x-auto rounded p-3 text-sm">
                                             {JSON.stringify(menu.route_params, null, 2)}
                                         </pre>
                                     </div>
@@ -232,17 +220,17 @@ export default function ShowMenu({ menu }: Props) {
                                 <CardContent>
                                     <div className="space-y-2">
                                         {menu.children.map((child) => (
-                                            <div key={child.id} className="flex items-center justify-between p-3 border rounded">
+                                            <div key={child.id} className="flex items-center justify-between rounded border p-3">
                                                 <div className="flex items-center gap-3">
                                                     <span className="font-medium">{child.title}</span>
                                                     <Badge variant={child.is_active ? 'default' : 'secondary'} className="text-xs">
                                                         {child.is_active ? 'Active' : 'Inactive'}
                                                     </Badge>
-                                                    <span className="text-sm text-muted-foreground">Order: {child.sort_order}</span>
+                                                    <span className="text-muted-foreground text-sm">Order: {child.sort_order}</span>
                                                 </div>
                                                 <Button variant="ghost" size="sm" asChild>
                                                     <Link href={route('admin.menus.show', child.id)}>
-                                                        <Eye className="h-3 w-3 mr-1" />
+                                                        <Eye className="mr-1 h-3 w-3" />
                                                         View
                                                     </Link>
                                                 </Button>
@@ -264,11 +252,11 @@ export default function ShowMenu({ menu }: Props) {
                             <CardContent>
                                 <div className="space-y-3">
                                     <div>
-                                        <p className="text-sm text-muted-foreground">Created At</p>
+                                        <p className="text-muted-foreground text-sm">Created At</p>
                                         <p className="text-sm font-medium">{formatDate(menu.created_at)}</p>
                                     </div>
                                     <div>
-                                        <p className="text-sm text-muted-foreground">Last Updated</p>
+                                        <p className="text-muted-foreground text-sm">Last Updated</p>
                                         <p className="text-sm font-medium">{formatDate(menu.updated_at)}</p>
                                     </div>
                                 </div>
@@ -294,9 +282,7 @@ export default function ShowMenu({ menu }: Props) {
                                     </Link>
                                 </Button>
                                 <Button variant="outline" className="w-full" asChild>
-                                    <Link href={route('admin.menus.index')}>
-                                        View All Menu Items
-                                    </Link>
+                                    <Link href={route('admin.menus.index')}>View All Menu Items</Link>
                                 </Button>
                                 {!menu.parent_id && (
                                     <Button variant="outline" className="w-full" asChild>
@@ -317,26 +303,20 @@ export default function ShowMenu({ menu }: Props) {
                             <CardContent className="space-y-3">
                                 <div className="flex items-center justify-between">
                                     <span className="text-sm">Mega Menu</span>
-                                    <Badge variant={menu.is_mega_menu ? 'default' : 'secondary'}>
-                                        {menu.is_mega_menu ? 'Yes' : 'No'}
-                                    </Badge>
+                                    <Badge variant={menu.is_mega_menu ? 'default' : 'secondary'}>{menu.is_mega_menu ? 'Yes' : 'No'}</Badge>
                                 </div>
 
                                 {menu.icon && (
                                     <div>
-                                        <span className="text-sm text-muted-foreground">Icon Class</span>
-                                        <p className="font-mono text-sm bg-muted px-2 py-1 rounded mt-1">
-                                            {menu.icon}
-                                        </p>
+                                        <span className="text-muted-foreground text-sm">Icon Class</span>
+                                        <p className="bg-muted mt-1 rounded px-2 py-1 font-mono text-sm">{menu.icon}</p>
                                     </div>
                                 )}
 
                                 {menu.css_class && (
                                     <div>
-                                        <span className="text-sm text-muted-foreground">CSS Class</span>
-                                        <p className="font-mono text-sm bg-muted px-2 py-1 rounded mt-1">
-                                            {menu.css_class}
-                                        </p>
+                                        <span className="text-muted-foreground text-sm">CSS Class</span>
+                                        <p className="bg-muted mt-1 rounded px-2 py-1 font-mono text-sm">{menu.css_class}</p>
                                     </div>
                                 )}
                             </CardContent>
@@ -348,9 +328,7 @@ export default function ShowMenu({ menu }: Props) {
                                 <CardTitle>Menu ID</CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <p className="text-2xl font-mono font-bold text-muted-foreground">
-                                    #{menu.id.toString().padStart(4, '0')}
-                                </p>
+                                <p className="text-muted-foreground font-mono text-2xl font-bold">#{menu.id.toString().padStart(4, '0')}</p>
                             </CardContent>
                         </Card>
                     </div>

@@ -1,21 +1,21 @@
-import { useState } from 'react';
 import {
-    CreditCard,
-    Car,
     Bike,
-    Home,
-    User,
-    GraduationCap,
-    Coins,
-    Monitor,
-    Building,
-    Factory,
     Briefcase,
-    Tractor,
+    Building,
+    Car,
+    Coins,
+    CreditCard,
+    Factory,
+    GraduationCap,
+    Home,
+    Monitor,
     Sprout,
     Store,
-    Users
+    Tractor,
+    User,
+    Users,
 } from 'lucide-react';
+import { useState } from 'react';
 
 // Database structure interfaces
 interface ProductSchemeAttribute {
@@ -37,17 +37,14 @@ interface LoanSchemesComponentProps {
     defaultActiveIndex?: number;
 }
 
-const LoanSchemesComponent: React.FC<LoanSchemesComponentProps> = ({
-    schemes,
-    defaultActiveIndex = 0
-}) => {
+const LoanSchemesComponent: React.FC<LoanSchemesComponentProps> = ({ schemes, defaultActiveIndex = 0 }) => {
     const [activeTab, setActiveTab] = useState(defaultActiveIndex);
 
     if (!schemes.length) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-[#e9f7ef] to-[#fff7e6] p-4 flex items-center justify-center">
+            <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-[#e9f7ef] to-[#fff7e6] p-4">
                 <div className="text-center">
-                    <h2 className="text-2xl font-bold text-[#4A7C59] mb-4">No Loan Schemes Available</h2>
+                    <h2 className="mb-4 text-2xl font-bold text-[#4A7C59]">No Loan Schemes Available</h2>
                     <p className="text-gray-600">Please provide scheme data to display.</p>
                 </div>
             </div>
@@ -59,22 +56,22 @@ const LoanSchemesComponent: React.FC<LoanSchemesComponentProps> = ({
     // Get icon based on scheme name
     const getSchemeIcon = (schemeName: string) => {
         const name = schemeName.toLowerCase();
-        if (name.includes('salary') || name.includes('advance')) return <CreditCard className="w-6 h-6" />;
-        if (name.includes('car') || name.includes('auto')) return <Car className="w-6 h-6" />;
-        if (name.includes('motorcycle') || name.includes('bike')) return <Bike className="w-6 h-6" />;
-        if (name.includes('house') || name.includes('home')) return <Home className="w-6 h-6" />;
-        if (name.includes('personal')) return <User className="w-6 h-6" />;
-        if (name.includes('student') || name.includes('education')) return <GraduationCap className="w-6 h-6" />;
-        if (name.includes('gold')) return <Coins className="w-6 h-6" />;
-        if (name.includes('appliance') || name.includes('electronics')) return <Monitor className="w-6 h-6" />;
-        if (name.includes('construction') || name.includes('building')) return <Building className="w-6 h-6" />;
-        if (name.includes('running') || name.includes('working')) return <Factory className="w-6 h-6" />;
-        if (name.includes('demand') || name.includes('machinery')) return <Briefcase className="w-6 h-6" />;
-        if (name.includes('agriculture') || name.includes('farming')) return <Tractor className="w-6 h-6" />;
-        if (name.includes('production') || name.includes('development')) return <Sprout className="w-6 h-6" />;
-        if (name.includes('trade') || name.includes('business')) return <Store className="w-6 h-6" />;
-        if (name.includes('micro') || name.includes('enterprise')) return <Users className="w-6 h-6" />;
-        return <Briefcase className="w-6 h-6" />;
+        if (name.includes('salary') || name.includes('advance')) return <CreditCard className="h-6 w-6" />;
+        if (name.includes('car') || name.includes('auto')) return <Car className="h-6 w-6" />;
+        if (name.includes('motorcycle') || name.includes('bike')) return <Bike className="h-6 w-6" />;
+        if (name.includes('house') || name.includes('home')) return <Home className="h-6 w-6" />;
+        if (name.includes('personal')) return <User className="h-6 w-6" />;
+        if (name.includes('student') || name.includes('education')) return <GraduationCap className="h-6 w-6" />;
+        if (name.includes('gold')) return <Coins className="h-6 w-6" />;
+        if (name.includes('appliance') || name.includes('electronics')) return <Monitor className="h-6 w-6" />;
+        if (name.includes('construction') || name.includes('building')) return <Building className="h-6 w-6" />;
+        if (name.includes('running') || name.includes('working')) return <Factory className="h-6 w-6" />;
+        if (name.includes('demand') || name.includes('machinery')) return <Briefcase className="h-6 w-6" />;
+        if (name.includes('agriculture') || name.includes('farming')) return <Tractor className="h-6 w-6" />;
+        if (name.includes('production') || name.includes('development')) return <Sprout className="h-6 w-6" />;
+        if (name.includes('trade') || name.includes('business')) return <Store className="h-6 w-6" />;
+        if (name.includes('micro') || name.includes('enterprise')) return <Users className="h-6 w-6" />;
+        return <Briefcase className="h-6 w-6" />;
     };
 
     // Get color scheme based on index
@@ -87,16 +84,14 @@ const LoanSchemesComponent: React.FC<LoanSchemesComponentProps> = ({
             'from-[#F9B912] to-[#4A7C59]',
             'from-[#5D8A6A] to-[#F9B912]',
             'from-[#F9B912] to-[#6B9B7A]',
-            'from-[#6B9B7A] to-[#F9B912]'
+            'from-[#6B9B7A] to-[#F9B912]',
         ];
         return colors[index % colors.length];
     };
 
     // Get attribute value by name
     const getAttributeValue = (attributeName: string): string => {
-        const attr = activeScheme.attributes.find(a =>
-            a.attribute_name.toLowerCase() === attributeName.toLowerCase()
-        );
+        const attr = activeScheme.attributes.find((a) => a.attribute_name.toLowerCase() === attributeName.toLowerCase());
         return attr?.attribute_value || '';
     };
 
@@ -104,13 +99,9 @@ const LoanSchemesComponent: React.FC<LoanSchemesComponentProps> = ({
     const renderDataRow = (label: string, value?: string) => {
         if (!value) return null;
         return (
-            <div className="flex flex-col sm:flex-row sm:items-start gap-2 py-3 border-b border-gray-100 last:border-b-0">
-                <div className="font-semibold text-[#4A7C59] min-w-[140px] text-sm">
-                    {label}:
-                </div>
-                <div className="text-gray-700 text-sm flex-1 leading-relaxed whitespace-pre-line">
-                    {value}
-                </div>
+            <div className="flex flex-col gap-2 border-b border-gray-100 py-3 last:border-b-0 sm:flex-row sm:items-start">
+                <div className="min-w-[140px] text-sm font-semibold text-[#4A7C59]">{label}:</div>
+                <div className="flex-1 text-sm leading-relaxed whitespace-pre-line text-gray-700">{value}</div>
             </div>
         );
     };
@@ -120,9 +111,7 @@ const LoanSchemesComponent: React.FC<LoanSchemesComponentProps> = ({
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-[#e9f7ef] to-[#fff7e6] p-4">
-            <div className="max-w-7xl mx-auto">
-
-
+            <div className="mx-auto max-w-7xl">
                 {/* Tab Navigation */}
                 <div className="mb-8">
                     <div className="flex flex-wrap justify-center gap-3 p-4">
@@ -130,14 +119,12 @@ const LoanSchemesComponent: React.FC<LoanSchemesComponentProps> = ({
                             <button
                                 key={scheme.id}
                                 onClick={() => setActiveTab(index)}
-                                className={`flex items-center gap-2 px-4 py-3 bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 border flex-shrink-0 ${activeTab === index
-                                    ? 'border-[#4A7C59] shadow-lg scale-105'
-                                    : 'border-gray-200 hover:border-[#4A7C59]/30'
-                                    }`}
+                                className={`flex flex-shrink-0 items-center gap-2 rounded-lg border bg-white px-4 py-3 shadow-md transition-all duration-300 hover:scale-105 hover:shadow-lg ${
+                                    activeTab === index ? 'scale-105 border-[#4A7C59] shadow-lg' : 'border-gray-200 hover:border-[#4A7C59]/30'
+                                }`}
                             >
                                 {getSchemeIcon(scheme.name)}
-                                <span className={`font-medium text-sm sm:text-base ${activeTab === index ? 'text-[#4A7C59]' : 'text-gray-700'
-                                    }`}>
+                                <span className={`text-sm font-medium sm:text-base ${activeTab === index ? 'text-[#4A7C59]' : 'text-gray-700'}`}>
                                     {scheme.name}
                                 </span>
                             </button>
@@ -146,32 +133,28 @@ const LoanSchemesComponent: React.FC<LoanSchemesComponentProps> = ({
                 </div>
 
                 {/* Content */}
-                <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
-                    <div className={`bg-gradient-to-r ${colorScheme} p-6 relative overflow-hidden`}>
-                        <div className="flex items-center gap-4 text-white relative z-10">
-                            <div className="p-3 bg-white/20 rounded-lg">
-                                {getSchemeIcon(activeScheme.name)}
-                            </div>
+                <div className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-xl">
+                    <div className={`bg-gradient-to-r ${colorScheme} relative overflow-hidden p-6`}>
+                        <div className="relative z-10 flex items-center gap-4 text-white">
+                            <div className="rounded-lg bg-white/20 p-3">{getSchemeIcon(activeScheme.name)}</div>
                             <div>
                                 <h2 className="text-2xl font-bold">{activeScheme.name}</h2>
-                                <p className="text-white/90 mt-1">{activeScheme.description}</p>
+                                <p className="mt-1 text-white/90">{activeScheme.description}</p>
                             </div>
                         </div>
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-white/10 to-transparent rounded-full transform translate-x-16 -translate-y-16" />
+                        <div className="absolute top-0 right-0 h-32 w-32 translate-x-16 -translate-y-16 transform rounded-full bg-gradient-to-bl from-white/10 to-transparent" />
                     </div>
 
                     <div className="p-6">
                         {/* Purpose Section */}
                         {purpose && (
                             <div className="mb-8">
-                                <h3 className="text-xl font-semibold text-[#4A7C59] mb-4 flex items-center">
-                                    <div className="w-1 h-6 bg-gradient-to-b from-[#4A7C59] to-[#F9B912] rounded-full mr-3"></div>
+                                <h3 className="mb-4 flex items-center text-xl font-semibold text-[#4A7C59]">
+                                    <div className="mr-3 h-6 w-1 rounded-full bg-gradient-to-b from-[#4A7C59] to-[#F9B912]"></div>
                                     Purpose
                                 </h3>
-                                <div className="bg-gradient-to-r from-white via-[#4A7C59]/5 to-[#F9B912]/10 rounded-xl p-6 border border-[#4A7C59]/20">
-                                    <p className="text-gray-700 leading-relaxed">
-                                        {purpose}
-                                    </p>
+                                <div className="rounded-xl border border-[#4A7C59]/20 bg-gradient-to-r from-white via-[#4A7C59]/5 to-[#F9B912]/10 p-6">
+                                    <p className="leading-relaxed text-gray-700">{purpose}</p>
                                 </div>
                             </div>
                         )}
@@ -179,7 +162,7 @@ const LoanSchemesComponent: React.FC<LoanSchemesComponentProps> = ({
                         {/* Details in Single Column */}
                         <div className="space-y-1">
                             {activeScheme.attributes
-                                .filter(attr => attr.attribute_name.toLowerCase() !== 'purpose')
+                                .filter((attr) => attr.attribute_name.toLowerCase() !== 'purpose')
                                 .sort((a, b) => a.sort_order - b.sort_order)
                                 .map((attr) => renderDataRow(attr.attribute_name, attr.attribute_value))}
                         </div>
@@ -187,15 +170,13 @@ const LoanSchemesComponent: React.FC<LoanSchemesComponentProps> = ({
                 </div>
 
                 {/* Call to Action */}
-                <div className="text-center mt-8">
-                    <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
-                        <h3 className="text-xl font-semibold text-[#4A7C59] mb-2">
-                            Ready to Apply?
-                        </h3>
-                        <p className="text-gray-600 mb-4">
-                            Contact us today to learn more about our loan schemes and start your application process
-                        </p>
-                        <button className={`bg-gradient-to-r ${colorScheme} text-white px-8 py-3 rounded-lg font-semibold hover:shadow-lg transition-all duration-300 transform hover:scale-105`}>
+                <div className="mt-8 text-center">
+                    <div className="rounded-xl border border-gray-100 bg-white p-6 shadow-lg">
+                        <h3 className="mb-2 text-xl font-semibold text-[#4A7C59]">Ready to Apply?</h3>
+                        <p className="mb-4 text-gray-600">Contact us today to learn more about our loan schemes and start your application process</p>
+                        <button
+                            className={`bg-gradient-to-r ${colorScheme} transform rounded-lg px-8 py-3 font-semibold text-white transition-all duration-300 hover:scale-105 hover:shadow-lg`}
+                        >
                             Get Started
                         </button>
                     </div>

@@ -1,13 +1,13 @@
 // Footer.jsx
 import React from 'react';
+import BottomBar from './footer/BottomBar';
+import ContactInfo from './footer/ContactInfo';
 import LogoSection from './footer/LogoSection';
 import QuickLinks from './footer/QuickLinks';
-import ContactInfo from './footer/ContactInfo';
-import BottomBar from './footer/BottomBar';
 
 const Footer: React.FC = () => (
-    <footer className="bg-[#195f1f] text-white w-full">
-        <div className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+    <footer className="w-full bg-[#195f1f] text-white">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 px-6 py-12 sm:grid-cols-2 md:grid-cols-3">
             <LogoSection />
             <QuickLinks />
             <ContactInfo />

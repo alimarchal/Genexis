@@ -1,17 +1,17 @@
-import { type BreadcrumbItem } from '@/types';
-import { Head, useForm, Link, router } from '@inertiajs/react';
-import { FormEventHandler } from 'react';
 import Heading from '@/components/heading';
-import AppLayout from '@/layouts/app-layout';
+import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Checkbox } from '@/components/ui/checkbox';
-import InputError from '@/components/input-error';
-import { Card, CardContent } from '@/components/ui/card';
-import { Save, ArrowLeft } from 'lucide-react';
+import { Textarea } from '@/components/ui/textarea';
+import AppLayout from '@/layouts/app-layout';
+import { type BreadcrumbItem } from '@/types';
+import { Head, Link, router, useForm } from '@inertiajs/react';
+import { Save } from 'lucide-react';
+import { FormEventHandler } from 'react';
 
 interface MenuItem {
     id: number;
@@ -116,15 +116,12 @@ export default function EditMenu({ menu, parentMenus }: Props) {
             <Head title="Edit Menu Item" />
 
             <div className="px-4 py-6">
-                <Heading
-                    title="Edit Menu Item"
-                    description="Update menu item details and navigation settings"
-                />
+                <Heading title="Edit Menu Item" description="Update menu item details and navigation settings" />
 
                 <form onSubmit={submit} className="max-w-4xl">
                     <Card>
                         <CardContent className="pt-6">
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                            <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-3">
                                 <div>
                                     <Label htmlFor="title">Menu Title *</Label>
                                     <Input
@@ -148,9 +145,7 @@ export default function EditMenu({ menu, parentMenus }: Props) {
                                         required
                                         placeholder="e.g., about-us"
                                     />
-                                    <p className="text-xs text-muted-foreground mt-1">
-                                        URL-friendly identifier
-                                    </p>
+                                    <p className="text-muted-foreground mt-1 text-xs">URL-friendly identifier</p>
                                     <InputError message={errors.slug} className="mt-2" />
                                 </div>
 
@@ -168,7 +163,7 @@ export default function EditMenu({ menu, parentMenus }: Props) {
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                            <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-2">
                                 <div>
                                     <Label htmlFor="url">URL (Direct Link)</Label>
                                     <Input
@@ -178,9 +173,7 @@ export default function EditMenu({ menu, parentMenus }: Props) {
                                         onChange={(e) => setData('url', e.target.value)}
                                         placeholder="e.g., /about-us or https://external.com"
                                     />
-                                    <p className="text-xs text-muted-foreground mt-1">
-                                        Use either URL OR Route Name (not both)
-                                    </p>
+                                    <p className="text-muted-foreground mt-1 text-xs">Use either URL OR Route Name (not both)</p>
                                     <InputError message={errors.url} className="mt-2" />
                                 </div>
 
@@ -193,14 +186,12 @@ export default function EditMenu({ menu, parentMenus }: Props) {
                                         onChange={(e) => setData('route_name', e.target.value)}
                                         placeholder="e.g., about.index"
                                     />
-                                    <p className="text-xs text-muted-foreground mt-1">
-                                        Laravel route name (preferred over direct URL)
-                                    </p>
+                                    <p className="text-muted-foreground mt-1 text-xs">Laravel route name (preferred over direct URL)</p>
                                     <InputError message={errors.route_name} className="mt-2" />
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                            <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-4">
                                 <div>
                                     <Label htmlFor="parent_id">Parent Menu</Label>
                                     <Select value={data.parent_id} onValueChange={(value) => setData('parent_id', value)}>
@@ -209,11 +200,13 @@ export default function EditMenu({ menu, parentMenus }: Props) {
                                         </SelectTrigger>
                                         <SelectContent>
                                             <SelectItem value="none">No Parent (Top Level)</SelectItem>
-                                            {parentMenus.filter(parent => parent.id !== menu.id).map((parent) => (
-                                                <SelectItem key={parent.id} value={parent.id.toString()}>
-                                                    {parent.title}
-                                                </SelectItem>
-                                            ))}
+                                            {parentMenus
+                                                .filter((parent) => parent.id !== menu.id)
+                                                .map((parent) => (
+                                                    <SelectItem key={parent.id} value={parent.id.toString()}>
+                                                        {parent.title}
+                                                    </SelectItem>
+                                                ))}
                                         </SelectContent>
                                     </Select>
                                     <InputError message={errors.parent_id} className="mt-2" />
@@ -242,9 +235,7 @@ export default function EditMenu({ menu, parentMenus }: Props) {
                                         onChange={(e) => setData('icon', e.target.value)}
                                         placeholder="e.g., fas fa-home"
                                     />
-                                    <p className="text-xs text-muted-foreground mt-1">
-                                        CSS class for icon (optional)
-                                    </p>
+                                    <p className="text-muted-foreground mt-1 text-xs">CSS class for icon (optional)</p>
                                     <InputError message={errors.icon} className="mt-2" />
                                 </div>
 
@@ -257,14 +248,12 @@ export default function EditMenu({ menu, parentMenus }: Props) {
                                         onChange={(e) => setData('css_class', e.target.value)}
                                         placeholder="custom-class"
                                     />
-                                    <p className="text-xs text-muted-foreground mt-1">
-                                        Additional CSS classes
-                                    </p>
+                                    <p className="text-muted-foreground mt-1 text-xs">Additional CSS classes</p>
                                     <InputError message={errors.css_class} className="mt-2" />
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                            <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-2">
                                 <div>
                                     <Label htmlFor="route_params">Route Parameters (JSON)</Label>
                                     <Textarea
@@ -274,9 +263,7 @@ export default function EditMenu({ menu, parentMenus }: Props) {
                                         rows={3}
                                         placeholder='{"id": 1, "slug": "example"}'
                                     />
-                                    <p className="text-xs text-muted-foreground mt-1">
-                                        JSON object for route parameters (leave empty if none)
-                                    </p>
+                                    <p className="text-muted-foreground mt-1 text-xs">JSON object for route parameters (leave empty if none)</p>
                                     <InputError message={errors.route_params} className="mt-2" />
                                 </div>
 

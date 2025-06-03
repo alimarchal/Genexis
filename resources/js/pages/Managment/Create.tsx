@@ -1,16 +1,16 @@
-import { type BreadcrumbItem } from '@/types';
-import { Head, useForm, Link } from '@inertiajs/react';
-import { FormEventHandler } from 'react';
 import Heading from '@/components/heading';
-import AppLayout from '@/layouts/app-layout';
+import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import InputError from '@/components/input-error';
-import { Card, CardContent } from '@/components/ui/card';
-import { ArrowLeft, Save } from 'lucide-react';
+import { Textarea } from '@/components/ui/textarea';
+import AppLayout from '@/layouts/app-layout';
+import { type BreadcrumbItem } from '@/types';
+import { Head, Link, useForm } from '@inertiajs/react';
+import { Save } from 'lucide-react';
+import { FormEventHandler } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -62,19 +62,15 @@ export default function CreateManagement() {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Create Management" />
 
-
-
             <div className="px-10 py-6">
                 <Heading title="Create Management Member" description="Add a new management member with their details and profile information" />
 
                 <div className="flex flex-col space-y-8 lg:flex-row lg:space-y-0 lg:space-x-12">
-
-
                     <form onSubmit={submit} className="w-full">
                         <Card>
                             <CardContent className="pt-6">
                                 {/* First Row - 4 columns */}
-                                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                                <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-4">
                                     <div>
                                         <Label htmlFor="title">Title</Label>
                                         <Select value={data.title} onValueChange={(value) => setData('title', value === 'none' ? '' : value)}>
@@ -131,7 +127,7 @@ export default function CreateManagement() {
                                 </div>
 
                                 {/* Second Row - 2 columns */}
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                                <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-2">
                                     <div>
                                         <Label htmlFor="status">Status</Label>
                                         <Select value={data.status} onValueChange={(value: 'active' | 'inactive') => setData('status', value)}>
@@ -155,9 +151,7 @@ export default function CreateManagement() {
                                             accept=".jpg,.jpeg,.png,.pdf"
                                             className="cursor-pointer"
                                         />
-                                        <p className="text-xs text-muted-foreground mt-1">
-                                            Supported formats: JPG, JPEG, PNG, PDF (Max: 2MB)
-                                        </p>
+                                        <p className="text-muted-foreground mt-1 text-xs">Supported formats: JPG, JPEG, PNG, PDF (Max: 2MB)</p>
                                         <InputError message={errors.attachment} className="mt-2" />
                                     </div>
                                 </div>
@@ -188,10 +182,8 @@ export default function CreateManagement() {
                             </CardContent>
                         </Card>
                     </form>
-
                 </div>
             </div>
-
         </AppLayout>
     );
 }

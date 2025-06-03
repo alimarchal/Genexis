@@ -1,5 +1,5 @@
-import WebsiteLayout from '@/layouts/WebsiteLayout';
 import BodCard from '@/components/BodCard';
+import WebsiteLayout from '@/layouts/WebsiteLayout';
 import { usePage } from '@inertiajs/react';
 
 interface BoardOfDirector {
@@ -25,30 +25,25 @@ export default function BoardOfDirectors() {
     const { boardOfDirectors } = usePage<BoardOfDirectorsProps>().props;
 
     // Separate chairman from other directors
-    const chairman = boardOfDirectors.find(member => member.is_chairman);
-    const directors = boardOfDirectors.filter(member => !member.is_chairman);
+    const chairman = boardOfDirectors.find((member) => member.is_chairman);
+    const directors = boardOfDirectors.filter((member) => !member.is_chairman);
 
     return (
-        <div className="max-w-7xl mx-auto px-6 py-8">
+        <div className="mx-auto max-w-7xl px-6 py-8">
             {/* Page Header */}
-            <div className="text-center mb-12">
-                <h1 className="text-4xl font-bold text-gray-900 mb-4">
-                    Board of Directors
-                </h1>
-                <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                    Meet our distinguished Board of Directors who provide strategic leadership
-                    and governance for the Bank of Azad Jammu & Kashmir.
+            <div className="mb-12 text-center">
+                <h1 className="mb-4 text-4xl font-bold text-gray-900">Board of Directors</h1>
+                <p className="mx-auto max-w-3xl text-xl text-gray-600">
+                    Meet our distinguished Board of Directors who provide strategic leadership and governance for the Bank of Azad Jammu & Kashmir.
                 </p>
             </div>
 
             {/* Chairman Section */}
             {chairman && (
                 <div className="mb-16">
-                    <div className="text-center mb-8">
-                        <h2 className="text-3xl font-bold text-[#4A7C59] mb-2">
-                            Chairman
-                        </h2>
-                        <div className="w-24 h-1 bg-gradient-to-r from-[#4A7C59] to-[#F9B912] mx-auto"></div>
+                    <div className="mb-8 text-center">
+                        <h2 className="mb-2 text-3xl font-bold text-[#4A7C59]">Chairman</h2>
+                        <div className="mx-auto h-1 w-24 bg-gradient-to-r from-[#4A7C59] to-[#F9B912]"></div>
                     </div>
 
                     <div className="flex justify-center">
@@ -62,19 +57,14 @@ export default function BoardOfDirectors() {
             {/* Directors Section */}
             {directors.length > 0 && (
                 <div className="mb-12">
-                    <div className="text-center mb-8">
-                        <h2 className="text-3xl font-bold text-[#4A7C59] mb-2">
-                            Directors
-                        </h2>
-                        <div className="w-24 h-1 bg-gradient-to-r from-[#F9B912] to-[#4A7C59] mx-auto"></div>
+                    <div className="mb-8 text-center">
+                        <h2 className="mb-2 text-3xl font-bold text-[#4A7C59]">Directors</h2>
+                        <div className="mx-auto h-1 w-24 bg-gradient-to-r from-[#F9B912] to-[#4A7C59]"></div>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
                         {directors.map((member) => (
-                            <BodCard
-                                key={member.id}
-                                boardMember={member}
-                            />
+                            <BodCard key={member.id} boardMember={member} />
                         ))}
                     </div>
                 </div>
@@ -83,10 +73,4 @@ export default function BoardOfDirectors() {
     );
 }
 
-BoardOfDirectors.layout = (page: any) => (
-    <WebsiteLayout
-        title="About Us - Board of Directors"
-    >
-        {page}
-    </WebsiteLayout>
-);
+BoardOfDirectors.layout = (page: any) => <WebsiteLayout title="About Us - Board of Directors">{page}</WebsiteLayout>;

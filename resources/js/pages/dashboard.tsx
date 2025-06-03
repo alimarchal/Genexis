@@ -1,6 +1,3 @@
-import Footer from '@/components/footer';
-import Header from '@/components/header/header';
-import AddressMarqueeSection from '@/components/topnavbar/top-nav-bar';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';

@@ -20,7 +20,7 @@ export default function ManagementPage() {
     const { managment } = usePage<Props>().props;
 
     return (
-        <div className="max-w-7xl mx-auto px-6 py-8">
+        <div className="mx-auto max-w-7xl px-6 py-8">
             {/* <h1 className="text-3xl font-bold text-gray-900 mb-6">
                 Management Team
             </h1>
@@ -29,8 +29,7 @@ export default function ManagementPage() {
                 towards excellence in banking services.
             </p> */}
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
-
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
                 {managment.map((member) => (
                     <ExecutiveCard
                         key={member.id}
@@ -45,8 +44,4 @@ export default function ManagementPage() {
     );
 }
 
-ManagementPage.layout = (page: any) => (
-    <WebsiteLayout title="Management Team">
-        {page}
-    </WebsiteLayout>
-);
+ManagementPage.layout = (page: any) => <WebsiteLayout title="Management Team">{page}</WebsiteLayout>;

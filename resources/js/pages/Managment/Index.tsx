@@ -1,19 +1,6 @@
-import { type BreadcrumbItem } from '@/types';
-import { Head, Link, router } from '@inertiajs/react';
-import { useState } from 'react';
 import Heading from '@/components/heading';
-import AppLayout from '@/layouts/app-layout';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from '@/components/ui/table';
+import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -22,14 +9,14 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from '@/components/ui/select';
-import { MoreHorizontal, Plus, Search, Eye, Edit, Trash } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import AppLayout from '@/layouts/app-layout';
+import { type BreadcrumbItem } from '@/types';
+import { Head, Link, router } from '@inertiajs/react';
+import { Edit, Eye, MoreHorizontal, Plus, Search, Trash } from 'lucide-react';
+import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -106,11 +93,8 @@ export default function ManagementIndex({ managments, filters }: Props) {
             <Head title="Management" />
 
             <div className="px-4 py-6">
-                <div className="flex justify-between items-center mb-6">
-                    <Heading
-                        title="Management Members"
-                        description="Manage your organization's management team members"
-                    />
+                <div className="mb-6 flex items-center justify-between">
+                    <Heading title="Management Members" description="Manage your organization's management team members" />
                     <Button asChild>
                         <Link href={route('managments.create')}>
                             <Plus className="mr-2 h-4 w-4" />
@@ -122,8 +106,8 @@ export default function ManagementIndex({ managments, filters }: Props) {
                 {/* Filters */}
                 <form onSubmit={handleSearch} className="mb-6">
                     <div className="flex gap-4">
-                        <div className="relative flex-1 max-w-sm">
-                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                        <div className="relative max-w-sm flex-1">
+                            <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
                             <Input
                                 type="text"
                                 placeholder="Search by name..."
@@ -161,7 +145,7 @@ export default function ManagementIndex({ managments, filters }: Props) {
                         <TableBody>
                             {managments.data.length === 0 ? (
                                 <TableRow>
-                                    <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
+                                    <TableCell colSpan={5} className="text-muted-foreground py-8 text-center">
                                         No management members found.
                                     </TableCell>
                                 </TableRow>
@@ -189,9 +173,7 @@ export default function ManagementIndex({ managments, filters }: Props) {
                                         </TableCell>
                                         <TableCell>{member.designation}</TableCell>
                                         <TableCell>
-                                            <Badge variant={member.status === 'active' ? 'default' : 'secondary'}>
-                                                {member.status}
-                                            </Badge>
+                                            <Badge variant={member.status === 'active' ? 'default' : 'secondary'}>{member.status}</Badge>
                                         </TableCell>
                                         <TableCell className="text-right">
                                             <DropdownMenu>
@@ -216,10 +198,7 @@ export default function ManagementIndex({ managments, filters }: Props) {
                                                             Edit
                                                         </Link>
                                                     </DropdownMenuItem>
-                                                    <DropdownMenuItem
-                                                        onClick={() => handleDelete(member.id)}
-                                                        className="text-red-600"
-                                                    >
+                                                    <DropdownMenuItem onClick={() => handleDelete(member.id)} className="text-red-600">
                                                         <Trash className="mr-2 h-4 w-4" />
                                                         Delete
                                                     </DropdownMenuItem>
@@ -235,8 +214,8 @@ export default function ManagementIndex({ managments, filters }: Props) {
 
                 {/* Pagination */}
                 {managments.last_page > 1 && (
-                    <div className="flex items-center justify-between mt-6">
-                        <p className="text-sm text-muted-foreground">
+                    <div className="mt-6 flex items-center justify-between">
+                        <p className="text-muted-foreground text-sm">
                             Showing {managments.data.length} of {managments.total} results
                         </p>
                         <div className="flex gap-2">
