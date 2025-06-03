@@ -18,7 +18,7 @@ const BankHeroCarousel: React.FC = () => {
     const slides: CarouselSlide[] = [
         {
             id: 1,
-            image: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+            image: "/carousel/car_finance.jpeg",
             title: "Digital Banking Solutions",
             subtitle: "Experience seamless banking with our innovative digital platform",
             ctaText: "Learn More",
@@ -26,7 +26,7 @@ const BankHeroCarousel: React.FC = () => {
         },
         {
             id: 2,
-            image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+            image: "/carousel/gold_loan.jpeg",
             title: "Personal Loans Made Simple",
             subtitle: "Quick approval and competitive rates for all your financial needs",
             ctaText: "Apply Now",
@@ -34,7 +34,7 @@ const BankHeroCarousel: React.FC = () => {
         },
         {
             id: 3,
-            image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+            image: "/carousel/schemes.jpeg",
             title: "Investment Opportunities",
             subtitle: "Grow your wealth with our expert investment advisory services",
             ctaText: "Explore",
@@ -42,7 +42,7 @@ const BankHeroCarousel: React.FC = () => {
         },
         {
             id: 4,
-            image: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+            image: "/carousel/running_finance.jpg",
             title: "Business Banking Excellence",
             subtitle: "Comprehensive financial solutions for your business growth",
             ctaText: "Get Started",
@@ -50,7 +50,7 @@ const BankHeroCarousel: React.FC = () => {
         },
         {
             id: 5,
-            image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+            image: "/carousel/schemes.jpeg",
             title: "Customer Support 24/7",
             subtitle: "We're here to help you with all your banking needs anytime",
             ctaText: "Contact Us",
@@ -85,7 +85,7 @@ const BankHeroCarousel: React.FC = () => {
     const handleMouseLeave = () => setIsAutoPlaying(true);
 
     return (
-        <div className="relative w-full">
+        <div className="relative w-full bg-gradient-to-br from-[#e9f7ef] to-[#fff7e6]">
             {/* Main Carousel Container */}
             <div
                 className="relative h-64 sm:h-80 md:h-96 lg:h-[500px] xl:h-[600px] 2xl:h-[700px] overflow-hidden"
@@ -107,24 +107,24 @@ const BankHeroCarousel: React.FC = () => {
                             <img
                                 src={slide.image}
                                 alt={slide.title}
-                                className="w-full h-full object-cover"
+                                className="w-full h-full object-fit"
                                 loading={index === 0 ? "eager" : "lazy"}
                             />
 
                             {/* Gradient Overlay */}
-                            <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent"></div>
+                            {/* <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent"></div> */}
 
                             {/* Content Overlay */}
                             <div className="absolute inset-0 flex items-center">
                                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
                                     <div className="max-w-lg lg:max-w-2xl">
-                                        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-4 leading-tight">
+                                        {/* <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-4 leading-tight">
                                             {slide.title}
                                         </h2>
                                         <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-200 mb-6 lg:mb-8 leading-relaxed">
                                             {slide.subtitle}
-                                        </p>
-                                        {slide.ctaText && slide.ctaLink && (
+                                        </p> */}
+                                        {/* {slide.ctaText && slide.ctaLink && (
                                             <a
                                                 href={slide.ctaLink}
                                                 className="inline-flex items-center px-6 py-3 lg:px-8 lg:py-4 text-base lg:text-lg font-semibold text-white bg-gradient-to-r from-[#4A7C59] to-[#5D8A6A] rounded-lg hover:from-[#F9B912] hover:to-[#E6A610] transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
@@ -144,7 +144,7 @@ const BankHeroCarousel: React.FC = () => {
                                                     />
                                                 </svg>
                                             </a>
-                                        )}
+                                        )} */}
                                     </div>
                                 </div>
                             </div>
@@ -201,7 +201,7 @@ const BankHeroCarousel: React.FC = () => {
             </div>
 
             {/* Thumbnail Navigation (Hidden on mobile) */}
-            <div className="hidden lg:flex justify-center mt-6 space-x-4">
+            <div className="hidden lg:flex justify-center py-6 space-x-4 ">
                 {slides.map((slide, index) => (
                     <button
                         key={slide.id}
