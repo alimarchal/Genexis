@@ -30,7 +30,7 @@ export default function BoardOfDirectors() {
 
     return (
         //
-        <div className="mx-auto min-h-screen bg-gradient-to-br from-[#e9f7ef] to-[#fff7e6] px-6 py-8 ">
+        <div className="mx-auto min-h-screen bg-gradient-to-br from-[#e9f7ef] to-[#fff7e6] px-6 py-8">
             {/* Page Header */}
             <div className="mb-12 text-center">
                 <h1 className="mb-4 text-4xl font-bold text-gray-900">Board of Directors</h1>

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import React, { useEffect, useState, useCallback } from 'react';
 
 interface CarouselSlide {
     id: number;
@@ -18,53 +18,53 @@ const BankHeroCarousel: React.FC = () => {
     const slides: CarouselSlide[] = [
         {
             id: 1,
-            image: "/carousel/car_finance.jpeg",
-            title: "Digital Banking Solutions",
-            subtitle: "Experience seamless banking with our innovative digital platform",
-            ctaText: "Learn More",
-            ctaLink: "/digital-banking"
+            image: '/carousel/car_finance.jpeg',
+            title: 'Digital Banking Solutions',
+            subtitle: 'Experience seamless banking with our innovative digital platform',
+            ctaText: 'Learn More',
+            ctaLink: '/digital-banking',
         },
         {
             id: 2,
-            image: "/carousel/gold_loan.jpeg",
-            title: "Personal Loans Made Simple",
-            subtitle: "Quick approval and competitive rates for all your financial needs",
-            ctaText: "Apply Now",
-            ctaLink: "/personal-loans"
+            image: '/carousel/gold_loan.jpeg',
+            title: 'Personal Loans Made Simple',
+            subtitle: 'Quick approval and competitive rates for all your financial needs',
+            ctaText: 'Apply Now',
+            ctaLink: '/personal-loans',
         },
         {
             id: 3,
-            image: "/carousel/schemes.jpeg",
-            title: "Investment Opportunities",
-            subtitle: "Grow your wealth with our expert investment advisory services",
-            ctaText: "Explore",
-            ctaLink: "/investments"
+            image: '/carousel/schemes.jpeg',
+            title: 'Investment Opportunities',
+            subtitle: 'Grow your wealth with our expert investment advisory services',
+            ctaText: 'Explore',
+            ctaLink: '/investments',
         },
         {
             id: 4,
-            image: "/carousel/running_finance.jpg",
-            title: "Business Banking Excellence",
-            subtitle: "Comprehensive financial solutions for your business growth",
-            ctaText: "Get Started",
-            ctaLink: "/business-banking"
+            image: '/carousel/running_finance.jpg',
+            title: 'Business Banking Excellence',
+            subtitle: 'Comprehensive financial solutions for your business growth',
+            ctaText: 'Get Started',
+            ctaLink: '/business-banking',
         },
         {
             id: 5,
-            image: "/carousel/schemes.jpeg",
-            title: "Customer Support 24/7",
+            image: '/carousel/schemes.jpeg',
+            title: 'Customer Support 24/7',
             subtitle: "We're here to help you with all your banking needs anytime",
-            ctaText: "Contact Us",
-            ctaLink: "/contact"
-        }
+            ctaText: 'Contact Us',
+            ctaLink: '/contact',
+        },
     ];
 
-    const nextSlide = () => {
+    const nextSlide = useCallback(() => {
         setCurrentSlide((prev) => (prev + 1) % slides.length);
-    };
+    }, [slides.length]);
 
-    const prevSlide = () => {
+    const prevSlide = useCallback(() => {
         setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
-    };
+    }, [slides.length]);
 
     const goToSlide = (index: number) => {
         setCurrentSlide(index);
@@ -79,7 +79,7 @@ const BankHeroCarousel: React.FC = () => {
         }, 5000);
 
         return () => clearInterval(interval);
-    }, [currentSlide, isAutoPlaying]);
+    }, [currentSlide, isAutoPlaying, nextSlide]);
 
     const handleMouseEnter = () => setIsAutoPlaying(false);
     const handleMouseLeave = () => setIsAutoPlaying(true);
@@ -88,35 +88,26 @@ const BankHeroCarousel: React.FC = () => {
         <div className="relative w-full bg-gradient-to-br from-[#e9f7ef] to-[#fff7e6]">
             {/* Main Carousel Container */}
             <div
-                className="relative h-64 sm:h-80 md:h-96 lg:h-[500px] xl:h-[600px] 2xl:h-[700px] overflow-hidden"
+                className="relative h-64 overflow-hidden sm:h-80 md:h-96 lg:h-[500px] xl:h-[600px] 2xl:h-[700px]"
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
             >
                 {slides.map((slide, index) => (
                     <div
                         key={slide.id}
-                        className={`absolute inset-0 transition-transform duration-700 ease-in-out ${index === currentSlide
-                            ? 'translate-x-0'
-                            : index < currentSlide
-                                ? '-translate-x-full'
-                                : 'translate-x-full'
+                        className={`absolute inset-0 transition-transform duration-700 ease-in-out ${index === currentSlide ? 'translate-x-0' : index < currentSlide ? '-translate-x-full' : 'translate-x-full'
                             }`}
                     >
                         {/* Background Image */}
-                        <div className="relative w-full h-full">
-                            <img
-                                src={slide.image}
-                                alt={slide.title}
-                                className="w-full h-full object-fit"
-                                loading={index === 0 ? "eager" : "lazy"}
-                            />
+                        <div className="relative h-full w-full">
+                            <img src={slide.image} alt={slide.title} className="object-fit h-full w-full" loading={index === 0 ? 'eager' : 'lazy'} />
 
                             {/* Gradient Overlay */}
                             {/* <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent"></div> */}
 
                             {/* Content Overlay */}
                             <div className="absolute inset-0 flex items-center">
-                                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+                                <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
                                     <div className="max-w-lg lg:max-w-2xl">
                                         {/* <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-4 leading-tight">
                                             {slide.title}
@@ -155,29 +146,27 @@ const BankHeroCarousel: React.FC = () => {
                 {/* Navigation Arrows */}
                 <button
                     onClick={prevSlide}
-                    className="absolute top-1/2 left-4 lg:left-8 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-2 lg:p-3 rounded-full transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white/50"
+                    className="absolute top-1/2 left-4 -translate-y-1/2 transform rounded-full bg-white/20 p-2 text-white backdrop-blur-sm transition-all duration-200 hover:scale-110 hover:bg-white/30 focus:ring-2 focus:ring-white/50 focus:outline-none lg:left-8 lg:p-3"
                     aria-label="Previous slide"
                 >
-                    <ChevronLeft className="w-5 h-5 lg:w-6 lg:h-6" />
+                    <ChevronLeft className="h-5 w-5 lg:h-6 lg:w-6" />
                 </button>
 
                 <button
                     onClick={nextSlide}
-                    className="absolute top-1/2 right-4 lg:right-8 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-2 lg:p-3 rounded-full transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white/50"
+                    className="absolute top-1/2 right-4 -translate-y-1/2 transform rounded-full bg-white/20 p-2 text-white backdrop-blur-sm transition-all duration-200 hover:scale-110 hover:bg-white/30 focus:ring-2 focus:ring-white/50 focus:outline-none lg:right-8 lg:p-3"
                     aria-label="Next slide"
                 >
-                    <ChevronRight className="w-5 h-5 lg:w-6 lg:h-6" />
+                    <ChevronRight className="h-5 w-5 lg:h-6 lg:w-6" />
                 </button>
 
                 {/* Slide Indicators */}
-                <div className="absolute bottom-4 lg:bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2">
+                <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 transform space-x-2 lg:bottom-8">
                     {slides.map((_, index) => (
                         <button
                             key={index}
                             onClick={() => goToSlide(index)}
-                            className={`w-3 h-3 lg:w-4 lg:h-4 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/50 ${index === currentSlide
-                                ? 'bg-white scale-110'
-                                : 'bg-white/50 hover:bg-white/70'
+                            className={`h-3 w-3 rounded-full transition-all duration-200 focus:ring-2 focus:ring-white/50 focus:outline-none lg:h-4 lg:w-4 ${index === currentSlide ? 'scale-110 bg-white' : 'bg-white/50 hover:bg-white/70'
                                 }`}
                             aria-label={`Go to slide ${index + 1}`}
                         />
@@ -185,40 +174,32 @@ const BankHeroCarousel: React.FC = () => {
                 </div>
 
                 {/* Slide Counter */}
-                <div className="absolute top-4 right-4 lg:top-8 lg:right-8 bg-black/30 backdrop-blur-sm text-white px-3 py-1 lg:px-4 lg:py-2 rounded-full text-sm lg:text-base font-medium">
+                <div className="absolute top-4 right-4 rounded-full bg-black/30 px-3 py-1 text-sm font-medium text-white backdrop-blur-sm lg:top-8 lg:right-8 lg:px-4 lg:py-2 lg:text-base">
                     {currentSlide + 1} / {slides.length}
                 </div>
             </div>
 
             {/* Progress Bar */}
-            <div className="w-full bg-gray-200 h-1 mt-4">
+            <div className="mt-4 h-1 w-full bg-gray-200">
                 <div
-                    className="bg-gradient-to-r from-[#4A7C59] to-[#F9B912] h-1 transition-all duration-300 ease-out"
+                    className="h-1 bg-gradient-to-r from-[#4A7C59] to-[#F9B912] transition-all duration-300 ease-out"
                     style={{
-                        width: `${((currentSlide + 1) / slides.length) * 100}%`
+                        width: `${((currentSlide + 1) / slides.length) * 100}%`,
                     }}
                 />
             </div>
 
             {/* Thumbnail Navigation (Hidden on mobile) */}
-            <div className="hidden lg:flex justify-center py-6 space-x-4 ">
+            <div className="hidden justify-center space-x-4 py-6 lg:flex">
                 {slides.map((slide, index) => (
                     <button
                         key={slide.id}
                         onClick={() => goToSlide(index)}
-                        className={`relative w-20 h-12 overflow-hidden transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#4A7C59] ${index === currentSlide
-                            ? 'ring-2 ring-[#F9B912] scale-110'
-                            : 'opacity-70 hover:opacity-100'
+                        className={`relative h-12 w-20 overflow-hidden transition-all duration-200 focus:ring-2 focus:ring-[#4A7C59] focus:outline-none ${index === currentSlide ? 'scale-110 ring-2 ring-[#F9B912]' : 'opacity-70 hover:opacity-100'
                             }`}
                     >
-                        <img
-                            src={slide.image}
-                            alt={`Thumbnail ${index + 1}`}
-                            className="w-full h-full object-cover"
-                        />
-                        {index === currentSlide && (
-                            <div className="absolute inset-0 bg-[#F9B912]/20"></div>
-                        )}
+                        <img src={slide.image} alt={`Thumbnail ${index + 1}`} className="h-full w-full object-cover" />
+                        {index === currentSlide && <div className="absolute inset-0 bg-[#F9B912]/20"></div>}
                     </button>
                 ))}
             </div>

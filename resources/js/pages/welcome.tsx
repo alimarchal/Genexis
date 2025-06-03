@@ -1,10 +1,7 @@
 import BankServicesSection from '@/components/BankServicesSection';
-import BranchLocator from '@/components/BranchLocator';
 import BankHeroCarousel from '@/components/carousel/BankHeroCarousel';
 import CustomerTestimonials from '@/components/CustomerTestimonials';
 import NewsAnnouncements from '@/components/NewsAnnouncements';
-import QuickActionsHub from '@/components/QuickActionsHub';
-import ServicesPage from '@/components/Service';
 import WebsiteLayout from '@/layouts/WebsiteLayout';
 
 export default function HomePage() {
@@ -26,8 +23,4 @@ export default function HomePage() {
     );
 }
 
-HomePage.layout = (page: React.ReactNode) => (
-    <WebsiteLayout title="Home">
-        {page}
-    </WebsiteLayout>
-);
+HomePage.layout = (page: React.ReactNode) => <WebsiteLayout title="Home">{page}</WebsiteLayout>;
