@@ -104,7 +104,7 @@ export default function ShowMenu({ menu }: Props) {
 
                 <Heading title="Menu Item Details" description="View complete information about this menu item and its configuration" />
 
-                <div className="grid max-w-6xl grid-cols-1 gap-6 lg:grid-cols-3">
+                <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
                     {/* Main Information */}
                     <div className="space-y-6 lg:col-span-2">
                         <Card>
@@ -337,5 +337,3 @@ export default function ShowMenu({ menu }: Props) {
         </AppLayout>
     );
 }
-
-ShowMenu.layout = (page: React.ReactNode) => <AppLayout>{page}</AppLayout>;
