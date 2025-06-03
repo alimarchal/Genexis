@@ -1,0 +1,229 @@
+import React, { useState, useEffect } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+
+interface CarouselSlide {
+    id: number;
+    image: string;
+    title: string;
+    subtitle: string;
+    ctaText?: string;
+    ctaLink?: string;
+}
+
+const BankHeroCarousel: React.FC = () => {
+    const [currentSlide, setCurrentSlide] = useState(0);
+    const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+
+    // Sample bank carousel data - replace with your actual data
+    const slides: CarouselSlide[] = [
+        {
+            id: 1,
+            image: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+            title: "Digital Banking Solutions",
+            subtitle: "Experience seamless banking with our innovative digital platform",
+            ctaText: "Learn More",
+            ctaLink: "/digital-banking"
+        },
+        {
+            id: 2,
+            image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+            title: "Personal Loans Made Simple",
+            subtitle: "Quick approval and competitive rates for all your financial needs",
+            ctaText: "Apply Now",
+            ctaLink: "/personal-loans"
+        },
+        {
+            id: 3,
+            image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+            title: "Investment Opportunities",
+            subtitle: "Grow your wealth with our expert investment advisory services",
+            ctaText: "Explore",
+            ctaLink: "/investments"
+        },
+        {
+            id: 4,
+            image: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+            title: "Business Banking Excellence",
+            subtitle: "Comprehensive financial solutions for your business growth",
+            ctaText: "Get Started",
+            ctaLink: "/business-banking"
+        },
+        {
+            id: 5,
+            image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+            title: "Customer Support 24/7",
+            subtitle: "We're here to help you with all your banking needs anytime",
+            ctaText: "Contact Us",
+            ctaLink: "/contact"
+        }
+    ];
+
+    const nextSlide = () => {
+        setCurrentSlide((prev) => (prev + 1) % slides.length);
+    };
+
+    const prevSlide = () => {
+        setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+    };
+
+    const goToSlide = (index: number) => {
+        setCurrentSlide(index);
+    };
+
+    // Auto-play functionality
+    useEffect(() => {
+        if (!isAutoPlaying) return;
+
+        const interval = setInterval(() => {
+            nextSlide();
+        }, 5000);
+
+        return () => clearInterval(interval);
+    }, [currentSlide, isAutoPlaying]);
+
+    const handleMouseEnter = () => setIsAutoPlaying(false);
+    const handleMouseLeave = () => setIsAutoPlaying(true);
+
+    return (
+        <div className="relative w-full">
+            {/* Main Carousel Container */}
+            <div
+                className="relative h-64 sm:h-80 md:h-96 lg:h-[500px] xl:h-[600px] 2xl:h-[700px] overflow-hidden"
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+            >
+                {slides.map((slide, index) => (
+                    <div
+                        key={slide.id}
+                        className={`absolute inset-0 transition-transform duration-700 ease-in-out ${index === currentSlide
+                            ? 'translate-x-0'
+                            : index < currentSlide
+                                ? '-translate-x-full'
+                                : 'translate-x-full'
+                            }`}
+                    >
+                        {/* Background Image */}
+                        <div className="relative w-full h-full">
+                            <img
+                                src={slide.image}
+                                alt={slide.title}
+                                className="w-full h-full object-cover"
+                                loading={index === 0 ? "eager" : "lazy"}
+                            />
+
+                            {/* Gradient Overlay */}
+                            <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent"></div>
+
+                            {/* Content Overlay */}
+                            <div className="absolute inset-0 flex items-center">
+                                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+                                    <div className="max-w-lg lg:max-w-2xl">
+                                        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-4 leading-tight">
+                                            {slide.title}
+                                        </h2>
+                                        <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-200 mb-6 lg:mb-8 leading-relaxed">
+                                            {slide.subtitle}
+                                        </p>
+                                        {slide.ctaText && slide.ctaLink && (
+                                            <a
+                                                href={slide.ctaLink}
+                                                className="inline-flex items-center px-6 py-3 lg:px-8 lg:py-4 text-base lg:text-lg font-semibold text-white bg-gradient-to-r from-[#4A7C59] to-[#5D8A6A] rounded-lg hover:from-[#F9B912] hover:to-[#E6A610] transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+                                            >
+                                                {slide.ctaText}
+                                                <svg
+                                                    className="ml-2 w-5 h-5"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <path
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        strokeWidth={2}
+                                                        d="M17 8l4 4m0 0l-4 4m4-4H3"
+                                                    />
+                                                </svg>
+                                            </a>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+
+                {/* Navigation Arrows */}
+                <button
+                    onClick={prevSlide}
+                    className="absolute top-1/2 left-4 lg:left-8 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-2 lg:p-3 rounded-full transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white/50"
+                    aria-label="Previous slide"
+                >
+                    <ChevronLeft className="w-5 h-5 lg:w-6 lg:h-6" />
+                </button>
+
+                <button
+                    onClick={nextSlide}
+                    className="absolute top-1/2 right-4 lg:right-8 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-2 lg:p-3 rounded-full transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white/50"
+                    aria-label="Next slide"
+                >
+                    <ChevronRight className="w-5 h-5 lg:w-6 lg:h-6" />
+                </button>
+
+                {/* Slide Indicators */}
+                <div className="absolute bottom-4 lg:bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2">
+                    {slides.map((_, index) => (
+                        <button
+                            key={index}
+                            onClick={() => goToSlide(index)}
+                            className={`w-3 h-3 lg:w-4 lg:h-4 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/50 ${index === currentSlide
+                                ? 'bg-white scale-110'
+                                : 'bg-white/50 hover:bg-white/70'
+                                }`}
+                            aria-label={`Go to slide ${index + 1}`}
+                        />
+                    ))}
+                </div>
+
+                {/* Slide Counter */}
+                <div className="absolute top-4 right-4 lg:top-8 lg:right-8 bg-black/30 backdrop-blur-sm text-white px-3 py-1 lg:px-4 lg:py-2 rounded-full text-sm lg:text-base font-medium">
+                    {currentSlide + 1} / {slides.length}
+                </div>
+            </div>
+
+            {/* Progress Bar */}
+            <div className="w-full bg-gray-200 h-1 mt-4">
+                <div
+                    className="bg-gradient-to-r from-[#4A7C59] to-[#F9B912] h-1 transition-all duration-300 ease-out"
+                    style={{
+                        width: `${((currentSlide + 1) / slides.length) * 100}%`
+                    }}
+                />
+            </div>
+
+            {/* Thumbnail Navigation (Hidden on mobile) */}
+            <div className="hidden lg:flex justify-center mt-6 space-x-4">
+                {slides.map((slide, index) => (
+                    <button
+                        key={slide.id}
+                        onClick={() => goToSlide(index)}
+                        className={`relative w-20 h-12 overflow-hidden transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#4A7C59] ${index === currentSlide
+                            ? 'ring-2 ring-[#F9B912] scale-110'
+                            : 'opacity-70 hover:opacity-100'
+                            }`}
+                    >
+                        <img
+                            src={slide.image}
+                            alt={`Thumbnail ${index + 1}`}
+                            className="w-full h-full object-cover"
+                        />
+                        {index === currentSlide && (
+                            <div className="absolute inset-0 bg-[#F9B912]/20"></div>
+                        )}
+                    </button>
+                ))}
+            </div>
+        </div>
+    );
+};
+
+export default BankHeroCarousel;
