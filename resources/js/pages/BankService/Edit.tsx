@@ -18,14 +18,14 @@ interface BankService {
     title: string;
     description: string;
     icon: string;
-    products: string[];
+    products: string[] | string;
     cta_text: string;
     cta_link: string;
     color: string;
-    benefits: string[];
+    benefits: string[] | string;
     order: number;
     status: boolean;
-    service_type: 'main' | 'additional' | 'stat';
+    service_type: 'service' | 'deposit' | 'stat';
     stat_number: string | null;
     stat_label: string | null;
     stat_description: string | null;
@@ -46,7 +46,7 @@ type BankServiceForm = {
     benefits: string[];
     order: number;
     status: boolean;
-    service_type: 'main' | 'additional' | 'stat';
+    service_type: 'service' | 'deposit' | 'stat';
     stat_number: string;
     stat_label: string;
     stat_description: string;
@@ -73,15 +73,31 @@ export default function EditBankService({ bankService }: Props) {
         },
     ];
 
+    // Helper function to ensure we have arrays
+    const ensureArray = (value: any): string[] => {
+        if (Array.isArray(value)) {
+            return value;
+        }
+        if (typeof value === 'string') {
+            try {
+                const parsed = JSON.parse(value);
+                return Array.isArray(parsed) ? parsed : [value];
+            } catch {
+                return [value];
+            }
+        }
+        return [];
+    };
+
     const { data, setData, put, processing, errors } = useForm<BankServiceForm>({
         title: bankService.title,
         description: bankService.description,
         icon: bankService.icon,
-        products: bankService.products.length > 0 ? bankService.products : [''],
+        products: ensureArray(bankService.products).length > 0 ? ensureArray(bankService.products) : [''],
         cta_text: bankService.cta_text,
         cta_link: bankService.cta_link,
         color: bankService.color,
-        benefits: bankService.benefits.length > 0 ? bankService.benefits : [''],
+        benefits: ensureArray(bankService.benefits).length > 0 ? ensureArray(bankService.benefits) : [''],
         order: bankService.order,
         status: bankService.status,
         service_type: bankService.service_type,
@@ -92,15 +108,15 @@ export default function EditBankService({ bankService }: Props) {
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
+
         // Filter out empty products and benefits
-        const filteredData = {
+        setData({
             ...data,
             products: data.products.filter(p => p.trim() !== ''),
             benefits: data.benefits.filter(b => b.trim() !== ''),
-        };
-        put(route('bank-services.update', bankService.id), {
-            data: filteredData,
         });
+
+        put(route('bank-services.update', bankService.id));
     };
 
     const addProduct = () => {
@@ -134,18 +150,24 @@ export default function EditBankService({ bankService }: Props) {
     };
 
     const iconOptions = [
-        'Building', 'User', 'Users', 'Star', 'Smartphone', 'MapPin', 'CreditCard',
+        'Building', 'Building2', 'User', 'Users', 'Star', 'Smartphone', 'MapPin', 'CreditCard',
         'Shield', 'TrendingUp', 'Globe', 'DollarSign', 'Banknote', 'Calculator',
-        'PiggyBank', 'Landmark', 'Wallet'
+        'PiggyBank', 'Landmark', 'Wallet', 'Wheat', 'Home'
     ];
 
     const colorOptions = [
+        'from-blue-600 to-blue-700',
         'from-blue-600 to-blue-800',
+        'from-green-600 to-green-700',
         'from-green-600 to-green-800',
+        'from-purple-600 to-purple-700',
         'from-purple-600 to-purple-800',
         'from-indigo-600 to-indigo-800',
+        'from-orange-600 to-orange-700',
         'from-orange-600 to-orange-800',
+        'from-teal-600 to-teal-700',
         'from-teal-600 to-teal-800',
+        'from-amber-600 to-amber-700',
         'from-red-600 to-red-800',
         'from-yellow-600 to-yellow-800',
         'from-pink-600 to-pink-800',
@@ -237,13 +259,13 @@ export default function EditBankService({ bankService }: Props) {
                                 </div>
                                 <div>
                                     <Label htmlFor="service_type">Service Type *</Label>
-                                    <Select value={data.service_type} onValueChange={(value: 'main' | 'additional' | 'stat') => setData('service_type', value)}>
+                                    <Select value={data.service_type} onValueChange={(value: 'service' | 'deposit' | 'stat') => setData('service_type', value)}>
                                         <SelectTrigger className="mt-1">
                                             <SelectValue placeholder="Select type" />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem value="main">Main Service</SelectItem>
-                                            <SelectItem value="additional">Additional Service</SelectItem>
+                                            <SelectItem value="service">Main Service</SelectItem>
+                                            <SelectItem value="deposit">Deposit Service</SelectItem>
                                             <SelectItem value="stat">Statistics</SelectItem>
                                         </SelectContent>
                                     </Select>

@@ -39,7 +39,7 @@ type BankServiceForm = {
     benefits: string[];
     order: number;
     status: boolean;
-    service_type: 'main' | 'additional' | 'stat';
+    service_type: 'service' | 'deposit' | 'stat';
     stat_number: string;
     stat_label: string;
     stat_description: string;
@@ -57,7 +57,7 @@ export default function CreateBankService() {
         benefits: [''],
         order: 0,
         status: true,
-        service_type: 'main',
+        service_type: 'service',
         stat_number: '',
         stat_label: '',
         stat_description: '',
@@ -65,15 +65,15 @@ export default function CreateBankService() {
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
+
         // Filter out empty products and benefits
-        const filteredData = {
+        setData({
             ...data,
             products: data.products.filter(p => p.trim() !== ''),
             benefits: data.benefits.filter(b => b.trim() !== ''),
-        };
-        post(route('bank-services.store'), {
-            data: filteredData,
         });
+
+        post(route('bank-services.store'));
     };
 
     const addProduct = () => {
@@ -107,18 +107,24 @@ export default function CreateBankService() {
     };
 
     const iconOptions = [
-        'Building', 'User', 'Users', 'Star', 'Smartphone', 'MapPin', 'CreditCard',
+        'Building', 'Building2', 'User', 'Users', 'Star', 'Smartphone', 'MapPin', 'CreditCard',
         'Shield', 'TrendingUp', 'Globe', 'DollarSign', 'Banknote', 'Calculator',
-        'PiggyBank', 'Landmark', 'Wallet'
+        'PiggyBank', 'Landmark', 'Wallet', 'Wheat', 'Home'
     ];
 
     const colorOptions = [
+        'from-blue-600 to-blue-700',
         'from-blue-600 to-blue-800',
+        'from-green-600 to-green-700',
         'from-green-600 to-green-800',
+        'from-purple-600 to-purple-700',
         'from-purple-600 to-purple-800',
         'from-indigo-600 to-indigo-800',
+        'from-orange-600 to-orange-700',
         'from-orange-600 to-orange-800',
+        'from-teal-600 to-teal-700',
         'from-teal-600 to-teal-800',
+        'from-amber-600 to-amber-700',
         'from-red-600 to-red-800',
         'from-yellow-600 to-yellow-800',
         'from-pink-600 to-pink-800',
@@ -210,13 +216,13 @@ export default function CreateBankService() {
                                 </div>
                                 <div>
                                     <Label htmlFor="service_type">Service Type *</Label>
-                                    <Select value={data.service_type} onValueChange={(value: 'main' | 'additional' | 'stat') => setData('service_type', value)}>
+                                    <Select value={data.service_type} onValueChange={(value: 'service' | 'deposit' | 'stat') => setData('service_type', value)}>
                                         <SelectTrigger className="mt-1">
                                             <SelectValue placeholder="Select type" />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem value="main">Main Service</SelectItem>
-                                            <SelectItem value="additional">Additional Service</SelectItem>
+                                            <SelectItem value="service">Main Service</SelectItem>
+                                            <SelectItem value="deposit">Deposit Service</SelectItem>
                                             <SelectItem value="stat">Statistics</SelectItem>
                                         </SelectContent>
                                     </Select>

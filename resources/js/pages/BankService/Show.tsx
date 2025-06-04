@@ -12,14 +12,14 @@ interface BankService {
     title: string;
     description: string;
     icon: string;
-    products: string[];
+    products: string[] | string;
     cta_text: string;
     cta_link: string;
     color: string;
-    benefits: string[];
+    benefits: string[] | string;
     order: number;
     status: boolean;
-    service_type: 'main' | 'additional' | 'stat';
+    service_type: 'service' | 'deposit' | 'stat';
     stat_number: string | null;
     stat_label: string | null;
     stat_description: string | null;
@@ -32,6 +32,25 @@ interface Props {
 }
 
 export default function ShowBankService({ bankService }: Props) {
+    // Helper function to ensure we have arrays
+    const ensureArray = (value: any): string[] => {
+        if (Array.isArray(value)) {
+            return value;
+        }
+        if (typeof value === 'string') {
+            try {
+                const parsed = JSON.parse(value);
+                return Array.isArray(parsed) ? parsed : [value];
+            } catch {
+                return [value];
+            }
+        }
+        return [];
+    };
+
+    const products = ensureArray(bankService.products);
+    const benefits = ensureArray(bankService.benefits);
+
     const breadcrumbs: BreadcrumbItem[] = [
         {
             title: 'Dashboard',
@@ -190,14 +209,14 @@ export default function ShowBankService({ bankService }: Props) {
                         )}
 
                         {/* Products (not for stat type) */}
-                        {bankService.service_type !== 'stat' && bankService.products.length > 0 && (
+                        {bankService.service_type !== 'stat' && products.length > 0 && (
                             <Card>
                                 <CardHeader>
                                     <CardTitle>Products</CardTitle>
                                 </CardHeader>
                                 <CardContent>
                                     <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
-                                        {bankService.products.map((product, index) => (
+                                        {products.map((product, index) => (
                                             <div key={index} className="flex items-center gap-2 rounded-lg border p-3">
                                                 <Star className="h-4 w-4 text-yellow-500" />
                                                 <span>{product}</span>
@@ -209,14 +228,14 @@ export default function ShowBankService({ bankService }: Props) {
                         )}
 
                         {/* Benefits */}
-                        {bankService.benefits.length > 0 && (
+                        {benefits.length > 0 && (
                             <Card>
                                 <CardHeader>
                                     <CardTitle>Benefits</CardTitle>
                                 </CardHeader>
                                 <CardContent>
                                     <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
-                                        {bankService.benefits.map((benefit, index) => (
+                                        {benefits.map((benefit, index) => (
                                             <div key={index} className="flex items-center gap-2 rounded-lg border p-3">
                                                 <Star className="h-4 w-4 text-green-500" />
                                                 <span>{benefit}</span>

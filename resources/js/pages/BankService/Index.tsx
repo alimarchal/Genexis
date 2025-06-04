@@ -26,14 +26,14 @@ interface BankService {
     title: string;
     description: string;
     icon: string;
-    products: string[];
+    products: string[] | string;
     cta_text: string;
     cta_link: string;
     color: string;
-    benefits: string[];
+    benefits: string[] | string;
     order: number;
     status: boolean;
-    service_type: 'main' | 'additional' | 'stat';
+    service_type: 'service' | 'deposit' | 'stat';
     stat_number: string | null;
     stat_label: string | null;
     stat_description: string | null;
@@ -60,13 +60,29 @@ interface Props {
 }
 
 export default function BankServiceIndex({ bankServices, filters }: Props) {
+    // Helper function to ensure we have arrays
+    const ensureArray = (value: any): string[] => {
+        if (Array.isArray(value)) {
+            return value;
+        }
+        if (typeof value === 'string') {
+            try {
+                const parsed = JSON.parse(value);
+                return Array.isArray(parsed) ? parsed : [value];
+            } catch {
+                return [value];
+            }
+        }
+        return [];
+    };
+
     const [searchTerm, setSearchTerm] = useState(filters.filter?.title || '');
     const [statusFilter, setStatusFilter] = useState(filters.filter?.status || 'all');
     const [typeFilter, setTypeFilter] = useState(filters.filter?.service_type || 'all');
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
-        const params: Record<string, unknown> = {};
+        const params: Record<string, string> = {};
 
         if (searchTerm) {
             params['filter[title]'] = searchTerm;
@@ -205,8 +221,8 @@ export default function BankServiceIndex({ bankServices, filters }: Props) {
                                         </TableCell>
                                         <TableCell>
                                             <div className="text-sm">
-                                                {service.products.length > 0 ? (
-                                                    <span>{service.products.length} products</span>
+                                                {ensureArray(service.products).length > 0 ? (
+                                                    <span>{ensureArray(service.products).length} products</span>
                                                 ) : (
                                                     '-'
                                                 )}

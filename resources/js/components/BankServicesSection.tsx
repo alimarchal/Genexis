@@ -18,11 +18,11 @@ interface BankService {
     title: string;
     description: string;
     icon: string;
-    products: string[];
+    products: string[] | string;
     cta_text: string;
     cta_link: string;
     color: string;
-    benefits: string[];
+    benefits: string[] | string;
     service_type: 'service' | 'stat' | 'deposit';
     stat_number?: string;
     stat_label?: string;
@@ -50,6 +50,22 @@ const InteractiveBAJKServices: React.FC<Props> = ({ bankServices }) => {
         'MapPin': MapPin,
     };
 
+    // Helper function to ensure we have arrays
+    const ensureArray = (value: any): string[] => {
+        if (Array.isArray(value)) {
+            return value;
+        }
+        if (typeof value === 'string') {
+            try {
+                const parsed = JSON.parse(value);
+                return Array.isArray(parsed) ? parsed : [value];
+            } catch {
+                return [value];
+            }
+        }
+        return [];
+    };
+
     // Transform bank services data
     const services: ServiceCard[] = bankServices
         .filter(service => service.service_type === 'service')
@@ -58,7 +74,7 @@ const InteractiveBAJKServices: React.FC<Props> = ({ bankServices }) => {
             title: service.title,
             description: service.description,
             icon: iconMapping[service.icon] || Building2,
-            products: service.products.map(product => {
+            products: ensureArray(service.products).map(product => {
                 // Split product string into name and description
                 const parts = product.split(' - ');
                 return {
@@ -69,7 +85,7 @@ const InteractiveBAJKServices: React.FC<Props> = ({ bankServices }) => {
             ctaText: service.cta_text,
             ctaLink: service.cta_link,
             color: service.color,
-            benefits: service.benefits,
+            benefits: ensureArray(service.benefits),
         }));
 
     const depositServices = bankServices
