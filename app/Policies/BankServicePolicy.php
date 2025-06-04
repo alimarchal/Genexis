@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\BankService;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class BankServicePolicy
 {
@@ -13,7 +12,7 @@ class BankServicePolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,7 +20,7 @@ class BankServicePolicy
      */
     public function view(User $user, BankService $bankService): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -29,7 +28,7 @@ class BankServicePolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -37,7 +36,7 @@ class BankServicePolicy
      */
     public function update(User $user, BankService $bankService): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -45,7 +44,7 @@ class BankServicePolicy
      */
     public function delete(User $user, BankService $bankService): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -53,7 +52,7 @@ class BankServicePolicy
      */
     public function restore(User $user, BankService $bankService): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -61,6 +60,6 @@ class BankServicePolicy
      */
     public function forceDelete(User $user, BankService $bankService): bool
     {
-        return false;
+        return true;
     }
 }

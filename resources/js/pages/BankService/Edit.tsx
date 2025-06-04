@@ -1,5 +1,5 @@
 import { FormEventHandler } from 'react';
-import { Head, Link, useForm } from '@inertiajs/react';
+import { Head, Link, useForm, router } from '@inertiajs/react';
 import { ArrowLeft, Plus, Trash2 } from 'lucide-react';
 import AppLayout from '@/layouts/app-layout';
 import { Button } from '@/components/ui/button';
@@ -109,14 +109,26 @@ export default function EditBankService({ bankService }: Props) {
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
-        // Filter out empty products and benefits
-        setData({
-            ...data,
-            products: data.products.filter(p => p.trim() !== ''),
-            benefits: data.benefits.filter(b => b.trim() !== ''),
-        });
+        // Prepare data based on service type
+        let finalProducts = data.products.filter(p => p.trim() !== '');
+        let finalBenefits = data.benefits.filter(b => b.trim() !== '');
 
-        put(route('bank-services.update', bankService.id));
+        // For stat type, products are not required
+        if (data.service_type === 'stat') {
+            finalProducts = [];
+        }
+
+        // Ensure we have at least one benefit
+        if (finalBenefits.length === 0) {
+            finalBenefits = ['Banking service benefit'];
+        }
+
+        // Use router.put directly with prepared data
+        router.put(route('bank-services.update', bankService.id), {
+            ...data,
+            products: finalProducts,
+            benefits: finalBenefits,
+        });
     };
 
     const addProduct = () => {
