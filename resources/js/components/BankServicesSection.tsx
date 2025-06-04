@@ -13,94 +13,82 @@ interface ServiceCard {
     benefits: string[];
 }
 
-const InteractiveBAJKServices: React.FC = () => {
+interface BankService {
+    id: number;
+    title: string;
+    description: string;
+    icon: string;
+    products: string[];
+    cta_text: string;
+    cta_link: string;
+    color: string;
+    benefits: string[];
+    service_type: 'service' | 'stat' | 'deposit';
+    stat_number?: string;
+    stat_label?: string;
+    stat_description?: string;
+}
+
+interface Props {
+    bankServices: BankService[];
+}
+
+const InteractiveBAJKServices: React.FC<Props> = ({ bankServices }) => {
     const [hoveredCard, setHoveredCard] = useState<number | null>(null);
     const [expandedCard, setExpandedCard] = useState<number | null>(null);
 
-    const services: ServiceCard[] = [
-        {
-            id: 1,
-            title: 'Consumer Finances',
-            description: 'Personal financing solutions for individuals and families across AJK',
-            icon: CreditCard,
-            products: [
-                { name: 'Advance Salary Scheme', description: 'Up to Rs. 30 Lac for salary earners' },
-                { name: 'Car Finance', description: 'Up to Rs. 30 Lac for vehicle purchase' },
-                { name: 'House Loan', description: 'Up to Rs. 10 Million for home construction' },
-                { name: 'Personal Loan', description: 'Quick loans against deposits' },
-                { name: 'Gold Loan', description: 'Up to Rs. 20 Lac against gold ornaments' },
-                { name: 'Student Loan', description: 'Up to Rs. 10 Million for higher studies' },
-            ],
-            ctaText: 'Apply for Consumer Finance',
-            ctaLink: '/products/consumer-finances',
-            color: 'from-blue-600 to-blue-700',
-            benefits: ['Quick Processing', 'Competitive Rates', 'Flexible Terms', 'Minimal Documentation'],
-        },
-        {
-            id: 2,
-            title: 'Commercial / SME Finances',
-            description: 'Comprehensive business financing for enterprises in Kashmir',
-            icon: Building2,
-            products: [
-                { name: 'Running Finance', description: 'Working capital for business operations' },
-                { name: 'Auto Finance', description: 'Commercial vehicle financing' },
-                { name: 'Demand Finance', description: 'Machinery and equipment purchase' },
-                { name: 'Construction Finance', description: 'Commercial building projects' },
-                { name: 'Tourism Finance', description: 'Tourism infrastructure development' },
-                { name: 'Trade Finance', description: 'Small business working capital' },
-            ],
-            ctaText: 'Explore Business Solutions',
-            ctaLink: '/products/commercial-sme-finances',
-            color: 'from-green-600 to-green-700',
-            benefits: ['Business Growth Support', 'Flexible Repayment', 'Expert Advisory', 'Sector Specific Solutions'],
-        },
-        {
-            id: 3,
-            title: 'Agriculture Finances',
-            description: 'Supporting agricultural development and rural economy of AJK',
-            icon: Wheat,
-            products: [
-                { name: 'Agriculture Production Loan', description: 'Short term loans for agri inputs' },
-                { name: 'Agriculture Development Loan', description: 'Long term loans for farm assets' },
-                { name: 'Farm Equipment Finance', description: 'Tractors and machinery financing' },
-                { name: 'Livestock Finance', description: 'Dairy, poultry, and livestock development' },
-            ],
-            ctaText: 'Support Agriculture Growth',
-            ctaLink: '/products/agriculture-finances',
-            color: 'from-amber-600 to-amber-700',
-            benefits: ['Farmer Friendly Terms', 'Seasonal Repayment', 'Low Interest Rates', 'Rural Development Focus'],
-        },
-        {
-            id: 4,
-            title: 'Micro Finances',
-            description: 'Empowering small entrepreneurs and promoting self-employment',
-            icon: Users,
-            products: [
-                { name: 'Micro Enterprise Loan', description: 'Up to Rs. 1 Lac for small businesses' },
-                { name: 'Desi Murghbani Scheme', description: 'Poultry farming for women (Rs. 15-50K)' },
-                { name: 'Small Business Support', description: 'Self-employment opportunities' },
-                { name: 'Women Entrepreneurship', description: 'Special schemes for women' },
-            ],
-            ctaText: 'Start Your Enterprise',
-            ctaLink: '/products/micro-finances',
-            color: 'from-purple-600 to-purple-700',
-            benefits: ['Easy Access', 'No Collateral Required', 'Community Development', 'Women Empowerment'],
-        },
-    ];
+    // Icon mapping
+    const iconMapping: Record<string, React.ComponentType<React.SVGProps<SVGSVGElement>>> = {
+        'CreditCard': CreditCard,
+        'Building2': Building2,
+        'Wheat': Wheat,
+        'Users': Users,
+        'Shield': Shield,
+        'TrendingUp': TrendingUp,
+        'Home': Home,
+        'Phone': Phone,
+        'MapPin': MapPin,
+    };
 
-    const depositServices = [
-        { name: 'Deposit Accounts', icon: Shield, link: '/products/deposit-accounts', description: 'Savings & Current Accounts' },
-        { name: 'Term Deposits', icon: TrendingUp, link: '/products/term-deposit', description: 'Fixed Deposit Schemes' },
-        { name: 'Digital Banking', icon: Building2, link: '/services/all-services', description: 'Online & Mobile Banking' },
-        { name: 'Lockers Facility', icon: Home, link: '/services/lockers-facility', description: 'Safe Deposit Lockers' },
-    ];
+    // Transform bank services data
+    const services: ServiceCard[] = bankServices
+        .filter(service => service.service_type === 'service')
+        .map(service => ({
+            id: service.id,
+            title: service.title,
+            description: service.description,
+            icon: iconMapping[service.icon] || Building2,
+            products: service.products.map(product => {
+                // Split product string into name and description
+                const parts = product.split(' - ');
+                return {
+                    name: parts[0] || product,
+                    description: parts[1] || 'Banking service'
+                };
+            }),
+            ctaText: service.cta_text,
+            ctaLink: service.cta_link,
+            color: service.color,
+            benefits: service.benefits,
+        }));
 
-    const stats = [
-        { number: '87+', label: 'Branches', icon: Building2, description: 'Across AJK' },
-        { number: '500K+', label: 'Customers', icon: Users, description: 'Satisfied Clients' },
-        { number: 'Rs 50B+', label: 'Assets', icon: TrendingUp, description: 'Total Assets' },
-        { number: '50+', label: 'Years', icon: Shield, description: 'Banking Excellence' },
-    ];
+    const depositServices = bankServices
+        .filter(service => service.service_type === 'deposit')
+        .map(service => ({
+            name: service.title,
+            icon: iconMapping[service.icon] || Shield,
+            link: service.cta_link,
+            description: service.description,
+        }));
+
+    const stats = bankServices
+        .filter(service => service.service_type === 'stat')
+        .map(service => ({
+            number: service.stat_number || '0',
+            label: service.stat_label || service.title,
+            icon: iconMapping[service.icon] || Building2,
+            description: service.stat_description || service.description,
+        }));
 
     return (
         <section className="relative overflow-hidden bg-gradient-to-br from-[#e9f7ef] to-[#fff7e6] pt-5 pb-20">
@@ -239,8 +227,8 @@ const InteractiveBAJKServices: React.FC = () => {
                                     <a
                                         href={service.ctaLink}
                                         className={`group inline-flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-[#4A7C59] to-[#5D8A6A] px-8 py-4 font-bold text-white shadow-lg transition-all duration-300 ${isHovered
-                                                ? 'scale-105 from-[#F9B912] to-[#E6A610] shadow-2xl'
-                                                : 'hover:scale-105 hover:from-[#F9B912] hover:to-[#E6A610] hover:shadow-xl'
+                                            ? 'scale-105 from-[#F9B912] to-[#E6A610] shadow-2xl'
+                                            : 'hover:scale-105 hover:from-[#F9B912] hover:to-[#E6A610] hover:shadow-xl'
                                             }`}
                                     >
                                         {service.ctaText}

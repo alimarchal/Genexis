@@ -13,15 +13,32 @@ interface CarouselSlide {
     ctaLink?: string;
 }
 
-interface Props {
-    carousels: CarouselSlide[];
+interface BankService {
+    id: number;
+    title: string;
+    description: string;
+    icon: string;
+    products: string[];
+    cta_text: string;
+    cta_link: string;
+    color: string;
+    benefits: string[];
+    service_type: 'service' | 'stat' | 'deposit';
+    stat_number?: string;
+    stat_label?: string;
+    stat_description?: string;
 }
 
-export default function HomePage({ carousels }: Props) {
+interface Props {
+    carousels: CarouselSlide[];
+    bankServices: BankService[];
+}
+
+export default function HomePage({ carousels, bankServices }: Props) {
     return (
         <div className="w-full">
             <BankHeroCarousel slides={carousels} />
-            <BankServicesSection />
+            <BankServicesSection bankServices={bankServices} />
             <NewsAnnouncements />
             <CustomerTestimonials />
 

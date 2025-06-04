@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePageRequest;
 use App\Http\Requests\UpdatePageRequest;
+use App\Models\BankService;
 use App\Models\BoardOfDirector;
 use App\Models\Carousel;
 use App\Models\Managment;
@@ -30,8 +31,31 @@ class PageController extends Controller
                 ];
             });
 
+        $bankServices = BankService::active()
+            ->orderBy('order')
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->map(function ($service) {
+                return [
+                    'id' => $service->id,
+                    'title' => $service->title,
+                    'description' => $service->description,
+                    'icon' => $service->icon,
+                    'products' => $service->products,
+                    'cta_text' => $service->cta_text,
+                    'cta_link' => $service->cta_link,
+                    'color' => $service->color,
+                    'benefits' => $service->benefits,
+                    'service_type' => $service->service_type,
+                    'stat_number' => $service->stat_number,
+                    'stat_label' => $service->stat_label,
+                    'stat_description' => $service->stat_description,
+                ];
+            });
+
         return Inertia::render('welcome', [
             'carousels' => $carousels,
+            'bankServices' => $bankServices,
         ]);
     }
 

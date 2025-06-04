@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\MenuController;
+use App\Http\Controllers\BankServiceController;
 use App\Http\Controllers\CarouselController;
 use App\Http\Controllers\ManagmentController;
 use App\Http\Controllers\PageController;
@@ -15,6 +16,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::resource('managments', ManagmentController::class);
     Route::resource('carousels', CarouselController::class);
+    Route::resource('bank-services', BankServiceController::class);
 });
 
 Route::get('/', [PageController::class, 'home'])->name(name: 'home');

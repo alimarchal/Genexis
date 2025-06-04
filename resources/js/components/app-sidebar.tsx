@@ -4,7 +4,7 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, Images, LayoutGrid, Users } from 'lucide-react';
+import { BookOpen, Building, Folder, Images, LayoutGrid, Users } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -22,6 +22,11 @@ const mainNavItems: NavItem[] = [
         title: 'Carousel',
         href: '/carousels',
         icon: Images,
+    },
+    {
+        title: 'Bank Services',
+        href: '/bank-services',
+        icon: Building,
     },
 ];
 
