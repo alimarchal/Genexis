@@ -1,7 +1,6 @@
 import BankServicesSection from '@/components/BankServicesSection';
 import BranchLocator from '@/components/BranchLocator';
 import BankHeroCarousel from '@/components/carousel/BankHeroCarousel';
-import CustomerTestimonials from '@/components/CustomerTestimonials';
 import NewsAnnouncements from '@/components/NewsAnnouncements';
 import WebsiteLayout from '@/layouts/WebsiteLayout';
 

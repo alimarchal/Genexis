@@ -1,4 +1,4 @@
-import { ArrowRight, Bell, Calendar, TrendingUp, ExternalLink, Star } from 'lucide-react';
+import { ArrowRight, Bell, Calendar, ExternalLink, Star, TrendingUp } from 'lucide-react';
 import React from 'react';
 
 interface NewsAnnouncement {
@@ -51,17 +51,14 @@ const getCategoryColor = (category: string) => {
     }
 };
 
-const NewsAnnouncements: React.FC<Props> = ({
-    newsAnnouncements = [],
-    showAllLink = "/news",
-    maxItems = 6
-}) => {
+const NewsAnnouncements: React.FC<Props> = ({ newsAnnouncements = [], showAllLink = '/news', maxItems = 6 }) => {
     // Fallback static data if no props provided
     const fallbackNews = [
         {
             id: 1,
             title: 'Gold Loan Limit Enhanced to Rs. 2 Million',
-            content: 'BAJK has increased the gold loan limit from designated branches to help customers meet their financial needs with enhanced facility and better terms.',
+            content:
+                'BAJK has increased the gold loan limit from designated branches to help customers meet their financial needs with enhanced facility and better terms.',
             image: null,
             image_url: null,
             published_date: '2024-12-31',
@@ -74,7 +71,8 @@ const NewsAnnouncements: React.FC<Props> = ({
         {
             id: 2,
             title: 'Advance Salary Loan Limit Increased',
-            content: 'Enhanced advance salary loan facility now available up to Rs. 3 million for eligible government employees with competitive rates.',
+            content:
+                'Enhanced advance salary loan facility now available up to Rs. 3 million for eligible government employees with competitive rates.',
             image: null,
             image_url: null,
             published_date: '2024-12-30',
@@ -87,7 +85,8 @@ const NewsAnnouncements: React.FC<Props> = ({
         {
             id: 3,
             title: 'Operating Profit Exceeds Rs. 2 Billion',
-            content: 'BAJK achieves remarkable financial performance with operating profit over 2 billion rupees in 2024, showing strong growth trajectory.',
+            content:
+                'BAJK achieves remarkable financial performance with operating profit over 2 billion rupees in 2024, showing strong growth trajectory.',
             image: null,
             image_url: null,
             published_date: '2024-12-28',
@@ -126,7 +125,8 @@ const NewsAnnouncements: React.FC<Props> = ({
         {
             id: 6,
             title: 'Digital Banking Services Launch',
-            content: 'New digital banking platform launched with enhanced security features and user-friendly interface for better customer experience.',
+            content:
+                'New digital banking platform launched with enhanced security features and user-friendly interface for better customer experience.',
             image: null,
             image_url: null,
             published_date: '2024-12-15',
@@ -140,7 +140,7 @@ const NewsAnnouncements: React.FC<Props> = ({
 
     // Use provided data or fallback, filter published, sort by featured then date, limit items
     const displayNews = (newsAnnouncements.length > 0 ? newsAnnouncements : fallbackNews)
-        .filter(item => item.is_published)
+        .filter((item) => item.is_published)
         .sort((a, b) => {
             // Featured items first
             if (a.is_featured && !b.is_featured) return -1;
@@ -169,20 +169,20 @@ const NewsAnnouncements: React.FC<Props> = ({
                     <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-[#4A7C59] to-[#F9B912]">
                         <Bell className="h-8 w-8 text-white" />
                     </div>
-                    <h2 className="mb-4 text-4xl font-bold bg-gradient-to-r from-[#4A7C59] to-[#2E5266] bg-clip-text text-transparent">
+                    <h2 className="mb-4 bg-gradient-to-r from-[#4A7C59] to-[#2E5266] bg-clip-text text-4xl font-bold text-transparent">
                         Latest News & Updates
                     </h2>
-                    <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                    <p className="mx-auto max-w-2xl text-xl text-gray-600">
                         Stay informed about BAJK's latest developments, announcements, and banking innovations
                     </p>
                 </div>
 
                 {displayNews.length === 0 ? (
-                    <div className="text-center py-12">
+                    <div className="py-12 text-center">
                         <div className="mx-auto mb-4 flex h-24 w-24 items-center justify-center rounded-full bg-gray-100">
                             <Bell className="h-12 w-12 text-gray-400" />
                         </div>
-                        <h3 className="text-xl font-medium text-gray-900 mb-2">No News Available</h3>
+                        <h3 className="mb-2 text-xl font-medium text-gray-900">No News Available</h3>
                         <p className="text-gray-500">Check back later for the latest updates and announcements.</p>
                     </div>
                 ) : (
@@ -190,8 +190,9 @@ const NewsAnnouncements: React.FC<Props> = ({
                         {displayNews.map((item, index) => (
                             <article
                                 key={item.id}
-                                className={`group transform rounded-2xl border border-gray-200 bg-white shadow-lg transition-all duration-500 hover:-translate-y-3 hover:shadow-2xl hover:shadow-blue-100 ${item.is_featured ? 'ring-2 ring-[#F9B912] ring-opacity-50' : ''
-                                    } ${index === 0 && item.is_featured ? 'md:col-span-2 lg:col-span-1' : ''}`}
+                                className={`group transform rounded-2xl border border-gray-200 bg-white shadow-lg transition-all duration-500 hover:-translate-y-3 hover:shadow-2xl hover:shadow-blue-100 ${
+                                    item.is_featured ? 'ring-opacity-50 ring-2 ring-[#F9B912]' : ''
+                                } ${index === 0 && item.is_featured ? 'md:col-span-2 lg:col-span-1' : ''}`}
                             >
                                 {/* Image Section */}
                                 {item.image_url && (
@@ -234,9 +235,7 @@ const NewsAnnouncements: React.FC<Props> = ({
                                             </span>
                                         )}
                                         {!item.image_url && isRecentNews(item.published_date) && !item.is_featured && (
-                                            <span className="animate-pulse rounded-full bg-red-500 px-2 py-1 text-xs font-bold text-white">
-                                                NEW
-                                            </span>
+                                            <span className="animate-pulse rounded-full bg-red-500 px-2 py-1 text-xs font-bold text-white">NEW</span>
                                         )}
                                     </div>
 
@@ -244,9 +243,7 @@ const NewsAnnouncements: React.FC<Props> = ({
                                         {item.title}
                                     </h3>
 
-                                    <p className="mb-4 line-clamp-3 text-gray-600 leading-relaxed">
-                                        {formatExcerpt(item.content)}
-                                    </p>
+                                    <p className="mb-4 line-clamp-3 leading-relaxed text-gray-600">{formatExcerpt(item.content)}</p>
 
                                     <div className="flex items-center justify-between">
                                         <div className="flex items-center text-sm text-gray-500">
@@ -259,7 +256,7 @@ const NewsAnnouncements: React.FC<Props> = ({
                                         </div>
                                         <a
                                             href={`/news/${item.slug}`}
-                                            className="flex items-center font-semibold text-[#4A7C59] transition-all duration-300 hover:text-[#F9B912] hover:translate-x-1"
+                                            className="flex items-center font-semibold text-[#4A7C59] transition-all duration-300 hover:translate-x-1 hover:text-[#F9B912]"
                                         >
                                             Read More
                                             <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -275,7 +272,7 @@ const NewsAnnouncements: React.FC<Props> = ({
                     <div className="mt-16 text-center">
                         <a
                             href={showAllLink}
-                            className="inline-flex items-center rounded-xl bg-gradient-to-r from-[#4A7C59] to-[#2E5266] px-8 py-4 font-semibold text-white shadow-lg transition-all duration-300 hover:shadow-xl hover:shadow-green-100 hover:scale-105 focus:outline-none focus:ring-4 focus:ring-green-200"
+                            className="inline-flex items-center rounded-xl bg-gradient-to-r from-[#4A7C59] to-[#2E5266] px-8 py-4 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-green-100 focus:ring-4 focus:ring-green-200 focus:outline-none"
                         >
                             View All News & Updates
                             <ArrowRight className="ml-2 h-5 w-5" />

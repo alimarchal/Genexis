@@ -1,11 +1,11 @@
-import { Head, Link, router } from '@inertiajs/react';
-import { ArrowLeft, Edit, Trash2 } from 'lucide-react';
-import AppLayout from '@/layouts/app-layout';
+import Heading from '@/components/heading';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import Heading from '@/components/heading';
+import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
+import { Head, Link, router } from '@inertiajs/react';
+import { ArrowLeft, Edit, Trash2 } from 'lucide-react';
 
 interface Carousel {
     id: number;
@@ -95,39 +95,37 @@ export default function ShowCarousel({ carousel }: Props) {
                             <CardContent className="space-y-4">
                                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                                     <div>
-                                        <label className="text-sm font-medium text-muted-foreground">Title</label>
+                                        <label className="text-muted-foreground text-sm font-medium">Title</label>
                                         <p className="mt-1 font-medium">{carousel.title}</p>
                                     </div>
                                     <div>
-                                        <label className="text-sm font-medium text-muted-foreground">Display Order</label>
+                                        <label className="text-muted-foreground text-sm font-medium">Display Order</label>
                                         <p className="mt-1 font-medium">{carousel.order}</p>
                                     </div>
                                 </div>
 
                                 {carousel.description && (
                                     <div>
-                                        <label className="text-sm font-medium text-muted-foreground">Description</label>
+                                        <label className="text-muted-foreground text-sm font-medium">Description</label>
                                         <p className="mt-1">{carousel.description}</p>
                                     </div>
                                 )}
 
                                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                                     <div>
-                                        <label className="text-sm font-medium text-muted-foreground">Button Text</label>
+                                        <label className="text-muted-foreground text-sm font-medium">Button Text</label>
                                         <p className="mt-1 font-medium">{carousel.button_text || 'No button text'}</p>
                                     </div>
                                     <div>
-                                        <label className="text-sm font-medium text-muted-foreground">Button URL</label>
+                                        <label className="text-muted-foreground text-sm font-medium">Button URL</label>
                                         <p className="mt-1 font-medium">{carousel.button_url || 'No button URL'}</p>
                                     </div>
                                 </div>
 
                                 <div>
-                                    <label className="text-sm font-medium text-muted-foreground">Status</label>
+                                    <label className="text-muted-foreground text-sm font-medium">Status</label>
                                     <div className="mt-1">
-                                        <Badge variant={carousel.status === 'active' ? 'default' : 'secondary'}>
-                                            {carousel.status}
-                                        </Badge>
+                                        <Badge variant={carousel.status === 'active' ? 'default' : 'secondary'}>{carousel.status}</Badge>
                                     </div>
                                 </div>
                             </CardContent>
@@ -141,11 +139,11 @@ export default function ShowCarousel({ carousel }: Props) {
                             <CardContent>
                                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                                     <div>
-                                        <label className="text-sm font-medium text-muted-foreground">Created</label>
+                                        <label className="text-muted-foreground text-sm font-medium">Created</label>
                                         <p className="mt-1">{formatDate(carousel.created_at)}</p>
                                     </div>
                                     <div>
-                                        <label className="text-sm font-medium text-muted-foreground">Last Updated</label>
+                                        <label className="text-muted-foreground text-sm font-medium">Last Updated</label>
                                         <p className="mt-1">{formatDate(carousel.updated_at)}</p>
                                     </div>
                                 </div>
@@ -168,16 +166,9 @@ export default function ShowCarousel({ carousel }: Props) {
                                     </Link>
                                 </Button>
                                 <Button variant="outline" size="sm" className="w-full justify-start" asChild>
-                                    <Link href={route('carousels.create')}>
-                                        Create New Slide
-                                    </Link>
+                                    <Link href={route('carousels.create')}>Create New Slide</Link>
                                 </Button>
-                                <Button
-                                    variant="destructive"
-                                    size="sm"
-                                    className="w-full justify-start"
-                                    onClick={handleDelete}
-                                >
+                                <Button variant="destructive" size="sm" className="w-full justify-start" onClick={handleDelete}>
                                     <Trash2 className="mr-2 h-4 w-4" />
                                     Delete Slide
                                 </Button>
@@ -191,11 +182,7 @@ export default function ShowCarousel({ carousel }: Props) {
                                     <CardTitle>Image Preview</CardTitle>
                                 </CardHeader>
                                 <CardContent>
-                                    <img
-                                        src={carousel.image_url}
-                                        alt={carousel.title}
-                                        className="w-full rounded-lg border object-cover"
-                                    />
+                                    <img src={carousel.image_url} alt={carousel.title} className="w-full rounded-lg border object-cover" />
                                 </CardContent>
                             </Card>
                         )}
@@ -207,15 +194,9 @@ export default function ShowCarousel({ carousel }: Props) {
                                     <CardTitle>Button Preview</CardTitle>
                                 </CardHeader>
                                 <CardContent>
-                                    <div className="rounded-lg border-2 border-dashed border-muted-foreground/25 p-4 text-center">
-                                        <Button>
-                                            {carousel.button_text}
-                                        </Button>
-                                        {carousel.button_url && (
-                                            <p className="mt-2 text-xs text-muted-foreground">
-                                                Links to: {carousel.button_url}
-                                            </p>
-                                        )}
+                                    <div className="border-muted-foreground/25 rounded-lg border-2 border-dashed p-4 text-center">
+                                        <Button>{carousel.button_text}</Button>
+                                        {carousel.button_url && <p className="text-muted-foreground mt-2 text-xs">Links to: {carousel.button_url}</p>}
                                     </div>
                                 </CardContent>
                             </Card>

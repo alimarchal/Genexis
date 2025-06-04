@@ -1,5 +1,5 @@
 import { ChevronLeft, ChevronRight, Quote, Star } from 'lucide-react';
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 interface Testimonial {
     id: number;

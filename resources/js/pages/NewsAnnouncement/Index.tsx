@@ -67,7 +67,7 @@ export default function NewsAnnouncementIndex({ newsAnnouncements, filters }: Pr
         router.get(
             route('news-announcements.index'),
             { search: value, status: statusFilter, category: categoryFilter },
-            { preserveState: true, replace: true }
+            { preserveState: true, replace: true },
         );
     };
 
@@ -77,7 +77,7 @@ export default function NewsAnnouncementIndex({ newsAnnouncements, filters }: Pr
         router.get(
             route('news-announcements.index'),
             { search, status: statusParam, category: categoryFilter === 'all' ? undefined : categoryFilter },
-            { preserveState: true, replace: true }
+            { preserveState: true, replace: true },
         );
     };
 
@@ -87,7 +87,7 @@ export default function NewsAnnouncementIndex({ newsAnnouncements, filters }: Pr
         router.get(
             route('news-announcements.index'),
             { search, status: statusFilter === 'all' ? undefined : statusFilter, category: categoryParam },
-            { preserveState: true, replace: true }
+            { preserveState: true, replace: true },
         );
     };
 
@@ -98,11 +98,7 @@ export default function NewsAnnouncementIndex({ newsAnnouncements, filters }: Pr
     };
 
     const getStatusBadge = (isPublished: boolean) => {
-        return isPublished ? (
-            <Badge variant="default">Published</Badge>
-        ) : (
-            <Badge variant="secondary">Draft</Badge>
-        );
+        return isPublished ? <Badge variant="default">Published</Badge> : <Badge variant="secondary">Draft</Badge>;
     };
 
     const getCategoryBadge = (category: string) => {
@@ -122,23 +118,15 @@ export default function NewsAnnouncementIndex({ newsAnnouncements, filters }: Pr
             <Head title="News & Announcements" />
 
             <div className="px-10 py-6">
-                <Heading
-                    title="News & Announcements"
-                    description="Manage news articles and announcements for your website"
-                />
+                <Heading title="News & Announcements" description="Manage news articles and announcements for your website" />
 
                 <div className="mt-8 space-y-6">
                     {/* Search and Filters */}
                     <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                         <div className="flex flex-1 gap-4">
-                            <div className="relative flex-1 max-w-sm">
-                                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
-                                <Input
-                                    placeholder="Search news..."
-                                    value={search}
-                                    onChange={(e) => handleSearch(e.target.value)}
-                                    className="pl-10"
-                                />
+                            <div className="relative max-w-sm flex-1">
+                                <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
+                                <Input placeholder="Search news..." value={search} onChange={(e) => handleSearch(e.target.value)} className="pl-10" />
                             </div>
 
                             <Select value={statusFilter} onValueChange={handleStatusFilter}>
@@ -191,7 +179,7 @@ export default function NewsAnnouncementIndex({ newsAnnouncements, filters }: Pr
                             <TableBody>
                                 {newsAnnouncements.data.length === 0 ? (
                                     <TableRow>
-                                        <TableCell colSpan={6} className="text-center py-8 text-gray-500">
+                                        <TableCell colSpan={6} className="py-8 text-center text-gray-500">
                                             No news announcements found.
                                         </TableCell>
                                     </TableRow>
@@ -209,7 +197,7 @@ export default function NewsAnnouncementIndex({ newsAnnouncements, filters }: Pr
                                                     )}
                                                     <div>
                                                         <div className="font-medium">{announcement.title}</div>
-                                                        <div className="text-sm text-gray-500 line-clamp-1">
+                                                        <div className="line-clamp-1 text-sm text-gray-500">
                                                             {announcement.content.substring(0, 60)}...
                                                         </div>
                                                     </div>
@@ -218,11 +206,7 @@ export default function NewsAnnouncementIndex({ newsAnnouncements, filters }: Pr
                                             <TableCell>{getCategoryBadge(announcement.category)}</TableCell>
                                             <TableCell>{new Date(announcement.published_date).toLocaleDateString()}</TableCell>
                                             <TableCell>{getStatusBadge(announcement.is_published)}</TableCell>
-                                            <TableCell>
-                                                {announcement.is_featured && (
-                                                    <Badge variant="outline">Featured</Badge>
-                                                )}
-                                            </TableCell>
+                                            <TableCell>{announcement.is_featured && <Badge variant="outline">Featured</Badge>}</TableCell>
                                             <TableCell className="text-right">
                                                 <DropdownMenu>
                                                     <DropdownMenuTrigger asChild>
@@ -246,10 +230,7 @@ export default function NewsAnnouncementIndex({ newsAnnouncements, filters }: Pr
                                                             </Link>
                                                         </DropdownMenuItem>
                                                         <DropdownMenuSeparator />
-                                                        <DropdownMenuItem
-                                                            onClick={() => handleDelete(announcement.id)}
-                                                            className="text-red-600"
-                                                        >
+                                                        <DropdownMenuItem onClick={() => handleDelete(announcement.id)} className="text-red-600">
                                                             <Trash className="mr-2 h-4 w-4" />
                                                             Delete
                                                         </DropdownMenuItem>

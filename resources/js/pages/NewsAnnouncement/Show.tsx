@@ -6,7 +6,7 @@ import { Separator } from '@/components/ui/separator';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
-import { Edit, Calendar, Tag, Eye, Star } from 'lucide-react';
+import { Calendar, Edit, Eye, Star, Tag } from 'lucide-react';
 
 interface NewsAnnouncement {
     id: number;
@@ -44,11 +44,7 @@ export default function ShowNewsAnnouncement({ newsAnnouncement }: Props) {
     ];
 
     const getStatusBadge = (isPublished: boolean) => {
-        return isPublished ? (
-            <Badge variant="success">Published</Badge>
-        ) : (
-            <Badge variant="secondary">Draft</Badge>
-        );
+        return isPublished ? <Badge variant="success">Published</Badge> : <Badge variant="secondary">Draft</Badge>;
     };
 
     const getCategoryBadge = (category: string) => {
@@ -69,10 +65,7 @@ export default function ShowNewsAnnouncement({ newsAnnouncement }: Props) {
 
             <div className="px-10 py-6">
                 <div className="flex items-center justify-between">
-                    <Heading
-                        title={newsAnnouncement.title}
-                        description="View news announcement details"
-                    />
+                    <Heading title={newsAnnouncement.title} description="View news announcement details" />
                     <Button asChild>
                         <Link href={route('news-announcements.edit', newsAnnouncement.id)}>
                             <Edit className="mr-2 h-4 w-4" />
@@ -108,7 +101,7 @@ export default function ShowNewsAnnouncement({ newsAnnouncement }: Props) {
                                         <img
                                             src={newsAnnouncement.image_url}
                                             alt={newsAnnouncement.title}
-                                            className="w-full h-64 object-cover rounded-lg border"
+                                            className="h-64 w-full rounded-lg border object-cover"
                                         />
                                     </div>
                                 )}
@@ -117,9 +110,7 @@ export default function ShowNewsAnnouncement({ newsAnnouncement }: Props) {
                                 <div className="space-y-2">
                                     <h3 className="text-lg font-medium">Content</h3>
                                     <div className="prose max-w-none">
-                                        <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">
-                                            {newsAnnouncement.content}
-                                        </p>
+                                        <p className="leading-relaxed whitespace-pre-wrap text-gray-700">{newsAnnouncement.content}</p>
                                     </div>
                                 </div>
                             </CardContent>
@@ -142,7 +133,7 @@ export default function ShowNewsAnnouncement({ newsAnnouncement }: Props) {
                                             {new Date(newsAnnouncement.published_date).toLocaleDateString('en-US', {
                                                 year: 'numeric',
                                                 month: 'long',
-                                                day: 'numeric'
+                                                day: 'numeric',
                                             })}
                                         </p>
                                     </div>
@@ -154,9 +145,7 @@ export default function ShowNewsAnnouncement({ newsAnnouncement }: Props) {
                                     <Tag className="h-4 w-4 text-gray-500" />
                                     <div>
                                         <p className="text-sm font-medium">Category</p>
-                                        <div className="mt-1">
-                                            {getCategoryBadge(newsAnnouncement.category)}
-                                        </div>
+                                        <div className="mt-1">{getCategoryBadge(newsAnnouncement.category)}</div>
                                     </div>
                                 </div>
 
@@ -166,9 +155,7 @@ export default function ShowNewsAnnouncement({ newsAnnouncement }: Props) {
                                     <Eye className="h-4 w-4 text-gray-500" />
                                     <div>
                                         <p className="text-sm font-medium">Status</p>
-                                        <div className="mt-1">
-                                            {getStatusBadge(newsAnnouncement.is_published)}
-                                        </div>
+                                        <div className="mt-1">{getStatusBadge(newsAnnouncement.is_published)}</div>
                                     </div>
                                 </div>
 
@@ -176,9 +163,7 @@ export default function ShowNewsAnnouncement({ newsAnnouncement }: Props) {
 
                                 <div className="space-y-2">
                                     <p className="text-sm font-medium">URL Slug</p>
-                                    <p className="text-sm text-gray-600 font-mono bg-gray-50 px-2 py-1 rounded">
-                                        {newsAnnouncement.slug}
-                                    </p>
+                                    <p className="rounded bg-gray-50 px-2 py-1 font-mono text-sm text-gray-600">{newsAnnouncement.slug}</p>
                                 </div>
                             </CardContent>
                         </Card>
@@ -191,18 +176,14 @@ export default function ShowNewsAnnouncement({ newsAnnouncement }: Props) {
                             <CardContent className="space-y-4 text-sm">
                                 <div>
                                     <p className="font-medium">Created</p>
-                                    <p className="text-gray-600">
-                                        {new Date(newsAnnouncement.created_at).toLocaleString()}
-                                    </p>
+                                    <p className="text-gray-600">{new Date(newsAnnouncement.created_at).toLocaleString()}</p>
                                 </div>
 
                                 <Separator />
 
                                 <div>
                                     <p className="font-medium">Last Updated</p>
-                                    <p className="text-gray-600">
-                                        {new Date(newsAnnouncement.updated_at).toLocaleString()}
-                                    </p>
+                                    <p className="text-gray-600">{new Date(newsAnnouncement.updated_at).toLocaleString()}</p>
                                 </div>
                             </CardContent>
                         </Card>
@@ -221,9 +202,7 @@ export default function ShowNewsAnnouncement({ newsAnnouncement }: Props) {
                                 </Button>
 
                                 <Button variant="outline" asChild className="w-full">
-                                    <Link href={route('news-announcements.index')}>
-                                        Back to List
-                                    </Link>
+                                    <Link href={route('news-announcements.index')}>Back to List</Link>
                                 </Button>
                             </CardContent>
                         </Card>

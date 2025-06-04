@@ -1,16 +1,16 @@
-import { FormEventHandler } from 'react';
-import { Head, Link, useForm } from '@inertiajs/react';
-import { ArrowLeft } from 'lucide-react';
-import AppLayout from '@/layouts/app-layout';
+import Heading from '@/components/heading';
+import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import InputError from '@/components/input-error';
-import Heading from '@/components/heading';
+import { Textarea } from '@/components/ui/textarea';
+import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
+import { Head, Link, useForm } from '@inertiajs/react';
+import { ArrowLeft } from 'lucide-react';
+import { FormEventHandler } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -135,9 +135,7 @@ export default function CreateCarousel() {
                                     className="mt-1"
                                     required
                                 />
-                                <p className="text-sm text-muted-foreground mt-1">
-                                    Upload JPG, JPEG, or PNG. Max file size: 2MB
-                                </p>
+                                <p className="text-muted-foreground mt-1 text-sm">Upload JPG, JPEG, or PNG. Max file size: 2MB</p>
                                 <InputError message={errors.image} className="mt-2" />
                             </div>
 
@@ -187,9 +185,7 @@ export default function CreateCarousel() {
                             {/* Submit Button */}
                             <div className="flex justify-end gap-2">
                                 <Button variant="outline" asChild>
-                                    <Link href={route('carousels.index')}>
-                                        Cancel
-                                    </Link>
+                                    <Link href={route('carousels.index')}>Cancel</Link>
                                 </Button>
                                 <Button type="submit" disabled={processing}>
                                     {processing ? 'Creating...' : 'Create Slide'}

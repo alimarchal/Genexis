@@ -1,14 +1,14 @@
-import { useState } from 'react';
-import { Head, Link, router } from '@inertiajs/react';
-import { Plus, Edit, Trash2, Eye, Search, Building } from 'lucide-react';
-import AppLayout from '@/layouts/app-layout';
+import Heading from '@/components/heading';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
-import Heading from '@/components/heading';
+import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
+import { Head, Link, router } from '@inertiajs/react';
+import { Building, Edit, Eye, Plus, Search, Trash2 } from 'lucide-react';
+import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -61,7 +61,7 @@ interface Props {
 
 export default function BankServiceIndex({ bankServices, filters }: Props) {
     // Helper function to ensure we have arrays
-    const ensureArray = (value: any): string[] => {
+    const ensureArray = (value: string | string[] | unknown): string[] => {
         if (Array.isArray(value)) {
             return value;
         }
@@ -193,31 +193,25 @@ export default function BankServiceIndex({ bankServices, filters }: Props) {
                         <TableBody>
                             {bankServices.data.length === 0 ? (
                                 <TableRow>
-                                    <TableCell colSpan={8} className="text-center py-8 text-muted-foreground">
+                                    <TableCell colSpan={8} className="text-muted-foreground py-8 text-center">
                                         No bank services found.
                                     </TableCell>
                                 </TableRow>
                             ) : (
                                 bankServices.data.map((service) => (
                                     <TableRow key={service.id}>
-                                        <TableCell className="font-medium">
-                                            {service.order}
-                                        </TableCell>
+                                        <TableCell className="font-medium">{service.order}</TableCell>
                                         <TableCell>
                                             <div className="flex items-center gap-2">
-                                                <Building className="h-4 w-4 text-muted-foreground" />
+                                                <Building className="text-muted-foreground h-4 w-4" />
                                                 <div>
                                                     <div className="font-medium">{service.title}</div>
-                                                    <div className="text-sm text-muted-foreground max-w-xs truncate">
-                                                        {service.description}
-                                                    </div>
+                                                    <div className="text-muted-foreground max-w-xs truncate text-sm">{service.description}</div>
                                                 </div>
                                             </div>
                                         </TableCell>
                                         <TableCell>
-                                            <Badge variant="outline">
-                                                {service.service_type}
-                                            </Badge>
+                                            <Badge variant="outline">{service.service_type}</Badge>
                                         </TableCell>
                                         <TableCell>
                                             <div className="text-sm">
@@ -231,15 +225,11 @@ export default function BankServiceIndex({ bankServices, filters }: Props) {
                                         <TableCell>
                                             <div className="text-sm">
                                                 <div className="font-medium">{service.cta_text}</div>
-                                                <div className="text-muted-foreground text-xs max-w-xs truncate">
-                                                    {service.cta_link}
-                                                </div>
+                                                <div className="text-muted-foreground max-w-xs truncate text-xs">{service.cta_link}</div>
                                             </div>
                                         </TableCell>
                                         <TableCell>
-                                            <Badge variant={service.status ? 'default' : 'secondary'}>
-                                                {service.status ? 'Active' : 'Inactive'}
-                                            </Badge>
+                                            <Badge variant={service.status ? 'default' : 'secondary'}>{service.status ? 'Active' : 'Inactive'}</Badge>
                                         </TableCell>
                                         <TableCell>{formatDate(service.created_at)}</TableCell>
                                         <TableCell>
@@ -274,24 +264,19 @@ export default function BankServiceIndex({ bankServices, filters }: Props) {
                 {/* Pagination */}
                 {bankServices.last_page > 1 && (
                     <div className="mt-6 flex items-center justify-between">
-                        <div className="text-sm text-muted-foreground">
+                        <div className="text-muted-foreground text-sm">
                             Showing {(bankServices.current_page - 1) * bankServices.per_page + 1} to{' '}
-                            {Math.min(bankServices.current_page * bankServices.per_page, bankServices.total)} of{' '}
-                            {bankServices.total} results
+                            {Math.min(bankServices.current_page * bankServices.per_page, bankServices.total)} of {bankServices.total} results
                         </div>
                         <div className="flex gap-2">
                             {bankServices.current_page > 1 && (
                                 <Button variant="outline" size="sm" asChild>
-                                    <Link href={route('bank-services.index', { page: bankServices.current_page - 1 })}>
-                                        Previous
-                                    </Link>
+                                    <Link href={route('bank-services.index', { page: bankServices.current_page - 1 })}>Previous</Link>
                                 </Button>
                             )}
                             {bankServices.current_page < bankServices.last_page && (
                                 <Button variant="outline" size="sm" asChild>
-                                    <Link href={route('bank-services.index', { page: bankServices.current_page + 1 })}>
-                                        Next
-                                    </Link>
+                                    <Link href={route('bank-services.index', { page: bankServices.current_page + 1 })}>Next</Link>
                                 </Button>
                             )}
                         </div>

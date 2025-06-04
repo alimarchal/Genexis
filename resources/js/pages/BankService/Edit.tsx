@@ -1,17 +1,17 @@
-import { FormEventHandler } from 'react';
-import { Head, Link, useForm, router } from '@inertiajs/react';
-import { ArrowLeft, Plus, Trash2 } from 'lucide-react';
-import AppLayout from '@/layouts/app-layout';
+import Heading from '@/components/heading';
+import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
-import InputError from '@/components/input-error';
-import Heading from '@/components/heading';
+import { Textarea } from '@/components/ui/textarea';
+import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
+import { Head, Link, router, useForm } from '@inertiajs/react';
+import { ArrowLeft, Plus, Trash2 } from 'lucide-react';
+import { FormEventHandler } from 'react';
 
 interface BankService {
     id: number;
@@ -74,7 +74,7 @@ export default function EditBankService({ bankService }: Props) {
     ];
 
     // Helper function to ensure we have arrays
-    const ensureArray = (value: any): string[] => {
+    const ensureArray = (value: string | string[] | unknown): string[] => {
         if (Array.isArray(value)) {
             return value;
         }
@@ -89,7 +89,7 @@ export default function EditBankService({ bankService }: Props) {
         return [];
     };
 
-    const { data, setData, put, processing, errors } = useForm<BankServiceForm>({
+    const { data, setData, processing, errors } = useForm<BankServiceForm>({
         title: bankService.title,
         description: bankService.description,
         icon: bankService.icon,
@@ -110,8 +110,8 @@ export default function EditBankService({ bankService }: Props) {
         e.preventDefault();
 
         // Prepare data based on service type
-        let finalProducts = data.products.filter(p => p.trim() !== '');
-        let finalBenefits = data.benefits.filter(b => b.trim() !== '');
+        let finalProducts = data.products.filter((p) => p.trim() !== '');
+        let finalBenefits = data.benefits.filter((b) => b.trim() !== '');
 
         // For stat type, products are not required
         if (data.service_type === 'stat') {
@@ -162,9 +162,25 @@ export default function EditBankService({ bankService }: Props) {
     };
 
     const iconOptions = [
-        'Building', 'Building2', 'User', 'Users', 'Star', 'Smartphone', 'MapPin', 'CreditCard',
-        'Shield', 'TrendingUp', 'Globe', 'DollarSign', 'Banknote', 'Calculator',
-        'PiggyBank', 'Landmark', 'Wallet', 'Wheat', 'Home'
+        'Building',
+        'Building2',
+        'User',
+        'Users',
+        'Star',
+        'Smartphone',
+        'MapPin',
+        'CreditCard',
+        'Shield',
+        'TrendingUp',
+        'Globe',
+        'DollarSign',
+        'Banknote',
+        'Calculator',
+        'PiggyBank',
+        'Landmark',
+        'Wallet',
+        'Wheat',
+        'Home',
     ];
 
     const colorOptions = [
@@ -271,7 +287,10 @@ export default function EditBankService({ bankService }: Props) {
                                 </div>
                                 <div>
                                     <Label htmlFor="service_type">Service Type *</Label>
-                                    <Select value={data.service_type} onValueChange={(value: 'service' | 'deposit' | 'stat') => setData('service_type', value)}>
+                                    <Select
+                                        value={data.service_type}
+                                        onValueChange={(value: 'service' | 'deposit' | 'stat') => setData('service_type', value)}
+                                    >
                                         <SelectTrigger className="mt-1">
                                             <SelectValue placeholder="Select type" />
                                         </SelectTrigger>
@@ -302,11 +321,7 @@ export default function EditBankService({ bankService }: Props) {
                             </div>
 
                             <div className="flex items-center space-x-2">
-                                <Switch
-                                    id="status"
-                                    checked={data.status}
-                                    onCheckedChange={(checked) => setData('status', checked)}
-                                />
+                                <Switch id="status" checked={data.status} onCheckedChange={(checked) => setData('status', checked)} />
                                 <Label htmlFor="status">Active Status</Label>
                             </div>
                         </CardContent>
@@ -378,12 +393,7 @@ export default function EditBankService({ bankService }: Props) {
                                             className="flex-1"
                                         />
                                         {data.products.length > 1 && (
-                                            <Button
-                                                type="button"
-                                                variant="outline"
-                                                size="sm"
-                                                onClick={() => removeProduct(index)}
-                                            >
+                                            <Button type="button" variant="outline" size="sm" onClick={() => removeProduct(index)}>
                                                 <Trash2 className="h-4 w-4" />
                                             </Button>
                                         )}
@@ -414,12 +424,7 @@ export default function EditBankService({ bankService }: Props) {
                                         className="flex-1"
                                     />
                                     {data.benefits.length > 1 && (
-                                        <Button
-                                            type="button"
-                                            variant="outline"
-                                            size="sm"
-                                            onClick={() => removeBenefit(index)}
-                                        >
+                                        <Button type="button" variant="outline" size="sm" onClick={() => removeBenefit(index)}>
                                             <Trash2 className="h-4 w-4" />
                                         </Button>
                                     )}
@@ -473,9 +478,7 @@ export default function EditBankService({ bankService }: Props) {
                     {/* Submit Button */}
                     <div className="flex justify-end gap-2">
                         <Button variant="outline" asChild>
-                            <Link href={route('bank-services.index')}>
-                                Cancel
-                            </Link>
+                            <Link href={route('bank-services.index')}>Cancel</Link>
                         </Button>
                         <Button type="submit" disabled={processing}>
                             {processing ? 'Updating...' : 'Update Service'}

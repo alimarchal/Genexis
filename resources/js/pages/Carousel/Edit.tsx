@@ -1,16 +1,16 @@
-import { FormEventHandler } from 'react';
-import { Head, Link, useForm, router } from '@inertiajs/react';
-import { ArrowLeft } from 'lucide-react';
-import AppLayout from '@/layouts/app-layout';
+import Heading from '@/components/heading';
+import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import InputError from '@/components/input-error';
-import Heading from '@/components/heading';
+import { Textarea } from '@/components/ui/textarea';
+import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
+import { Head, Link, router, useForm } from '@inertiajs/react';
+import { ArrowLeft } from 'lucide-react';
+import { FormEventHandler } from 'react';
 
 interface Carousel {
     id: number;
@@ -150,22 +150,12 @@ export default function EditCarousel({ carousel }: Props) {
                                 <Label htmlFor="image">Image</Label>
                                 {carousel.image_url && (
                                     <div className="mt-2 mb-4">
-                                        <p className="text-sm text-muted-foreground mb-2">Current Image:</p>
-                                        <img
-                                            src={carousel.image_url}
-                                            alt={carousel.title}
-                                            className="h-32 w-48 object-cover rounded border"
-                                        />
+                                        <p className="text-muted-foreground mb-2 text-sm">Current Image:</p>
+                                        <img src={carousel.image_url} alt={carousel.title} className="h-32 w-48 rounded border object-cover" />
                                     </div>
                                 )}
-                                <Input
-                                    id="image"
-                                    type="file"
-                                    onChange={handleFileChange}
-                                    accept="image/jpeg,image/jpg,image/png"
-                                    className="mt-1"
-                                />
-                                <p className="text-sm text-muted-foreground mt-1">
+                                <Input id="image" type="file" onChange={handleFileChange} accept="image/jpeg,image/jpg,image/png" className="mt-1" />
+                                <p className="text-muted-foreground mt-1 text-sm">
                                     Upload JPG, JPEG, or PNG to replace current image. Max file size: 2MB
                                 </p>
                                 <InputError message={errors.image} className="mt-2" />
@@ -217,9 +207,7 @@ export default function EditCarousel({ carousel }: Props) {
                             {/* Submit Button */}
                             <div className="flex justify-end gap-2">
                                 <Button variant="outline" asChild>
-                                    <Link href={route('carousels.index')}>
-                                        Cancel
-                                    </Link>
+                                    <Link href={route('carousels.index')}>Cancel</Link>
                                 </Button>
                                 <Button type="submit" disabled={processing}>
                                     {processing ? 'Updating...' : 'Update Slide'}

@@ -1,14 +1,14 @@
-import { useState } from 'react';
-import { Head, Link, router } from '@inertiajs/react';
-import { Plus, Edit, Trash2, Eye, Search } from 'lucide-react';
-import AppLayout from '@/layouts/app-layout';
+import Heading from '@/components/heading';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
-import Heading from '@/components/heading';
+import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
+import { Head, Link, router } from '@inertiajs/react';
+import { Edit, Eye, Plus, Search, Trash2 } from 'lucide-react';
+import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -152,49 +152,35 @@ export default function CarouselIndex({ carousels, filters }: Props) {
                         <TableBody>
                             {carousels.data.length === 0 ? (
                                 <TableRow>
-                                    <TableCell colSpan={8} className="text-center py-8 text-muted-foreground">
+                                    <TableCell colSpan={8} className="text-muted-foreground py-8 text-center">
                                         No carousel slides found.
                                     </TableCell>
                                 </TableRow>
                             ) : (
                                 carousels.data.map((carousel) => (
                                     <TableRow key={carousel.id}>
-                                        <TableCell className="font-medium">
-                                            {carousel.order}
-                                        </TableCell>
+                                        <TableCell className="font-medium">{carousel.order}</TableCell>
                                         <TableCell>
                                             {carousel.image_url && (
-                                                <img
-                                                    src={carousel.image_url}
-                                                    alt={carousel.title}
-                                                    className="h-12 w-20 object-cover rounded"
-                                                />
+                                                <img src={carousel.image_url} alt={carousel.title} className="h-12 w-20 rounded object-cover" />
                                             )}
                                         </TableCell>
-                                        <TableCell className="font-medium">
-                                            {carousel.title}
-                                        </TableCell>
+                                        <TableCell className="font-medium">{carousel.title}</TableCell>
                                         <TableCell>
-                                            <div className="max-w-xs truncate">
-                                                {carousel.description || '-'}
-                                            </div>
+                                            <div className="max-w-xs truncate">{carousel.description || '-'}</div>
                                         </TableCell>
                                         <TableCell>
                                             {carousel.button_text ? (
                                                 <div className="text-sm">
                                                     <div className="font-medium">{carousel.button_text}</div>
-                                                    <div className="text-muted-foreground text-xs">
-                                                        {carousel.button_url}
-                                                    </div>
+                                                    <div className="text-muted-foreground text-xs">{carousel.button_url}</div>
                                                 </div>
                                             ) : (
                                                 '-'
                                             )}
                                         </TableCell>
                                         <TableCell>
-                                            <Badge variant={carousel.status === 'active' ? 'default' : 'secondary'}>
-                                                {carousel.status}
-                                            </Badge>
+                                            <Badge variant={carousel.status === 'active' ? 'default' : 'secondary'}>{carousel.status}</Badge>
                                         </TableCell>
                                         <TableCell>{formatDate(carousel.created_at)}</TableCell>
                                         <TableCell>
@@ -229,24 +215,19 @@ export default function CarouselIndex({ carousels, filters }: Props) {
                 {/* Pagination */}
                 {carousels.last_page > 1 && (
                     <div className="mt-6 flex items-center justify-between">
-                        <div className="text-sm text-muted-foreground">
+                        <div className="text-muted-foreground text-sm">
                             Showing {(carousels.current_page - 1) * carousels.per_page + 1} to{' '}
-                            {Math.min(carousels.current_page * carousels.per_page, carousels.total)} of{' '}
-                            {carousels.total} results
+                            {Math.min(carousels.current_page * carousels.per_page, carousels.total)} of {carousels.total} results
                         </div>
                         <div className="flex gap-2">
                             {carousels.current_page > 1 && (
                                 <Button variant="outline" size="sm" asChild>
-                                    <Link href={route('carousels.index', { page: carousels.current_page - 1 })}>
-                                        Previous
-                                    </Link>
+                                    <Link href={route('carousels.index', { page: carousels.current_page - 1 })}>Previous</Link>
                                 </Button>
                             )}
                             {carousels.current_page < carousels.last_page && (
                                 <Button variant="outline" size="sm" asChild>
-                                    <Link href={route('carousels.index', { page: carousels.current_page + 1 })}>
-                                        Next
-                                    </Link>
+                                    <Link href={route('carousels.index', { page: carousels.current_page + 1 })}>Next</Link>
                                 </Button>
                             )}
                         </div>

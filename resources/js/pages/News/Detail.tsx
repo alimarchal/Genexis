@@ -1,7 +1,7 @@
-import { ArrowLeft, Calendar, Eye, Share2, Star, Tag } from 'lucide-react';
-import React from 'react';
-import { Head, Link } from '@inertiajs/react';
 import WebsiteLayout from '@/layouts/WebsiteLayout';
+import { Head, Link } from '@inertiajs/react';
+import { Calendar, Share2, Star, Tag } from 'lucide-react';
+import React from 'react';
 
 interface NewsAnnouncement {
     id: number;
@@ -80,15 +80,11 @@ export default function NewsDetail({ news, relatedNews }: Props) {
             <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
                 {/* Article */}
                 <article className="mx-auto max-w-7xl px-6 py-8">
-                    <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+                    <div className="overflow-hidden rounded-2xl bg-white shadow-lg">
                         {/* Featured Image */}
                         {news.image_url && (
-                            <div className="relative h-64 md:h-80 overflow-hidden">
-                                <img
-                                    src={news.image_url}
-                                    alt={news.title}
-                                    className="h-full w-full object-cover"
-                                />
+                            <div className="relative h-64 overflow-hidden md:h-80">
+                                <img src={news.image_url} alt={news.title} className="h-full w-full object-cover" />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                             </div>
                         )}
@@ -97,7 +93,9 @@ export default function NewsDetail({ news, relatedNews }: Props) {
                         <div className="p-8">
                             {/* Meta Information */}
                             <div className="mb-6 flex flex-wrap items-center gap-4">
-                                <span className={`inline-flex items-center gap-1 rounded-full border px-3 py-1 text-sm font-medium ${getCategoryColor(news.category)}`}>
+                                <span
+                                    className={`inline-flex items-center gap-1 rounded-full border px-3 py-1 text-sm font-medium ${getCategoryColor(news.category)}`}
+                                >
                                     <Tag className="h-4 w-4" />
                                     {news.category.charAt(0).toUpperCase() + news.category.slice(1)}
                                 </span>
@@ -116,25 +114,21 @@ export default function NewsDetail({ news, relatedNews }: Props) {
                             </div>
 
                             {/* Title */}
-                            <h1 className="mb-6 text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
-                                {news.title}
-                            </h1>
+                            <h1 className="mb-6 text-3xl leading-tight font-bold text-gray-900 md:text-4xl">{news.title}</h1>
 
                             {/* Content */}
                             <div
-                                className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-p:text-gray-700 prose-p:leading-relaxed prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline"
+                                className="prose prose-lg prose-headings:text-gray-900 prose-p:text-gray-700 prose-p:leading-relaxed prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline max-w-none"
                                 dangerouslySetInnerHTML={{ __html: news.content }}
                             />
 
                             {/* Share Section */}
-                            <div className="mt-8 pt-6 border-t border-gray-200">
+                            <div className="mt-8 border-t border-gray-200 pt-6">
                                 <div className="flex items-center justify-between">
-                                    <div className="text-sm text-gray-500">
-                                        Published on {formatDate(news.published_date)}
-                                    </div>
+                                    <div className="text-sm text-gray-500">Published on {formatDate(news.published_date)}</div>
                                     <button
                                         onClick={handleShare}
-                                        className="inline-flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors duration-200"
+                                        className="inline-flex items-center gap-2 text-sm font-medium text-gray-600 transition-colors duration-200 hover:text-blue-600"
                                     >
                                         <Share2 className="h-4 w-4" />
                                         Share
@@ -153,35 +147,38 @@ export default function NewsDetail({ news, relatedNews }: Props) {
                             {relatedNews.map((item) => (
                                 <div
                                     key={item.id}
-                                    className="group bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
+                                    className="group overflow-hidden rounded-xl bg-white shadow-md transition-shadow duration-300 hover:shadow-lg"
                                 >
                                     <div className="p-6">
                                         <div className="mb-3 flex items-center justify-between">
-                                            <span className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-xs font-medium ${getCategoryColor(item.category)}`}>
+                                            <span
+                                                className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-xs font-medium ${getCategoryColor(item.category)}`}
+                                            >
                                                 <Tag className="h-3 w-3" />
                                                 {item.category.charAt(0).toUpperCase() + item.category.slice(1)}
                                             </span>
-                                            <span className="text-xs text-gray-500">
-                                                {formatDate(item.published_date)}
-                                            </span>
+                                            <span className="text-xs text-gray-500">{formatDate(item.published_date)}</span>
                                         </div>
 
-                                        <h3 className="mb-2 text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors duration-200">
+                                        <h3 className="mb-2 text-lg font-semibold text-gray-900 transition-colors duration-200 group-hover:text-blue-600">
                                             <Link href={`/news/${item.slug}`} className="hover:underline">
                                                 {item.title}
                                             </Link>
                                         </h3>
 
-                                        <p className="mb-4 text-sm text-gray-600 leading-relaxed">
-                                            {item.excerpt}
-                                        </p>
+                                        <p className="mb-4 text-sm leading-relaxed text-gray-600">{item.excerpt}</p>
 
                                         <Link
                                             href={`/news/${item.slug}`}
-                                            className="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-200"
+                                            className="inline-flex items-center text-sm font-medium text-blue-600 transition-colors duration-200 hover:text-blue-800"
                                         >
                                             Read More
-                                            <svg className="ml-1 h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <svg
+                                                className="ml-1 h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                viewBox="0 0 24 24"
+                                            >
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                                             </svg>
                                         </Link>
@@ -196,8 +193,4 @@ export default function NewsDetail({ news, relatedNews }: Props) {
     );
 }
 
-NewsDetail.layout = (page: React.ReactNode) => (
-    <WebsiteLayout title="News Detail">
-        {page}
-    </WebsiteLayout>
-);
+NewsDetail.layout = (page: React.ReactNode) => <WebsiteLayout title="News Detail">{page}</WebsiteLayout>;

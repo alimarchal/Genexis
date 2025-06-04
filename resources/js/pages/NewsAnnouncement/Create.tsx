@@ -84,10 +84,7 @@ export default function CreateNewsAnnouncement() {
             <Head title="Create News Announcement" />
 
             <div className="px-10 py-6">
-                <Heading
-                    title="Create News Announcement"
-                    description="Add a new news article or announcement to your website"
-                />
+                <Heading title="Create News Announcement" description="Add a new news article or announcement to your website" />
 
                 <div className="flex flex-col space-y-8 lg:flex-row lg:space-y-0 lg:space-x-12">
                     <form onSubmit={submit} className="w-full">
@@ -186,7 +183,9 @@ export default function CreateNewsAnnouncement() {
                                 <div className="space-y-4">
                                     <div className="flex items-center justify-between">
                                         <div className="space-y-0.5">
-                                            <Label htmlFor="is_published" className="text-base">Published</Label>
+                                            <Label htmlFor="is_published" className="text-base">
+                                                Published
+                                            </Label>
                                             <p className="text-sm text-gray-500">Make this announcement visible to the public</p>
                                         </div>
                                         <Switch
@@ -198,7 +197,9 @@ export default function CreateNewsAnnouncement() {
 
                                     <div className="flex items-center justify-between">
                                         <div className="space-y-0.5">
-                                            <Label htmlFor="is_featured" className="text-base">Featured</Label>
+                                            <Label htmlFor="is_featured" className="text-base">
+                                                Featured
+                                            </Label>
                                             <p className="text-sm text-gray-500">Highlight this announcement on the homepage</p>
                                         </div>
                                         <Switch

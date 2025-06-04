@@ -1,11 +1,11 @@
-import { Head, Link, router } from '@inertiajs/react';
-import { ArrowLeft, Edit, Trash2, Building, Star } from 'lucide-react';
-import AppLayout from '@/layouts/app-layout';
+import Heading from '@/components/heading';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import Heading from '@/components/heading';
+import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
+import { Head, Link, router } from '@inertiajs/react';
+import { ArrowLeft, Building, Edit, Star, Trash2 } from 'lucide-react';
 
 interface BankService {
     id: number;
@@ -33,7 +33,7 @@ interface Props {
 
 export default function ShowBankService({ bankService }: Props) {
     // Helper function to ensure we have arrays
-    const ensureArray = (value: any): string[] => {
+    const ensureArray = (value: string | string[] | unknown): string[] => {
         if (Array.isArray(value)) {
             return value;
         }
@@ -133,38 +133,36 @@ export default function ShowBankService({ bankService }: Props) {
                             <CardContent className="space-y-4">
                                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                                     <div>
-                                        <label className="text-sm font-medium text-muted-foreground">Title</label>
+                                        <label className="text-muted-foreground text-sm font-medium">Title</label>
                                         <p className="mt-1 font-medium">{bankService.title}</p>
                                     </div>
                                     <div>
-                                        <label className="text-sm font-medium text-muted-foreground">Order</label>
+                                        <label className="text-muted-foreground text-sm font-medium">Order</label>
                                         <p className="mt-1">{bankService.order}</p>
                                     </div>
                                 </div>
 
                                 <div>
-                                    <label className="text-sm font-medium text-muted-foreground">Description</label>
+                                    <label className="text-muted-foreground text-sm font-medium">Description</label>
                                     <p className="mt-1">{bankService.description}</p>
                                 </div>
 
                                 <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                                     <div>
-                                        <label className="text-sm font-medium text-muted-foreground">Icon</label>
+                                        <label className="text-muted-foreground text-sm font-medium">Icon</label>
                                         <p className="mt-1 flex items-center gap-2">
                                             <Building className="h-4 w-4" />
                                             {bankService.icon}
                                         </p>
                                     </div>
                                     <div>
-                                        <label className="text-sm font-medium text-muted-foreground">Service Type</label>
+                                        <label className="text-muted-foreground text-sm font-medium">Service Type</label>
                                         <div className="mt-1">
-                                            <Badge className={getServiceTypeColor(bankService.service_type)}>
-                                                {bankService.service_type}
-                                            </Badge>
+                                            <Badge className={getServiceTypeColor(bankService.service_type)}>{bankService.service_type}</Badge>
                                         </div>
                                     </div>
                                     <div>
-                                        <label className="text-sm font-medium text-muted-foreground">Status</label>
+                                        <label className="text-muted-foreground text-sm font-medium">Status</label>
                                         <div className="mt-1">
                                             <Badge variant={bankService.status ? 'default' : 'secondary'}>
                                                 {bankService.status ? 'Active' : 'Inactive'}
@@ -174,7 +172,7 @@ export default function ShowBankService({ bankService }: Props) {
                                 </div>
 
                                 <div>
-                                    <label className="text-sm font-medium text-muted-foreground">Color Scheme</label>
+                                    <label className="text-muted-foreground text-sm font-medium">Color Scheme</label>
                                     <div className="mt-1 flex items-center gap-2">
                                         <div className={`h-4 w-8 rounded bg-gradient-to-r ${bankService.color}`}></div>
                                         <span className="text-sm">{bankService.color}</span>
@@ -192,15 +190,15 @@ export default function ShowBankService({ bankService }: Props) {
                                 <CardContent className="space-y-4">
                                     <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                                         <div>
-                                            <label className="text-sm font-medium text-muted-foreground">Stat Number</label>
-                                            <p className="mt-1 text-2xl font-bold text-primary">{bankService.stat_number}</p>
+                                            <label className="text-muted-foreground text-sm font-medium">Stat Number</label>
+                                            <p className="text-primary mt-1 text-2xl font-bold">{bankService.stat_number}</p>
                                         </div>
                                         <div>
-                                            <label className="text-sm font-medium text-muted-foreground">Stat Label</label>
+                                            <label className="text-muted-foreground text-sm font-medium">Stat Label</label>
                                             <p className="mt-1 font-medium">{bankService.stat_label}</p>
                                         </div>
                                         <div>
-                                            <label className="text-sm font-medium text-muted-foreground">Stat Description</label>
+                                            <label className="text-muted-foreground text-sm font-medium">Stat Description</label>
                                             <p className="mt-1">{bankService.stat_description || '-'}</p>
                                         </div>
                                     </div>
@@ -254,11 +252,11 @@ export default function ShowBankService({ bankService }: Props) {
                             <CardContent className="space-y-4">
                                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                                     <div>
-                                        <label className="text-sm font-medium text-muted-foreground">CTA Text</label>
+                                        <label className="text-muted-foreground text-sm font-medium">CTA Text</label>
                                         <p className="mt-1 font-medium">{bankService.cta_text}</p>
                                     </div>
                                     <div>
-                                        <label className="text-sm font-medium text-muted-foreground">CTA Link</label>
+                                        <label className="text-muted-foreground text-sm font-medium">CTA Link</label>
                                         <p className="mt-1 text-blue-600 hover:underline">
                                             <a href={bankService.cta_link} target="_blank" rel="noopener noreferrer">
                                                 {bankService.cta_link}
@@ -278,16 +276,16 @@ export default function ShowBankService({ bankService }: Props) {
                             </CardHeader>
                             <CardContent className="space-y-4">
                                 <div>
-                                    <label className="text-sm font-medium text-muted-foreground">Created</label>
+                                    <label className="text-muted-foreground text-sm font-medium">Created</label>
                                     <p className="mt-1 text-sm">{formatDate(bankService.created_at)}</p>
                                 </div>
                                 <div>
-                                    <label className="text-sm font-medium text-muted-foreground">Last Updated</label>
+                                    <label className="text-muted-foreground text-sm font-medium">Last Updated</label>
                                     <p className="mt-1 text-sm">{formatDate(bankService.updated_at)}</p>
                                 </div>
                                 <div>
-                                    <label className="text-sm font-medium text-muted-foreground">Service ID</label>
-                                    <p className="mt-1 text-sm font-mono">#{bankService.id}</p>
+                                    <label className="text-muted-foreground text-sm font-medium">Service ID</label>
+                                    <p className="mt-1 font-mono text-sm">#{bankService.id}</p>
                                 </div>
                             </CardContent>
                         </Card>
@@ -305,9 +303,7 @@ export default function ShowBankService({ bankService }: Props) {
                                     </Link>
                                 </Button>
                                 <Button asChild variant="outline" className="w-full">
-                                    <Link href={route('bank-services.create')}>
-                                        Create New Service
-                                    </Link>
+                                    <Link href={route('bank-services.create')}>Create New Service</Link>
                                 </Button>
                             </CardContent>
                         </Card>

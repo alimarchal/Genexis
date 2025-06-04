@@ -101,10 +101,7 @@ export default function EditNewsAnnouncement({ newsAnnouncement }: Props) {
             <Head title="Edit News Announcement" />
 
             <div className="px-10 py-6">
-                <Heading
-                    title="Edit News Announcement"
-                    description="Update the details of this news article or announcement"
-                />
+                <Heading title="Edit News Announcement" description="Update the details of this news article or announcement" />
 
                 <div className="flex flex-col space-y-8 lg:flex-row lg:space-y-0 lg:space-x-12">
                     <form onSubmit={submit} className="w-full">
@@ -123,9 +120,7 @@ export default function EditNewsAnnouncement({ newsAnnouncement }: Props) {
                                                 alt={newsAnnouncement.title}
                                                 className="h-20 w-20 rounded-md object-cover"
                                             />
-                                            <p className="text-sm text-gray-500">
-                                                Upload a new image to replace the current one
-                                            </p>
+                                            <p className="text-sm text-gray-500">Upload a new image to replace the current one</p>
                                         </div>
                                     </div>
                                 )}
@@ -154,11 +149,7 @@ export default function EditNewsAnnouncement({ newsAnnouncement }: Props) {
                                             placeholder="news-slug"
                                             className={errors.slug ? 'border-red-500' : ''}
                                         />
-                                        <Button
-                                            type="button"
-                                            variant="outline"
-                                            onClick={() => generateSlug(data.title)}
-                                        >
+                                        <Button type="button" variant="outline" onClick={() => generateSlug(data.title)}>
                                             Generate
                                         </Button>
                                     </div>
@@ -193,9 +184,8 @@ export default function EditNewsAnnouncement({ newsAnnouncement }: Props) {
                                     {errors.image && <p className="text-sm text-red-500">{errors.image}</p>}
                                     <p className="text-sm text-gray-500">
                                         {newsAnnouncement.image_url
-                                            ? "Upload a new image to replace the current one (optional)"
-                                            : "Upload an image for this news article (optional)"
-                                        }
+                                            ? 'Upload a new image to replace the current one (optional)'
+                                            : 'Upload an image for this news article (optional)'}
                                     </p>
                                 </div>
 
@@ -234,7 +224,9 @@ export default function EditNewsAnnouncement({ newsAnnouncement }: Props) {
                                 <div className="space-y-4">
                                     <div className="flex items-center justify-between">
                                         <div className="space-y-0.5">
-                                            <Label htmlFor="is_published" className="text-base">Published</Label>
+                                            <Label htmlFor="is_published" className="text-base">
+                                                Published
+                                            </Label>
                                             <p className="text-sm text-gray-500">Make this announcement visible to the public</p>
                                         </div>
                                         <Switch
@@ -246,7 +238,9 @@ export default function EditNewsAnnouncement({ newsAnnouncement }: Props) {
 
                                     <div className="flex items-center justify-between">
                                         <div className="space-y-0.5">
-                                            <Label htmlFor="is_featured" className="text-base">Featured</Label>
+                                            <Label htmlFor="is_featured" className="text-base">
+                                                Featured
+                                            </Label>
                                             <p className="text-sm text-gray-500">Highlight this announcement on the homepage</p>
                                         </div>
                                         <Switch

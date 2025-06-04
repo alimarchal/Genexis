@@ -39,19 +39,19 @@ const InteractiveBAJKServices: React.FC<Props> = ({ bankServices }) => {
 
     // Icon mapping
     const iconMapping: Record<string, React.ComponentType<React.SVGProps<SVGSVGElement>>> = {
-        'CreditCard': CreditCard,
-        'Building2': Building2,
-        'Wheat': Wheat,
-        'Users': Users,
-        'Shield': Shield,
-        'TrendingUp': TrendingUp,
-        'Home': Home,
-        'Phone': Phone,
-        'MapPin': MapPin,
+        CreditCard: CreditCard,
+        Building2: Building2,
+        Wheat: Wheat,
+        Users: Users,
+        Shield: Shield,
+        TrendingUp: TrendingUp,
+        Home: Home,
+        Phone: Phone,
+        MapPin: MapPin,
     };
 
     // Helper function to ensure we have arrays
-    const ensureArray = (value: any): string[] => {
+    const ensureArray = (value: string | string[] | unknown): string[] => {
         if (Array.isArray(value)) {
             return value;
         }
@@ -68,18 +68,18 @@ const InteractiveBAJKServices: React.FC<Props> = ({ bankServices }) => {
 
     // Transform bank services data
     const services: ServiceCard[] = bankServices
-        .filter(service => service.service_type === 'service')
-        .map(service => ({
+        .filter((service) => service.service_type === 'service')
+        .map((service) => ({
             id: service.id,
             title: service.title,
             description: service.description,
             icon: iconMapping[service.icon] || Building2,
-            products: ensureArray(service.products).map(product => {
+            products: ensureArray(service.products).map((product) => {
                 // Split product string into name and description
                 const parts = product.split(' - ');
                 return {
                     name: parts[0] || product,
-                    description: parts[1] || 'Banking service'
+                    description: parts[1] || 'Banking service',
                 };
             }),
             ctaText: service.cta_text,
@@ -89,8 +89,8 @@ const InteractiveBAJKServices: React.FC<Props> = ({ bankServices }) => {
         }));
 
     const depositServices = bankServices
-        .filter(service => service.service_type === 'deposit')
-        .map(service => ({
+        .filter((service) => service.service_type === 'deposit')
+        .map((service) => ({
             name: service.title,
             icon: iconMapping[service.icon] || Shield,
             link: service.cta_link,
@@ -98,8 +98,8 @@ const InteractiveBAJKServices: React.FC<Props> = ({ bankServices }) => {
         }));
 
     const stats = bankServices
-        .filter(service => service.service_type === 'stat')
-        .map(service => ({
+        .filter((service) => service.service_type === 'stat')
+        .map((service) => ({
             number: service.stat_number || '0',
             label: service.stat_label || service.title,
             icon: iconMapping[service.icon] || Building2,
@@ -243,8 +243,8 @@ const InteractiveBAJKServices: React.FC<Props> = ({ bankServices }) => {
                                     <a
                                         href={service.ctaLink}
                                         className={`group inline-flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-[#4A7C59] to-[#5D8A6A] px-8 py-4 font-bold text-white shadow-lg transition-all duration-300 ${isHovered
-                                            ? 'scale-105 from-[#F9B912] to-[#E6A610] shadow-2xl'
-                                            : 'hover:scale-105 hover:from-[#F9B912] hover:to-[#E6A610] hover:shadow-xl'
+                                                ? 'scale-105 from-[#F9B912] to-[#E6A610] shadow-2xl'
+                                                : 'hover:scale-105 hover:from-[#F9B912] hover:to-[#E6A610] hover:shadow-xl'
                                             }`}
                                     >
                                         {service.ctaText}
