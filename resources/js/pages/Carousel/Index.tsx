@@ -1,13 +1,13 @@
 import { useState, FormEventHandler } from 'react';
 import { Head, Link, router } from '@inertiajs/react';
 import { Plus, Edit, Trash2, Eye, Search } from 'lucide-react';
-import { AppLayout } from '@/layouts/AppLayout';
+import AppLayout from '@/layouts/app-layout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import { Heading } from '@/components/ui/heading';
+import Heading from '@/components/heading';
 import { BreadcrumbItem } from '@/types';
 
 const breadcrumbs: BreadcrumbItem[] = [

@@ -1,15 +1,15 @@
 import { FormEventHandler } from 'react';
 import { Head, Link, useForm, router } from '@inertiajs/react';
 import { ArrowLeft } from 'lucide-react';
-import { AppLayout } from '@/layouts/AppLayout';
+import AppLayout from '@/layouts/app-layout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { InputError } from '@/components/InputError';
-import { Heading } from '@/components/ui/heading';
+import InputError from '@/components/input-error';
+import Heading from '@/components/heading';
 import { BreadcrumbItem } from '@/types';
 
 interface Carousel {
