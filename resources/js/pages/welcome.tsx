@@ -1,4 +1,5 @@
 import BankServicesSection from '@/components/BankServicesSection';
+import BranchLocator from '@/components/BranchLocator';
 import BankHeroCarousel from '@/components/carousel/BankHeroCarousel';
 import CustomerTestimonials from '@/components/CustomerTestimonials';
 import NewsAnnouncements from '@/components/NewsAnnouncements';
@@ -29,18 +30,37 @@ interface BankService {
     stat_description?: string;
 }
 
+interface NewsAnnouncement {
+    id: number;
+    title: string;
+    content: string;
+    excerpt: string;
+    image: string | null;
+    image_url: string | null;
+    published_date: string;
+    is_featured: boolean;
+    category: string;
+    slug: string;
+    is_published: boolean;
+    created_at: string;
+}
+
 interface Props {
     carousels: CarouselSlide[];
     bankServices: BankService[];
+    newsAnnouncements: NewsAnnouncement[];
 }
 
-export default function HomePage({ carousels, bankServices }: Props) {
+export default function HomePage({ carousels, bankServices, newsAnnouncements }: Props) {
     return (
         <div className="w-full">
             <BankHeroCarousel slides={carousels} />
             <BankServicesSection bankServices={bankServices} />
-            <NewsAnnouncements />
-            <CustomerTestimonials />
+            <NewsAnnouncements newsAnnouncements={newsAnnouncements} />
+            <BranchLocator />
+
+            {/* Uncomment the following line to include customer testimonials section */}
+            {/* <CustomerTestimonials /> */}
 
             {/* <div className="mx-auto max-w-7xl px-6 py-8">
                 <h1 className="mb-6 text-3xl font-bold text-gray-900">Welcome to Bank of Azad Jammu & Kashmir</h1>

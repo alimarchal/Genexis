@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             BoardOfDirectorSeeder::class,
             CarouselSeeder::class,
             BankServiceSeeder::class,
+            NewsAnnouncementSeeder::class,
         ]);
 
         // \App\Models\User::factory()->create([

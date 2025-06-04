@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\BankServiceController;
 use App\Http\Controllers\CarouselController;
 use App\Http\Controllers\ManagmentController;
+use App\Http\Controllers\NewsAnnouncementController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ServiceController;
 use Illuminate\Support\Facades\Route;
@@ -17,6 +18,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('managments', ManagmentController::class);
     Route::resource('carousels', CarouselController::class);
     Route::resource('bank-services', BankServiceController::class);
+    Route::resource('news-announcements', NewsAnnouncementController::class);
 });
 
 Route::get('/', [PageController::class, 'home'])->name(name: 'home');
@@ -62,6 +64,9 @@ Route::prefix('rates')->name('rates.')->group(function () {
 });
 
 Route::get('/contact-us', [PageController::class, 'contact'])->name('contact');
+
+Route::get('/news', [PageController::class, 'news'])->name('news');
+Route::get('/news/{slug}', [PageController::class, 'newsDetail'])->name('news.detail');
 
 // Admin routes (protected by auth middleware)
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(function () {

@@ -8,12 +8,44 @@ use App\Models\BankService;
 use App\Models\BoardOfDirector;
 use App\Models\Carousel;
 use App\Models\Managment;
+use App\Models\NewsAnnouncement;
 use App\Models\Page;
 use App\Models\ProductTypeAccount;
 use Inertia\Inertia;
 
 class PageController extends Controller
 {
+    private function getImageUrl($image)
+    {
+        if (! $image) {
+            return null;
+        }
+
+        // If it's already a full URL, check if it's a via.placeholder.com URL that might not work
+        if (filter_var($image, FILTER_VALIDATE_URL)) {
+            // If it's a via.placeholder.com URL, replace with a more reliable service
+            if (str_contains($image, 'via.placeholder.com')) {
+                // Extract dimensions and text from the URL
+                preg_match('/(\d+)x(\d+)/', $image, $dimensions);
+                preg_match('/text=([^&]+)/', $image, $text);
+
+                $width = $dimensions[1] ?? '800';
+                $height = $dimensions[2] ?? '600';
+                $textContent = $text[1] ?? 'News';
+
+                // Use picsum.photos with a seed for consistent images
+                $seed = crc32($textContent); // Generate a consistent seed from text
+
+                return "https://picsum.photos/seed/{$seed}/{$width}/{$height}";
+            }
+
+            return $image;
+        }
+
+        // Otherwise, treat as a storage file path
+        return asset('storage/'.$image);
+    }
+
     public function home()
     {
         $carousels = Carousel::active()
@@ -53,9 +85,33 @@ class PageController extends Controller
                 ];
             });
 
+        $newsAnnouncements = NewsAnnouncement::published()
+            ->featured()
+            ->recent()
+            ->orderBy('published_date', 'desc')
+            ->limit(6)
+            ->get()
+            ->map(function ($news) {
+                return [
+                    'id' => $news->id,
+                    'title' => $news->title,
+                    'content' => $news->content,
+                    'image' => $news->image,
+                    'image_url' => $this->getImageUrl($news->image),
+                    'published_date' => $news->published_date,
+                    'is_featured' => $news->is_featured,
+                    'category' => $news->category,
+                    'slug' => $news->slug,
+                    'is_published' => $news->is_published,
+                    'created_at' => $news->created_at->toISOString(),
+                    'excerpt' => substr(strip_tags($news->content), 0, 150).'...',
+                ];
+            });
+
         return Inertia::render('welcome', [
             'carousels' => $carousels,
             'bankServices' => $bankServices,
+            'newsAnnouncements' => $newsAnnouncements,
         ]);
     }
 
@@ -88,6 +144,81 @@ class PageController extends Controller
     public function contact()
     {
         return inertia('Contact/Index');
+    }
+
+    public function news()
+    {
+        $newsAnnouncements = NewsAnnouncement::published()
+            ->orderBy('published_date', 'desc')
+            ->paginate(12)
+            ->through(function ($news) {
+                return [
+                    'id' => $news->id,
+                    'title' => $news->title,
+                    'content' => $news->content,
+                    'image' => $news->image,
+                    'image_url' => $this->getImageUrl($news->image),
+                    'published_date' => $news->published_date,
+                    'is_featured' => $news->is_featured,
+                    'category' => $news->category,
+                    'slug' => $news->slug,
+                    'is_published' => $news->is_published,
+                    'created_at' => $news->created_at->toISOString(),
+                    'excerpt' => substr(strip_tags($news->content), 0, 150).'...',
+                ];
+            });
+
+        return Inertia::render('News/Index', [
+            'newsAnnouncements' => $newsAnnouncements,
+            'autoBreadcrumbs' => [
+                ['label' => 'Home', 'href' => '/'],
+                ['label' => 'News & Announcements', 'isActive' => true],
+            ],
+        ]);
+    }
+
+    public function newsDetail($slug)
+    {
+        $news = NewsAnnouncement::published()
+            ->where('slug', $slug)
+            ->firstOrFail();
+
+        $relatedNews = NewsAnnouncement::published()
+            ->where('id', '!=', $news->id)
+            ->where('category', $news->category)
+            ->limit(3)
+            ->get()
+            ->map(function ($news) {
+                return [
+                    'id' => $news->id,
+                    'title' => $news->title,
+                    'slug' => $news->slug,
+                    'category' => $news->category,
+                    'published_date' => $news->published_date,
+                    'excerpt' => substr(strip_tags($news->content), 0, 100).'...',
+                ];
+            });
+
+        return Inertia::render('News/Detail', [
+            'news' => [
+                'id' => $news->id,
+                'title' => $news->title,
+                'content' => $news->content,
+                'image' => $news->image,
+                'image_url' => $this->getImageUrl($news->image),
+                'published_date' => $news->published_date,
+                'is_featured' => $news->is_featured,
+                'category' => $news->category,
+                'slug' => $news->slug,
+                'created_at' => $news->created_at->toISOString(),
+            ],
+            'relatedNews' => $relatedNews,
+            'autoBreadcrumbs' => [
+                ['label' => 'Home', 'href' => '/'],
+                ['label' => 'News & Announcements', 'href' => '/news'],
+                ['label' => $news->title, 'isActive' => true],
+            ],
+        ]);
     }
 
     public function depositAccounts()
