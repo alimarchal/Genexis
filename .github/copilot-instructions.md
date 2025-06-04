@@ -1,5 +1,3 @@
-
-
 General code instructions:
 
 - Don't generate code comments above the methods or code blocks if they are obvious. Generate comments only for something that needs extra explanation for the reasons why that code was written
@@ -20,3 +18,7 @@ Use Laravel 11+ skeleton structure:
 - **Faker**: in Factories, use `fake()` helper instead of `$this->faker`.
 - **Views**: to create new Blade files, use Artisan command `php artisan make:view` instead of `mkdir` or `touch`.
 - **Policies**: Laravel automatically auto-discovers Policies, no need to register them in the Service Providers.
+
+In addition to the specified requirements, adhere to Laravel's official coding standards and best practices. 
+The project is built on Laravel 12, utilizing the Laravel React starter kit with native authentication and incorporating spatie/laravel-permission and spatie/laravel-query-builder packages. 
+Ensure all packages are updated to the latest versions compatible with Laravel 12.
