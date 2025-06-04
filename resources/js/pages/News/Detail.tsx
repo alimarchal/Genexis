@@ -50,26 +50,36 @@ const formatDate = (dateString: string) => {
 };
 
 export default function NewsDetail({ news, relatedNews }: Props) {
+    const handleShare = async () => {
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: news.title,
+                    text: `Check out this news: ${news.title}`,
+                    url: window.location.href,
+                });
+            } catch (error) {
+                console.error('Error sharing:', error);
+            }
+        } else {
+            // Fallback: copy to clipboard
+            try {
+                await navigator.clipboard.writeText(window.location.href);
+                alert('Link copied to clipboard!');
+            } catch (error) {
+                console.error('Error copying to clipboard:', error);
+                alert('Unable to share or copy link');
+            }
+        }
+    };
+
     return (
         <>
             <Head title={news.title} />
 
             <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-                {/* Header */}
-                <div className="bg-white border-b border-gray-200">
-                    <div className="mx-auto max-w-4xl px-6 py-4">
-                        <Link
-                            href="/news"
-                            className="inline-flex items-center text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors duration-200"
-                        >
-                            <ArrowLeft className="mr-1 h-4 w-4" />
-                            Back to News
-                        </Link>
-                    </div>
-                </div>
-
                 {/* Article */}
-                <article className="mx-auto max-w-4xl px-6 py-8">
+                <article className="mx-auto max-w-7xl px-6 py-8">
                     <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
                         {/* Featured Image */}
                         {news.image_url && (
@@ -122,7 +132,10 @@ export default function NewsDetail({ news, relatedNews }: Props) {
                                     <div className="text-sm text-gray-500">
                                         Published on {formatDate(news.published_date)}
                                     </div>
-                                    <button className="inline-flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors duration-200">
+                                    <button
+                                        onClick={handleShare}
+                                        className="inline-flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors duration-200"
+                                    >
                                         <Share2 className="h-4 w-4" />
                                         Share
                                     </button>
@@ -134,7 +147,7 @@ export default function NewsDetail({ news, relatedNews }: Props) {
 
                 {/* Related News */}
                 {relatedNews.length > 0 && (
-                    <section className="mx-auto max-w-4xl px-6 py-8">
+                    <section className="mx-auto max-w-7xl px-6 py-8">
                         <h2 className="mb-6 text-2xl font-bold text-gray-900">Related News</h2>
                         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                             {relatedNews.map((item) => (
