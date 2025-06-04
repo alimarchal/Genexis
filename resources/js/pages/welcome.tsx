@@ -4,10 +4,23 @@ import CustomerTestimonials from '@/components/CustomerTestimonials';
 import NewsAnnouncements from '@/components/NewsAnnouncements';
 import WebsiteLayout from '@/layouts/WebsiteLayout';
 
-export default function HomePage() {
+interface CarouselSlide {
+    id: number;
+    image: string;
+    title: string;
+    subtitle: string;
+    ctaText?: string;
+    ctaLink?: string;
+}
+
+interface Props {
+    carousels: CarouselSlide[];
+}
+
+export default function HomePage({ carousels }: Props) {
     return (
         <div className="w-full">
-            <BankHeroCarousel />
+            <BankHeroCarousel slides={carousels} />
             <BankServicesSection />
             <NewsAnnouncements />
             <CustomerTestimonials />

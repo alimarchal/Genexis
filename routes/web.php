@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\MenuController;
+use App\Http\Controllers\CarouselController;
 use App\Http\Controllers\ManagmentController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ServiceController;
@@ -13,6 +14,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 
     Route::resource('managments', ManagmentController::class);
+    Route::resource('carousels', CarouselController::class);
 });
 
 Route::get('/', [PageController::class, 'home'])->name(name: 'home');

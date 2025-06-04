@@ -10,12 +10,16 @@ interface CarouselSlide {
     ctaLink?: string;
 }
 
-const BankHeroCarousel: React.FC = () => {
+interface BankHeroCarouselProps {
+    slides?: CarouselSlide[];
+}
+
+const BankHeroCarousel: React.FC<BankHeroCarouselProps> = ({ slides: propSlides }) => {
     const [currentSlide, setCurrentSlide] = useState(0);
     const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
-    // Sample bank carousel data - replace with your actual data
-    const slides: CarouselSlide[] = [
+    // Use provided slides or fallback to default slides
+    const slides: CarouselSlide[] = propSlides || [
         {
             id: 1,
             image: '/carousel/car_finance.jpeg',

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePageRequest;
 use App\Http\Requests\UpdatePageRequest;
 use App\Models\BoardOfDirector;
+use App\Models\Carousel;
 use App\Models\Managment;
 use App\Models\Page;
 use App\Models\ProductTypeAccount;
@@ -14,7 +15,24 @@ class PageController extends Controller
 {
     public function home()
     {
-        return Inertia::render('welcome');
+        $carousels = Carousel::active()
+            ->orderBy('order')
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->map(function ($carousel) {
+                return [
+                    'id' => $carousel->id,
+                    'title' => $carousel->title,
+                    'subtitle' => $carousel->description,
+                    'image' => $carousel->image_url,
+                    'ctaText' => $carousel->button_text,
+                    'ctaLink' => $carousel->button_url,
+                ];
+            });
+
+        return Inertia::render('welcome', [
+            'carousels' => $carousels,
+        ]);
     }
 
     public function about()
