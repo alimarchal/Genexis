@@ -1,4 +1,4 @@
-import { useState, FormEventHandler } from 'react';
+import { useState } from 'react';
 import { Head, Link, router } from '@inertiajs/react';
 import { Plus, Edit, Trash2, Eye, Search } from 'lucide-react';
 import AppLayout from '@/layouts/app-layout';
