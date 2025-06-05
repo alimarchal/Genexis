@@ -1,7 +1,6 @@
 import Heading from '@/components/heading';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -55,31 +54,41 @@ interface Props {
         last_page: number;
         per_page: number;
         total: number;
-        links: Array<{
-            url: string | null;
-            label: string;
-            active: boolean;
-        }>;
     };
-    filters: Record<string, any>;
+    filters: {
+        filter?: {
+            name?: string;
+            status?: string;
+        };
+        sort?: string;
+    };
 }
 
-export default function Index({ contacts, filters }: Props) {
+export default function ContactIndex({ contacts, filters }: Props) {
     const [searchTerm, setSearchTerm] = useState(filters.filter?.name || '');
     const [statusFilter, setStatusFilter] = useState(filters.filter?.status || 'all');
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
-        const searchParams = new URLSearchParams();
-        if (searchTerm) searchParams.append('filter[name]', searchTerm);
-        if (statusFilter && statusFilter !== 'all') searchParams.append('filter[status]', statusFilter);
+        const params: Record<string, unknown> = {};
 
-        router.get(route('contacts.index'), Object.fromEntries(searchParams));
+        if (searchTerm) {
+            params['filter[name]'] = searchTerm;
+        }
+
+        if (statusFilter && statusFilter !== 'all') {
+            params['filter[status]'] = statusFilter;
+        }
+
+        router.get(route('contacts.index'), params, {
+            preserveState: true,
+            preserveScroll: true,
+        });
     };
 
-    const handleDelete = (contact: Contact) => {
+    const handleDelete = (id: number) => {
         if (confirm('Are you sure you want to delete this contact?')) {
-            router.delete(route('contacts.destroy', contact.id));
+            router.delete(route('contacts.destroy', id));
         }
     };
 
@@ -87,122 +96,142 @@ export default function Index({ contacts, filters }: Props) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Contacts" />
 
-            <div className="px-10 py-6">
-                <div className="flex items-center justify-between mb-6">
-                    <Heading title="Contacts" description="Manage contact information and directory" />
-                    <Link href={route('contacts.create')}>
-                        <Button>
-                            <Plus className="h-4 w-4 mr-2" />
+            <div className="px-4 py-6">
+                <div className="mb-6 flex items-center justify-between">
+                    <Heading title="Contact Directory" description="Manage your organization's contact information" />
+                    <Button asChild>
+                        <Link href={route('contacts.create')}>
+                            <Plus className="mr-2 h-4 w-4" />
                             Add Contact
-                        </Button>
-                    </Link>
+                        </Link>
+                    </Button>
                 </div>
 
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Contact Directory</CardTitle>
-                        <form onSubmit={handleSearch} className="flex items-center space-x-2">
-                            <div className="flex-1">
-                                <Input
-                                    placeholder="Search by name..."
-                                    value={searchTerm}
-                                    onChange={(e) => setSearchTerm(e.target.value)}
-                                />
-                            </div>
-                            <Select value={statusFilter} onValueChange={setStatusFilter}>
-                                <SelectTrigger className="w-[200px]">
-                                    <SelectValue placeholder="Search by status" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="all">All Statuses</SelectItem>
-                                    <SelectItem value="active">Active</SelectItem>
-                                    <SelectItem value="inactive">Inactive</SelectItem>
-                                </SelectContent>
-                            </Select>
-                            <Button type="submit">
-                                <Search className="h-4 w-4 mr-2" />
-                                Search
-                            </Button>
-                        </form>
-                    </CardHeader>
-                    <CardContent className="p-0">
-                        <Table>
-                            <TableHeader>
+                {/* Filters */}
+                <form onSubmit={handleSearch} className="mb-6">
+                    <div className="flex gap-4">
+                        <div className="relative max-w-sm flex-1">
+                            <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
+                            <Input
+                                type="text"
+                                placeholder="Search by name..."
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                className="pl-10"
+                            />
+                        </div>
+                        <Select value={statusFilter} onValueChange={setStatusFilter}>
+                            <SelectTrigger className="w-[180px]">
+                                <SelectValue placeholder="Filter by status" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="all">All Status</SelectItem>
+                                <SelectItem value="active">Active</SelectItem>
+                                <SelectItem value="inactive">Inactive</SelectItem>
+                            </SelectContent>
+                        </Select>
+                        <Button type="submit">Filter</Button>
+                    </div>
+                </form>
+
+                {/* Table */}
+                <div className="rounded-md border">
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Name</TableHead>
+                                <TableHead>Position</TableHead>
+                                <TableHead>Department</TableHead>
+                                <TableHead>Branch</TableHead>
+                                <TableHead>Contact Info</TableHead>
+                                <TableHead>Status</TableHead>
+                                <TableHead className="text-right">Actions</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {contacts.data.length === 0 ? (
                                 <TableRow>
-                                    <TableHead>Name</TableHead>
-                                    <TableHead>Position</TableHead>
-                                    <TableHead>Department</TableHead>
-                                    <TableHead>Contact Info</TableHead>
-                                    <TableHead>Branch</TableHead>
-                                    <TableHead>Status</TableHead>
-                                    <TableHead className="text-right">Actions</TableHead>
+                                    <TableCell colSpan={7} className="text-muted-foreground py-8 text-center">
+                                        No contacts found.
+                                    </TableCell>
                                 </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                {contacts.data.length === 0 ? (
-                                    <TableRow>
-                                        <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
-                                            No contacts found.
+                            ) : (
+                                contacts.data.map((contact) => (
+                                    <TableRow key={contact.id}>
+                                        <TableCell>
+                                            <div>
+                                                <p className="font-medium">{contact.name}</p>
+                                            </div>
+                                        </TableCell>
+                                        <TableCell>{contact.position || 'N/A'}</TableCell>
+                                        <TableCell>{contact.department || 'N/A'}</TableCell>
+                                        <TableCell>{contact.branch?.name} ({contact.branch?.code})</TableCell>
+                                        <TableCell>
+                                            <div className="space-y-1">
+                                                <div className="text-sm">{contact.email}</div>
+                                                <div className="text-sm text-muted-foreground">{contact.phone || 'N/A'}</div>
+                                            </div>
+                                        </TableCell>
+                                        <TableCell>
+                                            <Badge variant={contact.status === 'active' ? 'default' : 'secondary'}>{contact.status}</Badge>
+                                        </TableCell>
+                                        <TableCell className="text-right">
+                                            <DropdownMenu>
+                                                <DropdownMenuTrigger asChild>
+                                                    <Button variant="ghost" className="h-8 w-8 p-0">
+                                                        <span className="sr-only">Open menu</span>
+                                                        <MoreHorizontal className="h-4 w-4" />
+                                                    </Button>
+                                                </DropdownMenuTrigger>
+                                                <DropdownMenuContent align="end">
+                                                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                                    <DropdownMenuSeparator />
+                                                    <DropdownMenuItem asChild>
+                                                        <Link href={route('contacts.show', contact.id)}>
+                                                            <Eye className="mr-2 h-4 w-4" />
+                                                            View
+                                                        </Link>
+                                                    </DropdownMenuItem>
+                                                    <DropdownMenuItem asChild>
+                                                        <Link href={route('contacts.edit', contact.id)}>
+                                                            <Edit className="mr-2 h-4 w-4" />
+                                                            Edit
+                                                        </Link>
+                                                    </DropdownMenuItem>
+                                                    <DropdownMenuItem onClick={() => handleDelete(contact.id)} className="text-red-600">
+                                                        <Trash className="mr-2 h-4 w-4" />
+                                                        Delete
+                                                    </DropdownMenuItem>
+                                                </DropdownMenuContent>
+                                            </DropdownMenu>
                                         </TableCell>
                                     </TableRow>
-                                ) : (
-                                    contacts.data.map((contact) => (
-                                        <TableRow key={contact.id}>
-                                            <TableCell className="font-medium">{contact.name}</TableCell>
-                                            <TableCell>{contact.position || 'N/A'}</TableCell>
-                                            <TableCell>{contact.department || 'N/A'}</TableCell>
-                                            <TableCell>
-                                                <div className="space-y-1">
-                                                    <div className="text-sm">{contact.email}</div>
-                                                    <div className="text-sm text-muted-foreground">{contact.phone || 'N/A'}</div>
-                                                </div>
-                                            </TableCell>
-                                            <TableCell>{contact.branch?.name || 'N/A'}</TableCell>
-                                            <TableCell>
-                                                <Badge variant={contact.status === 'active' ? 'default' : 'secondary'}>
-                                                    {contact.status}
-                                                </Badge>
-                                            </TableCell>
-                                            <TableCell className="text-right">
-                                                <DropdownMenu>
-                                                    <DropdownMenuTrigger asChild>
-                                                        <Button variant="ghost" className="h-8 w-8 p-0">
-                                                            <span className="sr-only">Open menu</span>
-                                                            <MoreHorizontal className="h-4 w-4" />
-                                                        </Button>
-                                                    </DropdownMenuTrigger>
-                                                    <DropdownMenuContent align="end">
-                                                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                                        <DropdownMenuItem asChild>
-                                                            <Link href={route('contacts.show', contact.id)}>
-                                                                <Eye className="mr-2 h-4 w-4" />
-                                                                View
-                                                            </Link>
-                                                        </DropdownMenuItem>
-                                                        <DropdownMenuItem asChild>
-                                                            <Link href={route('contacts.edit', contact.id)}>
-                                                                <Edit className="mr-2 h-4 w-4" />
-                                                                Edit
-                                                            </Link>
-                                                        </DropdownMenuItem>
-                                                        <DropdownMenuSeparator />
-                                                        <DropdownMenuItem
-                                                            className="text-red-600"
-                                                            onClick={() => handleDelete(contact)}
-                                                        >
-                                                            <Trash className="mr-2 h-4 w-4" />
-                                                            Delete
-                                                        </DropdownMenuItem>
-                                                    </DropdownMenuContent>
-                                                </DropdownMenu>
-                                            </TableCell>
-                                        </TableRow>
-                                    ))
-                                )}
-                            </TableBody>
-                        </Table>
-                    </CardContent>
-                </Card>
+                                ))
+                            )}
+                        </TableBody>
+                    </Table>
+                </div>
+
+                {/* Pagination */}
+                {contacts.last_page > 1 && (
+                    <div className="mt-6 flex items-center justify-between">
+                        <p className="text-muted-foreground text-sm">
+                            Showing {contacts.data.length} of {contacts.total} results
+                        </p>
+                        <div className="flex gap-2">
+                            {Array.from({ length: contacts.last_page }, (_, i) => i + 1).map((page) => (
+                                <Button
+                                    key={page}
+                                    variant={page === contacts.current_page ? 'default' : 'outline'}
+                                    size="sm"
+                                    onClick={() => router.get(route('contacts.index', { page }))}
+                                >
+                                    {page}
+                                </Button>
+                            ))}
+                        </div>
+                    </div>
+                )}
             </div>
         </AppLayout>
     );

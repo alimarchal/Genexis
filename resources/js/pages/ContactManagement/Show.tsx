@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
-import { ArrowLeft, Calendar, Edit, Mail, Phone, User, Users } from 'lucide-react';
+import { ArrowLeft, Briefcase, Calendar, Edit, Hash, Mail, Phone, User } from 'lucide-react';
 
 interface Contact {
     id: number;
@@ -75,7 +75,7 @@ export default function ShowContact({ contact }: Props) {
                     </Button>
                 </div>
 
-                <Heading title="Contact Details" description="View complete information about this contact" />
+                <Heading title="Contact Details" description="View complete information about this contact member" />
 
                 <div className="grid max-w-6xl grid-cols-1 gap-6 lg:grid-cols-3">
                     {/* Main Information */}
@@ -95,11 +95,11 @@ export default function ShowContact({ contact }: Props) {
                                     </div>
                                     <div>
                                         <p className="text-muted-foreground text-sm">Position</p>
-                                        <p className="font-medium">{contact.position}</p>
+                                        <p className="font-medium">{contact.position || 'N/A'}</p>
                                     </div>
                                     <div>
                                         <p className="text-muted-foreground text-sm">Department</p>
-                                        <p className="font-medium">{contact.department}</p>
+                                        <p className="font-medium">{contact.department || 'N/A'}</p>
                                     </div>
                                     <div>
                                         <p className="text-muted-foreground text-sm">Branch</p>
@@ -118,9 +118,13 @@ export default function ShowContact({ contact }: Props) {
                                         <p className="text-muted-foreground text-sm">Phone</p>
                                         <p className="font-medium flex items-center gap-1">
                                             <Phone className="h-4 w-4" />
-                                            <a href={`tel:${contact.phone}`} className="text-blue-600 hover:underline">
-                                                {contact.phone}
-                                            </a>
+                                            {contact.phone ? (
+                                                <a href={`tel:${contact.phone}`} className="text-blue-600 hover:underline">
+                                                    {contact.phone}
+                                                </a>
+                                            ) : (
+                                                'N/A'
+                                            )}
                                         </p>
                                     </div>
                                     <div>
@@ -162,7 +166,7 @@ export default function ShowContact({ contact }: Props) {
                         <Card>
                             <CardHeader>
                                 <CardTitle className="flex items-center gap-2">
-                                    <Users className="h-5 w-5" />
+                                    <Briefcase className="h-5 w-5" />
                                     Quick Actions
                                 </CardTitle>
                             </CardHeader>
@@ -179,12 +183,14 @@ export default function ShowContact({ contact }: Props) {
                                         Send Email
                                     </a>
                                 </Button>
-                                <Button variant="outline" className="w-full" asChild>
-                                    <a href={`tel:${contact.phone}`}>
-                                        <Phone className="mr-2 h-4 w-4" />
-                                        Call
-                                    </a>
-                                </Button>
+                                {contact.phone && (
+                                    <Button variant="outline" className="w-full" asChild>
+                                        <a href={`tel:${contact.phone}`}>
+                                            <Phone className="mr-2 h-4 w-4" />
+                                            Call
+                                        </a>
+                                    </Button>
+                                )}
                                 <Button variant="outline" className="w-full" asChild>
                                     <Link href={route('contacts.index')}>View All Contacts</Link>
                                 </Button>
