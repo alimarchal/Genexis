@@ -54,7 +54,7 @@ export default function ShowDistrict({ district }: Props) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={`${district.name} - District`} />
 
-            <div className="px-4 py-6">
+            <div className="px-10 py-6">
                 <div className="mb-6 flex items-center justify-between">
                     <Button variant="ghost" size="sm" asChild>
                         <Link href={route('districts.index')}>
@@ -90,7 +90,7 @@ export default function ShowDistrict({ district }: Props) {
                                     </div>
                                     <div>
                                         <p className="text-muted-foreground text-sm">Region</p>
-                                        <p className="font-medium">{district.region.name}</p>
+                                        <p className="font-medium">{district.region?.name || 'N/A'}</p>
                                     </div>
                                     <div>
                                         <p className="text-muted-foreground text-sm">Status</p>
