@@ -66,9 +66,6 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({ branches, selectedRegio
 
     const handleBranchClick = (branch: Branch) => {
         setSelectedBranch(branch);
-        if (branch.latitude && branch.longitude) {
-            setMapCenter({ lat: branch.latitude, lng: branch.longitude });
-        }
     };
 
     const zoomIn = () => setZoomLevel((prev) => Math.min(prev + 0.2, 2));

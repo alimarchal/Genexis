@@ -15,7 +15,7 @@ interface Service {
     description: string;
     attributes: ServiceAttribute[];
     image: string;
-    icon: JSX.Element;
+    icon: React.ReactElement;
 }
 
 const ServicesPage = () => {

@@ -20,7 +20,7 @@ interface CommercialFinanceData {
 interface CommercialFinance {
     id: string;
     title: string;
-    icon: JSX.Element;
+    icon: React.ReactElement;
     color: string;
     data: CommercialFinanceData;
 }
@@ -261,6 +261,7 @@ const apiData: CommercialFinance[] = [
             loanLimit:
                 'For Rural Areas: • Up to Rs. 5.00 Million for purchase of equipment (DF). • Up to Rs. 1.00 Million for working capital requirement (RF). For Urban Areas: • Up to Rs. 10.00 Million for purchase of equipment (DF). • Up to Rs. 2.00 Million for working capital requirement (RF).',
             tenure: '• 01 year on rollover bases for RF limit. • 05 years for DF limit.',
+            repayment: 'Flexible repayment schedule based on loan type and tenure',
             borrowerEquity: 'For DF – 25% of required amount.',
             dsr: '50%',
             primarySecurity: 'Hypothecation of existing or to be purchased stock with 25% margin.',
