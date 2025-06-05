@@ -1,5 +1,6 @@
 import { Clock, Filter, MapPin, Navigation, Phone, Search, Mail, Globe, CheckCircle, XCircle } from 'lucide-react';
 import React, { useState, useMemo } from 'react';
+import InteractiveMap from './InteractiveMap';
 
 interface Branch {
     id: number;
@@ -244,8 +245,8 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
                             <div
                                 key={branch.id}
                                 className={`group cursor-pointer rounded-2xl bg-white/90 backdrop-blur-sm p-6 shadow-lg transition-all duration-300 border border-white/20 ${selectedBranch === branch.id
-                                        ? 'shadow-2xl ring-2 ring-[#4A7C59]/30 scale-[1.02]'
-                                        : 'hover:shadow-xl hover:scale-[1.01]'
+                                    ? 'shadow-2xl ring-2 ring-[#4A7C59]/30 scale-[1.02]'
+                                    : 'hover:shadow-xl hover:scale-[1.01]'
                                     }`}
                                 onClick={() => setSelectedBranch(selectedBranch === branch.id ? null : branch.id)}
                             >
@@ -447,18 +448,25 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
                             </div>
                         </div>
 
-                        {/* Map Placeholder */}
-                        <div className="rounded-2xl bg-white/90 backdrop-blur-sm p-6 shadow-lg border border-white/20">
-                            <h3 className="mb-4 text-xl font-bold text-gray-900 flex items-center gap-2">
-                                🗺️ Interactive Map
-                            </h3>
-                            <div className="flex h-64 items-center justify-center rounded-xl bg-gradient-to-br from-gray-50 to-gray-100 border-2 border-dashed border-gray-300">
-                                <div className="text-center">
-                                    <MapPin className="mx-auto mb-3 h-12 w-12 text-gray-400" />
-                                    <p className="text-gray-500 font-medium mb-1">Interactive Map</p>
-                                    <p className="text-sm text-gray-400">Coming Soon</p>
-                                </div>
+                        {/* Interactive Map */}
+                        <div className="rounded-2xl bg-white/90 backdrop-blur-sm shadow-lg border border-white/20 overflow-hidden">
+                            <div className="p-4 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-indigo-50">
+                                <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                                    🗺️ Interactive Map
+                                    <span className="text-sm font-normal text-gray-600">
+                                        ({filteredBranches.filter(b => b.latitude && b.longitude).length} locations)
+                                    </span>
+                                </h3>
+                                <p className="text-sm text-gray-600 mt-1">
+                                    Click on any branch marker to view details
+                                </p>
                             </div>
+                            <InteractiveMap
+                                branches={filteredBranches}
+                                selectedRegion={selectedRegion !== 'all' ? regions.find(r => r.id.toString() === selectedRegion)?.name : undefined}
+                                selectedDistrict={selectedDistrict !== 'all' ? availableDistricts.find(d => d.id.toString() === selectedDistrict)?.name : undefined}
+                                selectedBranchType={branchTypeFilter !== 'all' ? branchTypeFilter : undefined}
+                            />
                         </div>
 
                         {/* Help Card */}

@@ -79,6 +79,8 @@ class BranchSeeder extends Seeder
                 'code' => '0003',
                 'name' => 'Dadyal Branch',
                 'address' => 'Maqbool Butt Shaheed Chowk, Dadyal',
+                'latitude' => 33.0153,
+                'longitude' => 73.6258,
             ],
             [
                 'district_id' => District::without('branches', 'region')->where('name', 'Mirpur')->first()->id,
@@ -86,6 +88,8 @@ class BranchSeeder extends Seeder
                 'code' => '0004',
                 'name' => 'Chaksawari Branch',
                 'address' => 'Opposite Al-Shahzad Hotel Chaksawari',
+                'latitude' => 33.1122,
+                'longitude' => 73.7156,
             ],
             [
                 'district_id' => District::without('branches', 'region')->where('name', 'Kotli')->first()->id,
@@ -93,6 +97,8 @@ class BranchSeeder extends Seeder
                 'code' => '0005',
                 'name' => 'Kotli Branch',
                 'address' => 'Poonch / Rawalpindi Road Kotli',
+                'latitude' => 33.5177,
+                'longitude' => 73.9022,
             ],
             [
                 'district_id' => District::without('branches', 'region')->where('name', 'Poonch')->first()->id,
@@ -100,6 +106,8 @@ class BranchSeeder extends Seeder
                 'code' => '0006',
                 'name' => 'Rawalakot Branch',
                 'address' => 'Gulf Shopping Complex Katchari Road Rawalakot',
+                'latitude' => 33.8576,
+                'longitude' => 73.7633,
             ],
             [
                 'district_id' => District::without('branches', 'region')->where('name', 'Kotli')->first()->id,
@@ -107,6 +115,8 @@ class BranchSeeder extends Seeder
                 'code' => '0007',
                 'name' => 'Sehnsa Branch',
                 'address' => 'Main Bazar Sehnsa AJK',
+                'latitude' => 33.5234,
+                'longitude' => 73.8891,
             ],
             [
                 'district_id' => District::without('branches', 'region')->where('name', 'Neelum')->first()->id,
@@ -114,6 +124,8 @@ class BranchSeeder extends Seeder
                 'code' => '0008',
                 'name' => 'Athmuqam Branch',
                 'address' => 'Main Bazar Athmuqam District Neelum AJK',
+                'latitude' => 34.5937,
+                'longitude' => 74.0163,
             ],
             [
                 'district_id' => District::without('branches', 'region')->where('name', 'Mirpur')->first()->id,
@@ -121,6 +133,8 @@ class BranchSeeder extends Seeder
                 'code' => '0009',
                 'name' => 'Islamgarh Branch',
                 'address' => 'Main Bazar Islamgarh District Mirpur AJK',
+                'latitude' => 33.2175,
+                'longitude' => 73.6543,
             ],
             [
                 'district_id' => District::without('branches', 'region')->where('name', 'Bagh')->first()->id,
@@ -128,6 +142,8 @@ class BranchSeeder extends Seeder
                 'code' => '0010',
                 'name' => 'Bagh Branch',
                 'address' => 'Main Bazar Bagh AJK',
+                'latitude' => 33.9871,
+                'longitude' => 73.7787,
             ],
             [
                 'district_id' => District::without('branches', 'region')->where('name', 'Bagh')->first()->id,
@@ -135,6 +151,8 @@ class BranchSeeder extends Seeder
                 'code' => '0011',
                 'name' => 'Arja Branch',
                 'address' => 'Bagh/Rawalakot Chowk Arja District Bagh AJK',
+                'latitude' => 33.9654,
+                'longitude' => 73.7892,
             ],
             [
                 'district_id' => District::without('branches', 'region')->where('name', 'Bhimber')->first()->id,
@@ -142,6 +160,8 @@ class BranchSeeder extends Seeder
                 'code' => '0012',
                 'name' => 'Bhimber Branch',
                 'address' => 'Main Bazar Bhimber AJK',
+                'latitude' => 32.9765,
+                'longitude' => 74.0798,
             ],
             [
                 'district_id' => District::without('branches', 'region')->where('name', 'Poonch')->first()->id,
@@ -149,6 +169,8 @@ class BranchSeeder extends Seeder
                 'code' => '0013',
                 'name' => 'Pallandari Branch',
                 'address' => 'Main Bazar Pallandari AJK',
+                'latitude' => 33.7145,
+                'longitude' => 73.6892,
             ],
             [
                 'district_id' => District::without('branches', 'region')->where('name', 'Kotli')->first()->id,
@@ -156,6 +178,8 @@ class BranchSeeder extends Seeder
                 'code' => '0014',
                 'name' => 'Nar Branch',
                 'address' => 'Main Bazar Nar District Kotli AJK',
+                'latitude' => 33.4892,
+                'longitude' => 73.8654,
             ],
             [
                 'district_id' => District::without('branches', 'region')->where('name', 'Mirpur')->first()->id,
@@ -163,6 +187,8 @@ class BranchSeeder extends Seeder
                 'code' => '0015',
                 'name' => 'F-3 Branch, Mirpur',
                 'address' => 'Sector F-3 Mirpur AJK',
+                'latitude' => 33.1456,
+                'longitude' => 73.7324,
             ],
             [
                 'district_id' => District::without('branches', 'region')->where('name', 'Poonch')->first()->id,
@@ -170,6 +196,8 @@ class BranchSeeder extends Seeder
                 'code' => '0016',
                 'name' => 'Hajeera Branch',
                 'address' => 'Main Bazar Hajeera District Poonch Azad Kashmir',
+                'latitude' => 33.7892,
+                'longitude' => 73.8123,
             ],
             [
                 'district_id' => District::without('branches', 'region')->where('name', 'Muzaffarabad')->first()->id,
@@ -177,6 +205,8 @@ class BranchSeeder extends Seeder
                 'code' => '0017',
                 'name' => 'Garhi-Dupata Branch',
                 'address' => 'Pull Bazar Garhi Dupatta Muzaffarabad A.K',
+                'latitude' => 34.3567,
+                'longitude' => 73.6234,
             ],
             [
                 'district_id' => District::without('branches', 'region')->where('name', 'Muzaffarabad')->first()->id,
@@ -184,6 +214,8 @@ class BranchSeeder extends Seeder
                 'code' => '0018',
                 'name' => 'Lower Plate Branch',
                 'address' => 'Near City Hospital Lower Plate Muzaffarabad A.K',
+                'latitude' => 34.3698,
+                'longitude' => 73.4732,
             ],
             [
                 'district_id' => District::without('branches', 'region')->where('name', 'Muzaffarabad')->first()->id,
@@ -191,6 +223,8 @@ class BranchSeeder extends Seeder
                 'code' => '0019',
                 'name' => 'Chatter Klass Branch',
                 'address' => 'Kullian Bazar, Kohala-Muzaffarabad Road',
+                'latitude' => 34.4123,
+                'longitude' => 73.5456,
             ],
             [
                 'district_id' => District::without('branches', 'region')->where('name', 'Kotli')->first()->id,
@@ -198,6 +232,8 @@ class BranchSeeder extends Seeder
                 'code' => '0020',
                 'name' => 'Brahtla Branch',
                 'address' => 'Main Bazar Brahtla District Kotli A.K',
+                'latitude' => 33.4567,
+                'longitude' => 73.8934,
             ],
             [
                 'district_id' => District::without('branches', 'region')->where('name', 'Kotli')->first()->id,
@@ -205,6 +241,8 @@ class BranchSeeder extends Seeder
                 'code' => '0021',
                 'name' => 'Khui Ratta Branch',
                 'address' => 'Main Bazar Khui Ratta District Kotli A.K',
+                'latitude' => 33.4234,
+                'longitude' => 73.9123,
             ],
             [
                 'district_id' => District::without('branches', 'region')->where('name', 'Muzaffarabad')->first()->id,
@@ -212,6 +250,8 @@ class BranchSeeder extends Seeder
                 'code' => '0022',
                 'name' => 'Chakaar Branch',
                 'address' => 'Main Bazar Chakaar District Muzaffarabad A.K',
+                'latitude' => 34.2987,
+                'longitude' => 73.5789,
             ],
             [
                 'district_id' => District::without('branches', 'region')->where('name', 'Bagh')->first()->id,
@@ -219,6 +259,8 @@ class BranchSeeder extends Seeder
                 'code' => '0023',
                 'name' => 'Dheerkot Branch',
                 'address' => 'Main Bazar Dheerkot District Bagh A.K',
+                'latitude' => 33.9234,
+                'longitude' => 73.7456,
             ],
             [
                 'district_id' => District::without('branches', 'region')->where('name', 'Muzaffarabad')->first()->id,
@@ -226,6 +268,8 @@ class BranchSeeder extends Seeder
                 'code' => '0024',
                 'name' => 'Pathika Branch',
                 'address' => 'Main Bazar Pathika District Muzaffarabad A.K',
+                'latitude' => 34.3234,
+                'longitude' => 73.4987,
             ],
             [
                 'district_id' => District::without('branches', 'region')->where('name', 'Poonch')->first()->id,
@@ -233,6 +277,8 @@ class BranchSeeder extends Seeder
                 'code' => '0025',
                 'name' => 'Bandi Abbaspur Branch',
                 'address' => 'Pul Bazar Bandi Abbaspur District Poonch A.K',
+                'latitude' => 33.7456,
+                'longitude' => 73.6789,
             ],
             [
                 'district_id' => District::without('branches', 'region')->where('name', 'Kotli')->first()->id,
@@ -240,6 +286,8 @@ class BranchSeeder extends Seeder
                 'code' => '0026',
                 'name' => 'Sarsawa Branch',
                 'address' => 'Main Bazar Sarsawa District Kotli A.K',
+                'latitude' => 33.4890,
+                'longitude' => 73.8567,
             ],
             [
                 'district_id' => District::without('branches', 'region')->where('name', 'Mirpur')->first()->id,
@@ -247,6 +295,8 @@ class BranchSeeder extends Seeder
                 'code' => '0027',
                 'name' => 'Pulmanda Branch',
                 'address' => 'Main Bazar Pulmanda District Mirpur A.K',
+                'latitude' => 33.1567,
+                'longitude' => 73.7234,
             ],
             [
                 'district_id' => District::without('branches', 'region')->where('name', 'Muzaffarabad')->first()->id,
@@ -254,6 +304,8 @@ class BranchSeeder extends Seeder
                 'code' => '0028',
                 'name' => 'Madina Market Branch',
                 'address' => 'Madina Market District Muzaffarabad A.K',
+                'latitude' => 34.3456,
+                'longitude' => 73.4789,
             ],
             [
                 'district_id' => District::without('branches', 'region')->where('name', 'Bhimber')->first()->id,
@@ -261,6 +313,8 @@ class BranchSeeder extends Seeder
                 'code' => '0029',
                 'name' => 'Barnala Branch',
                 'address' => 'Main Bazar Barnala District Bhimber A.K',
+                'latitude' => 32.9876,
+                'longitude' => 74.0123,
             ],
             [
                 'district_id' => District::without('branches', 'region')->where('name', 'Poonch')->first()->id,
@@ -268,6 +322,8 @@ class BranchSeeder extends Seeder
                 'code' => '0030',
                 'name' => 'Khai-gala Branch',
                 'address' => 'Main Bazar Khai-gala District Poonch A.K',
+                'latitude' => 33.7890,
+                'longitude' => 73.6234,
             ],
             [
                 'district_id' => District::without('branches', 'region')->where('name', 'Kotli')->first()->id,
@@ -275,6 +331,8 @@ class BranchSeeder extends Seeder
                 'code' => '0031',
                 'name' => 'Khad-Gujran Branch',
                 'address' => 'Main Bazar Khad-Gujran District Kotli A.K',
+                'latitude' => 33.5123,
+                'longitude' => 73.8456,
             ],
             [
                 'district_id' => District::without('branches', 'region')->where('name', 'Sudhanoti')->first()->id,
@@ -282,6 +340,8 @@ class BranchSeeder extends Seeder
                 'code' => '0032',
                 'name' => 'Trarkhal Branch',
                 'address' => 'Main Bazar Tararkhal District Sudhanoti',
+                'latitude' => 33.7654,
+                'longitude' => 73.5987,
             ],
             [
                 'district_id' => District::without('branches', 'region')->where('name', 'Bhimber')->first()->id,
@@ -289,6 +349,8 @@ class BranchSeeder extends Seeder
                 'code' => '0033',
                 'name' => 'Chowki Branch',
                 'address' => 'Main Bazar Chowki District Bhimber A.K',
+                'latitude' => 32.9345,
+                'longitude' => 74.0456,
             ],
             [
                 'district_id' => District::without('branches', 'region')->where('name', 'Jhelum Valley')->first()->id,
@@ -296,6 +358,8 @@ class BranchSeeder extends Seeder
                 'code' => '0034',
                 'name' => 'Hattian Branch',
                 'address' => 'Sakhi Plaza, Chowk Bazar, Hattian Bala',
+                'latitude' => 34.5234,
+                'longitude' => 73.6789,
             ],
             [
                 'district_id' => District::without('branches', 'region')->where('name', 'Bhimber')->first()->id,
@@ -303,6 +367,8 @@ class BranchSeeder extends Seeder
                 'code' => '0035',
                 'name' => 'Poona Branch',
                 'address' => 'Main Bazar Poona District Bhimber A.K',
+                'latitude' => 32.8765,
+                'longitude' => 74.1234,
             ],
             [
                 'district_id' => District::without('branches', 'region')->where('name', 'Kotli')->first()->id,
@@ -310,6 +376,8 @@ class BranchSeeder extends Seeder
                 'code' => '0036',
                 'name' => 'Charhoi Branch',
                 'address' => 'Main Bazar Charhoi District Kotli A.K',
+                'latitude' => 33.4567,
+                'longitude' => 73.9456,
             ],
             [
                 'district_id' => District::without('branches', 'region')->where('name', 'Jhelum Valley')->first()->id,
@@ -317,6 +385,8 @@ class BranchSeeder extends Seeder
                 'code' => '0037',
                 'name' => 'Chakothi Branch',
                 'address' => 'Main Bazar Chakhoti District Hattian A.K',
+                'latitude' => 34.4890,
+                'longitude' => 73.7123,
             ],
             [
                 'district_id' => District::without('branches', 'region')->where('name', 'Haveli')->first()->id,
@@ -324,6 +394,8 @@ class BranchSeeder extends Seeder
                 'code' => '0038',
                 'name' => 'Kahotta Branch',
                 'address' => 'Main Bazar Kahotta District Haveli A.K',
+                'latitude' => 33.6789,
+                'longitude' => 73.4567,
             ],
             [
                 'district_id' => District::without('branches', 'region')->where('name', 'Poonch')->first()->id,
@@ -331,6 +403,8 @@ class BranchSeeder extends Seeder
                 'code' => '0039',
                 'name' => 'Paniola Branch',
                 'address' => 'Main Bazar Paniola District Poonch A.K',
+                'latitude' => 33.8123,
+                'longitude' => 73.5890,
             ],
             [
                 'district_id' => District::without('branches', 'region')->where('name', 'Muzaffarabad')->first()->id,
@@ -338,6 +412,8 @@ class BranchSeeder extends Seeder
                 'code' => '0040',
                 'name' => 'District Complex Muzaffarabad Branch',
                 'address' => 'Old Secretariat District Complex District Muzaffarabd',
+                'latitude' => 34.3789,
+                'longitude' => 73.4612,
             ],
             [
                 'district_id' => District::without('branches', 'region')->where('name', 'Sudhanoti')->first()->id,
@@ -345,6 +421,8 @@ class BranchSeeder extends Seeder
                 'code' => '0041',
                 'name' => 'Bloch Branch',
                 'address' => 'Main Bazar Bloch District Sudhanoti',
+                'latitude' => 33.7234,
+                'longitude' => 73.6456,
             ],
             [
                 'district_id' => District::without('branches', 'region')->where('name', 'Kotli')->first()->id,
@@ -352,6 +430,8 @@ class BranchSeeder extends Seeder
                 'code' => '0042',
                 'name' => 'Tatta-Pani Branch',
                 'address' => 'Main Bazar Tatta-Pani District Kotli A.K',
+                'latitude' => 33.4890,
+                'longitude' => 73.8567,
             ],
             [
                 'district_id' => District::without('branches', 'region')->where('name', 'Neelum')->first()->id,
@@ -359,6 +439,8 @@ class BranchSeeder extends Seeder
                 'code' => '0043',
                 'name' => 'Sharda Branch',
                 'address' => 'Main Sharda Bazar District Neelum A.K',
+                'latitude' => 34.6234,
+                'longitude' => 74.0789,
             ],
             [
                 'district_id' => District::without('branches', 'region')->where('name', 'Kotli')->first()->id,
@@ -366,6 +448,8 @@ class BranchSeeder extends Seeder
                 'code' => '0044',
                 'name' => 'Mi-Toti Branch',
                 'address' => 'Main Bazar Mi-Toti District Kotli A.K',
+                'latitude' => 33.5123,
+                'longitude' => 73.9234,
             ],
             [
                 'district_id' => District::without('branches', 'region')->where('name', 'Mirpur')->first()->id,
@@ -373,6 +457,8 @@ class BranchSeeder extends Seeder
                 'code' => '0045',
                 'name' => 'Jatlan Branch',
                 'address' => 'Main Bazar Jatlan District Mirpur',
+                'latitude' => 33.1789,
+                'longitude' => 73.7456,
             ],
             [
                 'district_id' => District::without('branches', 'region')->where('name', 'Mirpur')->first()->id,
@@ -685,7 +771,7 @@ class BranchSeeder extends Seeder
             'sunday' => null,
         ];
 
-        foreach ($branches as $branch) {
+        foreach ($branches as $index => $branch) {
             // Add standard operating hours if not already specified
             if (! isset($branch['operating_hours'])) {
                 $branch['operating_hours'] = $standardOperatingHours;
@@ -696,7 +782,13 @@ class BranchSeeder extends Seeder
                 $branch['type'] = 'sub_branch';
             }
 
-            // Add default values for missing fields
+            // Add dummy coordinates if not already specified
+            if (! isset($branch['latitude']) || ! isset($branch['longitude'])) {
+                // Generate coordinates within AJK region (approximate bounds)
+                $branch['latitude'] = fake()->randomFloat(6, 33.0, 35.0); // AJK latitude range
+                $branch['longitude'] = fake()->randomFloat(6, 73.0, 75.0); // AJK longitude range
+            }
+
             if (! isset($branch['is_24_hours'])) {
                 $branch['is_24_hours'] = false;
             }
