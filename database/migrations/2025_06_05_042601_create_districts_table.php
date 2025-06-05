@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('region_id')->constrained()->cascadeOnUpdate();
             $table->string('name')->unique();
             $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->userTracking();
             $table->timestamps();
         });
     }

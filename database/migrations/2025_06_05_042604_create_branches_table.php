@@ -33,6 +33,7 @@ return new class extends Migration
             $table->boolean('is_24_hours')->default(false);
             $table->json('holidays')->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->userTracking();
             $table->timestamps();
         });
     }

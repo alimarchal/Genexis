@@ -2,14 +2,16 @@
 
 namespace App\Models;
 
+use App\Traits\UserTracking;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\QueryBuilder\AllowedFilter;
 
 class Contact extends Model
 {
     /** @use HasFactory<\Database\Factories\ContactFactory> */
-    use HasFactory;
+    use HasFactory, UserTracking;
 
     protected $fillable = [
         'branch_id',
@@ -36,6 +38,28 @@ class Contact extends Model
     public function scopeByType($query, string $type)
     {
         return $query->where('type', $type);
+    }
+
+    public static function getAllowedFilters(): array
+    {
+        return [
+            AllowedFilter::partial('contact'),
+            AllowedFilter::exact('type'),
+            AllowedFilter::exact('status'),
+            AllowedFilter::exact('branch_id'),
+        ];
+    }
+
+    public static function getAllowedSorts(): array
+    {
+        return [
+            'id',
+            'contact',
+            'type',
+            'status',
+            'created_at',
+            'updated_at',
+        ];
     }
 
     public function getFormattedContactAttribute(): string

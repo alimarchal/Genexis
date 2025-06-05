@@ -2,10 +2,15 @@
 
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\BankServiceController;
+use App\Http\Controllers\BranchController;
+use App\Http\Controllers\BranchServiceController;
 use App\Http\Controllers\CarouselController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\ManagmentController;
 use App\Http\Controllers\NewsAnnouncementController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\RegionController;
 use App\Http\Controllers\ServiceController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -19,6 +24,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('carousels', CarouselController::class);
     Route::resource('bank-services', BankServiceController::class);
     Route::resource('news-announcements', NewsAnnouncementController::class);
+
+    // New CRUD routes
+    Route::resource('regions', RegionController::class);
+    Route::resource('districts', DistrictController::class);
+    Route::resource('branches', BranchController::class);
+    Route::resource('contacts', ContactController::class);
+    Route::resource('branch-services', BranchServiceController::class);
 });
 
 Route::get('/', [PageController::class, 'home'])->name(name: 'home');

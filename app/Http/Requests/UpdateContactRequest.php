@@ -11,7 +11,7 @@ class UpdateContactRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class UpdateContactRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'branch_id' => 'required|exists:branches,id',
+            'contact' => 'nullable|string|max:255',
+            'type' => 'required|in:email,fax,telephone_no,mobile_no,whatsapp',
+            'status' => 'required|in:active,inactive',
         ];
     }
 }

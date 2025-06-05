@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('contact')->nullable();
             $table->enum('type', ['email', 'fax', 'telephone_no', 'mobile_no', 'whatsapp']);
             $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->userTracking();
             $table->timestamps();
         });
     }

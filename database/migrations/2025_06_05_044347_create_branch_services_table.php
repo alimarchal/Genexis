@@ -20,6 +20,7 @@ return new class extends Migration
             $table->json('availability_hours')->nullable();
             $table->decimal('service_fee', 10, 2)->nullable();
             $table->enum('status', ['active', 'inactive', 'temporarily_unavailable'])->default('active');
+            $table->userTracking();
             $table->timestamps();
             $table->unique(['branch_id', 'service_name']);
         });

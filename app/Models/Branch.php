@@ -2,15 +2,17 @@
 
 namespace App\Models;
 
+use App\Traits\UserTracking;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\QueryBuilder\AllowedFilter;
 
 class Branch extends Model
 {
     /** @use HasFactory<\Database\Factories\BranchFactory> */
-    use HasFactory;
+    use HasFactory, UserTracking;
 
     protected $fillable = [
         'region_id',
@@ -200,6 +202,34 @@ class Branch extends Model
             'status' => $this->operating_status,
             'todayHours' => $this->today_hours,
             'contacts' => $this->contacts->pluck('contact', 'type'),
+        ];
+    }
+
+    public static function getAllowedFilters(): array
+    {
+        return [
+            AllowedFilter::partial('name'),
+            AllowedFilter::partial('code'),
+            AllowedFilter::exact('type'),
+            AllowedFilter::exact('status'),
+            AllowedFilter::exact('region_id'),
+            AllowedFilter::exact('district_id'),
+            AllowedFilter::exact('show_on_map'),
+            AllowedFilter::exact('is_24_hours'),
+        ];
+    }
+
+    public static function getAllowedSorts(): array
+    {
+        return [
+            'id',
+            'name',
+            'code',
+            'type',
+            'status',
+            'map_priority',
+            'created_at',
+            'updated_at',
         ];
     }
 }

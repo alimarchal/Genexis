@@ -4,63 +4,84 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreContactRequest;
 use App\Http\Requests\UpdateContactRequest;
+use App\Models\Branch;
 use App\Models\Contact;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class ContactController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $contacts = QueryBuilder::for(Contact::class)
+            ->with('branch')
+            ->allowedFilters(Contact::getAllowedFilters())
+            ->allowedSorts(Contact::getAllowedSorts())
+            ->defaultSort('-created_at')
+            ->paginate(request('per_page', 15))
+            ->withQueryString();
+
+        return Inertia::render('ContactManagement/Index', [
+            'contacts' => $contacts,
+            'filters' => request()->only(['filter', 'sort']),
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $branches = Branch::active()->orderBy('name')->get();
+
+        return Inertia::render('ContactManagement/Create', [
+            'branches' => $branches,
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreContactRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        Contact::create($data);
+
+        return redirect()->route('contacts.index')
+            ->with('success', 'Contact created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Contact $contact)
     {
-        //
+        $contact->load('branch');
+
+        return Inertia::render('ContactManagement/Show', [
+            'contact' => $contact,
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Contact $contact)
     {
-        //
+        $branches = Branch::active()->orderBy('name')->get();
+        $contact->load('branch');
+
+        return Inertia::render('ContactManagement/Edit', [
+            'contact' => $contact,
+            'branches' => $branches,
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateContactRequest $request, Contact $contact)
     {
-        //
+        $data = $request->validated();
+
+        $contact->update($data);
+
+        return redirect()->route('contacts.index')
+            ->with('success', 'Contact updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Contact $contact)
     {
-        //
+        $contact->delete();
+
+        return redirect()->route('contacts.index')
+            ->with('success', 'Contact deleted successfully.');
     }
 }

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->userTracking();
             $table->timestamps();
         });
     }

@@ -11,7 +11,7 @@ class StoreDistrictRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class StoreDistrictRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'region_id' => 'required|exists:regions,id',
+            'name' => 'required|string|max:255|unique:districts,name',
+            'status' => 'required|in:active,inactive',
         ];
     }
 }

@@ -5,62 +5,83 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreDistrictRequest;
 use App\Http\Requests\UpdateDistrictRequest;
 use App\Models\District;
+use App\Models\Region;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class DistrictController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $districts = QueryBuilder::for(District::class)
+            ->with('region')
+            ->allowedFilters(District::getAllowedFilters())
+            ->allowedSorts(District::getAllowedSorts())
+            ->defaultSort('-created_at')
+            ->paginate(request('per_page', 15))
+            ->withQueryString();
+
+        return Inertia::render('District/Index', [
+            'districts' => $districts,
+            'filters' => request()->only(['filter', 'sort']),
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $regions = Region::active()->orderBy('name')->get();
+
+        return Inertia::render('District/Create', [
+            'regions' => $regions,
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreDistrictRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        District::create($data);
+
+        return redirect()->route('districts.index')
+            ->with('success', 'District created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(District $district)
     {
-        //
+        $district->load('region');
+
+        return Inertia::render('District/Show', [
+            'district' => $district,
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(District $district)
     {
-        //
+        $regions = Region::active()->orderBy('name')->get();
+        $district->load('region');
+
+        return Inertia::render('District/Edit', [
+            'district' => $district,
+            'regions' => $regions,
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateDistrictRequest $request, District $district)
     {
-        //
+        $data = $request->validated();
+
+        $district->update($data);
+
+        return redirect()->route('districts.index')
+            ->with('success', 'District updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(District $district)
     {
-        //
+        $district->delete();
+
+        return redirect()->route('districts.index')
+            ->with('success', 'District deleted successfully.');
     }
 }

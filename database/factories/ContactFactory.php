@@ -16,8 +16,20 @@ class ContactFactory extends Factory
      */
     public function definition(): array
     {
+        $type = fake()->randomElement(['email', 'fax', 'telephone_no', 'mobile_no', 'whatsapp']);
+
+        $contact = match ($type) {
+            'email' => fake()->email(),
+            'fax' => fake()->phoneNumber(),
+            'telephone_no' => fake()->phoneNumber(),
+            'mobile_no' => fake()->phoneNumber(),
+            'whatsapp' => fake()->phoneNumber(),
+        };
+
         return [
-            //
+            'contact' => $contact,
+            'type' => $type,
+            'status' => fake()->randomElement(['active', 'inactive']),
         ];
     }
 }

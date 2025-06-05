@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
+use App\Traits\UserTracking;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\QueryBuilder\AllowedFilter;
 
 class BranchService extends Model
 {
-    use HasFactory;
+    use HasFactory, UserTracking;
 
     protected $fillable = [
         'branch_id',
@@ -45,5 +47,27 @@ class BranchService extends Model
     public function getFormattedServiceFeeAttribute(): string
     {
         return $this->service_fee ? 'PKR '.number_format($this->service_fee, 2) : 'Free';
+    }
+
+    public static function getAllowedFilters(): array
+    {
+        return [
+            AllowedFilter::partial('service_name'),
+            AllowedFilter::exact('status'),
+            AllowedFilter::exact('branch_id'),
+            AllowedFilter::exact('is_available'),
+        ];
+    }
+
+    public static function getAllowedSorts(): array
+    {
+        return [
+            'id',
+            'service_name',
+            'status',
+            'service_fee',
+            'created_at',
+            'updated_at',
+        ];
     }
 }

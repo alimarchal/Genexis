@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateDistrictRequest extends FormRequest
+class UpdateBranchServiceRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,9 +22,13 @@ class UpdateDistrictRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'region_id' => 'required|exists:regions,id',
-            'name' => 'required|string|max:255|unique:districts,name,'.$this->district->id,
-            'status' => 'required|in:active,inactive',
+            'branch_id' => 'required|exists:branches,id',
+            'service_name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'is_available' => 'boolean',
+            'availability_hours' => 'nullable|json',
+            'service_fee' => 'nullable|numeric|min:0',
+            'status' => 'required|in:active,inactive,temporarily_unavailable',
         ];
     }
 }
