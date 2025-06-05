@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('contacts', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('email');
+            $table->string('phone')->nullable();
+            $table->string('position')->nullable();
+            $table->string('department')->nullable();
             $table->foreignId('branch_id')->constrained()->cascadeOnUpdate();
-            $table->string('contact')->nullable();
-            $table->enum('type', ['email', 'fax', 'telephone_no', 'mobile_no', 'whatsapp']);
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->userTracking();
             $table->timestamps();

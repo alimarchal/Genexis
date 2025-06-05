@@ -14,14 +14,16 @@ class Contact extends Model
     use HasFactory, UserTracking;
 
     protected $fillable = [
+        'name',
+        'email',
+        'phone',
+        'position',
+        'department',
         'branch_id',
-        'contact',
-        'type',
         'status',
     ];
 
     protected $casts = [
-        'type' => 'string',
         'status' => 'string',
     ];
 
@@ -35,16 +37,13 @@ class Contact extends Model
         return $query->where('status', 'active');
     }
 
-    public function scopeByType($query, string $type)
-    {
-        return $query->where('type', $type);
-    }
-
     public static function getAllowedFilters(): array
     {
         return [
-            AllowedFilter::partial('contact'),
-            AllowedFilter::exact('type'),
+            AllowedFilter::partial('name'),
+            AllowedFilter::partial('email'),
+            AllowedFilter::partial('position'),
+            AllowedFilter::partial('department'),
             AllowedFilter::exact('status'),
             AllowedFilter::exact('branch_id'),
         ];
@@ -54,30 +53,13 @@ class Contact extends Model
     {
         return [
             'id',
-            'contact',
-            'type',
+            'name',
+            'email',
+            'position',
+            'department',
             'status',
             'created_at',
             'updated_at',
         ];
-    }
-
-    public function getFormattedContactAttribute(): string
-    {
-        return match ($this->type) {
-            'email' => $this->contact,
-            'telephone_no', 'mobile_no', 'whatsapp' => $this->formatPhoneNumber($this->contact),
-            'fax' => "Fax: {$this->contact}",
-            default => $this->contact,
-        };
-    }
-
-    private function formatPhoneNumber(?string $phone): string
-    {
-        if (! $phone) {
-            return '';
-        }
-
-        return preg_replace('/(\d{4})(\d{7})/', '$1-$2', $phone) ?: $phone;
     }
 }

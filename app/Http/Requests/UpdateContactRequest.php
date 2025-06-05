@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateContactRequest extends FormRequest
 {
@@ -21,10 +22,20 @@ class UpdateContactRequest extends FormRequest
      */
     public function rules(): array
     {
+        $contact = $this->route('contact');
+
         return [
+            'name' => 'required|string|max:255',
+            'email' => [
+                'required',
+                'email',
+                'max:255',
+                Rule::unique('contacts', 'email')->ignore($contact->id),
+            ],
+            'phone' => 'nullable|string|max:255',
+            'position' => 'nullable|string|max:255',
+            'department' => 'nullable|string|max:255',
             'branch_id' => 'required|exists:branches,id',
-            'contact' => 'nullable|string|max:255',
-            'type' => 'required|in:email,fax,telephone_no,mobile_no,whatsapp',
             'status' => 'required|in:active,inactive',
         ];
     }
