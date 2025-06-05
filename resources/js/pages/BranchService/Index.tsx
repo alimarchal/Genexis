@@ -58,7 +58,12 @@ interface Props {
             active: boolean;
         }>;
     };
-    filters: Record<string, any>;
+    filters: {
+        filter?: {
+            name?: string;
+            status?: string;
+        };
+    };
 }
 
 export default function Index({ branchServices, filters }: Props) {
@@ -77,10 +82,14 @@ export default function Index({ branchServices, filters }: Props) {
             params.append('filter[status]', statusFilter);
         }
 
-        router.get(`${route('branch-services.index')}?${params.toString()}`, {}, {
-            preserveState: true,
-            preserveScroll: true,
-        });
+        router.get(
+            `${route('branch-services.index')}?${params.toString()}`,
+            {},
+            {
+                preserveState: true,
+                preserveScroll: true,
+            },
+        );
     };
 
     const handleDelete = (branchService: BranchService) => {
@@ -98,13 +107,13 @@ export default function Index({ branchServices, filters }: Props) {
                     <Heading title="Branch Services" description="Manage services available at branches" />
                     <Link href={route('branch-services.create')}>
                         <Button>
-                            <Plus className="h-4 w-4 mr-2" />
+                            <Plus className="mr-2 h-4 w-4" />
                             Add Branch Service
                         </Button>
                     </Link>
                 </div>
 
-                <form onSubmit={handleSearch} className="flex items-center space-x-2 my-4">
+                <form onSubmit={handleSearch} className="my-4 flex items-center space-x-2">
                     <div className="flex-1">
                         <Input
                             placeholder="Search branch services..."
@@ -124,7 +133,7 @@ export default function Index({ branchServices, filters }: Props) {
                         </SelectContent>
                     </Select>
                     <Button type="submit">
-                        <Search className="h-4 w-4 mr-2" />
+                        <Search className="mr-2 h-4 w-4" />
                         Search
                     </Button>
                 </form>
@@ -148,7 +157,7 @@ export default function Index({ branchServices, filters }: Props) {
                             <TableBody>
                                 {branchServices.data.length === 0 ? (
                                     <TableRow>
-                                        <TableCell colSpan={6} className="text-center py-8">
+                                        <TableCell colSpan={6} className="py-8 text-center">
                                             No branch services found.
                                         </TableCell>
                                     </TableRow>
@@ -163,9 +172,7 @@ export default function Index({ branchServices, filters }: Props) {
                                                     {branchService.status}
                                                 </Badge>
                                             </TableCell>
-                                            <TableCell>
-                                                {new Date(branchService.created_at).toLocaleDateString()}
-                                            </TableCell>
+                                            <TableCell>{new Date(branchService.created_at).toLocaleDateString()}</TableCell>
                                             <TableCell className="text-right">
                                                 <DropdownMenu>
                                                     <DropdownMenuTrigger asChild>
@@ -178,21 +185,18 @@ export default function Index({ branchServices, filters }: Props) {
                                                         <DropdownMenuSeparator />
                                                         <DropdownMenuItem asChild>
                                                             <Link href={route('branch-services.show', branchService.id)}>
-                                                                <Eye className="h-4 w-4 mr-2" />
+                                                                <Eye className="mr-2 h-4 w-4" />
                                                                 View
                                                             </Link>
                                                         </DropdownMenuItem>
                                                         <DropdownMenuItem asChild>
                                                             <Link href={route('branch-services.edit', branchService.id)}>
-                                                                <Edit className="h-4 w-4 mr-2" />
+                                                                <Edit className="mr-2 h-4 w-4" />
                                                                 Edit
                                                             </Link>
                                                         </DropdownMenuItem>
-                                                        <DropdownMenuItem
-                                                            onClick={() => handleDelete(branchService)}
-                                                            className="text-red-600"
-                                                        >
-                                                            <Trash className="h-4 w-4 mr-2" />
+                                                        <DropdownMenuItem onClick={() => handleDelete(branchService)} className="text-red-600">
+                                                            <Trash className="mr-2 h-4 w-4" />
                                                             Delete
                                                         </DropdownMenuItem>
                                                     </DropdownMenuContent>
@@ -208,7 +212,7 @@ export default function Index({ branchServices, filters }: Props) {
 
                 {/* Pagination */}
                 {branchServices.last_page > 1 && (
-                    <div className="flex items-center justify-between mt-4">
+                    <div className="mt-4 flex items-center justify-between">
                         <div className="text-sm text-gray-700">
                             Showing {(branchServices.current_page - 1) * branchServices.per_page + 1} to{' '}
                             {Math.min(branchServices.current_page * branchServices.per_page, branchServices.total)} of {branchServices.total} results

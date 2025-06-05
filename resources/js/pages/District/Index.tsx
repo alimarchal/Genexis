@@ -56,7 +56,12 @@ interface Props {
             active: boolean;
         }>;
     };
-    filters: Record<string, any>;
+    filters: {
+        filter?: {
+            name?: string;
+            status?: string;
+        };
+    };
 }
 
 export default function Index({ districts, filters }: Props) {
@@ -75,10 +80,14 @@ export default function Index({ districts, filters }: Props) {
             params.append('filter[status]', statusFilter);
         }
 
-        router.get(`${route('districts.index')}?${params.toString()}`, {}, {
-            preserveState: true,
-            preserveScroll: true,
-        });
+        router.get(
+            `${route('districts.index')}?${params.toString()}`,
+            {},
+            {
+                preserveState: true,
+                preserveScroll: true,
+            },
+        );
     };
 
     const handleDelete = (district: District) => {
@@ -96,13 +105,13 @@ export default function Index({ districts, filters }: Props) {
                     <Heading title="Districts" />
                     <Link href={route('districts.create')}>
                         <Button>
-                            <Plus className="h-4 w-4 mr-2" />
+                            <Plus className="mr-2 h-4 w-4" />
                             Add District
                         </Button>
                     </Link>
                 </div>
 
-                <form onSubmit={handleSearch} className="flex items-center space-x-2 my-4">
+                <form onSubmit={handleSearch} className="my-4 flex items-center space-x-2">
                     <div className="flex-1">
                         <Input
                             placeholder="Search districts..."
@@ -122,7 +131,7 @@ export default function Index({ districts, filters }: Props) {
                         </SelectContent>
                     </Select>
                     <Button type="submit">
-                        <Search className="h-4 w-4 mr-2" />
+                        <Search className="mr-2 h-4 w-4" />
                         Search
                     </Button>
                 </form>
@@ -145,7 +154,7 @@ export default function Index({ districts, filters }: Props) {
                             <TableBody>
                                 {districts.data.length === 0 ? (
                                     <TableRow>
-                                        <TableCell colSpan={5} className="text-center py-8">
+                                        <TableCell colSpan={5} className="py-8 text-center">
                                             No districts found.
                                         </TableCell>
                                     </TableRow>
@@ -155,13 +164,9 @@ export default function Index({ districts, filters }: Props) {
                                             <TableCell className="font-medium">{district.name}</TableCell>
                                             <TableCell>{district.region?.name || 'N/A'}</TableCell>
                                             <TableCell>
-                                                <Badge variant={district.status === 'active' ? 'default' : 'secondary'}>
-                                                    {district.status}
-                                                </Badge>
+                                                <Badge variant={district.status === 'active' ? 'default' : 'secondary'}>{district.status}</Badge>
                                             </TableCell>
-                                            <TableCell>
-                                                {new Date(district.created_at).toLocaleDateString()}
-                                            </TableCell>
+                                            <TableCell>{new Date(district.created_at).toLocaleDateString()}</TableCell>
                                             <TableCell className="text-right">
                                                 <DropdownMenu>
                                                     <DropdownMenuTrigger asChild>
@@ -174,21 +179,18 @@ export default function Index({ districts, filters }: Props) {
                                                         <DropdownMenuSeparator />
                                                         <DropdownMenuItem asChild>
                                                             <Link href={route('districts.show', district.id)}>
-                                                                <Eye className="h-4 w-4 mr-2" />
+                                                                <Eye className="mr-2 h-4 w-4" />
                                                                 View
                                                             </Link>
                                                         </DropdownMenuItem>
                                                         <DropdownMenuItem asChild>
                                                             <Link href={route('districts.edit', district.id)}>
-                                                                <Edit className="h-4 w-4 mr-2" />
+                                                                <Edit className="mr-2 h-4 w-4" />
                                                                 Edit
                                                             </Link>
                                                         </DropdownMenuItem>
-                                                        <DropdownMenuItem
-                                                            onClick={() => handleDelete(district)}
-                                                            className="text-red-600"
-                                                        >
-                                                            <Trash className="h-4 w-4 mr-2" />
+                                                        <DropdownMenuItem onClick={() => handleDelete(district)} className="text-red-600">
+                                                            <Trash className="mr-2 h-4 w-4" />
                                                             Delete
                                                         </DropdownMenuItem>
                                                     </DropdownMenuContent>
@@ -204,7 +206,7 @@ export default function Index({ districts, filters }: Props) {
 
                 {/* Pagination */}
                 {districts.last_page > 1 && (
-                    <div className="flex items-center justify-between mt-4">
+                    <div className="mt-4 flex items-center justify-between">
                         <div className="text-sm text-gray-700">
                             Showing {(districts.current_page - 1) * districts.per_page + 1} to{' '}
                             {Math.min(districts.current_page * districts.per_page, districts.total)} of {districts.total} results

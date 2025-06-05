@@ -76,7 +76,7 @@ export default function EditBranch({ branch, districts }: Props) {
     });
 
     const handleDistrictChange = (districtId: string) => {
-        const selectedDistrict = districts.find(d => d.id.toString() === districtId);
+        const selectedDistrict = districts.find((d) => d.id.toString() === districtId);
         setData({
             ...data,
             district_id: districtId,
@@ -175,7 +175,12 @@ export default function EditBranch({ branch, districts }: Props) {
 
                                 <div>
                                     <Label htmlFor="type">Branch Type</Label>
-                                    <Select value={data.type} onValueChange={(value: 'main_branch' | 'sub_branch' | 'atm' | 'service_center' | 'mobile_unit') => setData('type', value)}>
+                                    <Select
+                                        value={data.type}
+                                        onValueChange={(value: 'main_branch' | 'sub_branch' | 'atm' | 'service_center' | 'mobile_unit') =>
+                                            setData('type', value)
+                                        }
+                                    >
                                         <SelectTrigger id="type">
                                             <SelectValue placeholder="Select branch type" />
                                         </SelectTrigger>

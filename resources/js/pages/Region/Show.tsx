@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
-import { ArrowLeft, Calendar, Edit, Hash, MapPin } from 'lucide-react';
+import { ArrowLeft, Calendar, Edit, MapPin } from 'lucide-react';
 
 interface Region {
     id: number;

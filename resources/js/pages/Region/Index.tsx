@@ -70,10 +70,14 @@ export default function Index({ regions, filters }: Props) {
             params.append('filter[status]', statusFilter);
         }
 
-        router.get(`${route('regions.index')}?${params.toString()}`, {}, {
-            preserveState: true,
-            preserveScroll: true,
-        });
+        router.get(
+            `${route('regions.index')}?${params.toString()}`,
+            {},
+            {
+                preserveState: true,
+                preserveScroll: true,
+            },
+        );
     };
 
     const handleDelete = (id: number) => {
@@ -150,13 +154,9 @@ export default function Index({ regions, filters }: Props) {
                                     <TableRow key={region.id}>
                                         <TableCell className="font-medium">{region.name}</TableCell>
                                         <TableCell>
-                                            <Badge variant={region.status === 'active' ? 'default' : 'secondary'}>
-                                                {region.status}
-                                            </Badge>
+                                            <Badge variant={region.status === 'active' ? 'default' : 'secondary'}>{region.status}</Badge>
                                         </TableCell>
-                                        <TableCell>
-                                            {new Date(region.created_at).toLocaleDateString()}
-                                        </TableCell>
+                                        <TableCell>{new Date(region.created_at).toLocaleDateString()}</TableCell>
                                         <TableCell className="text-right">
                                             <DropdownMenu>
                                                 <DropdownMenuTrigger asChild>

@@ -8,7 +8,9 @@
         "format": "prettier --write resources/",
         "format:check": "prettier --check resources/",
         "lint": "eslint . --fix",
-        "types": "tsc --noEmit"
+        "lint:check": "eslint .",
+        "types": "tsc --noEmit",
+        "ci": "npm run format:check && npm run lint:check && npm run types"
     },
     "devDependencies": {
         "@eslint/js": "^9.27.0",

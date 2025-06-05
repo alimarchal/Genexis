@@ -1,5 +1,5 @@
-import { Clock, Filter, MapPin, Navigation, Phone, Search, Mail, Globe, CheckCircle, XCircle } from 'lucide-react';
-import React, { useState, useMemo } from 'react';
+import { CheckCircle, Clock, Globe, Mail, MapPin, Navigation, Phone, Search, XCircle } from 'lucide-react';
+import React, { useMemo, useState } from 'react';
 import InteractiveMap from './InteractiveMap';
 
 interface Branch {
@@ -18,7 +18,7 @@ interface Branch {
     fax: string;
     services: string[];
     facilities: string[];
-    operating_hours: any;
+    operating_hours: Record<string, unknown>;
     is_24_hours: boolean;
     is_open: boolean;
     operating_status: string;
@@ -59,15 +59,16 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
     // Get districts for selected region
     const availableDistricts = useMemo(() => {
         if (selectedRegion === 'all') return districts;
-        const region = regions.find(r => r.id.toString() === selectedRegion);
+        const region = regions.find((r) => r.id.toString() === selectedRegion);
         return region ? region.districts : [];
     }, [selectedRegion, regions, districts]);
 
     // Filter branches based on search and filters
     const filteredBranches = useMemo(() => {
         return branches.filter((branch) => {
-            const matchesRegion = selectedRegion === 'all' || branch.region === regions.find(r => r.id.toString() === selectedRegion)?.name;
-            const matchesDistrict = selectedDistrict === 'all' || branch.city === availableDistricts.find(d => d.id.toString() === selectedDistrict)?.name;
+            const matchesRegion = selectedRegion === 'all' || branch.region === regions.find((r) => r.id.toString() === selectedRegion)?.name;
+            const matchesDistrict =
+                selectedDistrict === 'all' || branch.city === availableDistricts.find((d) => d.id.toString() === selectedDistrict)?.name;
             const matchesType = branchTypeFilter === 'all' || branch.type === branchTypeFilter;
             const matchesSearch =
                 branch.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -81,9 +82,9 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
     // Get stats
     const stats = useMemo(() => {
         const totalBranches = branches.length;
-        const atmLocations = branches.filter(b => b.has_atm).length;
+        const atmLocations = branches.filter((b) => b.has_atm).length;
         const citiesCovered = cities.length;
-        const openNow = branches.filter(b => b.is_open).length;
+        const openNow = branches.filter((b) => b.is_open).length;
 
         return { totalBranches, atmLocations, citiesCovered, openNow };
     }, [branches, cities]);
@@ -117,58 +118,61 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
     };
 
     // Fallback data if no branches are provided
-    const displayBranches = filteredBranches.length > 0 ? filteredBranches : [
-        {
-            id: 1,
-            name: 'Head Office',
-            code: 'HO001',
-            type: 'Head Office',
-            address: 'Bank Square, Chattar Domel',
-            city: 'Muzaffarabad',
-            region: 'Muzaffarabad',
-            full_address: 'Bank Square, Chattar Domel, Muzaffarabad, AJK',
-            latitude: 34.3587,
-            longitude: 73.4713,
-            phone: '+92-5822-924244',
-            email: 'info@bankajk.com',
-            fax: '+92-5822-924245',
-            services: ['All Banking Services', 'Corporate Banking', 'Foreign Exchange'],
-            facilities: ['ATM', 'Parking', 'Wheelchair Access'],
-            operating_hours: {},
-            is_24_hours: false,
-            is_open: true,
-            operating_status: 'Open Now',
-            today_hours: '9:00 AM - 5:00 PM',
-            google_maps_url: 'https://www.google.com/maps?q=34.3587,73.4713',
-            has_atm: true,
-        }
-    ];
+    const displayBranches =
+        filteredBranches.length > 0
+            ? filteredBranches
+            : [
+                  {
+                      id: 1,
+                      name: 'Head Office',
+                      code: 'HO001',
+                      type: 'Head Office',
+                      address: 'Bank Square, Chattar Domel',
+                      city: 'Muzaffarabad',
+                      region: 'Muzaffarabad',
+                      full_address: 'Bank Square, Chattar Domel, Muzaffarabad, AJK',
+                      latitude: 34.3587,
+                      longitude: 73.4713,
+                      phone: '+92-5822-924244',
+                      email: 'info@bankajk.com',
+                      fax: '+92-5822-924245',
+                      services: ['All Banking Services', 'Corporate Banking', 'Foreign Exchange'],
+                      facilities: ['ATM', 'Parking', 'Wheelchair Access'],
+                      operating_hours: {},
+                      is_24_hours: false,
+                      is_open: true,
+                      operating_status: 'Open Now',
+                      today_hours: '9:00 AM - 5:00 PM',
+                      google_maps_url: 'https://www.google.com/maps?q=34.3587,73.4713',
+                      has_atm: true,
+                  },
+              ];
 
     const displayStats = branches.length > 0 ? stats : { totalBranches: 87, atmLocations: 150, citiesCovered: 25, openNow: 65 };
 
     return (
-        <section className="bg-gradient-to-br from-[#e9f7ef] via-white to-[#fff7e6] py-16 min-h-screen">
+        <section className="min-h-screen bg-gradient-to-br from-[#e9f7ef] via-white to-[#fff7e6] py-16">
             <div className="mx-auto max-w-7xl px-6">
                 {/* Header */}
                 <div className="mb-12 text-center">
-                    <h1 className="mb-4 text-5xl font-bold bg-gradient-to-r from-[#4A7C59] to-[#5D8A6A] bg-clip-text text-transparent">
+                    <h1 className="mb-4 bg-gradient-to-r from-[#4A7C59] to-[#5D8A6A] bg-clip-text text-5xl font-bold text-transparent">
                         Find Our Branches
                     </h1>
-                    <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                    <p className="mx-auto max-w-2xl text-xl text-gray-600">
                         {displayStats.totalBranches}+ branches across Azad Jammu & Kashmir, serving you with comprehensive banking solutions
                     </p>
                 </div>
 
                 {/* Search and Filter Section */}
-                <div className="mb-8 rounded-2xl bg-white/80 backdrop-blur-sm p-6 shadow-xl border border-white/20">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+                <div className="mb-8 rounded-2xl border border-white/20 bg-white/80 p-6 shadow-xl backdrop-blur-sm">
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-5">
                         {/* Search */}
                         <div className="relative lg:col-span-2">
                             <Search className="absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2 transform text-gray-400" />
                             <input
                                 type="text"
                                 placeholder="Search by branch name, address, or code..."
-                                className="w-full rounded-xl border border-gray-200 py-3 pr-4 pl-10 outline-none focus:border-[#4A7C59] focus:ring-2 focus:ring-[#4A7C59]/20 transition-all duration-200"
+                                className="w-full rounded-xl border border-gray-200 py-3 pr-4 pl-10 transition-all duration-200 outline-none focus:border-[#4A7C59] focus:ring-2 focus:ring-[#4A7C59]/20"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
@@ -177,7 +181,7 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
                         {/* Region Filter */}
                         <div className="relative">
                             <select
-                                className="appearance-none w-full rounded-xl border border-gray-200 bg-white py-3 px-4 outline-none focus:border-[#4A7C59] focus:ring-2 focus:ring-[#4A7C59]/20 transition-all duration-200"
+                                className="w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 py-3 transition-all duration-200 outline-none focus:border-[#4A7C59] focus:ring-2 focus:ring-[#4A7C59]/20"
                                 value={selectedRegion}
                                 onChange={(e) => {
                                     setSelectedRegion(e.target.value);
@@ -196,7 +200,7 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
                         {/* District Filter */}
                         <div className="relative">
                             <select
-                                className="appearance-none w-full rounded-xl border border-gray-200 bg-white py-3 px-4 outline-none focus:border-[#4A7C59] focus:ring-2 focus:ring-[#4A7C59]/20 transition-all duration-200"
+                                className="w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 py-3 transition-all duration-200 outline-none focus:border-[#4A7C59] focus:ring-2 focus:ring-[#4A7C59]/20"
                                 value={selectedDistrict}
                                 onChange={(e) => setSelectedDistrict(e.target.value)}
                                 disabled={selectedRegion === 'all'}
@@ -213,7 +217,7 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
                         {/* Branch Type Filter */}
                         <div className="relative">
                             <select
-                                className="appearance-none w-full rounded-xl border border-gray-200 bg-white py-3 px-4 outline-none focus:border-[#4A7C59] focus:ring-2 focus:ring-[#4A7C59]/20 transition-all duration-200"
+                                className="w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 py-3 transition-all duration-200 outline-none focus:border-[#4A7C59] focus:ring-2 focus:ring-[#4A7C59]/20"
                                 value={branchTypeFilter}
                                 onChange={(e) => setBranchTypeFilter(e.target.value)}
                             >
@@ -230,11 +234,7 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
                     {/* Results Count */}
                     <div className="mt-4 text-sm text-gray-600">
                         Showing {displayBranches.length} of {branches.length || 87} branches
-                        {searchTerm && (
-                            <span className="ml-2 text-[#4A7C59] font-medium">
-                                for "{searchTerm}"
-                            </span>
-                        )}
+                        {searchTerm && <span className="ml-2 font-medium text-[#4A7C59]">for "{searchTerm}"</span>}
                     </div>
                 </div>
 
@@ -244,19 +244,20 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
                         {displayBranches.map((branch) => (
                             <div
                                 key={branch.id}
-                                className={`group cursor-pointer rounded-2xl bg-white/90 backdrop-blur-sm p-6 shadow-lg transition-all duration-300 border border-white/20 ${selectedBranch === branch.id
-                                    ? 'shadow-2xl ring-2 ring-[#4A7C59]/30 scale-[1.02]'
-                                    : 'hover:shadow-xl hover:scale-[1.01]'
-                                    }`}
+                                className={`group cursor-pointer rounded-2xl border border-white/20 bg-white/90 p-6 shadow-lg backdrop-blur-sm transition-all duration-300 ${
+                                    selectedBranch === branch.id
+                                        ? 'scale-[1.02] shadow-2xl ring-2 ring-[#4A7C59]/30'
+                                        : 'hover:scale-[1.01] hover:shadow-xl'
+                                }`}
                                 onClick={() => setSelectedBranch(selectedBranch === branch.id ? null : branch.id)}
                             >
                                 {/* Branch Header */}
                                 <div className="mb-4 flex items-start justify-between">
                                     <div className="flex-1">
-                                        <div className="mb-3 flex items-center gap-3 flex-wrap">
+                                        <div className="mb-3 flex flex-wrap items-center gap-3">
                                             <div className="flex items-center gap-2">
                                                 <span className="text-xl">{getBranchTypeIcon(branch.type)}</span>
-                                                <h3 className="text-xl font-bold text-gray-900 group-hover:text-[#4A7C59] transition-colors">
+                                                <h3 className="text-xl font-bold text-gray-900 transition-colors group-hover:text-[#4A7C59]">
                                                     {branch.name}
                                                 </h3>
                                             </div>
@@ -292,7 +293,7 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
                                         {/* Contact Information */}
                                         <div className="space-y-2">
                                             <div className="flex items-start text-gray-600">
-                                                <MapPin className="mr-2 h-4 w-4 flex-shrink-0 mt-0.5" />
+                                                <MapPin className="mt-0.5 mr-2 h-4 w-4 flex-shrink-0" />
                                                 <span className="text-sm">{branch.full_address || `${branch.address}, ${branch.city}`}</span>
                                             </div>
 
@@ -301,7 +302,7 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
                                                     <Phone className="mr-2 h-4 w-4 flex-shrink-0" />
                                                     <a
                                                         href={`tel:${branch.phone}`}
-                                                        className="text-sm hover:text-[#4A7C59] transition-colors"
+                                                        className="text-sm transition-colors hover:text-[#4A7C59]"
                                                         onClick={(e) => e.stopPropagation()}
                                                     >
                                                         {branch.phone}
@@ -314,7 +315,7 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
                                                     <Mail className="mr-2 h-4 w-4 flex-shrink-0" />
                                                     <a
                                                         href={`mailto:${branch.email}`}
-                                                        className="text-sm hover:text-[#4A7C59] transition-colors"
+                                                        className="text-sm transition-colors hover:text-[#4A7C59]"
                                                         onClick={(e) => e.stopPropagation()}
                                                     >
                                                         {branch.email}
@@ -325,7 +326,7 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
                                             <div className="flex items-center text-gray-600">
                                                 <Clock className="mr-2 h-4 w-4 flex-shrink-0" />
                                                 <span className="text-sm">
-                                                    {branch.is_24_hours ? '24 Hours' : (branch.today_hours || 'Mon-Thu: 9AM-5PM, Fri: 9AM-12:30PM')}
+                                                    {branch.is_24_hours ? '24 Hours' : branch.today_hours || 'Mon-Thu: 9AM-5PM, Fri: 9AM-12:30PM'}
                                                 </span>
                                             </div>
                                         </div>
@@ -338,7 +339,7 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
                                                 href={branch.google_maps_url}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="p-2 rounded-full bg-[#4A7C59] text-white hover:bg-[#5D8A6A] transition-colors"
+                                                className="rounded-full bg-[#4A7C59] p-2 text-white transition-colors hover:bg-[#5D8A6A]"
                                                 onClick={(e) => e.stopPropagation()}
                                                 title="Get Directions"
                                             >
@@ -350,7 +351,7 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
                                                 href={branch.google_maps_url}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="p-2 rounded-full bg-blue-500 text-white hover:bg-blue-600 transition-colors"
+                                                className="rounded-full bg-blue-500 p-2 text-white transition-colors hover:bg-blue-600"
                                                 onClick={(e) => e.stopPropagation()}
                                                 title="View on Map"
                                             >
@@ -362,18 +363,16 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
 
                                 {/* Expanded Details */}
                                 {selectedBranch === branch.id && (
-                                    <div className="border-t pt-4 mt-4 space-y-4 animate-fadeIn">
+                                    <div className="animate-fadeIn mt-4 space-y-4 border-t pt-4">
                                         {/* Services */}
                                         {branch.services.length > 0 && (
                                             <div>
-                                                <h4 className="mb-3 font-semibold text-gray-900 flex items-center gap-2">
-                                                    🏦 Available Services
-                                                </h4>
+                                                <h4 className="mb-3 flex items-center gap-2 font-semibold text-gray-900">🏦 Available Services</h4>
                                                 <div className="flex flex-wrap gap-2">
                                                     {branch.services.map((service, idx) => (
                                                         <span
                                                             key={idx}
-                                                            className="bg-[#4A7C59]/10 rounded-full px-3 py-1 text-sm text-[#4A7C59] border border-[#4A7C59]/20"
+                                                            className="rounded-full border border-[#4A7C59]/20 bg-[#4A7C59]/10 px-3 py-1 text-sm text-[#4A7C59]"
                                                         >
                                                             {service}
                                                         </span>
@@ -385,14 +384,12 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
                                         {/* Facilities */}
                                         {branch.facilities.length > 0 && (
                                             <div>
-                                                <h4 className="mb-3 font-semibold text-gray-900 flex items-center gap-2">
-                                                    🏢 Facilities
-                                                </h4>
+                                                <h4 className="mb-3 flex items-center gap-2 font-semibold text-gray-900">🏢 Facilities</h4>
                                                 <div className="flex flex-wrap gap-2">
                                                     {branch.facilities.map((facility, idx) => (
                                                         <span
                                                             key={idx}
-                                                            className="bg-blue-50 rounded-full px-3 py-1 text-sm text-blue-700 border border-blue-200"
+                                                            className="rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-sm text-blue-700"
                                                         >
                                                             {facility}
                                                         </span>
@@ -413,9 +410,9 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
                         ))}
 
                         {displayBranches.length === 0 && branches.length > 0 && (
-                            <div className="text-center py-12">
+                            <div className="py-12 text-center">
                                 <div className="mb-4 text-6xl">🔍</div>
-                                <h3 className="text-xl font-semibold text-gray-900 mb-2">No branches found</h3>
+                                <h3 className="mb-2 text-xl font-semibold text-gray-900">No branches found</h3>
                                 <p className="text-gray-600">Try adjusting your search criteria or filters</p>
                             </div>
                         )}
@@ -424,24 +421,22 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
                     {/* Sidebar */}
                     <div className="space-y-6">
                         {/* Stats Card */}
-                        <div className="rounded-2xl bg-white/90 backdrop-blur-sm p-6 shadow-lg border border-white/20">
-                            <h3 className="mb-4 text-xl font-bold text-gray-900 flex items-center gap-2">
-                                📊 Branch Network Stats
-                            </h3>
+                        <div className="rounded-2xl border border-white/20 bg-white/90 p-6 shadow-lg backdrop-blur-sm">
+                            <h3 className="mb-4 flex items-center gap-2 text-xl font-bold text-gray-900">📊 Branch Network Stats</h3>
                             <div className="space-y-4">
-                                <div className="flex items-center justify-between p-3 rounded-xl bg-gradient-to-r from-[#4A7C59]/10 to-[#5D8A6A]/10">
+                                <div className="flex items-center justify-between rounded-xl bg-gradient-to-r from-[#4A7C59]/10 to-[#5D8A6A]/10 p-3">
                                     <span className="text-gray-700">Total Branches</span>
                                     <span className="text-2xl font-bold text-[#4A7C59]">{displayStats.totalBranches}</span>
                                 </div>
-                                <div className="flex items-center justify-between p-3 rounded-xl bg-gradient-to-r from-green-50 to-green-100">
+                                <div className="flex items-center justify-between rounded-xl bg-gradient-to-r from-green-50 to-green-100 p-3">
                                     <span className="text-gray-700">Open Now</span>
                                     <span className="text-xl font-bold text-green-600">{displayStats.openNow}</span>
                                 </div>
-                                <div className="flex items-center justify-between p-3 rounded-xl bg-gradient-to-r from-blue-50 to-blue-100">
+                                <div className="flex items-center justify-between rounded-xl bg-gradient-to-r from-blue-50 to-blue-100 p-3">
                                     <span className="text-gray-700">ATM Locations</span>
                                     <span className="text-xl font-bold text-blue-600">{displayStats.atmLocations}</span>
                                 </div>
-                                <div className="flex items-center justify-between p-3 rounded-xl bg-gradient-to-r from-purple-50 to-purple-100">
+                                <div className="flex items-center justify-between rounded-xl bg-gradient-to-r from-purple-50 to-purple-100 p-3">
                                     <span className="text-gray-700">Cities Covered</span>
                                     <span className="text-xl font-bold text-purple-600">{displayStats.citiesCovered}</span>
                                 </div>
@@ -449,44 +444,44 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
                         </div>
 
                         {/* Interactive Map */}
-                        <div className="rounded-2xl bg-white/90 backdrop-blur-sm shadow-lg border border-white/20 overflow-hidden">
-                            <div className="p-4 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-indigo-50">
-                                <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                        <div className="overflow-hidden rounded-2xl border border-white/20 bg-white/90 shadow-lg backdrop-blur-sm">
+                            <div className="border-b border-gray-200 bg-gradient-to-r from-blue-50 to-indigo-50 p-4">
+                                <h3 className="flex items-center gap-2 text-lg font-semibold text-gray-900">
                                     🗺️ Interactive Map
                                     <span className="text-sm font-normal text-gray-600">
-                                        ({filteredBranches.filter(b => b.latitude && b.longitude).length} locations)
+                                        ({filteredBranches.filter((b) => b.latitude && b.longitude).length} locations)
                                     </span>
                                 </h3>
-                                <p className="text-sm text-gray-600 mt-1">
-                                    Click on any branch marker to view details
-                                </p>
+                                <p className="mt-1 text-sm text-gray-600">Click on any branch marker to view details</p>
                             </div>
                             <InteractiveMap
                                 branches={filteredBranches}
-                                selectedRegion={selectedRegion !== 'all' ? regions.find(r => r.id.toString() === selectedRegion)?.name : undefined}
-                                selectedDistrict={selectedDistrict !== 'all' ? availableDistricts.find(d => d.id.toString() === selectedDistrict)?.name : undefined}
+                                selectedRegion={selectedRegion !== 'all' ? regions.find((r) => r.id.toString() === selectedRegion)?.name : undefined}
+                                selectedDistrict={
+                                    selectedDistrict !== 'all'
+                                        ? availableDistricts.find((d) => d.id.toString() === selectedDistrict)?.name
+                                        : undefined
+                                }
                                 selectedBranchType={branchTypeFilter !== 'all' ? branchTypeFilter : undefined}
                             />
                         </div>
 
                         {/* Help Card */}
                         <div className="rounded-2xl bg-gradient-to-br from-[#4A7C59] to-[#5D8A6A] p-6 text-white shadow-lg">
-                            <h3 className="mb-4 text-xl font-bold flex items-center gap-2">
-                                💬 Need Help?
-                            </h3>
+                            <h3 className="mb-4 flex items-center gap-2 text-xl font-bold">💬 Need Help?</h3>
                             <p className="mb-4 text-white/90">
                                 Can't find what you're looking for? Our customer support team is here to help you 24/7.
                             </p>
                             <div className="flex flex-col gap-2">
                                 <a
                                     href="/contact-us"
-                                    className="inline-block rounded-xl bg-white/20 backdrop-blur-sm px-4 py-2 font-semibold text-white transition-all duration-200 hover:bg-white/30 text-center"
+                                    className="inline-block rounded-xl bg-white/20 px-4 py-2 text-center font-semibold text-white backdrop-blur-sm transition-all duration-200 hover:bg-white/30"
                                 >
                                     Contact Support
                                 </a>
                                 <a
                                     href="tel:+92-5822-924244"
-                                    className="inline-block rounded-xl bg-white px-4 py-2 font-semibold text-[#4A7C59] transition-all duration-200 hover:bg-gray-100 text-center"
+                                    className="inline-block rounded-xl bg-white px-4 py-2 text-center font-semibold text-[#4A7C59] transition-all duration-200 hover:bg-gray-100"
                                 >
                                     Call Now: +92-5822-924244
                                 </a>

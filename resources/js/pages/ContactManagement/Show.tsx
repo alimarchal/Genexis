@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
-import { ArrowLeft, Briefcase, Calendar, Edit, Hash, Mail, Phone, User } from 'lucide-react';
+import { ArrowLeft, Briefcase, Calendar, Edit, Mail, Phone, User } from 'lucide-react';
 
 interface Contact {
     id: number;
@@ -103,11 +103,13 @@ export default function ShowContact({ contact }: Props) {
                                     </div>
                                     <div>
                                         <p className="text-muted-foreground text-sm">Branch</p>
-                                        <p className="font-medium">{contact.branch.name} ({contact.branch.code})</p>
+                                        <p className="font-medium">
+                                            {contact.branch.name} ({contact.branch.code})
+                                        </p>
                                     </div>
                                     <div>
                                         <p className="text-muted-foreground text-sm">Email</p>
-                                        <p className="font-medium flex items-center gap-1">
+                                        <p className="flex items-center gap-1 font-medium">
                                             <Mail className="h-4 w-4" />
                                             <a href={`mailto:${contact.email}`} className="text-blue-600 hover:underline">
                                                 {contact.email}
@@ -116,7 +118,7 @@ export default function ShowContact({ contact }: Props) {
                                     </div>
                                     <div>
                                         <p className="text-muted-foreground text-sm">Phone</p>
-                                        <p className="font-medium flex items-center gap-1">
+                                        <p className="flex items-center gap-1 font-medium">
                                             <Phone className="h-4 w-4" />
                                             {contact.phone ? (
                                                 <a href={`tel:${contact.phone}`} className="text-blue-600 hover:underline">

@@ -165,11 +165,13 @@ export default function ContactIndex({ contacts, filters }: Props) {
                                         </TableCell>
                                         <TableCell>{contact.position || 'N/A'}</TableCell>
                                         <TableCell>{contact.department || 'N/A'}</TableCell>
-                                        <TableCell>{contact.branch?.name} ({contact.branch?.code})</TableCell>
+                                        <TableCell>
+                                            {contact.branch?.name} ({contact.branch?.code})
+                                        </TableCell>
                                         <TableCell>
                                             <div className="space-y-1">
                                                 <div className="text-sm">{contact.email}</div>
-                                                <div className="text-sm text-muted-foreground">{contact.phone || 'N/A'}</div>
+                                                <div className="text-muted-foreground text-sm">{contact.phone || 'N/A'}</div>
                                             </div>
                                         </TableCell>
                                         <TableCell>

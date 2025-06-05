@@ -163,7 +163,7 @@ export default function ShowBranch({ branch }: Props) {
                                         Edit Branch
                                     </Link>
                                 </Button>
-                                <Button variant="outline" size="sm" className="text-red-600 hover:bg-red-50 hover:text-red-700 w-full justify-start">
+                                <Button variant="outline" size="sm" className="w-full justify-start text-red-600 hover:bg-red-50 hover:text-red-700">
                                     <Trash className="mr-2 h-4 w-4" />
                                     Delete Branch
                                 </Button>

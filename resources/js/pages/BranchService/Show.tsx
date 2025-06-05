@@ -76,22 +76,22 @@ export default function Show({ branchService }: Props) {
             <Head title={`${branchService.service_name} - Branch Service Details`} />
 
             <div className="px-10 py-6">
-                <div className="flex items-center justify-between mb-6">
+                <div className="mb-6 flex items-center justify-between">
                     <Heading title="Branch Service Details" description="View complete information about this branch service" />
                     <div className="flex items-center space-x-2">
                         <Link href={route('branch-services.edit', branchService.id)}>
                             <Button>
-                                <Edit className="h-4 w-4 mr-2" />
+                                <Edit className="mr-2 h-4 w-4" />
                                 Edit Service
                             </Button>
                         </Link>
                         <Button variant="destructive" onClick={handleDelete}>
-                            <Trash2 className="h-4 w-4 mr-2" />
+                            <Trash2 className="mr-2 h-4 w-4" />
                             Delete
                         </Button>
                         <Link href={route('branch-services.index')}>
                             <Button variant="outline">
-                                <ArrowLeft className="h-4 w-4 mr-2" />
+                                <ArrowLeft className="mr-2 h-4 w-4" />
                                 Back to Services
                             </Button>
                         </Link>
@@ -143,7 +143,7 @@ export default function Show({ branchService }: Props) {
                                     <div className="border-t pt-4">
                                         <p className="text-muted-foreground mb-2 text-sm">Availability Hours</p>
                                         <div className="flex items-center gap-2">
-                                            <Clock className="h-4 w-4 text-muted-foreground" />
+                                            <Clock className="text-muted-foreground h-4 w-4" />
                                             <p className="text-sm">{branchService.availability_hours}</p>
                                         </div>
                                     </div>

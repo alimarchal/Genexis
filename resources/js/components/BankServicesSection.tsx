@@ -138,12 +138,14 @@ const InteractiveBAJKServices: React.FC<Props> = ({ bankServices }) => {
                             onMouseLeave={() => setHoveredCard(null)}
                         >
                             <div
-                                className={`transform rounded-2xl bg-white p-8 shadow-lg transition-all duration-500 ${hoveredCard === 100 + index ? '-translate-y-4 scale-105 shadow-2xl' : 'hover:-translate-y-2 hover:shadow-xl'
-                                    }`}
+                                className={`transform rounded-2xl bg-white p-8 shadow-lg transition-all duration-500 ${
+                                    hoveredCard === 100 + index ? '-translate-y-4 scale-105 shadow-2xl' : 'hover:-translate-y-2 hover:shadow-xl'
+                                }`}
                             >
                                 <div
-                                    className={`mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-r from-[#4A7C59] to-[#5D8A6A] transition-all duration-300 ${hoveredCard === 100 + index ? 'scale-110' : ''
-                                        }`}
+                                    className={`mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-r from-[#4A7C59] to-[#5D8A6A] transition-all duration-300 ${
+                                        hoveredCard === 100 + index ? 'scale-110' : ''
+                                    }`}
                                 >
                                     <stat.icon className="h-8 w-8 text-white" />
                                 </div>
@@ -165,8 +167,9 @@ const InteractiveBAJKServices: React.FC<Props> = ({ bankServices }) => {
                         return (
                             <div
                                 key={service.id}
-                                className={`transform overflow-hidden rounded-3xl bg-white shadow-xl transition-all duration-700 ${isHovered ? '-translate-y-6 scale-105 shadow-2xl' : 'hover:-translate-y-3 hover:shadow-2xl'
-                                    }`}
+                                className={`transform overflow-hidden rounded-3xl bg-white shadow-xl transition-all duration-700 ${
+                                    isHovered ? '-translate-y-6 scale-105 shadow-2xl' : 'hover:-translate-y-3 hover:shadow-2xl'
+                                }`}
                                 onMouseEnter={() => setHoveredCard(service.id)}
                                 onMouseLeave={() => setHoveredCard(null)}
                             >
@@ -178,8 +181,9 @@ const InteractiveBAJKServices: React.FC<Props> = ({ bankServices }) => {
 
                                     <div className="relative z-10">
                                         <div
-                                            className={`mb-6 flex h-20 w-20 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm transition-all duration-500 ${isHovered ? 'scale-110 rotate-12' : ''
-                                                }`}
+                                            className={`mb-6 flex h-20 w-20 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm transition-all duration-500 ${
+                                                isHovered ? 'scale-110 rotate-12' : ''
+                                            }`}
                                         >
                                             <IconComponent className="h-10 w-10 text-white" />
                                         </div>
@@ -220,8 +224,9 @@ const InteractiveBAJKServices: React.FC<Props> = ({ bankServices }) => {
                                         </button>
 
                                         <div
-                                            className={`overflow-hidden transition-all duration-500 ${isExpanded ? 'max-h-96 opacity-100' : 'max-h-20 opacity-70'
-                                                }`}
+                                            className={`overflow-hidden transition-all duration-500 ${
+                                                isExpanded ? 'max-h-96 opacity-100' : 'max-h-20 opacity-70'
+                                            }`}
                                         >
                                             <div className="space-y-3">
                                                 {service.products.slice(0, isExpanded ? service.products.length : 2).map((product, idx) => (
@@ -242,10 +247,11 @@ const InteractiveBAJKServices: React.FC<Props> = ({ bankServices }) => {
                                     {/* CTA Button */}
                                     <a
                                         href={service.ctaLink}
-                                        className={`group inline-flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-[#4A7C59] to-[#5D8A6A] px-8 py-4 font-bold text-white shadow-lg transition-all duration-300 ${isHovered
+                                        className={`group inline-flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-[#4A7C59] to-[#5D8A6A] px-8 py-4 font-bold text-white shadow-lg transition-all duration-300 ${
+                                            isHovered
                                                 ? 'scale-105 from-[#F9B912] to-[#E6A610] shadow-2xl'
                                                 : 'hover:scale-105 hover:from-[#F9B912] hover:to-[#E6A610] hover:shadow-xl'
-                                            }`}
+                                        }`}
                                     >
                                         {service.ctaText}
                                         <ArrowRight className="ml-3 h-5 w-5 transform transition-transform group-hover:translate-x-2" />

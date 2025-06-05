@@ -81,10 +81,14 @@ export default function Index({ branches, filters }: Props) {
             params.append('filter[status]', statusFilter);
         }
 
-        router.get(`${route('branches.index')}?${params.toString()}`, {}, {
-            preserveState: true,
-            preserveScroll: true,
-        });
+        router.get(
+            `${route('branches.index')}?${params.toString()}`,
+            {},
+            {
+                preserveState: true,
+                preserveScroll: true,
+            },
+        );
     };
 
     const handleDelete = (id: number) => {
@@ -166,9 +170,7 @@ export default function Index({ branches, filters }: Props) {
                                         <TableCell>{branch.district?.name || 'N/A'}</TableCell>
                                         <TableCell>{branch.district?.region?.name || 'N/A'}</TableCell>
                                         <TableCell>
-                                            <Badge variant={branch.status === 'active' ? 'default' : 'secondary'}>
-                                                {branch.status}
-                                            </Badge>
+                                            <Badge variant={branch.status === 'active' ? 'default' : 'secondary'}>{branch.status}</Badge>
                                         </TableCell>
                                         <TableCell className="text-right">
                                             <DropdownMenu>

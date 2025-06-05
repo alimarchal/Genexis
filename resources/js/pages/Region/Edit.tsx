@@ -55,11 +55,11 @@ export default function Edit({ region }: Props) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={`Edit ${region.name}`} />
 
-            <div className="flex items-center justify-between mb-6">
+            <div className="mb-6 flex items-center justify-between">
                 <Heading title={`Edit Region: ${region.name}`} description="Update region information" />
                 <Link href={route('regions.index')}>
                     <Button variant="outline">
-                        <ArrowLeft className="h-4 w-4 mr-2" />
+                        <ArrowLeft className="mr-2 h-4 w-4" />
                         Back to Regions
                     </Button>
                 </Link>
@@ -81,9 +81,7 @@ export default function Edit({ region }: Props) {
                                 placeholder="Enter region name"
                                 className={errors.name ? 'border-red-500' : ''}
                             />
-                            {errors.name && (
-                                <p className="text-sm text-red-600">{errors.name}</p>
-                            )}
+                            {errors.name && <p className="text-sm text-red-600">{errors.name}</p>}
                         </div>
 
                         <div className="space-y-2">
@@ -97,9 +95,7 @@ export default function Edit({ region }: Props) {
                                     <SelectItem value="inactive">Inactive</SelectItem>
                                 </SelectContent>
                             </Select>
-                            {errors.status && (
-                                <p className="text-sm text-red-600">{errors.status}</p>
-                            )}
+                            {errors.status && <p className="text-sm text-red-600">{errors.status}</p>}
                         </div>
 
                         <div className="flex items-center space-x-2 pt-4">

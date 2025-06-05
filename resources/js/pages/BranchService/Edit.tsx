@@ -1,9 +1,9 @@
 import Heading from '@/components/heading';
+import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
-import InputError from '@/components/input-error';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
@@ -75,11 +75,11 @@ export default function Edit({ branchService, branches }: Props) {
             <Head title={`Edit ${branchService.service_name}`} />
 
             <div className="px-10 py-6">
-                <div className="flex items-center justify-between mb-6">
+                <div className="mb-6 flex items-center justify-between">
                     <Heading title="Edit Branch Service" description="Update branch service information" />
                     <Link href={route('branch-services.show', branchService.id)}>
                         <Button variant="outline">
-                            <ArrowLeft className="h-4 w-4 mr-2" />
+                            <ArrowLeft className="mr-2 h-4 w-4" />
                             Back to Service
                         </Button>
                     </Link>
@@ -91,7 +91,7 @@ export default function Edit({ branchService, branches }: Props) {
                     </CardHeader>
                     <CardContent>
                         <form onSubmit={handleSubmit} className="space-y-6">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                                 <div className="space-y-2">
                                     <Label htmlFor="service_name">Service Name</Label>
                                     <Input
@@ -134,7 +134,7 @@ export default function Edit({ branchService, branches }: Props) {
                                 <InputError message={errors.description} />
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                                 <div className="space-y-2">
                                     <Label htmlFor="availability_hours">Availability Hours</Label>
                                     <Input
@@ -160,7 +160,7 @@ export default function Edit({ branchService, branches }: Props) {
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                                 <div className="flex items-center space-x-2">
                                     <Checkbox
                                         id="is_available"

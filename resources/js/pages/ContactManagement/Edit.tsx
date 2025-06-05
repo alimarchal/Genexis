@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, Link, router, useForm } from '@inertiajs/react';
+import { Head, Link, useForm } from '@inertiajs/react';
 import { ArrowLeft, Save } from 'lucide-react';
 import { FormEventHandler } from 'react';
 
@@ -77,7 +77,7 @@ export default function EditContact({ contact, branches }: Props) {
             },
             onError: (errors) => {
                 console.error('Update failed:', errors);
-            }
+            },
         });
     };
 
@@ -104,36 +104,19 @@ export default function EditContact({ contact, branches }: Props) {
                             <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-3">
                                 <div>
                                     <Label htmlFor="name">Full Name</Label>
-                                    <Input
-                                        id="name"
-                                        type="text"
-                                        value={data.name}
-                                        onChange={(e) => setData('name', e.target.value)}
-                                        required
-                                    />
+                                    <Input id="name" type="text" value={data.name} onChange={(e) => setData('name', e.target.value)} required />
                                     <InputError message={errors.name} className="mt-2" />
                                 </div>
 
                                 <div>
                                     <Label htmlFor="email">Email</Label>
-                                    <Input
-                                        id="email"
-                                        type="email"
-                                        value={data.email}
-                                        onChange={(e) => setData('email', e.target.value)}
-                                        required
-                                    />
+                                    <Input id="email" type="email" value={data.email} onChange={(e) => setData('email', e.target.value)} required />
                                     <InputError message={errors.email} className="mt-2" />
                                 </div>
 
                                 <div>
                                     <Label htmlFor="phone">Phone</Label>
-                                    <Input
-                                        id="phone"
-                                        type="text"
-                                        value={data.phone}
-                                        onChange={(e) => setData('phone', e.target.value)}
-                                    />
+                                    <Input id="phone" type="text" value={data.phone} onChange={(e) => setData('phone', e.target.value)} />
                                     <InputError message={errors.phone} className="mt-2" />
                                 </div>
                             </div>
@@ -142,12 +125,7 @@ export default function EditContact({ contact, branches }: Props) {
                             <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-3">
                                 <div>
                                     <Label htmlFor="position">Position</Label>
-                                    <Input
-                                        id="position"
-                                        type="text"
-                                        value={data.position}
-                                        onChange={(e) => setData('position', e.target.value)}
-                                    />
+                                    <Input id="position" type="text" value={data.position} onChange={(e) => setData('position', e.target.value)} />
                                     <InputError message={errors.position} className="mt-2" />
                                 </div>
 

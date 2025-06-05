@@ -17,7 +17,7 @@ interface Branch {
     fax: string;
     services: string[];
     facilities: string[];
-    operating_hours: any;
+    operating_hours: Record<string, unknown>;
     is_24_hours: boolean;
     is_open: boolean;
     operating_status: string;
@@ -47,18 +47,9 @@ interface Props {
 export default function BranchNetwork({ branches, regions, districts }: Props) {
     return (
         <div className="w-full">
-            <BranchLocator
-                branches={branches}
-                regions={regions}
-                districts={districts}
-            />
+            <BranchLocator branches={branches} regions={regions} districts={districts} />
         </div>
     );
 }
 
-
-BranchNetwork.layout = (page: React.ReactNode) => (
-    <WebsiteLayout title="About Us">
-        {page}
-    </WebsiteLayout>
-);
+BranchNetwork.layout = (page: React.ReactNode) => <WebsiteLayout title="About Us">{page}</WebsiteLayout>;

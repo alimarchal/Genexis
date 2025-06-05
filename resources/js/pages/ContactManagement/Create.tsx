@@ -77,13 +77,7 @@ export default function CreateContact({ branches }: Props) {
                                 <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-3">
                                     <div>
                                         <Label htmlFor="name">Full Name</Label>
-                                        <Input
-                                            id="name"
-                                            type="text"
-                                            value={data.name}
-                                            onChange={(e) => setData('name', e.target.value)}
-                                            required
-                                        />
+                                        <Input id="name" type="text" value={data.name} onChange={(e) => setData('name', e.target.value)} required />
                                         <InputError message={errors.name} className="mt-2" />
                                     </div>
 
@@ -101,12 +95,7 @@ export default function CreateContact({ branches }: Props) {
 
                                     <div>
                                         <Label htmlFor="phone">Phone</Label>
-                                        <Input
-                                            id="phone"
-                                            type="text"
-                                            value={data.phone}
-                                            onChange={(e) => setData('phone', e.target.value)}
-                                        />
+                                        <Input id="phone" type="text" value={data.phone} onChange={(e) => setData('phone', e.target.value)} />
                                         <InputError message={errors.phone} className="mt-2" />
                                     </div>
                                 </div>
