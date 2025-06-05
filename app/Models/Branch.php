@@ -157,8 +157,25 @@ class Branch extends Model
         }
 
         $now = now()->format('H:i');
+        $today = strtolower(now()->format('l'));
 
-        return $now >= $todayHours[0] && $now <= $todayHours[1];
+        // Handle special Friday format with morning and afternoon sessions
+        if ($today === 'friday' && is_array($todayHours) && isset($todayHours['morning'])) {
+            $morningStart = $todayHours['morning'][0];
+            $morningEnd = $todayHours['morning'][1];
+            $afternoonStart = $todayHours['afternoon'][0];
+            $afternoonEnd = $todayHours['afternoon'][1];
+
+            return ($now >= $morningStart && $now <= $morningEnd) ||
+                   ($now >= $afternoonStart && $now <= $afternoonEnd);
+        }
+
+        // Handle regular day format
+        if (is_array($todayHours) && count($todayHours) >= 2) {
+            return $now >= $todayHours[0] && $now <= $todayHours[1];
+        }
+
+        return false;
     }
 
     public function getOperatingStatusAttribute(): string
@@ -183,7 +200,21 @@ class Branch extends Model
             return 'Closed';
         }
 
-        return "{$hours[0]} - {$hours[1]}";
+        // Handle special Friday format with morning and afternoon sessions
+        if ($today === 'friday' && is_array($hours) && isset($hours['morning'])) {
+            $morningHours = $hours['morning'][0].' - '.$hours['morning'][1];
+            $afternoonHours = $hours['afternoon'][0].' - '.$hours['afternoon'][1];
+            $breakTime = $hours['break'][0].' - '.$hours['break'][1];
+
+            return $morningHours.', Break: '.$breakTime.', '.$afternoonHours;
+        }
+
+        // Handle regular day format
+        if (is_array($hours) && count($hours) >= 2) {
+            return "{$hours[0]} - {$hours[1]}";
+        }
+
+        return 'Closed';
     }
 
     public function getMapMarkerDataAttribute(): array

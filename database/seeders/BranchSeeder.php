@@ -29,7 +29,11 @@ class BranchSeeder extends Seeder
                     'tuesday' => ['09:00', '17:00'],
                     'wednesday' => ['09:00', '17:00'],
                     'thursday' => ['09:00', '17:00'],
-                    'friday' => ['09:00', '17:00'],
+                    'friday' => [
+                        'morning' => ['09:00', '13:00'],
+                        'break' => ['13:00', '14:30'],
+                        'afternoon' => ['14:30', '17:30'],
+                    ],
                     'saturday' => ['09:00', '13:00'],
                     'sunday' => null,
                 ],
@@ -55,7 +59,11 @@ class BranchSeeder extends Seeder
                     'tuesday' => ['09:00', '17:00'],
                     'wednesday' => ['09:00', '17:00'],
                     'thursday' => ['09:00', '17:00'],
-                    'friday' => ['09:00', '17:00'],
+                    'friday' => [
+                        'morning' => ['09:00', '13:00'],
+                        'break' => ['13:00', '14:30'],
+                        'afternoon' => ['14:30', '17:30'],
+                    ],
                     'saturday' => ['09:00', '13:00'],
                     'sunday' => null,
                 ],
@@ -662,7 +670,57 @@ class BranchSeeder extends Seeder
             ],
         ];
 
+        // Standard operating hours for all branches
+        $standardOperatingHours = [
+            'monday' => ['09:00', '17:00'],
+            'tuesday' => ['09:00', '17:00'],
+            'wednesday' => ['09:00', '17:00'],
+            'thursday' => ['09:00', '17:00'],
+            'friday' => [
+                'morning' => ['09:00', '13:00'],
+                'break' => ['13:00', '14:30'],
+                'afternoon' => ['14:30', '17:30'],
+            ],
+            'saturday' => ['09:00', '13:00'],
+            'sunday' => null,
+        ];
+
         foreach ($branches as $branch) {
+            // Add standard operating hours if not already specified
+            if (! isset($branch['operating_hours'])) {
+                $branch['operating_hours'] = $standardOperatingHours;
+            }
+
+            // Add default type if not specified
+            if (! isset($branch['type'])) {
+                $branch['type'] = 'sub_branch';
+            }
+
+            // Add default values for missing fields
+            if (! isset($branch['is_24_hours'])) {
+                $branch['is_24_hours'] = false;
+            }
+
+            if (! isset($branch['show_on_map'])) {
+                $branch['show_on_map'] = true;
+            }
+
+            if (! isset($branch['map_priority'])) {
+                $branch['map_priority'] = $branch['type'] === 'main_branch' ? 10 : 5;
+            }
+
+            if (! isset($branch['map_color'])) {
+                $branch['map_color'] = $branch['type'] === 'main_branch' ? '#007bff' : '#28a745';
+            }
+
+            if (! isset($branch['map_icon'])) {
+                $branch['map_icon'] = $branch['type'] === 'main_branch' ? 'bank-main' : 'bank-branch';
+            }
+
+            if (! isset($branch['status'])) {
+                $branch['status'] = 'active';
+            }
+
             Branch::create($branch);
         }
     }

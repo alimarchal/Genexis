@@ -6,11 +6,14 @@ use App\Http\Requests\StorePageRequest;
 use App\Http\Requests\UpdatePageRequest;
 use App\Models\BankService;
 use App\Models\BoardOfDirector;
+use App\Models\Branch;
 use App\Models\Carousel;
+use App\Models\District;
 use App\Models\Managment;
 use App\Models\NewsAnnouncement;
 use App\Models\Page;
 use App\Models\ProductTypeAccount;
+use App\Models\Region;
 use Inertia\Inertia;
 
 class PageController extends Controller
@@ -315,7 +318,46 @@ class PageController extends Controller
 
     public function branchNetwork()
     {
-        return inertia('BranchNetwork/Index');
+        $branches = Branch::with(['region', 'district', 'contacts', 'branchServices'])
+            ->active()
+            ->orderBy('map_priority', 'desc')
+            ->orderBy('name')
+            ->get()
+            ->map(function ($branch) {
+                return [
+                    'id' => $branch->id,
+                    'name' => $branch->name,
+                    'code' => $branch->code,
+                    'type' => $branch->type,
+                    'address' => $branch->address,
+                    'city' => $branch->district->name ?? '',
+                    'region' => $branch->region->name ?? '',
+                    'full_address' => $branch->full_address,
+                    'latitude' => $branch->latitude,
+                    'longitude' => $branch->longitude,
+                    'phone' => $branch->contacts->where('type', 'phone')->first()?->contact ?? '',
+                    'email' => $branch->contacts->where('type', 'email')->first()?->contact ?? '',
+                    'fax' => $branch->contacts->where('type', 'fax')->first()?->contact ?? '',
+                    'services' => $branch->branchServices->pluck('name')->toArray(),
+                    'facilities' => $branch->facilities ? explode(',', $branch->facilities) : [],
+                    'operating_hours' => $branch->operating_hours,
+                    'is_24_hours' => $branch->is_24_hours,
+                    'is_open' => $branch->is_open,
+                    'operating_status' => $branch->operating_status,
+                    'today_hours' => $branch->today_hours,
+                    'google_maps_url' => $branch->google_maps_url,
+                    'has_atm' => in_array('ATM', $branch->branchServices->pluck('name')->toArray()),
+                ];
+            });
+
+        $regions = Region::with('districts')->orderBy('name')->get();
+        $districts = District::orderBy('name')->get();
+
+        return inertia('BranchNetwork/Index', [
+            'branches' => $branches,
+            'regions' => $regions,
+            'districts' => $districts,
+        ]);
     }
 
     public function testComponent()
