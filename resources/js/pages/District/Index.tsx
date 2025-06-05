@@ -60,12 +60,12 @@ interface Props {
 
 export default function Index({ districts, filters }: Props) {
     const [searchTerm, setSearchTerm] = useState(filters.filter?.name || '');
-    const [statusFilter, setStatusFilter] = useState(filters.filter?.status || '');
+    const [statusFilter, setStatusFilter] = useState(filters.filter?.status || 'all');
 
     const handleSearch = () => {
         const searchParams = new URLSearchParams();
         if (searchTerm) searchParams.append('filter[name]', searchTerm);
-        if (statusFilter) searchParams.append('filter[status]', statusFilter);
+        if (statusFilter && statusFilter !== 'all') searchParams.append('filter[status]', statusFilter);
 
         router.get(route('districts.index'), Object.fromEntries(searchParams));
     };
@@ -104,7 +104,7 @@ export default function Index({ districts, filters }: Props) {
                         <SelectValue placeholder="Filter by status" />
                     </SelectTrigger>
                     <SelectContent>
-                        <SelectItem value="">All Statuses</SelectItem>
+                        <SelectItem value="all">All Statuses</SelectItem>
                         <SelectItem value="active">Active</SelectItem>
                         <SelectItem value="inactive">Inactive</SelectItem>
                     </SelectContent>
