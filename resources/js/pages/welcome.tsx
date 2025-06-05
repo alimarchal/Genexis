@@ -56,8 +56,6 @@ export default function HomePage({ carousels, bankServices, newsAnnouncements }:
             <BankHeroCarousel slides={carousels} />
             <BankServicesSection bankServices={bankServices} />
             <NewsAnnouncements newsAnnouncements={newsAnnouncements} />
-            <BranchLocator />
-
             {/* Uncomment the following line to include customer testimonials section */}
             {/* <CustomerTestimonials /> */}
 
