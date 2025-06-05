@@ -41,7 +41,6 @@ type ContactForm = {
     department: string;
     branch_id: string;
     status: 'active' | 'inactive';
-    _method?: string;
 };
 
 export default function EditContact({ contact, branches }: Props) {
@@ -60,7 +59,7 @@ export default function EditContact({ contact, branches }: Props) {
         },
     ];
 
-    const { data, setData, processing, errors } = useForm<ContactForm>({
+    const { data, setData, put, processing, errors } = useForm<ContactForm>({
         name: contact.name,
         email: contact.email,
         phone: contact.phone || '',
@@ -68,14 +67,17 @@ export default function EditContact({ contact, branches }: Props) {
         department: contact.department || '',
         branch_id: contact.branch_id.toString(),
         status: contact.status,
-        _method: 'PUT',
     });
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
-        router.post(route('contacts.update', contact.id), {
-            ...data,
-            _method: 'PUT',
+        put(route('contacts.update', contact.id), {
+            onSuccess: () => {
+                console.log('Update successful');
+            },
+            onError: (errors) => {
+                console.error('Update failed:', errors);
+            }
         });
     };
 
