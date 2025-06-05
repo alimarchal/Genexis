@@ -27,6 +27,8 @@ interface Branch {
     code: string;
     address: string;
     district_id: number;
+    region_id: number;
+    type: 'main_branch' | 'sub_branch' | 'atm' | 'service_center' | 'mobile_unit';
     status: 'active' | 'inactive';
 }
 
@@ -40,6 +42,8 @@ type BranchForm = {
     code: string;
     address: string;
     district_id: string;
+    region_id: string;
+    type: 'main_branch' | 'sub_branch' | 'atm' | 'service_center' | 'mobile_unit';
     status: 'active' | 'inactive';
     _method?: string;
 };
@@ -65,9 +69,20 @@ export default function EditBranch({ branch, districts }: Props) {
         code: branch.code,
         address: branch.address,
         district_id: branch.district_id.toString(),
+        region_id: branch.region_id.toString(),
+        type: branch.type,
         status: branch.status,
         _method: 'PUT',
     });
+
+    const handleDistrictChange = (districtId: string) => {
+        const selectedDistrict = districts.find(d => d.id.toString() === districtId);
+        setData({
+            ...data,
+            district_id: districtId,
+            region_id: selectedDistrict?.region.id.toString() || '',
+        });
+    };
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
@@ -139,11 +154,11 @@ export default function EditBranch({ branch, districts }: Props) {
                                 </div>
                             </div>
 
-                            {/* Second Row - 1 column */}
-                            <div className="mb-6 grid grid-cols-1 gap-4">
+                            {/* Second Row - 2 columns */}
+                            <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-2">
                                 <div>
                                     <Label htmlFor="district_id">District</Label>
-                                    <Select value={data.district_id} onValueChange={(value) => setData('district_id', value)}>
+                                    <Select value={data.district_id} onValueChange={handleDistrictChange}>
                                         <SelectTrigger id="district_id">
                                             <SelectValue placeholder="Select district" />
                                         </SelectTrigger>
@@ -156,6 +171,23 @@ export default function EditBranch({ branch, districts }: Props) {
                                         </SelectContent>
                                     </Select>
                                     <InputError message={errors.district_id} className="mt-2" />
+                                </div>
+
+                                <div>
+                                    <Label htmlFor="type">Branch Type</Label>
+                                    <Select value={data.type} onValueChange={(value: 'main_branch' | 'sub_branch' | 'atm' | 'service_center' | 'mobile_unit') => setData('type', value)}>
+                                        <SelectTrigger id="type">
+                                            <SelectValue placeholder="Select branch type" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="main_branch">Main Branch</SelectItem>
+                                            <SelectItem value="sub_branch">Sub Branch</SelectItem>
+                                            <SelectItem value="atm">ATM</SelectItem>
+                                            <SelectItem value="service_center">Service Center</SelectItem>
+                                            <SelectItem value="mobile_unit">Mobile Unit</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                    <InputError message={errors.type} className="mt-2" />
                                 </div>
                             </div>
 

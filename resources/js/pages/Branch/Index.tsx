@@ -123,7 +123,7 @@ export default function Index({ branches, filters }: Props) {
                         </div>
                         <Select value={statusFilter} onValueChange={setStatusFilter}>
                             <SelectTrigger className="w-[180px]">
-                                <SelectValue placeholder="Filter by status" />
+                                <SelectValue placeholder="Select status" />
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectItem value="all">All Status</SelectItem>
@@ -131,7 +131,10 @@ export default function Index({ branches, filters }: Props) {
                                 <SelectItem value="inactive">Inactive</SelectItem>
                             </SelectContent>
                         </Select>
-                        <Button type="submit">Filter</Button>
+                        <Button type="submit">
+                            <Search className="mr-2 h-4 w-4" />
+                            Search
+                        </Button>
                     </div>
                 </form>
 

@@ -45,6 +45,8 @@ type BranchForm = {
     code: string;
     address: string;
     district_id: string;
+    region_id: string;
+    type: 'main_branch' | 'sub_branch' | 'atm' | 'service_center' | 'mobile_unit';
     status: 'active' | 'inactive';
 };
 
@@ -54,8 +56,19 @@ export default function CreateBranch({ districts }: Props) {
         code: '',
         address: '',
         district_id: '',
+        region_id: '',
+        type: 'sub_branch',
         status: 'active',
     });
+
+    const handleDistrictChange = (districtId: string) => {
+        const selectedDistrict = districts.find(d => d.id.toString() === districtId);
+        setData({
+            ...data,
+            district_id: districtId,
+            region_id: selectedDistrict?.region.id.toString() || '',
+        });
+    };
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
@@ -116,11 +129,11 @@ export default function CreateBranch({ districts }: Props) {
                                     </div>
                                 </div>
 
-                                {/* Second Row - 1 column */}
-                                <div className="mb-6 grid grid-cols-1 gap-4">
+                                {/* Second Row - 2 columns */}
+                                <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-2">
                                     <div>
                                         <Label htmlFor="district_id">District</Label>
-                                        <Select value={data.district_id} onValueChange={(value) => setData('district_id', value)}>
+                                        <Select value={data.district_id} onValueChange={handleDistrictChange}>
                                             <SelectTrigger id="district_id">
                                                 <SelectValue placeholder="Select district" />
                                             </SelectTrigger>
@@ -133,6 +146,23 @@ export default function CreateBranch({ districts }: Props) {
                                             </SelectContent>
                                         </Select>
                                         <InputError message={errors.district_id} className="mt-2" />
+                                    </div>
+
+                                    <div>
+                                        <Label htmlFor="type">Branch Type</Label>
+                                        <Select value={data.type} onValueChange={(value: 'main_branch' | 'sub_branch' | 'atm' | 'service_center' | 'mobile_unit') => setData('type', value)}>
+                                            <SelectTrigger id="type">
+                                                <SelectValue placeholder="Select branch type" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem value="main_branch">Main Branch</SelectItem>
+                                                <SelectItem value="sub_branch">Sub Branch</SelectItem>
+                                                <SelectItem value="atm">ATM</SelectItem>
+                                                <SelectItem value="service_center">Service Center</SelectItem>
+                                                <SelectItem value="mobile_unit">Mobile Unit</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                        <InputError message={errors.type} className="mt-2" />
                                     </div>
                                 </div>
 

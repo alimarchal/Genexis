@@ -120,7 +120,10 @@ export default function Index({ regions, filters }: Props) {
                                 <SelectItem value="inactive">Inactive</SelectItem>
                             </SelectContent>
                         </Select>
-                        <Button type="submit">Filter</Button>
+                        <Button type="submit">
+                            <Search className="mr-2 h-4 w-4" />
+                            Search
+                        </Button>
                     </div>
                 </form>
 
