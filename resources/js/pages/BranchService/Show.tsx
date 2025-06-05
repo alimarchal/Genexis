@@ -44,6 +44,7 @@ export default function Show({ branchService }: Props) {
         },
         {
             title: branchService.service_name,
+            href: '',
         },
     ];
 
@@ -74,29 +75,28 @@ export default function Show({ branchService }: Props) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={`${branchService.service_name} - Branch Service Details`} />
 
-            <div className="px-4 py-6">
-                <div className="mb-6 flex items-center justify-between">
-                    <Button variant="ghost" size="sm" asChild>
-                        <Link href={route('branch-services.index')}>
-                            <ArrowLeft className="mr-2 h-4 w-4" />
-                            Back to Branch Services
-                        </Link>
-                    </Button>
-                    <div className="flex gap-2">
-                        <Button asChild>
-                            <Link href={route('branch-services.edit', branchService.id)}>
-                                <Edit className="mr-2 h-4 w-4" />
+            <div className="px-10 py-6">
+                <div className="flex items-center justify-between mb-6">
+                    <Heading title="Branch Service Details" description="View complete information about this branch service" />
+                    <div className="flex items-center space-x-2">
+                        <Link href={route('branch-services.edit', branchService.id)}>
+                            <Button>
+                                <Edit className="h-4 w-4 mr-2" />
                                 Edit Service
-                            </Link>
-                        </Button>
+                            </Button>
+                        </Link>
                         <Button variant="destructive" onClick={handleDelete}>
-                            <Trash2 className="mr-2 h-4 w-4" />
+                            <Trash2 className="h-4 w-4 mr-2" />
                             Delete
                         </Button>
+                        <Link href={route('branch-services.index')}>
+                            <Button variant="outline">
+                                <ArrowLeft className="h-4 w-4 mr-2" />
+                                Back to Services
+                            </Button>
+                        </Link>
                     </div>
                 </div>
-
-                <Heading title="Branch Service Details" description="View complete information about this branch service" />
 
                 <div className="grid max-w-6xl grid-cols-1 gap-6 lg:grid-cols-3">
                     {/* Main Information */}

@@ -1,6 +1,7 @@
 import Heading from '@/components/heading';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -64,12 +65,22 @@ export default function Index({ branchServices, filters }: Props) {
     const [searchTerm, setSearchTerm] = useState(filters.filter?.name || '');
     const [statusFilter, setStatusFilter] = useState(filters.filter?.status || 'all');
 
-    const handleSearch = () => {
-        const searchParams = new URLSearchParams();
-        if (searchTerm) searchParams.append('filter[name]', searchTerm);
-        if (statusFilter && statusFilter !== 'all') searchParams.append('filter[status]', statusFilter);
+    const handleSearch = (e: React.FormEvent) => {
+        e.preventDefault();
+        const params = new URLSearchParams();
 
-        router.get(route('branch-services.index'), Object.fromEntries(searchParams));
+        if (searchTerm) {
+            params.append('filter[name]', searchTerm);
+        }
+
+        if (statusFilter && statusFilter !== 'all') {
+            params.append('filter[status]', statusFilter);
+        }
+
+        router.get(`${route('branch-services.index')}?${params.toString()}`, {}, {
+            preserveState: true,
+            preserveScroll: true,
+        });
     };
 
     const handleDelete = (branchService: BranchService) => {
@@ -82,134 +93,141 @@ export default function Index({ branchServices, filters }: Props) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Branch Services" />
 
-            <div className="flex items-center justify-between">
-                <Heading level={1}>Branch Services</Heading>
-                <Link href={route('branch-services.create')}>
-                    <Button>
-                        <Plus className="h-4 w-4 mr-2" />
-                        Add Branch Service
+            <div className="px-10 py-6">
+                <div className="flex items-center justify-between">
+                    <Heading title="Branch Services" description="Manage services available at branches" />
+                    <Link href={route('branch-services.create')}>
+                        <Button>
+                            <Plus className="h-4 w-4 mr-2" />
+                            Add Branch Service
+                        </Button>
+                    </Link>
+                </div>
+
+                <form onSubmit={handleSearch} className="flex items-center space-x-2 my-4">
+                    <div className="flex-1">
+                        <Input
+                            placeholder="Search branch services..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="max-w-sm"
+                        />
+                    </div>
+                    <Select value={statusFilter} onValueChange={setStatusFilter}>
+                        <SelectTrigger className="w-[180px]">
+                            <SelectValue placeholder="Search by status" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="all">All Statuses</SelectItem>
+                            <SelectItem value="active">Active</SelectItem>
+                            <SelectItem value="inactive">Inactive</SelectItem>
+                        </SelectContent>
+                    </Select>
+                    <Button type="submit">
+                        <Search className="h-4 w-4 mr-2" />
+                        Search
                     </Button>
-                </Link>
-            </div>
+                </form>
 
-            <div className="flex items-center space-x-2 my-4">
-                <div className="flex-1">
-                    <Input
-                        placeholder="Search branch services..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        className="max-w-sm"
-                    />
-                </div>
-                <Select value={statusFilter} onValueChange={setStatusFilter}>
-                    <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Filter by status" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="all">All Statuses</SelectItem>
-                        <SelectItem value="active">Active</SelectItem>
-                        <SelectItem value="inactive">Inactive</SelectItem>
-                    </SelectContent>
-                </Select>
-                <Button onClick={handleSearch}>
-                    <Search className="h-4 w-4 mr-2" />
-                    Search
-                </Button>
-            </div>
-
-            <div className="rounded-md border">
-                <Table>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead>Service Name</TableHead>
-                            <TableHead>Branch</TableHead>
-                            <TableHead>Description</TableHead>
-                            <TableHead>Status</TableHead>
-                            <TableHead>Created</TableHead>
-                            <TableHead className="text-right">Actions</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {branchServices.data.length === 0 ? (
-                            <TableRow>
-                                <TableCell colSpan={6} className="text-center py-8">
-                                    No branch services found.
-                                </TableCell>
-                            </TableRow>
-                        ) : (
-                            branchServices.data.map((branchService) => (
-                                <TableRow key={branchService.id}>
-                                    <TableCell className="font-medium">{branchService.name}</TableCell>
-                                    <TableCell>{branchService.branch.name}</TableCell>
-                                    <TableCell className="max-w-xs truncate">{branchService.description}</TableCell>
-                                    <TableCell>
-                                        <Badge variant={branchService.status === 'active' ? 'default' : 'secondary'}>
-                                            {branchService.status}
-                                        </Badge>
-                                    </TableCell>
-                                    <TableCell>
-                                        {new Date(branchService.created_at).toLocaleDateString()}
-                                    </TableCell>
-                                    <TableCell className="text-right">
-                                        <DropdownMenu>
-                                            <DropdownMenuTrigger asChild>
-                                                <Button variant="ghost" className="h-8 w-8 p-0">
-                                                    <MoreHorizontal className="h-4 w-4" />
-                                                </Button>
-                                            </DropdownMenuTrigger>
-                                            <DropdownMenuContent align="end">
-                                                <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                                <DropdownMenuSeparator />
-                                                <DropdownMenuItem asChild>
-                                                    <Link href={route('branch-services.show', branchService.id)}>
-                                                        <Eye className="h-4 w-4 mr-2" />
-                                                        View
-                                                    </Link>
-                                                </DropdownMenuItem>
-                                                <DropdownMenuItem asChild>
-                                                    <Link href={route('branch-services.edit', branchService.id)}>
-                                                        <Edit className="h-4 w-4 mr-2" />
-                                                        Edit
-                                                    </Link>
-                                                </DropdownMenuItem>
-                                                <DropdownMenuItem
-                                                    onClick={() => handleDelete(branchService)}
-                                                    className="text-red-600"
-                                                >
-                                                    <Trash className="h-4 w-4 mr-2" />
-                                                    Delete
-                                                </DropdownMenuItem>
-                                            </DropdownMenuContent>
-                                        </DropdownMenu>
-                                    </TableCell>
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Branch Services List</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead>Service Name</TableHead>
+                                    <TableHead>Branch</TableHead>
+                                    <TableHead>Description</TableHead>
+                                    <TableHead>Status</TableHead>
+                                    <TableHead>Created</TableHead>
+                                    <TableHead className="text-right">Actions</TableHead>
                                 </TableRow>
-                            ))
-                        )}
-                    </TableBody>
-                </Table>
-            </div>
+                            </TableHeader>
+                            <TableBody>
+                                {branchServices.data.length === 0 ? (
+                                    <TableRow>
+                                        <TableCell colSpan={6} className="text-center py-8">
+                                            No branch services found.
+                                        </TableCell>
+                                    </TableRow>
+                                ) : (
+                                    branchServices.data.map((branchService) => (
+                                        <TableRow key={branchService.id}>
+                                            <TableCell className="font-medium">{branchService.name}</TableCell>
+                                            <TableCell>{branchService.branch?.name || 'N/A'}</TableCell>
+                                            <TableCell className="max-w-xs truncate">{branchService.description}</TableCell>
+                                            <TableCell>
+                                                <Badge variant={branchService.status === 'active' ? 'default' : 'secondary'}>
+                                                    {branchService.status}
+                                                </Badge>
+                                            </TableCell>
+                                            <TableCell>
+                                                {new Date(branchService.created_at).toLocaleDateString()}
+                                            </TableCell>
+                                            <TableCell className="text-right">
+                                                <DropdownMenu>
+                                                    <DropdownMenuTrigger asChild>
+                                                        <Button variant="ghost" className="h-8 w-8 p-0">
+                                                            <MoreHorizontal className="h-4 w-4" />
+                                                        </Button>
+                                                    </DropdownMenuTrigger>
+                                                    <DropdownMenuContent align="end">
+                                                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                                        <DropdownMenuSeparator />
+                                                        <DropdownMenuItem asChild>
+                                                            <Link href={route('branch-services.show', branchService.id)}>
+                                                                <Eye className="h-4 w-4 mr-2" />
+                                                                View
+                                                            </Link>
+                                                        </DropdownMenuItem>
+                                                        <DropdownMenuItem asChild>
+                                                            <Link href={route('branch-services.edit', branchService.id)}>
+                                                                <Edit className="h-4 w-4 mr-2" />
+                                                                Edit
+                                                            </Link>
+                                                        </DropdownMenuItem>
+                                                        <DropdownMenuItem
+                                                            onClick={() => handleDelete(branchService)}
+                                                            className="text-red-600"
+                                                        >
+                                                            <Trash className="h-4 w-4 mr-2" />
+                                                            Delete
+                                                        </DropdownMenuItem>
+                                                    </DropdownMenuContent>
+                                                </DropdownMenu>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))
+                                )}
+                            </TableBody>
+                        </Table>
+                    </CardContent>
+                </Card>
 
-            {/* Pagination */}
-            {branchServices.last_page > 1 && (
-                <div className="flex items-center justify-between mt-4">
-                    <div className="text-sm text-gray-700">
-                        Showing {(branchServices.current_page - 1) * branchServices.per_page + 1} to{' '}
-                        {Math.min(branchServices.current_page * branchServices.per_page, branchServices.total)} of {branchServices.total} results
+                {/* Pagination */}
+                {branchServices.last_page > 1 && (
+                    <div className="flex items-center justify-between mt-4">
+                        <div className="text-sm text-gray-700">
+                            Showing {(branchServices.current_page - 1) * branchServices.per_page + 1} to{' '}
+                            {Math.min(branchServices.current_page * branchServices.per_page, branchServices.total)} of {branchServices.total} results
+                        </div>
+                        <div className="flex items-center space-x-2">
+                            {branchServices.links.map((link, index) => (
+                                <Button
+                                    key={index}
+                                    variant={link.active ? 'default' : 'outline'}
+                                    size="sm"
+                                    disabled={!link.url}
+                                    onClick={() => link.url && router.get(link.url)}
+                                    dangerouslySetInnerHTML={{ __html: link.label }}
+                                />
+                            ))}
+                        </div>
                     </div>
-                    <div className="flex items-center space-x-2">
-                        {branchServices.links.map((link, index) => (
-                            <Button
-                                key={index}
-                                variant={link.active ? 'default' : 'outline'}
-                                size="sm"
-                                disabled={!link.url}
-                                onClick={() => link.url && router.get(link.url)}
-                                dangerouslySetInnerHTML={{ __html: link.label }}
-                            />
-                        ))}
-                    </div>
-                </div>
-            )}
+                )}
+            </div>
         </AppLayout>
     );
 }

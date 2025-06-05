@@ -37,6 +37,7 @@ export default function Edit({ region }: Props) {
         },
         {
             title: 'Edit',
+            href: route('regions.edit', region.id),
         },
     ];
 
@@ -55,7 +56,7 @@ export default function Edit({ region }: Props) {
             <Head title={`Edit ${region.name}`} />
 
             <div className="flex items-center justify-between mb-6">
-                <Heading level={1}>Edit Region: {region.name}</Heading>
+                <Heading title={`Edit Region: ${region.name}`} description="Update region information" />
                 <Link href={route('regions.index')}>
                     <Button variant="outline">
                         <ArrowLeft className="h-4 w-4 mr-2" />
@@ -87,7 +88,7 @@ export default function Edit({ region }: Props) {
 
                         <div className="space-y-2">
                             <Label htmlFor="status">Status</Label>
-                            <Select value={data.status} onValueChange={(value) => setData('status', value)}>
+                            <Select value={data.status} onValueChange={(value: 'active' | 'inactive') => setData('status', value)}>
                                 <SelectTrigger>
                                     <SelectValue />
                                 </SelectTrigger>

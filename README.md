@@ -14,7 +14,7 @@ This project is the development of a new, modern website for the Bank of Azad Ja
 *   **Permissions:** `spatie/laravel-permission` (`^6.18`)
 *   **Query Building:** `spatie/laravel-query-builder` (`^6.3`)
 *   **Routing in JS:** Tighten/Ziggy (`^2.4`)
-*   **Database:** SQLite
+*   **Database:** Postgresql
 *   **Deployment:** (Specify your deployment environment, e.g., Docker, AWS, etc.)
 
 ## Project Goals

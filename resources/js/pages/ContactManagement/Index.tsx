@@ -1,6 +1,7 @@
 import Heading from '@/components/heading';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -67,7 +68,8 @@ export default function Index({ contacts, filters }: Props) {
     const [searchTerm, setSearchTerm] = useState(filters.filter?.name || '');
     const [statusFilter, setStatusFilter] = useState(filters.filter?.status || 'all');
 
-    const handleSearch = () => {
+    const handleSearch = (e: React.FormEvent) => {
+        e.preventDefault();
         const searchParams = new URLSearchParams();
         if (searchTerm) searchParams.append('filter[name]', searchTerm);
         if (statusFilter && statusFilter !== 'all') searchParams.append('filter[status]', statusFilter);
@@ -85,136 +87,123 @@ export default function Index({ contacts, filters }: Props) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Contacts" />
 
-            <div className="flex items-center justify-between">
-                <Heading level={1}>Contacts</Heading>
-                <Link href={route('contacts.create')}>
-                    <Button>
-                        <Plus className="h-4 w-4 mr-2" />
-                        Add Contact
-                    </Button>
-                </Link>
-            </div>
-
-            <div className="flex items-center space-x-2 my-4">
-                <div className="flex-1">
-                    <Input
-                        placeholder="Search contacts..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        className="max-w-sm"
-                    />
+            <div className="px-10 py-6">
+                <div className="flex items-center justify-between mb-6">
+                    <Heading title="Contacts" description="Manage contact information and directory" />
+                    <Link href={route('contacts.create')}>
+                        <Button>
+                            <Plus className="h-4 w-4 mr-2" />
+                            Add Contact
+                        </Button>
+                    </Link>
                 </div>
-                <Select value={statusFilter} onValueChange={setStatusFilter}>
-                    <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Filter by status" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="all">All Statuses</SelectItem>
-                        <SelectItem value="active">Active</SelectItem>
-                        <SelectItem value="inactive">Inactive</SelectItem>
-                    </SelectContent>
-                </Select>
-                <Button onClick={handleSearch}>
-                    <Search className="h-4 w-4 mr-2" />
-                    Search
-                </Button>
-            </div>
 
-            <div className="rounded-md border">
-                <Table>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead>Name</TableHead>
-                            <TableHead>Position</TableHead>
-                            <TableHead>Department</TableHead>
-                            <TableHead>Branch</TableHead>
-                            <TableHead>Email</TableHead>
-                            <TableHead>Phone</TableHead>
-                            <TableHead>Status</TableHead>
-                            <TableHead className="text-right">Actions</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {contacts.data.length === 0 ? (
-                            <TableRow>
-                                <TableCell colSpan={8} className="text-center py-8">
-                                    No contacts found.
-                                </TableCell>
-                            </TableRow>
-                        ) : (
-                            contacts.data.map((contact) => (
-                                <TableRow key={contact.id}>
-                                    <TableCell className="font-medium">{contact.name}</TableCell>
-                                    <TableCell>{contact.position}</TableCell>
-                                    <TableCell>{contact.department}</TableCell>
-                                    <TableCell>{contact.branch.name}</TableCell>
-                                    <TableCell>{contact.email}</TableCell>
-                                    <TableCell>{contact.phone}</TableCell>
-                                    <TableCell>
-                                        <Badge variant={contact.status === 'active' ? 'default' : 'secondary'}>
-                                            {contact.status}
-                                        </Badge>
-                                    </TableCell>
-                                    <TableCell className="text-right">
-                                        <DropdownMenu>
-                                            <DropdownMenuTrigger asChild>
-                                                <Button variant="ghost" className="h-8 w-8 p-0">
-                                                    <MoreHorizontal className="h-4 w-4" />
-                                                </Button>
-                                            </DropdownMenuTrigger>
-                                            <DropdownMenuContent align="end">
-                                                <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                                <DropdownMenuSeparator />
-                                                <DropdownMenuItem asChild>
-                                                    <Link href={route('contacts.show', contact.id)}>
-                                                        <Eye className="h-4 w-4 mr-2" />
-                                                        View
-                                                    </Link>
-                                                </DropdownMenuItem>
-                                                <DropdownMenuItem asChild>
-                                                    <Link href={route('contacts.edit', contact.id)}>
-                                                        <Edit className="h-4 w-4 mr-2" />
-                                                        Edit
-                                                    </Link>
-                                                </DropdownMenuItem>
-                                                <DropdownMenuItem
-                                                    onClick={() => handleDelete(contact)}
-                                                    className="text-red-600"
-                                                >
-                                                    <Trash className="h-4 w-4 mr-2" />
-                                                    Delete
-                                                </DropdownMenuItem>
-                                            </DropdownMenuContent>
-                                        </DropdownMenu>
-                                    </TableCell>
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Contact Directory</CardTitle>
+                        <form onSubmit={handleSearch} className="flex items-center space-x-2">
+                            <div className="flex-1">
+                                <Input
+                                    placeholder="Search by name..."
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                />
+                            </div>
+                            <Select value={statusFilter} onValueChange={setStatusFilter}>
+                                <SelectTrigger className="w-[200px]">
+                                    <SelectValue placeholder="Search by status" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="all">All Statuses</SelectItem>
+                                    <SelectItem value="active">Active</SelectItem>
+                                    <SelectItem value="inactive">Inactive</SelectItem>
+                                </SelectContent>
+                            </Select>
+                            <Button type="submit">
+                                <Search className="h-4 w-4 mr-2" />
+                                Search
+                            </Button>
+                        </form>
+                    </CardHeader>
+                    <CardContent className="p-0">
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead>Name</TableHead>
+                                    <TableHead>Position</TableHead>
+                                    <TableHead>Department</TableHead>
+                                    <TableHead>Contact Info</TableHead>
+                                    <TableHead>Branch</TableHead>
+                                    <TableHead>Status</TableHead>
+                                    <TableHead className="text-right">Actions</TableHead>
                                 </TableRow>
-                            ))
-                        )}
-                    </TableBody>
-                </Table>
+                            </TableHeader>
+                            <TableBody>
+                                {contacts.data.length === 0 ? (
+                                    <TableRow>
+                                        <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
+                                            No contacts found.
+                                        </TableCell>
+                                    </TableRow>
+                                ) : (
+                                    contacts.data.map((contact) => (
+                                        <TableRow key={contact.id}>
+                                            <TableCell className="font-medium">{contact.name}</TableCell>
+                                            <TableCell>{contact.position || 'N/A'}</TableCell>
+                                            <TableCell>{contact.department || 'N/A'}</TableCell>
+                                            <TableCell>
+                                                <div className="space-y-1">
+                                                    <div className="text-sm">{contact.email}</div>
+                                                    <div className="text-sm text-muted-foreground">{contact.phone || 'N/A'}</div>
+                                                </div>
+                                            </TableCell>
+                                            <TableCell>{contact.branch?.name || 'N/A'}</TableCell>
+                                            <TableCell>
+                                                <Badge variant={contact.status === 'active' ? 'default' : 'secondary'}>
+                                                    {contact.status}
+                                                </Badge>
+                                            </TableCell>
+                                            <TableCell className="text-right">
+                                                <DropdownMenu>
+                                                    <DropdownMenuTrigger asChild>
+                                                        <Button variant="ghost" className="h-8 w-8 p-0">
+                                                            <span className="sr-only">Open menu</span>
+                                                            <MoreHorizontal className="h-4 w-4" />
+                                                        </Button>
+                                                    </DropdownMenuTrigger>
+                                                    <DropdownMenuContent align="end">
+                                                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                                        <DropdownMenuItem asChild>
+                                                            <Link href={route('contacts.show', contact.id)}>
+                                                                <Eye className="mr-2 h-4 w-4" />
+                                                                View
+                                                            </Link>
+                                                        </DropdownMenuItem>
+                                                        <DropdownMenuItem asChild>
+                                                            <Link href={route('contacts.edit', contact.id)}>
+                                                                <Edit className="mr-2 h-4 w-4" />
+                                                                Edit
+                                                            </Link>
+                                                        </DropdownMenuItem>
+                                                        <DropdownMenuSeparator />
+                                                        <DropdownMenuItem
+                                                            className="text-red-600"
+                                                            onClick={() => handleDelete(contact)}
+                                                        >
+                                                            <Trash className="mr-2 h-4 w-4" />
+                                                            Delete
+                                                        </DropdownMenuItem>
+                                                    </DropdownMenuContent>
+                                                </DropdownMenu>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))
+                                )}
+                            </TableBody>
+                        </Table>
+                    </CardContent>
+                </Card>
             </div>
-
-            {/* Pagination */}
-            {contacts.last_page > 1 && (
-                <div className="flex items-center justify-between mt-4">
-                    <div className="text-sm text-gray-700">
-                        Showing {(contacts.current_page - 1) * contacts.per_page + 1} to{' '}
-                        {Math.min(contacts.current_page * contacts.per_page, contacts.total)} of {contacts.total} results
-                    </div>
-                    <div className="flex items-center space-x-2">
-                        {contacts.links.map((link, index) => (
-                            <Button
-                                key={index}
-                                variant={link.active ? 'default' : 'outline'}
-                                size="sm"
-                                disabled={!link.url}
-                                onClick={() => link.url && router.get(link.url)}
-                                dangerouslySetInnerHTML={{ __html: link.label }}
-                            />
-                        ))}
-                    </div>
-                </div>
-            )}
         </AppLayout>
     );
 }
