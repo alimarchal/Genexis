@@ -335,10 +335,10 @@ class PageController extends Controller
                     'full_address' => $branch->full_address,
                     'latitude' => $branch->latitude,
                     'longitude' => $branch->longitude,
-                    'phone' => $branch->contacts->where('type', 'phone')->first()?->contact ?? '',
-                    'email' => $branch->contacts->where('type', 'email')->first()?->contact ?? '',
-                    'fax' => $branch->contacts->where('type', 'fax')->first()?->contact ?? '',
-                    'services' => $branch->branchServices->pluck('name')->toArray(),
+                    'phone' => $branch->contacts->first()?->phone ?? '',
+                    'email' => $branch->contacts->first()?->email ?? '',
+                    'fax' => '', // No fax field in contacts table
+                    'services' => $branch->branchServices->pluck('service_name')->toArray(),
                     'facilities' => $branch->facilities ? explode(',', $branch->facilities) : [],
                     'operating_hours' => $branch->operating_hours,
                     'is_24_hours' => $branch->is_24_hours,
@@ -346,7 +346,7 @@ class PageController extends Controller
                     'operating_status' => $branch->operating_status,
                     'today_hours' => $branch->today_hours,
                     'google_maps_url' => $branch->google_maps_url,
-                    'has_atm' => in_array('ATM', $branch->branchServices->pluck('name')->toArray()),
+                    'has_atm' => in_array('ATM Card Issuance', $branch->branchServices->pluck('service_name')->toArray()),
                 ];
             });
 
