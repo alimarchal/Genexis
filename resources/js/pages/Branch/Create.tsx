@@ -1,6 +1,7 @@
 import Heading from '@/components/heading';
+import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -8,7 +9,8 @@ import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, useForm } from '@inertiajs/react';
-import { ArrowLeft } from 'lucide-react';
+import { Save } from 'lucide-react';
+import { FormEventHandler } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -21,6 +23,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
     {
         title: 'Create',
+        href: route('branches.create'),
     },
 ];
 
@@ -37,16 +40,24 @@ interface Props {
     districts: District[];
 }
 
-export default function Create({ districts }: Props) {
-    const { data, setData, post, processing, errors } = useForm({
+type BranchForm = {
+    name: string;
+    code: string;
+    address: string;
+    district_id: string;
+    status: 'active' | 'inactive';
+};
+
+export default function CreateBranch({ districts }: Props) {
+    const { data, setData, post, processing, errors } = useForm<BranchForm>({
         name: '',
         code: '',
         address: '',
-        district_id: undefined as string | undefined,
+        district_id: '',
         status: 'active',
     });
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const submit: FormEventHandler = (e) => {
         e.preventDefault();
         post(route('branches.store'));
     };
@@ -55,115 +66,104 @@ export default function Create({ districts }: Props) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Create Branch" />
 
-            <div className="flex items-center justify-between mb-6">
-                <Heading level={1}>Create Branch</Heading>
-                <Link href={route('branches.index')}>
-                    <Button variant="outline">
-                        <ArrowLeft className="h-4 w-4 mr-2" />
-                        Back to Branches
-                    </Button>
-                </Link>
-            </div>
+            <div className="px-10 py-6">
+                <Heading title="Create Branch" description="Add a new branch to your organization" />
 
-            <Card className="max-w-2xl">
-                <CardHeader>
-                    <CardTitle>Branch Information</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <form onSubmit={handleSubmit} className="space-y-4">
-                        <div className="space-y-2">
-                            <Label htmlFor="name">Branch Name</Label>
-                            <Input
-                                id="name"
-                                type="text"
-                                value={data.name}
-                                onChange={(e) => setData('name', e.target.value)}
-                                placeholder="Enter branch name"
-                                className={errors.name ? 'border-red-500' : ''}
-                            />
-                            {errors.name && (
-                                <p className="text-sm text-red-600">{errors.name}</p>
-                            )}
-                        </div>
+                <div className="flex flex-col space-y-8 lg:flex-row lg:space-y-0 lg:space-x-12">
+                    <form onSubmit={submit} className="w-full">
+                        <Card>
+                            <CardContent className="pt-6">
+                                {/* First Row - 3 columns */}
+                                <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-3">
+                                    <div>
+                                        <Label htmlFor="name">Branch Name</Label>
+                                        <Input
+                                            id="name"
+                                            type="text"
+                                            value={data.name}
+                                            onChange={(e) => setData('name', e.target.value)}
+                                            placeholder="Enter branch name"
+                                            required
+                                        />
+                                        <InputError message={errors.name} className="mt-2" />
+                                    </div>
 
-                        <div className="space-y-2">
-                            <Label htmlFor="code">Branch Code</Label>
-                            <Input
-                                id="code"
-                                type="text"
-                                value={data.code}
-                                onChange={(e) => setData('code', e.target.value)}
-                                placeholder="Enter branch code"
-                                className={errors.code ? 'border-red-500' : ''}
-                            />
-                            {errors.code && (
-                                <p className="text-sm text-red-600">{errors.code}</p>
-                            )}
-                        </div>
+                                    <div>
+                                        <Label htmlFor="code">Branch Code</Label>
+                                        <Input
+                                            id="code"
+                                            type="text"
+                                            value={data.code}
+                                            onChange={(e) => setData('code', e.target.value)}
+                                            placeholder="Enter branch code"
+                                            required
+                                        />
+                                        <InputError message={errors.code} className="mt-2" />
+                                    </div>
 
-                        <div className="space-y-2">
-                            <Label htmlFor="address">Address</Label>
-                            <Textarea
-                                id="address"
-                                value={data.address}
-                                onChange={(e) => setData('address', e.target.value)}
-                                placeholder="Enter branch address"
-                                className={errors.address ? 'border-red-500' : ''}
-                                rows={3}
-                            />
-                            {errors.address && (
-                                <p className="text-sm text-red-600">{errors.address}</p>
-                            )}
-                        </div>
+                                    <div>
+                                        <Label htmlFor="status">Status</Label>
+                                        <Select value={data.status} onValueChange={(value: 'active' | 'inactive') => setData('status', value)}>
+                                            <SelectTrigger id="status">
+                                                <SelectValue placeholder="Select status" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem value="active">Active</SelectItem>
+                                                <SelectItem value="inactive">Inactive</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                        <InputError message={errors.status} className="mt-2" />
+                                    </div>
+                                </div>
 
-                        <div className="space-y-2">
-                            <Label htmlFor="district_id">District</Label>
-                            <Select value={data.district_id || ''} onValueChange={(value) => setData('district_id', value)}>
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Select a district" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {districts.map((district) => (
-                                        <SelectItem key={district.id} value={district.id.toString()}>
-                                            {district.name} ({district.region.name})
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                            {errors.district_id && (
-                                <p className="text-sm text-red-600">{errors.district_id}</p>
-                            )}
-                        </div>
+                                {/* Second Row - 1 column */}
+                                <div className="mb-6 grid grid-cols-1 gap-4">
+                                    <div>
+                                        <Label htmlFor="district_id">District</Label>
+                                        <Select value={data.district_id} onValueChange={(value) => setData('district_id', value)}>
+                                            <SelectTrigger id="district_id">
+                                                <SelectValue placeholder="Select district" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                {districts.map((district) => (
+                                                    <SelectItem key={district.id} value={district.id.toString()}>
+                                                        {district.name} ({district.region.name})
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
+                                        <InputError message={errors.district_id} className="mt-2" />
+                                    </div>
+                                </div>
 
-                        <div className="space-y-2">
-                            <Label htmlFor="status">Status</Label>
-                            <Select value={data.status} onValueChange={(value) => setData('status', value)}>
-                                <SelectTrigger>
-                                    <SelectValue />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="active">Active</SelectItem>
-                                    <SelectItem value="inactive">Inactive</SelectItem>
-                                </SelectContent>
-                            </Select>
-                            {errors.status && (
-                                <p className="text-sm text-red-600">{errors.status}</p>
-                            )}
-                        </div>
+                                {/* Third Row - Full width */}
+                                <div className="mb-6">
+                                    <Label htmlFor="address">Address</Label>
+                                    <Textarea
+                                        id="address"
+                                        value={data.address}
+                                        onChange={(e) => setData('address', e.target.value)}
+                                        rows={4}
+                                        placeholder="Enter branch address..."
+                                    />
+                                    <InputError message={errors.address} className="mt-2" />
+                                </div>
 
-                        <div className="flex items-center space-x-2 pt-4">
-                            <Button type="submit" disabled={processing}>
-                                {processing ? 'Creating...' : 'Create Branch'}
-                            </Button>
-                            <Link href={route('branches.index')}>
-                                <Button type="button" variant="outline">
-                                    Cancel
-                                </Button>
-                            </Link>
-                        </div>
+                                {/* Action Buttons */}
+                                <div className="flex justify-end gap-2">
+                                    <Button variant="outline" asChild>
+                                        <Link href={route('branches.index')}>Cancel</Link>
+                                    </Button>
+                                    <Button type="submit" disabled={processing}>
+                                        <Save className="mr-2 h-4 w-4" />
+                                        {processing ? 'Creating...' : 'Create Branch'}
+                                    </Button>
+                                </div>
+                            </CardContent>
+                        </Card>
                     </form>
-                </CardContent>
-            </Card>
+                </div>
+            </div>
         </AppLayout>
     );
 }

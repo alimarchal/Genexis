@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
-import { ArrowLeft, Building, Calendar, Edit, MapPin } from 'lucide-react';
+import { ArrowLeft, Building, Calendar, Edit, Eye, Hash, MapPin, Trash } from 'lucide-react';
 
 interface Branch {
     id: number;
@@ -91,32 +91,31 @@ export default function ShowBranch({ branch }: Props) {
                             <CardContent className="space-y-4">
                                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                                     <div>
-                                        <p className="text-muted-foreground text-sm">Branch Name</p>
-                                        <p className="font-medium">{branch.name}</p>
+                                        <p className="text-muted-foreground text-sm font-medium">Branch Name</p>
+                                        <p className="text-lg font-semibold">{branch.name}</p>
                                     </div>
                                     <div>
-                                        <p className="text-muted-foreground text-sm">Branch Code</p>
-                                        <p className="font-medium font-mono">{branch.code}</p>
+                                        <p className="text-muted-foreground text-sm font-medium">Branch Code</p>
+                                        <p className="text-lg font-semibold">{branch.code}</p>
                                     </div>
                                     <div>
-                                        <p className="text-muted-foreground text-sm">District</p>
-                                        <p className="font-medium">{branch.district.name}</p>
+                                        <p className="text-muted-foreground text-sm font-medium">District</p>
+                                        <p className="text-lg font-semibold">{branch.district?.name || 'N/A'}</p>
                                     </div>
                                     <div>
-                                        <p className="text-muted-foreground text-sm">Region</p>
-                                        <p className="font-medium">{branch.district.region.name}</p>
-                                    </div>
-                                    <div>
-                                        <p className="text-muted-foreground text-sm">Status</p>
-                                        <Badge variant={branch.status === 'active' ? 'default' : 'secondary'} className="mt-1">
-                                            {branch.status}
-                                        </Badge>
+                                        <p className="text-muted-foreground text-sm font-medium">Region</p>
+                                        <p className="text-lg font-semibold">{branch.district?.region?.name || 'N/A'}</p>
                                     </div>
                                 </div>
-
-                                <div className="border-t pt-4">
-                                    <p className="text-muted-foreground mb-2 text-sm">Address</p>
-                                    <p className="text-sm leading-relaxed whitespace-pre-wrap">{branch.address}</p>
+                                <div>
+                                    <p className="text-muted-foreground text-sm font-medium">Address</p>
+                                    <p className="text-lg">{branch.address}</p>
+                                </div>
+                                <div>
+                                    <p className="text-muted-foreground text-sm font-medium">Status</p>
+                                    <Badge variant={branch.status === 'active' ? 'default' : 'secondary'} className="mt-1">
+                                        {branch.status}
+                                    </Badge>
                                 </div>
                             </CardContent>
                         </Card>
@@ -126,18 +125,18 @@ export default function ShowBranch({ branch }: Props) {
                             <CardHeader>
                                 <CardTitle className="flex items-center gap-2">
                                     <Calendar className="h-5 w-5" />
-                                    Timeline
+                                    Timeline Information
                                 </CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <div className="space-y-3">
+                                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                                     <div>
-                                        <p className="text-muted-foreground text-sm">Created At</p>
-                                        <p className="text-sm font-medium">{formatDate(branch.created_at)}</p>
+                                        <p className="text-muted-foreground text-sm font-medium">Created At</p>
+                                        <p className="text-lg">{formatDate(branch.created_at)}</p>
                                     </div>
                                     <div>
-                                        <p className="text-muted-foreground text-sm">Last Updated</p>
-                                        <p className="text-sm font-medium">{formatDate(branch.updated_at)}</p>
+                                        <p className="text-muted-foreground text-sm font-medium">Last Updated</p>
+                                        <p className="text-lg">{formatDate(branch.updated_at)}</p>
                                     </div>
                                 </div>
                             </CardContent>
@@ -149,20 +148,24 @@ export default function ShowBranch({ branch }: Props) {
                         {/* Quick Actions */}
                         <Card>
                             <CardHeader>
-                                <CardTitle className="flex items-center gap-2">
-                                    <Building className="h-5 w-5" />
-                                    Quick Actions
-                                </CardTitle>
+                                <CardTitle className="text-lg">Quick Actions</CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-2">
-                                <Button className="w-full" asChild>
+                                <Button variant="outline" size="sm" className="w-full justify-start" asChild>
+                                    <Link href={route('branches.show', branch.id)}>
+                                        <Eye className="mr-2 h-4 w-4" />
+                                        View Details
+                                    </Link>
+                                </Button>
+                                <Button variant="outline" size="sm" className="w-full justify-start" asChild>
                                     <Link href={route('branches.edit', branch.id)}>
                                         <Edit className="mr-2 h-4 w-4" />
                                         Edit Branch
                                     </Link>
                                 </Button>
-                                <Button variant="outline" className="w-full" asChild>
-                                    <Link href={route('branches.index')}>View All Branches</Link>
+                                <Button variant="outline" size="sm" className="text-red-600 hover:bg-red-50 hover:text-red-700 w-full justify-start">
+                                    <Trash className="mr-2 h-4 w-4" />
+                                    Delete Branch
                                 </Button>
                             </CardContent>
                         </Card>
@@ -170,10 +173,36 @@ export default function ShowBranch({ branch }: Props) {
                         {/* Branch ID */}
                         <Card>
                             <CardHeader>
-                                <CardTitle>Branch ID</CardTitle>
+                                <CardTitle className="flex items-center gap-2 text-lg">
+                                    <Hash className="h-5 w-5" />
+                                    Branch ID
+                                </CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <p className="text-muted-foreground font-mono text-2xl font-bold">#{branch.id.toString().padStart(4, '0')}</p>
+                                <p className="text-muted-foreground text-sm font-medium">Internal ID</p>
+                                <p className="text-2xl font-bold">{branch.id}</p>
+                            </CardContent>
+                        </Card>
+
+                        {/* Location Info */}
+                        <Card>
+                            <CardHeader>
+                                <CardTitle className="flex items-center gap-2 text-lg">
+                                    <MapPin className="h-5 w-5" />
+                                    Location
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="space-y-2">
+                                    <div>
+                                        <p className="text-muted-foreground text-sm">District</p>
+                                        <p className="font-semibold">{branch.district?.name || 'N/A'}</p>
+                                    </div>
+                                    <div>
+                                        <p className="text-muted-foreground text-sm">Region</p>
+                                        <p className="font-semibold">{branch.district?.region?.name || 'N/A'}</p>
+                                    </div>
+                                </div>
                             </CardContent>
                         </Card>
                     </div>
