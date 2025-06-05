@@ -27,6 +27,11 @@ class DatabaseSeeder extends Seeder
             CarouselSeeder::class,
             BankServiceSeeder::class,
             NewsAnnouncementSeeder::class,
+            RegionSeeder::class,
+            DistrictSeeder::class,
+            BranchSeeder::class,
+            ContactSeeder::class,
+            BranchServiceSeeder::class,
         ]);
 
         // \App\Models\User::factory()->create([
