@@ -1,5 +1,4 @@
 <?php
-<?php
 
 namespace Database\Seeders;
 
@@ -12,7 +11,7 @@ class ContactSeeder extends Seeder
     public function run(): void
     {
         $branches = Branch::take(20)->get();
-        
+
         $positions = [
             'Branch Manager',
             'Assistant Manager',
@@ -37,11 +36,11 @@ class ContactSeeder extends Seeder
         foreach ($branches as $branch) {
             // Create 2-4 contacts per branch
             $contactCount = rand(2, 4);
-            
+
             for ($i = 0; $i < $contactCount; $i++) {
                 $name = fake()->name();
-                $email = strtolower(str_replace(' ', '.', $name)) . '@genexis.com.pk';
-                
+                $email = strtolower(str_replace(' ', '.', $name)).'@genexis.com.pk';
+
                 Contact::create([
                     'name' => $name,
                     'email' => $email,
