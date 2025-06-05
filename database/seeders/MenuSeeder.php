@@ -40,6 +40,12 @@ class MenuSeeder extends Seeder
                         'route_name' => 'about.management',
                         'sort_order' => 2,
                     ],
+                    [
+                        'title' => 'Branch Network',
+                        'slug' => 'branch-network',
+                        'route_name' => 'about.branch-network',
+                        'sort_order' => 3,
+                    ],
                 ],
             ],
             [

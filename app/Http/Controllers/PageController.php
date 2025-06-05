@@ -313,6 +313,11 @@ class PageController extends Controller
         return inertia('Products/MicroFinances', ['schemes' => $schemes]);
     }
 
+    public function branchNetwork()
+    {
+        return inertia('BranchNetwork/Index');
+    }
+
     public function testComponent()
     {
         return Inertia::render('TestComponent');

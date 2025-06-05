@@ -42,6 +42,7 @@ Route::get('/', [PageController::class, 'home'])->name(name: 'home');
 Route::prefix('about-us')->name('about.')->group(function () {
     Route::get('/board-of-directors', [PageController::class, 'boardOfDirectors'])->name('board-directors');
     Route::get('/management', [PageController::class, 'management'])->name('management');
+    Route::get('/branch-network', [PageController::class, 'branchNetwork'])->name('branch-network');
 });
 
 Route::prefix('products')->name('products.')->group(function () {
@@ -77,7 +78,7 @@ Route::prefix('rates')->name('rates.')->group(function () {
 
 Route::get('/contact-us', [PageController::class, 'contact'])->name('contact');
 
-Route::get('/news', [PageController::class, 'news'])->name('news');
+Route::get('/news', [PageController::class, 'news'])->name(name: 'news');
 Route::get('/news/{slug}', [PageController::class, 'newsDetail'])->name('news.detail');
 
 // Admin routes (protected by auth middleware)
