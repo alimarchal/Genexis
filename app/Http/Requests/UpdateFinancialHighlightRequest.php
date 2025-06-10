@@ -11,18 +11,16 @@ class UpdateFinancialHighlightRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
+        $financialHighlightId = $this->route('financial_highlight')->id ?? null;
+
         return [
-            //
+            'fiscal_year' => 'required|integer|min:2000|max:'.(date('Y') + 5).'|unique:financial_highlights,fiscal_year,'.$financialHighlightId,
+            'financial_highlights' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:10240',
         ];
     }
 }

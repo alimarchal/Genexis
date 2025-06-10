@@ -62,10 +62,11 @@ const CommercialFinanceComponent: React.FC<CommercialFinanceProps> = ({ financeS
                             <button
                                 key={scheme.id}
                                 onClick={() => setActiveTab(index)}
-                                className={`flex items-center gap-2 rounded-lg px-4 py-3 font-medium transition-all duration-300 ${activeTab === index
+                                className={`flex items-center gap-2 rounded-lg px-4 py-3 font-medium transition-all duration-300 ${
+                                    activeTab === index
                                         ? `bg-gradient-to-r ${scheme.color} scale-105 transform text-white shadow-lg`
                                         : 'border border-gray-200 bg-white text-gray-600 hover:border-[#4A7C59]/30 hover:bg-gray-50 hover:text-[#4A7C59]'
-                                    }`}
+                                }`}
                             >
                                 {scheme.icon}
                                 <span className="hidden text-sm sm:inline">{scheme.title}</span>

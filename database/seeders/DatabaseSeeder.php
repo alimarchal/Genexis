@@ -33,6 +33,8 @@ class DatabaseSeeder extends Seeder
             ContactSeeder::class,
             BranchServiceSeeder::class,
             FinancialReportSeeder::class,
+            AnnualReportSeeder::class,
+            FinancialHighlightSeeder::class,
         ]);
 
         // \App\Models\User::factory()->create([

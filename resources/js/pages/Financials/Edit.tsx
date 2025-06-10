@@ -74,20 +74,15 @@ export default function EditFinancialReport({ financialReport }: Props) {
         setData(field, file);
     };
 
-    const renderFileUpload = (
-        field: keyof FinancialReportForm,
-        label: string,
-        existingFile: string | null,
-        existingFileUrl: string | null
-    ) => (
+    const renderFileUpload = (field: keyof FinancialReportForm, label: string, existingFile: string | null, existingFileUrl: string | null) => (
         <div>
             <Label htmlFor={field}>{label}</Label>
             <div className="mt-2">
                 {existingFile && !data[field] && (
-                    <div className="mb-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                    <div className="mb-4 rounded-lg border border-blue-200 bg-blue-50 p-4">
                         <div className="flex items-center justify-between">
                             <div className="flex items-center">
-                                <FileText className="w-5 h-5 text-blue-600 mr-2" />
+                                <FileText className="mr-2 h-5 w-5 text-blue-600" />
                                 <span className="text-sm text-blue-800">Current file available</span>
                             </div>
                             {existingFileUrl && (
@@ -95,7 +90,7 @@ export default function EditFinancialReport({ financialReport }: Props) {
                                     href={existingFileUrl}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="text-blue-600 hover:text-blue-800 text-sm underline"
+                                    className="text-sm text-blue-600 underline hover:text-blue-800"
                                 >
                                     View Current
                                 </a>
@@ -104,30 +99,20 @@ export default function EditFinancialReport({ financialReport }: Props) {
                     </div>
                 )}
 
-                <div className="flex items-center justify-center w-full">
+                <div className="flex w-full items-center justify-center">
                     <label
                         htmlFor={field}
-                        className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100"
+                        className="flex h-32 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100"
                     >
                         <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                            <Upload className="w-8 h-8 mb-2 text-gray-500" />
+                            <Upload className="mb-2 h-8 w-8 text-gray-500" />
                             <p className="mb-2 text-sm text-gray-500">
                                 <span className="font-semibold">Click to upload</span> {existingFile ? 'new' : ''} {label.toLowerCase()}
                             </p>
                             <p className="text-xs text-gray-500">PDF, JPG, PNG up to 10MB</p>
-                            {data[field] && (
-                                <p className="mt-2 text-sm text-green-600">
-                                    Selected: {(data[field] as File).name}
-                                </p>
-                            )}
+                            {data[field] && <p className="mt-2 text-sm text-green-600">Selected: {(data[field] as File).name}</p>}
                         </div>
-                        <Input
-                            id={field}
-                            type="file"
-                            accept=".pdf,.jpg,.jpeg,.png"
-                            onChange={handleFileChange(field)}
-                            className="hidden"
-                        />
+                        <Input id={field} type="file" accept=".pdf,.jpg,.jpeg,.png" onChange={handleFileChange(field)} className="hidden" />
                     </label>
                 </div>
             </div>
@@ -178,33 +163,28 @@ export default function EditFinancialReport({ financialReport }: Props) {
                                     'first_quarter_report',
                                     'First Quarter Report',
                                     financialReport.first_quarter_report,
-                                    financialReport.first_quarter_report_url
+                                    financialReport.first_quarter_report_url,
                                 )}
 
                                 {renderFileUpload(
                                     'half_yearly_report',
                                     'Half Yearly Report',
                                     financialReport.half_yearly_report,
-                                    financialReport.half_yearly_report_url
+                                    financialReport.half_yearly_report_url,
                                 )}
 
                                 {renderFileUpload(
                                     'third_quarter_report',
                                     'Third Quarter Report',
                                     financialReport.third_quarter_report,
-                                    financialReport.third_quarter_report_url
+                                    financialReport.third_quarter_report_url,
                                 )}
 
-                                {renderFileUpload(
-                                    'annual_report',
-                                    'Annual Report',
-                                    financialReport.annual_report,
-                                    financialReport.annual_report_url
-                                )}
+                                {renderFileUpload('annual_report', 'Annual Report', financialReport.annual_report, financialReport.annual_report_url)}
                             </div>
 
                             {/* Submit Button */}
-                            <div className="flex justify-end gap-2 mt-8">
+                            <div className="mt-8 flex justify-end gap-2">
                                 <Button type="button" variant="outline" asChild>
                                     <Link href={route('financial-reports.index')}>Cancel</Link>
                                 </Button>

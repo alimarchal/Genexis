@@ -1,5 +1,5 @@
 import WebsiteLayout from '@/layouts/WebsiteLayout';
-import { FileText, Download, Calendar, Building2 } from 'lucide-react';
+import { Building2, Calendar, Download, FileText } from 'lucide-react';
 
 interface FinancialReport {
     id: number;
@@ -29,7 +29,7 @@ const FinancialStatements = ({ financialReports }: FinancialStatementsProps) => 
             first_quarter: 'Q1 Report',
             half_yearly: 'Half-Yearly Report',
             third_quarter: 'Q3 Report',
-            annual: 'Annual Report'
+            annual: 'Annual Report',
         };
         return names[type as keyof typeof names] || type;
     };
@@ -39,7 +39,7 @@ const FinancialStatements = ({ financialReports }: FinancialStatementsProps) => 
             first_quarter: `Q1 ${year}`,
             half_yearly: `H1 ${year}`,
             third_quarter: `Q3 ${year}`,
-            annual: `FY ${year}`
+            annual: `FY ${year}`,
         };
         return periods[type as keyof typeof periods] || `${year}`;
     };
@@ -60,16 +60,17 @@ const FinancialStatements = ({ financialReports }: FinancialStatementsProps) => 
                     </div>
                     <h1 className="mb-4 text-4xl font-bold text-gray-900">Financial Statements</h1>
                     <p className="mx-auto mb-8 max-w-3xl text-xl text-gray-600">
-                        Access our comprehensive financial reports including quarterly statements, half-yearly reports, and annual financial statements.
+                        Access our comprehensive financial reports including quarterly statements, half-yearly reports, and annual financial
+                        statements.
                     </p>
                 </div>
 
                 {/* Financial Reports Grid */}
                 <div className="space-y-8">
                     {financialReports.length === 0 ? (
-                        <div className="text-center py-12">
-                            <FileText className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-                            <h3 className="text-lg font-medium text-gray-900 mb-2">No Financial Reports Available</h3>
+                        <div className="py-12 text-center">
+                            <FileText className="mx-auto mb-4 h-12 w-12 text-gray-400" />
+                            <h3 className="mb-2 text-lg font-medium text-gray-900">No Financial Reports Available</h3>
                             <p className="text-gray-600">Financial reports will be published here as they become available.</p>
                         </div>
                     ) : (
@@ -91,8 +92,8 @@ const FinancialStatements = ({ financialReports }: FinancialStatementsProps) => 
                                             </div>
                                         </div>
                                         <div className="text-right">
-                                            <p className="text-white/80 text-sm">Published</p>
-                                            <p className="text-white font-medium">{report.created_at}</p>
+                                            <p className="text-sm text-white/80">Published</p>
+                                            <p className="font-medium text-white">{report.created_at}</p>
                                         </div>
                                     </div>
                                     <div className="absolute top-0 right-0 h-32 w-32 translate-x-16 -translate-y-16 transform rounded-full bg-gradient-to-bl from-[#F9B912]/20 to-transparent" />
@@ -104,22 +105,20 @@ const FinancialStatements = ({ financialReports }: FinancialStatementsProps) => 
                                         {/* First Quarter Report */}
                                         {report.first_quarter_report && report.first_quarter_report_url && (
                                             <div className="group rounded-xl border border-[#4A7C59]/20 bg-gradient-to-br from-white to-[#4A7C59]/5 p-6 transition-all duration-300 hover:border-[#4A7C59]/40 hover:shadow-lg">
-                                                <div className="flex items-start justify-between mb-4">
-                                                    <div className="rounded-lg bg-[#4A7C59]/10 p-2 group-hover:bg-[#4A7C59]/20 transition-colors">
+                                                <div className="mb-4 flex items-start justify-between">
+                                                    <div className="rounded-lg bg-[#4A7C59]/10 p-2 transition-colors group-hover:bg-[#4A7C59]/20">
                                                         {getReportIcon('first_quarter')}
                                                     </div>
-                                                    <span className="text-xs font-medium text-[#4A7C59] bg-[#4A7C59]/10 px-2 py-1 rounded-full">
+                                                    <span className="rounded-full bg-[#4A7C59]/10 px-2 py-1 text-xs font-medium text-[#4A7C59]">
                                                         {getReportPeriod('first_quarter', report.fiscal_year)}
                                                     </span>
                                                 </div>
-                                                <h3 className="font-semibold text-gray-900 mb-2">
-                                                    {getReportTypeName('first_quarter')}
-                                                </h3>
-                                                <p className="text-sm text-gray-600 mb-4">
-                                                    Quarterly financial performance and key metrics
-                                                </p>
+                                                <h3 className="mb-2 font-semibold text-gray-900">{getReportTypeName('first_quarter')}</h3>
+                                                <p className="mb-4 text-sm text-gray-600">Quarterly financial performance and key metrics</p>
                                                 <button
-                                                    onClick={() => downloadFile(report.first_quarter_report_url!, 'Q1-Report-' + report.fiscal_year + '.pdf')}
+                                                    onClick={() =>
+                                                        downloadFile(report.first_quarter_report_url!, 'Q1-Report-' + report.fiscal_year + '.pdf')
+                                                    }
                                                     className="flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A] px-4 py-2 text-sm font-medium text-white transition-all duration-300 hover:scale-105 hover:shadow-lg"
                                                 >
                                                     <Download className="h-4 w-4" />
@@ -131,22 +130,23 @@ const FinancialStatements = ({ financialReports }: FinancialStatementsProps) => 
                                         {/* Half Yearly Report */}
                                         {report.half_yearly_report && report.half_yearly_report_url && (
                                             <div className="group rounded-xl border border-[#4A7C59]/20 bg-gradient-to-br from-white to-[#4A7C59]/5 p-6 transition-all duration-300 hover:border-[#4A7C59]/40 hover:shadow-lg">
-                                                <div className="flex items-start justify-between mb-4">
-                                                    <div className="rounded-lg bg-[#4A7C59]/10 p-2 group-hover:bg-[#4A7C59]/20 transition-colors">
+                                                <div className="mb-4 flex items-start justify-between">
+                                                    <div className="rounded-lg bg-[#4A7C59]/10 p-2 transition-colors group-hover:bg-[#4A7C59]/20">
                                                         {getReportIcon('half_yearly')}
                                                     </div>
-                                                    <span className="text-xs font-medium text-[#4A7C59] bg-[#4A7C59]/10 px-2 py-1 rounded-full">
+                                                    <span className="rounded-full bg-[#4A7C59]/10 px-2 py-1 text-xs font-medium text-[#4A7C59]">
                                                         {getReportPeriod('half_yearly', report.fiscal_year)}
                                                     </span>
                                                 </div>
-                                                <h3 className="font-semibold text-gray-900 mb-2">
-                                                    {getReportTypeName('half_yearly')}
-                                                </h3>
-                                                <p className="text-sm text-gray-600 mb-4">
-                                                    Six months comprehensive financial review
-                                                </p>
+                                                <h3 className="mb-2 font-semibold text-gray-900">{getReportTypeName('half_yearly')}</h3>
+                                                <p className="mb-4 text-sm text-gray-600">Six months comprehensive financial review</p>
                                                 <button
-                                                    onClick={() => downloadFile(report.half_yearly_report_url!, 'Half-Yearly-Report-' + report.fiscal_year + '.pdf')}
+                                                    onClick={() =>
+                                                        downloadFile(
+                                                            report.half_yearly_report_url!,
+                                                            'Half-Yearly-Report-' + report.fiscal_year + '.pdf',
+                                                        )
+                                                    }
                                                     className="flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A] px-4 py-2 text-sm font-medium text-white transition-all duration-300 hover:scale-105 hover:shadow-lg"
                                                 >
                                                     <Download className="h-4 w-4" />
@@ -158,22 +158,20 @@ const FinancialStatements = ({ financialReports }: FinancialStatementsProps) => 
                                         {/* Third Quarter Report */}
                                         {report.third_quarter_report && report.third_quarter_report_url && (
                                             <div className="group rounded-xl border border-[#4A7C59]/20 bg-gradient-to-br from-white to-[#4A7C59]/5 p-6 transition-all duration-300 hover:border-[#4A7C59]/40 hover:shadow-lg">
-                                                <div className="flex items-start justify-between mb-4">
-                                                    <div className="rounded-lg bg-[#4A7C59]/10 p-2 group-hover:bg-[#4A7C59]/20 transition-colors">
+                                                <div className="mb-4 flex items-start justify-between">
+                                                    <div className="rounded-lg bg-[#4A7C59]/10 p-2 transition-colors group-hover:bg-[#4A7C59]/20">
                                                         {getReportIcon('third_quarter')}
                                                     </div>
-                                                    <span className="text-xs font-medium text-[#4A7C59] bg-[#4A7C59]/10 px-2 py-1 rounded-full">
+                                                    <span className="rounded-full bg-[#4A7C59]/10 px-2 py-1 text-xs font-medium text-[#4A7C59]">
                                                         {getReportPeriod('third_quarter', report.fiscal_year)}
                                                     </span>
                                                 </div>
-                                                <h3 className="font-semibold text-gray-900 mb-2">
-                                                    {getReportTypeName('third_quarter')}
-                                                </h3>
-                                                <p className="text-sm text-gray-600 mb-4">
-                                                    Nine months cumulative financial analysis
-                                                </p>
+                                                <h3 className="mb-2 font-semibold text-gray-900">{getReportTypeName('third_quarter')}</h3>
+                                                <p className="mb-4 text-sm text-gray-600">Nine months cumulative financial analysis</p>
                                                 <button
-                                                    onClick={() => downloadFile(report.third_quarter_report_url!, 'Q3-Report-' + report.fiscal_year + '.pdf')}
+                                                    onClick={() =>
+                                                        downloadFile(report.third_quarter_report_url!, 'Q3-Report-' + report.fiscal_year + '.pdf')
+                                                    }
                                                     className="flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A] px-4 py-2 text-sm font-medium text-white transition-all duration-300 hover:scale-105 hover:shadow-lg"
                                                 >
                                                     <Download className="h-4 w-4" />
@@ -185,22 +183,20 @@ const FinancialStatements = ({ financialReports }: FinancialStatementsProps) => 
                                         {/* Annual Report */}
                                         {report.annual_report && report.annual_report_url && (
                                             <div className="group rounded-xl border border-[#4A7C59]/20 bg-gradient-to-br from-white to-[#4A7C59]/5 p-6 transition-all duration-300 hover:border-[#4A7C59]/40 hover:shadow-lg">
-                                                <div className="flex items-start justify-between mb-4">
-                                                    <div className="rounded-lg bg-[#4A7C59]/10 p-2 group-hover:bg-[#4A7C59]/20 transition-colors">
+                                                <div className="mb-4 flex items-start justify-between">
+                                                    <div className="rounded-lg bg-[#4A7C59]/10 p-2 transition-colors group-hover:bg-[#4A7C59]/20">
                                                         {getReportIcon('annual')}
                                                     </div>
-                                                    <span className="text-xs font-medium text-[#4A7C59] bg-[#4A7C59]/10 px-2 py-1 rounded-full">
+                                                    <span className="rounded-full bg-[#4A7C59]/10 px-2 py-1 text-xs font-medium text-[#4A7C59]">
                                                         {getReportPeriod('annual', report.fiscal_year)}
                                                     </span>
                                                 </div>
-                                                <h3 className="font-semibold text-gray-900 mb-2">
-                                                    {getReportTypeName('annual')}
-                                                </h3>
-                                                <p className="text-sm text-gray-600 mb-4">
-                                                    Complete annual financial statement and audit
-                                                </p>
+                                                <h3 className="mb-2 font-semibold text-gray-900">{getReportTypeName('annual')}</h3>
+                                                <p className="mb-4 text-sm text-gray-600">Complete annual financial statement and audit</p>
                                                 <button
-                                                    onClick={() => downloadFile(report.annual_report_url!, 'Annual-Report-' + report.fiscal_year + '.pdf')}
+                                                    onClick={() =>
+                                                        downloadFile(report.annual_report_url!, 'Annual-Report-' + report.fiscal_year + '.pdf')
+                                                    }
                                                     className="flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A] px-4 py-2 text-sm font-medium text-white transition-all duration-300 hover:scale-105 hover:shadow-lg"
                                                 >
                                                     <Download className="h-4 w-4" />
@@ -211,12 +207,15 @@ const FinancialStatements = ({ financialReports }: FinancialStatementsProps) => 
                                     </div>
 
                                     {/* No reports available message for this year */}
-                                    {!report.first_quarter_report && !report.half_yearly_report && !report.third_quarter_report && !report.annual_report && (
-                                        <div className="text-center py-8">
-                                            <FileText className="mx-auto h-8 w-8 text-gray-400 mb-3" />
-                                            <p className="text-gray-600">No reports available for FY {report.fiscal_year}</p>
-                                        </div>
-                                    )}
+                                    {!report.first_quarter_report &&
+                                        !report.half_yearly_report &&
+                                        !report.third_quarter_report &&
+                                        !report.annual_report && (
+                                            <div className="py-8 text-center">
+                                                <FileText className="mx-auto mb-3 h-8 w-8 text-gray-400" />
+                                                <p className="text-gray-600">No reports available for FY {report.fiscal_year}</p>
+                                            </div>
+                                        )}
                                 </div>
                             </div>
                         ))
@@ -224,19 +223,25 @@ const FinancialStatements = ({ financialReports }: FinancialStatementsProps) => 
                 </div>
 
                 {/* Information Section */}
-                <div className="mt-12 rounded-xl bg-white border border-gray-100 p-8 shadow-lg">
+                <div className="mt-12 rounded-xl border border-gray-100 bg-white p-8 shadow-lg">
                     <h3 className="mb-4 text-xl font-semibold text-[#4A7C59]">Important Information</h3>
                     <div className="grid gap-4 md:grid-cols-2">
                         <div>
-                            <h4 className="font-medium text-gray-900 mb-2">Report Types</h4>
+                            <h4 className="mb-2 font-medium text-gray-900">Report Types</h4>
                             <ul className="space-y-1 text-sm text-gray-600">
-                                <li>• <strong>Quarterly Reports:</strong> Q1 and Q3 financial summaries</li>
-                                <li>• <strong>Half-Yearly Report:</strong> Six months comprehensive review</li>
-                                <li>• <strong>Annual Report:</strong> Complete yearly financial statement</li>
+                                <li>
+                                    • <strong>Quarterly Reports:</strong> Q1 and Q3 financial summaries
+                                </li>
+                                <li>
+                                    • <strong>Half-Yearly Report:</strong> Six months comprehensive review
+                                </li>
+                                <li>
+                                    • <strong>Annual Report:</strong> Complete yearly financial statement
+                                </li>
                             </ul>
                         </div>
                         <div>
-                            <h4 className="font-medium text-gray-900 mb-2">File Information</h4>
+                            <h4 className="mb-2 font-medium text-gray-900">File Information</h4>
                             <ul className="space-y-1 text-sm text-gray-600">
                                 <li>• All reports are available in PDF format</li>
                                 <li>• Files are optimized for download and printing</li>

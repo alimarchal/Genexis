@@ -2,16 +2,38 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\FinancialHighlight;
 use Illuminate\Database\Seeder;
 
 class FinancialHighlightSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        //
+        $highlights = [
+            [
+                'fiscal_year' => 2020,
+                'financial_highlights' => 'financial-highlights/highlights-2020.pdf',
+            ],
+            [
+                'fiscal_year' => 2021,
+                'financial_highlights' => 'financial-highlights/highlights-2021.pdf',
+            ],
+            [
+                'fiscal_year' => 2022,
+                'financial_highlights' => 'financial-highlights/highlights-2022.pdf',
+            ],
+            [
+                'fiscal_year' => 2023,
+                'financial_highlights' => 'financial-highlights/highlights-2023.pdf',
+            ],
+            [
+                'fiscal_year' => 2024,
+                'financial_highlights' => 'financial-highlights/highlights-2024.pdf',
+            ],
+        ];
+
+        foreach ($highlights as $highlight) {
+            FinancialHighlight::create($highlight);
+        }
     }
 }

@@ -1,12 +1,14 @@
 <?php
 
 use App\Http\Controllers\Admin\MenuController;
+use App\Http\Controllers\AnnualReportController;
 use App\Http\Controllers\BankServiceController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\BranchServiceController;
 use App\Http\Controllers\CarouselController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DistrictController;
+use App\Http\Controllers\FinancialHighlightController;
 use App\Http\Controllers\FinancialReportController;
 use App\Http\Controllers\ManagmentController;
 use App\Http\Controllers\NewsAnnouncementController;
@@ -26,6 +28,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('bank-services', BankServiceController::class);
     Route::resource('news-announcements', NewsAnnouncementController::class);
     Route::resource('financial-reports', FinancialReportController::class);
+    Route::resource('annual-reports', AnnualReportController::class);
+    Route::resource('financial-highlights', FinancialHighlightController::class);
+
+    // Download routes
+    Route::get('annual-reports/{annual_report}/download', [AnnualReportController::class, 'download'])->name('annual-reports.download');
+    Route::get('financial-highlights/{financial_highlight}/download', [FinancialHighlightController::class, 'download'])->name('financial-highlights.download');
 
     // New CRUD routes
     Route::resource('regions', RegionController::class);

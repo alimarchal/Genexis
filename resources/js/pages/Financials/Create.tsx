@@ -66,7 +66,10 @@ export default function CreateFinancialReport() {
                     </Button>
                 </div>
 
-                <Heading title="Create Financial Report" description="Add a new financial report for a fiscal year with quarterly and annual reports" />
+                <Heading
+                    title="Create Financial Report"
+                    description="Add a new financial report for a fiscal year with quarterly and annual reports"
+                />
 
                 <form onSubmit={submit} className="max-w-4xl">
                     <Card>
@@ -95,21 +98,19 @@ export default function CreateFinancialReport() {
                                 <div>
                                     <Label htmlFor="first_quarter_report">First Quarter Report</Label>
                                     <div className="mt-2">
-                                        <div className="flex items-center justify-center w-full">
+                                        <div className="flex w-full items-center justify-center">
                                             <label
                                                 htmlFor="first_quarter_report"
-                                                className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100"
+                                                className="flex h-32 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100"
                                             >
                                                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                                                    <Upload className="w-8 h-8 mb-2 text-gray-500" />
+                                                    <Upload className="mb-2 h-8 w-8 text-gray-500" />
                                                     <p className="mb-2 text-sm text-gray-500">
                                                         <span className="font-semibold">Click to upload</span> Q1 report
                                                     </p>
                                                     <p className="text-xs text-gray-500">PDF, JPG, PNG up to 10MB</p>
                                                     {data.first_quarter_report && (
-                                                        <p className="mt-2 text-sm text-green-600">
-                                                            Selected: {data.first_quarter_report.name}
-                                                        </p>
+                                                        <p className="mt-2 text-sm text-green-600">Selected: {data.first_quarter_report.name}</p>
                                                     )}
                                                 </div>
                                                 <Input
@@ -129,21 +130,19 @@ export default function CreateFinancialReport() {
                                 <div>
                                     <Label htmlFor="half_yearly_report">Half Yearly Report</Label>
                                     <div className="mt-2">
-                                        <div className="flex items-center justify-center w-full">
+                                        <div className="flex w-full items-center justify-center">
                                             <label
                                                 htmlFor="half_yearly_report"
-                                                className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100"
+                                                className="flex h-32 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100"
                                             >
                                                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                                                    <Upload className="w-8 h-8 mb-2 text-gray-500" />
+                                                    <Upload className="mb-2 h-8 w-8 text-gray-500" />
                                                     <p className="mb-2 text-sm text-gray-500">
                                                         <span className="font-semibold">Click to upload</span> Half yearly report
                                                     </p>
                                                     <p className="text-xs text-gray-500">PDF, JPG, PNG up to 10MB</p>
                                                     {data.half_yearly_report && (
-                                                        <p className="mt-2 text-sm text-green-600">
-                                                            Selected: {data.half_yearly_report.name}
-                                                        </p>
+                                                        <p className="mt-2 text-sm text-green-600">Selected: {data.half_yearly_report.name}</p>
                                                     )}
                                                 </div>
                                                 <Input
@@ -163,21 +162,19 @@ export default function CreateFinancialReport() {
                                 <div>
                                     <Label htmlFor="third_quarter_report">Third Quarter Report</Label>
                                     <div className="mt-2">
-                                        <div className="flex items-center justify-center w-full">
+                                        <div className="flex w-full items-center justify-center">
                                             <label
                                                 htmlFor="third_quarter_report"
-                                                className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100"
+                                                className="flex h-32 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100"
                                             >
                                                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                                                    <Upload className="w-8 h-8 mb-2 text-gray-500" />
+                                                    <Upload className="mb-2 h-8 w-8 text-gray-500" />
                                                     <p className="mb-2 text-sm text-gray-500">
                                                         <span className="font-semibold">Click to upload</span> Q3 report
                                                     </p>
                                                     <p className="text-xs text-gray-500">PDF, JPG, PNG up to 10MB</p>
                                                     {data.third_quarter_report && (
-                                                        <p className="mt-2 text-sm text-green-600">
-                                                            Selected: {data.third_quarter_report.name}
-                                                        </p>
+                                                        <p className="mt-2 text-sm text-green-600">Selected: {data.third_quarter_report.name}</p>
                                                     )}
                                                 </div>
                                                 <Input
@@ -197,21 +194,19 @@ export default function CreateFinancialReport() {
                                 <div>
                                     <Label htmlFor="annual_report">Annual Report</Label>
                                     <div className="mt-2">
-                                        <div className="flex items-center justify-center w-full">
+                                        <div className="flex w-full items-center justify-center">
                                             <label
                                                 htmlFor="annual_report"
-                                                className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100"
+                                                className="flex h-32 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100"
                                             >
                                                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                                                    <Upload className="w-8 h-8 mb-2 text-gray-500" />
+                                                    <Upload className="mb-2 h-8 w-8 text-gray-500" />
                                                     <p className="mb-2 text-sm text-gray-500">
                                                         <span className="font-semibold">Click to upload</span> Annual report
                                                     </p>
                                                     <p className="text-xs text-gray-500">PDF, JPG, PNG up to 10MB</p>
                                                     {data.annual_report && (
-                                                        <p className="mt-2 text-sm text-green-600">
-                                                            Selected: {data.annual_report.name}
-                                                        </p>
+                                                        <p className="mt-2 text-sm text-green-600">Selected: {data.annual_report.name}</p>
                                                     )}
                                                 </div>
                                                 <Input
@@ -229,7 +224,7 @@ export default function CreateFinancialReport() {
                             </div>
 
                             {/* Submit Button */}
-                            <div className="flex justify-end gap-2 mt-8">
+                            <div className="mt-8 flex justify-end gap-2">
                                 <Button type="button" variant="outline" asChild>
                                     <Link href={route('financial-reports.index')}>Cancel</Link>
                                 </Button>

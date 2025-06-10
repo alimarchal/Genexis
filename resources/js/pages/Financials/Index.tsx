@@ -10,12 +10,11 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
-import { Download, Edit, Eye, FileText, MoreHorizontal, Plus, Search, Trash } from 'lucide-react';
+import { Edit, Eye, FileText, MoreHorizontal, Plus, Search, Trash } from 'lucide-react';
 import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -84,12 +83,7 @@ export default function FinancialReportsIndex({ financialReports, filters }: Pro
     };
 
     const getAvailableReportsCount = (report: FinancialReport) => {
-        const reports = [
-            report.first_quarter_report,
-            report.half_yearly_report,
-            report.third_quarter_report,
-            report.annual_report,
-        ];
+        const reports = [report.first_quarter_report, report.half_yearly_report, report.third_quarter_report, report.annual_report];
         return reports.filter(Boolean).length;
     };
 
@@ -214,9 +208,7 @@ export default function FinancialReportsIndex({ financialReports, filters }: Pro
                                             )}
                                         </TableCell>
                                         <TableCell>
-                                            <Badge variant="secondary">
-                                                {getAvailableReportsCount(report)} of 4
-                                            </Badge>
+                                            <Badge variant="secondary">{getAvailableReportsCount(report)} of 4</Badge>
                                         </TableCell>
                                         <TableCell>{formatDate(report.created_at)}</TableCell>
                                         <TableCell>
@@ -242,10 +234,7 @@ export default function FinancialReportsIndex({ financialReports, filters }: Pro
                                                         </Link>
                                                     </DropdownMenuItem>
                                                     <DropdownMenuSeparator />
-                                                    <DropdownMenuItem
-                                                        className="text-red-600"
-                                                        onClick={() => handleDelete(report.id)}
-                                                    >
+                                                    <DropdownMenuItem className="text-red-600" onClick={() => handleDelete(report.id)}>
                                                         <Trash className="mr-2 h-4 w-4" />
                                                         Delete
                                                     </DropdownMenuItem>
@@ -270,8 +259,8 @@ export default function FinancialReportsIndex({ financialReports, filters }: Pro
                     <div className="mt-6 flex items-center justify-between">
                         <p className="text-muted-foreground text-sm">
                             Showing {(financialReports.current_page - 1) * financialReports.per_page + 1} to{' '}
-                            {Math.min(financialReports.current_page * financialReports.per_page, financialReports.total)} of{' '}
-                            {financialReports.total} results
+                            {Math.min(financialReports.current_page * financialReports.per_page, financialReports.total)} of {financialReports.total}{' '}
+                            results
                         </p>
                     </div>
                 )}

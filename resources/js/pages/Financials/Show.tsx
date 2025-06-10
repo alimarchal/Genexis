@@ -126,28 +126,30 @@ export default function ShowFinancialReport({ financialReport }: Props) {
                             </CardHeader>
                             <CardContent className="space-y-4">
                                 {reportSections.map((report) => (
-                                    <div key={report.title} className="flex items-center justify-between p-4 border rounded-lg">
+                                    <div key={report.title} className="flex items-center justify-between rounded-lg border p-4">
                                         <div className="flex items-center space-x-3">
                                             <div className="flex-shrink-0">
-                                                <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                                                    <FileText className="w-5 h-5 text-blue-600" />
+                                                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-100">
+                                                    <FileText className="h-5 w-5 text-blue-600" />
                                                 </div>
                                             </div>
                                             <div>
                                                 <h4 className="font-medium">{report.title}</h4>
-                                                <p className="text-sm text-gray-500">{report.period} {financialReport.fiscal_year}</p>
+                                                <p className="text-sm text-gray-500">
+                                                    {report.period} {financialReport.fiscal_year}
+                                                </p>
                                             </div>
                                         </div>
                                         <div className="flex items-center space-x-2">
                                             {report.file ? (
                                                 <>
-                                                    <Badge variant="secondary" className="text-green-700 bg-green-100">
+                                                    <Badge variant="secondary" className="bg-green-100 text-green-700">
                                                         Available
                                                     </Badge>
                                                     {report.url && (
                                                         <Button size="sm" variant="outline" asChild>
                                                             <a href={report.url} target="_blank" rel="noopener noreferrer">
-                                                                <Download className="w-4 h-4 mr-1" />
+                                                                <Download className="mr-1 h-4 w-4" />
                                                                 Download
                                                             </a>
                                                         </Button>
@@ -231,9 +233,7 @@ export default function ShowFinancialReport({ financialReport }: Props) {
                                     <div>
                                         <dt className="text-sm font-medium text-gray-500">Available Reports</dt>
                                         <dd className="mt-1">
-                                            <Badge variant="outline">
-                                                {getAvailableReportsCount()} of 4 reports
-                                            </Badge>
+                                            <Badge variant="outline">{getAvailableReportsCount()} of 4 reports</Badge>
                                         </dd>
                                     </div>
                                     <div>
@@ -256,7 +256,7 @@ export default function ShowFinancialReport({ financialReport }: Props) {
                                 <CardTitle>Report ID</CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <p className="text-sm font-mono text-gray-600">#{financialReport.id}</p>
+                                <p className="font-mono text-sm text-gray-600">#{financialReport.id}</p>
                             </CardContent>
                         </Card>
                     </div>

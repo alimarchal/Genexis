@@ -144,10 +144,11 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({ branches, selectedRegio
                             >
                                 {/* Marker */}
                                 <div
-                                    className={`relative flex items-center justify-center rounded-full shadow-lg transition-all duration-200 ${isMainBranch
+                                    className={`relative flex items-center justify-center rounded-full shadow-lg transition-all duration-200 ${
+                                        isMainBranch
                                             ? 'h-4 w-4 border-2 border-white bg-blue-600 group-hover:h-5 group-hover:w-5'
                                             : 'h-3 w-3 border border-white bg-green-600 group-hover:h-4 group-hover:w-4'
-                                        } ${selectedBranch?.id === branch.id ? 'ring-2 ring-yellow-400' : ''} `}
+                                    } ${selectedBranch?.id === branch.id ? 'ring-2 ring-yellow-400' : ''} `}
                                 >
                                     {isMainBranch && <div className="h-1.5 w-1.5 rounded-full bg-white"></div>}
                                 </div>
@@ -205,8 +206,9 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({ branches, selectedRegio
                                     <h3 className="text-xl font-bold text-gray-900">{selectedBranch.name}</h3>
                                     <p className="text-sm text-gray-600">Code: {selectedBranch.code}</p>
                                     <div
-                                        className={`mt-2 inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${selectedBranch.is_open ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                                            }`}
+                                        className={`mt-2 inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${
+                                            selectedBranch.is_open ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                                        }`}
                                     >
                                         {selectedBranch.is_open ? 'Open' : 'Closed'}
                                         {selectedBranch.today_hours && <span className="ml-1">• {selectedBranch.today_hours}</span>}

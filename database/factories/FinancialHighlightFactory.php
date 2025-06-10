@@ -16,8 +16,12 @@ class FinancialHighlightFactory extends Factory
      */
     public function definition(): array
     {
+        $year = fake()->unique()->numberBetween(2000, 2030);
+        $hasHighlights = fake()->boolean(80); // 80% chance of having highlights
+
         return [
-            //
+            'fiscal_year' => $year,
+            'financial_highlights' => $hasHighlights ? 'financial-highlights/highlights-'.$year.'.pdf' : null,
         ];
     }
 }

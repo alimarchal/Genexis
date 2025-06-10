@@ -165,13 +165,13 @@ class MenuSeeder extends Seeder
                     [
                         'title' => 'Annual Reports',
                         'slug' => 'annual-reports',
-                        'url' => '#',
+                        'route_name' => 'financials.annualReports',
                         'sort_order' => 2,
                     ],
                     [
                         'title' => 'Financial Highlights',
                         'slug' => 'financial-highlights',
-                        'url' => '#',
+                        'route_name' => 'financials.financialHighlights',
                         'target' => '_blank',
                         'sort_order' => 3,
                     ],
