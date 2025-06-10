@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePageRequest;
 use App\Http\Requests\UpdatePageRequest;
+use App\Models\AnnualReport;
 use App\Models\BankService;
 use App\Models\BoardOfDirector;
 use App\Models\Branch;
 use App\Models\Carousel;
 use App\Models\District;
+use App\Models\FinancialHighlight;
 use App\Models\FinancialReport;
 use App\Models\Managment;
 use App\Models\NewsAnnouncement;
@@ -441,6 +443,46 @@ class PageController extends Controller
 
         return Inertia::render('Financials/Statements', [
             'financialReports' => $financialReports,
+        ]);
+    }
+
+    public function annualReports()
+    {
+        $annualReports = AnnualReport::orderBy('annual_report_fiscal_year', 'desc')
+            ->get()
+            ->map(function ($report) {
+                return [
+                    'id' => $report->id,
+                    'fiscal_year' => $report->annual_report_fiscal_year,
+                    'file_name' => $report->annual_report ? basename($report->annual_report) : null,
+                    'file_size' => $report->annual_report ? (file_exists(storage_path('app/public/'.$report->annual_report)) ? filesize(storage_path('app/public/'.$report->annual_report)) : 0) : 0,
+                    'download_url' => $report->annual_report ? route('annual-reports.download', $report) : null,
+                    'created_at' => $report->created_at->format('M d, Y'),
+                ];
+            });
+
+        return Inertia::render('AnnualReports/PublicIndex', [
+            'annualReports' => $annualReports,
+        ]);
+    }
+
+    public function financialHighlights()
+    {
+        $financialHighlights = FinancialHighlight::orderBy('fiscal_year', 'desc')
+            ->get()
+            ->map(function ($highlight) {
+                return [
+                    'id' => $highlight->id,
+                    'fiscal_year' => $highlight->fiscal_year,
+                    'file_name' => $highlight->financial_highlights ? basename($highlight->financial_highlights) : null,
+                    'file_size' => $highlight->financial_highlights ? (file_exists(storage_path('app/public/'.$highlight->financial_highlights)) ? filesize(storage_path('app/public/'.$highlight->financial_highlights)) : 0) : 0,
+                    'download_url' => $highlight->financial_highlights ? route('financial-highlights.download', $highlight) : null,
+                    'created_at' => $highlight->created_at->format('M d, Y'),
+                ];
+            });
+
+        return Inertia::render('FinancialHighlights/PublicIndex', [
+            'financialHighlights' => $financialHighlights,
         ]);
     }
 }

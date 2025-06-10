@@ -20,7 +20,7 @@ interface FinancialStatementsProps {
 }
 
 const FinancialStatements = ({ financialReports }: FinancialStatementsProps) => {
-    const downloadFile = (url: string, fileName: string) => {
+    const downloadFile = (url: string) => {
         window.open(url, '_blank');
     };
 
@@ -44,7 +44,7 @@ const FinancialStatements = ({ financialReports }: FinancialStatementsProps) => 
         return periods[type as keyof typeof periods] || `${year}`;
     };
 
-    const getReportIcon = (type: string) => {
+    const getReportIcon = () => {
         return <FileText className="h-5 w-5" />;
     };
 
@@ -107,7 +107,7 @@ const FinancialStatements = ({ financialReports }: FinancialStatementsProps) => 
                                             <div className="group rounded-xl border border-[#4A7C59]/20 bg-gradient-to-br from-white to-[#4A7C59]/5 p-6 transition-all duration-300 hover:border-[#4A7C59]/40 hover:shadow-lg">
                                                 <div className="mb-4 flex items-start justify-between">
                                                     <div className="rounded-lg bg-[#4A7C59]/10 p-2 transition-colors group-hover:bg-[#4A7C59]/20">
-                                                        {getReportIcon('first_quarter')}
+                                                        {getReportIcon()}
                                                     </div>
                                                     <span className="rounded-full bg-[#4A7C59]/10 px-2 py-1 text-xs font-medium text-[#4A7C59]">
                                                         {getReportPeriod('first_quarter', report.fiscal_year)}
@@ -117,7 +117,7 @@ const FinancialStatements = ({ financialReports }: FinancialStatementsProps) => 
                                                 <p className="mb-4 text-sm text-gray-600">Quarterly financial performance and key metrics</p>
                                                 <button
                                                     onClick={() =>
-                                                        downloadFile(report.first_quarter_report_url!, 'Q1-Report-' + report.fiscal_year + '.pdf')
+                                                        downloadFile(report.first_quarter_report_url!)
                                                     }
                                                     className="flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A] px-4 py-2 text-sm font-medium text-white transition-all duration-300 hover:scale-105 hover:shadow-lg"
                                                 >
@@ -132,7 +132,7 @@ const FinancialStatements = ({ financialReports }: FinancialStatementsProps) => 
                                             <div className="group rounded-xl border border-[#4A7C59]/20 bg-gradient-to-br from-white to-[#4A7C59]/5 p-6 transition-all duration-300 hover:border-[#4A7C59]/40 hover:shadow-lg">
                                                 <div className="mb-4 flex items-start justify-between">
                                                     <div className="rounded-lg bg-[#4A7C59]/10 p-2 transition-colors group-hover:bg-[#4A7C59]/20">
-                                                        {getReportIcon('half_yearly')}
+                                                        {getReportIcon()}
                                                     </div>
                                                     <span className="rounded-full bg-[#4A7C59]/10 px-2 py-1 text-xs font-medium text-[#4A7C59]">
                                                         {getReportPeriod('half_yearly', report.fiscal_year)}
@@ -144,7 +144,6 @@ const FinancialStatements = ({ financialReports }: FinancialStatementsProps) => 
                                                     onClick={() =>
                                                         downloadFile(
                                                             report.half_yearly_report_url!,
-                                                            'Half-Yearly-Report-' + report.fiscal_year + '.pdf',
                                                         )
                                                     }
                                                     className="flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A] px-4 py-2 text-sm font-medium text-white transition-all duration-300 hover:scale-105 hover:shadow-lg"
@@ -160,7 +159,7 @@ const FinancialStatements = ({ financialReports }: FinancialStatementsProps) => 
                                             <div className="group rounded-xl border border-[#4A7C59]/20 bg-gradient-to-br from-white to-[#4A7C59]/5 p-6 transition-all duration-300 hover:border-[#4A7C59]/40 hover:shadow-lg">
                                                 <div className="mb-4 flex items-start justify-between">
                                                     <div className="rounded-lg bg-[#4A7C59]/10 p-2 transition-colors group-hover:bg-[#4A7C59]/20">
-                                                        {getReportIcon('third_quarter')}
+                                                        {getReportIcon()}
                                                     </div>
                                                     <span className="rounded-full bg-[#4A7C59]/10 px-2 py-1 text-xs font-medium text-[#4A7C59]">
                                                         {getReportPeriod('third_quarter', report.fiscal_year)}
@@ -170,7 +169,7 @@ const FinancialStatements = ({ financialReports }: FinancialStatementsProps) => 
                                                 <p className="mb-4 text-sm text-gray-600">Nine months cumulative financial analysis</p>
                                                 <button
                                                     onClick={() =>
-                                                        downloadFile(report.third_quarter_report_url!, 'Q3-Report-' + report.fiscal_year + '.pdf')
+                                                        downloadFile(report.third_quarter_report_url!)
                                                     }
                                                     className="flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A] px-4 py-2 text-sm font-medium text-white transition-all duration-300 hover:scale-105 hover:shadow-lg"
                                                 >
@@ -185,7 +184,7 @@ const FinancialStatements = ({ financialReports }: FinancialStatementsProps) => 
                                             <div className="group rounded-xl border border-[#4A7C59]/20 bg-gradient-to-br from-white to-[#4A7C59]/5 p-6 transition-all duration-300 hover:border-[#4A7C59]/40 hover:shadow-lg">
                                                 <div className="mb-4 flex items-start justify-between">
                                                     <div className="rounded-lg bg-[#4A7C59]/10 p-2 transition-colors group-hover:bg-[#4A7C59]/20">
-                                                        {getReportIcon('annual')}
+                                                        {getReportIcon()}
                                                     </div>
                                                     <span className="rounded-full bg-[#4A7C59]/10 px-2 py-1 text-xs font-medium text-[#4A7C59]">
                                                         {getReportPeriod('annual', report.fiscal_year)}
@@ -195,7 +194,7 @@ const FinancialStatements = ({ financialReports }: FinancialStatementsProps) => 
                                                 <p className="mb-4 text-sm text-gray-600">Complete annual financial statement and audit</p>
                                                 <button
                                                     onClick={() =>
-                                                        downloadFile(report.annual_report_url!, 'Annual-Report-' + report.fiscal_year + '.pdf')
+                                                        downloadFile(report.annual_report_url!)
                                                     }
                                                     className="flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A] px-4 py-2 text-sm font-medium text-white transition-all duration-300 hover:scale-105 hover:shadow-lg"
                                                 >

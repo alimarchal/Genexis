@@ -52,7 +52,7 @@ export default function Show({ annualReport }: Props) {
         }
     };
 
-    const downloadFile = (url: string, filename: string) => {
+    const downloadFile = (url: string) => {
         window.open(url, '_blank');
     };
 
@@ -140,7 +140,6 @@ export default function Show({ annualReport }: Props) {
                                             onClick={() =>
                                                 downloadFile(
                                                     annualReport.annual_report_url!,
-                                                    `Annual-Report-${annualReport.annual_report_fiscal_year}.pdf`,
                                                 )
                                             }
                                         >
@@ -205,7 +204,6 @@ export default function Show({ annualReport }: Props) {
                                         onClick={() =>
                                             downloadFile(
                                                 annualReport.annual_report_url!,
-                                                `Annual-Report-${annualReport.annual_report_fiscal_year}.pdf`,
                                             )
                                         }
                                     >

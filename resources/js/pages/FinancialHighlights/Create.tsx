@@ -8,7 +8,6 @@ import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { ArrowLeft, Save, Upload } from 'lucide-react';
-import { useRef, useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -26,14 +25,10 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function Create() {
-    const { data, setData, post, processing, errors, progress } = useForm({
+    const { data, setData, post, processing, errors } = useForm({
         fiscal_year: new Date().getFullYear(),
         financial_highlights: null as File | null,
     });
-
-    const [dragActive, setDragActive] = useState(false);
-    const [preview, setPreview] = useState<string | null>(null);
-    const fileInputRef = useRef<HTMLInputElement>(null);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -42,56 +37,6 @@ export default function Create() {
 
     const handleFileChange = (file: File | null) => {
         setData('financial_highlights', file);
-
-        if (file) {
-            if (file.type === 'application/pdf') {
-                setPreview('pdf');
-            } else if (file.type.startsWith('image/')) {
-                const reader = new FileReader();
-                reader.onload = (e) => setPreview(e.target?.result as string);
-                reader.readAsDataURL(file);
-            }
-        } else {
-            setPreview(null);
-        }
-    };
-
-    const handleDrag = (e: React.DragEvent) => {
-        e.preventDefault();
-        e.stopPropagation();
-        if (e.type === 'dragenter' || e.type === 'dragover') {
-            setDragActive(true);
-        } else if (e.type === 'dragleave') {
-            setDragActive(false);
-        }
-    };
-
-    const handleDrop = (e: React.DragEvent) => {
-        e.preventDefault();
-        e.stopPropagation();
-        setDragActive(false);
-
-        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-            const file = e.dataTransfer.files[0];
-            if (file.type === 'application/pdf' || file.type.startsWith('image/')) {
-                handleFileChange(file);
-            }
-        }
-    };
-
-    const removeFile = () => {
-        handleFileChange(null);
-        if (fileInputRef.current) {
-            fileInputRef.current.value = '';
-        }
-    };
-
-    const formatFileSize = (bytes: number) => {
-        if (bytes === 0) return '0 Bytes';
-        const k = 1024;
-        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-        const i = Math.floor(Math.log(bytes) / Math.log(k));
-        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
     };
 
     return (

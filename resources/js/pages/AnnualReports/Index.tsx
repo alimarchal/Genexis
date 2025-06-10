@@ -87,7 +87,7 @@ export default function Index({ annualReports, filters }: Props) {
         });
     };
 
-    const downloadFile = (url: string, filename: string) => {
+    const downloadFile = (url: string) => {
         window.open(url, '_blank');
     };
 
@@ -175,7 +175,6 @@ export default function Index({ annualReports, filters }: Props) {
                                                                 onClick={() =>
                                                                     downloadFile(
                                                                         report.annual_report_url!,
-                                                                        `Annual-Report-${report.annual_report_fiscal_year}.pdf`,
                                                                     )
                                                                 }
                                                             >
