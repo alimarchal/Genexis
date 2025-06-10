@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('half_yearly_report')->nullable();
             $table->string('third_quarter_report')->nullable();
             $table->string('annual_report')->nullable();
+            $table->userTracking();
             $table->timestamps();
         });
     }
