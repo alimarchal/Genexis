@@ -172,7 +172,6 @@ class MenuSeeder extends Seeder
                         'title' => 'Financial Highlights',
                         'slug' => 'financial-highlights',
                         'route_name' => 'financials.financialHighlights',
-                        'target' => '_blank',
                         'sort_order' => 3,
                     ],
                 ],
