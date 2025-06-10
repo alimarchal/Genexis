@@ -167,27 +167,11 @@ class MenuSeeder extends Seeder
                         'slug' => 'annual-reports',
                         'url' => '#',
                         'sort_order' => 2,
-                        'children' => [
-                            [
-                                'title' => 'Annual Report 2023',
-                                'slug' => 'annual-report-2023',
-                                'url' => 'https://bankajk.com/downloads/financials/BAJK%20Annual%20Report%202023%20final.pdf',
-                                'target' => '_blank',
-                                'sort_order' => 1,
-                            ],
-                            [
-                                'title' => 'Annual Report 2022',
-                                'slug' => 'annual-report-2022',
-                                'url' => 'https://bankajk.com/downloads/annual%20report%202022.pdf',
-                                'target' => '_blank',
-                                'sort_order' => 2,
-                            ],
-                        ],
                     ],
                     [
                         'title' => 'Financial Highlights',
                         'slug' => 'financial-highlights',
-                        'url' => 'https://www.bankajk.com/downloads/Financial%20HL%2030.6.22.pptx',
+                        'url' => '#',
                         'target' => '_blank',
                         'sort_order' => 3,
                     ],

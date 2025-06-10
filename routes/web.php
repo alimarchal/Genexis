@@ -68,6 +68,8 @@ Route::prefix('services')->name('services.')->group(function () {
 
 Route::prefix('financials')->name('financials.')->group(function () {
     Route::get('/statements', [PageController::class, 'financialStatements'])->name('statements');
+    Route::get('/annual-reports', [PageController::class, 'annualReports'])->name('annualReports');
+    Route::get('/financial-highlights', [PageController::class, 'financialHighlights'])->name('financialHighlights');
 });
 
 Route::prefix('rates')->name('rates.')->group(function () {
