@@ -208,17 +208,15 @@ const ServicesPage = () => {
                                 <button
                                     key={service.id}
                                     onClick={() => setActiveServiceIndex(index)}
-                                    className={`flex flex-shrink-0 items-center gap-2 rounded-lg border bg-white px-4 py-3 shadow-md transition-all duration-300 hover:scale-105 hover:shadow-lg ${
-                                        activeServiceIndex === index
+                                    className={`flex flex-shrink-0 items-center gap-2 rounded-lg border bg-white px-4 py-3 shadow-md transition-all duration-300 hover:scale-105 hover:shadow-lg ${activeServiceIndex === index
                                             ? 'scale-105 border-[#4A7C59] shadow-lg'
                                             : 'border-gray-200 hover:border-[#4A7C59]/30'
-                                    }`}
+                                        }`}
                                 >
                                     <span className="text-lg">{getIconEmoji(service.name)}</span>
                                     <span
-                                        className={`text-sm font-medium sm:text-base ${
-                                            activeServiceIndex === index ? 'text-[#4A7C59]' : 'text-gray-700'
-                                        }`}
+                                        className={`text-sm font-medium sm:text-base ${activeServiceIndex === index ? 'text-[#4A7C59]' : 'text-gray-700'
+                                            }`}
                                     >
                                         {service.name}
                                     </span>
@@ -238,9 +236,8 @@ const ServicesPage = () => {
                     <div className="relative">
                         <div className="relative overflow-hidden bg-gradient-to-r from-[#4A7C59] via-[#5D8A6A] to-[#6B9B7A] px-8 py-6">
                             <div
-                                className={`absolute inset-0 bg-gradient-to-t from-[#F9B912]/10 via-transparent to-transparent transition-opacity duration-500 ${
-                                    isHovered ? 'opacity-100' : 'opacity-0'
-                                }`}
+                                className={`absolute inset-0 bg-gradient-to-t from-[#F9B912]/10 via-transparent to-transparent transition-opacity duration-500 ${isHovered ? 'opacity-100' : 'opacity-0'
+                                    }`}
                             />
                             <div className="relative z-10 flex items-center gap-6">
                                 <div className="text-white">{activeService.icon}</div>
