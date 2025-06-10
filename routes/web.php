@@ -67,9 +67,7 @@ Route::prefix('services')->name('services.')->group(function () {
 });
 
 Route::prefix('financials')->name('financials.')->group(function () {
-    Route::get('/statements', function () {
-        return inertia('Financials/Statements');
-    })->name('statements');
+    Route::get('/statements', [PageController::class, 'financialStatements'])->name('statements');
 });
 
 Route::prefix('rates')->name('rates.')->group(function () {

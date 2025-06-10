@@ -9,6 +9,7 @@ use App\Models\BoardOfDirector;
 use App\Models\Branch;
 use App\Models\Carousel;
 use App\Models\District;
+use App\Models\FinancialReport;
 use App\Models\Managment;
 use App\Models\NewsAnnouncement;
 use App\Models\Page;
@@ -416,5 +417,30 @@ class PageController extends Controller
     public function destroy(Page $page)
     {
         //
+    }
+
+    public function financialStatements()
+    {
+        $financialReports = FinancialReport::orderBy('fiscal_year', 'desc')
+            ->get()
+            ->map(function ($report) {
+                return [
+                    'id' => $report->id,
+                    'fiscal_year' => $report->fiscal_year,
+                    'first_quarter_report' => $report->first_quarter_report,
+                    'first_quarter_report_url' => $report->first_quarter_report_url,
+                    'half_yearly_report' => $report->half_yearly_report,
+                    'half_yearly_report_url' => $report->half_yearly_report_url,
+                    'third_quarter_report' => $report->third_quarter_report,
+                    'third_quarter_report_url' => $report->third_quarter_report_url,
+                    'annual_report' => $report->annual_report,
+                    'annual_report_url' => $report->annual_report_url,
+                    'created_at' => $report->created_at->format('M d, Y'),
+                ];
+            });
+
+        return Inertia::render('Financials/Statements', [
+            'financialReports' => $financialReports,
+        ]);
     }
 }

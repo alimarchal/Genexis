@@ -32,6 +32,7 @@ class DatabaseSeeder extends Seeder
             BranchSeeder::class,
             ContactSeeder::class,
             BranchServiceSeeder::class,
+            FinancialReportSeeder::class,
         ]);
 
         // \App\Models\User::factory()->create([
