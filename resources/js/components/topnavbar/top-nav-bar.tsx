@@ -1,4 +1,8 @@
+import { usePage } from '@inertiajs/react';
+
 const AddressMarqueeSection = () => {
+    const { contact_address } = usePage().props;
+
     const marqueeStyle = {
         animation: 'marquee 25s linear infinite',
         WebkitAnimation: 'marquee 25s linear infinite',
@@ -53,7 +57,16 @@ const AddressMarqueeSection = () => {
                                     clipRule="evenodd"
                                 />
                             </svg>
-                            <p className="text-sm font-medium text-gray-800">Head Office, Bank Square, Chattar Domel, Muzaffarabad, AJK, Pakistan</p>
+                            <p className="text-sm font-medium text-gray-800">
+                                <a
+                                    href="https://www.google.com/maps?q=34.3587,73.4713"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="relative inline-block after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-0 after:bg-[#F9B912] after:transition-all after:duration-300 after:content-[''] hover:text-[#F9B912] hover:after:w-full"
+                                >
+                                    {contact_address}
+                                </a>
+                            </p>
                         </div>
                     </div>
 

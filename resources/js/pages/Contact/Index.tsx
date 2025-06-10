@@ -1,7 +1,11 @@
 import WebsiteLayout from '@/layouts/WebsiteLayout';
+import { usePage } from '@inertiajs/react';
 import { Building2, Clock, CreditCard, Headphones, Mail, MapPin, Phone, Users } from 'lucide-react';
+import React from 'react'; // Added React import for <React.Fragment>
 
 export default function ContactPage() {
+    const { bankBranchesCount, contact_phone, contact_email, contact_address } = usePage().props;
+
     return (
         <div className="mx-auto max-w-7xl px-6 py-8">
             {/* Hero Section */}
@@ -21,7 +25,7 @@ export default function ContactPage() {
                             <Phone className="h-8 w-8 text-white transition-colors duration-300 group-hover:text-[#F9B912]" />
                         </div>
                         <h3 className="mb-3 text-lg font-bold text-white">Call Center</h3>
-                        <p className="mb-1 text-xl font-bold text-[#F9B912]">+92-5822-924244</p>
+                        <p className="mb-1 text-xl font-bold text-[#F9B912]">{contact_phone}</p>
                         <p className="text-sm text-green-100">24/7 Support</p>
                     </div>
                 </div>
@@ -33,7 +37,7 @@ export default function ContactPage() {
                             <Mail className="h-8 w-8 text-white transition-colors duration-300 group-hover:text-[#F9B912]" />
                         </div>
                         <h3 className="mb-3 text-lg font-bold text-white">Email Support</h3>
-                        <p className="mb-1 text-xl font-bold text-[#F9B912]">info@bankajk.com</p>
+                        <p className="mb-1 text-xl font-bold text-[#F9B912]">{contact_email}</p>
                         <p className="text-sm text-blue-100">Quick Response</p>
                     </div>
                 </div>
@@ -182,11 +186,13 @@ export default function ContactPage() {
                                     <div>
                                         <p className="mb-2 text-lg font-bold text-gray-800">Address</p>
                                         <p className="leading-relaxed text-gray-600">
-                                            Head Office, Bank Square
-                                            <br />
-                                            Chattar Domel, Muzaffarabad, 13100
-                                            <br />
-                                            Azad Jammu & Kashmir, Pakistan
+                                            {contact_address}
+                                            {/* {contact_address?.split(',').map((line, index, arr) => (
+                                                <React.Fragment key={index}>
+                                                    {line.trim()}
+                                                    {index < arr.length - 1 && <br />}
+                                                </React.Fragment>
+                                            ))} */}
                                         </p>
                                     </div>
                                 </div>
@@ -197,7 +203,7 @@ export default function ContactPage() {
                                     </div>
                                     <div>
                                         <p className="text-lg font-bold text-gray-800">Phone</p>
-                                        <p className="text-lg text-gray-600">+92 (5822) 924244</p>
+                                        <p className="text-lg text-gray-600">{contact_phone}</p>
                                     </div>
                                 </div>
 
@@ -207,7 +213,7 @@ export default function ContactPage() {
                                     </div>
                                     <div>
                                         <p className="text-lg font-bold text-gray-800">Email</p>
-                                        <p className="text-lg text-gray-600">info@bankajk.com</p>
+                                        <p className="text-lg text-gray-600">{contact_email}</p>
                                     </div>
                                 </div>
                             </div>
@@ -267,7 +273,7 @@ export default function ContactPage() {
                             Find Your Nearest Branch
                         </h2>
                         <p className="mb-10 text-xl leading-relaxed opacity-90 md:text-2xl">
-                            With 87+ branches across Azad Jammu & Kashmir, we're always close to you.
+                            With {bankBranchesCount}+ branches across Azad Jammu & Kashmir, we're always close to you.
                         </p>
                         <button className="group relative transform overflow-hidden rounded-2xl bg-white px-10 py-4 text-lg font-bold text-[#195f1f] shadow-[0_10px_30px_rgb(0,0,0,0.3)] transition-all duration-300 hover:-translate-y-1 hover:bg-[#F9B912] hover:text-white hover:shadow-[0_15px_40px_rgb(0,0,0,0.4)]">
                             <div className="absolute inset-0 bg-gradient-to-r from-[#F9B912]/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>

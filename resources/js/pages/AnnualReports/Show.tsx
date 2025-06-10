@@ -136,13 +136,7 @@ export default function Show({ annualReport }: Props) {
                                                 <p className="text-sm text-gray-600">FY {annualReport.annual_report_fiscal_year}</p>
                                             </div>
                                         </div>
-                                        <Button
-                                            onClick={() =>
-                                                downloadFile(
-                                                    annualReport.annual_report_url!,
-                                                )
-                                            }
-                                        >
+                                        <Button onClick={() => downloadFile(annualReport.annual_report_url!)}>
                                             <Download className="mr-2 h-4 w-4" />
                                             Download
                                         </Button>
@@ -198,15 +192,7 @@ export default function Show({ annualReport }: Props) {
                                     <Link href={route('annual-reports.create')}>Create New Report</Link>
                                 </Button>
                                 {annualReport.annual_report_url && (
-                                    <Button
-                                        variant="outline"
-                                        className="w-full"
-                                        onClick={() =>
-                                            downloadFile(
-                                                annualReport.annual_report_url!,
-                                            )
-                                        }
-                                    >
+                                    <Button variant="outline" className="w-full" onClick={() => downloadFile(annualReport.annual_report_url!)}>
                                         <Download className="mr-2 h-4 w-4" />
                                         Download File
                                     </Button>

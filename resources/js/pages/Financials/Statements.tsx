@@ -116,9 +116,7 @@ const FinancialStatements = ({ financialReports }: FinancialStatementsProps) => 
                                                 <h3 className="mb-2 font-semibold text-gray-900">{getReportTypeName('first_quarter')}</h3>
                                                 <p className="mb-4 text-sm text-gray-600">Quarterly financial performance and key metrics</p>
                                                 <button
-                                                    onClick={() =>
-                                                        downloadFile(report.first_quarter_report_url!)
-                                                    }
+                                                    onClick={() => downloadFile(report.first_quarter_report_url!)}
                                                     className="flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A] px-4 py-2 text-sm font-medium text-white transition-all duration-300 hover:scale-105 hover:shadow-lg"
                                                 >
                                                     <Download className="h-4 w-4" />
@@ -141,11 +139,7 @@ const FinancialStatements = ({ financialReports }: FinancialStatementsProps) => 
                                                 <h3 className="mb-2 font-semibold text-gray-900">{getReportTypeName('half_yearly')}</h3>
                                                 <p className="mb-4 text-sm text-gray-600">Six months comprehensive financial review</p>
                                                 <button
-                                                    onClick={() =>
-                                                        downloadFile(
-                                                            report.half_yearly_report_url!,
-                                                        )
-                                                    }
+                                                    onClick={() => downloadFile(report.half_yearly_report_url!)}
                                                     className="flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A] px-4 py-2 text-sm font-medium text-white transition-all duration-300 hover:scale-105 hover:shadow-lg"
                                                 >
                                                     <Download className="h-4 w-4" />
@@ -168,9 +162,7 @@ const FinancialStatements = ({ financialReports }: FinancialStatementsProps) => 
                                                 <h3 className="mb-2 font-semibold text-gray-900">{getReportTypeName('third_quarter')}</h3>
                                                 <p className="mb-4 text-sm text-gray-600">Nine months cumulative financial analysis</p>
                                                 <button
-                                                    onClick={() =>
-                                                        downloadFile(report.third_quarter_report_url!)
-                                                    }
+                                                    onClick={() => downloadFile(report.third_quarter_report_url!)}
                                                     className="flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A] px-4 py-2 text-sm font-medium text-white transition-all duration-300 hover:scale-105 hover:shadow-lg"
                                                 >
                                                     <Download className="h-4 w-4" />
@@ -193,9 +185,7 @@ const FinancialStatements = ({ financialReports }: FinancialStatementsProps) => 
                                                 <h3 className="mb-2 font-semibold text-gray-900">{getReportTypeName('annual')}</h3>
                                                 <p className="mb-4 text-sm text-gray-600">Complete annual financial statement and audit</p>
                                                 <button
-                                                    onClick={() =>
-                                                        downloadFile(report.annual_report_url!)
-                                                    }
+                                                    onClick={() => downloadFile(report.annual_report_url!)}
                                                     className="flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A] px-4 py-2 text-sm font-medium text-white transition-all duration-300 hover:scale-105 hover:shadow-lg"
                                                 >
                                                     <Download className="h-4 w-4" />

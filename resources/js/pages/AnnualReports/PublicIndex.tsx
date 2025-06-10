@@ -39,8 +39,8 @@ const AnnualReportsPublic = ({ annualReports }: AnnualReportsPublicProps) => {
                     </div>
                     <h1 className="mb-4 text-4xl font-bold text-gray-900">Annual Reports</h1>
                     <p className="mx-auto mb-8 max-w-3xl text-xl text-gray-600">
-                        Access our comprehensive annual reports providing detailed insights into our financial performance,
-                        strategic initiatives, and corporate governance.
+                        Access our comprehensive annual reports providing detailed insights into our financial performance, strategic initiatives, and
+                        corporate governance.
                     </p>
                 </div>
 
@@ -101,7 +101,7 @@ const AnnualReportsPublic = ({ annualReports }: AnnualReportsPublicProps) => {
                                         <div className="py-8 text-center">
                                             <FileText className="mx-auto mb-3 h-8 w-8 text-gray-400" />
                                             <p className="text-sm text-gray-600">Report not yet available</p>
-                                            <p className="text-xs text-gray-500 mt-1">Will be published soon</p>
+                                            <p className="mt-1 text-xs text-gray-500">Will be published soon</p>
                                         </div>
                                     )}
                                 </div>

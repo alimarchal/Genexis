@@ -39,8 +39,8 @@ const FinancialHighlightsPublic = ({ financialHighlights }: FinancialHighlightsP
                     </div>
                     <h1 className="mb-4 text-4xl font-bold text-gray-900">Financial Highlights</h1>
                     <p className="mx-auto mb-8 max-w-3xl text-xl text-gray-600">
-                        Access key financial highlights showcasing our performance, growth metrics, and important
-                        financial information in an easy-to-understand format.
+                        Access key financial highlights showcasing our performance, growth metrics, and important financial information in an
+                        easy-to-understand format.
                     </p>
                 </div>
 
@@ -101,7 +101,7 @@ const FinancialHighlightsPublic = ({ financialHighlights }: FinancialHighlightsP
                                         <div className="py-8 text-center">
                                             <FileText className="mx-auto mb-3 h-8 w-8 text-gray-400" />
                                             <p className="text-sm text-gray-600">Highlights not yet available</p>
-                                            <p className="text-xs text-gray-500 mt-1">Will be published soon</p>
+                                            <p className="mt-1 text-xs text-gray-500">Will be published soon</p>
                                         </div>
                                     )}
                                 </div>

@@ -169,15 +169,7 @@ export default function Index({ annualReports, filters }: Props) {
                                                     {report.annual_report && report.annual_report_url ? (
                                                         <div className="flex items-center space-x-2">
                                                             <Badge variant="secondary">File Available</Badge>
-                                                            <Button
-                                                                variant="ghost"
-                                                                size="sm"
-                                                                onClick={() =>
-                                                                    downloadFile(
-                                                                        report.annual_report_url!,
-                                                                    )
-                                                                }
-                                                            >
+                                                            <Button variant="ghost" size="sm" onClick={() => downloadFile(report.annual_report_url!)}>
                                                                 <Download className="h-4 w-4" />
                                                             </Button>
                                                         </div>

@@ -1,3 +1,4 @@
+import { usePage } from '@inertiajs/react'; // Added usePage
 import { ArrowRight, Building2, CheckCircle, ChevronRight, CreditCard, Home, MapPin, Phone, Shield, TrendingUp, Users, Wheat } from 'lucide-react';
 import React, { useState } from 'react';
 
@@ -34,6 +35,7 @@ interface Props {
 }
 
 const InteractiveBAJKServices: React.FC<Props> = ({ bankServices }) => {
+    const { contact_phone } = usePage().props; // Get contact_phone
     const [hoveredCard, setHoveredCard] = useState<number | null>(null);
     const [expandedCard, setExpandedCard] = useState<number | null>(null);
 
@@ -90,12 +92,20 @@ const InteractiveBAJKServices: React.FC<Props> = ({ bankServices }) => {
 
     const depositServices = bankServices
         .filter((service) => service.service_type === 'deposit')
-        .map((service) => ({
-            name: service.title,
-            icon: iconMapping[service.icon] || Shield,
-            link: service.cta_link,
-            description: service.description,
-        }));
+        .map((service) => {
+            let description = service.description;
+            // Replace the specific hardcoded phone number string
+            const targetPhoneNumberString = 'Call: 05822-924244';
+            if (description.includes(targetPhoneNumberString)) {
+                description = description.replace(targetPhoneNumberString, `Call: ${contact_phone}`);
+            }
+            return {
+                name: service.title,
+                icon: iconMapping[service.icon] || Shield,
+                link: service.cta_link,
+                description: description, // Use the potentially modified description
+            };
+        });
 
     const stats = bankServices
         .filter((service) => service.service_type === 'stat')
@@ -302,11 +312,11 @@ const InteractiveBAJKServices: React.FC<Props> = ({ bankServices }) => {
                                 Find Nearest Branch
                             </a>
                             <a
-                                href="tel:+925822924244"
+                                href={`tel:${contact_phone.replace(/\\./g, '')}`}
                                 className="inline-flex transform items-center rounded-xl border-3 border-[#4A7C59] px-10 py-5 text-lg font-bold text-[#4A7C59] transition-all duration-300 hover:scale-105 hover:bg-[#4A7C59] hover:text-white"
                             >
                                 <Phone className="mr-3 h-6 w-6" />
-                                Call: 05822-924244
+                                Call: {contact_phone}
                             </a>
                         </div>
                     </div>

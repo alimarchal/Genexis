@@ -1,8 +1,11 @@
 <?php
 
 return [
-
     'bank_branches_count' => (int) env('BANK_BRANCHES_COUNT', 0),
+
+    'contact_phone' => env('CONTACT_PHONE', '+92.5822.924244'),
+    'contact_email' => env('CONTACT_EMAIL', 'info@bankajk.com'),
+    'contact_address' => env('CONTACT_ADDRESS', 'Head Office, Bank Square, Chattar Domel, Muzaffarabad, AJK, Pakistan'),
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -123,5 +126,4 @@ return [
         'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
-
 ];

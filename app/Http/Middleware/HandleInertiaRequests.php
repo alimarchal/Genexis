@@ -53,6 +53,10 @@ class HandleInertiaRequests extends Middleware
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
             // now every Inertia page has `bankBranchesCount` in props
             'bankBranchesCount' => config('app.bank_branches_count'),
+            'contact_phone' => config('app.contact_phone'),
+            'contact_email' => config('app.contact_email'),
+            'contact_address' => config('app.contact_address'), // Add this line
+
         ];
     }
 }

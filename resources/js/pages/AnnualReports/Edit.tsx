@@ -114,11 +114,7 @@ export default function Edit({ annualReport }: Props) {
                                             type="button"
                                             variant="outline"
                                             size="sm"
-                                            onClick={() =>
-                                                downloadFile(
-                                                    annualReport.annual_report_url!,
-                                                )
-                                            }
+                                            onClick={() => downloadFile(annualReport.annual_report_url!)}
                                         >
                                             <Download className="mr-2 h-4 w-4" />
                                             Download

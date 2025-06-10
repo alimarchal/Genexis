@@ -1,3 +1,4 @@
+import { usePage } from '@inertiajs/react';
 import React, { useState } from 'react';
 
 interface MenuItem {
@@ -18,6 +19,7 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ menuItems = [] }) => {
+    const { contact_phone } = usePage().props; // Get contact_phone from props
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [openMobileSubmenu, setOpenMobileSubmenu] = useState<string | null>(null);
 
@@ -193,7 +195,7 @@ const Header: React.FC<HeaderProps> = ({ menuItems = [] }) => {
                         <div className="ml-4 hidden h-full items-center lg:flex">
                             <div className="flex items-center gap-3 px-4 py-2">
                                 <span className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-[#3a8d3a] to-[#f9a825] text-white shadow">
-                                    <a href="tel:+925822924244" aria-label="Call us">
+                                    <a href={`tel:${contact_phone.replace(/[^\d+]/g, '')}`} aria-label="Call us">
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             className="h-6 w-6"
@@ -213,10 +215,10 @@ const Header: React.FC<HeaderProps> = ({ menuItems = [] }) => {
                                 <div className="flex flex-col">
                                     <span className="text-center text-xs font-bold tracking-wide text-green-800">UAN</span>
                                     <a
-                                        href="tel:+925822924244"
+                                        href={`tel:${contact_phone.replace(/[^\d+]/g, '')}`}
                                         className="text-lg leading-tight font-bold text-green-800 transition-colors hover:text-orange-600"
                                     >
-                                        +92-5822-924244
+                                        {contact_phone}
                                     </a>
                                     <span className="mt-1 text-[11px] text-gray-500">We're here to help you 24/7</span>
                                 </div>
