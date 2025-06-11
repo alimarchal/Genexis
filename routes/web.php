@@ -13,6 +13,7 @@ use App\Http\Controllers\FinancialReportController;
 use App\Http\Controllers\ManagmentController;
 use App\Http\Controllers\NewsAnnouncementController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\ProfitRateController;
 use App\Http\Controllers\RegionController;
 use App\Http\Controllers\ServiceController;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +31,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('financial-reports', FinancialReportController::class);
     Route::resource('annual-reports', AnnualReportController::class);
     Route::resource('financial-highlights', FinancialHighlightController::class);
+    Route::resource('profit-rates', ProfitRateController::class);
 
     // Download routes
     Route::get('annual-reports/{annual_report}/download', [AnnualReportController::class, 'download'])->name('annual-reports.download');
@@ -81,9 +83,7 @@ Route::prefix('financials')->name('financials.')->group(function () {
 });
 
 Route::prefix('rates')->name('rates.')->group(function () {
-    Route::get('/profit-rates', function () {
-        return inertia('Rates/ProfitRates');
-    })->name('profit-rates');
+    Route::get('/profit-rates', [PageController::class, 'profitRates'])->name('profit-rates');
 });
 
 Route::get('/contact-us', [PageController::class, 'contact'])->name('contact');

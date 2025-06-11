@@ -16,6 +16,7 @@ use App\Models\Managment;
 use App\Models\NewsAnnouncement;
 use App\Models\Page;
 use App\Models\ProductTypeAccount;
+use App\Models\ProfitRate;
 use App\Models\Region;
 use Inertia\Inertia;
 
@@ -483,6 +484,29 @@ class PageController extends Controller
 
         return Inertia::render('FinancialHighlights/PublicIndex', [
             'financialHighlights' => $financialHighlights,
+        ]);
+    }
+
+    public function profitRates()
+    {
+        $profitRates = ProfitRate::active()
+            ->current()
+            ->orderBy('category')
+            ->get()
+            ->map(function ($rate) {
+                return [
+                    'id' => $rate->id,
+                    'category' => $rate->category,
+                    'rate' => $rate->rate,
+                    'valid_from' => $rate->valid_from->format('M d, Y'),
+                    'valid_to' => $rate->valid_to ? $rate->valid_to->format('M d, Y') : null,
+                    'is_active' => $rate->is_active,
+                    'status' => $rate->status,
+                ];
+            });
+
+        return Inertia::render('Rates/ProfitRates', [
+            'profitRates' => $profitRates,
         ]);
     }
 }
