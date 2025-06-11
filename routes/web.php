@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\AnnualReportController;
+use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\BankServiceController;
 use App\Http\Controllers\BoardOfDirectorController;
 use App\Http\Controllers\BranchController;
@@ -119,6 +120,11 @@ Route::get('/public-downloads/{download}/download', [DownloadController::class, 
 
 Route::get('/news', [PageController::class, 'news'])->name(name: 'news');
 Route::get('/news/{slug}', [PageController::class, 'newsDetail'])->name('news.detail');
+
+// API Routes
+Route::prefix('api')->group(function () {
+    Route::get('/search', [SearchController::class, 'search']);
+});
 
 // Admin routes (protected by auth middleware)
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(function () {
