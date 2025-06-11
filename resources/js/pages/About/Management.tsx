@@ -12,12 +12,9 @@ interface ManagementMember {
     status: string;
 }
 
-interface ManagementProps {
-    managment: ManagementMember[];
-}
-
 export default function ManagementPage() {
-    const { managment } = usePage<ManagementProps>().props;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { managment } = usePage<any>().props;
 
     return (
         <div className="mx-auto max-w-7xl px-6 py-8">

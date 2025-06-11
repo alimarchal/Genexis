@@ -3,10 +3,6 @@ import React from 'react';
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaTwitter, FaYoutube } from 'react-icons/fa';
 import logo from '../../../../public/logo.png';
 
-interface SharedProps {
-    bankBranchesCount: number;
-}
-
 const LogoSection: React.FC = () => {
     // grab the shared prop
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

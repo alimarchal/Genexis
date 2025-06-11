@@ -108,7 +108,7 @@ export default function EditMenu({ menu, parentMenus }: Props) {
         router.post(route('admin.menus.update', menu.id), {
             ...formData,
             _method: 'PUT',
-        } as Record<string, unknown>);
+        });
     };
 
     return (

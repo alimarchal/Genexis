@@ -2,10 +2,6 @@ import BodCard from '@/components/BodCard';
 import WebsiteLayout from '@/layouts/WebsiteLayout';
 import { usePage } from '@inertiajs/react';
 
-interface BoardOfDirectorProps {
-    boardOfDirectors: BoardOfDirector[];
-}
-
 interface BoardOfDirector {
     id: number;
     title: string | null;
@@ -22,7 +18,8 @@ interface BoardOfDirector {
 }
 
 export default function BoardOfDirectors() {
-    const { boardOfDirectors } = usePage<BoardOfDirectorProps>().props;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { boardOfDirectors } = usePage<any>().props;
 
     // Separate chairman from other directors
     const chairman = boardOfDirectors.find((member: BoardOfDirector) => member.is_chairman);

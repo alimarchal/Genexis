@@ -70,7 +70,8 @@ export default function FinancialReportsIndex({ financialReports, filters }: Pro
             params['filter[fiscal_year]'] = searchTerm;
         }
 
-        router.get(route('financial-reports.index'), params as Record<string, unknown>, {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        router.get(route('financial-reports.index'), params as any, {
             preserveState: true,
             preserveScroll: true,
         });

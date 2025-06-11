@@ -16,12 +16,14 @@ createServer((page) =>
             /* eslint-disable @typescript-eslint/ban-ts-comment */
             // @ts-ignore
             global.route<RouteName> = (name, params, absolute) =>
-                route(name, params as Record<string, unknown>, absolute, {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                route(name, params as any, absolute, {
                     // @ts-ignore
                     ...page.props.ziggy,
                     // @ts-ignore
                     location: new URL(page.props.ziggy.location),
-                } as Record<string, unknown>);
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                } as any);
             /* eslint-enable @typescript-eslint/ban-ts-comment */
 
             return <App {...props} />;
