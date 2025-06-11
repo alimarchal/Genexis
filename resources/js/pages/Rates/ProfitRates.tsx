@@ -72,42 +72,40 @@ const ProfitRatesPublic = ({ profitRates }: ProfitRatesPublicProps) => {
                         <p className="text-gray-600">Profit rates will be updated here as they become available.</p>
                     </div>
                 ) : (
-                    <div className="overflow-x-auto">
-                        <div className="min-w-full bg-white shadow rounded-lg">
-                            <table className="min-w-full divide-y divide-gray-200">
-                                <thead className="bg-gray-50">
-                                    <tr>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rate</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Validity</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="bg-white divide-y divide-gray-200">
-                                    {(filteredRates.length > 0 ? filteredRates : []).map((rate) => {
-                                        const type = getCategoryType(rate.category);
-                                        return (
-                                            <tr key={rate.id} className="hover:bg-gray-50">
-                                                <td className="px-6 py-4 whitespace-nowrap">
-                                                    <div className="text-sm font-medium text-gray-900">{rate.category}</div>
-                                                </td>
-                                                <td className="px-6 py-4 whitespace-nowrap">
-                                                    <div className="text-sm text-gray-900">{formatRate(rate.rate)}</div>
-                                                </td>
-                                                <td className="px-6 py-4 whitespace-nowrap">
-                                                    <div className="text-sm text-gray-900">{rate.valid_from} - {rate.valid_to || 'Ongoing'}</div>
-                                                </td>
-                                                <td className="px-6 py-4 whitespace-nowrap">
-                                                    <span className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium ${type.color}`}>
-                                                        {type.icon} {rate.status}
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                        );
-                                    })}
-                                </tbody>
-                            </table>
-                        </div>
+                    <div className="shadow-lg rounded-lg border border-gray-200 overflow-x-auto">
+                        <table className="min-w-full table-auto w-full bg-white divide-y divide-gray-200 text-sm sm:text-base">
+                            <thead className="bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A]">
+                                <tr>
+                                    <th className="px-6 py-3 text-left text-xs sm:text-sm font-medium text-white uppercase tracking-wider">Category</th>
+                                    <th className="px-6 py-3 text-left text-xs sm:text-sm font-medium text-white uppercase tracking-wider">Rate</th>
+                                    <th className="px-6 py-3 text-left text-xs sm:text-sm font-medium text-white uppercase tracking-wider">Validity</th>
+                                    <th className="px-6 py-3 text-left text-xs sm:text-sm font-medium text-white uppercase tracking-wider">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody className="bg-white divide-y divide-gray-200">
+                                {(filteredRates.length > 0 ? filteredRates : []).map((rate) => {
+                                    const type = getCategoryType(rate.category);
+                                    return (
+                                        <tr key={rate.id} className="hover:bg-gray-50">
+                                            <td className="px-6 py-4 whitespace-nowrap">
+                                                <div className="text-sm font-medium text-gray-900">{rate.category}</div>
+                                            </td>
+                                            <td className="px-6 py-4 whitespace-nowrap">
+                                                <div className="text-sm text-gray-900">{formatRate(rate.rate)}</div>
+                                            </td>
+                                            <td className="px-6 py-4 whitespace-nowrap">
+                                                <div className="text-sm text-gray-900">{rate.valid_from} - {rate.valid_to || 'Ongoing'}</div>
+                                            </td>
+                                            <td className="px-6 py-4 whitespace-nowrap">
+                                                <span className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium ${type.color}`}>
+                                                    {type.icon} {rate.status}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
                     </div>
                 )}
 
