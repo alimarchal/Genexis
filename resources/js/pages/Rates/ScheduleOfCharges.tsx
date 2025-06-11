@@ -158,15 +158,21 @@ const ScheduleOfChargesPublic = ({ scheduleOfCharges }: ScheduleOfChargesPublicP
 
                         {/* Desktop Table View */}
                         <div className="hidden overflow-x-auto lg:block">
-                            <table className="w-full min-w-full table-auto divide-y divide-gray-200 bg-white">
+                            <table className="w-full min-w-full table-fixed divide-y divide-gray-200 bg-white">
+                                <colgroup>
+                                    <col className="w-[30%]" />
+                                    <col className="w-[20%]" />
+                                    <col className="w-[20%]" />
+                                    <col className="w-[30%]" />
+                                </colgroup>
                                 <thead className="bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A]">
                                     <tr>
-                                        <th className="px-6 py-3 text-left text-sm font-medium tracking-wider text-white uppercase">Title</th>
-                                        <th className="px-6 py-3 text-left text-sm font-medium tracking-wider text-white uppercase">
+                                        <th className="px-4 py-3 text-left text-sm font-medium tracking-wider text-white uppercase">Title</th>
+                                        <th className="px-4 py-3 text-left text-sm font-medium tracking-wider text-white uppercase">
                                             Effective Period
                                         </th>
-                                        <th className="px-6 py-3 text-left text-sm font-medium tracking-wider text-white uppercase">Status</th>
-                                        <th className="px-6 py-3 text-left text-sm font-medium tracking-wider text-white uppercase">Actions</th>
+                                        <th className="px-4 py-3 text-left text-sm font-medium tracking-wider text-white uppercase">Status</th>
+                                        <th className="px-4 py-3 text-left text-sm font-medium tracking-wider text-white uppercase">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-200 bg-white">
@@ -174,23 +180,23 @@ const ScheduleOfChargesPublic = ({ scheduleOfCharges }: ScheduleOfChargesPublicP
                                         const type = getCategoryType(charge.title);
                                         return (
                                             <tr key={charge.id} className="hover:bg-gray-50">
-                                                <td className="px-6 py-4">
+                                                <td className="px-4 py-4">
                                                     <div className="text-sm font-medium text-gray-900">{charge.title}</div>
                                                     {charge.description && <div className="mt-1 text-sm text-gray-500">{charge.description}</div>}
                                                 </td>
-                                                <td className="px-6 py-4">
+                                                <td className="px-4 py-4">
                                                     <div className="text-sm text-gray-900">
                                                         {charge.from} - {charge.to || 'Ongoing'}
                                                     </div>
                                                 </td>
-                                                <td className="px-6 py-4">
+                                                <td className="px-4 py-4">
                                                     <span
                                                         className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium ${type.color}`}
                                                     >
                                                         {type.icon} {charge.status}
                                                     </span>
                                                 </td>
-                                                <td className="px-6 py-4">
+                                                <td className="px-4 py-4">
                                                     <div className="flex flex-wrap gap-2">
                                                         {charge.download_url && (
                                                             <a
@@ -251,11 +257,10 @@ const ScheduleOfChargesPublic = ({ scheduleOfCharges }: ScheduleOfChargesPublicP
                                             key={index}
                                             onClick={() => link.url && router.get(link.url)}
                                             disabled={!link.url}
-                                            className={`rounded-md border px-3 py-2 text-sm ${
-                                                link.active
-                                                    ? 'border-[#4A7C59] bg-[#4A7C59] text-white'
-                                                    : 'border-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50'
-                                            }`}
+                                            className={`rounded-md border px-3 py-2 text-sm ${link.active
+                                                ? 'border-[#4A7C59] bg-[#4A7C59] text-white'
+                                                : 'border-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50'
+                                                }`}
                                             dangerouslySetInnerHTML={{ __html: link.label }}
                                         />
                                     ))}
