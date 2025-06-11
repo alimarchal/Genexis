@@ -27,7 +27,7 @@ interface WebsiteLayoutProps extends PropsWithChildren {
     }>;
 }
 
-interface PageProps {
+interface WebsitePageProps {
     menu: MenuItem[];
     autoBreadcrumbs: Array<{
         label: string;
@@ -37,7 +37,7 @@ interface PageProps {
 }
 
 export default function WebsiteLayout({ children, title, breadcrumbs = [] }: WebsiteLayoutProps) {
-    const { menu, autoBreadcrumbs } = usePage<any>().props;
+    const { menu, autoBreadcrumbs } = usePage<WebsitePageProps>().props;
 
     // Use manual breadcrumbs if provided, otherwise use auto breadcrumbs
     const finalBreadcrumbs = breadcrumbs.length > 0 ? breadcrumbs : autoBreadcrumbs;

@@ -85,7 +85,7 @@ export default function MenuIndex({ menus, filters }: Props) {
             params['filter[is_active]'] = statusFilter;
         }
 
-        router.get(route('admin.menus.index'), params as any, {
+        router.get(route('admin.menus.index'), params as Record<string, unknown>, {
             preserveState: true,
             preserveScroll: true,
         });

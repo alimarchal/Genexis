@@ -90,19 +90,19 @@ export default function EditMenu({ menu, parentMenus }: Props) {
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
-        const formData = {
+        const formData: Record<string, unknown> = {
             ...data,
             parent_id: data.parent_id === 'none' ? null : parseInt(data.parent_id),
         };
 
         if (data.route_params.trim()) {
             try {
-                (formData as any).route_params = JSON.parse(data.route_params);
+                (formData as Record<string, unknown>).route_params = JSON.parse(data.route_params);
             } catch {
-                (formData as any).route_params = null;
+                (formData as Record<string, unknown>).route_params = null;
             }
         } else {
-            (formData as any).route_params = null;
+            (formData as Record<string, unknown>).route_params = null;
         }
 
         router.post(route('admin.menus.update', menu.id), {

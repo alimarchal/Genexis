@@ -2,6 +2,10 @@ import BodCard from '@/components/BodCard';
 import WebsiteLayout from '@/layouts/WebsiteLayout';
 import { usePage } from '@inertiajs/react';
 
+interface BoardOfDirectorProps {
+    boardOfDirectors: BoardOfDirector[];
+}
+
 interface BoardOfDirector {
     id: number;
     title: string | null;
@@ -18,11 +22,11 @@ interface BoardOfDirector {
 }
 
 export default function BoardOfDirectors() {
-    const { boardOfDirectors } = usePage<any>().props;
+    const { boardOfDirectors } = usePage<BoardOfDirectorProps>().props;
 
     // Separate chairman from other directors
-    const chairman = boardOfDirectors.find((member: any) => member.is_chairman);
-    const directors = boardOfDirectors.filter((member: any) => !member.is_chairman);
+    const chairman = boardOfDirectors.find((member: BoardOfDirector) => member.is_chairman);
+    const directors = boardOfDirectors.filter((member: BoardOfDirector) => !member.is_chairman);
 
     return (
         //
@@ -60,7 +64,7 @@ export default function BoardOfDirectors() {
                     </div>
 
                     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
-                        {directors.map((member: any) => (
+                        {directors.map((member: BoardOfDirector) => (
                             <BodCard key={member.id} boardMember={member} />
                         ))}
                     </div>

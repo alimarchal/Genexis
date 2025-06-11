@@ -76,7 +76,7 @@ export default function ManagementIndex({ managments, filters }: Props) {
             params['filter[status]'] = statusFilter;
         }
 
-        router.get(route('managments.index'), params as any, {
+        router.get(route('managments.index'), params as Record<string, unknown>, {
             preserveState: true,
             preserveScroll: true,
         });

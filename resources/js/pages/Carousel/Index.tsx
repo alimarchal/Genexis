@@ -68,7 +68,7 @@ export default function CarouselIndex({ carousels, filters }: Props) {
             params['filter[status]'] = statusFilter;
         }
 
-        router.get(route('carousels.index'), params as any, {
+        router.get(route('carousels.index'), params as Record<string, unknown>, {
             preserveState: true,
             preserveScroll: true,
         });
