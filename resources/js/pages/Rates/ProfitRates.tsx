@@ -1,5 +1,5 @@
 import WebsiteLayout from '@/layouts/WebsiteLayout';
-import { Building2, Calendar, Percent } from 'lucide-react';
+import { Building2, Percent } from 'lucide-react';
 import { useState, useMemo } from 'react';
 
 interface ProfitRate {

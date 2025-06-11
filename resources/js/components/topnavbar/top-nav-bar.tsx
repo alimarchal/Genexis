@@ -1,7 +1,9 @@
 import { usePage } from '@inertiajs/react';
 
 const AddressMarqueeSection = () => {
-    const { contact_address } = usePage().props;
+    // Commented out to fix lint error - not currently used
+    // const { contact_address } = usePage().props;
+    usePage(); // Keep the import used
 
     const marqueeStyle = {
         animation: 'marquee 35s linear infinite',
