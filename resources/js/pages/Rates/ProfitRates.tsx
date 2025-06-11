@@ -1,5 +1,6 @@
 import WebsiteLayout from '@/layouts/WebsiteLayout';
 import { Building2, Calendar, Percent } from 'lucide-react';
+import { useState, useMemo } from 'react';
 
 interface ProfitRate {
     id: number;
@@ -16,6 +17,11 @@ interface ProfitRatesPublicProps {
 }
 
 const ProfitRatesPublic = ({ profitRates }: ProfitRatesPublicProps) => {
+    const [search, setSearch] = useState('');
+    const filteredRates = useMemo(
+        () => profitRates.filter(r => r.category.toLowerCase().includes(search.toLowerCase())),
+        [search, profitRates]
+    );
     const formatRate = (rate: number) => {
         return `${rate}%`;
     };
@@ -50,6 +56,15 @@ const ProfitRatesPublic = ({ profitRates }: ProfitRatesPublicProps) => {
                 </div>
 
                 {/* Rates Grid */}
+                <div className="flex justify-end mb-4">
+                    <input
+                        type="text"
+                        value={search}
+                        onChange={e => setSearch(e.target.value)}
+                        placeholder="Search categories..."
+                        className="w-full md:w-1/3 border border-[#4A7C59] rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#4A7C59] bg-green-50 text-gray-700"
+                    />
+                </div>
                 {profitRates.length === 0 ? (
                     <div className="py-12 text-center">
                         <Building2 className="mx-auto mb-4 h-12 w-12 text-gray-400" />
@@ -57,65 +72,42 @@ const ProfitRatesPublic = ({ profitRates }: ProfitRatesPublicProps) => {
                         <p className="text-gray-600">Profit rates will be updated here as they become available.</p>
                     </div>
                 ) : (
-                    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                        {profitRates.map((rate) => {
-                            const categoryType = getCategoryType(rate.category);
-                            return (
-                                <div
-                                    key={rate.id}
-                                    className="group relative transform overflow-hidden rounded-xl border border-gray-100 bg-white shadow-lg transition-all duration-300 hover:shadow-xl"
-                                >
-                                    {/* Header */}
-                                    <div className="bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A] px-6 py-4">
-                                        <div className="flex items-center gap-3">
-                                            <div className="rounded-full bg-white/20 p-2">
-                                                <Percent className="h-6 w-6 text-white" />
-                                            </div>
-                                            <div>
-                                                <div className="text-2xl font-bold text-white">{formatRate(rate.rate)}</div>
-                                                <p className="text-white/90">Annual Return</p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {/* Content */}
-                                    <div className="p-6">
-                                        <div className="space-y-4">
-                                            {/* Category */}
-                                            <div>
-                                                <h3 className="text-lg font-semibold text-gray-900 mb-2">{rate.category}</h3>
-                                                <div className="flex items-center gap-2">
-                                                    <span className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium ${categoryType.color}`}>
-                                                        <span>{categoryType.icon}</span>
-                                                        {rate.status}
+                    <div className="overflow-x-auto">
+                        <div className="min-w-full bg-white shadow rounded-lg">
+                            <table className="min-w-full divide-y divide-gray-200">
+                                <thead className="bg-gray-50">
+                                    <tr>
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rate</th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Validity</th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="bg-white divide-y divide-gray-200">
+                                    {(filteredRates.length > 0 ? filteredRates : []).map((rate) => {
+                                        const type = getCategoryType(rate.category);
+                                        return (
+                                            <tr key={rate.id} className="hover:bg-gray-50">
+                                                <td className="px-6 py-4 whitespace-nowrap">
+                                                    <div className="text-sm font-medium text-gray-900">{rate.category}</div>
+                                                </td>
+                                                <td className="px-6 py-4 whitespace-nowrap">
+                                                    <div className="text-sm text-gray-900">{formatRate(rate.rate)}</div>
+                                                </td>
+                                                <td className="px-6 py-4 whitespace-nowrap">
+                                                    <div className="text-sm text-gray-900">{rate.valid_from} - {rate.valid_to || 'Ongoing'}</div>
+                                                </td>
+                                                <td className="px-6 py-4 whitespace-nowrap">
+                                                    <span className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium ${type.color}`}>
+                                                        {type.icon} {rate.status}
                                                     </span>
-                                                </div>
-                                            </div>
-
-                                            {/* Validity Period */}
-                                            <div className="border-t pt-4">
-                                                <div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
-                                                    <Calendar className="h-4 w-4" />
-                                                    <span className="font-medium">Validity Period</span>
-                                                </div>
-                                                <div className="grid grid-cols-1 gap-2 text-sm">
-                                                    <div className="flex justify-between">
-                                                        <span className="text-gray-500">From:</span>
-                                                        <span className="font-medium text-gray-900">{rate.valid_from}</span>
-                                                    </div>
-                                                    <div className="flex justify-between">
-                                                        <span className="text-gray-500">To:</span>
-                                                        <span className="font-medium text-gray-900">
-                                                            {rate.valid_to || 'Ongoing'}
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            );
-                        })}
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 )}
 
