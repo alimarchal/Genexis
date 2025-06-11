@@ -1,8 +1,8 @@
+import { Table, Tbody, Td, Th, Thead, Tr } from '@/components/Table';
 import WebsiteLayout from '@/layouts/WebsiteLayout';
 import { Head, Link } from '@inertiajs/react';
 import { FileText, Info } from 'lucide-react';
 import React from 'react';
-import { Table, Tbody, Td, Th, Thead, Tr } from '@/components/Table';
 
 interface ScheduleOfCharge {
     id: number;
@@ -56,9 +56,7 @@ export default function PublicScheduleOfChargesIndex({ scheduleOfCharges }: Prop
                     <div className="mx-auto max-w-7xl px-6 py-16">
                         <div className="text-center">
                             <h1 className="mb-4 text-4xl font-bold tracking-tight sm:text-5xl">Schedule of Charges</h1>
-                            <p className="mx-auto max-w-2xl text-xl text-sky-100">
-                                Find detailed information about our service charges and fees.
-                            </p>
+                            <p className="mx-auto max-w-2xl text-xl text-sky-100">Find detailed information about our service charges and fees.</p>
                         </div>
                     </div>
                 </div>
@@ -90,7 +88,9 @@ export default function PublicScheduleOfChargesIndex({ scheduleOfCharges }: Prop
                                             <Td>{formatDate(charge.from)}</Td>
                                             <Td>{formatDate(charge.to)}</Td>
                                             <Td>
-                                                <span className={`inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-xs font-medium ${charge.is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                                                <span
+                                                    className={`inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-xs font-medium ${charge.is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}
+                                                >
                                                     {charge.status}
                                                 </span>
                                             </Td>
@@ -123,10 +123,11 @@ export default function PublicScheduleOfChargesIndex({ scheduleOfCharges }: Prop
                                                 {link.url ? (
                                                     <Link
                                                         href={link.url}
-                                                        className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors duration-200 ${link.active
-                                                            ? 'bg-sky-600 text-white'
-                                                            : 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
-                                                            }`}
+                                                        className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors duration-200 ${
+                                                            link.active
+                                                                ? 'bg-sky-600 text-white'
+                                                                : 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
+                                                        }`}
                                                         dangerouslySetInnerHTML={{ __html: link.label }}
                                                     />
                                                 ) : (

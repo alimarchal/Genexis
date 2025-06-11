@@ -149,11 +149,7 @@ export default function Create() {
                                     </Label>
                                     <p className="text-sm text-gray-500">Enable this schedule for public viewing</p>
                                 </div>
-                                <Switch
-                                    id="is_active"
-                                    checked={data.is_active}
-                                    onCheckedChange={(checked) => setData('is_active', checked)}
-                                />
+                                <Switch id="is_active" checked={data.is_active} onCheckedChange={(checked) => setData('is_active', checked)} />
                             </div>
 
                             {/* Action Buttons */}

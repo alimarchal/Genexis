@@ -1,8 +1,8 @@
+import { Table, Tbody, Td, Th, Thead, Tr } from '@/components/Table';
 import WebsiteLayout from '@/layouts/WebsiteLayout';
 import { Head, Link } from '@inertiajs/react';
 import { Download, Eye } from 'lucide-react';
 import React from 'react';
-import { Table, Tbody, Td, Th, Thead, Tr } from '@/components/Table';
 
 interface Download {
     id: number;
@@ -107,10 +107,11 @@ export default function PublicDownloadsIndex({ downloads }: Props) {
                                                 {link.url ? (
                                                     <Link
                                                         href={link.url}
-                                                        className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors duration-200 ${link.active
-                                                            ? 'bg-blue-600 text-white'
-                                                            : 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
-                                                            }`}
+                                                        className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors duration-200 ${
+                                                            link.active
+                                                                ? 'bg-blue-600 text-white'
+                                                                : 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
+                                                        }`}
                                                         dangerouslySetInnerHTML={{ __html: link.label }}
                                                     />
                                                 ) : (

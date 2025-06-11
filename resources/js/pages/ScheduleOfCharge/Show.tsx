@@ -103,9 +103,7 @@ export default function Show({ scheduleOfCharge }: Props) {
                                 <div className="flex items-start justify-between">
                                     <div className="space-y-2">
                                         <CardTitle className="text-2xl">{scheduleOfCharge.title}</CardTitle>
-                                        <div className="flex items-center gap-2">
-                                            {getStatusBadge(scheduleOfCharge.is_active)}
-                                        </div>
+                                        <div className="flex items-center gap-2">{getStatusBadge(scheduleOfCharge.is_active)}</div>
                                     </div>
                                 </div>
                             </CardHeader>
@@ -126,9 +124,7 @@ export default function Show({ scheduleOfCharge }: Props) {
                                                 <span>{formatDate(scheduleOfCharge.to)}</span>
                                             </div>
                                         )}
-                                        {!scheduleOfCharge.to && (
-                                            <Badge variant="outline">Ongoing</Badge>
-                                        )}
+                                        {!scheduleOfCharge.to && <Badge variant="outline">Ongoing</Badge>}
                                     </div>
                                 </div>
 
@@ -136,9 +132,7 @@ export default function Show({ scheduleOfCharge }: Props) {
                                 {scheduleOfCharge.description && (
                                     <div className="space-y-2">
                                         <h3 className="text-lg font-medium">Description</h3>
-                                        <p className="leading-relaxed text-gray-700 whitespace-pre-wrap">
-                                            {scheduleOfCharge.description}
-                                        </p>
+                                        <p className="leading-relaxed whitespace-pre-wrap text-gray-700">{scheduleOfCharge.description}</p>
                                     </div>
                                 )}
 
@@ -187,9 +181,7 @@ export default function Show({ scheduleOfCharge }: Props) {
                                     <FileText className="h-4 w-4 text-gray-500" />
                                     <div>
                                         <p className="text-sm font-medium">Attachment</p>
-                                        <p className="text-sm text-gray-600">
-                                            {scheduleOfCharge.attachment_url ? 'Available' : 'Not available'}
-                                        </p>
+                                        <p className="text-sm text-gray-600">{scheduleOfCharge.attachment_url ? 'Available' : 'Not available'}</p>
                                     </div>
                                 </div>
                             </CardContent>

@@ -1,6 +1,6 @@
 import WebsiteLayout from '@/layouts/WebsiteLayout';
 import { Building2, Percent } from 'lucide-react';
-import { useState, useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 interface ProfitRate {
     id: number;
@@ -18,10 +18,7 @@ interface ProfitRatesPublicProps {
 
 const ProfitRatesPublic = ({ profitRates }: ProfitRatesPublicProps) => {
     const [search, setSearch] = useState('');
-    const filteredRates = useMemo(
-        () => profitRates.filter(r => r.category.toLowerCase().includes(search.toLowerCase())),
-        [search, profitRates]
-    );
+    const filteredRates = useMemo(() => profitRates.filter((r) => r.category.toLowerCase().includes(search.toLowerCase())), [search, profitRates]);
     const formatRate = (rate: number) => {
         return `${rate}%`;
     };
@@ -51,18 +48,19 @@ const ProfitRatesPublic = ({ profitRates }: ProfitRatesPublicProps) => {
                     </div>
                     <h1 className="mb-4 text-4xl font-bold text-gray-900">Current Profit Rates</h1>
                     <p className="mx-auto mb-8 max-w-3xl text-xl text-gray-600">
-                        Stay informed with our latest profit rates across all product categories. All rates are effective as of today and subject to change as per market conditions.
+                        Stay informed with our latest profit rates across all product categories. All rates are effective as of today and subject to
+                        change as per market conditions.
                     </p>
                 </div>
 
                 {/* Rates Grid */}
-                <div className="flex justify-end mb-4">
+                <div className="mb-4 flex justify-end">
                     <input
                         type="text"
                         value={search}
-                        onChange={e => setSearch(e.target.value)}
+                        onChange={(e) => setSearch(e.target.value)}
                         placeholder="Search categories..."
-                        className="w-full md:w-1/3 border border-[#4A7C59] rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#4A7C59] bg-green-50 text-gray-700"
+                        className="w-full rounded-lg border border-[#4A7C59] bg-green-50 px-4 py-2 text-gray-700 focus:ring-2 focus:ring-[#4A7C59] focus:outline-none md:w-1/3"
                     />
                 </div>
                 {profitRates.length === 0 ? (
@@ -72,17 +70,21 @@ const ProfitRatesPublic = ({ profitRates }: ProfitRatesPublicProps) => {
                         <p className="text-gray-600">Profit rates will be updated here as they become available.</p>
                     </div>
                 ) : (
-                    <div className="shadow-lg rounded-lg border border-gray-200 overflow-x-auto">
-                        <table className="min-w-full table-auto w-full bg-white divide-y divide-gray-200 text-sm sm:text-base">
+                    <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-lg">
+                        <table className="w-full min-w-full table-auto divide-y divide-gray-200 bg-white text-sm sm:text-base">
                             <thead className="bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A]">
                                 <tr>
-                                    <th className="px-6 py-3 text-left text-xs sm:text-sm font-medium text-white uppercase tracking-wider">Category</th>
-                                    <th className="px-6 py-3 text-left text-xs sm:text-sm font-medium text-white uppercase tracking-wider">Rate</th>
-                                    <th className="px-6 py-3 text-left text-xs sm:text-sm font-medium text-white uppercase tracking-wider">Validity</th>
-                                    <th className="px-6 py-3 text-left text-xs sm:text-sm font-medium text-white uppercase tracking-wider">Status</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-white uppercase sm:text-sm">
+                                        Category
+                                    </th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-white uppercase sm:text-sm">Rate</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-white uppercase sm:text-sm">
+                                        Validity
+                                    </th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-white uppercase sm:text-sm">Status</th>
                                 </tr>
                             </thead>
-                            <tbody className="bg-white divide-y divide-gray-200">
+                            <tbody className="divide-y divide-gray-200 bg-white">
                                 {(filteredRates.length > 0 ? filteredRates : []).map((rate) => {
                                     const type = getCategoryType(rate.category);
                                     return (
@@ -94,10 +96,14 @@ const ProfitRatesPublic = ({ profitRates }: ProfitRatesPublicProps) => {
                                                 <div className="text-sm text-gray-900">{formatRate(rate.rate)}</div>
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
-                                                <div className="text-sm text-gray-900">{rate.valid_from} - {rate.valid_to || 'Ongoing'}</div>
+                                                <div className="text-sm text-gray-900">
+                                                    {rate.valid_from} - {rate.valid_to || 'Ongoing'}
+                                                </div>
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
-                                                <span className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium ${type.color}`}>
+                                                <span
+                                                    className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium ${type.color}`}
+                                                >
                                                     {type.icon} {rate.status}
                                                 </span>
                                             </td>

@@ -1,7 +1,7 @@
 import WebsiteLayout from '@/layouts/WebsiteLayout';
-import { Building2, FileText, Download, ExternalLink, ChevronLeft, ChevronRight } from 'lucide-react';
-import { useState, useMemo } from 'react';
 import { router } from '@inertiajs/react';
+import { Building2, ChevronLeft, ChevronRight, Download, ExternalLink, FileText } from 'lucide-react';
+import { useMemo, useState } from 'react';
 
 interface ScheduleOfCharge {
     id: number;
@@ -38,8 +38,8 @@ interface ScheduleOfChargesPublicProps {
 const ScheduleOfChargesPublic = ({ scheduleOfCharges }: ScheduleOfChargesPublicProps) => {
     const [search, setSearch] = useState('');
     const filteredCharges = useMemo(
-        () => scheduleOfCharges.data.filter(charge => charge.title.toLowerCase().includes(search.toLowerCase())),
-        [search, scheduleOfCharges.data]
+        () => scheduleOfCharges.data.filter((charge) => charge.title.toLowerCase().includes(search.toLowerCase())),
+        [search, scheduleOfCharges.data],
     );
 
     const getCategoryType = (title: string) => {
@@ -67,20 +67,21 @@ const ScheduleOfChargesPublic = ({ scheduleOfCharges }: ScheduleOfChargesPublicP
                     </div>
                     <h1 className="mb-4 text-4xl font-bold text-gray-900">Schedule of Charges</h1>
                     <p className="mx-auto mb-8 max-w-3xl text-xl text-gray-600">
-                        Comprehensive schedule of charges for all banking services. Stay informed about our transparent fee structure across different service categories.
+                        Comprehensive schedule of charges for all banking services. Stay informed about our transparent fee structure across different
+                        service categories.
                     </p>
                 </div>
 
                 {/* Search */}
                 <div className="mb-6">
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                        <div className="flex-1 max-w-md">
+                    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                        <div className="max-w-md flex-1">
                             <input
                                 type="text"
                                 value={search}
-                                onChange={e => setSearch(e.target.value)}
+                                onChange={(e) => setSearch(e.target.value)}
                                 placeholder="Search schedule of charges..."
-                                className="w-full border border-[#4A7C59] rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#4A7C59] bg-green-50 text-gray-700"
+                                className="w-full rounded-lg border border-[#4A7C59] bg-green-50 px-4 py-2 text-gray-700 focus:ring-2 focus:ring-[#4A7C59] focus:outline-none"
                             />
                         </div>
                         <div className="text-sm text-gray-600">
@@ -96,32 +97,34 @@ const ScheduleOfChargesPublic = ({ scheduleOfCharges }: ScheduleOfChargesPublicP
                         <p className="text-gray-600">Schedule of charges will be updated here as they become available.</p>
                     </div>
                 ) : (
-                    <div className="shadow-lg rounded-lg border border-gray-200 overflow-hidden">
+                    <div className="overflow-hidden rounded-lg border border-gray-200 shadow-lg">
                         {/* Mobile Cards View */}
                         <div className="block lg:hidden">
                             {(filteredCharges.length > 0 ? filteredCharges : []).map((charge) => {
                                 const type = getCategoryType(charge.title);
                                 return (
-                                    <div key={charge.id} className="border-b border-gray-200 p-4 bg-white">
+                                    <div key={charge.id} className="border-b border-gray-200 bg-white p-4">
                                         <div className="space-y-3">
                                             <div>
-                                                <h3 className="font-medium text-gray-900 text-sm">{charge.title}</h3>
-                                                {charge.description && (
-                                                    <p className="text-sm text-gray-500 mt-1">{charge.description}</p>
-                                                )}
+                                                <h3 className="text-sm font-medium text-gray-900">{charge.title}</h3>
+                                                {charge.description && <p className="mt-1 text-sm text-gray-500">{charge.description}</p>}
                                             </div>
 
                                             <div className="flex flex-wrap gap-2 text-xs">
-                                                <div className="bg-gray-50 px-2 py-1 rounded">
+                                                <div className="rounded bg-gray-50 px-2 py-1">
                                                     <span className="text-gray-600">Period: </span>
-                                                    <span className="font-medium">{charge.from} - {charge.to || 'Ongoing'}</span>
+                                                    <span className="font-medium">
+                                                        {charge.from} - {charge.to || 'Ongoing'}
+                                                    </span>
                                                 </div>
-                                                <span className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium ${type.color}`}>
+                                                <span
+                                                    className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium ${type.color}`}
+                                                >
                                                     {type.icon} {charge.status}
                                                 </span>
                                             </div>
 
-                                            <div className="flex flex-col sm:flex-row gap-2">
+                                            <div className="flex flex-col gap-2 sm:flex-row">
                                                 {charge.download_url && (
                                                     <a
                                                         href={charge.download_url}
@@ -137,14 +140,14 @@ const ScheduleOfChargesPublic = ({ scheduleOfCharges }: ScheduleOfChargesPublicP
                                                         href={charge.attachment_url}
                                                         target="_blank"
                                                         rel="noopener noreferrer"
-                                                        className="inline-flex items-center justify-center gap-2 rounded-lg border border-[#4A7C59] text-[#4A7C59] px-3 py-2 text-sm font-medium transition-all duration-200 hover:bg-[#4A7C59] hover:text-white"
+                                                        className="inline-flex items-center justify-center gap-2 rounded-lg border border-[#4A7C59] px-3 py-2 text-sm font-medium text-[#4A7C59] transition-all duration-200 hover:bg-[#4A7C59] hover:text-white"
                                                     >
                                                         <ExternalLink className="h-4 w-4" />
                                                         View Online
                                                     </a>
                                                 )}
                                                 {!charge.download_url && !charge.attachment_url && (
-                                                    <span className="text-sm text-gray-500 py-2">No document available</span>
+                                                    <span className="py-2 text-sm text-gray-500">No document available</span>
                                                 )}
                                             </div>
                                         </div>
@@ -154,26 +157,26 @@ const ScheduleOfChargesPublic = ({ scheduleOfCharges }: ScheduleOfChargesPublicP
                         </div>
 
                         {/* Desktop Table View */}
-                        <div className="hidden lg:block overflow-x-auto">
-                            <table className="min-w-full table-auto w-full bg-white divide-y divide-gray-200">
+                        <div className="hidden overflow-x-auto lg:block">
+                            <table className="w-full min-w-full table-auto divide-y divide-gray-200 bg-white">
                                 <thead className="bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A]">
                                     <tr>
-                                        <th className="px-6 py-3 text-left text-sm font-medium text-white uppercase tracking-wider">Title</th>
-                                        <th className="px-6 py-3 text-left text-sm font-medium text-white uppercase tracking-wider">Effective Period</th>
-                                        <th className="px-6 py-3 text-left text-sm font-medium text-white uppercase tracking-wider">Status</th>
-                                        <th className="px-6 py-3 text-left text-sm font-medium text-white uppercase tracking-wider">Actions</th>
+                                        <th className="px-6 py-3 text-left text-sm font-medium tracking-wider text-white uppercase">Title</th>
+                                        <th className="px-6 py-3 text-left text-sm font-medium tracking-wider text-white uppercase">
+                                            Effective Period
+                                        </th>
+                                        <th className="px-6 py-3 text-left text-sm font-medium tracking-wider text-white uppercase">Status</th>
+                                        <th className="px-6 py-3 text-left text-sm font-medium tracking-wider text-white uppercase">Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody className="bg-white divide-y divide-gray-200">
+                                <tbody className="divide-y divide-gray-200 bg-white">
                                     {(filteredCharges.length > 0 ? filteredCharges : []).map((charge) => {
                                         const type = getCategoryType(charge.title);
                                         return (
                                             <tr key={charge.id} className="hover:bg-gray-50">
                                                 <td className="px-6 py-4">
                                                     <div className="text-sm font-medium text-gray-900">{charge.title}</div>
-                                                    {charge.description && (
-                                                        <div className="text-sm text-gray-500 mt-1">{charge.description}</div>
-                                                    )}
+                                                    {charge.description && <div className="mt-1 text-sm text-gray-500">{charge.description}</div>}
                                                 </td>
                                                 <td className="px-6 py-4">
                                                     <div className="text-sm text-gray-900">
@@ -181,7 +184,9 @@ const ScheduleOfChargesPublic = ({ scheduleOfCharges }: ScheduleOfChargesPublicP
                                                     </div>
                                                 </td>
                                                 <td className="px-6 py-4">
-                                                    <span className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium ${type.color}`}>
+                                                    <span
+                                                        className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium ${type.color}`}
+                                                    >
                                                         {type.icon} {charge.status}
                                                     </span>
                                                 </td>
@@ -202,7 +207,7 @@ const ScheduleOfChargesPublic = ({ scheduleOfCharges }: ScheduleOfChargesPublicP
                                                                 href={charge.attachment_url}
                                                                 target="_blank"
                                                                 rel="noopener noreferrer"
-                                                                className="inline-flex items-center gap-2 rounded-lg border border-[#4A7C59] text-[#4A7C59] px-4 py-2 text-sm font-medium transition-all duration-200 hover:bg-[#4A7C59] hover:text-white"
+                                                                className="inline-flex items-center gap-2 rounded-lg border border-[#4A7C59] px-4 py-2 text-sm font-medium text-[#4A7C59] transition-all duration-200 hover:bg-[#4A7C59] hover:text-white"
                                                             >
                                                                 <ExternalLink className="h-4 w-4" />
                                                                 View Online
@@ -224,7 +229,7 @@ const ScheduleOfChargesPublic = ({ scheduleOfCharges }: ScheduleOfChargesPublicP
 
                 {/* Pagination */}
                 {scheduleOfCharges.last_page > 1 && (
-                    <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div className="mt-8 flex flex-col items-center justify-between gap-4 sm:flex-row">
                         <div className="text-sm text-gray-600">
                             Showing {scheduleOfCharges.from} to {scheduleOfCharges.to} of {scheduleOfCharges.total} results
                         </div>
@@ -232,7 +237,7 @@ const ScheduleOfChargesPublic = ({ scheduleOfCharges }: ScheduleOfChargesPublicP
                             <button
                                 onClick={() => router.get(route('rates.schedule-of-charges'), { page: scheduleOfCharges.current_page - 1 })}
                                 disabled={scheduleOfCharges.current_page === 1}
-                                className="flex items-center gap-1 px-3 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="flex items-center gap-1 rounded-md border border-gray-300 px-3 py-2 text-sm hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
                             >
                                 <ChevronLeft className="h-4 w-4" />
                                 Previous
@@ -240,16 +245,17 @@ const ScheduleOfChargesPublic = ({ scheduleOfCharges }: ScheduleOfChargesPublicP
 
                             <div className="flex gap-1">
                                 {scheduleOfCharges.links
-                                    .filter(link => link.label !== '&laquo; Previous' && link.label !== 'Next &raquo;')
+                                    .filter((link) => link.label !== '&laquo; Previous' && link.label !== 'Next &raquo;')
                                     .map((link, index) => (
                                         <button
                                             key={index}
                                             onClick={() => link.url && router.get(link.url)}
                                             disabled={!link.url}
-                                            className={`px-3 py-2 text-sm border rounded-md ${link.active
-                                                    ? 'bg-[#4A7C59] text-white border-[#4A7C59]'
-                                                    : 'border-gray-300 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed'
-                                                }`}
+                                            className={`rounded-md border px-3 py-2 text-sm ${
+                                                link.active
+                                                    ? 'border-[#4A7C59] bg-[#4A7C59] text-white'
+                                                    : 'border-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50'
+                                            }`}
                                             dangerouslySetInnerHTML={{ __html: link.label }}
                                         />
                                     ))}
@@ -258,7 +264,7 @@ const ScheduleOfChargesPublic = ({ scheduleOfCharges }: ScheduleOfChargesPublicP
                             <button
                                 onClick={() => router.get(route('rates.schedule-of-charges'), { page: scheduleOfCharges.current_page + 1 })}
                                 disabled={scheduleOfCharges.current_page === scheduleOfCharges.last_page}
-                                className="flex items-center gap-1 px-3 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="flex items-center gap-1 rounded-md border border-gray-300 px-3 py-2 text-sm hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
                             >
                                 Next
                                 <ChevronRight className="h-4 w-4" />

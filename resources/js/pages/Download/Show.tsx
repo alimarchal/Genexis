@@ -83,7 +83,7 @@ export default function Show({ download }: Props) {
                             <ArrowLeft className="h-4 w-4" />
                         </Link>
                     </Button>
-                    <div className="flex items-center justify-between w-full">
+                    <div className="flex w-full items-center justify-between">
                         <Heading title={download.title} description="View download details" />
                         <Button asChild>
                             <Link href={route('downloads.edit', download.id)}>
@@ -121,9 +121,7 @@ export default function Show({ download }: Props) {
                                     <div className="space-y-2">
                                         <h3 className="text-lg font-medium">Description</h3>
                                         <div className="prose max-w-none">
-                                            <p className="leading-relaxed whitespace-pre-wrap text-gray-700">
-                                                {download.description}
-                                            </p>
+                                            <p className="leading-relaxed whitespace-pre-wrap text-gray-700">{download.description}</p>
                                         </div>
                                     </div>
                                 )}
@@ -179,16 +177,14 @@ export default function Show({ download }: Props) {
 
                                 <div className="flex items-center justify-between">
                                     <span className="text-sm font-medium">Featured</span>
-                                    <Badge variant={download.is_featured ? 'default' : 'outline'}>
-                                        {download.is_featured ? 'Yes' : 'No'}
-                                    </Badge>
+                                    <Badge variant={download.is_featured ? 'default' : 'outline'}>{download.is_featured ? 'Yes' : 'No'}</Badge>
                                 </div>
 
                                 <Separator />
 
                                 <div className="space-y-2">
                                     <span className="text-sm font-medium">Downloads</span>
-                                    <div className="text-2xl font-bold text-primary">{download.download_count}</div>
+                                    <div className="text-primary text-2xl font-bold">{download.download_count}</div>
                                 </div>
                             </CardContent>
                         </Card>
@@ -221,9 +217,7 @@ export default function Show({ download }: Props) {
                                 <div>
                                     <p className="font-medium">Created</p>
                                     <p className="text-gray-600">{new Date(download.created_at).toLocaleString()}</p>
-                                    {download.creator && (
-                                        <p className="text-gray-500">by {download.creator.name}</p>
-                                    )}
+                                    {download.creator && <p className="text-gray-500">by {download.creator.name}</p>}
                                 </div>
 
                                 <Separator />
@@ -231,9 +225,7 @@ export default function Show({ download }: Props) {
                                 <div>
                                     <p className="font-medium">Last Updated</p>
                                     <p className="text-gray-600">{new Date(download.updated_at).toLocaleString()}</p>
-                                    {download.updater && (
-                                        <p className="text-gray-500">by {download.updater.name}</p>
-                                    )}
+                                    {download.updater && <p className="text-gray-500">by {download.updater.name}</p>}
                                 </div>
                             </CardContent>
                         </Card>

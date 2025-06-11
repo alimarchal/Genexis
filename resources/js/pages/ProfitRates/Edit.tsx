@@ -99,10 +99,7 @@ export default function Edit({ profitRate }: Props) {
                     </Button>
                 </div>
 
-                <Heading
-                    title={`Edit Profit Rate - ${profitRate.category}`}
-                    description="Update profit rate information"
-                />
+                <Heading title={`Edit Profit Rate - ${profitRate.category}`} description="Update profit rate information" />
 
                 <Card className="mt-6">
                     <CardHeader>

@@ -128,7 +128,12 @@ export default function DownloadIndex({ downloads, filters }: Props) {
                         <div className="flex flex-1 gap-4">
                             <div className="relative max-w-sm flex-1">
                                 <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
-                                <Input placeholder="Search downloads..." value={search} onChange={(e) => handleSearch(e.target.value)} className="pl-10" />
+                                <Input
+                                    placeholder="Search downloads..."
+                                    value={search}
+                                    onChange={(e) => handleSearch(e.target.value)}
+                                    className="pl-10"
+                                />
                             </div>
 
                             <Select value={statusFilter} onValueChange={handleStatusFilter}>
@@ -213,7 +218,14 @@ export default function DownloadIndex({ downloads, filters }: Props) {
                                                 <Badge variant="outline">{download.download_count}</Badge>
                                             </TableCell>
                                             <TableCell>{getStatusBadge(download.is_active)}</TableCell>
-                                            <TableCell>{download.is_featured && <Badge variant="outline"><Star className="mr-1 h-3 w-3" />Featured</Badge>}</TableCell>
+                                            <TableCell>
+                                                {download.is_featured && (
+                                                    <Badge variant="outline">
+                                                        <Star className="mr-1 h-3 w-3" />
+                                                        Featured
+                                                    </Badge>
+                                                )}
+                                            </TableCell>
                                             <TableCell className="text-right">
                                                 <DropdownMenu>
                                                     <DropdownMenuTrigger asChild>

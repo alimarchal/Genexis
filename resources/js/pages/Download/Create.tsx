@@ -143,11 +143,7 @@ export default function Create() {
                                         </Label>
                                         <p className="text-sm text-gray-500">Make this download available to the public</p>
                                     </div>
-                                    <Switch
-                                        id="is_active"
-                                        checked={data.is_active}
-                                        onCheckedChange={(checked) => setData('is_active', checked)}
-                                    />
+                                    <Switch id="is_active" checked={data.is_active} onCheckedChange={(checked) => setData('is_active', checked)} />
                                 </div>
 
                                 <div className="flex items-center justify-between rounded-lg border p-4">

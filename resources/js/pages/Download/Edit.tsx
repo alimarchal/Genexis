@@ -101,9 +101,7 @@ export default function Edit({ download }: Props) {
                                         </div>
                                         {download.file_url && (
                                             <Button variant="outline" size="sm" className="mt-3" asChild>
-                                                <Link href={route('downloads.download', download.id)}>
-                                                    Download Current File
-                                                </Link>
+                                                <Link href={route('downloads.download', download.id)}>Download Current File</Link>
                                             </Button>
                                         )}
                                     </div>
@@ -148,9 +146,7 @@ export default function Edit({ download }: Props) {
                                                 className={errors.file ? 'border-red-500' : ''}
                                             />
                                         </div>
-                                        <p className="text-sm text-gray-500">
-                                            Upload a new file to replace the current one. Max size: 50MB
-                                        </p>
+                                        <p className="text-sm text-gray-500">Upload a new file to replace the current one. Max size: 50MB</p>
                                         <InputError message={errors.file} />
                                     </div>
 
@@ -228,15 +224,11 @@ export default function Edit({ download }: Props) {
                             <CardContent className="space-y-4">
                                 <div className="flex items-center justify-between">
                                     <span className="text-sm font-medium">Visibility</span>
-                                    <Badge variant={download.is_active ? 'default' : 'secondary'}>
-                                        {download.is_active ? 'Active' : 'Inactive'}
-                                    </Badge>
+                                    <Badge variant={download.is_active ? 'default' : 'secondary'}>{download.is_active ? 'Active' : 'Inactive'}</Badge>
                                 </div>
                                 <div className="flex items-center justify-between">
                                     <span className="text-sm font-medium">Featured</span>
-                                    <Badge variant={download.is_featured ? 'default' : 'outline'}>
-                                        {download.is_featured ? 'Yes' : 'No'}
-                                    </Badge>
+                                    <Badge variant={download.is_featured ? 'default' : 'outline'}>{download.is_featured ? 'Yes' : 'No'}</Badge>
                                 </div>
                                 <div className="flex items-center justify-between">
                                     <span className="text-sm font-medium">Category</span>
@@ -254,14 +246,10 @@ export default function Edit({ download }: Props) {
                             </CardHeader>
                             <CardContent className="space-y-3">
                                 <Button variant="outline" size="sm" className="w-full" asChild>
-                                    <Link href={route('downloads.show', download.id)}>
-                                        View Details
-                                    </Link>
+                                    <Link href={route('downloads.show', download.id)}>View Details</Link>
                                 </Button>
                                 <Button variant="outline" size="sm" className="w-full" asChild>
-                                    <Link href={route('downloads.index')}>
-                                        Back to List
-                                    </Link>
+                                    <Link href={route('downloads.index')}>Back to List</Link>
                                 </Button>
                             </CardContent>
                         </Card>

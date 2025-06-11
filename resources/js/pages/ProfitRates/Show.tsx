@@ -104,10 +104,7 @@ export default function Show({ profitRate }: Props) {
                     </div>
                 </div>
 
-                <Heading
-                    title={`Profit Rate - ${profitRate.category}`}
-                    description="View complete information about this profit rate"
-                />
+                <Heading title={`Profit Rate - ${profitRate.category}`} description="View complete information about this profit rate" />
 
                 <div className="grid max-w-6xl grid-cols-1 gap-6 lg:grid-cols-3">
                     {/* Main Content */}
@@ -133,9 +130,7 @@ export default function Show({ profitRate }: Props) {
                                     <div>
                                         <label className="text-sm font-medium text-gray-500">Status</label>
                                         <div className="mt-1">
-                                            <Badge variant={profitRate.is_active ? 'default' : 'secondary'}>
-                                                {profitRate.status}
-                                            </Badge>
+                                            <Badge variant={profitRate.is_active ? 'default' : 'secondary'}>{profitRate.status}</Badge>
                                         </div>
                                     </div>
                                     <div>
@@ -189,9 +184,7 @@ export default function Show({ profitRate }: Props) {
 
                                 {!profitRate.valid_to && (
                                     <div className="mt-4 rounded-lg bg-green-50 p-4">
-                                        <p className="text-sm text-green-800">
-                                            This is an ongoing rate with no end date specified.
-                                        </p>
+                                        <p className="text-sm text-green-800">This is an ongoing rate with no end date specified.</p>
                                     </div>
                                 )}
                             </CardContent>
@@ -207,16 +200,12 @@ export default function Show({ profitRate }: Props) {
                                     <div>
                                         <dt className="text-sm font-medium text-gray-500">Created</dt>
                                         <dd className="mt-1 text-sm text-gray-900">{formatDate(profitRate.created_at)}</dd>
-                                        {profitRate.creator && (
-                                            <dd className="text-xs text-gray-500">by {profitRate.creator.name}</dd>
-                                        )}
+                                        {profitRate.creator && <dd className="text-xs text-gray-500">by {profitRate.creator.name}</dd>}
                                     </div>
                                     <div>
                                         <dt className="text-sm font-medium text-gray-500">Last Updated</dt>
                                         <dd className="mt-1 text-sm text-gray-900">{formatDate(profitRate.updated_at)}</dd>
-                                        {profitRate.updater && (
-                                            <dd className="text-xs text-gray-500">by {profitRate.updater.name}</dd>
-                                        )}
+                                        {profitRate.updater && <dd className="text-xs text-gray-500">by {profitRate.updater.name}</dd>}
                                     </div>
                                 </dl>
                             </CardContent>
@@ -260,11 +249,9 @@ export default function Show({ profitRate }: Props) {
                                                 <span className="text-gray-500">Product:</span>
                                                 <span className="font-medium">{profitRate.category}</span>
                                             </div>
-                                            <div className="flex justify-between mt-1">
+                                            <div className="mt-1 flex justify-between">
                                                 <span className="text-gray-500">Status:</span>
-                                                <span className={profitRate.is_active ? 'text-green-600' : 'text-gray-600'}>
-                                                    {profitRate.status}
-                                                </span>
+                                                <span className={profitRate.is_active ? 'text-green-600' : 'text-gray-600'}>{profitRate.status}</span>
                                             </div>
                                         </div>
                                     </div>

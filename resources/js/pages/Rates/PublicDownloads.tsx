@@ -1,7 +1,7 @@
 import WebsiteLayout from '@/layouts/WebsiteLayout';
-import { Building2, Download, ChevronLeft, ChevronRight } from 'lucide-react';
-import { useState, useMemo } from 'react';
 import { router } from '@inertiajs/react';
+import { Building2, ChevronLeft, ChevronRight, Download } from 'lucide-react';
+import { useMemo, useState } from 'react';
 
 interface PublicDownload {
     id: number;
@@ -37,11 +37,12 @@ interface PublicDownloadsPublicProps {
 const PublicDownloadsPublic = ({ downloads }: PublicDownloadsPublicProps) => {
     const [search, setSearch] = useState('');
     const filteredDownloads = useMemo(
-        () => downloads.data.filter(download =>
-            download.title.toLowerCase().includes(search.toLowerCase()) ||
-            download.category.toLowerCase().includes(search.toLowerCase())
-        ),
-        [search, downloads.data]
+        () =>
+            downloads.data.filter(
+                (download) =>
+                    download.title.toLowerCase().includes(search.toLowerCase()) || download.category.toLowerCase().includes(search.toLowerCase()),
+            ),
+        [search, downloads.data],
     );
 
     const getCategoryType = (category: string) => {
@@ -60,10 +61,6 @@ const PublicDownloadsPublic = ({ downloads }: PublicDownloadsPublicProps) => {
         return { color: 'bg-gray-100 text-gray-800', icon: '📁' };
     };
 
-    const formatFileSize = (size: string) => {
-        return size;
-    };
-
     return (
         <div className="min-h-screen bg-gradient-to-br from-[#e9f7ef] to-[#fff7e6]">
             <div className="mx-auto max-w-7xl px-6 py-8">
@@ -76,18 +73,19 @@ const PublicDownloadsPublic = ({ downloads }: PublicDownloadsPublicProps) => {
                     </div>
                     <h1 className="mb-4 text-4xl font-bold text-gray-900">Public Downloads</h1>
                     <p className="mx-auto mb-8 max-w-3xl text-xl text-gray-600">
-                        Access important documents, forms, and resources from Bank of Azad Jammu & Kashmir. Download forms, reports, brochures, and other essential documents.
+                        Access important documents, forms, and resources from Bank of Azad Jammu & Kashmir. Download forms, reports, brochures, and
+                        other essential documents.
                     </p>
                 </div>
 
                 {/* Search */}
-                <div className="flex justify-end mb-4">
+                <div className="mb-4 flex justify-end">
                     <input
                         type="text"
                         value={search}
-                        onChange={e => setSearch(e.target.value)}
+                        onChange={(e) => setSearch(e.target.value)}
                         placeholder="Search downloads..."
-                        className="w-full md:w-1/3 border border-[#4A7C59] rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#4A7C59] bg-green-50 text-gray-700"
+                        className="w-full rounded-lg border border-[#4A7C59] bg-green-50 px-4 py-2 text-gray-700 focus:ring-2 focus:ring-[#4A7C59] focus:outline-none md:w-1/3"
                     />
                 </div>
 
@@ -98,18 +96,24 @@ const PublicDownloadsPublic = ({ downloads }: PublicDownloadsPublicProps) => {
                         <p className="text-gray-600">Downloads will be updated here as they become available.</p>
                     </div>
                 ) : (
-                    <div className="shadow-lg rounded-lg border border-gray-200 overflow-x-auto">
-                        <table className="min-w-full table-auto w-full bg-white divide-y divide-gray-200 text-sm sm:text-base">
+                    <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-lg">
+                        <table className="w-full min-w-full table-auto divide-y divide-gray-200 bg-white text-sm sm:text-base">
                             <thead className="bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A]">
                                 <tr>
-                                    <th className="px-6 py-3 text-left text-xs sm:text-sm font-medium text-white uppercase tracking-wider">Title</th>
-                                    <th className="px-6 py-3 text-left text-xs sm:text-sm font-medium text-white uppercase tracking-wider">Category</th>
-                                    <th className="px-6 py-3 text-left text-xs sm:text-sm font-medium text-white uppercase tracking-wider">File Info</th>
-                                    <th className="px-6 py-3 text-left text-xs sm:text-sm font-medium text-white uppercase tracking-wider">Downloads</th>
-                                    <th className="px-6 py-3 text-left text-xs sm:text-sm font-medium text-white uppercase tracking-wider">Action</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-white uppercase sm:text-sm">Title</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-white uppercase sm:text-sm">
+                                        Category
+                                    </th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-white uppercase sm:text-sm">
+                                        File Info
+                                    </th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-white uppercase sm:text-sm">
+                                        Downloads
+                                    </th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-white uppercase sm:text-sm">Action</th>
                                 </tr>
                             </thead>
-                            <tbody className="bg-white divide-y divide-gray-200">
+                            <tbody className="divide-y divide-gray-200 bg-white">
                                 {(filteredDownloads.length > 0 ? filteredDownloads : []).map((download) => {
                                     const type = getCategoryType(download.category);
                                     return (
@@ -117,16 +121,18 @@ const PublicDownloadsPublic = ({ downloads }: PublicDownloadsPublicProps) => {
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 <div className="text-sm font-medium text-gray-900">{download.title}</div>
                                                 {download.description && (
-                                                    <div className="text-sm text-gray-500 mt-1 line-clamp-2">{download.description}</div>
+                                                    <div className="mt-1 line-clamp-2 text-sm text-gray-500">{download.description}</div>
                                                 )}
                                                 {download.is_featured && (
-                                                    <span className="inline-flex items-center px-2 py-1 mt-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                                    <span className="mt-1 inline-flex items-center rounded-full bg-yellow-100 px-2 py-1 text-xs font-medium text-yellow-800">
                                                         ⭐ Featured
                                                     </span>
                                                 )}
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
-                                                <span className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium ${type.color}`}>
+                                                <span
+                                                    className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium ${type.color}`}
+                                                >
                                                     {type.icon} {download.category.charAt(0).toUpperCase() + download.category.slice(1)}
                                                 </span>
                                             </td>
@@ -137,7 +143,7 @@ const PublicDownloadsPublic = ({ downloads }: PublicDownloadsPublicProps) => {
                                                 </div>
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
-                                                <div className="text-sm text-gray-900 font-medium">{download.download_count}</div>
+                                                <div className="text-sm font-medium text-gray-900">{download.download_count}</div>
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 <a
@@ -158,7 +164,7 @@ const PublicDownloadsPublic = ({ downloads }: PublicDownloadsPublicProps) => {
 
                 {/* Pagination */}
                 {downloads.last_page > 1 && (
-                    <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div className="mt-8 flex flex-col items-center justify-between gap-4 sm:flex-row">
                         <div className="text-sm text-gray-600">
                             Showing {downloads.from} to {downloads.to} of {downloads.total} results
                         </div>
@@ -166,7 +172,7 @@ const PublicDownloadsPublic = ({ downloads }: PublicDownloadsPublicProps) => {
                             <button
                                 onClick={() => router.get(route('public-downloads'), { page: downloads.current_page - 1 })}
                                 disabled={downloads.current_page === 1}
-                                className="flex items-center gap-1 px-3 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="flex items-center gap-1 rounded-md border border-gray-300 px-3 py-2 text-sm hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
                             >
                                 <ChevronLeft className="h-4 w-4" />
                                 Previous
@@ -174,16 +180,17 @@ const PublicDownloadsPublic = ({ downloads }: PublicDownloadsPublicProps) => {
 
                             <div className="flex gap-1">
                                 {downloads.links
-                                    .filter(link => link.label !== '&laquo; Previous' && link.label !== 'Next &raquo;')
+                                    .filter((link) => link.label !== '&laquo; Previous' && link.label !== 'Next &raquo;')
                                     .map((link, index) => (
                                         <button
                                             key={index}
                                             onClick={() => link.url && router.get(link.url)}
                                             disabled={!link.url}
-                                            className={`px-3 py-2 text-sm border rounded-md ${link.active
-                                                    ? 'bg-[#4A7C59] text-white border-[#4A7C59]'
-                                                    : 'border-gray-300 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed'
-                                                }`}
+                                            className={`rounded-md border px-3 py-2 text-sm ${
+                                                link.active
+                                                    ? 'border-[#4A7C59] bg-[#4A7C59] text-white'
+                                                    : 'border-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50'
+                                            }`}
                                             dangerouslySetInnerHTML={{ __html: link.label }}
                                         />
                                     ))}
@@ -192,7 +199,7 @@ const PublicDownloadsPublic = ({ downloads }: PublicDownloadsPublicProps) => {
                             <button
                                 onClick={() => router.get(route('public-downloads'), { page: downloads.current_page + 1 })}
                                 disabled={downloads.current_page === downloads.last_page}
-                                className="flex items-center gap-1 px-3 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="flex items-center gap-1 rounded-md border border-gray-300 px-3 py-2 text-sm hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
                             >
                                 Next
                                 <ChevronRight className="h-4 w-4" />

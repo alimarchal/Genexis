@@ -18,7 +18,7 @@ export const Thead: React.FC<{ children: React.ReactNode }> = ({ children }) => 
 };
 
 export const Tbody: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    return <tbody className="bg-white divide-y divide-gray-200">{children}</tbody>;
+    return <tbody className="divide-y divide-gray-200 bg-white">{children}</tbody>;
 };
 
 export const Tr: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -27,10 +27,7 @@ export const Tr: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
 export const Th: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className }) => {
     return (
-        <th
-            scope="col"
-            className={`px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ${className || ''}`}
-        >
+        <th scope="col" className={`px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase ${className || ''}`}>
             {children}
         </th>
     );

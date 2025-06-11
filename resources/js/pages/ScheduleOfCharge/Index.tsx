@@ -62,21 +62,13 @@ export default function ScheduleOfChargeIndex({ scheduleOfCharges, filters }: Pr
 
     const handleSearch = (value: string) => {
         setSearch(value);
-        router.get(
-            route('schedule-of-charges.index'),
-            { search: value, status: statusFilter },
-            { preserveState: true, replace: true },
-        );
+        router.get(route('schedule-of-charges.index'), { search: value, status: statusFilter }, { preserveState: true, replace: true });
     };
 
     const handleStatusFilter = (value: string) => {
         setStatusFilter(value);
         const statusParam = value === 'all' ? undefined : value;
-        router.get(
-            route('schedule-of-charges.index'),
-            { search, status: statusParam },
-            { preserveState: true, replace: true },
-        );
+        router.get(route('schedule-of-charges.index'), { search, status: statusParam }, { preserveState: true, replace: true });
     };
 
     const handleDelete = (id: number) => {
@@ -110,7 +102,12 @@ export default function ScheduleOfChargeIndex({ scheduleOfCharges, filters }: Pr
                         <div className="flex flex-1 gap-4">
                             <div className="relative max-w-sm flex-1">
                                 <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
-                                <Input placeholder="Search schedules..." value={search} onChange={(e) => handleSearch(e.target.value)} className="pl-10" />
+                                <Input
+                                    placeholder="Search schedules..."
+                                    value={search}
+                                    onChange={(e) => handleSearch(e.target.value)}
+                                    className="pl-10"
+                                />
                             </div>
 
                             <Select value={statusFilter} onValueChange={handleStatusFilter}>
