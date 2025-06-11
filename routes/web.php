@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\AnnualReportController;
 use App\Http\Controllers\BankServiceController;
+use App\Http\Controllers\BoardOfDirectorController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\BranchServiceController;
 use App\Http\Controllers\CarouselController;
@@ -14,9 +15,14 @@ use App\Http\Controllers\FinancialReportController;
 use App\Http\Controllers\ManagmentController;
 use App\Http\Controllers\NewsAnnouncementController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\ProductSchemeAttributeController;
+use App\Http\Controllers\ProductSchemeController;
+use App\Http\Controllers\ProductTypeAccountController;
+use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\ProfitRateController;
 use App\Http\Controllers\RegionController;
 use App\Http\Controllers\ScheduleOfChargeController;
+use App\Http\Controllers\ServiceAttributeController;
 use App\Http\Controllers\ServiceController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -49,6 +55,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Schedule of Charges and Downloads CRUD
     Route::resource('schedule-of-charges', ScheduleOfChargeController::class);
     Route::resource('downloads', DownloadController::class);
+
+    // Additional CRUD routes for existing controllers
+    Route::resource('board-of-directors', BoardOfDirectorController::class);
+    Route::resource('product-schemes', ProductSchemeController::class);
+    Route::resource('product-scheme-attributes', ProductSchemeAttributeController::class);
+    Route::resource('product-types', ProductTypeController::class);
+    Route::resource('product-type-accounts', ProductTypeAccountController::class);
+    Route::resource('service-attributes', ServiceAttributeController::class);
 
     // CRUD download routes (for authenticated users)
     Route::get('schedule-of-charges/{scheduleOfCharge}/download', [ScheduleOfChargeController::class, 'download'])->name('schedule-of-charges.admin-download');

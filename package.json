@@ -22,7 +22,7 @@
         "prettier": "^3.5.3",
         "prettier-plugin-organize-imports": "^4.1.0",
         "prettier-plugin-tailwindcss": "^0.6.11",
-        "typescript-eslint": "^8.32.1"
+        "typescript-eslint": "^7.3.1"
     },
     "dependencies": {
         "@headlessui/react": "^2.2.4",
@@ -48,7 +48,7 @@
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
         "concurrently": "^9.1.2",
-        "flowbite-react": "^0.11.7",
+        "flowbite-react": "^0.10.2",
         "globals": "^16.1.0",
         "laravel-vite-plugin": "^1.2.0",
         "lucide-react": "^0.511.0",
