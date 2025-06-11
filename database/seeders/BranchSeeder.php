@@ -511,8 +511,8 @@ class BranchSeeder extends Seeder
                 'code' => '0051',
                 'name' => 'Juna Branch',
                 'address' => 'Main Bazar Juna District Kotli A.K',
-                // 'latitude' => 0,
-                // 'longitude' => 0,
+                'latitude' => 33.3815800,
+                'longitude' => 73.9421250,
             ],
             [
                 'district_id' => District::without('branches', 'region')->where('name', 'Neelum')->first()->id,
@@ -718,8 +718,8 @@ class BranchSeeder extends Seeder
                 'code' => '0074',
                 'name' => 'Panthal Branch',
                 'address' => 'Panthal Branch, Tehsil and District Sudhanoti, Azad Kashmir',
-                // 'latitude' => 0,
-                // 'longitude' => 0,
+                'latitude' => 33.6204650,
+                'longitude' => 73.7231020,
             ],
             [
                 'district_id' => District::without('branches', 'region')->where('name', 'Kotli')->first()->id,
@@ -808,8 +808,8 @@ class BranchSeeder extends Seeder
                 'code' => '0084',
                 'name' => 'Main Bazar Leepa',
                 'address' => 'Jhelum Valley (AJ&K)',
-                // 'latitude' => 0,
-                // 'longitude' => 0,
+                'latitude' => 34.3013250,
+                'longitude' => 73.8713140,
             ],
             [
                 'district_id' => District::without('branches', 'region')->where('name', 'Muzaffarabad')->first()->id,
