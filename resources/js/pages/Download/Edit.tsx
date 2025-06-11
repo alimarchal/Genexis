@@ -101,7 +101,7 @@ export default function Edit({ download }: Props) {
                                         </div>
                                         {download.file_url && (
                                             <Button variant="outline" size="sm" className="mt-3" asChild>
-                                                <Link href={route('downloads.download', download.id)}>Download Current File</Link>
+                                                <Link href={route('downloads.admin-download', download.id)}>Download Current File</Link>
                                             </Button>
                                         )}
                                     </div>

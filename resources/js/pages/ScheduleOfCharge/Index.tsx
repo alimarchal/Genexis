@@ -171,7 +171,7 @@ export default function ScheduleOfChargeIndex({ scheduleOfCharges, filters }: Pr
                                             <TableCell>
                                                 {schedule.attachment_url ? (
                                                     <Link
-                                                        href={route('schedule-of-charges.download', schedule.id)}
+                                                        href={route('schedule-of-charges.admin-download', schedule.id)}
                                                         className="inline-flex items-center gap-1 text-sm text-blue-600 hover:text-blue-800"
                                                     >
                                                         <FileText className="h-4 w-4" />
@@ -206,7 +206,7 @@ export default function ScheduleOfChargeIndex({ scheduleOfCharges, filters }: Pr
                                                         </DropdownMenuItem>
                                                         {schedule.attachment_url && (
                                                             <DropdownMenuItem asChild>
-                                                                <Link href={route('schedule-of-charges.download', schedule.id)}>
+                                                                <Link href={route('schedule-of-charges.admin-download', schedule.id)}>
                                                                     <Download className="mr-2 h-4 w-4" />
                                                                     Download
                                                                 </Link>

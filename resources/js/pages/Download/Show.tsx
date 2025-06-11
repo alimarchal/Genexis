@@ -140,7 +140,7 @@ export default function Show({ download }: Props) {
                                             </div>
                                             {download.file_url && (
                                                 <Button asChild>
-                                                    <Link href={route('downloads.download', download.id)}>
+                                                    <Link href={route('downloads.admin-download', download.id)}>
                                                         <DownloadIcon className="mr-2 h-4 w-4" />
                                                         Download
                                                     </Link>

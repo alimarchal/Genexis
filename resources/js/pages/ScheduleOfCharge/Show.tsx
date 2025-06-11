@@ -147,7 +147,7 @@ export default function Show({ scheduleOfCharge }: Props) {
                                                 <p className="text-sm text-gray-500">Click to download the document</p>
                                             </div>
                                             <Button variant="outline" asChild>
-                                                <Link href={route('schedule-of-charges.download', scheduleOfCharge.id)}>
+                                                <Link href={route('schedule-of-charges.admin-download', scheduleOfCharge.id)}>
                                                     <Download className="mr-2 h-4 w-4" />
                                                     Download
                                                 </Link>
@@ -252,7 +252,7 @@ export default function Show({ scheduleOfCharge }: Props) {
 
                                 {scheduleOfCharge.attachment_url && (
                                     <Button variant="outline" asChild className="w-full">
-                                        <Link href={route('schedule-of-charges.download', scheduleOfCharge.id)}>
+                                        <Link href={route('schedule-of-charges.admin-download', scheduleOfCharge.id)}>
                                             <Download className="mr-2 h-4 w-4" />
                                             Download File
                                         </Link>

@@ -50,9 +50,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('schedule-of-charges', ScheduleOfChargeController::class);
     Route::resource('downloads', DownloadController::class);
 
-    // CRUD download routes
-    Route::get('schedule-of-charges/{scheduleOfCharge}/download', [ScheduleOfChargeController::class, 'download'])->name('schedule-of-charges.download');
-    Route::get('downloads/{download}/download', [DownloadController::class, 'download'])->name('downloads.download');
+    // CRUD download routes (for authenticated users)
+    Route::get('schedule-of-charges/{scheduleOfCharge}/download', [ScheduleOfChargeController::class, 'download'])->name('schedule-of-charges.admin-download');
+    Route::get('downloads/{download}/download', [DownloadController::class, 'download'])->name('downloads.admin-download');
 });
 
 Route::get('/', [PageController::class, 'home'])->name(name: 'home');

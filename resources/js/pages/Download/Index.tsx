@@ -249,7 +249,7 @@ export default function DownloadIndex({ downloads, filters }: Props) {
                                                             </Link>
                                                         </DropdownMenuItem>
                                                         <DropdownMenuItem asChild>
-                                                            <Link href={route('downloads.download', download.id)}>
+                                                            <Link href={route('downloads.admin-download', download.id)}>
                                                                 <Download className="mr-2 h-4 w-4" />
                                                                 Download
                                                             </Link>

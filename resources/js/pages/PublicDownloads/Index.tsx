@@ -86,7 +86,7 @@ export default function PublicDownloadsIndex({ downloads }: Props) {
                                             <Td>{download.file_size_formatted}</Td>
                                             <Td>
                                                 <a
-                                                    href={route('downloads.download', download.id)}
+                                                    href={route('public-downloads.download', download.id)}
                                                     className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:from-blue-700 hover:to-indigo-700 hover:shadow-lg"
                                                 >
                                                     <Download className="h-4 w-4" />
@@ -107,11 +107,10 @@ export default function PublicDownloadsIndex({ downloads }: Props) {
                                                 {link.url ? (
                                                     <Link
                                                         href={link.url}
-                                                        className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors duration-200 ${
-                                                            link.active
+                                                        className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors duration-200 ${link.active
                                                                 ? 'bg-blue-600 text-white'
                                                                 : 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
-                                                        }`}
+                                                            }`}
                                                         dangerouslySetInnerHTML={{ __html: link.label }}
                                                     />
                                                 ) : (

@@ -94,7 +94,7 @@ export default function Edit({ scheduleOfCharge }: Props) {
                                             <p className="text-sm text-gray-500">Upload a new file to replace the current one</p>
                                         </div>
                                         <Button variant="outline" size="sm" asChild>
-                                            <Link href={route('schedule-of-charges.download', scheduleOfCharge.id)}>
+                                            <Link href={route('schedule-of-charges.admin-download', scheduleOfCharge.id)}>
                                                 <Download className="mr-1 h-4 w-4" />
                                                 Download
                                             </Link>
