@@ -56,7 +56,7 @@ test('authenticated user can create schedule of charge', function () {
         'created_by' => $this->user->id,
     ]);
 
-    Storage::disk('public')->assertExists('schedule-of-charges/'.$file->hashName());
+    Storage::disk('public')->assertExists('schedule_of_charges/'.$file->hashName());
 });
 
 test('authenticated user can view schedule of charge details', function () {

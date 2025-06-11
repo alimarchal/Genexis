@@ -107,10 +107,10 @@ test('download increments download count when accessed', function () {
 test('guests can view public downloads page', function () {
     Download::factory(3)->create(['is_active' => true]);
 
-    $response = $this->get(route('public.downloads'));
+    $response = $this->get(route('public-downloads')); // Corrected route name
 
     $response->assertStatus(200);
-    $response->assertInertia(fn ($page) => $page->component('PublicDownloads/Index'));
+    $response->assertInertia(fn ($page) => $page->component('Rates/PublicDownloads')); // Corrected component name
 });
 
 test('validation fails for invalid download data', function () {
