@@ -8,6 +8,7 @@ use App\Http\Controllers\BranchServiceController;
 use App\Http\Controllers\CarouselController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DistrictController;
+use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\FinancialHighlightController;
 use App\Http\Controllers\FinancialReportController;
 use App\Http\Controllers\ManagmentController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\NewsAnnouncementController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProfitRateController;
 use App\Http\Controllers\RegionController;
+use App\Http\Controllers\ScheduleOfChargeController;
 use App\Http\Controllers\ServiceController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -43,6 +45,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('branches', BranchController::class);
     Route::resource('contacts', ContactController::class);
     Route::resource('branch-services', BranchServiceController::class);
+
+    // Schedule of Charges and Downloads
+    Route::resource('schedule-of-charges', ScheduleOfChargeController::class);
+    Route::resource('downloads', DownloadController::class);
+
+    // Download routes
+    Route::get('schedule-of-charges/{scheduleOfCharge}/download', [ScheduleOfChargeController::class, 'download'])->name('schedule-of-charges.download');
+    Route::get('downloads/{download}/download', [DownloadController::class, 'download'])->name('downloads.download');
 });
 
 Route::get('/', [PageController::class, 'home'])->name(name: 'home');
@@ -84,9 +94,12 @@ Route::prefix('financials')->name('financials.')->group(function () {
 
 Route::prefix('rates')->name('rates.')->group(function () {
     Route::get('/profit-rates', [PageController::class, 'profitRates'])->name('profit-rates');
+    Route::get('/schedule-of-charges', [PageController::class, 'scheduleOfCharges'])->name('schedule-of-charges');
 });
 
 Route::get('/contact-us', [PageController::class, 'contact'])->name('contact');
+
+Route::get('/public-downloads', [DownloadController::class, 'publicIndex'])->name('public.downloads');
 
 Route::get('/news', [PageController::class, 'news'])->name(name: 'news');
 Route::get('/news/{slug}', [PageController::class, 'newsDetail'])->name('news.detail');

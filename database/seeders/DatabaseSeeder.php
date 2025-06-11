@@ -36,6 +36,8 @@ class DatabaseSeeder extends Seeder
             AnnualReportSeeder::class,
             FinancialHighlightSeeder::class,
             ProfitRateSeeder::class,
+            ScheduleOfChargeSeeder::class,
+            DownloadSeeder::class,
         ]);
 
         // \App\Models\User::factory()->create([
