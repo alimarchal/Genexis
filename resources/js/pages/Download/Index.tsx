@@ -115,14 +115,6 @@ export default function DownloadIndex({ downloads, filters }: Props) {
         return <Badge variant={variants[category] || 'default'}>{category.charAt(0).toUpperCase() + category.slice(1)}</Badge>;
     };
 
-    const formatDate = (dateString: string) => {
-        return new Date(dateString).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-        });
-    };
-
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Downloads" />

@@ -77,7 +77,7 @@ export default function Index({ profitRates, filters }: Props) {
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
-        const params: Record<string, any> = {};
+        const params: Record<string, string | number | Record<string, string>> = {};
 
         if (search) {
             params.search = search;
@@ -95,7 +95,7 @@ export default function Index({ profitRates, filters }: Props) {
             params.filter = filterParams;
         }
 
-        router.get(route('profit-rates.index'), params as any, {
+        router.get(route('profit-rates.index'), params, {
             preserveState: true,
             preserveScroll: true,
         });

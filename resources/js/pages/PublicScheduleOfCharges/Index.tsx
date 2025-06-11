@@ -1,7 +1,8 @@
 import WebsiteLayout from '@/layouts/WebsiteLayout';
 import { Head, Link } from '@inertiajs/react';
-import { CalendarDays, FileText, Info } from 'lucide-react';
+import { FileText, Info } from 'lucide-react';
 import React from 'react';
+import { Table, Tbody, Td, Th, Thead, Tr } from '@/components/Table';
 
 interface ScheduleOfCharge {
     id: number;
@@ -62,7 +63,7 @@ export default function PublicScheduleOfChargesIndex({ scheduleOfCharges }: Prop
                     </div>
                 </div>
 
-                {/* Schedule of Charges List */}
+                {/* Schedule of Charges Table */}
                 <div className="mx-auto max-w-7xl px-6 py-12">
                     {scheduleOfCharges.data.length > 0 ? (
                         <>
@@ -72,66 +73,46 @@ export default function PublicScheduleOfChargesIndex({ scheduleOfCharges }: Prop
                                 </p>
                             </div>
 
-                            <div className="space-y-6">
-                                {scheduleOfCharges.data.map((charge) => (
-                                    <div
-                                        key={charge.id}
-                                        className="group relative overflow-hidden rounded-xl bg-white shadow-lg transition-all duration-300 hover:shadow-2xl"
-                                    >
-                                        <div className="p-6 md:p-8">
-                                            <div className="md:flex md:items-start md:justify-between">
-                                                <div className="flex-1">
-                                                    <h3 className="mb-2 text-2xl font-semibold text-gray-900 transition-colors duration-200 group-hover:text-sky-600">
-                                                        {charge.title}
-                                                    </h3>
-
-                                                    <div className="mb-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-gray-500">
-                                                        <span className="inline-flex items-center gap-1.5">
-                                                            <CalendarDays className="h-4 w-4 text-sky-500" />
-                                                            Effective from: {formatDate(charge.from)}
-                                                        </span>
-                                                        {charge.to && (
-                                                            <span className="inline-flex items-center gap-1.5">
-                                                                <CalendarDays className="h-4 w-4 text-red-500" />
-                                                                Effective until: {formatDate(charge.to)}
-                                                            </span>
-                                                        )}
-                                                        <span className={`inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-xs font-medium ${charge.is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                                                            }`}>
-                                                            {charge.status}
-                                                        </span>
-                                                    </div>
-
-                                                    {charge.description && (
-                                                        <p className="mb-4 text-gray-700 line-clamp-3">
-                                                            {charge.description}
-                                                        </p>
-                                                    )}
-                                                </div>
-
-                                                {charge.attachment_url && (
-                                                    <div className="mt-4 md:mt-0 md:ml-6">
-                                                        <a
-                                                            href={charge.attachment_url}
-                                                            target="_blank"
-                                                            rel="noopener noreferrer"
-                                                            className="inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-sky-600 to-cyan-600 px-5 py-3 text-sm font-medium text-white transition-all duration-200 hover:from-sky-700 hover:to-cyan-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
-                                                        >
-                                                            <FileText className="h-5 w-5" />
-                                                            View Attachment
-                                                        </a>
-                                                    </div>
+                            <Table>
+                                <Thead>
+                                    <Tr>
+                                        <Th>Title</Th>
+                                        <Th>Effective From</Th>
+                                        <Th>Effective To</Th>
+                                        <Th>Status</Th>
+                                        <Th>Attachment</Th>
+                                    </Tr>
+                                </Thead>
+                                <Tbody>
+                                    {scheduleOfCharges.data.map((charge) => (
+                                        <Tr key={charge.id}>
+                                            <Td>{charge.title}</Td>
+                                            <Td>{formatDate(charge.from)}</Td>
+                                            <Td>{formatDate(charge.to)}</Td>
+                                            <Td>
+                                                <span className={`inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-xs font-medium ${charge.is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                                                    {charge.status}
+                                                </span>
+                                            </Td>
+                                            <Td>
+                                                {charge.attachment_url ? (
+                                                    <a
+                                                        href={charge.attachment_url}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-sky-600 to-cyan-600 px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:from-sky-700 hover:to-cyan-700 hover:shadow-lg"
+                                                    >
+                                                        <FileText className="h-4 w-4" />
+                                                        View
+                                                    </a>
+                                                ) : (
+                                                    'N/A'
                                                 )}
-                                            </div>
-                                        </div>
-                                        {!charge.is_active && (
-                                            <div className="absolute inset-0 bg-gray-500 bg-opacity-10 backdrop-blur-sm flex items-center justify-center">
-                                                <span className="text-lg font-semibold text-gray-700">Currently Inactive</span>
-                                            </div>
-                                        )}
-                                    </div>
-                                ))}
-                            </div>
+                                            </Td>
+                                        </Tr>
+                                    ))}
+                                </Tbody>
+                            </Table>
 
                             {/* Pagination */}
                             {scheduleOfCharges.links && scheduleOfCharges.links.length > 3 && (
