@@ -2,6 +2,7 @@
 
 use App\Models\ProfitRate;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
@@ -271,31 +272,36 @@ test('it returns correct status attribute', function () {
 
 test('it correctly identifies current profit rates', function () {
     $currentRate = ProfitRate::factory()->create([
-        'valid_from' => now()->subDays(10),
-        'valid_to' => now()->addDays(10),
+        'valid_from' => Carbon::now()->subDays(10),
+        'valid_to' => Carbon::now()->addDays(10),
+        'category' => 'Current Rate Category', // Add unique category for easier identification
     ]);
 
     $pastRate = ProfitRate::factory()->create([
-        'valid_from' => now()->subDays(30),
-        'valid_to' => now()->subDays(10),
+        'valid_from' => Carbon::now()->subDays(30),
+        'valid_to' => Carbon::now()->subDays(10),
     ]);
 
     $futureRate = ProfitRate::factory()->create([
-        'valid_from' => now()->addDays(10),
-        'valid_to' => now()->addDays(30),
+        'valid_from' => Carbon::now()->addDays(10),
+        'valid_to' => Carbon::now()->addDays(30),
     ]);
 
     $ongoingRate = ProfitRate::factory()->create([
-        'valid_from' => now()->subDays(10),
+        'valid_from' => Carbon::now()->subDays(10),
         'valid_to' => null,
+        'category' => 'Ongoing Rate Category', // Add unique category
     ]);
+
+    // No need to manually adjust created_at if we assert by ID or unique attributes
 
     $currentRates = ProfitRate::current()->get();
 
-    expect($currentRates)->toContain($currentRate);
-    expect($currentRates)->toContain($ongoingRate);
-    expect($currentRates)->not->toContain($pastRate);
-    expect($currentRates)->not->toContain($futureRate);
+    // Assert that the collection contains models with the specific IDs or unique attributes
+    expect($currentRates->pluck('id'))->toContain($currentRate->id);
+    expect($currentRates->pluck('id'))->toContain($ongoingRate->id);
+    expect($currentRates->pluck('id'))->not->toContain($pastRate->id);
+    expect($currentRates->pluck('id'))->not->toContain($futureRate->id);
 });
 
 test('it can paginate profit rates', function () {
@@ -312,18 +318,41 @@ test('it can paginate profit rates', function () {
 });
 
 test('it includes creator and updater relationships', function () {
+    // Create users with specific names
     $creator = User::factory()->create(['name' => 'Creator User']);
     $updater = User::factory()->create(['name' => 'Updater User']);
 
+    // Authenticate as creator and create the profit rate
+    $this->actingAs($creator);
     $profitRate = ProfitRate::factory()->create([
-        'created_by' => $creator->id,
-        'updated_by' => $updater->id,
+        'category' => 'Test Rate For Relationships', // Unique category
     ]);
 
-    $response = $this->get(route('profit-rates.index'));
+    // Authenticate as updater and update the profit rate
+    $this->actingAs($updater);
+    $profitRate->update([
+        'rate' => 9.99, // Just update any field to trigger the updating event
+    ]);
+
+    // Now authenticate as the original test user for the route test
+    $this->actingAs($this->user);
+
+    // **Step 1: Verify data integrity directly from the database**
+    $fetchedProfitRate = ProfitRate::with(['creator', 'updater'])->find($profitRate->id);
+    expect($fetchedProfitRate)->not->toBeNull();
+    expect($fetchedProfitRate->creator)->not->toBeNull();
+    expect($fetchedProfitRate->updater)->not->toBeNull();
+    expect($fetchedProfitRate->creator->name)->toBe('Creator User');
+    expect($fetchedProfitRate->updater->name)->toBe('Updater User');
+
+    // **Step 2: Test the route response**
+    $response = $this->get(route('profit-rates.index', ['search' => $profitRate->category]));
 
     $response->assertOk()
         ->assertInertia(fn ($page) => $page
+            ->has('profitRates.data', 1)
+            ->where('profitRates.data.0.id', $profitRate->id)
             ->where('profitRates.data.0.creator.name', 'Creator User')
+            ->where('profitRates.data.0.updater.name', 'Updater User')
         );
 });

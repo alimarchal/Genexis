@@ -47,7 +47,6 @@ class ProfitRateController extends Controller
     public function store(StoreProfitRateRequest $request)
     {
         $data = $request->validated();
-        $data['created_by'] = auth()->id();
 
         ProfitRate::create($data);
 
@@ -81,7 +80,6 @@ class ProfitRateController extends Controller
     public function update(UpdateProfitRateRequest $request, ProfitRate $profitRate)
     {
         $data = $request->validated();
-        $data['updated_by'] = auth()->id();
 
         $profitRate->update($data);
 
