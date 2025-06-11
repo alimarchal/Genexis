@@ -9,7 +9,8 @@ interface SharedProps {
 
 const LogoSection: React.FC = () => {
     // grab the shared prop
-    const { bankBranchesCount } = usePage<SharedProps>().props;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { bankBranchesCount } = usePage<any>().props;
 
     return (
         <div className="space-y-4">
