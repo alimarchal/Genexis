@@ -123,17 +123,59 @@ class ScheduleOfChargeController extends Controller
      */
     public function publicIndex(Request $request)
     {
-        $scheduleOfCharges = QueryBuilder::for(ScheduleOfCharge::class)
-            ->where('is_active', true) // Only show active charges on the public site
-            ->allowedFilters(ScheduleOfCharge::getAllowedFilters()) // You might want a different set of filters for public
-            ->allowedSorts(ScheduleOfCharge::getAllowedSorts())   // You might want a different set of sorts for public
-            ->defaultSort('title') // Default sort by title for public view
-            ->paginate($request->input('per_page', 10)) // Or a different pagination size
-            ->appends($request->query());
+        $perPage = $request->input('per_page', 10);
 
-        return Inertia::render('PublicScheduleOfCharges/Index', [
+        $scheduleOfCharges = ScheduleOfCharge::where('is_active', true)
+            ->orderBy('created_at', 'desc') // Latest records first
+            ->orderBy('from', 'desc')
+            ->paginate($perPage)
+            ->withQueryString()
+            ->through(function ($charge) {
+                return [
+                    'id' => $charge->id,
+                    'title' => $charge->title,
+                    'from' => $charge->from->format('M d, Y'),
+                    'to' => $charge->to ? $charge->to->format('M d, Y') : null,
+                    'attachment_url' => $charge->attachment_url,
+                    'download_url' => $charge->attachment ? route('rates.schedule-of-charges.download', $charge) : null,
+                    'description' => $charge->description,
+                    'is_active' => $charge->is_active,
+                    'status' => $charge->status,
+                    'file_size' => $charge->attachment && Storage::disk('public')->exists($charge->attachment)
+                        ? $this->formatFileSize(Storage::disk('public')->size($charge->attachment))
+                        : null,
+                ];
+            });
+
+        return Inertia::render('Rates/ScheduleOfCharges', [
             'scheduleOfCharges' => $scheduleOfCharges,
-            'filters' => $request->only(['filter', 'sort', 'per_page']), // Adjust filters as needed
         ]);
+    }
+
+    public function download(ScheduleOfCharge $scheduleOfCharge)
+    {
+        if (! $scheduleOfCharge->attachment || ! Storage::disk('public')->exists($scheduleOfCharge->attachment)) {
+            abort(404, 'File not found');
+        }
+
+        return Storage::disk('public')->download(
+            $scheduleOfCharge->attachment,
+            $scheduleOfCharge->title.'.pdf'
+        );
+    }
+
+    /**
+     * Format file size in human readable format
+     */
+    private function formatFileSize($bytes)
+    {
+        if ($bytes === 0) {
+            return '0 B';
+        }
+
+        $units = ['B', 'KB', 'MB', 'GB'];
+        $factor = floor(log($bytes, 1024));
+
+        return sprintf('%.1f %s', $bytes / pow(1024, $factor), $units[$factor]);
     }
 }

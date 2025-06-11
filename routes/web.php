@@ -45,14 +45,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('branches', BranchController::class);
     Route::resource('contacts', ContactController::class);
     Route::resource('branch-services', BranchServiceController::class);
-
-    // Schedule of Charges and Downloads
-    Route::resource('schedule-of-charges', ScheduleOfChargeController::class);
-    Route::resource('downloads', DownloadController::class);
-
-    // Download routes
-    Route::get('schedule-of-charges/{scheduleOfCharge}/download', [ScheduleOfChargeController::class, 'download'])->name('schedule-of-charges.download');
-    Route::get('downloads/{download}/download', [DownloadController::class, 'download'])->name('downloads.download');
 });
 
 Route::get('/', [PageController::class, 'home'])->name(name: 'home');
@@ -95,11 +87,13 @@ Route::prefix('financials')->name('financials.')->group(function () {
 Route::prefix('rates')->name('rates.')->group(function () {
     Route::get('/profit-rates', [PageController::class, 'profitRates'])->name('profit-rates');
     Route::get('/schedule-of-charges', [ScheduleOfChargeController::class, 'publicIndex'])->name('schedule-of-charges');
+    Route::get('/schedule-of-charges/{scheduleOfCharge}/download', [ScheduleOfChargeController::class, 'download'])->name('schedule-of-charges.download');
 });
 
 Route::get('/contact-us', [PageController::class, 'contact'])->name('contact');
 
-Route::get('/public-downloads', [DownloadController::class, 'publicIndex'])->name('public.downloads');
+Route::get('/public-downloads', [DownloadController::class, 'publicIndex'])->name('public-downloads');
+Route::get('/public-downloads/{download}/download', [DownloadController::class, 'download'])->name('public-downloads.download');
 
 Route::get('/news', [PageController::class, 'news'])->name(name: 'news');
 Route::get('/news/{slug}', [PageController::class, 'newsDetail'])->name('news.detail');
@@ -109,6 +103,14 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
     Route::resource('menus', MenuController::class);
     Route::post('menus/reorder', [MenuController::class, 'reorder'])->name('menus.reorder');
     Route::post('clear-menu-cache', [MenuController::class, 'clearCache'])->name('clear-menu-cache');
+
+    // Additional admin resources
+    Route::resource('schedule-of-charges', ScheduleOfChargeController::class);
+    Route::resource('downloads', DownloadController::class);
+
+    // Admin download routes
+    Route::get('schedule-of-charges/{scheduleOfCharge}/download', [ScheduleOfChargeController::class, 'download'])->name('schedule-of-charges.download');
+    Route::get('downloads/{download}/download', [DownloadController::class, 'download'])->name('downloads.download');
 });
 
 require __DIR__.'/settings.php';

@@ -125,17 +125,42 @@ class DownloadController extends Controller
     // Public method for website downloads
     public function publicIndex(Request $request)
     {
-        $downloads = QueryBuilder::for(Download::class)
-            ->allowedFilters(['category', 'is_featured'])
-            ->allowedSorts(['title', 'created_at', 'download_count'])
-            ->where('is_active', true)
-            ->defaultSort('-created_at')
-            ->paginate(12)
-            ->withQueryString();
+        $perPage = $request->input('per_page', 10);
 
-        return Inertia::render('PublicDownloads/Index', [
+        $downloads = Download::where('is_active', true)
+            ->orderBy('is_featured', 'desc')
+            ->orderBy('created_at', 'desc') // Latest records first
+            ->paginate($perPage)
+            ->withQueryString()
+            ->through(function ($download) {
+                return [
+                    'id' => $download->id,
+                    'title' => $download->title,
+                    'description' => $download->description,
+                    'file_path' => $download->file_path,
+                    'file_type' => $download->file_type,
+                    'file_size_formatted' => $this->formatFileSize($download->file_size),
+                    'category' => $download->category,
+                    'is_featured' => $download->is_featured,
+                    'download_count' => $download->download_count,
+                ];
+            });
+
+        return Inertia::render('Rates/PublicDownloads', [
             'downloads' => $downloads,
-            'filters' => $request->only(['filter']),
         ]);
+    }
+
+    private function formatFileSize($bytes)
+    {
+        if ($bytes == 0) {
+            return '0 Bytes';
+        }
+
+        $k = 1024;
+        $sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        $i = floor(log($bytes) / log($k));
+
+        return round($bytes / pow($k, $i), 2).' '.$sizes[$i];
     }
 }
