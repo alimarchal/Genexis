@@ -45,6 +45,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('branches', BranchController::class);
     Route::resource('contacts', ContactController::class);
     Route::resource('branch-services', BranchServiceController::class);
+
+    // Schedule of Charges and Downloads CRUD
+    Route::resource('schedule-of-charges', ScheduleOfChargeController::class);
+    Route::resource('downloads', DownloadController::class);
+
+    // CRUD download routes
+    Route::get('schedule-of-charges/{scheduleOfCharge}/download', [ScheduleOfChargeController::class, 'download'])->name('schedule-of-charges.download');
+    Route::get('downloads/{download}/download', [DownloadController::class, 'download'])->name('downloads.download');
 });
 
 Route::get('/', [PageController::class, 'home'])->name(name: 'home');
@@ -103,14 +111,6 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
     Route::resource('menus', MenuController::class);
     Route::post('menus/reorder', [MenuController::class, 'reorder'])->name('menus.reorder');
     Route::post('clear-menu-cache', [MenuController::class, 'clearCache'])->name('clear-menu-cache');
-
-    // Additional admin resources
-    Route::resource('schedule-of-charges', ScheduleOfChargeController::class);
-    Route::resource('downloads', DownloadController::class);
-
-    // Admin download routes
-    Route::get('schedule-of-charges/{scheduleOfCharge}/download', [ScheduleOfChargeController::class, 'download'])->name('schedule-of-charges.download');
-    Route::get('downloads/{download}/download', [DownloadController::class, 'download'])->name('downloads.download');
 });
 
 require __DIR__.'/settings.php';

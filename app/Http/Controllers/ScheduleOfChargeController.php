@@ -32,7 +32,7 @@ class ScheduleOfChargeController extends Controller
             ->paginate($request->input('per_page', 10))
             ->appends($request->query());
 
-        return Inertia::render('Admin/ScheduleOfCharges/Index', [
+        return Inertia::render('ScheduleOfCharge/Index', [
             'scheduleOfCharges' => $scheduleOfCharges,
             'filters' => $request->only(['filter', 'sort', 'per_page']),
         ]);
@@ -43,7 +43,7 @@ class ScheduleOfChargeController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Admin/ScheduleOfCharges/Create');
+        return Inertia::render('ScheduleOfCharge/Create');
     }
 
     /**
@@ -59,7 +59,7 @@ class ScheduleOfChargeController extends Controller
 
         ScheduleOfCharge::create($data);
 
-        return redirect()->route('admin.schedule-of-charges.index')
+        return redirect()->route('schedule-of-charges.index')
             ->with('success', 'Schedule of Charge created successfully.');
     }
 
@@ -68,7 +68,7 @@ class ScheduleOfChargeController extends Controller
      */
     public function show(ScheduleOfCharge $scheduleOfCharge)
     {
-        return Inertia::render('Admin/ScheduleOfCharges/Show', [
+        return Inertia::render('ScheduleOfCharge/Show', [
             'scheduleOfCharge' => $scheduleOfCharge->load([]), // Add any relations if needed
         ]);
     }
@@ -78,7 +78,7 @@ class ScheduleOfChargeController extends Controller
      */
     public function edit(ScheduleOfCharge $scheduleOfCharge)
     {
-        return Inertia::render('Admin/ScheduleOfCharges/Edit', [
+        return Inertia::render('ScheduleOfCharge/Edit', [
             'scheduleOfCharge' => $scheduleOfCharge,
         ]);
     }
@@ -100,7 +100,7 @@ class ScheduleOfChargeController extends Controller
 
         $scheduleOfCharge->update($data);
 
-        return redirect()->route('admin.schedule-of-charges.index')
+        return redirect()->route('schedule-of-charges.index')
             ->with('success', 'Schedule of Charge updated successfully.');
     }
 
@@ -114,7 +114,7 @@ class ScheduleOfChargeController extends Controller
         }
         $scheduleOfCharge->delete();
 
-        return redirect()->route('admin.schedule-of-charges.index')
+        return redirect()->route('schedule-of-charges.index')
             ->with('success', 'Schedule of Charge deleted successfully.');
     }
 
