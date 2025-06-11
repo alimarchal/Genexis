@@ -75,35 +75,6 @@ test('authenticated user can update download', function () {
     expect($download->updated_by)->toBe($this->user->id);
 });
 
-test('download increments download count when accessed', function () {
-    // Skip this test for now - we'll need to revise it when we have access to the actual file system
-    // The issue is with how the file storage is handled during testing
-    $this->markTestSkipped('Skipping file download test that requires actual file system access');
-
-    /*
-    // Create a real file instead of using Storage::fake which redirects storage paths
-    $testFile = UploadedFile::fake()->create('test.pdf', 1000);
-    $filePath = 'downloads/' . $testFile->hashName();
-
-    // Store the file in the actual public storage path
-    Storage::disk('public')->putFileAs('downloads', $testFile, $testFile->hashName());
-
-    $download = Download::factory()->create([
-        'file_path' => $filePath,
-        'file_type' => 'application/pdf',
-        'file_size' => $testFile->getSize(),
-        'download_count' => 5,
-    ]);
-
-    $response = $this->actingAs($this->user)
-        ->get(route('downloads.download', $download));
-
-    $response->assertStatus(200);
-    $download->refresh();
-    expect($download->download_count)->toBe(6);
-    */
-});
-
 test('guests can view public downloads page', function () {
     Download::factory(3)->create(['is_active' => true]);
 
