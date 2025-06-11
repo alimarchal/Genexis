@@ -33,8 +33,8 @@ export default function Create() {
         description: '',
         file: null as File | null,
         category: 'general',
-        is_featured: false,
-        is_active: true,
+        is_featured: false as boolean,
+        is_active: true as boolean,
     });
 
     const handleSubmit = (e: React.FormEvent) => {

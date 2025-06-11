@@ -17,16 +17,12 @@ interface BoardOfDirector {
     is_chairman: boolean;
 }
 
-interface BoardOfDirectorsProps {
-    boardOfDirectors: BoardOfDirector[];
-}
-
 export default function BoardOfDirectors() {
-    const { boardOfDirectors } = usePage<BoardOfDirectorsProps>().props;
+    const { boardOfDirectors } = usePage<any>().props;
 
     // Separate chairman from other directors
-    const chairman = boardOfDirectors.find((member) => member.is_chairman);
-    const directors = boardOfDirectors.filter((member) => !member.is_chairman);
+    const chairman = boardOfDirectors.find((member: any) => member.is_chairman);
+    const directors = boardOfDirectors.filter((member: any) => !member.is_chairman);
 
     return (
         //
@@ -64,7 +60,7 @@ export default function BoardOfDirectors() {
                     </div>
 
                     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
-                        {directors.map((member) => (
+                        {directors.map((member: any) => (
                             <BodCard key={member.id} boardMember={member} />
                         ))}
                     </div>

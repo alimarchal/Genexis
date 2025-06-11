@@ -97,12 +97,12 @@ export default function EditMenu({ menu, parentMenus }: Props) {
 
         if (data.route_params.trim()) {
             try {
-                formData.route_params = JSON.parse(data.route_params);
+                (formData as any).route_params = JSON.parse(data.route_params);
             } catch {
-                formData.route_params = null;
+                (formData as any).route_params = null;
             }
         } else {
-            formData.route_params = null;
+            (formData as any).route_params = null;
         }
 
         router.post(route('admin.menus.update', menu.id), {

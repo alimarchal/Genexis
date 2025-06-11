@@ -1,6 +1,6 @@
+import GlobalSearch from '@/components/search/GlobalSearch';
 import React, { useState } from 'react';
 import { FaChevronRight, FaHome } from 'react-icons/fa';
-import GlobalSearch from '@/components/search/GlobalSearch';
 
 interface BreadcrumbItem {
     label: string;
@@ -25,7 +25,11 @@ const BreadcrumbNav: React.FC<BreadcrumbNavProps> = ({ items, showHomeIcon = tru
                             {showHomeIcon && (
                                 <>
                                     <li>
-                                        <a href="/" className="flex items-center transition-colors duration-300 hover:text-[#F9B912]" aria-label="Home">
+                                        <a
+                                            href="/"
+                                            className="flex items-center transition-colors duration-300 hover:text-[#F9B912]"
+                                            aria-label="Home"
+                                        >
                                             <FaHome className="h-4 w-4" />
                                         </a>
                                     </li>
@@ -72,22 +76,11 @@ const BreadcrumbNav: React.FC<BreadcrumbNavProps> = ({ items, showHomeIcon = tru
                     <div className="flex items-center">
                         <button
                             onClick={() => setIsSearchOpen(true)}
-                            className="flex items-center space-x-2 rounded-lg bg-gradient-to-r from-[#F9B912] to-[#ffcc33] px-4 py-2 text-sm font-medium text-[#195f1f] shadow-lg transition-all duration-200 hover:shadow-xl hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#F9B912] focus:ring-offset-2 focus:ring-offset-[#195f1f]"
+                            className="flex items-center space-x-2 rounded-lg bg-gradient-to-r from-[#F9B912] to-[#ffcc33] px-4 py-2 text-sm font-medium text-[#195f1f] shadow-lg transition-all duration-200 hover:scale-105 hover:shadow-xl focus:ring-2 focus:ring-[#F9B912] focus:ring-offset-2 focus:ring-offset-[#195f1f] focus:outline-none"
                             aria-label="Search"
                         >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="h-4 w-4"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                                />
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                             </svg>
                             <span className="hidden sm:inline">Search</span>
                         </button>
@@ -96,10 +89,7 @@ const BreadcrumbNav: React.FC<BreadcrumbNavProps> = ({ items, showHomeIcon = tru
             </div>
 
             {/* Global Search Component */}
-            <GlobalSearch
-                isOpen={isSearchOpen}
-                onClose={() => setIsSearchOpen(false)}
-            />
+            <GlobalSearch isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
         </div>
     );
 };

@@ -257,10 +257,11 @@ const ScheduleOfChargesPublic = ({ scheduleOfCharges }: ScheduleOfChargesPublicP
                                             key={index}
                                             onClick={() => link.url && router.get(link.url)}
                                             disabled={!link.url}
-                                            className={`rounded-md border px-3 py-2 text-sm ${link.active
-                                                ? 'border-[#4A7C59] bg-[#4A7C59] text-white'
-                                                : 'border-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50'
-                                                }`}
+                                            className={`rounded-md border px-3 py-2 text-sm ${
+                                                link.active
+                                                    ? 'border-[#4A7C59] bg-[#4A7C59] text-white'
+                                                    : 'border-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50'
+                                            }`}
                                             dangerouslySetInnerHTML={{ __html: link.label }}
                                         />
                                     ))}

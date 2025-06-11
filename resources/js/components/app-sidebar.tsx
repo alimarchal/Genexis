@@ -1,16 +1,25 @@
 import { NavFooter } from '@/components/nav-footer';
 import { NavUser } from '@/components/nav-user';
-import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarGroup, SidebarGroupLabel, SidebarGroupContent } from '@/components/ui/sidebar';
+import {
+    Sidebar,
+    SidebarContent,
+    SidebarFooter,
+    SidebarGroup,
+    SidebarGroupContent,
+    SidebarGroupLabel,
+    SidebarHeader,
+    SidebarMenu,
+    SidebarMenuButton,
+    SidebarMenuItem,
+} from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
 import {
-    BookOpen,
     Building,
     Calculator,
     Contact,
     Download,
     FileText,
-    Folder,
     Images,
     LayoutGrid,
     MapPin,
@@ -21,8 +30,8 @@ import {
     PieChart,
     Settings,
     TrendingUp,
+    UserCheck,
     Users,
-    UserCheck
 } from 'lucide-react';
 import AppLogo from './app-logo';
 

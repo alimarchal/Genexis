@@ -14,11 +14,13 @@ declare module '@inertiajs/core' {
         };
         auth: {
             user: {
-                // Replace with your actual User type if available
                 id: number;
                 name: string;
                 email: string;
-                // Add other user properties you expect
+                avatar?: string;
+                email_verified_at: string | null;
+                created_at: string;
+                updated_at: string;
             } | null;
         };
         ziggy: {

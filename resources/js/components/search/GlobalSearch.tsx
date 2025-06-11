@@ -47,7 +47,7 @@ export default function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
         try {
             const response = await fetch(`/api/search?q=${encodeURIComponent(searchQuery)}`, {
                 headers: {
-                    'Accept': 'application/json',
+                    Accept: 'application/json',
                     'X-Requested-With': 'XMLHttpRequest',
                 },
             });
@@ -72,10 +72,10 @@ export default function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
 
         if (e.key === 'ArrowDown') {
             e.preventDefault();
-            setSelectedIndex(prev => Math.min(prev + 1, results.length - 1));
+            setSelectedIndex((prev) => Math.min(prev + 1, results.length - 1));
         } else if (e.key === 'ArrowUp') {
             e.preventDefault();
-            setSelectedIndex(prev => Math.max(prev - 1, -1));
+            setSelectedIndex((prev) => Math.max(prev - 1, -1));
         } else if (e.key === 'Enter' && selectedIndex >= 0) {
             e.preventDefault();
             const selectedResult = results[selectedIndex];
@@ -111,10 +111,10 @@ export default function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
     return (
         <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm" onClick={onClose}>
             <div className="mx-auto mt-16 max-w-2xl px-4">
-                <div className="bg-white rounded-lg shadow-2xl" onClick={(e) => e.stopPropagation()}>
+                <div className="rounded-lg bg-white shadow-2xl" onClick={(e) => e.stopPropagation()}>
                     {/* Search Input */}
                     <div className="flex items-center border-b border-gray-200 p-4">
-                        <Search className="h-5 w-5 text-gray-400 mr-3" />
+                        <Search className="mr-3 h-5 w-5 text-gray-400" />
                         <input
                             ref={inputRef}
                             type="text"
@@ -122,12 +122,9 @@ export default function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
                             onChange={(e) => setQuery(e.target.value)}
                             onKeyDown={handleKeyDown}
                             placeholder="Search for news, services, products..."
-                            className="flex-1 text-lg text-gray-900 placeholder-gray-500 focus:outline-none caret-gray-900"
+                            className="flex-1 text-lg text-gray-900 placeholder-gray-500 caret-gray-900 focus:outline-none"
                         />
-                        <button
-                            onClick={onClose}
-                            className="ml-3 p-1 text-gray-400 hover:text-gray-600"
-                        >
+                        <button onClick={onClose} className="ml-3 p-1 text-gray-400 hover:text-gray-600">
                             <X className="h-5 w-5" />
                         </button>
                     </div>
@@ -152,34 +149,21 @@ export default function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
                                 {results.map((result, index) => (
                                     <div
                                         key={result.id}
-                                        className={`cursor-pointer px-4 py-3 transition-colors ${index === selectedIndex
-                                                ? 'bg-[#4A7C59]/10'
-                                                : 'hover:bg-gray-50'
-                                            }`}
+                                        className={`cursor-pointer px-4 py-3 transition-colors ${
+                                            index === selectedIndex ? 'bg-[#4A7C59]/10' : 'hover:bg-gray-50'
+                                        }`}
                                         onClick={() => handleResultClick(result)}
                                     >
                                         <div className="flex items-start space-x-3">
-                                            {result.image && (
-                                                <img
-                                                    src={result.image}
-                                                    alt=""
-                                                    className="h-12 w-12 rounded object-cover"
-                                                />
-                                            )}
-                                            <div className="flex-1 min-w-0">
-                                                <div className="flex items-center space-x-2 mb-1">
-                                                    <h3 className="text-sm font-medium text-gray-900 truncate">
-                                                        {result.title}
-                                                    </h3>
-                                                    <span className={`px-2 py-1 text-xs rounded-full ${getTypeColor(result.type)}`}>
+                                            {result.image && <img src={result.image} alt="" className="h-12 w-12 rounded object-cover" />}
+                                            <div className="min-w-0 flex-1">
+                                                <div className="mb-1 flex items-center space-x-2">
+                                                    <h3 className="truncate text-sm font-medium text-gray-900">{result.title}</h3>
+                                                    <span className={`rounded-full px-2 py-1 text-xs ${getTypeColor(result.type)}`}>
                                                         {result.type}
                                                     </span>
                                                 </div>
-                                                {result.excerpt && (
-                                                    <p className="text-sm text-gray-600 line-clamp-2">
-                                                        {result.excerpt}
-                                                    </p>
-                                                )}
+                                                {result.excerpt && <p className="line-clamp-2 text-sm text-gray-600">{result.excerpt}</p>}
                                             </div>
                                         </div>
                                     </div>
@@ -195,9 +179,7 @@ export default function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
                     </div>
 
                     {/* Footer */}
-                    <div className="border-t border-gray-200 px-4 py-2 text-xs text-gray-500">
-                        Use ↑↓ to navigate, Enter to select, Esc to close
-                    </div>
+                    <div className="border-t border-gray-200 px-4 py-2 text-xs text-gray-500">Use ↑↓ to navigate, Enter to select, Esc to close</div>
                 </div>
             </div>
         </div>

@@ -33,7 +33,7 @@ export default function Create() {
         to: '',
         attachment: null as File | null,
         description: '',
-        is_active: true,
+        is_active: true as boolean,
     });
 
     const handleSubmit = (e: React.FormEvent) => {

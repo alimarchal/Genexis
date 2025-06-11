@@ -18,7 +18,7 @@ export default function AuthSplitLayout({ children, title, description }: PropsW
                     backgroundImage: 'url(/background-dollars.jpg)',
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
-                    backgroundRepeat: 'no-repeat'
+                    backgroundRepeat: 'no-repeat',
                 }}
             >
                 <div className="absolute inset-0 bg-black/30" />

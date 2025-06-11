@@ -80,7 +80,7 @@ export default function ContactIndex({ contacts, filters }: Props) {
             params['filter[status]'] = statusFilter;
         }
 
-        router.get(route('contacts.index'), params, {
+        router.get(route('contacts.index'), params as any, {
             preserveState: true,
             preserveScroll: true,
         });

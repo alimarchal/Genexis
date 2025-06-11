@@ -70,7 +70,7 @@ export default function FinancialReportsIndex({ financialReports, filters }: Pro
             params['filter[fiscal_year]'] = searchTerm;
         }
 
-        router.get(route('financial-reports.index'), params, {
+        router.get(route('financial-reports.index'), params as any, {
             preserveState: true,
             preserveScroll: true,
         });
