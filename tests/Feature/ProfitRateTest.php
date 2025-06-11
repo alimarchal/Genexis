@@ -84,6 +84,25 @@ test('it can sort profit rates by category', function () {
         );
 });
 
+test('it can sort profit rates by sort_order', function () {
+    ProfitRate::factory()->create([
+        'category' => 'High Priority',
+        'sort_order' => 1,
+    ]);
+    ProfitRate::factory()->create([
+        'category' => 'Low Priority',
+        'sort_order' => 2,
+    ]);
+
+    $response = $this->get(route('profit-rates.index', ['sort' => 'sort_order']));
+
+    $response->assertOk()
+        ->assertInertia(fn ($page) => $page
+            ->where('profitRates.data.0.category', 'High Priority')
+            ->where('profitRates.data.1.category', 'Low Priority')
+        );
+});
+
 test('it can view create profit rate page', function () {
     $response = $this->get(route('profit-rates.create'));
 

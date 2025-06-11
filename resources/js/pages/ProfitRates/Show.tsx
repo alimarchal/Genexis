@@ -29,6 +29,7 @@ interface ProfitRate {
     valid_from: string;
     valid_to: string | null;
     is_active: boolean;
+    sort_order?: number;
     status: string;
     created_at: string;
     updated_at: string;
@@ -136,6 +137,10 @@ export default function Show({ profitRate }: Props) {
                                                 {profitRate.status}
                                             </Badge>
                                         </div>
+                                    </div>
+                                    <div>
+                                        <label className="text-sm font-medium text-gray-500">Sort Order</label>
+                                        <p className="mt-1 text-lg font-semibold text-gray-900">{profitRate.sort_order || 'Not set'}</p>
                                     </div>
                                     <div>
                                         <label className="text-sm font-medium text-gray-500">Current Rate</label>

@@ -36,6 +36,7 @@ interface ProfitRate {
     valid_from: string;
     valid_to: string | null;
     is_active: boolean;
+    sort_order?: number;
     status: string;
     created_at: string;
     updated_at: string;
@@ -76,19 +77,25 @@ export default function Index({ profitRates, filters }: Props) {
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
-        const params: Record<string, unknown> = {};
+        const params: Record<string, any> = {};
 
         if (search) {
             params.search = search;
         }
+
+        const filterParams: Record<string, string> = {};
         if (statusFilter !== 'all') {
-            params.filter = { is_active: statusFilter };
+            filterParams.is_active = statusFilter;
         }
         if (currentFilter !== 'all') {
-            params.filter = { ...params.filter, current: currentFilter };
+            filterParams.current = currentFilter;
         }
 
-        router.get(route('profit-rates.index'), params, {
+        if (Object.keys(filterParams).length > 0) {
+            params.filter = filterParams;
+        }
+
+        router.get(route('profit-rates.index'), params as any, {
             preserveState: true,
             preserveScroll: true,
         });
@@ -205,6 +212,7 @@ export default function Index({ profitRates, filters }: Props) {
                                     <TableHead>Valid From</TableHead>
                                     <TableHead>Valid To</TableHead>
                                     <TableHead>Status</TableHead>
+                                    <TableHead>Sort Order</TableHead>
                                     <TableHead>Created</TableHead>
                                     <TableHead>Created By</TableHead>
                                     <TableHead className="w-32">Actions</TableHead>
@@ -227,6 +235,7 @@ export default function Index({ profitRates, filters }: Props) {
                                             <TableCell>
                                                 <Badge variant={rate.is_active ? 'default' : 'secondary'}>{rate.status}</Badge>
                                             </TableCell>
+                                            <TableCell>{rate.sort_order || '-'}</TableCell>
                                             <TableCell className="text-sm text-gray-600">{formatDate(rate.created_at)}</TableCell>
                                             <TableCell className="text-sm text-gray-600">{rate.creator?.name || 'N/A'}</TableCell>
                                             <TableCell>

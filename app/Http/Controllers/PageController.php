@@ -491,7 +491,7 @@ class PageController extends Controller
     {
         $profitRates = ProfitRate::active()
             ->current()
-            ->orderBy('category')
+            ->orderBy('sort_order')
             ->get()
             ->map(function ($rate) {
                 return [

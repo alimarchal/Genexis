@@ -36,6 +36,7 @@ class ProfitRateFactory extends Factory
             'valid_from' => $validFrom,
             'valid_to' => $validTo,
             'is_active' => fake()->boolean(80), // 80% chance of being active
+            'sort_order' => fake()->numberBetween(1, 100),
             'created_by' => 1, // Default admin user
             'updated_by' => 1,
         ];

@@ -20,7 +20,7 @@ class ProfitRateController extends Controller
             ->with(['creator', 'updater'])
             ->allowedFilters(ProfitRate::getAllowedFilters())
             ->allowedSorts(ProfitRate::getAllowedSorts())
-            ->defaultSort('-created_at')
+            ->defaultSort('sort_order')
             ->when($request->get('search'), function ($query, $search) {
                 $query->where('category', 'like', "%{$search}%");
             })

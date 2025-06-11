@@ -50,6 +50,7 @@ type ProfitRateForm = {
     valid_from: string;
     valid_to: string;
     is_active: boolean;
+    sort_order?: number | string;
 };
 
 export default function Create() {
@@ -59,6 +60,7 @@ export default function Create() {
         valid_from: '',
         valid_to: '',
         is_active: true,
+        sort_order: '',
     });
 
     const handleSubmit: FormEventHandler = (e) => {
@@ -148,6 +150,20 @@ export default function Create() {
                                 />
                                 <p className="text-sm text-gray-600">Leave empty if this rate is ongoing</p>
                                 <InputError message={errors.valid_to} />
+                            </div>
+
+                            {/* Sort Order */}
+                            <div className="space-y-2">
+                                <Label htmlFor="sort_order">Sort Order</Label>
+                                <Input
+                                    id="sort_order"
+                                    type="number"
+                                    value={data.sort_order}
+                                    onChange={(e) => setData('sort_order', e.target.value)}
+                                    placeholder="Enter display order (lower numbers appear first)"
+                                />
+                                <p className="text-sm text-gray-600">Controls the display order in listings</p>
+                                <InputError message={errors.sort_order} />
                             </div>
 
                             {/* Status */}

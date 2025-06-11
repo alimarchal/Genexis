@@ -27,6 +27,7 @@ class StoreProfitRateRequest extends FormRequest
             'valid_from' => 'required|date',
             'valid_to' => 'nullable|date|after:valid_from',
             'is_active' => 'required|boolean',
+            'sort_order' => 'nullable|integer',
         ];
     }
 }

@@ -18,6 +18,7 @@ class ProfitRate extends Model
         'valid_from',
         'valid_to',
         'is_active',
+        'sort_order',
         'created_by',
         'updated_by',
     ];
@@ -66,6 +67,7 @@ class ProfitRate extends Model
             'valid_from',
             'valid_to',
             'is_active',
+            'sort_order',
             'created_at',
             'updated_at',
         ];

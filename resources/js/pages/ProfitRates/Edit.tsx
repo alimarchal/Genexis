@@ -51,6 +51,7 @@ interface ProfitRate {
     valid_from: string;
     valid_to: string | null;
     is_active: boolean;
+    sort_order?: number;
     created_at: string;
     updated_at: string;
 }
@@ -65,6 +66,7 @@ type ProfitRateForm = {
     valid_from: string;
     valid_to: string;
     is_active: boolean;
+    sort_order?: number | string;
     _method?: string;
 };
 
@@ -75,6 +77,7 @@ export default function Edit({ profitRate }: Props) {
         valid_from: profitRate.valid_from,
         valid_to: profitRate.valid_to || '',
         is_active: profitRate.is_active,
+        sort_order: profitRate.sort_order || '',
     });
 
     const handleSubmit: FormEventHandler = (e) => {
@@ -167,6 +170,20 @@ export default function Edit({ profitRate }: Props) {
                                 />
                                 <p className="text-sm text-gray-600">Leave empty if this rate is ongoing</p>
                                 <InputError message={errors.valid_to} />
+                            </div>
+
+                            {/* Sort Order */}
+                            <div className="space-y-2">
+                                <Label htmlFor="sort_order">Sort Order</Label>
+                                <Input
+                                    id="sort_order"
+                                    type="number"
+                                    value={data.sort_order}
+                                    onChange={(e) => setData('sort_order', e.target.value)}
+                                    placeholder="Enter display order (lower numbers appear first)"
+                                />
+                                <p className="text-sm text-gray-600">Controls the display order in listings</p>
+                                <InputError message={errors.sort_order} />
                             </div>
 
                             {/* Status */}
