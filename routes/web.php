@@ -94,7 +94,7 @@ Route::prefix('financials')->name('financials.')->group(function () {
 
 Route::prefix('rates')->name('rates.')->group(function () {
     Route::get('/profit-rates', [PageController::class, 'profitRates'])->name('profit-rates');
-    Route::get('/schedule-of-charges', [PageController::class, 'scheduleOfCharges'])->name('schedule-of-charges');
+    Route::get('/schedule-of-charges', [ScheduleOfChargeController::class, 'publicIndex'])->name('schedule-of-charges');
 });
 
 Route::get('/contact-us', [PageController::class, 'contact'])->name('contact');

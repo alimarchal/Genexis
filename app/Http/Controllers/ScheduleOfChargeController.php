@@ -12,57 +12,80 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class ScheduleOfChargeController extends Controller
 {
+    // public function __construct()
+    // {
+    //     $this->middleware('permission:scheduleofcharge.index|scheduleofcharge.create|scheduleofcharge.edit|scheduleofcharge.delete|scheduleofcharge.view', ['only' => ['index', 'show']]);
+    //     $this->middleware('permission:scheduleofcharge.create', ['only' => ['create', 'store']]);
+    //     $this->middleware('permission:scheduleofcharge.edit', ['only' => ['edit', 'update']]);
+    //     $this->middleware('permission:scheduleofcharge.delete', ['only' => ['destroy']]);
+    // }
+
+    /**
+     * Display a listing of the resource.
+     */
     public function index(Request $request)
     {
         $scheduleOfCharges = QueryBuilder::for(ScheduleOfCharge::class)
             ->allowedFilters(ScheduleOfCharge::getAllowedFilters())
             ->allowedSorts(ScheduleOfCharge::getAllowedSorts())
             ->defaultSort('-created_at')
-            ->with(['creator', 'updater'])
-            ->paginate(10)
-            ->withQueryString();
+            ->paginate($request->input('per_page', 10))
+            ->appends($request->query());
 
-        return Inertia::render('ScheduleOfCharge/Index', [
+        return Inertia::render('Admin/ScheduleOfCharges/Index', [
             'scheduleOfCharges' => $scheduleOfCharges,
-            'filters' => $request->only(['filter']),
+            'filters' => $request->only(['filter', 'sort', 'per_page']),
         ]);
     }
 
+    /**
+     * Show the form for creating a new resource.
+     */
     public function create()
     {
-        return Inertia::render('ScheduleOfCharge/Create');
+        return Inertia::render('Admin/ScheduleOfCharges/Create');
     }
 
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(StoreScheduleOfChargeRequest $request)
     {
         $data = $request->validated();
 
         if ($request->hasFile('attachment')) {
-            $data['attachment'] = $request->file('attachment')->store('schedule-of-charges', 'public');
+            $data['attachment'] = $request->file('attachment')->store('schedule_of_charges', 'public');
         }
 
         ScheduleOfCharge::create($data);
 
-        return redirect()->route('schedule-of-charges.index')
+        return redirect()->route('admin.schedule-of-charges.index')
             ->with('success', 'Schedule of Charge created successfully.');
     }
 
+    /**
+     * Display the specified resource.
+     */
     public function show(ScheduleOfCharge $scheduleOfCharge)
     {
-        $scheduleOfCharge->load(['creator', 'updater']);
-
-        return Inertia::render('ScheduleOfCharge/Show', [
-            'scheduleOfCharge' => $scheduleOfCharge,
+        return Inertia::render('Admin/ScheduleOfCharges/Show', [
+            'scheduleOfCharge' => $scheduleOfCharge->load([]), // Add any relations if needed
         ]);
     }
 
+    /**
+     * Show the form for editing the specified resource.
+     */
     public function edit(ScheduleOfCharge $scheduleOfCharge)
     {
-        return Inertia::render('ScheduleOfCharge/Edit', [
+        return Inertia::render('Admin/ScheduleOfCharges/Edit', [
             'scheduleOfCharge' => $scheduleOfCharge,
         ]);
     }
 
+    /**
+     * Update the specified resource in storage.
+     */
     public function update(UpdateScheduleOfChargeRequest $request, ScheduleOfCharge $scheduleOfCharge)
     {
         $data = $request->validated();
@@ -72,40 +95,45 @@ class ScheduleOfChargeController extends Controller
             if ($scheduleOfCharge->attachment) {
                 Storage::disk('public')->delete($scheduleOfCharge->attachment);
             }
-            $data['attachment'] = $request->file('attachment')->store('schedule-of-charges', 'public');
+            $data['attachment'] = $request->file('attachment')->store('schedule_of_charges', 'public');
         }
 
         $scheduleOfCharge->update($data);
 
-        return redirect()->route('schedule-of-charges.index')
+        return redirect()->route('admin.schedule-of-charges.index')
             ->with('success', 'Schedule of Charge updated successfully.');
     }
 
+    /**
+     * Remove the specified resource from storage.
+     */
     public function destroy(ScheduleOfCharge $scheduleOfCharge)
     {
-        // Delete attachment if it exists
         if ($scheduleOfCharge->attachment) {
             Storage::disk('public')->delete($scheduleOfCharge->attachment);
         }
-
         $scheduleOfCharge->delete();
 
-        return redirect()->route('schedule-of-charges.index')
+        return redirect()->route('admin.schedule-of-charges.index')
             ->with('success', 'Schedule of Charge deleted successfully.');
     }
 
-    public function download(ScheduleOfCharge $scheduleOfCharge)
+    /**
+     * Display a listing of the resource for the public website.
+     */
+    public function publicIndex(Request $request)
     {
-        if (! $scheduleOfCharge->attachment) {
-            abort(404, 'File not found.');
-        }
+        $scheduleOfCharges = QueryBuilder::for(ScheduleOfCharge::class)
+            ->where('is_active', true) // Only show active charges on the public site
+            ->allowedFilters(ScheduleOfCharge::getAllowedFilters()) // You might want a different set of filters for public
+            ->allowedSorts(ScheduleOfCharge::getAllowedSorts())   // You might want a different set of sorts for public
+            ->defaultSort('title') // Default sort by title for public view
+            ->paginate($request->input('per_page', 10)) // Or a different pagination size
+            ->appends($request->query());
 
-        $filePath = storage_path('app/public/'.$scheduleOfCharge->attachment);
-
-        if (! file_exists($filePath)) {
-            abort(404, 'File not found.');
-        }
-
-        return response()->download($filePath, $scheduleOfCharge->title.'.'.pathinfo($filePath, PATHINFO_EXTENSION));
+        return Inertia::render('PublicScheduleOfCharges/Index', [
+            'scheduleOfCharges' => $scheduleOfCharges,
+            'filters' => $request->only(['filter', 'sort', 'per_page']), // Adjust filters as needed
+        ]);
     }
 }
