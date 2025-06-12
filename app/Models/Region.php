@@ -16,6 +16,7 @@ class Region extends Model
     protected $fillable = [
         'name',
         'status',
+        'division_id',
     ];
 
     protected $casts = [

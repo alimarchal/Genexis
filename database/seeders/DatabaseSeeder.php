@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
             CarouselSeeder::class,
             BankServiceSeeder::class,
             NewsAnnouncementSeeder::class,
+            DivisionSeeder::class,
             RegionSeeder::class,
             DistrictSeeder::class,
             BranchSeeder::class,
