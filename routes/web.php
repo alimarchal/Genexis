@@ -114,6 +114,7 @@ Route::prefix('rates')->name('rates.')->group(function () {
 });
 
 Route::get('/contact-us', [PageController::class, 'contact'])->name('contact');
+Route::post('/contact-us', [PageController::class, 'contactSubmit'])->name('contact.submit');
 
 Route::get('/public-downloads', [DownloadController::class, 'publicIndex'])->name('public-downloads');
 Route::get('/public-downloads/{download}/download', [DownloadController::class, 'download'])->name('public-downloads.download');

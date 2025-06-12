@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreContactSubmissionRequest;
 use App\Http\Requests\StorePageRequest;
 use App\Http\Requests\UpdatePageRequest;
+use App\Mail\ContactSubmissionMail;
 use App\Models\AnnualReport;
 use App\Models\BankService;
 use App\Models\BoardOfDirector;
 use App\Models\Branch;
 use App\Models\Carousel;
+use App\Models\ContactSubmission;
 use App\Models\District;
 use App\Models\FinancialHighlight;
 use App\Models\FinancialReport;
@@ -18,6 +21,10 @@ use App\Models\Page;
 use App\Models\ProductTypeAccount;
 use App\Models\ProfitRate;
 use App\Models\Region;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\RateLimiter;
 use Inertia\Inertia;
 
 class PageController extends Controller
@@ -151,6 +158,65 @@ class PageController extends Controller
     public function contact()
     {
         return inertia('Contact/Index');
+    }
+
+    public function contactSubmit(StoreContactSubmissionRequest $request)
+    {
+        // Rate limiting: 1 submission per 30 seconds per IP
+        $key = 'contact-form:'.$request->getClientIp();
+
+        if (RateLimiter::tooManyAttempts($key, 1)) {
+            $seconds = RateLimiter::availableIn($key);
+
+            return response()->json([
+                'success' => false,
+                'message' => "Please wait {$seconds} seconds before submitting another message.",
+                'remaining_time' => $seconds,
+            ], 429);
+        }
+
+        try {
+            // Use database transaction for data integrity
+            $submission = DB::transaction(function () use ($request) {
+                $submission = ContactSubmission::create([
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'phone' => $request->phone,
+                    'district' => $request->district,
+                    'tehsil' => $request->tehsil,
+                    'place' => $request->place,
+                    'category' => $request->category,
+                    'subject' => $request->subject,
+                    'description' => $request->description,
+                    'message' => $request->message,
+                    'ip_address' => $request->getClientIp(),
+                    'user_agent' => $request->header('User-Agent'),
+                    'submitted_at' => now(),
+                ]);
+
+                // Send email to CONTACT_EMAIL
+                Mail::to(env('CONTACT_EMAIL', 'contact@bankajk.com'))->send(new ContactSubmissionMail($submission));
+
+                return $submission;
+            });
+
+            // Set rate limiter for 30 seconds
+            RateLimiter::hit($key, 30);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Thank you for your message. We will get back to you soon!',
+                'submission_id' => $submission->id,
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('Failed to process contact submission: '.$e->getMessage());
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Sorry, there was an error processing your request. Please try again later.',
+            ], 500);
+        }
     }
 
     public function news()
