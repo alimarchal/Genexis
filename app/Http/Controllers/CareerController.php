@@ -103,16 +103,18 @@ class CareerController extends Controller
             abort(404, 'Document not found.');
         }
 
-        $filePath = storage_path('app/public/'.$career->document);
-
-        if (! file_exists($filePath)) {
+        if (! Storage::disk('public')->exists($career->document)) {
             abort(404, 'Document not found.');
         }
+
+        $filePath = Storage::disk('public')->path($career->document);
 
         $originalExtension = pathinfo($career->document, PATHINFO_EXTENSION);
         $filename = $career->title.'.'.$originalExtension;
 
-        return response()->download($filePath, $filename);
+        return response()->download($filePath, $filename, [
+            'Content-Type' => 'application/pdf',
+        ]);
     }
 
     // Public method for website careers

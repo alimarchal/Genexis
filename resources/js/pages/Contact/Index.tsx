@@ -1,6 +1,6 @@
 import WebsiteLayout from '@/layouts/WebsiteLayout';
 import { usePage } from '@inertiajs/react';
-import { Building2, Clock, CreditCard, Headphones, Mail, MapPin, Phone, Users, X, Check, Loader2 } from 'lucide-react';
+import { Building2, Clock, CreditCard, Headphones, Mail, MapPin, Phone, X, Check, Loader2 } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -262,11 +262,11 @@ export default function ContactPage() {
                     <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/5 to-white/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
                     <div className="relative z-10">
                         <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm transition-all duration-300 group-hover:scale-110 group-hover:bg-[#F9B912]/20">
-                            <CreditCard className="h-8 w-8 text-white transition-colors duration-300 group-hover:text-[#F9B912]" />
+                            <Building2 className="h-8 w-8 text-white transition-colors duration-300 group-hover:text-[#F9B912]" />
                         </div>
-                        <h3 className="mb-3 text-lg font-bold text-white">Card Services</h3>
+                        <h3 className="mb-3 text-lg font-bold text-white">Operations</h3>
                         <p className="mb-1 text-xl font-bold text-[#F9B912]">+92-5822-920000</p>
-                        <p className="text-sm text-orange-100">Card Support</p>
+                        <p className="text-sm text-orange-100">Banking Operations</p>
                     </div>
                 </div>
 
@@ -274,11 +274,11 @@ export default function ContactPage() {
                     <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/5 to-white/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
                     <div className="relative z-10">
                         <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm transition-all duration-300 group-hover:scale-110 group-hover:bg-[#F9B912]/20">
-                            <Users className="h-8 w-8 text-white transition-colors duration-300 group-hover:text-[#F9B912]" />
+                            <Headphones className="h-8 w-8 text-white transition-colors duration-300 group-hover:text-[#F9B912]" />
                         </div>
-                        <h3 className="mb-3 text-lg font-bold text-white">Customer Care</h3>
-                        <p className="mb-1 text-xl font-bold text-[#F9B912]">111-BAJK-111</p>
-                        <p className="text-sm text-purple-100">General Inquiries</p>
+                        <h3 className="mb-3 text-lg font-bold text-white">HRMD</h3>
+                        <p className="mb-1 text-xl font-bold text-[#F9B912]">+92-5822-923138</p>
+                        <p className="text-sm text-purple-100">General Inquiries HR</p>
                     </div>
                 </div>
             </div>

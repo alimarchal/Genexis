@@ -1,8 +1,6 @@
-import { usePage } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
 
 const AddressMarqueeSection = () => {
-    const { contact_address } = usePage().props;
     const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
     const [isAnimating, setIsAnimating] = useState(false);
     const [isPaused, setIsPaused] = useState(false);

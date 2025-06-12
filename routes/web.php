@@ -57,6 +57,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Schedule of Charges and Downloads CRUD
     Route::resource('schedule-of-charges', ScheduleOfChargeController::class);
     Route::resource('downloads', DownloadController::class);
+
+    // Career CRUD routes
     Route::prefix('admin')->group(function () {
         Route::resource('careers', CareerController::class);
         Route::get('careers/{career}/download', [CareerController::class, 'download'])->name('careers.admin-download');
