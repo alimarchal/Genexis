@@ -116,10 +116,20 @@ export default function ContactPage() {
                     setPopup(prev => ({ ...prev, show: false }));
                 }, 3000);
             }
-        } catch (error: any) {
-            if (error.response?.status === 429) {
+        } catch (error: unknown) {
+            const axiosError = error as { 
+                response?: { 
+                    status?: number; 
+                    data?: { 
+                        remaining_time?: number; 
+                        errors?: Record<string, string[]>;
+                        message?: string;
+                    } 
+                } 
+            };
+            if (axiosError.response?.status === 429) {
                 // Rate limited
-                const remainingSeconds = error.response.data.remaining_time || 30;
+                const remainingSeconds = axiosError.response.data?.remaining_time || 30;
                 setRateLimited(true);
                 setRemainingTime(remainingSeconds);
 
@@ -128,9 +138,17 @@ export default function ContactPage() {
                     type: 'error',
                     message: `Please wait ${remainingSeconds} seconds before submitting again.`
                 });
-            } else if (error.response?.status === 422) {
-                // Validation errors
-                setValidationErrors(error.response.data.errors || {});
+            } else if (axiosError.response?.status === 422) {
+                // Validation errors - convert array format to string format
+                const errors = axiosError.response.data?.errors || {};
+                const convertedErrors: Record<string, string> = {};
+                Object.keys(errors).forEach(key => {
+                    const errorArray = errors[key];
+                    if (Array.isArray(errorArray) && errorArray.length > 0) {
+                        convertedErrors[key] = errorArray[0]; // Take the first error message
+                    }
+                });
+                setValidationErrors(convertedErrors);
                 setPopup({
                     show: true,
                     type: 'error',
@@ -141,7 +159,7 @@ export default function ContactPage() {
                 setPopup({
                     show: true,
                     type: 'error',
-                    message: error.response?.data?.message || 'An error occurred. Please try again.'
+                    message: axiosError.response?.data?.message || 'An error occurred. Please try again.'
                 });
             }
 
