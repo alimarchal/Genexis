@@ -172,6 +172,58 @@ export default function ContactPage() {
 
     return (
         <div className="mx-auto max-w-7xl px-6 py-8">
+            {/* Processing/Success/Error Popup - Moved to page level */}
+            {popup.show && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+                    <div className={`relative transform rounded-2xl border p-8 text-center shadow-2xl transition-all duration-500 ${popup.type === 'processing' ? 'bg-blue-50 border-blue-200' :
+                        popup.type === 'success' ? 'bg-green-50 border-green-200' :
+                            'bg-red-50 border-red-200'
+                        }`}>
+                        {popup.type === 'processing' && (
+                            <div className="mb-4">
+                                <Loader2 className="mx-auto h-16 w-16 animate-spin text-blue-600" />
+                            </div>
+                        )}
+                        {popup.type === 'success' && (
+                            <div className="mb-4">
+                                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
+                                    <Check className="h-8 w-8 text-green-600 animate-pulse" />
+                                </div>
+                            </div>
+                        )}
+                        {popup.type === 'error' && (
+                            <div className="mb-4">
+                                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-red-100">
+                                    <X className="h-8 w-8 text-red-600" />
+                                </div>
+                            </div>
+                        )}
+                        <h3 className={`mb-2 text-xl font-bold ${popup.type === 'processing' ? 'text-blue-800' :
+                            popup.type === 'success' ? 'text-green-800' :
+                                'text-red-800'
+                            }`}>
+                            {popup.type === 'processing' ? 'Processing...' :
+                                popup.type === 'success' ? 'Success!' :
+                                    'Error'}
+                        </h3>
+                        <p className={`${popup.type === 'processing' ? 'text-blue-600' :
+                            popup.type === 'success' ? 'text-green-600' :
+                                'text-red-600'
+                            }`}>
+                            {popup.message}
+                        </p>
+                        {popup.type !== 'processing' && (
+                            <button
+                                onClick={() => setPopup(prev => ({ ...prev, show: false }))}
+                                className="mt-4 rounded-lg bg-gray-200 px-4 py-2 text-gray-800 hover:bg-gray-300"
+                            >
+                                Close
+                            </button>
+                        )}
+                    </div>
+                </div>
+            )}
+
             {/* Hero Section */}
             <div className="mb-12 text-center">
                 <h1 className="mb-4 text-4xl font-bold text-gray-900">Contact Us</h1>
@@ -247,58 +299,6 @@ export default function ContactPage() {
                         {flash?.success && (
                             <div className="mb-6 rounded-xl border border-green-200 bg-green-50 p-4 text-green-800">
                                 <strong>Success!</strong> {flash.success}
-                            </div>
-                        )}
-
-                        {/* Processing/Success/Error Popup */}
-                        {popup.show && (
-                            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-                                <div className={`relative transform rounded-2xl border p-8 text-center shadow-2xl transition-all duration-500 ${popup.type === 'processing' ? 'bg-blue-50 border-blue-200' :
-                                    popup.type === 'success' ? 'bg-green-50 border-green-200' :
-                                        'bg-red-50 border-red-200'
-                                    }`}>
-                                    {popup.type === 'processing' && (
-                                        <div className="mb-4">
-                                            <Loader2 className="mx-auto h-16 w-16 animate-spin text-blue-600" />
-                                        </div>
-                                    )}
-                                    {popup.type === 'success' && (
-                                        <div className="mb-4">
-                                            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
-                                                <Check className="h-8 w-8 text-green-600 animate-pulse" />
-                                            </div>
-                                        </div>
-                                    )}
-                                    {popup.type === 'error' && (
-                                        <div className="mb-4">
-                                            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-red-100">
-                                                <X className="h-8 w-8 text-red-600" />
-                                            </div>
-                                        </div>
-                                    )}
-                                    <h3 className={`mb-2 text-xl font-bold ${popup.type === 'processing' ? 'text-blue-800' :
-                                        popup.type === 'success' ? 'text-green-800' :
-                                            'text-red-800'
-                                        }`}>
-                                        {popup.type === 'processing' ? 'Processing...' :
-                                            popup.type === 'success' ? 'Success!' :
-                                                'Error'}
-                                    </h3>
-                                    <p className={`${popup.type === 'processing' ? 'text-blue-600' :
-                                        popup.type === 'success' ? 'text-green-600' :
-                                            'text-red-600'
-                                        }`}>
-                                        {popup.message}
-                                    </p>
-                                    {popup.type !== 'processing' && (
-                                        <button
-                                            onClick={() => setPopup(prev => ({ ...prev, show: false }))}
-                                            className="mt-4 rounded-lg bg-gray-200 px-4 py-2 text-gray-800 hover:bg-gray-300"
-                                        >
-                                            Close
-                                        </button>
-                                    )}
-                                </div>
                             </div>
                         )}
 
