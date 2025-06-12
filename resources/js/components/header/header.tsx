@@ -158,95 +158,104 @@ const Header: React.FC<HeaderProps> = ({ menuItems = [] }) => {
     return (
         <>
             <header className="relative z-50 flex min-h-[70px] border-b border-gray-300 bg-gradient-to-r from-[#e9f7ef] to-[#fff7e6] tracking-wide shadow-[0_4px_12px_0_rgba(0,0,0,0.07)]">
-                <div className="relative flex w-full flex-wrap items-center justify-center gap-6 px-6 py-0 sm:px-10">
-                    <div className="absolute top-0 left-0 flex h-full items-center pl-2">
+                <div className="relative flex w-full items-center px-6 py-0 sm:px-10">
+
+                    {/* Logo Section - Responsive width */}
+                    <div className="flex w-[15%] sm:w-[12%] lg:w-[15%] items-center justify-start sm:justify-center">
                         <a href="/">
-                            <img src="/logo.png" alt="Company Logo" className="m-[10px] h-[50px] w-auto object-contain" />
+                            <img src="/logo.png" alt="Company Logo" className="m-[10px] h-[40px] sm:h-[50px] w-auto object-contain" />
                         </a>
                     </div>
-                    <div className="hidden w-[70px] sm:block" />
 
-                    <div
-                        className={`max-lg:bg-opacity-40 max-lg:fixed max-lg:inset-0 max-lg:z-40 max-lg:bg-black ${isMobileMenuOpen ? 'max-lg:block' : 'max-lg:hidden'} lg:block`}
-                    >
-                        <div className="flex items-center">
-                            <button
-                                onClick={toggleMobileMenu}
-                                className="fixed top-2 right-4 z-[100] flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-gray-200 bg-white transition-colors hover:bg-gray-50 lg:hidden"
-                                aria-label="Close mobile menu"
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 fill-black" viewBox="0 0 320.591 320.591">
-                                    <path d="M30.391 318.583a30.37 30.37 0 0 1-21.56-7.288c-11.774-11.844-11.774-30.973 0-42.817L266.643 10.665c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875L51.647 311.295a30.366 30.366 0 0 1-21.256 7.288z"></path>
-                                    <path d="M287.9 318.583a30.37 30.37 0 0 1-21.257-8.806L8.83 51.963C-2.078 39.225-.595 20.055 12.143 9.146c11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414a30.368 30.368 0 0 1-23.078 7.288z"></path>
-                                </svg>
-                            </button>
-                            <nav
-                                className="z-50 max-lg:fixed max-lg:top-0 max-lg:left-0 max-lg:h-full max-lg:w-[85%] max-lg:max-w-[350px] max-lg:min-w-[280px] max-lg:space-y-3 max-lg:overflow-auto max-lg:bg-white max-lg:p-4 max-lg:shadow-md lg:ml-10 lg:flex lg:items-center lg:gap-x-8 lg:rounded-xl lg:bg-gradient-to-r lg:from-[#e9f7ef] lg:to-[#fff7e6] lg:px-4 lg:py-1"
-                                role="navigation"
-                                aria-label="Main navigation"
-                            >
-                                <div className="px-3 max-lg:pb-4 lg:hidden">
-                                    <a href="/">
-                                        <img src="/logo.png" alt="Company Logo" className="m-[10px] h-[50px] w-auto object-contain drop-shadow-md" />
-                                    </a>
-                                </div>
-
-                                {/* Dynamic Menu Items */}
-                                {menuItems.map((item) => renderMenuItem(item, true))}
-                            </nav>
-
-                            <div className="ml-4 hidden h-full items-center lg:flex">
-                                <div className="flex items-center gap-3 px-4 py-2">
-                                    <button
-                                        onClick={() => setIsSearchOpen(true)}
-                                        className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-[#3a8d3a] to-[#f9a825] text-white shadow transition-all duration-200 hover:scale-105 hover:shadow-lg"
-                                        aria-label="Search"
-                                    >
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            className="h-6 w-6"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                            strokeWidth="2"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                                            />
-                                        </svg>
-                                    </button>
-                                    <div className="flex flex-col">
-                                        <span className="text-center text-xs font-bold tracking-wide text-green-800">UAN</span>
-                                        <button
-                                            onClick={() => setIsSearchOpen(true)}
-                                            className="text-lg leading-tight font-bold text-green-800 transition-colors hover:text-orange-600"
-                                        >
-                                            {contact_phone}
-                                        </button>
-                                        <span className="mt-1 text-[11px] text-gray-500">We're here to help you 24/7</span>
+                    {/* Menu Section - Responsive width */}
+                    <div className="flex-1 lg:w-[65%] flex items-center justify-center">
+                        <div
+                            className={`max-lg:bg-opacity-40 max-lg:fixed max-lg:inset-0 max-lg:z-40 max-lg:bg-black ${isMobileMenuOpen ? 'max-lg:block' : 'max-lg:hidden'} lg:block`}
+                        >
+                            <div className="flex items-center justify-center">
+                                <button
+                                    onClick={toggleMobileMenu}
+                                    className="fixed top-2 right-4 z-[100] flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-gray-200 bg-white transition-colors hover:bg-gray-50 lg:hidden"
+                                    aria-label="Close mobile menu"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 fill-black" viewBox="0 0 320.591 320.591">
+                                        <path d="M30.391 318.583a30.37 30.37 0 0 1-21.56-7.288c-11.774-11.844-11.774-30.973 0-42.817L266.643 10.665c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875L51.647 311.295a30.366 30.366 0 0 1-21.256 7.288z"></path>
+                                        <path d="M287.9 318.583a30.37 30.37 0 0 1-21.257-8.806L8.83 51.963C-2.078 39.225-.595 20.055 12.143 9.146c11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414a30.368 30.368 0 0 1-23.078 7.288z"></path>
+                                    </svg>
+                                </button>
+                                <nav
+                                    className="z-50 max-lg:fixed max-lg:top-0 max-lg:left-0 max-lg:h-full max-lg:w-[85%] max-lg:max-w-[350px] max-lg:min-w-[280px] max-lg:space-y-3 max-lg:overflow-auto max-lg:bg-white max-lg:p-4 max-lg:shadow-md lg:flex lg:items-center lg:gap-x-2 xl:gap-x-4 lg:rounded-xl lg:bg-gradient-to-r lg:from-[#e9f7ef] lg:to-[#fff7e6] lg:px-2 xl:px-4 lg:py-1"
+                                    role="navigation"
+                                    aria-label="Main navigation"
+                                >
+                                    <div className="px-3 max-lg:pb-4 lg:hidden">
+                                        <a href="/">
+                                            <img src="/logo.png" alt="Company Logo" className="m-[10px] h-[50px] w-auto object-contain drop-shadow-md" />
+                                        </a>
                                     </div>
-                                </div>
+
+                                    {/* Dynamic Menu Items */}
+                                    {menuItems.map((item) => renderMenuItem(item, true))}
+                                </nav>
                             </div>
                         </div>
                     </div>
 
-                    <div className="ml-auto flex items-center lg:hidden">
-                        <button
-                            onClick={toggleMobileMenu}
-                            className="cursor-pointer rounded-md p-2 transition-colors hover:bg-gray-100"
-                            aria-label="Open mobile menu"
-                            aria-expanded={isMobileMenuOpen}
-                        >
-                            <svg className="h-7 w-7" fill="#000" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    fillRule="evenodd"
-                                    d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                                    clipRule="evenodd"
-                                ></path>
-                            </svg>
-                        </button>
+                    {/* UAN and Search Section - Responsive width */}
+                    <div className="w-[25%] sm:w-[30%] lg:w-[20%] flex items-center justify-end">
+                        <div className="hidden h-full items-center lg:flex">
+                            <div className="flex items-center gap-2 xl:gap-3 px-2 xl:px-4 py-2">
+                                <button
+                                    onClick={() => setIsSearchOpen(true)}
+                                    className="flex h-8 w-8 xl:h-10 xl:w-10 items-center justify-center rounded-full bg-gradient-to-br from-[#3a8d3a] to-[#f9a825] text-white shadow transition-all duration-200 hover:scale-105 hover:shadow-lg flex-shrink-0"
+                                    aria-label="Search"
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        className="h-4 w-4 xl:h-6 xl:w-6"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                                        />
+                                    </svg>
+                                </button>
+                                <div className="flex flex-col min-w-0 flex-shrink">
+                                    <span className="text-center text-[10px] xl:text-xs font-bold tracking-wide text-green-800 whitespace-nowrap">UAN</span>
+                                    <button
+                                        onClick={() => setIsSearchOpen(true)}
+                                        className="text-sm xl:text-lg leading-tight font-bold text-green-800 transition-colors hover:text-orange-600 whitespace-nowrap overflow-hidden text-ellipsis"
+                                        title={contact_phone}
+                                    >
+                                        {contact_phone}
+                                    </button>
+                                    <span className="mt-1 text-[9px] xl:text-[11px] text-gray-500 whitespace-nowrap overflow-hidden text-ellipsis">We're here to help you 24/7</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Mobile Menu Toggle */}
+                        <div className="flex items-center lg:hidden">
+                            <button
+                                onClick={toggleMobileMenu}
+                                className="cursor-pointer rounded-md p-2 transition-colors hover:bg-gray-100"
+                                aria-label="Open mobile menu"
+                                aria-expanded={isMobileMenuOpen}
+                            >
+                                <svg className="h-7 w-7" fill="#000" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        fillRule="evenodd"
+                                        d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                                        clipRule="evenodd"
+                                    ></path>
+                                </svg>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </header>
