@@ -583,13 +583,16 @@ export default function ContactPage() {
                         <p className="mb-10 text-xl leading-relaxed opacity-90 md:text-2xl">
                             With {bankBranchesCount}+ branches across Azad Jammu & Kashmir, we're always close to you.
                         </p>
-                        <button className="group relative transform overflow-hidden rounded-2xl bg-white px-10 py-4 text-lg font-bold text-[#195f1f] shadow-[0_10px_30px_rgb(0,0,0,0.3)] transition-all duration-300 hover:-translate-y-1 hover:bg-[#F9B912] hover:text-white hover:shadow-[0_15px_40px_rgb(0,0,0,0.4)]">
+                        <a
+                            href={route('about.branch-network')}
+                            className="group relative transform overflow-hidden rounded-2xl bg-white px-10 py-4 text-lg font-bold text-[#195f1f] shadow-[0_10px_30px_rgb(0,0,0,0.3)] transition-all duration-300 hover:-translate-y-1 hover:bg-[#F9B912] hover:text-white hover:shadow-[0_15px_40px_rgb(0,0,0,0.4)] inline-flex items-center"
+                        >
                             <div className="absolute inset-0 bg-gradient-to-r from-[#F9B912]/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
                             <span className="relative z-10 flex items-center">
                                 <MapPin className="mr-3 h-6 w-6" />
                                 Branch Locator
                             </span>
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>
