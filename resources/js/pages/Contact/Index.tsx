@@ -1,5 +1,5 @@
 import WebsiteLayout from '@/layouts/WebsiteLayout';
-import { router, useForm, usePage } from '@inertiajs/react';
+import { usePage } from '@inertiajs/react';
 import { Building2, Clock, CreditCard, Headphones, Mail, MapPin, Phone, Users, X, Check, Loader2 } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -10,8 +10,19 @@ interface PopupState {
     message: string;
 }
 
+interface ContactPageProps {
+    bankBranchesCount: number;
+    contact_phone: string;
+    contact_email: string;
+    contact_address: string;
+    flash?: {
+        success?: string;
+        error?: string;
+    };
+}
+
 export default function ContactPage() {
-    const { bankBranchesCount, contact_phone, contact_email, contact_address, flash, errors } = usePage().props as any;
+    const { bankBranchesCount, contact_phone, contact_email, contact_address, flash } = usePage().props as ContactPageProps;
 
     const [formData, setFormData] = useState({
         name: '',

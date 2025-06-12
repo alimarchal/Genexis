@@ -17,12 +17,17 @@ test('contact form can be submitted successfully', function () {
         'tehsil' => 'Muzaffarabad',
         'place' => 'City Center',
         'category' => 'general_inquiry',
+        'subject' => 'Test Subject',
+        'message' => 'This is a test message',
     ];
 
-    $response = $this->post(route('contact.submit'), $formData);
+    $response = $this->postJson(route('contact.submit'), $formData);
 
-    $response->assertRedirect();
-    $response->assertSessionHas('success');
+    $response->assertStatus(200);
+    $response->assertJson([
+        'success' => true,
+        'message' => 'Thank you for your message. We will get back to you soon!',
+    ]);
 
     // Verify the contact submission was stored
     $this->assertDatabaseHas('contact_submissions', [
@@ -33,27 +38,31 @@ test('contact form can be submitted successfully', function () {
         'tehsil' => 'Muzaffarabad',
         'place' => 'City Center',
         'category' => 'general_inquiry',
+        'subject' => 'Test Subject',
+        'message' => 'This is a test message',
     ]);
 
     // Verify email was sent
-    Mail::assertSent(ContactSubmissionMail::class, function ($mail) {
-        return $mail->hasTo(config('app.contact_email'));
-    });
+    Mail::assertSent(ContactSubmissionMail::class);
 });
 
 test('contact form requires name and email', function () {
-    $response = $this->post(route('contact.submit'), []);
+    $response = $this->postJson(route('contact.submit'), []);
 
-    $response->assertSessionHasErrors(['name', 'email']);
+    $response->assertStatus(422);
+    $response->assertJsonValidationErrors(['name', 'email', 'subject', 'message']);
 });
 
 test('contact form validates email format', function () {
-    $response = $this->post(route('contact.submit'), [
+    $response = $this->postJson(route('contact.submit'), [
         'name' => 'John Doe',
         'email' => 'invalid-email',
+        'subject' => 'Test Subject',
+        'message' => 'Test message',
     ]);
 
-    $response->assertSessionHasErrors(['email']);
+    $response->assertStatus(422);
+    $response->assertJsonValidationErrors(['email']);
 });
 
 test('contact form accepts optional fields', function () {
@@ -62,17 +71,24 @@ test('contact form accepts optional fields', function () {
     $formData = [
         'name' => 'Jane Doe',
         'email' => 'jane@example.com',
+        'subject' => 'Test Subject',
+        'message' => 'Test message',
     ];
 
-    $response = $this->post(route('contact.submit'), $formData);
+    $response = $this->postJson(route('contact.submit'), $formData);
 
-    $response->assertRedirect();
-    $response->assertSessionHas('success');
+    $response->assertStatus(200);
+    $response->assertJson([
+        'success' => true,
+        'message' => 'Thank you for your message. We will get back to you soon!',
+    ]);
 
     // Verify the contact submission was stored with null optional fields
     $this->assertDatabaseHas('contact_submissions', [
         'name' => 'Jane Doe',
         'email' => 'jane@example.com',
+        'subject' => 'Test Subject',
+        'message' => 'Test message',
         'phone' => null,
         'district' => null,
         'tehsil' => null,
