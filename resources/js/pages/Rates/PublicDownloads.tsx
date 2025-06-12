@@ -98,6 +98,13 @@ const PublicDownloadsPublic = ({ downloads }: PublicDownloadsPublicProps) => {
                 ) : (
                     <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-lg">
                         <table className="w-full min-w-full table-auto divide-y divide-gray-200 bg-white text-sm sm:text-base">
+                            <colgroup>
+                                <col className="w-[20%]" />
+                                <col className="w-[20%]" />
+                                <col className="w-[20%]" />
+                                <col className="w-[20%]" />
+                                <col className="w-[20%]" />
+                            </colgroup>
                             <thead className="bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A]">
                                 <tr>
                                     <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-white uppercase sm:text-sm">Title</th>
@@ -120,14 +127,23 @@ const PublicDownloadsPublic = ({ downloads }: PublicDownloadsPublicProps) => {
                                         <tr key={download.id} className="hover:bg-gray-50">
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 <div className="text-sm font-medium text-gray-900">{download.title}</div>
-                                                {download.description && (
-                                                    <div className="mt-1 line-clamp-2 text-sm text-gray-500">{download.description}</div>
-                                                )}
-                                                {download.is_featured && (
-                                                    <span className="mt-1 inline-flex items-center rounded-full bg-yellow-100 px-2 py-1 text-xs font-medium text-yellow-800">
-                                                        ⭐ Featured
-                                                    </span>
-                                                )}
+                                                <div>
+                                                    {download.description && (
+                                                        <div className="mt-1 text-sm text-gray-500">
+                                                            {download.description.match(/.{1,75}(\s|$)/g)?.map((line, index) => (
+                                                                <div key={index} className="break-words hyphens-auto">
+                                                                    {line.trim()}
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    )}
+                                                    {download.is_featured && (
+                                                        <span className="mt-1 inline-flex items-center rounded-full bg-yellow-100 px-2 py-1 text-xs font-medium text-yellow-800">
+                                                            ⭐ Featured
+                                                        </span>
+                                                    )}
+                                                </div>
+
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 <span
@@ -186,11 +202,10 @@ const PublicDownloadsPublic = ({ downloads }: PublicDownloadsPublicProps) => {
                                             key={index}
                                             onClick={() => link.url && router.get(link.url)}
                                             disabled={!link.url}
-                                            className={`rounded-md border px-3 py-2 text-sm ${
-                                                link.active
-                                                    ? 'border-[#4A7C59] bg-[#4A7C59] text-white'
-                                                    : 'border-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50'
-                                            }`}
+                                            className={`rounded-md border px-3 py-2 text-sm ${link.active
+                                                ? 'border-[#4A7C59] bg-[#4A7C59] text-white'
+                                                : 'border-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50'
+                                                }`}
                                             dangerouslySetInnerHTML={{ __html: link.label }}
                                         />
                                     ))}
