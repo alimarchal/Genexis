@@ -5,15 +5,32 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreProfitRateRequest;
 use App\Http\Requests\UpdateProfitRateRequest;
 use App\Models\ProfitRate;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class ProfitRateController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $profitRates = QueryBuilder::for(ProfitRate::class)
+            ->with(['creator', 'updater'])
+            ->allowedFilters(ProfitRate::getAllowedFilters())
+            ->allowedSorts(ProfitRate::getAllowedSorts())
+            ->defaultSort('sort_order')
+            ->when($request->get('search'), function ($query, $search) {
+                $query->where('category', 'like', "%{$search}%");
+            })
+            ->paginate(request('per_page', 15))
+            ->withQueryString();
+
+        return Inertia::render('ProfitRates/Index', [
+            'profitRates' => $profitRates,
+            'filters' => request()->only(['filter', 'sort', 'search']),
+        ]);
     }
 
     /**
@@ -21,7 +38,7 @@ class ProfitRateController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('ProfitRates/Create');
     }
 
     /**
@@ -29,7 +46,12 @@ class ProfitRateController extends Controller
      */
     public function store(StoreProfitRateRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        ProfitRate::create($data);
+
+        return redirect()->route('profit-rates.index')
+            ->with('success', 'Profit rate created successfully.');
     }
 
     /**
@@ -37,7 +59,9 @@ class ProfitRateController extends Controller
      */
     public function show(ProfitRate $profitRate)
     {
-        //
+        return Inertia::render('ProfitRates/Show', [
+            'profitRate' => $profitRate->load('creator', 'updater'),
+        ]);
     }
 
     /**
@@ -45,7 +69,9 @@ class ProfitRateController extends Controller
      */
     public function edit(ProfitRate $profitRate)
     {
-        //
+        return Inertia::render('ProfitRates/Edit', [
+            'profitRate' => $profitRate,
+        ]);
     }
 
     /**
@@ -53,7 +79,12 @@ class ProfitRateController extends Controller
      */
     public function update(UpdateProfitRateRequest $request, ProfitRate $profitRate)
     {
-        //
+        $data = $request->validated();
+
+        $profitRate->update($data);
+
+        return redirect()->route('profit-rates.index')
+            ->with('success', 'Profit rate updated successfully.');
     }
 
     /**
@@ -61,6 +92,9 @@ class ProfitRateController extends Controller
      */
     public function destroy(ProfitRate $profitRate)
     {
-        //
+        $profitRate->delete();
+
+        return redirect()->route('profit-rates.index')
+            ->with('success', 'Profit rate deleted successfully.');
     }
 }

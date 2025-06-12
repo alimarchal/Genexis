@@ -27,27 +27,16 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-interface NewsAnnouncementForm {
-    title: string;
-    content: string;
-    image: File | null;
-    published_date: string;
-    is_featured: boolean;
-    category: string;
-    slug: string;
-    is_published: boolean;
-}
-
 export default function CreateNewsAnnouncement() {
-    const { data, setData, processing, errors } = useForm<NewsAnnouncementForm>({
+    const { data, setData, processing, errors } = useForm({
         title: '',
         content: '',
-        image: null,
+        image: null as File | null,
         published_date: new Date().toISOString().split('T')[0],
-        is_featured: false,
+        is_featured: false as boolean,
         category: 'general',
         slug: '',
-        is_published: true,
+        is_published: true as boolean,
     });
 
     const submit: FormEventHandler = (e) => {
@@ -68,7 +57,7 @@ export default function CreateNewsAnnouncement() {
             .replace(/[^a-z0-9 -]/g, '')
             .replace(/\s+/g, '-')
             .replace(/-+/g, '-')
-            .trim('-');
+            .replace(/^-+|-+$/g, ''); // Remove leading/trailing dashes
         setData('slug', slug);
     };
 

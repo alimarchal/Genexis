@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
             CarouselSeeder::class,
             BankServiceSeeder::class,
             NewsAnnouncementSeeder::class,
+            DivisionSeeder::class,
             RegionSeeder::class,
             DistrictSeeder::class,
             BranchSeeder::class,
@@ -36,6 +37,9 @@ class DatabaseSeeder extends Seeder
             AnnualReportSeeder::class,
             FinancialHighlightSeeder::class,
             ProfitRateSeeder::class,
+            ScheduleOfChargeSeeder::class,
+            DownloadSeeder::class,
+            CareerSeeder::class,
         ]);
 
         // \App\Models\User::factory()->create([

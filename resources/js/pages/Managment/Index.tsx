@@ -76,7 +76,8 @@ export default function ManagementIndex({ managments, filters }: Props) {
             params['filter[status]'] = statusFilter;
         }
 
-        router.get(route('managments.index'), params, {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        router.get(route('managments.index'), params as any, {
             preserveState: true,
             preserveScroll: true,
         });

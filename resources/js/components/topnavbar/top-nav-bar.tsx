@@ -1,13 +1,15 @@
 import { usePage } from '@inertiajs/react';
 
 const AddressMarqueeSection = () => {
-    const { contact_address } = usePage().props;
+    // Commented out to fix lint error - not currently used
+    // const { contact_address } = usePage().props;
+    usePage(); // Keep the import used
 
     const marqueeStyle = {
-        animation: 'marquee 25s linear infinite',
-        WebkitAnimation: 'marquee 25s linear infinite',
-        MozAnimation: 'marquee 25s linear infinite',
-        OAnimation: 'marquee 25s linear infinite',
+        animation: 'marquee 35s linear infinite',
+        WebkitAnimation: 'marquee 35s linear infinite',
+        MozAnimation: 'marquee 35s linear infinite',
+        OAnimation: 'marquee 35s linear infinite',
     };
 
     return (
@@ -42,7 +44,7 @@ const AddressMarqueeSection = () => {
             <section className="border-b border-gray-300 bg-gradient-to-r from-green-50 to-orange-50 px-4 py-2 text-black md:px-10">
                 <div className="flex items-center justify-between gap-4">
                     {/* Left Column - Address with Icon (Hidden on Mobile) */}
-                    <div className="hidden min-w-0 flex-1 flex-shrink-0 items-center justify-start md:flex">
+                    {/* <div className="hidden min-w-0 flex-1 flex-shrink-0 items-center justify-start md:flex">
                         <div className="flex items-center">
                             <svg
                                 className="mr-3 h-5 w-5 flex-shrink-0 text-green-700"
@@ -68,7 +70,7 @@ const AddressMarqueeSection = () => {
                                 </a>
                             </p>
                         </div>
-                    </div>
+                    </div> */}
 
                     {/* Right Column - Fast Marquee (Full width on mobile) */}
                     <div className="w-full min-w-0 flex-1 overflow-hidden md:flex-1">

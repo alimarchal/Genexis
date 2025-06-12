@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('regions', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('division_id')->default(10)->constrained()->onUpdate('cascade')->onDelete(action: 'cascade');
             $table->string('name')->unique();
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->userTracking();

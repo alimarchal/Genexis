@@ -29,18 +29,6 @@ interface Props {
     newsAnnouncement: NewsAnnouncement;
 }
 
-interface NewsAnnouncementForm {
-    title: string;
-    content: string;
-    image: File | null;
-    published_date: string;
-    is_featured: boolean;
-    category: string;
-    slug: string;
-    is_published: boolean;
-    _method: string;
-}
-
 export default function EditNewsAnnouncement({ newsAnnouncement }: Props) {
     const breadcrumbs: BreadcrumbItem[] = [
         {
@@ -57,15 +45,15 @@ export default function EditNewsAnnouncement({ newsAnnouncement }: Props) {
         },
     ];
 
-    const { data, setData, processing, errors } = useForm<NewsAnnouncementForm>({
+    const { data, setData, processing, errors } = useForm({
         title: newsAnnouncement.title,
         content: newsAnnouncement.content,
-        image: null,
+        image: null as File | null,
         published_date: newsAnnouncement.published_date,
-        is_featured: newsAnnouncement.is_featured,
+        is_featured: newsAnnouncement.is_featured as boolean,
         category: newsAnnouncement.category,
         slug: newsAnnouncement.slug,
-        is_published: newsAnnouncement.is_published,
+        is_published: newsAnnouncement.is_published as boolean,
         _method: 'PUT',
     });
 
@@ -88,7 +76,7 @@ export default function EditNewsAnnouncement({ newsAnnouncement }: Props) {
             .replace(/[^a-z0-9 -]/g, '')
             .replace(/\s+/g, '-')
             .replace(/-+/g, '-')
-            .trim('-');
+            .replace(/^-+|-+$/g, ''); // Remove leading/trailing dashes
         setData('slug', slug);
     };
 

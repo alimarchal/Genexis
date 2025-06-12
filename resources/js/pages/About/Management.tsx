@@ -12,12 +12,9 @@ interface ManagementMember {
     status: string;
 }
 
-interface Props {
-    managment: ManagementMember[];
-}
-
 export default function ManagementPage() {
-    const { managment } = usePage<Props>().props;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { managment } = usePage<any>().props;
 
     return (
         <div className="mx-auto max-w-7xl px-6 py-8">
@@ -30,7 +27,7 @@ export default function ManagementPage() {
             </p> */}
 
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
-                {managment.map((member) => (
+                {managment.map((member: ManagementMember) => (
                     <ExecutiveCard
                         key={member.id}
                         name={member.full_name}

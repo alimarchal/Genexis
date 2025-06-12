@@ -71,7 +71,7 @@ export default function CreateMenu({ parentMenus }: Props) {
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
-        const formData = {
+        const formData: Record<string, unknown> = {
             ...data,
             parent_id: data.parent_id === '' || data.parent_id === 'none' ? null : parseInt(data.parent_id),
         };

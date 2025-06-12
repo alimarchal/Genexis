@@ -186,8 +186,7 @@ class MenuSeeder extends Seeder
                     [
                         'title' => 'Schedule of Charges',
                         'slug' => 'schedule-of-charges',
-                        'url' => 'https://bankajk.com/downloads/soc/SOC%20Jul-Dec%2024.pdf',
-                        'target' => '_blank',
+                        'route_name' => 'rates.schedule-of-charges',
                         'sort_order' => 1,
                     ],
                     [

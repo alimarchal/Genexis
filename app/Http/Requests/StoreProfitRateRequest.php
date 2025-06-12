@@ -11,7 +11,7 @@ class StoreProfitRateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,12 @@ class StoreProfitRateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'category' => 'required|string|max:255',
+            'rate' => 'required|numeric|between:0,99.99',
+            'valid_from' => 'required|date',
+            'valid_to' => 'nullable|date|after:valid_from',
+            'is_active' => 'required|boolean',
+            'sort_order' => 'nullable|integer',
         ];
     }
 }

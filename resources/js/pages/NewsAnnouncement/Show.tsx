@@ -44,7 +44,7 @@ export default function ShowNewsAnnouncement({ newsAnnouncement }: Props) {
     ];
 
     const getStatusBadge = (isPublished: boolean) => {
-        return isPublished ? <Badge variant="success">Published</Badge> : <Badge variant="secondary">Draft</Badge>;
+        return isPublished ? <Badge variant="default">Published</Badge> : <Badge variant="secondary">Draft</Badge>;
     };
 
     const getCategoryBadge = (category: string) => {

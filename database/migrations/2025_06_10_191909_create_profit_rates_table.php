@@ -17,9 +17,11 @@ return new class extends Migration
             $table->decimal('rate', 5, 2);            // e.g. 10.50
             $table->date('valid_from');               // start date of this rate
             $table->date('valid_to')->nullable();     // end date; null if current
-            $table->boolean('is_active')->default(false);
+            $table->boolean('is_active')->default(true);
+            $table->integer('sort_order')->nullable();
+            $table->userTracking();
             $table->timestamps();
-
+            $table->index('sort_order');
             $table->index('category');
             $table->index('valid_from');
             $table->index('is_active');

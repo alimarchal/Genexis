@@ -68,7 +68,8 @@ export default function CarouselIndex({ carousels, filters }: Props) {
             params['filter[status]'] = statusFilter;
         }
 
-        router.get(route('carousels.index'), params, {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        router.get(route('carousels.index'), params as any, {
             preserveState: true,
             preserveScroll: true,
         });

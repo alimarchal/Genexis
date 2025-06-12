@@ -85,7 +85,8 @@ export default function MenuIndex({ menus, filters }: Props) {
             params['filter[is_active]'] = statusFilter;
         }
 
-        router.get(route('admin.menus.index'), params, {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        router.get(route('admin.menus.index'), params as any, {
             preserveState: true,
             preserveScroll: true,
         });

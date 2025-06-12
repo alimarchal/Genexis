@@ -92,16 +92,15 @@ const BankHeroCarousel: React.FC<BankHeroCarouselProps> = ({ slides: propSlides 
         <div className="relative w-full bg-gradient-to-br from-[#e9f7ef] to-[#fff7e6]">
             {/* Main Carousel Container */}
             <div
-                className="relative h-64 overflow-hidden sm:h-80 md:h-96 lg:h-[500px] xl:h-[600px] 2xl:h-[700px]"
+                className="relative h-64 overflow-hidden sm:h-80 md:h-96 lg:h-[500px] xl:h-[550px] 2xl:h-[700px]"
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
             >
                 {slides.map((slide, index) => (
                     <div
                         key={slide.id}
-                        className={`absolute inset-0 transition-transform duration-700 ease-in-out ${
-                            index === currentSlide ? 'translate-x-0' : index < currentSlide ? '-translate-x-full' : 'translate-x-full'
-                        }`}
+                        className={`absolute inset-0 transition-transform duration-700 ease-in-out ${index === currentSlide ? 'translate-x-0' : index < currentSlide ? '-translate-x-full' : 'translate-x-full'
+                            }`}
                     >
                         {/* Background Image */}
                         <div className="relative h-full w-full">
@@ -171,9 +170,8 @@ const BankHeroCarousel: React.FC<BankHeroCarouselProps> = ({ slides: propSlides 
                         <button
                             key={index}
                             onClick={() => goToSlide(index)}
-                            className={`h-3 w-3 rounded-full transition-all duration-200 focus:ring-2 focus:ring-white/50 focus:outline-none lg:h-4 lg:w-4 ${
-                                index === currentSlide ? 'scale-110 bg-white' : 'bg-white/50 hover:bg-white/70'
-                            }`}
+                            className={`h-3 w-3 rounded-full transition-all duration-200 focus:ring-2 focus:ring-white/50 focus:outline-none lg:h-4 lg:w-4 ${index === currentSlide ? 'scale-110 bg-white' : 'bg-white/50 hover:bg-white/70'
+                                }`}
                             aria-label={`Go to slide ${index + 1}`}
                         />
                     ))}
@@ -201,9 +199,8 @@ const BankHeroCarousel: React.FC<BankHeroCarouselProps> = ({ slides: propSlides 
                     <button
                         key={slide.id}
                         onClick={() => goToSlide(index)}
-                        className={`relative h-12 w-20 overflow-hidden transition-all duration-200 focus:ring-2 focus:ring-[#4A7C59] focus:outline-none ${
-                            index === currentSlide ? 'scale-110 ring-2 ring-[#F9B912]' : 'opacity-70 hover:opacity-100'
-                        }`}
+                        className={`relative h-12 w-20 overflow-hidden transition-all duration-200 focus:ring-2 focus:ring-[#4A7C59] focus:outline-none ${index === currentSlide ? 'scale-110 ring-2 ring-[#F9B912]' : 'opacity-70 hover:opacity-100'
+                            }`}
                     >
                         <img src={slide.image} alt={`Thumbnail ${index + 1}`} className="h-full w-full object-cover" />
                         {index === currentSlide && <div className="absolute inset-0 bg-[#F9B912]/20"></div>}

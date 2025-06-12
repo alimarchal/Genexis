@@ -2,18 +2,29 @@
 
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\AnnualReportController;
+use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\BankServiceController;
+use App\Http\Controllers\BoardOfDirectorController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\BranchServiceController;
+use App\Http\Controllers\CareerController;
 use App\Http\Controllers\CarouselController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DistrictController;
+use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\FinancialHighlightController;
 use App\Http\Controllers\FinancialReportController;
 use App\Http\Controllers\ManagmentController;
 use App\Http\Controllers\NewsAnnouncementController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\ProductSchemeAttributeController;
+use App\Http\Controllers\ProductSchemeController;
+use App\Http\Controllers\ProductTypeAccountController;
+use App\Http\Controllers\ProductTypeController;
+use App\Http\Controllers\ProfitRateController;
 use App\Http\Controllers\RegionController;
+use App\Http\Controllers\ScheduleOfChargeController;
+use App\Http\Controllers\ServiceAttributeController;
 use App\Http\Controllers\ServiceController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -30,6 +41,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('financial-reports', FinancialReportController::class);
     Route::resource('annual-reports', AnnualReportController::class);
     Route::resource('financial-highlights', FinancialHighlightController::class);
+    Route::resource('profit-rates', ProfitRateController::class);
 
     // Download routes
     Route::get('annual-reports/{annual_report}/download', [AnnualReportController::class, 'download'])->name('annual-reports.download');
@@ -41,6 +53,26 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('branches', BranchController::class);
     Route::resource('contacts', ContactController::class);
     Route::resource('branch-services', BranchServiceController::class);
+
+    // Schedule of Charges and Downloads CRUD
+    Route::resource('schedule-of-charges', ScheduleOfChargeController::class);
+    Route::resource('downloads', DownloadController::class);
+    Route::prefix('admin')->group(function () {
+        Route::resource('careers', CareerController::class);
+        Route::get('careers/{career}/download', [CareerController::class, 'download'])->name('careers.admin-download');
+    });
+
+    // Additional CRUD routes for existing controllers
+    Route::resource('board-of-directors', BoardOfDirectorController::class);
+    Route::resource('product-schemes', ProductSchemeController::class);
+    Route::resource('product-scheme-attributes', ProductSchemeAttributeController::class);
+    Route::resource('product-types', ProductTypeController::class);
+    Route::resource('product-type-accounts', ProductTypeAccountController::class);
+    Route::resource('service-attributes', ServiceAttributeController::class);
+
+    // CRUD download routes (for authenticated users)
+    Route::get('schedule-of-charges/{scheduleOfCharge}/download', [ScheduleOfChargeController::class, 'download'])->name('schedule-of-charges.admin-download');
+    Route::get('downloads/{download}/download', [DownloadController::class, 'download'])->name('downloads.admin-download');
 });
 
 Route::get('/', [PageController::class, 'home'])->name(name: 'home');
@@ -81,15 +113,28 @@ Route::prefix('financials')->name('financials.')->group(function () {
 });
 
 Route::prefix('rates')->name('rates.')->group(function () {
-    Route::get('/profit-rates', function () {
-        return inertia('Rates/ProfitRates');
-    })->name('profit-rates');
+    Route::get('/profit-rates', [PageController::class, 'profitRates'])->name('profit-rates');
+    Route::get('/schedule-of-charges', [ScheduleOfChargeController::class, 'publicIndex'])->name('schedule-of-charges');
+    Route::get('/schedule-of-charges/{scheduleOfCharge}/download', [ScheduleOfChargeController::class, 'download'])->name('schedule-of-charges.download');
 });
 
 Route::get('/contact-us', [PageController::class, 'contact'])->name('contact');
+Route::post('/contact-us', [PageController::class, 'contactSubmit'])->name('contact.submit');
+
+Route::get('/public-downloads', [DownloadController::class, 'publicIndex'])->name('public-downloads');
+Route::get('/public-downloads/{download}/download', [DownloadController::class, 'download'])->name('public-downloads.download');
+
+Route::get('/careers', [CareerController::class, 'publicIndex'])->name('public-careers');
+Route::get('/careers/{career}', [CareerController::class, 'publicShow'])->name('public-careers.show');
+Route::get('/careers/{career}/download', [CareerController::class, 'download'])->name('public-careers.download');
 
 Route::get('/news', [PageController::class, 'news'])->name(name: 'news');
 Route::get('/news/{slug}', [PageController::class, 'newsDetail'])->name('news.detail');
+
+// API Routes
+Route::prefix('api')->group(function () {
+    Route::get('/search', [SearchController::class, 'search']);
+});
 
 // Admin routes (protected by auth middleware)
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(function () {

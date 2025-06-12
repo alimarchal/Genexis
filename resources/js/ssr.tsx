@@ -13,16 +13,18 @@ createServer((page) =>
         title: (title) => `${title} - ${appName}`,
         resolve: (name) => resolvePageComponent(`./pages/${name}.tsx`, import.meta.glob('./pages/**/*.tsx')),
         setup: ({ App, props }) => {
-            /* eslint-disable */
-            // @ts-expect-error
+            /* eslint-disable @typescript-eslint/ban-ts-comment */
+            // @ts-ignore
             global.route<RouteName> = (name, params, absolute) =>
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 route(name, params as any, absolute, {
-                    // @ts-expect-error
+                    // @ts-ignore
                     ...page.props.ziggy,
-                    // @ts-expect-error
+                    // @ts-ignore
                     location: new URL(page.props.ziggy.location),
-                });
-            /* eslint-enable */
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                } as any);
+            /* eslint-enable @typescript-eslint/ban-ts-comment */
 
             return <App {...props} />;
         },

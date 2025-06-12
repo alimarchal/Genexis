@@ -234,9 +234,12 @@ const InteractiveBAJKServices: React.FC<Props> = ({ bankServices }) => {
                                         </button>
 
                                         <div
-                                            className={`overflow-hidden transition-all duration-500 ${
-                                                isExpanded ? 'max-h-96 opacity-100' : 'max-h-20 opacity-70'
+                                            className={`transition-all duration-500 ${
+                                                isExpanded ? 'max-h-screen overflow-y-auto opacity-100' : 'max-h-20 overflow-hidden opacity-70'
                                             }`}
+                                            style={{
+                                                maxHeight: isExpanded ? `${Math.min(600, service.products.length * 100 + 50)}px` : '5rem',
+                                            }}
                                         >
                                             <div className="space-y-3">
                                                 {service.products.slice(0, isExpanded ? service.products.length : 2).map((product, idx) => (

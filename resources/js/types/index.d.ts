@@ -2,7 +2,7 @@ import { LucideIcon } from 'lucide-react';
 import type { Config } from 'ziggy-js';
 
 export interface Auth {
-    user: User;
+    user: User | null;
 }
 
 export interface BreadcrumbItem {
@@ -26,8 +26,12 @@ export interface SharedData {
     name: string;
     quote: { message: string; author: string };
     auth: Auth;
-    ziggy: Config & { location: string };
+    ziggy: Config & { location: string } & Record<string, unknown>;
     sidebarOpen: boolean;
+    bankBranchesCount: number;
+    contact_phone: string;
+    contact_email: string;
+    contact_address: string;
     [key: string]: unknown;
 }
 
