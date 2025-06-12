@@ -117,15 +117,15 @@ export default function ContactPage() {
                 }, 3000);
             }
         } catch (error: unknown) {
-            const axiosError = error as { 
-                response?: { 
-                    status?: number; 
-                    data?: { 
-                        remaining_time?: number; 
+            const axiosError = error as {
+                response?: {
+                    status?: number;
+                    data?: {
+                        remaining_time?: number;
                         errors?: Record<string, string[]>;
                         message?: string;
-                    } 
-                } 
+                    }
+                }
             };
             if (axiosError.response?.status === 429) {
                 // Rate limited
