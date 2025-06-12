@@ -28,20 +28,9 @@ class ContactSubmissionMail extends Mailable
      */
     public function envelope(): Envelope
     {
-        // Build envelope with required fields
-        $envelope = new Envelope(
+        return new Envelope(
             subject: 'Contact Form Submission - '.$this->submission->subject,
         );
-
-        // Only set replyTo if the email is valid
-        if (filter_var($this->submission->email, FILTER_VALIDATE_EMAIL)) {
-            return new Envelope(
-                subject: 'Contact Form Submission - '.$this->submission->subject,
-                replyTo: [$this->submission->email => $this->submission->name],
-            );
-        }
-
-        return $envelope;
     }
 
     /**
