@@ -176,6 +176,9 @@ class PageController extends Controller
         }
 
         try {
+            // Log the incoming request data for debugging
+            Log::info('Contact form submission data:', $request->validated());
+
             // Use database transaction for data integrity
             $submission = DB::transaction(function () use ($request) {
                 $submission = ContactSubmission::create([
@@ -187,15 +190,18 @@ class PageController extends Controller
                     'place' => $request->place,
                     'category' => $request->category,
                     'subject' => $request->subject,
-                    'description' => $request->description,
                     'message' => $request->message,
                     'ip_address' => $request->getClientIp(),
                     'user_agent' => $request->header('User-Agent'),
                     'submitted_at' => now(),
                 ]);
 
+                Log::info('Contact submission created with ID: '.$submission->id);
+
                 // Send email to CONTACT_EMAIL
                 Mail::to(env('CONTACT_EMAIL', 'contact@bankajk.com'))->send(new ContactSubmissionMail($submission));
+
+                Log::info('Contact submission email sent successfully');
 
                 return $submission;
             });
@@ -211,6 +217,7 @@ class PageController extends Controller
 
         } catch (\Exception $e) {
             Log::error('Failed to process contact submission: '.$e->getMessage());
+            Log::error('Stack trace: '.$e->getTraceAsString());
 
             return response()->json([
                 'success' => false,
