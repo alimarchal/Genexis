@@ -7,6 +7,7 @@ use App\Http\Controllers\BankServiceController;
 use App\Http\Controllers\BoardOfDirectorController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\BranchServiceController;
+use App\Http\Controllers\CareerController;
 use App\Http\Controllers\CarouselController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DistrictController;
@@ -56,6 +57,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Schedule of Charges and Downloads CRUD
     Route::resource('schedule-of-charges', ScheduleOfChargeController::class);
     Route::resource('downloads', DownloadController::class);
+    Route::prefix('admin')->group(function () {
+        Route::resource('careers', CareerController::class);
+        Route::get('careers/{career}/download', [CareerController::class, 'download'])->name('careers.admin-download');
+    });
 
     // Additional CRUD routes for existing controllers
     Route::resource('board-of-directors', BoardOfDirectorController::class);
@@ -118,6 +123,10 @@ Route::post('/contact-us', [PageController::class, 'contactSubmit'])->name('cont
 
 Route::get('/public-downloads', [DownloadController::class, 'publicIndex'])->name('public-downloads');
 Route::get('/public-downloads/{download}/download', [DownloadController::class, 'download'])->name('public-downloads.download');
+
+Route::get('/careers', [CareerController::class, 'publicIndex'])->name('public-careers');
+Route::get('/careers/{career}', [CareerController::class, 'publicShow'])->name('public-careers.show');
+Route::get('/careers/{career}/download', [CareerController::class, 'download'])->name('public-careers.download');
 
 Route::get('/news', [PageController::class, 'news'])->name(name: 'news');
 Route::get('/news/{slug}', [PageController::class, 'newsDetail'])->name('news.detail');

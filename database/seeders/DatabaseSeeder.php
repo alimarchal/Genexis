@@ -39,6 +39,7 @@ class DatabaseSeeder extends Seeder
             ProfitRateSeeder::class,
             ScheduleOfChargeSeeder::class,
             DownloadSeeder::class,
+            CareerSeeder::class,
         ]);
 
         // \App\Models\User::factory()->create([

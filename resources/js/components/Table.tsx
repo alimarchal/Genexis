@@ -21,8 +21,8 @@ export const Tbody: React.FC<{ children: React.ReactNode }> = ({ children }) => 
     return <tbody className="divide-y divide-gray-200 bg-white">{children}</tbody>;
 };
 
-export const Tr: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    return <tr>{children}</tr>;
+export const Tr: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className }) => {
+    return <tr className={className}>{children}</tr>;
 };
 
 export const Th: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className }) => {
