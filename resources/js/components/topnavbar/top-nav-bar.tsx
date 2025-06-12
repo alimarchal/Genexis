@@ -72,8 +72,8 @@ const AddressMarqueeSection = () => {
     const currentMessage = messages[currentMessageIndex];
 
     const marqueeStyle = {
-        animation: isPaused ? 'none' : 'marquee 20s linear infinite',
-        WebkitAnimation: isPaused ? 'none' : 'marquee 20s linear infinite',
+        animation: isPaused ? 'marquee 60s linear infinite paused' : 'marquee 35s linear infinite',
+        WebkitAnimation: isPaused ? 'marquee 60s linear infinite paused' : 'marquee 35s linear infinite',
     };
 
     return (
@@ -87,7 +87,7 @@ const AddressMarqueeSection = () => {
                 @keyframes fadeSlide {
                     0% {
                         opacity: 0;
-                        transform: translateY(10px) scale(0.98);
+                        transform: translateY(5px) scale(0.98);
                     }
                     100% {
                         opacity: 1;
@@ -95,39 +95,40 @@ const AddressMarqueeSection = () => {
                     }
                 }
                 
-                @keyframes iconBounce {
-                    0%, 100% { transform: translateY(0) scale(1); }
-                    50% { transform: translateY(-2px) scale(1.05); }
+                @keyframes iconPulse {
+                    0%, 100% { 
+                        transform: scale(1);
+                        opacity: 1;
+                    }
+                    50% { 
+                        transform: scale(1.05);
+                        opacity: 0.9;
+                    }
                 }
                 
                 @keyframes shimmer {
                     0% { 
                         background-position: -200% center;
-                        opacity: 0.6;
+                        opacity: 0.7;
                     }
                     50% {
                         opacity: 1;
                     }
                     100% { 
                         background-position: 200% center;
-                        opacity: 0.6;
+                        opacity: 0.7;
                     }
                 }
                 
                 @keyframes progress {
                     from { 
                         transform: scaleX(0);
-                        opacity: 0.5;
+                        opacity: 0.6;
                     }
                     to { 
                         transform: scaleX(1);
                         opacity: 1;
                     }
-                }
-
-                @keyframes float {
-                    0%, 100% { transform: translateY(0px); }
-                    50% { transform: translateY(-2px); }
                 }
                 
                 .message-transition {
@@ -138,6 +139,10 @@ const AddressMarqueeSection = () => {
                     animation: fadeSlide 0.6s ease-out;
                 }
                 
+                .marquee-text {
+                    animation-play-state: running;
+                }
+                
                 .marquee-text:hover {
                     animation-play-state: paused !important;
                 }
@@ -146,78 +151,60 @@ const AddressMarqueeSection = () => {
                     background: linear-gradient(
                         90deg, 
                         transparent 0%, 
-                        rgba(255,255,255,0.4) 40%,
-                        rgba(255,255,255,0.6) 50%,
-                        rgba(255,255,255,0.4) 60%,
+                        rgba(255,255,255,0.3) 40%,
+                        rgba(255,255,255,0.5) 50%,
+                        rgba(255,255,255,0.3) 60%,
                         transparent 100%
                     );
                     background-size: 200% 100%;
-                    animation: shimmer 2.5s ease-in-out infinite;
+                    animation: shimmer 3s ease-in-out infinite;
                 }
                 
-                .icon-bounce {
-                    animation: iconBounce 3s ease-in-out infinite;
-                }
-
-                .float-animation {
-                    animation: float 6s ease-in-out infinite;
+                .icon-pulse {
+                    animation: iconPulse 4s ease-in-out infinite;
                 }
                 
                 .priority-urgent {
                     background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-                    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+                    box-shadow: 0 1px 4px rgba(239, 68, 68, 0.2);
                 }
                 
                 .priority-high {
                     background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-                    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+                    box-shadow: 0 1px 4px rgba(59, 130, 246, 0.2);
                 }
                 
                 .priority-medium {
                     background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-                    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+                    box-shadow: 0 1px 4px rgba(16, 185, 129, 0.2);
                 }
 
                 .glass-effect {
-                    backdrop-filter: blur(10px);
-                    background: rgba(255, 255, 255, 0.1);
+                    backdrop-filter: blur(8px);
+                    background: rgba(255, 255, 255, 0.15);
                     border: 1px solid rgba(255, 255, 255, 0.2);
-                }
-
-                .gradient-border {
-                    position: relative;
-                    background: linear-gradient(white, white) padding-box,
-                                linear-gradient(45deg, #e9f7ef, #fff7e6) border-box;
-                    border: 1px solid transparent;
                 }
             `}</style>
 
-            <section className="relative border-b border-gray-200/60 bg-gradient-to-r from-[#e9f7ef] to-[#fff7e6] shadow-sm overflow-hidden">
-                {/* Animated Background Elements */}
-                <div className="absolute inset-0 bg-gradient-to-r from-green-50/40 via-white/20 to-orange-50/40"></div>
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(34,197,94,0.1),transparent_50%)]"></div>
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(249,115,22,0.1),transparent_50%)]"></div>
+            <section className="relative  bg-gradient-to-r from-[#e9f7ef] to-[#fff7e6] shadow-[0_2px_8px_0_rgba(0,0,0,0.05)] overflow-hidden">
+                {/* Subtle background gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-r from-green-50/20 via-white/10 to-orange-50/20"></div>
 
-                {/* Floating decorative elements */}
-                <div className="absolute top-1 left-1/4 w-2 h-2 bg-green-400/30 rounded-full float-animation" style={{ animationDelay: '0s' }}></div>
-                <div className="absolute top-2 right-1/3 w-1.5 h-1.5 bg-orange-400/30 rounded-full float-animation" style={{ animationDelay: '2s' }}></div>
-                <div className="absolute bottom-1 left-2/3 w-1 h-1 bg-blue-400/30 rounded-full float-animation" style={{ animationDelay: '4s' }}></div>
-
-                <div className="relative px-2 pt-2 md:px-8 lg:px-10">
-                    <div className="flex items-center gap-3 lg:gap-6">
+                <div className="relative px-4 pt-2 md:px-8 lg:px-10">
+                    <div className="flex items-center gap-3 pt-2 pb-2 lg:gap-4">
 
                         {/* Left Section - Message Type Indicator */}
                         <div className="hidden sm:flex items-center gap-2 lg:gap-3 flex-shrink-0">
-                            <div className={`flex items-center justify-center w-7 h-7 lg:w-8 lg:h-8 rounded-full bg-gradient-to-br ${currentMessage.color} shadow-lg glass-effect`}>
-                                <span className="text-white text-sm lg:text-base icon-bounce">
+                            <div className={`flex items-center justify-center w-6 h-6 lg:w-7 lg:h-7 rounded-full bg-gradient-to-br ${currentMessage.color} glass-effect`}>
+                                <span className="text-white text-xs lg:text-sm icon-pulse">
                                     {currentMessage.icon}
                                 </span>
                             </div>
                             <div className="flex flex-col">
-                                <span className="text-[10px] lg:text-xs font-bold text-gray-700 uppercase tracking-wider leading-none">
+                                <span className="text-[9px] lg:text-[10px] font-bold text-gray-700 uppercase tracking-wider leading-none">
                                     {currentMessage.type}
                                 </span>
-                                <div className={`mt-0.5 w-1.5 h-1.5 lg:w-2 lg:h-2 rounded-full priority-${currentMessage.priority} transition-all duration-300`}></div>
+                                <div className={`mt-0.5 w-1 h-1 lg:w-1.5 lg:h-1.5 rounded-full priority-${currentMessage.priority} transition-all duration-300`}></div>
                             </div>
                         </div>
 
@@ -225,14 +212,12 @@ const AddressMarqueeSection = () => {
                         <div className="flex-1 min-w-0 overflow-hidden">
                             <div className="relative">
                                 {/* Enhanced Gradient Overlays */}
-                                <div className="absolute left-0 top-0 w-8 lg:w-16 h-full bg-gradient-to-r from-[#e9f7ef] to-transparent z-10 pointer-events-none"></div>
-                                <div className="absolute right-0 top-0 w-8 lg:w-16 h-full bg-gradient-to-l from-[#fff7e6] to-transparent z-10 pointer-events-none"></div>
+                                <div className="absolute left-0 top-0 w-6 lg:w-12 h-full bg-gradient-to-r from-[#e9f7ef] to-transparent z-10 pointer-events-none"></div>
+                                <div className="absolute right-0 top-0 w-6 lg:w-12 h-full bg-gradient-to-l from-[#fff7e6] to-transparent z-10 pointer-events-none"></div>
 
                                 <div
-                                    className={`marquee-text text-xs sm:text-sm lg:text-base font-semibold whitespace-nowrap text-gray-800 message-transition ${isAnimating ? 'opacity-60 scale-95' : 'opacity-100 scale-100'} ${!isAnimating ? 'message-enter' : ''}`}
+                                    className={`marquee-text text-xs sm:text-sm lg:text-[15px] font-medium whitespace-nowrap text-gray-800 message-transition ${isAnimating ? 'opacity-70 scale-98' : 'opacity-100 scale-100'} ${!isAnimating ? 'message-enter' : ''}`}
                                     style={marqueeStyle}
-                                    onMouseEnter={() => setIsPaused(true)}
-                                    onMouseLeave={() => setIsPaused(false)}
                                 >
                                     <span className="inline-block pr-8 lg:pr-12 relative">
                                         <span className="relative z-10 bg-gradient-to-r from-gray-800 via-gray-700 to-gray-800 bg-clip-text text-transparent font-medium">
@@ -261,7 +246,7 @@ const AddressMarqueeSection = () => {
                                             }, 200);
                                         }}
                                         className={`w-1.5 h-1.5 lg:w-2 lg:h-2 rounded-full transition-all duration-300 transform hover:scale-125 ${index === currentMessageIndex
-                                            ? `bg-gradient-to-r ${currentMessage.color} shadow-md scale-110`
+                                            ? `bg-gradient-to-r ${currentMessage.color} shadow-sm scale-110`
                                             : 'bg-gray-300 hover:bg-gray-400 scale-100'
                                             }`}
                                         aria-label={`Show message ${index + 1}`}
@@ -272,15 +257,15 @@ const AddressMarqueeSection = () => {
                             {/* Pause/Play Button */}
                             <button
                                 onClick={() => setIsPaused(!isPaused)}
-                                className="flex items-center justify-center w-6 h-6 lg:w-7 lg:h-7 rounded-full bg-white/90 shadow-md border border-gray-200/50 hover:shadow-lg transition-all duration-200 hover:scale-105 group glass-effect"
+                                className="flex items-center justify-center w-5 h-5 lg:w-6 lg:h-6 rounded-full bg-white/90 shadow-sm border border-gray-200/50 hover:shadow-md transition-all duration-200 hover:scale-105 group glass-effect"
                                 aria-label={isPaused ? 'Resume animation' : 'Pause animation'}
                             >
                                 {isPaused ? (
-                                    <svg className="w-2.5 h-2.5 lg:w-3 lg:h-3 text-green-600 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 20 20">
+                                    <svg className="w-2 h-2 lg:w-2.5 lg:h-2.5 text-green-600 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 20 20">
                                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
                                     </svg>
                                 ) : (
-                                    <svg className="w-2.5 h-2.5 lg:w-3 lg:h-3 text-orange-600 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 20 20">
+                                    <svg className="w-2 h-2 lg:w-2.5 lg:h-2.5 text-orange-600 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 20 20">
                                         <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
                                     </svg>
                                 )}
@@ -295,28 +280,28 @@ const AddressMarqueeSection = () => {
                                         setIsAnimating(false);
                                     }, 200);
                                 }}
-                                className="flex items-center justify-center w-6 h-6 lg:w-7 lg:h-7 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105 group"
+                                className="flex items-center justify-center w-5 h-5 lg:w-6 lg:h-6 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105 group"
                                 aria-label="Next message"
                             >
-                                <svg className="w-2.5 h-2.5 lg:w-3 lg:h-3 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg className="w-2 h-2 lg:w-2.5 lg:h-2.5 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
                                 </svg>
                             </button>
                         </div>
                     </div>
+                </div>
 
-                    {/* Enhanced Progress Bar */}
-                    <div className="mt-1.5 h-0.5 bg-gray-200/60 rounded-full overflow-hidden relative">
-                        <div
-                            className={`h-full bg-gradient-to-r ${currentMessage.color} transition-all duration-300 ${isPaused ? 'w-0' : 'w-full'} relative overflow-hidden`}
-                            style={{
-                                animation: isPaused ? 'none' : 'progress 12s linear infinite',
-                                transform: isPaused ? 'scaleX(0)' : 'scaleX(1)',
-                                transformOrigin: 'left'
-                            }}
-                        >
-                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-pulse"></div>
-                        </div>
+                {/* Enhanced Progress Bar - Moved to bottom */}
+                <div className="h-0.5 bg-gray-200/50 overflow-hidden relative">
+                    <div
+                        className={`h-full bg-gradient-to-r ${currentMessage.color} transition-all duration-300 ${isPaused ? 'w-0' : 'w-full'} relative overflow-hidden`}
+                        style={{
+                            animation: isPaused ? 'none' : 'progress 12s linear infinite',
+                            transform: isPaused ? 'scaleX(0)' : 'scaleX(1)',
+                            transformOrigin: 'left'
+                        }}
+                    >
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-pulse"></div>
                     </div>
                 </div>
             </section>
