@@ -46,7 +46,6 @@ const BodCard: React.FC<BodCardProps> = ({ boardMember }) => {
     };
 
     const initials = getInitials(full_name);
-    const fallbackImage = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&crop=face';
     const avatarUrl = image ? `/storage/${image}` : getDummyAvatar(full_name);
     const shouldShowImage = (image && !imageError) || (!image && avatarUrl);
     const shouldShowInitials = !shouldShowImage || (image && imageError);

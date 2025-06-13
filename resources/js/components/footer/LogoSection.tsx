@@ -1,10 +1,13 @@
-// LogoSection.tsx
 import { usePage } from '@inertiajs/react';
 import React from 'react';
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaTwitter, FaYoutube } from 'react-icons/fa';
 
+interface PageProps {
+    bankBranchesCount: number;
+}
+
 const LogoSection: React.FC = () => {
-    const { bankBranchesCount } = usePage<any>().props;
+    const { bankBranchesCount } = usePage<PageProps>().props;
 
     return (
         <div className="space-y-6">
