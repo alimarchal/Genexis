@@ -55,12 +55,12 @@ export default function PublicCareerDetail({ career }: Props) {
         <>
             <Head title={`${career.title} - Career Opportunity`} />
 
-            <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+            <div className="min-h-screen bg-gradient-to-br from-[#e9f7ef] to-[#fff7e6]">
                 {/* Header */}
-                <div className="bg-gradient-to-r from-blue-900 via-blue-800 to-indigo-900 text-white">
+                <div className="bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A] text-white">
                     <div className="mx-auto max-w-7xl px-6 py-8">
                         <div className="mb-6">
-                            <Link href={route('public-careers')} className="inline-flex items-center gap-2 text-blue-200 hover:text-white">
+                            <Link href={route('public-careers')} className="inline-flex items-center gap-2 text-green-200 hover:text-white">
                                 <ArrowLeft className="h-4 w-4" />
                                 Back to Careers
                             </Link>
@@ -71,7 +71,7 @@ export default function PublicCareerDetail({ career }: Props) {
                             </div>
                             <div className="flex-1">
                                 <h1 className="mb-3 text-3xl font-bold sm:text-4xl">{career.title}</h1>
-                                <div className="flex flex-wrap items-center gap-6 text-blue-100">
+                                <div className="flex flex-wrap items-center gap-6 text-green-100">
                                     <div className="flex items-center gap-2">
                                         <MapPin className="h-4 w-4" />
                                         <span>{career.location}</span>
@@ -161,7 +161,7 @@ export default function PublicCareerDetail({ career }: Props) {
                                     {career.document_url ? (
                                         <a
                                             href={route('public-careers.download', career.id)}
-                                            className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-3 text-sm font-medium text-white transition-all duration-200 hover:from-blue-700 hover:to-indigo-700 hover:shadow-lg"
+                                            className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A] px-4 py-3 text-sm font-medium text-white transition-all duration-200 hover:from-[#3d6b4a] hover:to-[#5a8a69] hover:shadow-lg"
                                         >
                                             <Download className="h-4 w-4" />
                                             Download Application Form
