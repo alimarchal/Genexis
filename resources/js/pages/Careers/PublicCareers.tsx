@@ -64,7 +64,8 @@ export default function PublicCareersIndex({ careers }: Props) {
                         <div className="text-center">
                             <h1 className="mb-4 text-4xl font-bold tracking-tight sm:text-5xl">Career Opportunities</h1>
                             <p className="mx-auto max-w-2xl text-xl text-blue-100">
-                                Join our team and build your career with Bank of Azad Jammu & Kashmir. Explore exciting opportunities across various departments and locations.
+                                Join our team and build your career with Bank of Azad Jammu & Kashmir. Explore exciting opportunities across various
+                                departments and locations.
                             </p>
                         </div>
                     </div>
@@ -95,11 +96,11 @@ export default function PublicCareersIndex({ careers }: Props) {
                                         <Tr key={career.id}>
                                             <Td>
                                                 <div className="flex items-start gap-3">
-                                                    <Briefcase className="h-5 w-5 text-blue-500 mt-1 flex-shrink-0" />
+                                                    <Briefcase className="mt-1 h-5 w-5 flex-shrink-0 text-blue-500" />
                                                     <div>
                                                         <div className="font-medium text-gray-900">{career.title}</div>
                                                         {career.description && (
-                                                            <div className="text-sm text-gray-500 mt-1">
+                                                            <div className="mt-1 text-sm text-gray-500">
                                                                 {career.description.length > 100
                                                                     ? career.description.substring(0, 100) + '...'
                                                                     : career.description}
@@ -162,10 +163,11 @@ export default function PublicCareersIndex({ careers }: Props) {
                                                 {link.url ? (
                                                     <Link
                                                         href={link.url}
-                                                        className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors duration-200 ${link.active
-                                                            ? 'bg-blue-600 text-white'
-                                                            : 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
-                                                            }`}
+                                                        className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors duration-200 ${
+                                                            link.active
+                                                                ? 'bg-blue-600 text-white'
+                                                                : 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
+                                                        }`}
                                                         dangerouslySetInnerHTML={{ __html: link.label }}
                                                     />
                                                 ) : (

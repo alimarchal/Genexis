@@ -67,11 +67,7 @@ export default function CareerIndex({ careers, filters }: Props) {
 
     const handleSearch = (value: string) => {
         setSearch(value);
-        router.get(
-            route('careers.index'),
-            { search: value, status: statusFilter, location: locationFilter },
-            { preserveState: true, replace: true },
-        );
+        router.get(route('careers.index'), { search: value, status: statusFilter, location: locationFilter }, { preserveState: true, replace: true });
     };
 
     const handleStatusFilter = (value: string) => {
@@ -120,11 +116,7 @@ export default function CareerIndex({ careers, filters }: Props) {
 
             <div className="space-y-6">
                 <div className="flex items-center justify-between">
-                    <Heading
-                        title="Careers Management"
-                        description="Manage job postings and career opportunities"
-                        breadcrumbs={breadcrumbs}
-                    />
+                    <Heading title="Careers Management" description="Manage job postings and career opportunities" breadcrumbs={breadcrumbs} />
                     <Link href={route('careers.create')}>
                         <Button>
                             <Plus className="mr-2 h-4 w-4" />
@@ -136,13 +128,8 @@ export default function CareerIndex({ careers, filters }: Props) {
                 <div className="rounded-md border">
                     <div className="flex flex-col gap-4 p-4 sm:flex-row sm:items-center">
                         <div className="relative flex-1">
-                            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                            <Input
-                                placeholder="Search careers..."
-                                value={search}
-                                onChange={(e) => handleSearch(e.target.value)}
-                                className="pl-10"
-                            />
+                            <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
+                            <Input placeholder="Search careers..." value={search} onChange={(e) => handleSearch(e.target.value)} className="pl-10" />
                         </div>
                         <div className="flex gap-2">
                             <Select value={statusFilter} onValueChange={handleStatusFilter}>
@@ -190,7 +177,7 @@ export default function CareerIndex({ careers, filters }: Props) {
                         <TableBody>
                             {careers.data.length === 0 ? (
                                 <TableRow>
-                                    <TableCell colSpan={8} className="text-center text-muted-foreground">
+                                    <TableCell colSpan={8} className="text-muted-foreground text-center">
                                         No careers found.
                                     </TableCell>
                                 </TableRow>
@@ -199,10 +186,10 @@ export default function CareerIndex({ careers, filters }: Props) {
                                     <TableRow key={career.id}>
                                         <TableCell>
                                             <div className="flex items-center gap-2">
-                                                <Briefcase className="h-4 w-4 text-muted-foreground" />
+                                                <Briefcase className="text-muted-foreground h-4 w-4" />
                                                 <div>
                                                     <div className="font-medium">{career.title}</div>
-                                                    <div className="text-sm text-muted-foreground">
+                                                    <div className="text-muted-foreground text-sm">
                                                         {career.description.length > 50
                                                             ? `${career.description.substring(0, 50)}...`
                                                             : career.description}
@@ -212,7 +199,7 @@ export default function CareerIndex({ careers, filters }: Props) {
                                         </TableCell>
                                         <TableCell>
                                             <div className="flex items-center gap-1">
-                                                <MapPin className="h-3 w-3 text-muted-foreground" />
+                                                <MapPin className="text-muted-foreground h-3 w-3" />
                                                 {career.location}
                                             </div>
                                         </TableCell>
@@ -223,15 +210,9 @@ export default function CareerIndex({ careers, filters }: Props) {
                                         </TableCell>
                                         <TableCell>{career.views_count}</TableCell>
                                         <TableCell>
-                                            <Badge variant={career.is_active ? 'default' : 'secondary'}>
-                                                {career.status}
-                                            </Badge>
+                                            <Badge variant={career.is_active ? 'default' : 'secondary'}>{career.status}</Badge>
                                         </TableCell>
-                                        <TableCell>
-                                            {career.is_featured && (
-                                                <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                                            )}
-                                        </TableCell>
+                                        <TableCell>{career.is_featured && <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />}</TableCell>
                                         <TableCell>
                                             {career.document_url && (
                                                 <Link
@@ -274,10 +255,7 @@ export default function CareerIndex({ careers, filters }: Props) {
                                                         </DropdownMenuItem>
                                                     )}
                                                     <DropdownMenuSeparator />
-                                                    <DropdownMenuItem
-                                                        onClick={() => handleDelete(career.id)}
-                                                        className="text-destructive"
-                                                    >
+                                                    <DropdownMenuItem onClick={() => handleDelete(career.id)} className="text-destructive">
                                                         <Trash className="mr-2 h-4 w-4" />
                                                         Delete
                                                     </DropdownMenuItem>
@@ -292,7 +270,7 @@ export default function CareerIndex({ careers, filters }: Props) {
 
                     {careers.last_page > 1 && (
                         <div className="flex items-center justify-between px-4 py-4">
-                            <div className="text-sm text-muted-foreground">
+                            <div className="text-muted-foreground text-sm">
                                 Showing {careers.from} to {careers.to} of {careers.total} results
                             </div>
                             <div className="flex gap-2">

@@ -60,10 +60,7 @@ export default function PublicCareerDetail({ career }: Props) {
                 <div className="bg-gradient-to-r from-emerald-900 via-teal-800 to-green-900 text-white">
                     <div className="mx-auto max-w-7xl px-6 py-8">
                         <div className="mb-6">
-                            <Link
-                                href={route('public-careers')}
-                                className="inline-flex items-center gap-2 text-emerald-200 hover:text-white"
-                            >
+                            <Link href={route('public-careers')} className="inline-flex items-center gap-2 text-emerald-200 hover:text-white">
                                 <ArrowLeft className="h-4 w-4" />
                                 Back to Careers
                             </Link>
@@ -99,30 +96,24 @@ export default function PublicCareerDetail({ career }: Props) {
                 <div className="mx-auto max-w-7xl px-6 py-12">
                     <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
                         {/* Main Content */}
-                        <div className="lg:col-span-2 space-y-8">
+                        <div className="space-y-8 lg:col-span-2">
                             {/* Job Description */}
                             <div className="rounded-lg bg-white p-8 shadow-sm">
                                 <h2 className="mb-4 text-xl font-semibold text-gray-900">Job Description</h2>
-                                <div className="prose prose-emerald max-w-none text-gray-700">
-                                    {formatText(career.description)}
-                                </div>
+                                <div className="prose prose-emerald max-w-none text-gray-700">{formatText(career.description)}</div>
                             </div>
 
                             {/* Requirements */}
                             <div className="rounded-lg bg-white p-8 shadow-sm">
                                 <h2 className="mb-4 text-xl font-semibold text-gray-900">Requirements</h2>
-                                <div className="prose prose-emerald max-w-none text-gray-700">
-                                    {formatText(career.requirements)}
-                                </div>
+                                <div className="prose prose-emerald max-w-none text-gray-700">{formatText(career.requirements)}</div>
                             </div>
 
                             {/* Benefits */}
                             {career.benefits && (
                                 <div className="rounded-lg bg-white p-8 shadow-sm">
                                     <h2 className="mb-4 text-xl font-semibold text-gray-900">Benefits</h2>
-                                    <div className="prose prose-emerald max-w-none text-gray-700">
-                                        {formatText(career.benefits)}
-                                    </div>
+                                    <div className="prose prose-emerald max-w-none text-gray-700">{formatText(career.benefits)}</div>
                                 </div>
                             )}
                         </div>
@@ -144,7 +135,7 @@ export default function PublicCareerDetail({ career }: Props) {
                                     </div>
                                     <div className="flex items-center gap-2 text-sm">
                                         <Calendar className="h-4 w-4" />
-                                        <span className={isExpired(career.closing_date) ? 'text-red-600 font-medium' : 'text-gray-600'}>
+                                        <span className={isExpired(career.closing_date) ? 'font-medium text-red-600' : 'text-gray-600'}>
                                             Deadline: {formatDate(career.closing_date)}
                                         </span>
                                     </div>
@@ -164,15 +155,11 @@ export default function PublicCareerDetail({ career }: Props) {
 
                                 {isExpired(career.closing_date) ? (
                                     <div className="rounded-lg bg-red-50 p-4 text-center">
-                                        <p className="text-sm font-medium text-red-800">
-                                            Application deadline has passed
-                                        </p>
+                                        <p className="text-sm font-medium text-red-800">Application deadline has passed</p>
                                     </div>
                                 ) : (
                                     <div className="rounded-lg bg-emerald-50 p-4 text-center">
-                                        <p className="mb-2 text-sm text-emerald-700">
-                                            Interested in this position?
-                                        </p>
+                                        <p className="mb-2 text-sm text-emerald-700">Interested in this position?</p>
                                         <p className="text-xs text-emerald-600">
                                             Please visit our nearest branch or contact HR department for application details.
                                         </p>
@@ -206,9 +193,7 @@ export default function PublicCareerDetail({ career }: Props) {
                             {/* Share */}
                             <div className="rounded-lg bg-white p-6 shadow-sm">
                                 <h3 className="mb-4 text-lg font-semibold text-gray-900">Share this Job</h3>
-                                <p className="text-sm text-gray-600">
-                                    Share this opportunity with someone who might be interested.
-                                </p>
+                                <p className="text-sm text-gray-600">Share this opportunity with someone who might be interested.</p>
                             </div>
                         </div>
                     </div>
@@ -223,7 +208,7 @@ PublicCareerDetail.layout = (page: React.ReactNode) => (
         title="Career Details"
         breadcrumbs={[
             { label: 'Careers', href: '/careers' },
-            { label: 'Career Details', isActive: true }
+            { label: 'Career Details', isActive: true },
         ]}
     >
         {page}

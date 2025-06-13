@@ -13,7 +13,7 @@ const BottomBar: React.FC = () => {
             <div className="mx-auto flex max-w-7xl flex-col items-center justify-between px-6 py-4 text-sm sm:flex-row">
                 <span className="opacity-80">© {new Date().getFullYear()} Bank of Azad Jammu & Kashmir. All Rights Reserved.</span>
                 <div className="mt-2 flex space-x-6 sm:mt-0">
-                    {links.map((link, i) => (
+                    {links.map((link, i) =>
                         link.href.startsWith('#') ? (
                             <a
                                 key={i}
@@ -30,8 +30,8 @@ const BottomBar: React.FC = () => {
                             >
                                 {link.text}
                             </Link>
-                        )
-                    ))}
+                        ),
+                    )}
                 </div>
             </div>
         </div>

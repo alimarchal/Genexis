@@ -77,11 +77,7 @@ export default function Edit({ career }: Props) {
 
             <div className="space-y-6">
                 <div className="flex items-center justify-between">
-                    <Heading
-                        title="Edit Career"
-                        description={`Update job posting: ${career.title}`}
-                        breadcrumbs={breadcrumbs}
-                    />
+                    <Heading title="Edit Career" description={`Update job posting: ${career.title}`} breadcrumbs={breadcrumbs} />
                     <div className="flex gap-2">
                         {career.document_url && (
                             <Link href={route('careers.admin-download', career.id)}>
@@ -155,7 +151,7 @@ export default function Edit({ career }: Props) {
                                     <div className="space-y-2">
                                         {career.document_url && (
                                             <div className="flex items-center gap-2 rounded-md border p-2">
-                                                <FileText className="h-4 w-4 text-muted-foreground" />
+                                                <FileText className="text-muted-foreground h-4 w-4" />
                                                 <span className="text-sm">Current document available</span>
                                                 <Link
                                                     href={route('careers.admin-download', career.id)}
@@ -173,9 +169,9 @@ export default function Edit({ career }: Props) {
                                                 onChange={handleFileChange}
                                                 className={errors.document ? 'border-red-500' : ''}
                                             />
-                                            <Upload className="h-4 w-4 text-muted-foreground" />
+                                            <Upload className="text-muted-foreground h-4 w-4" />
                                         </div>
-                                        <p className="text-sm text-muted-foreground">
+                                        <p className="text-muted-foreground text-sm">
                                             {career.document_url
                                                 ? 'Upload a new PDF to replace the current document (max 10MB)'
                                                 : 'Upload a PDF document with detailed job description (max 10MB)'}
@@ -235,11 +231,7 @@ export default function Edit({ career }: Props) {
                                 </div>
 
                                 <div className="flex items-center space-x-2">
-                                    <Switch
-                                        id="is_active"
-                                        checked={data.is_active}
-                                        onCheckedChange={(checked) => setData('is_active', checked)}
-                                    />
+                                    <Switch id="is_active" checked={data.is_active} onCheckedChange={(checked) => setData('is_active', checked)} />
                                     <Label htmlFor="is_active">Active</Label>
                                 </div>
                             </div>
@@ -266,20 +258,16 @@ export default function Edit({ career }: Props) {
                     <CardContent>
                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                             <div className="text-center">
-                                <div className="text-2xl font-bold text-primary">{career.views_count}</div>
-                                <div className="text-sm text-muted-foreground">Total Views</div>
+                                <div className="text-primary text-2xl font-bold">{career.views_count}</div>
+                                <div className="text-muted-foreground text-sm">Total Views</div>
                             </div>
                             <div className="text-center">
-                                <div className="text-2xl font-bold text-primary">
-                                    {career.is_featured ? 'Yes' : 'No'}
-                                </div>
-                                <div className="text-sm text-muted-foreground">Featured</div>
+                                <div className="text-primary text-2xl font-bold">{career.is_featured ? 'Yes' : 'No'}</div>
+                                <div className="text-muted-foreground text-sm">Featured</div>
                             </div>
                             <div className="text-center">
-                                <div className="text-2xl font-bold text-primary">
-                                    {career.is_active ? 'Active' : 'Inactive'}
-                                </div>
-                                <div className="text-sm text-muted-foreground">Status</div>
+                                <div className="text-primary text-2xl font-bold">{career.is_active ? 'Active' : 'Inactive'}</div>
+                                <div className="text-muted-foreground text-sm">Status</div>
                             </div>
                         </div>
                     </CardContent>

@@ -30,7 +30,7 @@ const QuickLinks: React.FC = () => {
                         {item.isExternal ? (
                             <button
                                 onClick={() => handleExternalLink(item.href)}
-                                className="relative inline-block after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-0 after:bg-[#F9B912] after:transition-all after:duration-300 after:content-[''] hover:text-[#F9B912] hover:after:w-full text-left"
+                                className="relative inline-block text-left after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-0 after:bg-[#F9B912] after:transition-all after:duration-300 after:content-[''] hover:text-[#F9B912] hover:after:w-full"
                             >
                                 {item.label}
                             </button>

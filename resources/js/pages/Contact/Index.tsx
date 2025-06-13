@@ -1,8 +1,8 @@
 import WebsiteLayout from '@/layouts/WebsiteLayout';
 import { usePage } from '@inertiajs/react';
-import { Building2, Clock, Headphones, Mail, MapPin, Phone, X, Check, Loader2 } from 'lucide-react';
-import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Building2, Check, Clock, Headphones, Loader2, Mail, MapPin, Phone, X } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
 
 interface PopupState {
     show: boolean;
@@ -39,7 +39,7 @@ export default function ContactPage() {
     const [popup, setPopup] = useState<PopupState>({
         show: false,
         type: 'processing',
-        message: ''
+        message: '',
     });
 
     const [rateLimited, setRateLimited] = useState(false);
@@ -60,10 +60,10 @@ export default function ContactPage() {
     }, [remainingTime, rateLimited]);
 
     const handleInputChange = (field: string, value: string) => {
-        setFormData(prev => ({ ...prev, [field]: value }));
+        setFormData((prev) => ({ ...prev, [field]: value }));
         // Clear validation error when user starts typing
         if (validationErrors[field]) {
-            setValidationErrors(prev => ({ ...prev, [field]: '' }));
+            setValidationErrors((prev) => ({ ...prev, [field]: '' }));
         }
     };
 
@@ -78,7 +78,7 @@ export default function ContactPage() {
         setPopup({
             show: true,
             type: 'processing',
-            message: 'Submitting your message...'
+            message: 'Submitting your message...',
         });
 
         try {
@@ -86,7 +86,7 @@ export default function ContactPage() {
                 headers: {
                     'Content-Type': 'application/json',
                     'X-Requested-With': 'XMLHttpRequest',
-                }
+                },
             });
 
             if (response.data.success) {
@@ -94,7 +94,7 @@ export default function ContactPage() {
                 setPopup({
                     show: true,
                     type: 'success',
-                    message: response.data.message || 'Your message has been sent successfully!'
+                    message: response.data.message || 'Your message has been sent successfully!',
                 });
 
                 // Reset form
@@ -113,7 +113,7 @@ export default function ContactPage() {
 
                 // Auto-hide success popup after 3 seconds
                 setTimeout(() => {
-                    setPopup(prev => ({ ...prev, show: false }));
+                    setPopup((prev) => ({ ...prev, show: false }));
                 }, 3000);
             }
         } catch (error: unknown) {
@@ -124,8 +124,8 @@ export default function ContactPage() {
                         remaining_time?: number;
                         errors?: Record<string, string[]>;
                         message?: string;
-                    }
-                }
+                    };
+                };
             };
             if (axiosError.response?.status === 429) {
                 // Rate limited
@@ -136,13 +136,13 @@ export default function ContactPage() {
                 setPopup({
                     show: true,
                     type: 'error',
-                    message: `Please wait ${remainingSeconds} seconds before submitting again.`
+                    message: `Please wait ${remainingSeconds} seconds before submitting again.`,
                 });
             } else if (axiosError.response?.status === 422) {
                 // Validation errors - convert array format to string format
                 const errors = axiosError.response.data?.errors || {};
                 const convertedErrors: Record<string, string> = {};
-                Object.keys(errors).forEach(key => {
+                Object.keys(errors).forEach((key) => {
                     const errorArray = errors[key];
                     if (Array.isArray(errorArray) && errorArray.length > 0) {
                         convertedErrors[key] = errorArray[0]; // Take the first error message
@@ -152,20 +152,20 @@ export default function ContactPage() {
                 setPopup({
                     show: true,
                     type: 'error',
-                    message: 'Please check the form for errors and try again.'
+                    message: 'Please check the form for errors and try again.',
                 });
             } else {
                 // General error
                 setPopup({
                     show: true,
                     type: 'error',
-                    message: axiosError.response?.data?.message || 'An error occurred. Please try again.'
+                    message: axiosError.response?.data?.message || 'An error occurred. Please try again.',
                 });
             }
 
             // Auto-hide error popup after 5 seconds
             setTimeout(() => {
-                setPopup(prev => ({ ...prev, show: false }));
+                setPopup((prev) => ({ ...prev, show: false }));
             }, 5000);
         }
     };
@@ -175,10 +175,15 @@ export default function ContactPage() {
             {/* Processing/Success/Error Popup - Moved to page level */}
             {popup.show && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-                    <div className={`relative transform rounded-2xl border p-8 text-center shadow-2xl transition-all duration-500 ${popup.type === 'processing' ? 'bg-blue-50 border-blue-200' :
-                        popup.type === 'success' ? 'bg-green-50 border-green-200' :
-                            'bg-red-50 border-red-200'
-                        }`}>
+                    <div
+                        className={`relative transform rounded-2xl border p-8 text-center shadow-2xl transition-all duration-500 ${
+                            popup.type === 'processing'
+                                ? 'border-blue-200 bg-blue-50'
+                                : popup.type === 'success'
+                                  ? 'border-green-200 bg-green-50'
+                                  : 'border-red-200 bg-red-50'
+                        }`}
+                    >
                         {popup.type === 'processing' && (
                             <div className="mb-4">
                                 <Loader2 className="mx-auto h-16 w-16 animate-spin text-blue-600" />
@@ -187,7 +192,7 @@ export default function ContactPage() {
                         {popup.type === 'success' && (
                             <div className="mb-4">
                                 <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
-                                    <Check className="h-8 w-8 text-green-600 animate-pulse" />
+                                    <Check className="h-8 w-8 animate-pulse text-green-600" />
                                 </div>
                             </div>
                         )}
@@ -198,23 +203,23 @@ export default function ContactPage() {
                                 </div>
                             </div>
                         )}
-                        <h3 className={`mb-2 text-xl font-bold ${popup.type === 'processing' ? 'text-blue-800' :
-                            popup.type === 'success' ? 'text-green-800' :
-                                'text-red-800'
-                            }`}>
-                            {popup.type === 'processing' ? 'Processing...' :
-                                popup.type === 'success' ? 'Success!' :
-                                    'Error'}
+                        <h3
+                            className={`mb-2 text-xl font-bold ${
+                                popup.type === 'processing' ? 'text-blue-800' : popup.type === 'success' ? 'text-green-800' : 'text-red-800'
+                            }`}
+                        >
+                            {popup.type === 'processing' ? 'Processing...' : popup.type === 'success' ? 'Success!' : 'Error'}
                         </h3>
-                        <p className={`${popup.type === 'processing' ? 'text-blue-600' :
-                            popup.type === 'success' ? 'text-green-600' :
-                                'text-red-600'
-                            }`}>
+                        <p
+                            className={`${
+                                popup.type === 'processing' ? 'text-blue-600' : popup.type === 'success' ? 'text-green-600' : 'text-red-600'
+                            }`}
+                        >
                             {popup.message}
                         </p>
                         {popup.type !== 'processing' && (
                             <button
-                                onClick={() => setPopup(prev => ({ ...prev, show: false }))}
+                                onClick={() => setPopup((prev) => ({ ...prev, show: false }))}
                                 className="mt-4 rounded-lg bg-gray-200 px-4 py-2 text-gray-800 hover:bg-gray-300"
                             >
                                 Close
@@ -458,15 +463,17 @@ export default function ContactPage() {
 
                             <button
                                 type="submit"
-                                disabled={popup.show && popup.type === 'processing' || rateLimited}
-                                className="group relative flex w-full transform items-center justify-center overflow-hidden rounded-xl bg-gradient-to-r from-[#195f1f] via-[#2d7a32] to-[#4a7c59] px-8 py-4 text-lg font-bold text-white shadow-[0_8px_25px_rgb(25,95,31,0.4)] transition-all duration-300 hover:-translate-y-1 hover:from-[#0d4a12] hover:via-[#1b5e20] hover:to-[#2e7d32] hover:shadow-[0_15px_35px_rgb(25,95,31,0.6)] disabled:opacity-50 disabled:cursor-not-allowed"
+                                disabled={(popup.show && popup.type === 'processing') || rateLimited}
+                                className="group relative flex w-full transform items-center justify-center overflow-hidden rounded-xl bg-gradient-to-r from-[#195f1f] via-[#2d7a32] to-[#4a7c59] px-8 py-4 text-lg font-bold text-white shadow-[0_8px_25px_rgb(25,95,31,0.4)] transition-all duration-300 hover:-translate-y-1 hover:from-[#0d4a12] hover:via-[#1b5e20] hover:to-[#2e7d32] hover:shadow-[0_15px_35px_rgb(25,95,31,0.6)] disabled:cursor-not-allowed disabled:opacity-50"
                             >
                                 <div className="absolute inset-0 bg-gradient-to-r from-[#F9B912]/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
                                 <Mail className="relative z-10 mr-3 h-6 w-6" />
                                 <span className="relative z-10">
-                                    {popup.show && popup.type === 'processing' ? 'Submitting...' :
-                                        rateLimited ? `Wait ${remainingTime}s` :
-                                            'Submit Contact Form'}
+                                    {popup.show && popup.type === 'processing'
+                                        ? 'Submitting...'
+                                        : rateLimited
+                                          ? `Wait ${remainingTime}s`
+                                          : 'Submit Contact Form'}
                                 </span>
                             </button>
                         </form>
@@ -585,7 +592,7 @@ export default function ContactPage() {
                         </p>
                         <a
                             href={route('about.branch-network')}
-                            className="group relative transform overflow-hidden rounded-2xl bg-white px-10 py-4 text-lg font-bold text-[#195f1f] shadow-[0_10px_30px_rgb(0,0,0,0.3)] transition-all duration-300 hover:-translate-y-1 hover:bg-[#F9B912] hover:text-white hover:shadow-[0_15px_40px_rgb(0,0,0,0.4)] inline-flex items-center"
+                            className="group relative inline-flex transform items-center overflow-hidden rounded-2xl bg-white px-10 py-4 text-lg font-bold text-[#195f1f] shadow-[0_10px_30px_rgb(0,0,0,0.3)] transition-all duration-300 hover:-translate-y-1 hover:bg-[#F9B912] hover:text-white hover:shadow-[0_15px_40px_rgb(0,0,0,0.4)]"
                         >
                             <div className="absolute inset-0 bg-gradient-to-r from-[#F9B912]/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
                             <span className="relative z-10 flex items-center">

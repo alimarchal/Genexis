@@ -97,9 +97,7 @@ export default function PublicCareersIndex({ careers }: Props) {
                                                 <div>
                                                     <div className="font-medium">{career.title}</div>
                                                     {career.description && (
-                                                        <div className="text-sm text-gray-500 mt-1">
-                                                            {career.description.substring(0, 80)}...
-                                                        </div>
+                                                        <div className="mt-1 text-sm text-gray-500">{career.description.substring(0, 80)}...</div>
                                                     )}
                                                 </div>
                                             </Td>
@@ -144,10 +142,11 @@ export default function PublicCareersIndex({ careers }: Props) {
                                                 {link.url ? (
                                                     <Link
                                                         href={link.url}
-                                                        className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors duration-200 ${link.active
+                                                        className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors duration-200 ${
+                                                            link.active
                                                                 ? 'bg-blue-600 text-white'
                                                                 : 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
-                                                            }`}
+                                                        }`}
                                                         dangerouslySetInnerHTML={{ __html: link.label }}
                                                     />
                                                 ) : (

@@ -159,16 +159,15 @@ const Header: React.FC<HeaderProps> = ({ menuItems = [] }) => {
         <>
             <header className="relative z-50 flex min-h-[70px] border-b border-gray-300 bg-gradient-to-r from-[#e9f7ef] to-[#fff7e6] tracking-wide shadow-[0_4px_12px_0_rgba(0,0,0,0.07)]">
                 <div className="relative flex w-full items-center px-6 py-0 sm:px-10">
-
                     {/* Logo Section - Responsive width */}
-                    <div className="flex w-[15%] sm:w-[12%] lg:w-[15%] items-center justify-start sm:justify-center">
+                    <div className="flex w-[15%] items-center justify-start sm:w-[12%] sm:justify-center lg:w-[15%]">
                         <a href="/">
-                            <img src="/logo.png" alt="Company Logo" className="m-[10px] h-[40px] sm:h-[50px] w-auto object-contain" />
+                            <img src="/logo.png" alt="Company Logo" className="m-[10px] h-[40px] w-auto object-contain sm:h-[50px]" />
                         </a>
                     </div>
 
                     {/* Menu Section - Responsive width */}
-                    <div className="flex-1 lg:w-[65%] flex items-center justify-center">
+                    <div className="flex flex-1 items-center justify-center lg:w-[65%]">
                         <div
                             className={`max-lg:bg-opacity-40 max-lg:fixed max-lg:inset-0 max-lg:z-40 max-lg:bg-black ${isMobileMenuOpen ? 'max-lg:block' : 'max-lg:hidden'} lg:block`}
                         >
@@ -184,13 +183,17 @@ const Header: React.FC<HeaderProps> = ({ menuItems = [] }) => {
                                     </svg>
                                 </button>
                                 <nav
-                                    className="z-50 max-lg:fixed max-lg:top-0 max-lg:left-0 max-lg:h-full max-lg:w-[85%] max-lg:max-w-[350px] max-lg:min-w-[280px] max-lg:space-y-3 max-lg:overflow-auto max-lg:bg-white max-lg:p-4 max-lg:shadow-md lg:flex lg:items-center lg:gap-x-2 xl:gap-x-4 lg:rounded-xl lg:bg-gradient-to-r lg:from-[#e9f7ef] lg:to-[#fff7e6] lg:px-2 xl:px-4 lg:py-1"
+                                    className="z-50 max-lg:fixed max-lg:top-0 max-lg:left-0 max-lg:h-full max-lg:w-[85%] max-lg:max-w-[350px] max-lg:min-w-[280px] max-lg:space-y-3 max-lg:overflow-auto max-lg:bg-white max-lg:p-4 max-lg:shadow-md lg:flex lg:items-center lg:gap-x-2 lg:rounded-xl lg:bg-gradient-to-r lg:from-[#e9f7ef] lg:to-[#fff7e6] lg:px-2 lg:py-1 xl:gap-x-4 xl:px-4"
                                     role="navigation"
                                     aria-label="Main navigation"
                                 >
                                     <div className="px-3 max-lg:pb-4 lg:hidden">
                                         <a href="/">
-                                            <img src="/logo.png" alt="Company Logo" className="m-[10px] h-[50px] w-auto object-contain drop-shadow-md" />
+                                            <img
+                                                src="/logo.png"
+                                                alt="Company Logo"
+                                                className="m-[10px] h-[50px] w-auto object-contain drop-shadow-md"
+                                            />
                                         </a>
                                     </div>
 
@@ -202,12 +205,12 @@ const Header: React.FC<HeaderProps> = ({ menuItems = [] }) => {
                     </div>
 
                     {/* UAN and Search Section - Responsive width */}
-                    <div className="w-[25%] sm:w-[30%] lg:w-[20%] flex items-center justify-end">
+                    <div className="flex w-[25%] items-center justify-end sm:w-[30%] lg:w-[20%]">
                         <div className="hidden h-full items-center lg:flex">
-                            <div className="flex items-center gap-2 xl:gap-3 px-2 xl:px-4 py-2">
+                            <div className="flex items-center gap-2 px-2 py-2 xl:gap-3 xl:px-4">
                                 <button
                                     onClick={() => setIsSearchOpen(true)}
-                                    className="flex h-8 w-8 xl:h-10 xl:w-10 items-center justify-center rounded-full bg-gradient-to-br from-[#3a8d3a] to-[#f9a825] text-white shadow transition-all duration-200 hover:scale-105 hover:shadow-lg flex-shrink-0"
+                                    className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#3a8d3a] to-[#f9a825] text-white shadow transition-all duration-200 hover:scale-105 hover:shadow-lg xl:h-10 xl:w-10"
                                     aria-label="Search"
                                 >
                                     <svg
@@ -218,23 +221,23 @@ const Header: React.FC<HeaderProps> = ({ menuItems = [] }) => {
                                         stroke="currentColor"
                                         strokeWidth="2"
                                     >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                                        />
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                     </svg>
                                 </button>
-                                <div className="flex flex-col min-w-0 flex-shrink">
-                                    <span className="text-center text-[10px] xl:text-xs font-bold tracking-wide text-green-800 whitespace-nowrap">UAN</span>
+                                <div className="flex min-w-0 flex-shrink flex-col">
+                                    <span className="text-center text-[10px] font-bold tracking-wide whitespace-nowrap text-green-800 xl:text-xs">
+                                        UAN
+                                    </span>
                                     <button
                                         onClick={() => setIsSearchOpen(true)}
-                                        className="text-sm xl:text-lg leading-tight font-bold text-green-800 transition-colors hover:text-orange-600 whitespace-nowrap overflow-hidden text-ellipsis"
+                                        className="overflow-hidden text-sm leading-tight font-bold text-ellipsis whitespace-nowrap text-green-800 transition-colors hover:text-orange-600 xl:text-lg"
                                         title={contact_phone}
                                     >
                                         {contact_phone}
                                     </button>
-                                    <span className="mt-1 text-[9px] xl:text-[11px] text-gray-500 whitespace-nowrap overflow-hidden text-ellipsis">We're here to help you 24/7</span>
+                                    <span className="mt-1 overflow-hidden text-[9px] text-ellipsis whitespace-nowrap text-gray-500 xl:text-[11px]">
+                                        We're here to help you 24/7
+                                    </span>
                                 </div>
                             </div>
                         </div>
