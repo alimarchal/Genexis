@@ -40,10 +40,14 @@ const Header: React.FC<HeaderProps> = ({ menuItems = [] }) => {
 
         if (hasDropdown) {
             return (
-                <div key={item.id} className={`relative text-[14px] max-lg:px-3 max-lg:py-2 lg:flex lg:items-center ${item.cssClass || ''}`}>
-                    <div className="group lg:inline-block">
+                <div key={item.id} className={`relative ${isMobile ? 'mb-2' : 'text-[14px] max-lg:px-3 max-lg:py-2 lg:flex lg:items-center'} ${item.cssClass || ''}`}>
+                    <div className={isMobile ? '' : 'group lg:inline-block'}>
                         <button
-                            className={`relative flex w-full items-center justify-between text-left text-[15px] font-medium text-slate-900 after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-0 after:bg-[#F9B912] after:transition-all after:duration-300 after:content-[''] hover:text-[#F9B912] hover:after:w-full max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 lg:px-2 lg:py-1 ${item.isActive ? 'text-blue-700' : ''}`}
+                            className={
+                                isMobile 
+                                    ? `flex w-full items-center justify-between rounded-lg bg-gray-50 px-4 py-3 text-left text-base font-medium text-gray-900 transition-colors hover:bg-gray-100 ${openMobileSubmenu === menuId ? 'bg-gray-100' : ''}`
+                                    : `relative flex w-full items-center justify-between text-left text-[15px] font-medium text-slate-900 after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-0 after:bg-[#F9B912] after:transition-all after:duration-300 after:content-[''] hover:text-[#F9B912] hover:after:w-full max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 lg:px-2 lg:py-1 ${item.isActive ? 'text-blue-700' : ''}`
+                            }
                             onClick={() => isMobile && handleSubmenuToggle(menuId)}
                             aria-expanded={openMobileSubmenu === menuId}
                             aria-haspopup="true"
@@ -53,7 +57,7 @@ const Header: React.FC<HeaderProps> = ({ menuItems = [] }) => {
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="16px"
                                 height="16px"
-                                className={`ml-1 inline-block transition-transform ${openMobileSubmenu === menuId ? 'max-lg:rotate-180' : ''}`}
+                                className={`${isMobile ? 'h-5 w-5' : 'ml-1 inline-block'} transition-transform ${openMobileSubmenu === menuId ? 'rotate-180' : ''}`}
                                 viewBox="0 0 24 24"
                             >
                                 <path
@@ -64,10 +68,14 @@ const Header: React.FC<HeaderProps> = ({ menuItems = [] }) => {
                             </svg>
                         </button>
                         <div
-                            className={`absolute z-50 max-h-0 overflow-hidden bg-gradient-to-r from-[#e9f7ef] to-[#fff7e6] px-8 opacity-0 shadow-lg transition-all duration-300 group-hover:max-h-[700px] group-hover:pt-6 group-hover:pb-8 group-hover:opacity-100 max-lg:top-8 max-lg:left-0 lg:top-[53px] lg:left-0 ${openMobileSubmenu === menuId ? 'max-lg:max-h-[700px] max-lg:pt-6 max-lg:pb-8 max-lg:opacity-100' : 'max-lg:max-h-0 max-lg:overflow-hidden max-lg:opacity-0'} ${item.isMegaMenu ? 'lg:grid lg:min-w-[400px] lg:grid-cols-2 lg:gap-6' : 'lg:min-w-[200px]'}`}
+                            className={
+                                isMobile
+                                    ? `overflow-hidden transition-all duration-300 ${openMobileSubmenu === menuId ? 'max-h-96 mt-2' : 'max-h-0'}`
+                                    : `absolute z-50 max-h-0 overflow-hidden bg-gradient-to-r from-[#e9f7ef] to-[#fff7e6] px-8 opacity-0 shadow-lg transition-all duration-300 group-hover:max-h-[700px] group-hover:pt-6 group-hover:pb-8 group-hover:opacity-100 max-lg:top-8 max-lg:left-0 lg:top-[53px] lg:left-0 ${item.isMegaMenu ? 'lg:grid lg:min-w-[400px] lg:grid-cols-2 lg:gap-6' : 'lg:min-w-[200px]'}`
+                            }
                             role="menu"
                         >
-                            {item.isMegaMenu ? renderMegaMenu(item.children) : renderSubmenu(item.children)}
+                            {item.isMegaMenu ? renderMegaMenu(item.children) : renderSubmenu(item.children, isMobile)}
                         </div>
                     </div>
                 </div>
@@ -75,11 +83,15 @@ const Header: React.FC<HeaderProps> = ({ menuItems = [] }) => {
         }
 
         return (
-            <div key={item.id} className="max-lg:px-3 max-lg:py-2 lg:flex lg:items-center">
+            <div key={item.id} className={isMobile ? 'mb-2' : 'max-lg:px-3 max-lg:py-2 lg:flex lg:items-center'}>
                 <a
                     href={item.url}
                     target={item.target}
-                    className={`relative block text-[15px] font-medium after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-0 after:bg-[#F9B912] after:transition-all after:duration-300 after:content-[''] hover:text-[#F9B912] hover:after:w-full max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 lg:px-2 lg:py-1 ${item.isActive ? 'text-blue-700' : 'text-slate-900'}`}
+                    className={
+                        isMobile
+                            ? `block rounded-lg px-4 py-3 text-base font-medium text-gray-900 transition-colors hover:bg-gray-100 ${item.isActive ? 'bg-blue-50 text-blue-700' : ''}`
+                            : `relative block text-[15px] font-medium after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-0 after:bg-[#F9B912] after:transition-all after:duration-300 after:content-[''] hover:text-[#F9B912] hover:after:w-full max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 lg:px-2 lg:py-1 ${item.isActive ? 'text-blue-700' : 'text-slate-900'}`
+                    }
                 >
                     {item.title}
                 </a>
@@ -87,40 +99,50 @@ const Header: React.FC<HeaderProps> = ({ menuItems = [] }) => {
         );
     };
 
-    const renderSubmenu = (children: MenuItem[]) => (
-        <div className="max-lg:min-w-[160px] lg:min-w-[200px]">
-            <ul className="space-y-3" role="none">
+    const renderSubmenu = (children: MenuItem[], isMobile: boolean = false) => (
+        <div className={isMobile ? 'ml-4 space-y-1' : 'max-lg:min-w-[160px] lg:min-w-[200px]'}>
+            <ul className={isMobile ? 'space-y-1' : 'space-y-3'} role="none">
                 {children.map((child) => (
-                    <li key={child.id} className="py-1" role="none">
+                    <li key={child.id} className={isMobile ? '' : 'py-1'} role="none">
                         {child.hasChildren ? (
-                            <div className="group/nested relative">
-                                <button className="relative flex w-full items-center justify-between text-left text-[15px] font-normal text-slate-900 after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-0 after:bg-[#F9B912] after:transition-all after:duration-300 after:content-[''] hover:text-[#F9B912] hover:after:w-full">
+                            <div className={isMobile ? '' : 'group/nested relative'}>
+                                <button className={
+                                    isMobile 
+                                        ? 'flex w-full items-center justify-between rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 ml-4'
+                                        : 'relative flex w-full items-center justify-between text-left text-[15px] font-normal text-slate-900 after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-0 after:bg-[#F9B912] after:transition-all after:duration-300 after:content-[""] hover:text-[#F9B912] hover:after:w-full'
+                                }>
                                     {child.title}
                                     <svg className="ml-1 h-3 w-3" viewBox="0 0 24 24" fill="currentColor">
                                         <path d="M8.59 16.59L13.17 12L8.59 7.41L10 6l6 6-6 6l-1.41-1.41z" />
                                     </svg>
                                 </button>
-                                <div className="invisible absolute top-0 left-full z-60 ml-2 min-w-[200px] bg-gradient-to-r from-[#e9f7ef] to-[#fff7e6] px-6 py-4 opacity-0 shadow-lg transition-all duration-300 group-hover/nested:visible group-hover/nested:opacity-100">
-                                    <ul className="space-y-2">
-                                        {child.children.map((grandchild) => (
-                                            <li key={grandchild.id}>
-                                                <a
-                                                    href={grandchild.url}
-                                                    target={grandchild.target}
-                                                    className="relative block text-[14px] font-normal text-slate-900 after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-0 after:bg-[#F9B912] after:transition-all after:duration-300 after:content-[''] hover:text-[#F9B912] hover:after:w-full"
-                                                >
-                                                    {grandchild.title}
-                                                </a>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
+                                {!isMobile && (
+                                    <div className="invisible absolute top-0 left-full z-60 ml-2 min-w-[200px] bg-gradient-to-r from-[#e9f7ef] to-[#fff7e6] px-6 py-4 opacity-0 shadow-lg transition-all duration-300 group-hover/nested:visible group-hover/nested:opacity-100">
+                                        <ul className="space-y-2">
+                                            {child.children.map((grandchild) => (
+                                                <li key={grandchild.id}>
+                                                    <a
+                                                        href={grandchild.url}
+                                                        target={grandchild.target}
+                                                        className="relative block text-[14px] font-normal text-slate-900 after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-0 after:bg-[#F9B912] after:transition-all after:duration-300 after:content-[''] hover:text-[#F9B912] hover:after:w-full"
+                                                    >
+                                                        {grandchild.title}
+                                                    </a>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )}
                             </div>
                         ) : (
                             <a
                                 href={child.url}
                                 target={child.target}
-                                className="relative block text-[15px] font-normal text-slate-900 after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-0 after:bg-[#F9B912] after:transition-all after:duration-300 after:content-[''] hover:text-[#F9B912] hover:after:w-full"
+                                className={
+                                    isMobile
+                                        ? 'block rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 ml-4'
+                                        : 'relative block text-[15px] font-normal text-slate-900 after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-0 after:bg-[#F9B912] after:transition-all after:duration-300 after:content-[""] hover:text-[#F9B912] hover:after:w-full'
+                                }
                                 role="menuitem"
                             >
                                 {child.title}
@@ -169,40 +191,75 @@ const Header: React.FC<HeaderProps> = ({ menuItems = [] }) => {
 
                     {/* Menu Section - Responsive width */}
                     <div className="flex flex-1 items-center justify-center lg:w-[65%]">
-                        <div
-                            className={`max-lg:bg-opacity-40 max-lg:fixed max-lg:inset-0 max-lg:z-40 max-lg:bg-black ${isMobileMenuOpen ? 'max-lg:block' : 'max-lg:hidden'} lg:block`}
+                        {/* Mobile Menu Backdrop */}
+                        {isMobileMenuOpen && (
+                            <div 
+                                className="fixed inset-0 z-40 bg-black bg-opacity-50 lg:hidden"
+                                onClick={toggleMobileMenu}
+                            />
+                        )}
+                        
+                        {/* Desktop Menu */}
+                        <nav className="hidden lg:flex lg:items-center lg:gap-x-2 lg:rounded-xl lg:bg-gradient-to-r lg:from-[#e9f7ef] lg:to-[#fff7e6] lg:px-2 lg:py-1 xl:gap-x-4 xl:px-4">
+                            {menuItems.map((item) => renderMenuItem(item, false))}
+                        </nav>
+
+                        {/* Mobile Menu */}
+                        <nav
+                            className={`fixed top-0 left-0 z-50 h-full w-full max-w-sm transform bg-white shadow-xl transition-transform duration-300 ease-in-out lg:hidden ${
+                                isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
+                            }`}
+                            role="navigation"
+                            aria-label="Main navigation"
                         >
-                            <div className="flex items-center justify-center">
+                            {/* Mobile Menu Header */}
+                            <div className="flex items-center justify-between border-b border-gray-200 p-4">
+                                <a href="/" onClick={toggleMobileMenu}>
+                                    <img
+                                        src="/logo.png"
+                                        alt="Company Logo"
+                                        className="h-12 w-auto object-contain"
+                                    />
+                                </a>
                                 <button
                                     onClick={toggleMobileMenu}
-                                    className="fixed top-2 right-4 z-[100] flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-gray-200 bg-white transition-colors hover:bg-gray-50 lg:hidden"
+                                    className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 transition-colors hover:bg-gray-200"
                                     aria-label="Close mobile menu"
                                 >
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 fill-black" viewBox="0 0 320.591 320.591">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 fill-gray-600" viewBox="0 0 320.591 320.591">
                                         <path d="M30.391 318.583a30.37 30.37 0 0 1-21.56-7.288c-11.774-11.844-11.774-30.973 0-42.817L266.643 10.665c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875L51.647 311.295a30.366 30.366 0 0 1-21.256 7.288z"></path>
                                         <path d="M287.9 318.583a30.37 30.37 0 0 1-21.257-8.806L8.83 51.963C-2.078 39.225-.595 20.055 12.143 9.146c11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414a30.368 30.368 0 0 1-23.078 7.288z"></path>
                                     </svg>
                                 </button>
-                                <nav
-                                    className="z-50 max-lg:fixed max-lg:top-0 max-lg:left-0 max-lg:h-full max-lg:w-[85%] max-lg:max-w-[350px] max-lg:min-w-[280px] max-lg:space-y-3 max-lg:overflow-auto max-lg:bg-white max-lg:p-4 max-lg:shadow-md lg:flex lg:items-center lg:gap-x-2 lg:rounded-xl lg:bg-gradient-to-r lg:from-[#e9f7ef] lg:to-[#fff7e6] lg:px-2 lg:py-1 xl:gap-x-4 xl:px-4"
-                                    role="navigation"
-                                    aria-label="Main navigation"
-                                >
-                                    <div className="px-3 max-lg:pb-4 lg:hidden">
-                                        <a href="/">
-                                            <img
-                                                src="/logo.png"
-                                                alt="Company Logo"
-                                                className="m-[10px] h-[50px] w-auto object-contain drop-shadow-md"
-                                            />
-                                        </a>
-                                    </div>
-
-                                    {/* Dynamic Menu Items */}
-                                    {menuItems.map((item) => renderMenuItem(item, true))}
-                                </nav>
                             </div>
-                        </div>
+
+                            {/* Mobile Menu Content */}
+                            <div className="flex-1 overflow-y-auto p-4">
+                                <div className="space-y-2">
+                                    {menuItems.map((item) => renderMenuItem(item, true))}
+                                </div>
+                            </div>
+
+                            {/* Mobile Menu Footer */}
+                            <div className="border-t border-gray-200 p-4">
+                                <div className="flex items-center justify-between">
+                                    <a
+                                        href={`tel:${contact_phone}`}
+                                        className="flex items-center space-x-3 rounded-lg bg-green-50 p-3 transition-colors hover:bg-green-100"
+                                    >
+                                        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-600 text-white">
+                                            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <div className="text-sm font-semibold text-gray-900">Call Us</div>
+                                            <div className="text-sm text-green-600">{contact_phone}</div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </nav>
                     </div>
 
                     {/* UAN and Search Section - Responsive width */}
