@@ -157,7 +157,8 @@ const Header: React.FC<HeaderProps> = ({ menuItems = [] }) => {
 
     return (
         <>
-            <header className="relative z-50 flex min-h-[70px] border-b border-gray-300 bg-gradient-to-r from-[#e9f7ef] to-[#fff7e6] tracking-wide shadow-[0_4px_12px_0_rgba(0,0,0,0.07)]">
+            {/* Header */}
+            <header className="relative flex min-h-[70px] border-b border-gray-300 bg-gradient-to-r from-[#e9f7ef] to-[#fff7e6] tracking-wide shadow-[0_4px_12px_0_rgba(0,0,0,0.07)]">
                 <div className="relative flex w-full items-center px-6 py-0 sm:px-10">
                     {/* Logo Section - Responsive width */}
                     <div className="flex w-[15%] items-center justify-start sm:w-[12%] sm:justify-center lg:w-[15%]">
@@ -208,6 +209,7 @@ const Header: React.FC<HeaderProps> = ({ menuItems = [] }) => {
                     <div className="flex w-[25%] items-center justify-end sm:w-[30%] lg:w-[20%]">
                         <div className="hidden h-full items-center lg:flex">
                             <div className="flex items-center gap-2 px-2 py-2 xl:gap-3 xl:px-4">
+                                {/* Search Icon - Separate from UAN */}
                                 <button
                                     onClick={() => setIsSearchOpen(true)}
                                     className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#3a8d3a] to-[#f9a825] text-white shadow transition-all duration-200 hover:scale-105 hover:shadow-lg xl:h-10 xl:w-10"
@@ -224,17 +226,19 @@ const Header: React.FC<HeaderProps> = ({ menuItems = [] }) => {
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                     </svg>
                                 </button>
+                                
+                                {/* UAN Section - Now independent from search */}
                                 <div className="flex min-w-0 flex-shrink flex-col">
                                     <span className="text-center text-[10px] font-bold tracking-wide whitespace-nowrap text-green-800 xl:text-xs">
                                         UAN
                                     </span>
-                                    <button
-                                        onClick={() => setIsSearchOpen(true)}
+                                    <a
+                                        href={`tel:${contact_phone}`}
                                         className="overflow-hidden text-sm leading-tight font-bold text-ellipsis whitespace-nowrap text-green-800 transition-colors hover:text-orange-600 xl:text-lg"
-                                        title={contact_phone}
+                                        title={`Call ${contact_phone}`}
                                     >
                                         {contact_phone}
-                                    </button>
+                                    </a>
                                     <span className="mt-1 overflow-hidden text-[9px] text-ellipsis whitespace-nowrap text-gray-500 xl:text-[11px]">
                                         We're here to help you 24/7
                                     </span>
@@ -242,8 +246,46 @@ const Header: React.FC<HeaderProps> = ({ menuItems = [] }) => {
                             </div>
                         </div>
 
-                        {/* Mobile Menu Toggle */}
-                        <div className="flex items-center lg:hidden">
+                        {/* Mobile UAN and Search Section */}
+                        <div className="flex items-center gap-2 lg:hidden">
+                            {/* Mobile Search Button */}
+                            <button
+                                onClick={() => setIsSearchOpen(true)}
+                                className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-[#3a8d3a] to-[#f9a825] text-white shadow transition-all duration-200 hover:scale-105"
+                                aria-label="Search"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-4 w-4"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                >
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                </svg>
+                            </button>
+
+                            {/* Mobile UAN */}
+                            <a
+                                href={`tel:${contact_phone}`}
+                                className="flex h-8 w-8 items-center justify-center rounded-full bg-green-600 text-white shadow transition-all duration-200 hover:scale-105"
+                                aria-label={`Call ${contact_phone}`}
+                                title={`Call ${contact_phone}`}
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-4 w-4"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                >
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                </svg>
+                            </a>
+
+                            {/* Mobile Menu Toggle */}
                             <button
                                 onClick={toggleMobileMenu}
                                 className="cursor-pointer rounded-md p-2 transition-colors hover:bg-gray-100"
