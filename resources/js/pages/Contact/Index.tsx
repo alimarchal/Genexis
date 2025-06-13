@@ -1,6 +1,6 @@
 import WebsiteLayout from '@/layouts/WebsiteLayout';
 import { usePage } from '@inertiajs/react';
-import { Building2, Clock, CreditCard, Headphones, Mail, MapPin, Phone, X, Check, Loader2 } from 'lucide-react';
+import { Building2, Clock, Headphones, Mail, MapPin, Phone, X, Check, Loader2 } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
