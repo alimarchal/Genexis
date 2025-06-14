@@ -1,6 +1,7 @@
+import * as ExcelJS from 'exceljs';
 import { CheckCircle, Clock, FileSpreadsheet, FileText, Globe, Mail, MapPin, Navigation, Phone, Search, XCircle } from 'lucide-react';
 import React, { useMemo, useState } from 'react';
-import * as XLSX from 'xlsx';
+
 
 interface Branch {
     id: number;
@@ -118,47 +119,67 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
     };
 
     // Download functions
-    const downloadExcel = () => {
-        const dataToExport = filteredBranches.map(branch => ({
-            'Branch Code': branch.code,
-            'Branch Name': branch.name,
-            'Type': branch.type,
-            'Address': branch.full_address || `${branch.address}, ${branch.city}`,
-            'City': branch.city,
-            'Region': branch.region,
-            'Phone': branch.phone,
-            'Email': branch.email,
-            'Status': branch.operating_status,
-            'Operating Hours': branch.today_hours || 'Mon-Thu: 9AM-5PM, Fri: 9AM-12:30PM',
-            'Has ATM': branch.has_atm ? 'Yes' : 'No',
-            'Services': branch.services.join(', '),
-            'Facilities': branch.facilities.join(', ')
-        }));
+    const downloadExcel = async () => {
+        const workbook = new ExcelJS.Workbook();
+        const worksheet = workbook.addWorksheet('Branches');
 
-        const worksheet = XLSX.utils.json_to_sheet(dataToExport);
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, 'Branches');
-
-        // Auto-fit column widths
-        const columnWidths = [
-            { wch: 12 }, // Branch Code
-            { wch: 30 }, // Branch Name
-            { wch: 15 }, // Type
-            { wch: 50 }, // Address
-            { wch: 20 }, // City
-            { wch: 15 }, // Region
-            { wch: 18 }, // Phone
-            { wch: 30 }, // Email
-            { wch: 12 }, // Status
-            { wch: 25 }, // Operating Hours
-            { wch: 10 }, // Has ATM
-            { wch: 40 }, // Services
-            { wch: 30 }  // Facilities
+        // Define columns with headers and widths
+        worksheet.columns = [
+            { header: 'Branch Code', key: 'code', width: 12 },
+            { header: 'Branch Name', key: 'name', width: 30 },
+            { header: 'Type', key: 'type', width: 15 },
+            { header: 'Address', key: 'address', width: 50 },
+            { header: 'City', key: 'city', width: 20 },
+            { header: 'Region', key: 'region', width: 15 },
+            { header: 'Phone', key: 'phone', width: 18 },
+            { header: 'Email', key: 'email', width: 30 },
+            { header: 'Status', key: 'status', width: 12 },
+            { header: 'Operating Hours', key: 'hours', width: 25 },
+            { header: 'Has ATM', key: 'atm', width: 10 },
+            { header: 'Services', key: 'services', width: 40 },
+            { header: 'Facilities', key: 'facilities', width: 30 }
         ];
-        worksheet['!cols'] = columnWidths;
 
-        const fileName = `BAJK_Branches_${new Date().toISOString().split('T')[0]}.xlsx`;
-        XLSX.writeFile(workbook, fileName);
+        // Add data rows
+        filteredBranches.forEach(branch => {
+            worksheet.addRow({
+                code: branch.code,
+                name: branch.name,
+                type: branch.type,
+                address: branch.full_address || `${branch.address}, ${branch.city}`,
+                city: branch.city,
+                region: branch.region,
+                phone: branch.phone,
+                email: branch.email,
+                status: branch.operating_status,
+                hours: branch.today_hours || 'Mon-Thu: 9AM-5PM, Fri: 9AM-12:30PM',
+                atm: branch.has_atm ? 'Yes' : 'No',
+                services: branch.services.join(', '),
+                facilities: branch.facilities.join(', ')
+            });
+        });
+
+        // Style the header row
+        const headerRow = worksheet.getRow(1);
+        headerRow.eachCell((cell) => {
+            cell.font = { bold: true, color: { argb: 'FFFFFFFF' } };
+            cell.fill = {
+                type: 'pattern',
+                pattern: 'solid',
+                fgColor: { argb: 'FF4A7C59' }
+            };
+            cell.alignment = { vertical: 'middle', horizontal: 'center' };
+        });
+
+        // Generate buffer and download
+        const buffer = await workbook.xlsx.writeBuffer();
+        const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `BAJK_Branches_${new Date().toISOString().split('T')[0]}.xlsx`;
+        link.click();
+        window.URL.revokeObjectURL(url);
     };
 
     const downloadPDF = () => {
