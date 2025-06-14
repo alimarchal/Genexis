@@ -1,4 +1,4 @@
-// BottomBar.tsx
+// BottomBar.tsx - Fixed unused error variable
 import { Link } from '@inertiajs/react';
 import React from 'react';
 
@@ -19,7 +19,7 @@ const BottomBar: React.FC = () => {
             if (!popup || popup.closed || typeof popup.closed == 'undefined') {
                 window.open(url, '_blank', 'noopener,noreferrer');
             }
-        } catch (error) {
+        } catch {
             // Final fallback - direct navigation
             window.location.href = url;
         }

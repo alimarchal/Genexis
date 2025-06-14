@@ -13,7 +13,6 @@ const quickLinkItems: QuickLinkItem[] = [
     { label: 'About Us', href: route('about.board-directors') },
     { label: 'Branch Network', href: route('about.branch-network') },
     { label: 'News & Updates', href: route('news') },
-    { label: 'Organogram', href: '#' },
     { label: 'Downloads', href: route('public-downloads') },
     { label: 'Careers', href: route('public-careers') },
 ];
