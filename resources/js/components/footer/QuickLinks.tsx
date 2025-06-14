@@ -13,15 +13,12 @@ const quickLinkItems: QuickLinkItem[] = [
     { label: 'About Us', href: route('about.board-directors') },
     { label: 'Branch Network', href: route('about.branch-network') },
     { label: 'News & Updates', href: route('news') },
-    { label: 'Email Login', href: 'https://www.bankajk.com:2096', isExternal: true },
+    { label: 'Organogram', href: '#' },
     { label: 'Downloads', href: route('public-downloads') },
-    { label: 'Contact', href: route('contact') },
+    { label: 'Careers', href: route('public-careers') },
 ];
 
 const QuickLinks: React.FC = () => {
-    const handleExternalLink = (url: string) => {
-        window.open(url, 'EmailLogin', 'width=1200,height=800,scrollbars=yes,resizable=yes');
-    };
 
     return (
         <div className="space-y-6">

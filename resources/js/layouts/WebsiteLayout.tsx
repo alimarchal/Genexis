@@ -14,9 +14,21 @@ interface WebsiteLayoutProps extends PropsWithChildren {
     }>;
 }
 
+interface SharedProps {
+    menu: any;
+    autoBreadcrumbs: any;
+    bankBranchesCount: number;
+    socialLinks: {
+        facebook: string;
+        twitter: string;
+        instagram: string;
+        linkedin: string;
+        youtube: string;
+    };
+}
+
 export default function WebsiteLayout({ children, title, breadcrumbs = [] }: WebsiteLayoutProps) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { menu, autoBreadcrumbs } = usePage<any>().props;
+    const { menu, autoBreadcrumbs, bankBranchesCount, socialLinks } = usePage<SharedProps>().props;
     const headerRef = useRef<HTMLDivElement>(null);
     const [headerHeight, setHeaderHeight] = useState(120);
 
@@ -66,7 +78,7 @@ export default function WebsiteLayout({ children, title, breadcrumbs = [] }: Web
             </div>
 
             {/* Footer */}
-            <Footer />
+            <Footer bankBranchesCount={bankBranchesCount} socialLinks={socialLinks} />
         </>
     );
 }
