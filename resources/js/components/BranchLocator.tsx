@@ -122,31 +122,31 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
         filteredBranches.length > 0
             ? filteredBranches
             : [
-                  {
-                      id: 1,
-                      name: 'Head Office',
-                      code: 'HO001',
-                      type: 'Head Office',
-                      address: 'Bank Square, Chattar Domel',
-                      city: 'Muzaffarabad',
-                      region: 'Muzaffarabad',
-                      full_address: 'Bank Square, Chattar Domel, Muzaffarabad, AJK',
-                      latitude: 34.3587,
-                      longitude: 73.4713,
-                      phone: '+92-5822-924244',
-                      email: 'info@bankajk.com',
-                      fax: '+92-5822-924245',
-                      services: ['All Banking Services', 'Corporate Banking', 'Foreign Exchange'],
-                      facilities: ['ATM', 'Parking', 'Wheelchair Access'],
-                      operating_hours: {},
-                      is_24_hours: false,
-                      is_open: true,
-                      operating_status: 'Open Now',
-                      today_hours: '9:00 AM - 5:00 PM',
-                      google_maps_url: 'https://www.google.com/maps?q=34.3587,73.4713',
-                      has_atm: true,
-                  },
-              ];
+                {
+                    id: 1,
+                    name: 'Head Office',
+                    code: 'HO001',
+                    type: 'Head Office',
+                    address: 'Bank Square, Chattar Domel',
+                    city: 'Muzaffarabad',
+                    region: 'Muzaffarabad',
+                    full_address: 'Bank Square, Chattar Domel, Muzaffarabad, AJK',
+                    latitude: 34.3587,
+                    longitude: 73.4713,
+                    phone: '+92-5822-924244',
+                    email: 'info@bankajk.com',
+                    fax: '+92-5822-924245',
+                    services: ['All Banking Services', 'Corporate Banking', 'Foreign Exchange'],
+                    facilities: ['ATM', 'Parking', 'Wheelchair Access'],
+                    operating_hours: {},
+                    is_24_hours: false,
+                    is_open: true,
+                    operating_status: 'Open Now',
+                    today_hours: '9:00 AM - 5:00 PM',
+                    google_maps_url: 'https://www.google.com/maps?q=34.3587,73.4713',
+                    has_atm: true,
+                },
+            ];
 
     const displayStats = branches.length > 0 ? stats : { totalBranches: 87, atmLocations: 150, citiesCovered: 25, openNow: 65 };
 
@@ -244,11 +244,10 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
                         {displayBranches.map((branch) => (
                             <div
                                 key={branch.id}
-                                className={`group cursor-pointer rounded-2xl border border-white/20 bg-white/90 p-6 shadow-lg backdrop-blur-sm transition-all duration-300 ${
-                                    selectedBranch === branch.id
-                                        ? 'scale-[1.02] shadow-2xl ring-2 ring-[#4A7C59]/30'
-                                        : 'hover:scale-[1.01] hover:shadow-xl'
-                                }`}
+                                className={`group cursor-pointer rounded-2xl border border-white/20 bg-white/90 p-6 shadow-lg backdrop-blur-sm transition-all duration-300 ${selectedBranch === branch.id
+                                    ? 'scale-[1.02] shadow-2xl ring-2 ring-[#4A7C59]/30'
+                                    : 'hover:scale-[1.01] hover:shadow-xl'
+                                    }`}
                                 onClick={() => setSelectedBranch(selectedBranch === branch.id ? null : branch.id)}
                             >
                                 {/* Branch Header */}
@@ -261,14 +260,16 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
                                                     {branch.name}
                                                 </h3>
                                             </div>
+                                            {branch.code && (
+                                                <span className="rounded-full bg-[#0d4a12] px-3 py-1 text-xs font-medium text-white">
+                                                    Branch Code: {branch.code}
+                                                </span>
+                                            )}
+
                                             <span className={`rounded-full px-3 py-1 text-xs font-medium ${getBranchTypeColor(branch.type)}`}>
                                                 {branch.type.replace(/[-_]/g, ' ').toUpperCase()}
                                             </span>
-                                            {branch.code && (
-                                                <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700">
-                                                    {branch.code}
-                                                </span>
-                                            )}
+
                                         </div>
 
                                         {/* Status & ATM */}
@@ -283,11 +284,11 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
                                                     {branch.operating_status}
                                                 </span>
                                             </div>
-                                            {branch.has_atm && (
+                                            {/* {branch.has_atm && (
                                                 <span className="rounded-full bg-green-500 px-3 py-1 text-xs font-medium text-white">
                                                     💳 ATM Available
                                                 </span>
-                                            )}
+                                            )} */}
                                         </div>
 
                                         {/* Contact Information */}
