@@ -1,4 +1,3 @@
-import * as ExcelJS from 'exceljs';
 import { CheckCircle, Clock, FileSpreadsheet, FileText, Globe, Mail, MapPin, Navigation, Phone, Search, XCircle } from 'lucide-react';
 import React, { useMemo, useState } from 'react';
 
@@ -52,6 +51,8 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedBranch, setSelectedBranch] = useState<number | null>(null);
     const [branchTypeFilter, setBranchTypeFilter] = useState('all');
+    const [isDownloading, setIsDownloading] = useState(false);
+
 
     // Get unique cities/districts for filtering
     const cities = useMemo(() => [...new Set(branches.map((b) => b.city))].sort(), [branches]);
@@ -120,66 +121,77 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
 
     // Download functions
     const downloadExcel = async () => {
-        const workbook = new ExcelJS.Workbook();
-        const worksheet = workbook.addWorksheet('Branches');
+        setIsDownloading(true);
+        try {
+            // Dynamic import - only loads when user clicks download
+            const ExcelJS = await import('exceljs');
 
-        // Define columns with headers and widths
-        worksheet.columns = [
-            { header: 'Branch Code', key: 'code', width: 12 },
-            { header: 'Branch Name', key: 'name', width: 30 },
-            { header: 'Type', key: 'type', width: 15 },
-            { header: 'Address', key: 'address', width: 50 },
-            { header: 'City', key: 'city', width: 20 },
-            { header: 'Region', key: 'region', width: 15 },
-            { header: 'Phone', key: 'phone', width: 18 },
-            { header: 'Email', key: 'email', width: 30 },
-            { header: 'Status', key: 'status', width: 12 },
-            { header: 'Operating Hours', key: 'hours', width: 25 },
-            { header: 'Has ATM', key: 'atm', width: 10 },
-            { header: 'Services', key: 'services', width: 40 },
-            { header: 'Facilities', key: 'facilities', width: 30 }
-        ];
+            const workbook = new ExcelJS.Workbook();
+            const worksheet = workbook.addWorksheet('Branches');
 
-        // Add data rows
-        filteredBranches.forEach(branch => {
-            worksheet.addRow({
-                code: branch.code,
-                name: branch.name,
-                type: branch.type,
-                address: branch.full_address || `${branch.address}, ${branch.city}`,
-                city: branch.city,
-                region: branch.region,
-                phone: branch.phone,
-                email: branch.email,
-                status: branch.operating_status,
-                hours: branch.today_hours || 'Mon-Thu: 9AM-5PM, Fri: 9AM-12:30PM',
-                atm: branch.has_atm ? 'Yes' : 'No',
-                services: branch.services.join(', '),
-                facilities: branch.facilities.join(', ')
+            // Define columns with headers and widths
+            worksheet.columns = [
+                { header: 'Branch Code', key: 'code', width: 12 },
+                { header: 'Branch Name', key: 'name', width: 30 },
+                { header: 'Type', key: 'type', width: 15 },
+                { header: 'Address', key: 'address', width: 50 },
+                { header: 'City', key: 'city', width: 20 },
+                { header: 'Region', key: 'region', width: 15 },
+                { header: 'Phone', key: 'phone', width: 18 },
+                { header: 'Email', key: 'email', width: 30 },
+                { header: 'Status', key: 'status', width: 12 },
+                { header: 'Operating Hours', key: 'hours', width: 25 },
+                { header: 'Has ATM', key: 'atm', width: 10 },
+                { header: 'Services', key: 'services', width: 40 },
+                { header: 'Facilities', key: 'facilities', width: 30 }
+            ];
+
+            // Add data rows
+            filteredBranches.forEach(branch => {
+                worksheet.addRow({
+                    code: branch.code,
+                    name: branch.name,
+                    type: branch.type,
+                    address: branch.full_address || `${branch.address}, ${branch.city}`,
+                    city: branch.city,
+                    region: branch.region,
+                    phone: branch.phone,
+                    email: branch.email,
+                    status: branch.operating_status,
+                    hours: branch.today_hours || 'Mon-Thu: 9AM-5PM, Fri: 9AM-12:30PM',
+                    atm: branch.has_atm ? 'Yes' : 'No',
+                    services: branch.services.join(', '),
+                    facilities: branch.facilities.join(', ')
+                });
             });
-        });
 
-        // Style the header row
-        const headerRow = worksheet.getRow(1);
-        headerRow.eachCell((cell) => {
-            cell.font = { bold: true, color: { argb: 'FFFFFFFF' } };
-            cell.fill = {
-                type: 'pattern',
-                pattern: 'solid',
-                fgColor: { argb: 'FF4A7C59' }
-            };
-            cell.alignment = { vertical: 'middle', horizontal: 'center' };
-        });
+            // Style the header row
+            const headerRow = worksheet.getRow(1);
+            headerRow.eachCell((cell) => {
+                cell.font = { bold: true, color: { argb: 'FFFFFFFF' } };
+                cell.fill = {
+                    type: 'pattern',
+                    pattern: 'solid',
+                    fgColor: { argb: 'FF4A7C59' }
+                };
+                cell.alignment = { vertical: 'middle', horizontal: 'center' };
+            });
 
-        // Generate buffer and download
-        const buffer = await workbook.xlsx.writeBuffer();
-        const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-        const url = window.URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = `BAJK_Branches_${new Date().toISOString().split('T')[0]}.xlsx`;
-        link.click();
-        window.URL.revokeObjectURL(url);
+            // Generate buffer and download
+            const buffer = await workbook.xlsx.writeBuffer();
+            const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `BAJK_Branches_${new Date().toISOString().split('T')[0]}.xlsx`;
+            link.click();
+            window.URL.revokeObjectURL(url);
+        } catch (error) {
+            console.error('Error generating Excel file:', error);
+            alert('Failed to generate Excel file. Please try again.');
+        } finally {
+            setIsDownloading(false);
+        }
     };
 
     const downloadPDF = () => {
@@ -409,11 +421,12 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
                             <span className="text-sm text-gray-600">Download:</span>
                             <button
                                 onClick={downloadExcel}
-                                className="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+                                disabled={isDownloading}
+                                className="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-50"
                                 title="Download as Excel"
                             >
                                 <FileSpreadsheet className="h-4 w-4" />
-                                Excel
+                                {isDownloading ? 'Generating...' : 'Excel'}
                             </button>
                             <button
                                 onClick={downloadPDF}

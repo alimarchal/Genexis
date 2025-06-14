@@ -22,4 +22,17 @@ export default defineConfig({
             'ziggy-js': resolve(__dirname, 'vendor/tightenco/ziggy'),
         },
     },
+    build: {
+        chunkSizeWarningLimit: 1000, // Increase limit to 1000kb
+        rollupOptions: {
+            output: {
+                manualChunks: {
+                    // Separate large libraries into their own chunks
+                    vendor: ['react', 'react-dom'],
+                    excel: ['exceljs'], // Only if you keep static import
+                    icons: ['lucide-react'],
+                }
+            }
+        }
+    }
 });
