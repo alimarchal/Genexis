@@ -24,7 +24,7 @@ const ExecutiveCard: React.FC<ExecutiveCardProps> = ({
         if (!fullName) return 'NA';
         return fullName
             .split(' ')
-            .map(part => part.charAt(0).toUpperCase())
+            .map((part) => part.charAt(0).toUpperCase())
             .slice(0, 2)
             .join('');
     };
@@ -45,17 +45,17 @@ const ExecutiveCard: React.FC<ExecutiveCardProps> = ({
     };
 
     return (
-        <div className={`mx-auto w-full ${isPresident ? 'max-w-lg mb-12 col-span-full' : 'max-w-sm'}`}>
+        <div className={`mx-auto w-full ${isPresident ? 'col-span-full mb-12 max-w-lg' : 'max-w-sm'}`}>
             {isPresident && (
                 <div className="mb-4 text-center">
-                    <h2 className="text-3xl font-bold text-[#4A7C59] mb-2">Leadership</h2>
-                    <p className="text-gray-600 text-lg">Meet our organizational leader driving strategic vision and excellence</p>
+                    <h2 className="mb-2 text-3xl font-bold text-[#4A7C59]">Leadership</h2>
+                    <p className="text-lg text-gray-600">Meet our organizational leader driving strategic vision and excellence</p>
                 </div>
             )}
             <div
                 className={`relative transform overflow-hidden rounded-xl border bg-white shadow-lg transition-all duration-500 ease-in-out hover:-translate-y-2 hover:scale-105 hover:shadow-2xl ${
-                    isPresident 
-                        ? 'ring-4 ring-[#F9B912]/50 border-[#F9B912]/50 shadow-2xl bg-gradient-to-br from-white to-[#F9B912]/5' 
+                    isPresident
+                        ? 'border-[#F9B912]/50 bg-gradient-to-br from-white to-[#F9B912]/5 shadow-2xl ring-4 ring-[#F9B912]/50'
                         : 'border-gray-100 hover:border-[#4A7C59]/30'
                 }`}
                 onMouseEnter={() => setIsHovered(true)}

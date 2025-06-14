@@ -245,7 +245,7 @@ export default function ContactPage() {
 
                 {/* Quick Contact Cards */}
                 <div className="mb-16 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-                    <div className="rounded-lg border border-green-100 bg-gradient-to-br from-[#4A7C59] to-[#6B9B7A] p-6 text-center text-white shadow-sm hover:shadow-md transition-shadow">
+                    <div className="rounded-lg border border-green-100 bg-gradient-to-br from-[#4A7C59] to-[#6B9B7A] p-6 text-center text-white shadow-sm transition-shadow hover:shadow-md">
                         <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-white/20">
                             <Phone className="h-6 w-6" />
                         </div>
@@ -254,7 +254,7 @@ export default function ContactPage() {
                         <p className="text-sm text-green-100">24/7 Support</p>
                     </div>
 
-                    <div className="rounded-lg border border-blue-100 bg-gradient-to-br from-[#1565c0] to-[#2196f3] p-6 text-center text-white shadow-sm hover:shadow-md transition-shadow">
+                    <div className="rounded-lg border border-blue-100 bg-gradient-to-br from-[#1565c0] to-[#2196f3] p-6 text-center text-white shadow-sm transition-shadow hover:shadow-md">
                         <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-white/20">
                             <Mail className="h-6 w-6" />
                         </div>
@@ -263,7 +263,7 @@ export default function ContactPage() {
                         <p className="text-sm text-blue-100">Quick Response</p>
                     </div>
 
-                    <div className="rounded-lg border border-orange-100 bg-gradient-to-br from-[#ef6c00] to-[#ff9800] p-6 text-center text-white shadow-sm hover:shadow-md transition-shadow">
+                    <div className="rounded-lg border border-orange-100 bg-gradient-to-br from-[#ef6c00] to-[#ff9800] p-6 text-center text-white shadow-sm transition-shadow hover:shadow-md">
                         <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-white/20">
                             <Building2 className="h-6 w-6" />
                         </div>
@@ -272,7 +272,7 @@ export default function ContactPage() {
                         <p className="text-sm text-orange-100">Banking Operations</p>
                     </div>
 
-                    <div className="rounded-lg border border-purple-100 bg-gradient-to-br from-[#7b1fa2] to-[#9c27b0] p-6 text-center text-white shadow-sm hover:shadow-md transition-shadow">
+                    <div className="rounded-lg border border-purple-100 bg-gradient-to-br from-[#7b1fa2] to-[#9c27b0] p-6 text-center text-white shadow-sm transition-shadow hover:shadow-md">
                         <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-white/20">
                             <Headphones className="h-6 w-6" />
                         </div>
@@ -447,7 +447,7 @@ export default function ContactPage() {
                                 <button
                                     type="submit"
                                     disabled={(popup.show && popup.type === 'processing') || rateLimited}
-                                    className="flex w-full items-center justify-center rounded bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A] px-6 py-3 text-white font-medium hover:from-[#3d6b4a] hover:to-[#5a8a69] disabled:cursor-not-allowed disabled:opacity-50 transition-colors"
+                                    className="flex w-full items-center justify-center rounded bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A] px-6 py-3 font-medium text-white transition-colors hover:from-[#3d6b4a] hover:to-[#5a8a69] disabled:cursor-not-allowed disabled:opacity-50"
                                 >
                                     <Mail className="mr-2 h-5 w-5" />
                                     {popup.show && popup.type === 'processing'
@@ -558,7 +558,7 @@ export default function ContactPage() {
                             </p>
                             <a
                                 href={route('about.branch-network')}
-                                className="inline-flex items-center rounded bg-white px-8 py-3 font-medium text-[#4A7C59] hover:bg-[#F9B912] hover:text-white transition-colors"
+                                className="inline-flex items-center rounded bg-white px-8 py-3 font-medium text-[#4A7C59] transition-colors hover:bg-[#F9B912] hover:text-white"
                             >
                                 <MapPin className="mr-2 h-5 w-5" />
                                 Branch Locator

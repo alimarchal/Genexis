@@ -13,8 +13,12 @@ const BottomBar: React.FC = () => {
         e.preventDefault();
         try {
             // Try popup first
-            const popup = window.open(url, 'EmailLogin', 'width=1200,height=800,scrollbars=yes,resizable=yes,toolbar=no,menubar=no,location=no,status=no');
-            
+            const popup = window.open(
+                url,
+                'EmailLogin',
+                'width=1200,height=800,scrollbars=yes,resizable=yes,toolbar=no,menubar=no,location=no,status=no',
+            );
+
             // Fallback to new tab if popup fails
             if (!popup || popup.closed || typeof popup.closed == 'undefined') {
                 window.open(url, '_blank', 'noopener,noreferrer');
@@ -29,37 +33,27 @@ const BottomBar: React.FC = () => {
         <div className="border-t border-white/20 bg-[#0d4a12]">
             <div className="mx-auto max-w-7xl px-6 py-6">
                 <div className="flex flex-col items-center justify-between space-y-4 sm:flex-row sm:space-y-0">
-                    <span className="text-sm text-gray-300">
-                        © {new Date().getFullYear()} Bank of Azad Jammu & Kashmir. All Rights Reserved.
-                    </span>
+                    <span className="text-sm text-gray-300">© {new Date().getFullYear()} Bank of Azad Jammu & Kashmir. All Rights Reserved.</span>
                     <div className="flex flex-wrap items-center justify-center space-x-6">
-                        {links.map((link, i) => (
+                        {links.map((link, i) =>
                             link.isExternal ? (
                                 <button
                                     key={i}
                                     onClick={(e) => handleExternalLink(e, link.href)}
-                                    className="text-sm text-gray-300 transition-colors duration-200 hover:text-[#F9B912] cursor-pointer bg-transparent border-none p-0"
+                                    className="cursor-pointer border-none bg-transparent p-0 text-sm text-gray-300 transition-colors duration-200 hover:text-[#F9B912]"
                                 >
                                     {link.label}
                                 </button>
                             ) : link.href.startsWith('#') ? (
-                                <a
-                                    key={i}
-                                    href={link.href}
-                                    className="text-sm text-gray-300 transition-colors duration-200 hover:text-[#F9B912]"
-                                >
+                                <a key={i} href={link.href} className="text-sm text-gray-300 transition-colors duration-200 hover:text-[#F9B912]">
                                     {link.label}
                                 </a>
                             ) : (
-                                <Link
-                                    key={i}
-                                    href={link.href}
-                                    className="text-sm text-gray-300 transition-colors duration-200 hover:text-[#F9B912]"
-                                >
+                                <Link key={i} href={link.href} className="text-sm text-gray-300 transition-colors duration-200 hover:text-[#F9B912]">
                                     {link.label}
                                 </Link>
-                            )
-                        ))}
+                            ),
+                        )}
                     </div>
                 </div>
             </div>

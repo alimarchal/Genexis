@@ -174,10 +174,11 @@ export default function NewsIndex({ newsAnnouncements }: Props) {
                                                 {link.url ? (
                                                     <Link
                                                         href={link.url}
-                                                        className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors duration-200 ${link.active
+                                                        className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors duration-200 ${
+                                                            link.active
                                                                 ? 'bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A] text-white'
                                                                 : 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
-                                                            }`}
+                                                        }`}
                                                         dangerouslySetInnerHTML={{ __html: link.label }}
                                                     />
                                                 ) : (

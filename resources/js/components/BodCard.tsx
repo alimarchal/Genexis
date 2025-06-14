@@ -33,7 +33,7 @@ const BodCard: React.FC<BodCardProps> = ({ boardMember }) => {
         if (!fullName) return 'NA';
         return fullName
             .split(' ')
-            .map(part => part.charAt(0).toUpperCase())
+            .map((part) => part.charAt(0).toUpperCase())
             .slice(0, 2)
             .join('');
     };

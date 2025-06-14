@@ -14,9 +14,23 @@ interface WebsiteLayoutProps extends PropsWithChildren {
     }>;
 }
 
+interface MenuItem {
+    id: number;
+    title: string;
+    url?: string;
+    children?: MenuItem[];
+    // Add other menu properties as needed
+}
+
+interface BreadcrumbItem {
+    label: string;
+    href?: string;
+    isActive?: boolean;
+}
+
 interface SharedProps {
-    menu: any;
-    autoBreadcrumbs: any;
+    menu: MenuItem[];
+    autoBreadcrumbs: BreadcrumbItem[];
     bankBranchesCount: number;
     socialLinks: {
         facebook: string;
@@ -63,17 +77,14 @@ export default function WebsiteLayout({ children, title, breadcrumbs = [] }: Web
             <Head title={title} />
 
             {/* Fixed TopNavbar, Header, and Breadcrumb */}
-            <div className="fixed top-0 left-0 right-0 z-50" ref={headerRef}>
+            <div className="fixed top-0 right-0 left-0 z-50" ref={headerRef}>
                 <TopNavbar />
                 <Header menuItems={menu} />
                 {finalBreadcrumbs.length > 0 && <BreadcrumbNav items={finalBreadcrumbs} />}
             </div>
 
             {/* Main Content with dynamic padding */}
-            <div
-                className="min-h-screen"
-                style={{ paddingTop: `${headerHeight}px` }}
-            >
+            <div className="min-h-screen" style={{ paddingTop: `${headerHeight}px` }}>
                 {children}
             </div>
 

@@ -18,9 +18,9 @@ const LogoSection: React.FC<LogoSectionProps> = ({ bankBranchesCount, socialLink
             <div>
                 <img src="/logo.png" alt="BAJK Logo" className="h-16 w-auto" />
             </div>
-            <p className="text-sm leading-relaxed text-gray-100 max-w-sm">
-                A growing Bank in Azad Jammu & Kashmir with <strong className="text-[#F9B912]">{bankBranchesCount}</strong> branches, 
-                mobilizing savings, promoting economic development, and offering tailored banking solutions for equal access to resources.
+            <p className="max-w-sm text-sm leading-relaxed text-gray-100">
+                A growing Bank in Azad Jammu & Kashmir with <strong className="text-[#F9B912]">{bankBranchesCount}</strong> branches, mobilizing
+                savings, promoting economic development, and offering tailored banking solutions for equal access to resources.
             </p>
             <div className="flex space-x-4">
                 {[
@@ -30,9 +30,9 @@ const LogoSection: React.FC<LogoSectionProps> = ({ bankBranchesCount, socialLink
                     { Icon: FaLinkedinIn, label: 'LinkedIn', href: socialLinks.linkedin },
                     { Icon: FaYoutube, label: 'YouTube', href: socialLinks.youtube },
                 ].map(({ Icon, label, href }, i) => (
-                    <a 
-                        key={i} 
-                        href={href} 
+                    <a
+                        key={i}
+                        href={href}
                         aria-label={label}
                         target={href !== '#' ? '_blank' : undefined}
                         rel={href !== '#' ? 'noopener noreferrer' : undefined}

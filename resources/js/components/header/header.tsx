@@ -40,11 +40,14 @@ const Header: React.FC<HeaderProps> = ({ menuItems = [] }) => {
 
         if (hasDropdown) {
             return (
-                <div key={item.id} className={`relative ${isMobile ? 'mb-2' : 'text-[14px] max-lg:px-3 max-lg:py-2 lg:flex lg:items-center'} ${item.cssClass || ''}`}>
+                <div
+                    key={item.id}
+                    className={`relative ${isMobile ? 'mb-2' : 'text-[14px] max-lg:px-3 max-lg:py-2 lg:flex lg:items-center'} ${item.cssClass || ''}`}
+                >
                     <div className={isMobile ? '' : 'group lg:inline-block'}>
                         <button
                             className={
-                                isMobile 
+                                isMobile
                                     ? `flex w-full items-center justify-between rounded-lg bg-gray-50 px-4 py-3 text-left text-base font-medium text-gray-900 transition-colors hover:bg-gray-100 ${openMobileSubmenu === menuId ? 'bg-gray-100' : ''}`
                                     : `relative flex w-full items-center justify-between text-left text-[15px] font-medium text-slate-900 after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-0 after:bg-[#F9B912] after:transition-all after:duration-300 after:content-[''] hover:text-[#F9B912] hover:after:w-full max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 lg:px-2 lg:py-1 ${item.isActive ? 'text-blue-700' : ''}`
                             }
@@ -70,7 +73,7 @@ const Header: React.FC<HeaderProps> = ({ menuItems = [] }) => {
                         <div
                             className={
                                 isMobile
-                                    ? `overflow-hidden transition-all duration-300 ${openMobileSubmenu === menuId ? 'max-h-96 mt-2' : 'max-h-0'}`
+                                    ? `overflow-hidden transition-all duration-300 ${openMobileSubmenu === menuId ? 'mt-2 max-h-96' : 'max-h-0'}`
                                     : `absolute z-50 max-h-0 overflow-hidden bg-gradient-to-r from-[#e9f7ef] to-[#fff7e6] px-8 opacity-0 shadow-lg transition-all duration-300 group-hover:max-h-[700px] group-hover:pt-6 group-hover:pb-8 group-hover:opacity-100 max-lg:top-8 max-lg:left-0 lg:top-[53px] lg:left-0 ${item.isMegaMenu ? 'lg:grid lg:min-w-[400px] lg:grid-cols-2 lg:gap-6' : 'lg:min-w-[200px]'}`
                             }
                             role="menu"
@@ -106,11 +109,13 @@ const Header: React.FC<HeaderProps> = ({ menuItems = [] }) => {
                     <li key={child.id} className={isMobile ? '' : 'py-1'} role="none">
                         {child.hasChildren ? (
                             <div className={isMobile ? '' : 'group/nested relative'}>
-                                <button className={
-                                    isMobile 
-                                        ? 'flex w-full items-center justify-between rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 ml-4'
-                                        : 'relative flex w-full items-center justify-between text-left text-[15px] font-normal text-slate-900 after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-0 after:bg-[#F9B912] after:transition-all after:duration-300 after:content-[""] hover:text-[#F9B912] hover:after:w-full'
-                                }>
+                                <button
+                                    className={
+                                        isMobile
+                                            ? 'ml-4 flex w-full items-center justify-between rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-100'
+                                            : 'relative flex w-full items-center justify-between text-left text-[15px] font-normal text-slate-900 after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-0 after:bg-[#F9B912] after:transition-all after:duration-300 after:content-[""] hover:text-[#F9B912] hover:after:w-full'
+                                    }
+                                >
                                     {child.title}
                                     <svg className="ml-1 h-3 w-3" viewBox="0 0 24 24" fill="currentColor">
                                         <path d="M8.59 16.59L13.17 12L8.59 7.41L10 6l6 6-6 6l-1.41-1.41z" />
@@ -140,7 +145,7 @@ const Header: React.FC<HeaderProps> = ({ menuItems = [] }) => {
                                 target={child.target}
                                 className={
                                     isMobile
-                                        ? 'block rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 ml-4'
+                                        ? 'ml-4 block rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-100'
                                         : 'relative block text-[15px] font-normal text-slate-900 after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-0 after:bg-[#F9B912] after:transition-all after:duration-300 after:content-[""] hover:text-[#F9B912] hover:after:w-full'
                                 }
                                 role="menuitem"
@@ -192,13 +197,8 @@ const Header: React.FC<HeaderProps> = ({ menuItems = [] }) => {
                     {/* Menu Section - Responsive width */}
                     <div className="flex flex-1 items-center justify-center lg:w-[65%]">
                         {/* Mobile Menu Backdrop */}
-                        {isMobileMenuOpen && (
-                            <div 
-                                className="fixed inset-0 z-40 bg-black bg-opacity-50 lg:hidden"
-                                onClick={toggleMobileMenu}
-                            />
-                        )}
-                        
+                        {isMobileMenuOpen && <div className="bg-opacity-50 fixed inset-0 z-40 bg-black lg:hidden" onClick={toggleMobileMenu} />}
+
                         {/* Desktop Menu */}
                         <nav className="hidden lg:flex lg:items-center lg:gap-x-2 lg:rounded-xl lg:bg-gradient-to-r lg:from-[#e9f7ef] lg:to-[#fff7e6] lg:px-2 lg:py-1 xl:gap-x-4 xl:px-4">
                             {menuItems.map((item) => renderMenuItem(item, false))}
@@ -215,11 +215,7 @@ const Header: React.FC<HeaderProps> = ({ menuItems = [] }) => {
                             {/* Mobile Menu Header */}
                             <div className="flex items-center justify-between border-b border-gray-200 p-4">
                                 <a href="/" onClick={toggleMobileMenu}>
-                                    <img
-                                        src="/logo.png"
-                                        alt="Company Logo"
-                                        className="h-12 w-auto object-contain"
-                                    />
+                                    <img src="/logo.png" alt="Company Logo" className="h-12 w-auto object-contain" />
                                 </a>
                                 <button
                                     onClick={toggleMobileMenu}
@@ -235,9 +231,7 @@ const Header: React.FC<HeaderProps> = ({ menuItems = [] }) => {
 
                             {/* Mobile Menu Content */}
                             <div className="flex-1 overflow-y-auto p-4">
-                                <div className="space-y-2">
-                                    {menuItems.map((item) => renderMenuItem(item, true))}
-                                </div>
+                                <div className="space-y-2">{menuItems.map((item) => renderMenuItem(item, true))}</div>
                             </div>
 
                             {/* Mobile Menu Footer */}
@@ -249,7 +243,12 @@ const Header: React.FC<HeaderProps> = ({ menuItems = [] }) => {
                                     >
                                         <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-600 text-white">
                                             <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                                <path
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    strokeWidth={2}
+                                                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                                                />
                                             </svg>
                                         </div>
                                         <div>
@@ -283,7 +282,7 @@ const Header: React.FC<HeaderProps> = ({ menuItems = [] }) => {
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                     </svg>
                                 </button>
-                                
+
                                 {/* UAN Section - Now independent from search */}
                                 <div className="flex min-w-0 flex-shrink flex-col">
                                     <span className="text-center text-[10px] font-bold tracking-wide whitespace-nowrap text-green-800 xl:text-xs">
@@ -338,7 +337,11 @@ const Header: React.FC<HeaderProps> = ({ menuItems = [] }) => {
                                     stroke="currentColor"
                                     strokeWidth="2"
                                 >
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                                    />
                                 </svg>
                             </a>
 

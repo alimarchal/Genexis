@@ -14,17 +14,17 @@ const ContactInfo: React.FC = () => {
 
     return (
         <div className="space-y-6">
-            <h3 className="text-xl font-semibold text-white border-b border-[#F9B912] pb-2 inline-block">Contact Us</h3>
+            <h3 className="inline-block border-b border-[#F9B912] pb-2 text-xl font-semibold text-white">Contact Us</h3>
             <div className="space-y-4">
                 <div className="flex items-start space-x-3">
-                    <div className="flex h-8 w-8 items-center justify-center rounded bg-[#F9B912]/20 mt-0.5">
+                    <div className="mt-0.5 flex h-8 w-8 items-center justify-center rounded bg-[#F9B912]/20">
                         <FaMapMarkerAlt className="h-4 w-4 text-[#F9B912]" />
                     </div>
                     <address className="text-sm leading-relaxed text-gray-200 not-italic">
                         {contact_address || 'Head Office, Bank Square, Chattar Domel, Muzaffarabad, AJK, Pakistan'}
                     </address>
                 </div>
-                
+
                 <div className="flex items-center space-x-3">
                     <div className="flex h-8 w-8 items-center justify-center rounded bg-[#F9B912]/20">
                         <FaPhoneAlt className="h-4 w-4 text-[#F9B912]" />
@@ -36,14 +36,14 @@ const ContactInfo: React.FC = () => {
                         {contact_phone || '+92.300.8169925'}
                     </a>
                 </div>
-                
+
                 <div className="flex items-center space-x-3">
                     <div className="flex h-8 w-8 items-center justify-center rounded bg-[#F9B912]/20">
                         <FaEnvelope className="h-4 w-4 text-[#F9B912]" />
                     </div>
                     <a
                         href={`mailto:${contact_email || ''}`}
-                        className="text-sm text-gray-200 transition-colors duration-200 hover:text-[#F9B912] break-all"
+                        className="text-sm break-all text-gray-200 transition-colors duration-200 hover:text-[#F9B912]"
                     >
                         {contact_email || 'ali.marchal@bankajk.com'}
                     </a>

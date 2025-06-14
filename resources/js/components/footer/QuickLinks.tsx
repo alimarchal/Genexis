@@ -1,4 +1,3 @@
-
 // QuickLinks.tsx
 import { Link } from '@inertiajs/react';
 import React from 'react';
@@ -18,25 +17,21 @@ const quickLinkItems: QuickLinkItem[] = [
 ];
 
 const QuickLinks: React.FC = () => {
-
     return (
         <div className="space-y-6">
-            <h3 className="text-xl font-semibold text-white border-b border-[#F9B912] pb-2 inline-block">Quick Links</h3>
+            <h3 className="inline-block border-b border-[#F9B912] pb-2 text-xl font-semibold text-white">Quick Links</h3>
             <ul className="space-y-3">
                 {quickLinkItems.map((item, i) => (
                     <li key={i}>
                         {item.isExternal ? (
                             <button
                                 onClick={() => handleExternalLink(item.href)}
-                                className="text-gray-200 transition-colors duration-200 hover:text-[#F9B912] text-sm"
+                                className="text-sm text-gray-200 transition-colors duration-200 hover:text-[#F9B912]"
                             >
                                 {item.label}
                             </button>
                         ) : (
-                            <Link
-                                href={item.href}
-                                className="text-gray-200 transition-colors duration-200 hover:text-[#F9B912] text-sm"
-                            >
+                            <Link href={item.href} className="text-sm text-gray-200 transition-colors duration-200 hover:text-[#F9B912]">
                                 {item.label}
                             </Link>
                         )}

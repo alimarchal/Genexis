@@ -39,13 +39,11 @@ interface Props {
 
 export default function PublicCareersIndex({ careers }: Props) {
     const [search, setSearch] = useState('');
-    
+
     const filteredCareers = useMemo(
         () =>
             careers.data.filter(
-                (career) =>
-                    career.title.toLowerCase().includes(search.toLowerCase()) || 
-                    career.location.toLowerCase().includes(search.toLowerCase()),
+                (career) => career.title.toLowerCase().includes(search.toLowerCase()) || career.location.toLowerCase().includes(search.toLowerCase()),
             ),
         [search, careers.data],
     );
@@ -110,11 +108,19 @@ export default function PublicCareersIndex({ careers }: Props) {
                             </colgroup>
                             <thead className="bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A]">
                                 <tr>
-                                    <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-white uppercase sm:text-sm">Position</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-white uppercase sm:text-sm">Location</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-white uppercase sm:text-sm">Deadline</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-white uppercase sm:text-sm">
+                                        Position
+                                    </th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-white uppercase sm:text-sm">
+                                        Location
+                                    </th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-white uppercase sm:text-sm">
+                                        Deadline
+                                    </th>
                                     <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-white uppercase sm:text-sm">Views</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-white uppercase sm:text-sm">Actions</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-white uppercase sm:text-sm">
+                                        Actions
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200 bg-white">
