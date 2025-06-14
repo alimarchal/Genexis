@@ -1,4 +1,4 @@
-# Application Snapshots
+ # Application Snapshots
 
 This document provides an overview of key application pages based on the provided snapshots.
 
