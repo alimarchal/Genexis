@@ -29,7 +29,9 @@ import {
     PercentCircle,
     PieChart,
     Settings,
-    TrendingUp
+    TrendingUp,
+    User,
+    Users
 } from 'lucide-react';
 import AppLogo from './app-logo';
 
@@ -58,6 +60,20 @@ const homeNavItems: NavItem[] = [
         title: 'News & Announcements',
         href: '/news-announcements',
         icon: Newspaper,
+    },
+];
+
+// About
+const aboutNavItems: NavItem[] = [
+    {
+        title: 'Board of Directors',
+        href: '/board-of-directors',
+        icon: Users,
+    },
+    {
+        title: 'Management',
+        href: '/managments',
+        icon: User,
     },
 ];
 
@@ -220,6 +236,7 @@ export function AppSidebar() {
             <SidebarContent>
                 <NavGroup title="Dashboard" items={coreNavItems} />
                 <NavGroup title="Home" items={homeNavItems} />
+                <NavGroup title="About" items={aboutNavItems} />
                 <NavGroup title="Banking & Services" items={bankingNavItems} />
                 <NavGroup title="Financial Management" items={financialNavItems} />
                 <NavGroup title="Location Management" items={locationNavItems} />
