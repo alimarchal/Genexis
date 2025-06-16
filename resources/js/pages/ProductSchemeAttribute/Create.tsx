@@ -30,7 +30,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 interface ProductScheme {
     id: number;
     name: string;
-    productTypeAccount: {
+    product_type_account: {
         id: number;
         name: string;
     };
@@ -79,7 +79,7 @@ export default function CreateProductSchemeAttribute({ schemes }: Props) {
                                         <SelectContent>
                                             {schemes.map((scheme) => (
                                                 <SelectItem key={scheme.id} value={scheme.id.toString()}>
-                                                    {scheme.name} ({scheme.productTypeAccount.name})
+                                                    {scheme.name} ({scheme.product_type_account?.name || 'N/A'})
                                                 </SelectItem>
                                             ))}
                                         </SelectContent>

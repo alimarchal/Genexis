@@ -32,7 +32,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 interface ProductScheme {
     id: number;
     name: string;
-    productTypeAccount: {
+    product_type_account: {
         id: number;
         name: string;
     };
@@ -47,13 +47,13 @@ interface ProductSchemeAttribute {
     sort_order: number;
     is_active: boolean;
     created_at: string;
-    productScheme: {
+    product_scheme: {
         id: number;
         name: string;
-        productTypeAccount: {
+        product_type_account: {
             id: number;
             name: string;
-            productType: {
+            product_type: {
                 id: number;
                 name: string;
                 product: {
@@ -279,8 +279,8 @@ export default function ProductSchemeAttributeIndex({ attributes, schemes, filte
                                             </TableCell>
                                             <TableCell>
                                                 <div className="text-sm">
-                                                    <div className="font-medium">{attribute.productScheme.name}</div>
-                                                    <div className="text-gray-500">{attribute.productScheme.productTypeAccount.name}</div>
+                                                    <div className="font-medium">{attribute.product_scheme?.name || 'N/A'}</div>
+                                                    <div className="text-gray-500">{attribute.product_scheme?.product_type_account?.name || 'N/A'}</div>
                                                 </div>
                                             </TableCell>
                                             <TableCell>

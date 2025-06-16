@@ -37,13 +37,13 @@ interface Product {
 interface ProductType {
     id: number;
     name: string;
-    product: Product;
+    product?: Product;
 }
 
 interface ProductTypeAccount {
     id: number;
     name: string;
-    productType: ProductType;
+    product_type?: ProductType;
 }
 
 interface ProductScheme {
@@ -54,7 +54,7 @@ interface ProductScheme {
     is_active: boolean;
     created_at: string;
     updated_at: string;
-    productTypeAccount: ProductTypeAccount;
+    product_type_account?: ProductTypeAccount;
 }
 
 interface Props {
@@ -234,12 +234,12 @@ export default function ProductSchemeIndex({ productSchemes, accounts, filters }
                                                 </div>
                                             </TableCell>
                                             <TableCell>
-                                                <Badge variant="outline">{scheme.productTypeAccount.name}</Badge>
+                                                <Badge variant="outline">{scheme.product_type_account?.name || 'N/A'}</Badge>
                                             </TableCell>
                                             <TableCell>
                                                 <div className="text-sm">
-                                                    <div>{scheme.productTypeAccount.productType.name}</div>
-                                                    <div className="text-gray-500">{scheme.productTypeAccount.productType.product.name}</div>
+                                                    <div>{scheme.product_type_account?.product_type?.name || 'N/A'}</div>
+                                                    <div className="text-gray-500">{scheme.product_type_account?.product_type?.product?.name || 'N/A'}</div>
                                                 </div>
                                             </TableCell>
                                             <TableCell>
