@@ -6,23 +6,26 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreProductTypeRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
-            //
+            'product_id' => 'required|exists:products,id',
+            'name' => 'required|string|max:255',
+            'is_active' => 'boolean',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'product_id.required' => 'Please select a product.',
+            'product_id.exists' => 'The selected product is invalid.',
+            'name.required' => 'The product type name is required.',
         ];
     }
 }

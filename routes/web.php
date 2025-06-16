@@ -17,6 +17,7 @@ use App\Http\Controllers\FinancialReportController;
 use App\Http\Controllers\ManagmentController;
 use App\Http\Controllers\NewsAnnouncementController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductSchemeAttributeController;
 use App\Http\Controllers\ProductSchemeController;
 use App\Http\Controllers\ProductTypeAccountController;
@@ -40,6 +41,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('news-announcements', NewsAnnouncementController::class);
     Route::resource('managments', ManagmentController::class);
     Route::resource('board-of-directors', controller: BoardOfDirectorController::class);
+
+
 
 
     Route::resource('financial-reports', FinancialReportController::class);
@@ -69,10 +72,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     // Additional CRUD routes for existing controllers
-    Route::resource('product-schemes', ProductSchemeController::class);
-    Route::resource('product-scheme-attributes', ProductSchemeAttributeController::class);
+    Route::resource('products', ProductController::class);
     Route::resource('product-types', ProductTypeController::class);
     Route::resource('product-type-accounts', ProductTypeAccountController::class);
+
+    Route::resource('product-schemes', ProductSchemeController::class);
+    Route::resource('product-scheme-attributes', ProductSchemeAttributeController::class);
+
     Route::resource('service-attributes', ServiceAttributeController::class);
 
     // CRUD download routes (for authenticated users)
