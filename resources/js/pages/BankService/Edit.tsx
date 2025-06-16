@@ -10,7 +10,7 @@ import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
 import { Head, Link, router, useForm } from '@inertiajs/react';
-import { ArrowLeft, Plus, Trash2 } from 'lucide-react';
+import { Plus, Trash2 } from 'lucide-react';
 import { FormEventHandler } from 'react';
 
 interface BankService {
@@ -204,75 +204,50 @@ export default function EditBankService({ bankService }: Props) {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={`Edit Bank Service - ${bankService.title}`} />
+            <Head title="Edit Bank Service" />
 
-            <div className="px-4 py-6">
-                <div className="mb-6">
-                    <Button variant="ghost" size="sm" asChild>
-                        <Link href={route('bank-services.index')}>
-                            <ArrowLeft className="mr-2 h-4 w-4" />
-                            Back to Bank Services
-                        </Link>
-                    </Button>
-                </div>
+            <div className="px-10 py-6">
+                <Heading title="Edit Bank Service" description="Update the details of this bank service" />
 
-                <Heading title={`Edit Bank Service - ${bankService.title}`} description="Update bank service information" />
-
-                <form onSubmit={submit} className="max-w-4xl space-y-6">
-                    {/* Basic Information */}
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Basic Information</CardTitle>
-                        </CardHeader>
-                        <CardContent className="space-y-6">
-                            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-                                <div className="md:col-span-2">
+                <div className="flex flex-col space-y-8 lg:flex-row lg:space-y-0 lg:space-x-12">
+                    <form onSubmit={submit} className="w-full">
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Bank Service Details</CardTitle>
+                            </CardHeader>
+                            <CardContent className="space-y-6">
+                                {/* Title */}
+                                <div className="space-y-2">
                                     <Label htmlFor="title">Title *</Label>
                                     <Input
                                         id="title"
-                                        type="text"
                                         value={data.title}
                                         onChange={(e) => setData('title', e.target.value)}
                                         placeholder="Enter service title"
-                                        className="mt-1"
-                                        required
+                                        className={errors.title ? 'border-red-500' : ''}
                                     />
-                                    <InputError message={errors.title} className="mt-2" />
+                                    {errors.title && <InputError message={errors.title} />}
                                 </div>
-                                <div>
-                                    <Label htmlFor="order">Display Order</Label>
-                                    <Input
-                                        id="order"
-                                        type="number"
-                                        value={data.order}
-                                        onChange={(e) => setData('order', parseInt(e.target.value) || 0)}
-                                        placeholder="0"
-                                        className="mt-1"
-                                        min="0"
+
+                                {/* Description */}
+                                <div className="space-y-2">
+                                    <Label htmlFor="description">Description *</Label>
+                                    <Textarea
+                                        id="description"
+                                        value={data.description}
+                                        onChange={(e) => setData('description', e.target.value)}
+                                        placeholder="Enter service description"
+                                        rows={8}
+                                        className={errors.description ? 'border-red-500' : ''}
                                     />
-                                    <InputError message={errors.order} className="mt-2" />
+                                    {errors.description && <InputError message={errors.description} />}
                                 </div>
-                            </div>
 
-                            <div>
-                                <Label htmlFor="description">Description *</Label>
-                                <Textarea
-                                    id="description"
-                                    value={data.description}
-                                    onChange={(e) => setData('description', e.target.value)}
-                                    rows={3}
-                                    placeholder="Enter service description..."
-                                    className="mt-1"
-                                    required
-                                />
-                                <InputError message={errors.description} className="mt-2" />
-                            </div>
-
-                            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-                                <div>
+                                {/* Icon */}
+                                <div className="space-y-2">
                                     <Label htmlFor="icon">Icon *</Label>
                                     <Select value={data.icon} onValueChange={(value) => setData('icon', value)}>
-                                        <SelectTrigger className="mt-1">
+                                        <SelectTrigger className={errors.icon ? 'border-red-500' : ''}>
                                             <SelectValue placeholder="Select icon" />
                                         </SelectTrigger>
                                         <SelectContent>
@@ -283,16 +258,18 @@ export default function EditBankService({ bankService }: Props) {
                                             ))}
                                         </SelectContent>
                                     </Select>
-                                    <InputError message={errors.icon} className="mt-2" />
+                                    {errors.icon && <InputError message={errors.icon} />}
                                 </div>
-                                <div>
+
+                                {/* Service Type */}
+                                <div className="space-y-2">
                                     <Label htmlFor="service_type">Service Type *</Label>
                                     <Select
                                         value={data.service_type}
                                         onValueChange={(value: 'service' | 'deposit' | 'stat') => setData('service_type', value)}
                                     >
-                                        <SelectTrigger className="mt-1">
-                                            <SelectValue placeholder="Select type" />
+                                        <SelectTrigger className={errors.service_type ? 'border-red-500' : ''}>
+                                            <SelectValue placeholder="Select service type" />
                                         </SelectTrigger>
                                         <SelectContent>
                                             <SelectItem value="service">Main Service</SelectItem>
@@ -300,13 +277,15 @@ export default function EditBankService({ bankService }: Props) {
                                             <SelectItem value="stat">Statistics</SelectItem>
                                         </SelectContent>
                                     </Select>
-                                    <InputError message={errors.service_type} className="mt-2" />
+                                    {errors.service_type && <InputError message={errors.service_type} />}
                                 </div>
-                                <div>
+
+                                {/* Color Scheme */}
+                                <div className="space-y-2">
                                     <Label htmlFor="color">Color Scheme *</Label>
                                     <Select value={data.color} onValueChange={(value) => setData('color', value)}>
-                                        <SelectTrigger className="mt-1">
-                                            <SelectValue placeholder="Select color" />
+                                        <SelectTrigger className={errors.color ? 'border-red-500' : ''}>
+                                            <SelectValue placeholder="Select color scheme" />
                                         </SelectTrigger>
                                         <SelectContent>
                                             {colorOptions.map((color) => (
@@ -316,175 +295,166 @@ export default function EditBankService({ bankService }: Props) {
                                             ))}
                                         </SelectContent>
                                     </Select>
-                                    <InputError message={errors.color} className="mt-2" />
+                                    {errors.color && <InputError message={errors.color} />}
                                 </div>
-                            </div>
 
-                            <div className="flex items-center space-x-2">
-                                <Switch id="status" checked={data.status} onCheckedChange={(checked) => setData('status', checked)} />
-                                <Label htmlFor="status">Active Status</Label>
-                            </div>
-                        </CardContent>
-                    </Card>
-
-                    {/* Statistics (only for stat type) */}
-                    {data.service_type === 'stat' && (
-                        <Card>
-                            <CardHeader>
-                                <CardTitle>Statistics Information</CardTitle>
-                            </CardHeader>
-                            <CardContent className="space-y-4">
-                                <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-                                    <div>
-                                        <Label htmlFor="stat_number">Stat Number *</Label>
-                                        <Input
-                                            id="stat_number"
-                                            type="text"
-                                            value={data.stat_number}
-                                            onChange={(e) => setData('stat_number', e.target.value)}
-                                            placeholder="e.g., 87+, 500K+"
-                                            className="mt-1"
-                                        />
-                                        <InputError message={errors.stat_number} className="mt-2" />
-                                    </div>
-                                    <div>
-                                        <Label htmlFor="stat_label">Stat Label *</Label>
-                                        <Input
-                                            id="stat_label"
-                                            type="text"
-                                            value={data.stat_label}
-                                            onChange={(e) => setData('stat_label', e.target.value)}
-                                            placeholder="e.g., Branches, Customers"
-                                            className="mt-1"
-                                        />
-                                        <InputError message={errors.stat_label} className="mt-2" />
-                                    </div>
-                                    <div>
-                                        <Label htmlFor="stat_description">Stat Description</Label>
-                                        <Input
-                                            id="stat_description"
-                                            type="text"
-                                            value={data.stat_description}
-                                            onChange={(e) => setData('stat_description', e.target.value)}
-                                            placeholder="e.g., Across AJK"
-                                            className="mt-1"
-                                        />
-                                        <InputError message={errors.stat_description} className="mt-2" />
-                                    </div>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    )}
-
-                    {/* Products */}
-                    {data.service_type !== 'stat' && (
-                        <Card>
-                            <CardHeader>
-                                <CardTitle>Products</CardTitle>
-                            </CardHeader>
-                            <CardContent className="space-y-4">
-                                {data.products.map((product, index) => (
-                                    <div key={index} className="flex gap-2">
-                                        <Input
-                                            type="text"
-                                            value={product}
-                                            onChange={(e) => updateProduct(index, e.target.value)}
-                                            placeholder="Enter product name"
-                                            className="flex-1"
-                                        />
-                                        {data.products.length > 1 && (
-                                            <Button type="button" variant="outline" size="sm" onClick={() => removeProduct(index)}>
-                                                <Trash2 className="h-4 w-4" />
-                                            </Button>
-                                        )}
-                                    </div>
-                                ))}
-                                <Button type="button" variant="outline" onClick={addProduct}>
-                                    <Plus className="mr-2 h-4 w-4" />
-                                    Add Product
-                                </Button>
-                                <InputError message={errors.products} className="mt-2" />
-                            </CardContent>
-                        </Card>
-                    )}
-
-                    {/* Benefits */}
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Benefits</CardTitle>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                            {data.benefits.map((benefit, index) => (
-                                <div key={index} className="flex gap-2">
+                                {/* Display Order */}
+                                <div className="space-y-2">
+                                    <Label htmlFor="order">Display Order</Label>
                                     <Input
-                                        type="text"
-                                        value={benefit}
-                                        onChange={(e) => updateBenefit(index, e.target.value)}
-                                        placeholder="Enter benefit"
-                                        className="flex-1"
+                                        id="order"
+                                        type="number"
+                                        value={data.order}
+                                        onChange={(e) => setData('order', parseInt(e.target.value) || 0)}
+                                        placeholder="0"
+                                        min="0"
+                                        className={errors.order ? 'border-red-500' : ''}
                                     />
-                                    {data.benefits.length > 1 && (
-                                        <Button type="button" variant="outline" size="sm" onClick={() => removeBenefit(index)}>
-                                            <Trash2 className="h-4 w-4" />
-                                        </Button>
-                                    )}
+                                    {errors.order && <InputError message={errors.order} />}
                                 </div>
-                            ))}
-                            <Button type="button" variant="outline" onClick={addBenefit}>
-                                <Plus className="mr-2 h-4 w-4" />
-                                Add Benefit
-                            </Button>
-                            <InputError message={errors.benefits} className="mt-2" />
-                        </CardContent>
-                    </Card>
 
-                    {/* Call to Action */}
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Call to Action</CardTitle>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                                <div>
+                                {/* Statistics (only for stat type) */}
+                                {data.service_type === 'stat' && (
+                                    <>
+                                        <div className="space-y-2">
+                                            <Label htmlFor="stat_number">Stat Number *</Label>
+                                            <Input
+                                                id="stat_number"
+                                                value={data.stat_number}
+                                                onChange={(e) => setData('stat_number', e.target.value)}
+                                                placeholder="e.g., 87+, 500K+"
+                                                className={errors.stat_number ? 'border-red-500' : ''}
+                                            />
+                                            {errors.stat_number && <InputError message={errors.stat_number} />}
+                                        </div>
+
+                                        <div className="space-y-2">
+                                            <Label htmlFor="stat_label">Stat Label *</Label>
+                                            <Input
+                                                id="stat_label"
+                                                value={data.stat_label}
+                                                onChange={(e) => setData('stat_label', e.target.value)}
+                                                placeholder="e.g., Branches, Customers"
+                                                className={errors.stat_label ? 'border-red-500' : ''}
+                                            />
+                                            {errors.stat_label && <InputError message={errors.stat_label} />}
+                                        </div>
+
+                                        <div className="space-y-2">
+                                            <Label htmlFor="stat_description">Stat Description</Label>
+                                            <Input
+                                                id="stat_description"
+                                                value={data.stat_description}
+                                                onChange={(e) => setData('stat_description', e.target.value)}
+                                                placeholder="e.g., Across AJK"
+                                                className={errors.stat_description ? 'border-red-500' : ''}
+                                            />
+                                            {errors.stat_description && <InputError message={errors.stat_description} />}
+                                        </div>
+                                    </>
+                                )}
+
+                                {/* Products (not for stat type) */}
+                                {data.service_type !== 'stat' && (
+                                    <div className="space-y-2">
+                                        <Label>Products</Label>
+                                        {data.products.map((product, index) => (
+                                            <div key={index} className="flex gap-2">
+                                                <Input
+                                                    type="text"
+                                                    value={product}
+                                                    onChange={(e) => updateProduct(index, e.target.value)}
+                                                    placeholder="Enter product name"
+                                                    className="flex-1"
+                                                />
+                                                {data.products.length > 1 && (
+                                                    <Button type="button" variant="outline" size="sm" onClick={() => removeProduct(index)}>
+                                                        <Trash2 className="h-4 w-4" />
+                                                    </Button>
+                                                )}
+                                            </div>
+                                        ))}
+                                        <Button type="button" variant="outline" onClick={addProduct}>
+                                            <Plus className="mr-2 h-4 w-4" />
+                                            Add Product
+                                        </Button>
+                                        {errors.products && <InputError message={errors.products} />}
+                                    </div>
+                                )}
+
+                                {/* Benefits */}
+                                <div className="space-y-2">
+                                    <Label>Benefits</Label>
+                                    {data.benefits.map((benefit, index) => (
+                                        <div key={index} className="flex gap-2">
+                                            <Input
+                                                type="text"
+                                                value={benefit}
+                                                onChange={(e) => updateBenefit(index, e.target.value)}
+                                                placeholder="Enter benefit"
+                                                className="flex-1"
+                                            />
+                                            {data.benefits.length > 1 && (
+                                                <Button type="button" variant="outline" size="sm" onClick={() => removeBenefit(index)}>
+                                                    <Trash2 className="h-4 w-4" />
+                                                </Button>
+                                            )}
+                                        </div>
+                                    ))}
+                                    <Button type="button" variant="outline" onClick={addBenefit}>
+                                        <Plus className="mr-2 h-4 w-4" />
+                                        Add Benefit
+                                    </Button>
+                                    {errors.benefits && <InputError message={errors.benefits} />}
+                                </div>
+
+                                {/* CTA Text */}
+                                <div className="space-y-2">
                                     <Label htmlFor="cta_text">CTA Text *</Label>
                                     <Input
                                         id="cta_text"
-                                        type="text"
                                         value={data.cta_text}
                                         onChange={(e) => setData('cta_text', e.target.value)}
                                         placeholder="e.g., Learn More, Open Account"
-                                        className="mt-1"
-                                        required
+                                        className={errors.cta_text ? 'border-red-500' : ''}
                                     />
-                                    <InputError message={errors.cta_text} className="mt-2" />
+                                    {errors.cta_text && <InputError message={errors.cta_text} />}
                                 </div>
-                                <div>
+
+                                {/* CTA Link */}
+                                <div className="space-y-2">
                                     <Label htmlFor="cta_link">CTA Link *</Label>
                                     <Input
                                         id="cta_link"
-                                        type="text"
                                         value={data.cta_link}
                                         onChange={(e) => setData('cta_link', e.target.value)}
                                         placeholder="e.g., /consumer-banking"
-                                        className="mt-1"
-                                        required
+                                        className={errors.cta_link ? 'border-red-500' : ''}
                                     />
-                                    <InputError message={errors.cta_link} className="mt-2" />
+                                    {errors.cta_link && <InputError message={errors.cta_link} />}
                                 </div>
-                            </div>
-                        </CardContent>
-                    </Card>
 
-                    {/* Submit Button */}
-                    <div className="flex justify-end gap-2">
-                        <Button variant="outline" asChild>
-                            <Link href={route('bank-services.index')}>Cancel</Link>
-                        </Button>
-                        <Button type="submit" disabled={processing}>
-                            {processing ? 'Updating...' : 'Update Service'}
-                        </Button>
-                    </div>
-                </form>
+                                {/* Switches */}
+                                <div className="space-y-4">
+                                    <div className="flex items-center space-x-2">
+                                        <Switch id="status" checked={data.status} onCheckedChange={(checked) => setData('status', checked)} />
+                                        <Label htmlFor="status">Active Status</Label>
+                                    </div>
+                                </div>
+
+                                {/* Submit Button */}
+                                <div className="flex justify-end gap-2">
+                                    <Button variant="outline" asChild>
+                                        <Link href={route('bank-services.index')}>Cancel</Link>
+                                    </Button>
+                                    <Button type="submit" disabled={processing}>
+                                        {processing ? 'Updating...' : 'Update Service'}
+                                    </Button>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </form>
+                </div>
             </div>
         </AppLayout>
     );
