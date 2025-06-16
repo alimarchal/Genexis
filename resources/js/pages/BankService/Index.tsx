@@ -1,13 +1,21 @@
 import Heading from '@/components/heading';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
-import { Building, Edit, Eye, Plus, Search, Trash2 } from 'lucide-react';
+import { Building, Edit, Eye, MoreHorizontal, Plus, Search, Trash } from 'lucide-react';
 import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -48,15 +56,10 @@ interface Props {
         last_page: number;
         per_page: number;
         total: number;
+        from: number;
+        to: number;
     };
-    filters: {
-        filter?: {
-            title?: string;
-            status?: string;
-            service_type?: string;
-        };
-        sort?: string;
-    };
+    filters: Record<string, string>;
 }
 
 export default function BankServiceIndex({ bankServices, filters }: Props) {
@@ -76,29 +79,59 @@ export default function BankServiceIndex({ bankServices, filters }: Props) {
         return [];
     };
 
-    const [searchTerm, setSearchTerm] = useState(filters.filter?.title || '');
-    const [statusFilter, setStatusFilter] = useState(filters.filter?.status || 'all');
-    const [typeFilter, setTypeFilter] = useState(filters.filter?.service_type || 'all');
+    const [search, setSearch] = useState(filters['filter[title]'] || '');
+    const [statusFilter, setStatusFilter] = useState(() => {
+        const statusParam = filters['filter[status]'];
+        if (statusParam === '1') return '1';
+        if (statusParam === '0') return '0';
+        return 'all';
+    });
+    const [typeFilter, setTypeFilter] = useState(filters['filter[service_type]'] || 'all');
 
-    const handleSearch = (e: React.FormEvent) => {
-        e.preventDefault();
+    const buildParams = () => {
         const params: Record<string, string> = {};
 
-        if (searchTerm) {
-            params['filter[title]'] = searchTerm;
+        if (search.trim()) {
+            params['filter[title]'] = search;
         }
-
-        if (statusFilter && statusFilter !== 'all') {
+        if (statusFilter !== 'all') {
             params['filter[status]'] = statusFilter;
         }
-
-        if (typeFilter && typeFilter !== 'all') {
+        if (typeFilter !== 'all') {
             params['filter[service_type]'] = typeFilter;
         }
 
-        router.get(route('bank-services.index'), params, {
-            preserveState: true,
-            preserveScroll: true,
+        return params;
+    };
+
+    const handleSearch = (value: string) => {
+        setSearch(value);
+        router.get(route('bank-services.index'), {
+            ...buildParams(),
+            'filter[title]': value.trim() ? value : undefined
+        }, { preserveState: true, replace: true });
+    };
+
+    const handleStatusFilter = (value: string) => {
+        setStatusFilter(value);
+        router.get(route('bank-services.index'), {
+            ...buildParams(),
+            'filter[status]': value !== 'all' ? value : undefined
+        }, { preserveState: true, replace: true });
+    };
+
+    const handleTypeFilter = (value: string) => {
+        setTypeFilter(value);
+        router.get(route('bank-services.index'), {
+            ...buildParams(),
+            'filter[service_type]': value !== 'all' ? value : undefined
+        }, { preserveState: true, replace: true });
+    };
+
+    const handlePagination = (page: number) => {
+        router.get(route('bank-services.index'), {
+            ...buildParams(),
+            page
         });
     };
 
@@ -106,6 +139,20 @@ export default function BankServiceIndex({ bankServices, filters }: Props) {
         if (confirm('Are you sure you want to delete this bank service?')) {
             router.delete(route('bank-services.destroy', id));
         }
+    };
+
+    const getStatusBadge = (status: boolean) => {
+        return status ? <Badge variant="default">Active</Badge> : <Badge variant="secondary">Inactive</Badge>;
+    };
+
+    const getTypeBadge = (type: string) => {
+        const variants: Record<string, 'default' | 'secondary' | 'destructive' | 'outline'> = {
+            service: 'default',
+            deposit: 'secondary',
+            stat: 'outline',
+        };
+
+        return <Badge variant={variants[type] || 'default'}>{type.charAt(0).toUpperCase() + type.slice(1)}</Badge>;
     };
 
     const formatDate = (dateString: string) => {
@@ -120,33 +167,26 @@ export default function BankServiceIndex({ bankServices, filters }: Props) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Bank Services" />
 
-            <div className="px-4 py-6">
-                <div className="mb-6 flex items-center justify-between">
-                    <Heading title="Bank Services" description="Manage your bank services and offerings" />
-                    <Button asChild>
-                        <Link href={route('bank-services.create')}>
-                            <Plus className="mr-2 h-4 w-4" />
-                            Add Service
-                        </Link>
-                    </Button>
-                </div>
+            <div className="px-10 py-6">
+                <Heading title="Bank Services" description="Manage your bank services and offerings" />
 
-                {/* Filters */}
-                <form onSubmit={handleSearch} className="mb-6">
-                    <div className="flex gap-4">
-                        <div className="flex-1">
-                            <Input
-                                type="text"
-                                placeholder="Search by title..."
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                                className="max-w-sm"
-                            />
-                        </div>
-                        <div>
-                            <Select value={statusFilter} onValueChange={setStatusFilter}>
+                <div className="mt-8 space-y-6">
+                    {/* Search and Filters */}
+                    <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                        <div className="flex flex-1 gap-4">
+                            <div className="relative max-w-sm flex-1">
+                                <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
+                                <Input
+                                    placeholder="Search services..."
+                                    value={search}
+                                    onChange={(e) => handleSearch(e.target.value)}
+                                    className="pl-10"
+                                />
+                            </div>
+
+                            <Select value={statusFilter} onValueChange={handleStatusFilter}>
                                 <SelectTrigger className="w-40">
-                                    <SelectValue placeholder="Status" />
+                                    <SelectValue placeholder="All Status" />
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="all">All Status</SelectItem>
@@ -154,134 +194,144 @@ export default function BankServiceIndex({ bankServices, filters }: Props) {
                                     <SelectItem value="0">Inactive</SelectItem>
                                 </SelectContent>
                             </Select>
-                        </div>
-                        <div>
-                            <Select value={typeFilter} onValueChange={setTypeFilter}>
+
+                            <Select value={typeFilter} onValueChange={handleTypeFilter}>
                                 <SelectTrigger className="w-40">
-                                    <SelectValue placeholder="Type" />
+                                    <SelectValue placeholder="All Types" />
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="all">All Types</SelectItem>
-                                    <SelectItem value="main">Main</SelectItem>
-                                    <SelectItem value="additional">Additional</SelectItem>
+                                    <SelectItem value="service">Service</SelectItem>
+                                    <SelectItem value="deposit">Deposit</SelectItem>
                                     <SelectItem value="stat">Stats</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
-                        <Button type="submit">
-                            <Search className="mr-2 h-4 w-4" />
-                            Search
+
+                        <Button asChild>
+                            <Link href={route('bank-services.create')}>
+                                <Plus className="mr-2 h-4 w-4" />
+                                Add Service
+                            </Link>
                         </Button>
                     </div>
-                </form>
 
-                {/* Table */}
-                <div className="rounded-md border">
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Order</TableHead>
-                                <TableHead>Title</TableHead>
-                                <TableHead>Type</TableHead>
-                                <TableHead>Products</TableHead>
-                                <TableHead>CTA</TableHead>
-                                <TableHead>Status</TableHead>
-                                <TableHead>Created</TableHead>
-                                <TableHead className="w-32">Actions</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {bankServices.data.length === 0 ? (
+                    {/* Table */}
+                    <div className="rounded-md border">
+                        <Table>
+                            <TableHeader>
                                 <TableRow>
-                                    <TableCell colSpan={8} className="text-muted-foreground py-8 text-center">
-                                        No bank services found.
-                                    </TableCell>
+                                    <TableHead>Title</TableHead>
+                                    <TableHead>Type</TableHead>
+                                    <TableHead>Products</TableHead>
+                                    <TableHead>Status</TableHead>
+                                    <TableHead>Created</TableHead>
+                                    <TableHead className="w-32">Actions</TableHead>
                                 </TableRow>
-                            ) : (
-                                bankServices.data.map((service) => (
-                                    <TableRow key={service.id}>
-                                        <TableCell className="font-medium">{service.order}</TableCell>
-                                        <TableCell>
-                                            <div className="flex items-center gap-2">
-                                                <Building className="text-muted-foreground h-4 w-4" />
-                                                <div>
-                                                    <div className="font-medium">{service.title}</div>
-                                                    <div className="text-muted-foreground max-w-xs truncate text-sm">{service.description}</div>
-                                                </div>
-                                            </div>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Badge variant="outline">{service.service_type}</Badge>
-                                        </TableCell>
-                                        <TableCell>
-                                            <div className="text-sm">
-                                                {ensureArray(service.products).length > 0 ? (
-                                                    <span>{ensureArray(service.products).length} products</span>
-                                                ) : (
-                                                    '-'
-                                                )}
-                                            </div>
-                                        </TableCell>
-                                        <TableCell>
-                                            <div className="text-sm">
-                                                <div className="font-medium">{service.cta_text}</div>
-                                                <div className="text-muted-foreground max-w-xs truncate text-xs">{service.cta_link}</div>
-                                            </div>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Badge variant={service.status ? 'default' : 'secondary'}>{service.status ? 'Active' : 'Inactive'}</Badge>
-                                        </TableCell>
-                                        <TableCell>{formatDate(service.created_at)}</TableCell>
-                                        <TableCell>
-                                            <div className="flex gap-2">
-                                                <Button size="sm" variant="ghost" asChild>
-                                                    <Link href={route('bank-services.show', service.id)}>
-                                                        <Eye className="h-4 w-4" />
-                                                    </Link>
-                                                </Button>
-                                                <Button size="sm" variant="ghost" asChild>
-                                                    <Link href={route('bank-services.edit', service.id)}>
-                                                        <Edit className="h-4 w-4" />
-                                                    </Link>
-                                                </Button>
-                                                <Button
-                                                    size="sm"
-                                                    variant="ghost"
-                                                    onClick={() => handleDelete(service.id)}
-                                                    className="text-destructive hover:text-destructive"
-                                                >
-                                                    <Trash2 className="h-4 w-4" />
-                                                </Button>
-                                            </div>
+                            </TableHeader>
+                            <TableBody>
+                                {bankServices.data.length === 0 ? (
+                                    <TableRow>
+                                        <TableCell colSpan={6} className="text-muted-foreground py-8 text-center">
+                                            No bank services found.
                                         </TableCell>
                                     </TableRow>
-                                ))
-                            )}
-                        </TableBody>
-                    </Table>
-                </div>
-
-                {/* Pagination */}
-                {bankServices.last_page > 1 && (
-                    <div className="mt-6 flex items-center justify-between">
-                        <div className="text-muted-foreground text-sm">
-                            Showing {(bankServices.current_page - 1) * bankServices.per_page + 1} to{' '}
-                            {Math.min(bankServices.current_page * bankServices.per_page, bankServices.total)} of {bankServices.total} results
-                        </div>
-                        <div className="flex gap-2">
-                            {bankServices.current_page > 1 && (
-                                <Button variant="outline" size="sm" asChild>
-                                    <Link href={route('bank-services.index', { page: bankServices.current_page - 1 })}>Previous</Link>
-                                </Button>
-                            )}
-                            {bankServices.current_page < bankServices.last_page && (
-                                <Button variant="outline" size="sm" asChild>
-                                    <Link href={route('bank-services.index', { page: bankServices.current_page + 1 })}>Next</Link>
-                                </Button>
-                            )}
-                        </div>
+                                ) : (
+                                    bankServices.data.map((service) => (
+                                        <TableRow key={service.id}>
+                                            <TableCell>
+                                                <div className="flex items-center gap-3">
+                                                    <Building className="text-muted-foreground h-4 w-4" />
+                                                    <div>
+                                                        <div className="font-medium">{service.title}</div>
+                                                        <div className="text-muted-foreground max-w-xs truncate text-sm">{service.description}</div>
+                                                    </div>
+                                                </div>
+                                            </TableCell>
+                                            <TableCell>
+                                                {getTypeBadge(service.service_type)}
+                                            </TableCell>
+                                            <TableCell>
+                                                <div className="text-sm">
+                                                    {ensureArray(service.products).length > 0 ? (
+                                                        <span>{ensureArray(service.products).length} products</span>
+                                                    ) : (
+                                                        '-'
+                                                    )}
+                                                </div>
+                                            </TableCell>
+                                            <TableCell>
+                                                {getStatusBadge(service.status)}
+                                            </TableCell>
+                                            <TableCell className="text-muted-foreground text-sm">
+                                                {formatDate(service.created_at)}
+                                            </TableCell>
+                                            <TableCell className="text-right">
+                                                <DropdownMenu>
+                                                    <DropdownMenuTrigger asChild>
+                                                        <Button variant="ghost" className="h-8 w-8 p-0">
+                                                            <MoreHorizontal className="h-4 w-4" />
+                                                        </Button>
+                                                    </DropdownMenuTrigger>
+                                                    <DropdownMenuContent align="end">
+                                                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                                        <DropdownMenuSeparator />
+                                                        <DropdownMenuItem asChild>
+                                                            <Link href={route('bank-services.show', service.id)}>
+                                                                <Eye className="mr-2 h-4 w-4" />
+                                                                View
+                                                            </Link>
+                                                        </DropdownMenuItem>
+                                                        <DropdownMenuItem asChild>
+                                                            <Link href={route('bank-services.edit', service.id)}>
+                                                                <Edit className="mr-2 h-4 w-4" />
+                                                                Edit
+                                                            </Link>
+                                                        </DropdownMenuItem>
+                                                        <DropdownMenuSeparator />
+                                                        <DropdownMenuItem onClick={() => handleDelete(service.id)} className="text-red-600">
+                                                            <Trash className="mr-2 h-4 w-4" />
+                                                            Delete
+                                                        </DropdownMenuItem>
+                                                    </DropdownMenuContent>
+                                                </DropdownMenu>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))
+                                )}
+                            </TableBody>
+                        </Table>
                     </div>
-                )}
+
+                    {/* Pagination Info */}
+                    {bankServices.total > 0 && (
+                        <div className="flex items-center justify-between text-sm text-gray-500">
+                            <div>
+                                Showing {bankServices.from} to {bankServices.to} of {bankServices.total} results
+                            </div>
+                            <div className="flex gap-2">
+                                {bankServices.current_page > 1 && (
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => handlePagination(bankServices.current_page - 1)}
+                                    >
+                                        Previous
+                                    </Button>
+                                )}
+                                {bankServices.current_page < bankServices.last_page && (
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => handlePagination(bankServices.current_page + 1)}
+                                    >
+                                        Next
+                                    </Button>
+                                )}
+                            </div>
+                        </div>
+                    )}
+                </div>
             </div>
         </AppLayout>
     );

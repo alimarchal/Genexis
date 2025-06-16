@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
 
 class CarouselController extends Controller
 {
@@ -23,7 +24,7 @@ class CarouselController extends Controller
 
         return Inertia::render('Carousel/Index', [
             'carousels' => $carousels,
-            'filters' => request()->only(['filter', 'sort']),
+            'filters' => request()->all(),
         ]);
     }
 

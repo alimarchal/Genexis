@@ -8,21 +8,28 @@ use App\Models\BankService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
+
 
 class BankServiceController extends Controller
 {
     public function index(Request $request)
     {
         $bankServices = QueryBuilder::for(BankService::class)
-            ->allowedFilters(BankService::getAllowedFilters())
-            ->allowedSorts(BankService::getAllowedSorts())
+            ->allowedFilters([
+                'title',
+                'description',
+                'service_type',
+                AllowedFilter::exact('status')
+            ])
+            ->allowedSorts(['id', 'title', 'service_type', 'order', 'created_at'])
             ->defaultSort('-created_at')
             ->paginate(request('per_page', 15))
             ->withQueryString();
 
         return Inertia::render('BankService/Index', [
             'bankServices' => $bankServices,
-            'filters' => request()->only(['filter', 'sort']),
+            'filters' => request()->all(),
         ]);
     }
 
