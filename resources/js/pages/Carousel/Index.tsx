@@ -93,7 +93,7 @@ export default function CarouselIndex({ carousels, filters }: Props) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Carousel" />
 
-            <div className="px-4 py-6">
+            <div className="px-10 py-6">
                 <div className="mb-6 flex items-center justify-between">
                     <Heading title="Carousel Slides" description="Manage your website carousel slides and content" />
                     <Button asChild>

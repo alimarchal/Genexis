@@ -120,7 +120,7 @@ export default function BankServiceIndex({ bankServices, filters }: Props) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Bank Services" />
 
-            <div className="px-4 py-6">
+            <div className="px-10 py-6">
                 <div className="mb-6 flex items-center justify-between">
                     <Heading title="Bank Services" description="Manage your bank services and offerings" />
                     <Button asChild>

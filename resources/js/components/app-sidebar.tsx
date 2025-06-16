@@ -29,9 +29,7 @@ import {
     PercentCircle,
     PieChart,
     Settings,
-    TrendingUp,
-    UserCheck,
-    Users,
+    TrendingUp
 } from 'lucide-react';
 import AppLogo from './app-logo';
 
@@ -44,22 +42,17 @@ const coreNavItems: NavItem[] = [
     },
 ];
 
-// Content Management
-const contentNavItems: NavItem[] = [
-    {
-        title: 'Management',
-        href: '/managments',
-        icon: Users,
-    },
-    {
-        title: 'Board of Directors',
-        href: '/board-of-directors',
-        icon: UserCheck,
-    },
+// Home
+const homeNavItems: NavItem[] = [
     {
         title: 'Carousel',
         href: '/carousels',
         icon: Images,
+    },
+    {
+        title: 'Bank Services',
+        href: '/bank-services',
+        icon: Building,
     },
     {
         title: 'News & Announcements',
@@ -70,11 +63,6 @@ const contentNavItems: NavItem[] = [
 
 // Banking & Services
 const bankingNavItems: NavItem[] = [
-    {
-        title: 'Bank Services',
-        href: '/bank-services',
-        icon: Building,
-    },
     {
         title: 'Branch Services',
         href: '/branch-services',
@@ -231,7 +219,7 @@ export function AppSidebar() {
 
             <SidebarContent>
                 <NavGroup title="Dashboard" items={coreNavItems} />
-                <NavGroup title="Content Management" items={contentNavItems} />
+                <NavGroup title="Home" items={homeNavItems} />
                 <NavGroup title="Banking & Services" items={bankingNavItems} />
                 <NavGroup title="Financial Management" items={financialNavItems} />
                 <NavGroup title="Location Management" items={locationNavItems} />
