@@ -50,36 +50,54 @@ interface Props {
         last_page: number;
         per_page: number;
         total: number;
+        from: number;
+        to: number;
     };
-    filters: {
-        filter?: {
-            full_name?: string;
-            status?: string;
-        };
-        sort?: string;
-    };
+    filters: Record<string, string>;
 }
 
 export default function ManagementIndex({ managments, filters }: Props) {
-    const [searchTerm, setSearchTerm] = useState(filters.filter?.full_name || '');
-    const [statusFilter, setStatusFilter] = useState(filters.filter?.status || 'all');
+    const [search, setSearch] = useState(filters['filter[full_name]'] || '');
+    const [statusFilter, setStatusFilter] = useState(() => {
+        const statusParam = filters['filter[status]'];
+        if (statusParam === 'active') return 'active';
+        if (statusParam === 'inactive') return 'inactive';
+        return 'all';
+    });
 
-    const handleSearch = (e: React.FormEvent) => {
-        e.preventDefault();
-        const params: Record<string, unknown> = {};
+    const buildParams = () => {
+        const params: Record<string, string> = {};
 
-        if (searchTerm) {
-            params['filter[full_name]'] = searchTerm;
+        if (search.trim()) {
+            params['filter[full_name]'] = search;
         }
-
-        if (statusFilter && statusFilter !== 'all') {
+        if (statusFilter !== 'all') {
             params['filter[status]'] = statusFilter;
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        router.get(route('managments.index'), params as any, {
-            preserveState: true,
-            preserveScroll: true,
+        return params;
+    };
+
+    const handleSearch = (value: string) => {
+        setSearch(value);
+        router.get(route('managments.index'), {
+            ...buildParams(),
+            'filter[full_name]': value.trim() ? value : undefined
+        }, { preserveState: true, replace: true });
+    };
+
+    const handleStatusFilter = (value: string) => {
+        setStatusFilter(value);
+        router.get(route('managments.index'), {
+            ...buildParams(),
+            'filter[status]': value !== 'all' ? value : undefined
+        }, { preserveState: true, replace: true });
+    };
+
+    const handlePagination = (page: number) => {
+        router.get(route('managments.index'), {
+            ...buildParams(),
+            page
         });
     };
 
@@ -89,150 +107,176 @@ export default function ManagementIndex({ managments, filters }: Props) {
         }
     };
 
+    const getStatusBadge = (status: string) => {
+        return status === 'active' ? <Badge variant="default">Active</Badge> : <Badge variant="secondary">Inactive</Badge>;
+    };
+
+    const formatDate = (dateString: string) => {
+        return new Date(dateString).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+        });
+    };
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Management" />
 
-            <div className="px-4 py-6">
-                <div className="mb-6 flex items-center justify-between">
-                    <Heading title="Management Members" description="Manage your organization's management team members" />
-                    <Button asChild>
-                        <Link href={route('managments.create')}>
-                            <Plus className="mr-2 h-4 w-4" />
-                            Add Member
-                        </Link>
-                    </Button>
-                </div>
+            <div className="px-10 py-6">
+                <Heading title="Management Members" description="Manage your organization's management team members" />
 
-                {/* Filters */}
-                <form onSubmit={handleSearch} className="mb-6">
-                    <div className="flex gap-4">
-                        <div className="relative max-w-sm flex-1">
-                            <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
-                            <Input
-                                type="text"
-                                placeholder="Search by name..."
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                                className="pl-10"
-                            />
+                <div className="mt-8 space-y-6">
+                    {/* Search and Filters */}
+                    <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                        <div className="flex flex-1 gap-4">
+                            <div className="relative max-w-sm flex-1">
+                                <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
+                                <Input
+                                    placeholder="Search members..."
+                                    value={search}
+                                    onChange={(e) => handleSearch(e.target.value)}
+                                    className="pl-10"
+                                />
+                            </div>
+
+                            <Select value={statusFilter} onValueChange={handleStatusFilter}>
+                                <SelectTrigger className="w-40">
+                                    <SelectValue placeholder="All Status" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="all">All Status</SelectItem>
+                                    <SelectItem value="active">Active</SelectItem>
+                                    <SelectItem value="inactive">Inactive</SelectItem>
+                                </SelectContent>
+                            </Select>
                         </div>
-                        <Select value={statusFilter} onValueChange={setStatusFilter}>
-                            <SelectTrigger className="w-[180px]">
-                                <SelectValue placeholder="Filter by status" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="all">All Status</SelectItem>
-                                <SelectItem value="active">Active</SelectItem>
-                                <SelectItem value="inactive">Inactive</SelectItem>
-                            </SelectContent>
-                        </Select>
-                        <Button type="submit">Filter</Button>
-                    </div>
-                </form>
 
-                {/* Table */}
-                <div className="rounded-md border">
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead className="w-[50px]">Order</TableHead>
-                                <TableHead>Name</TableHead>
-                                <TableHead>Designation</TableHead>
-                                <TableHead>Status</TableHead>
-                                <TableHead className="text-right">Actions</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {managments.data.length === 0 ? (
+                        <Button asChild>
+                            <Link href={route('managments.create')}>
+                                <Plus className="mr-2 h-4 w-4" />
+                                Add Member
+                            </Link>
+                        </Button>
+                    </div>
+
+                    {/* Table */}
+                    <div className="rounded-md border">
+                        <Table>
+                            <TableHeader>
                                 <TableRow>
-                                    <TableCell colSpan={5} className="text-muted-foreground py-8 text-center">
-                                        No management members found.
-                                    </TableCell>
+                                    <TableHead className="w-[50px]">Order</TableHead>
+                                    <TableHead>Name</TableHead>
+                                    <TableHead>Designation</TableHead>
+                                    <TableHead>Status</TableHead>
+                                    <TableHead>Created</TableHead>
+                                    <TableHead className="text-right">Actions</TableHead>
                                 </TableRow>
-                            ) : (
-                                managments.data.map((member) => (
-                                    <TableRow key={member.id}>
-                                        <TableCell className="font-medium">{member.order}</TableCell>
-                                        <TableCell>
-                                            <div>
-                                                <p className="font-medium">
-                                                    {member.title && `${member.title} `}
-                                                    {member.full_name}
-                                                </p>
-                                                {member.attachment_url && (
-                                                    <a
-                                                        href={member.attachment_url}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        className="text-sm text-blue-600 hover:underline"
-                                                    >
-                                                        View Attachment
-                                                    </a>
-                                                )}
-                                            </div>
-                                        </TableCell>
-                                        <TableCell>{member.designation}</TableCell>
-                                        <TableCell>
-                                            <Badge variant={member.status === 'active' ? 'default' : 'secondary'}>{member.status}</Badge>
-                                        </TableCell>
-                                        <TableCell className="text-right">
-                                            <DropdownMenu>
-                                                <DropdownMenuTrigger asChild>
-                                                    <Button variant="ghost" className="h-8 w-8 p-0">
-                                                        <span className="sr-only">Open menu</span>
-                                                        <MoreHorizontal className="h-4 w-4" />
-                                                    </Button>
-                                                </DropdownMenuTrigger>
-                                                <DropdownMenuContent align="end">
-                                                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                                    <DropdownMenuSeparator />
-                                                    <DropdownMenuItem asChild>
-                                                        <Link href={route('managments.show', member.id)}>
-                                                            <Eye className="mr-2 h-4 w-4" />
-                                                            View
-                                                        </Link>
-                                                    </DropdownMenuItem>
-                                                    <DropdownMenuItem asChild>
-                                                        <Link href={route('managments.edit', member.id)}>
-                                                            <Edit className="mr-2 h-4 w-4" />
-                                                            Edit
-                                                        </Link>
-                                                    </DropdownMenuItem>
-                                                    <DropdownMenuItem onClick={() => handleDelete(member.id)} className="text-red-600">
-                                                        <Trash className="mr-2 h-4 w-4" />
-                                                        Delete
-                                                    </DropdownMenuItem>
-                                                </DropdownMenuContent>
-                                            </DropdownMenu>
+                            </TableHeader>
+                            <TableBody>
+                                {managments.data.length === 0 ? (
+                                    <TableRow>
+                                        <TableCell colSpan={6} className="py-8 text-center text-gray-500">
+                                            No management members found.
                                         </TableCell>
                                     </TableRow>
-                                ))
-                            )}
-                        </TableBody>
-                    </Table>
-                </div>
-
-                {/* Pagination */}
-                {managments.last_page > 1 && (
-                    <div className="mt-6 flex items-center justify-between">
-                        <p className="text-muted-foreground text-sm">
-                            Showing {managments.data.length} of {managments.total} results
-                        </p>
-                        <div className="flex gap-2">
-                            {Array.from({ length: managments.last_page }, (_, i) => i + 1).map((page) => (
-                                <Button
-                                    key={page}
-                                    variant={page === managments.current_page ? 'default' : 'outline'}
-                                    size="sm"
-                                    onClick={() => router.get(route('managments.index', { page }))}
-                                >
-                                    {page}
-                                </Button>
-                            ))}
-                        </div>
+                                ) : (
+                                    managments.data.map((member) => (
+                                        <TableRow key={member.id}>
+                                            <TableCell className="font-medium">{member.order}</TableCell>
+                                            <TableCell>
+                                                <div className="flex items-center gap-3">
+                                                    <div>
+                                                        <div className="font-medium">
+                                                            {member.title && `${member.title} `}
+                                                            {member.full_name}
+                                                        </div>
+                                                        {member.attachment_url && (
+                                                            <a
+                                                                href={member.attachment_url}
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                className="text-sm text-blue-600 hover:underline"
+                                                            >
+                                                                View Attachment
+                                                            </a>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            </TableCell>
+                                            <TableCell>{member.designation}</TableCell>
+                                            <TableCell>
+                                                {getStatusBadge(member.status)}
+                                            </TableCell>
+                                            <TableCell className="text-sm text-gray-500">
+                                                {formatDate(member.created_at)}
+                                            </TableCell>
+                                            <TableCell className="text-right">
+                                                <DropdownMenu>
+                                                    <DropdownMenuTrigger asChild>
+                                                        <Button variant="ghost" className="h-8 w-8 p-0">
+                                                            <MoreHorizontal className="h-4 w-4" />
+                                                        </Button>
+                                                    </DropdownMenuTrigger>
+                                                    <DropdownMenuContent align="end">
+                                                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                                        <DropdownMenuSeparator />
+                                                        <DropdownMenuItem asChild>
+                                                            <Link href={route('managments.show', member.id)}>
+                                                                <Eye className="mr-2 h-4 w-4" />
+                                                                View
+                                                            </Link>
+                                                        </DropdownMenuItem>
+                                                        <DropdownMenuItem asChild>
+                                                            <Link href={route('managments.edit', member.id)}>
+                                                                <Edit className="mr-2 h-4 w-4" />
+                                                                Edit
+                                                            </Link>
+                                                        </DropdownMenuItem>
+                                                        <DropdownMenuSeparator />
+                                                        <DropdownMenuItem onClick={() => handleDelete(member.id)} className="text-red-600">
+                                                            <Trash className="mr-2 h-4 w-4" />
+                                                            Delete
+                                                        </DropdownMenuItem>
+                                                    </DropdownMenuContent>
+                                                </DropdownMenu>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))
+                                )}
+                            </TableBody>
+                        </Table>
                     </div>
-                )}
+
+                    {/* Pagination Info */}
+                    {managments.total > 0 && (
+                        <div className="flex items-center justify-between text-sm text-gray-500">
+                            <div>
+                                Showing {managments.from} to {managments.to} of {managments.total} results
+                            </div>
+                            <div className="flex gap-2">
+                                {managments.current_page > 1 && (
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => handlePagination(managments.current_page - 1)}
+                                    >
+                                        Previous
+                                    </Button>
+                                )}
+                                {managments.current_page < managments.last_page && (
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => handlePagination(managments.current_page + 1)}
+                                    >
+                                        Next
+                                    </Button>
+                                )}
+                            </div>
+                        </div>
+                    )}
+                </div>
             </div>
         </AppLayout>
     );

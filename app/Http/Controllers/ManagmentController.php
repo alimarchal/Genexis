@@ -23,7 +23,7 @@ class ManagmentController extends Controller
 
         return Inertia::render('Managment/Index', [
             'managments' => $managments,
-            'filters' => request()->only(['filter', 'sort']),
+            'filters' => request()->all(), // Changed from request()->only(['filter', 'sort'])
         ]);
     }
 

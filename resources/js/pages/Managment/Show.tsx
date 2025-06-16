@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
-import { ArrowLeft, Briefcase, Calendar, Download, Edit, FileText, Hash, User } from 'lucide-react';
+import { Edit, FileText } from 'lucide-react';
 
 interface Management {
     id: number;
@@ -55,14 +55,9 @@ export default function ShowManagement({ managment }: Props) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={`${managment.full_name} - Management`} />
 
-            <div className="px-4 py-6">
-                <div className="mb-6 flex items-center justify-between">
-                    <Button variant="ghost" size="sm" asChild>
-                        <Link href={route('managments.index')}>
-                            <ArrowLeft className="mr-2 h-4 w-4" />
-                            Back to Management
-                        </Link>
-                    </Button>
+            <div className="px-10 py-6">
+                <div className="flex items-center justify-between">
+                    <Heading title={managment.full_name} description="View management member details" />
                     <Button asChild>
                         <Link href={route('managments.edit', managment.id)}>
                             <Edit className="mr-2 h-4 w-4" />
@@ -71,72 +66,61 @@ export default function ShowManagement({ managment }: Props) {
                     </Button>
                 </div>
 
-                <Heading title="Management Member Details" description="View complete information about this management member" />
-
-                <div className="grid max-w-6xl grid-cols-1 gap-6 lg:grid-cols-3">
-                    {/* Main Information */}
-                    <div className="space-y-6 lg:col-span-2">
+                <div className="mt-8 grid gap-6 lg:grid-cols-3">
+                    {/* Main Content */}
+                    <div className="lg:col-span-2">
                         <Card>
                             <CardHeader>
-                                <CardTitle className="flex items-center gap-2">
-                                    <User className="h-5 w-5" />
-                                    Personal Information
-                                </CardTitle>
-                            </CardHeader>
-                            <CardContent className="space-y-4">
-                                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                                    <div>
-                                        <p className="text-muted-foreground text-sm">Full Name</p>
-                                        <p className="font-medium">
+                                <div className="flex items-start justify-between">
+                                    <div className="space-y-2">
+                                        <CardTitle className="text-2xl">
                                             {managment.title && `${managment.title} `}
                                             {managment.full_name}
-                                        </p>
+                                        </CardTitle>
+                                        <div className="flex items-center gap-2">
+                                            <Badge variant={managment.status === 'active' ? 'default' : 'secondary'}>
+                                                {managment.status}
+                                            </Badge>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <p className="text-muted-foreground text-sm">Designation</p>
-                                        <p className="font-medium">{managment.designation}</p>
-                                    </div>
-                                    <div>
-                                        <p className="text-muted-foreground text-sm">Display Order</p>
-                                        <p className="flex items-center gap-1 font-medium">
-                                            <Hash className="h-4 w-4" />
-                                            {managment.order}
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <p className="text-muted-foreground text-sm">Status</p>
-                                        <Badge variant={managment.status === 'active' ? 'default' : 'secondary'} className="mt-1">
-                                            {managment.status}
-                                        </Badge>
+                                </div>
+                            </CardHeader>
+                            <CardContent className="space-y-6">
+                                {/* Personal Information */}
+                                <div className="space-y-2">
+                                    <h3 className="text-lg font-semibold">Personal Information</h3>
+                                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                                        <div>
+                                            <label className="text-muted-foreground text-sm font-medium">Designation</label>
+                                            <p className="mt-1 font-medium">{managment.designation}</p>
+                                        </div>
+                                        <div>
+                                            <label className="text-muted-foreground text-sm font-medium">Display Order</label>
+                                            <p className="mt-1 font-medium">#{managment.order}</p>
+                                        </div>
                                     </div>
                                 </div>
 
+                                {/* Description */}
                                 {managment.description && (
-                                    <div className="border-t pt-4">
-                                        <p className="text-muted-foreground mb-2 text-sm">Description</p>
-                                        <p className="text-sm leading-relaxed whitespace-pre-wrap">{managment.description}</p>
+                                    <div className="space-y-2">
+                                        <h3 className="text-lg font-semibold">Description</h3>
+                                        <p className="text-muted-foreground whitespace-pre-wrap">{managment.description}</p>
                                     </div>
                                 )}
-                            </CardContent>
-                        </Card>
 
-                        {/* Timestamps */}
-                        <Card>
-                            <CardHeader>
-                                <CardTitle className="flex items-center gap-2">
-                                    <Calendar className="h-5 w-5" />
-                                    Timeline
-                                </CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="space-y-3">
-                                    <div>
-                                        <p className="text-muted-foreground text-sm">Created At</p>
-                                        <p className="text-sm font-medium">{formatDate(managment.created_at)}</p>
-                                    </div>
-                                    <div>
-                                        <p className="text-muted-foreground text-sm">Last Updated</p>
-                                        <p className="text-sm font-medium">{formatDate(managment.updated_at)}</p>
+                                {/* Timestamps */}
+                                <div className="space-y-2">
+                                    <h3 className="text-lg font-semibold">Timestamps</h3>
+                                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                                        <div>
+                                            <label className="text-muted-foreground text-sm font-medium">Created</label>
+                                            <p className="mt-1">{formatDate(managment.created_at)}</p>
+                                        </div>
+                                        <div>
+                                            <label className="text-muted-foreground text-sm font-medium">Last Updated</label>
+                                            <p className="mt-1">{formatDate(managment.updated_at)}</p>
+                                        </div>
                                     </div>
                                 </div>
                             </CardContent>
@@ -148,21 +132,43 @@ export default function ShowManagement({ managment }: Props) {
                         {/* Quick Actions */}
                         <Card>
                             <CardHeader>
-                                <CardTitle className="flex items-center gap-2">
-                                    <Briefcase className="h-5 w-5" />
-                                    Quick Actions
-                                </CardTitle>
+                                <CardTitle>Quick Actions</CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-2">
-                                <Button className="w-full" asChild>
+                                <Button variant="outline" size="sm" className="w-full justify-start" asChild>
                                     <Link href={route('managments.edit', managment.id)}>
                                         <Edit className="mr-2 h-4 w-4" />
                                         Edit Member
                                     </Link>
                                 </Button>
-                                <Button variant="outline" className="w-full" asChild>
-                                    <Link href={route('managments.index')}>View All Members</Link>
+                                <Button variant="outline" size="sm" className="w-full justify-start" asChild>
+                                    <Link href={route('managments.create')}>Create New Member</Link>
                                 </Button>
+                            </CardContent>
+                        </Card>
+
+                        {/* Member Details */}
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Member Details</CardTitle>
+                            </CardHeader>
+                            <CardContent className="space-y-4">
+                                <div>
+                                    <label className="text-muted-foreground text-sm font-medium">Member ID</label>
+                                    <p className="text-muted-foreground font-mono mt-1 text-xl font-bold">#{managment.id.toString().padStart(4, '0')}</p>
+                                </div>
+                                <div>
+                                    <label className="text-muted-foreground text-sm font-medium">Status</label>
+                                    <div className="mt-1">
+                                        <Badge variant={managment.status === 'active' ? 'default' : 'secondary'}>
+                                            {managment.status}
+                                        </Badge>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label className="text-muted-foreground text-sm font-medium">Display Order</label>
+                                    <p className="mt-1 font-medium">{managment.order}</p>
+                                </div>
                             </CardContent>
                         </Card>
 
@@ -170,17 +176,14 @@ export default function ShowManagement({ managment }: Props) {
                         {managment.attachment_url && (
                             <Card>
                                 <CardHeader>
-                                    <CardTitle className="flex items-center gap-2">
-                                        <FileText className="h-5 w-5" />
-                                        Attachment
-                                    </CardTitle>
+                                    <CardTitle>Attachment</CardTitle>
                                 </CardHeader>
                                 <CardContent>
                                     <div className="space-y-3">
                                         <p className="text-muted-foreground text-sm">Document attached to this profile</p>
                                         <Button variant="outline" className="w-full" asChild>
                                             <a href={managment.attachment_url} target="_blank" rel="noopener noreferrer">
-                                                <Download className="mr-2 h-4 w-4" />
+                                                <FileText className="mr-2 h-4 w-4" />
                                                 View Attachment
                                             </a>
                                         </Button>
@@ -188,16 +191,6 @@ export default function ShowManagement({ managment }: Props) {
                                 </CardContent>
                             </Card>
                         )}
-
-                        {/* Member ID */}
-                        <Card>
-                            <CardHeader>
-                                <CardTitle>Member ID</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <p className="text-muted-foreground font-mono text-2xl font-bold">#{managment.id.toString().padStart(4, '0')}</p>
-                            </CardContent>
-                        </Card>
                     </div>
                 </div>
             </div>

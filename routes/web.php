@@ -34,10 +34,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
 
-    Route::resource('managments', ManagmentController::class);
+
     Route::resource('carousels', CarouselController::class);
     Route::resource('bank-services', BankServiceController::class);
     Route::resource('news-announcements', NewsAnnouncementController::class);
+    Route::resource('managments', ManagmentController::class);
     Route::resource('financial-reports', FinancialReportController::class);
     Route::resource('annual-reports', AnnualReportController::class);
     Route::resource('financial-highlights', FinancialHighlightController::class);
@@ -145,5 +146,5 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
     Route::post('clear-menu-cache', [MenuController::class, 'clearCache'])->name('clear-menu-cache');
 });
 
-require __DIR__.'/settings.php';
-require __DIR__.'/auth.php';
+require __DIR__ . '/settings.php';
+require __DIR__ . '/auth.php';
