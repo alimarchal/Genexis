@@ -35,8 +35,8 @@ interface ProductTypeAccount {
     is_active: boolean;
     created_at: string;
     updated_at: string;
-    productType?: ProductType;
-    productSchemes?: ProductScheme[];
+    product_type?: ProductType;  // Changed from productType to product_type
+    product_schemes?: ProductScheme[];  // Changed from productSchemes to product_schemes
 }
 
 interface Props {
@@ -90,8 +90,8 @@ export default function ShowProductTypeAccount({ productTypeAccount }: Props) {
                                     <div className="flex-1 space-y-2">
                                         <CardTitle className="text-2xl">{productTypeAccount.name}</CardTitle>
                                         <div className="flex items-center gap-2">
-                                            <Badge variant="outline">{productTypeAccount.productType?.name || 'N/A'}</Badge>
-                                            <Badge variant="secondary">{productTypeAccount.productType?.product?.name || 'N/A'}</Badge>
+                                            <Badge variant="outline">{productTypeAccount.product_type?.name || 'N/A'}</Badge>
+                                            <Badge variant="secondary">{productTypeAccount.product_type?.product?.name || 'N/A'}</Badge>
                                             {getStatusBadge(productTypeAccount.is_active)}
                                         </div>
                                     </div>
@@ -99,11 +99,11 @@ export default function ShowProductTypeAccount({ productTypeAccount }: Props) {
                             </CardHeader>
                             <CardContent className="space-y-6">
                                 {/* Product Schemes */}
-                                {productTypeAccount.productSchemes && productTypeAccount.productSchemes.length > 0 && (
+                                {productTypeAccount.product_schemes && productTypeAccount.product_schemes.length > 0 && (
                                     <div className="space-y-3">
                                         <h3 className="text-lg font-medium">Product Schemes</h3>
                                         <div className="space-y-2">
-                                            {productTypeAccount.productSchemes.map((scheme) => (
+                                            {productTypeAccount.product_schemes.map((scheme) => (
                                                 <div key={scheme.id} className="flex items-center justify-between rounded-lg border p-3">
                                                     <div>
                                                         <span className="font-medium">{scheme.name}</span>
@@ -146,7 +146,7 @@ export default function ShowProductTypeAccount({ productTypeAccount }: Props) {
                                     <div>
                                         <p className="text-sm font-medium">Product Type</p>
                                         <div className="mt-1">
-                                            <Badge variant="outline">{productTypeAccount.productType?.name || 'N/A'}</Badge>
+                                            <Badge variant="outline">{productTypeAccount.product_type?.name || 'N/A'}</Badge>
                                         </div>
                                     </div>
                                 </div>
@@ -158,7 +158,7 @@ export default function ShowProductTypeAccount({ productTypeAccount }: Props) {
                                     <div>
                                         <p className="text-sm font-medium">Product</p>
                                         <div className="mt-1">
-                                            <Badge variant="secondary">{productTypeAccount.productType?.product?.name || 'N/A'}</Badge>
+                                            <Badge variant="secondary">{productTypeAccount.product_type?.product?.name || 'N/A'}</Badge>
                                         </div>
                                     </div>
                                 </div>
@@ -184,7 +184,7 @@ export default function ShowProductTypeAccount({ productTypeAccount }: Props) {
                                 <div className="flex justify-between">
                                     <span className="font-medium">Product Schemes:</span>
                                     <span className="text-gray-600">
-                                        {productTypeAccount.productSchemes ? productTypeAccount.productSchemes.length : 0}
+                                        {productTypeAccount.product_schemes ? productTypeAccount.product_schemes.length : 0}
                                     </span>
                                 </div>
 
@@ -193,7 +193,7 @@ export default function ShowProductTypeAccount({ productTypeAccount }: Props) {
                                 <div className="flex justify-between">
                                     <span className="font-medium">Active Schemes:</span>
                                     <span className="text-gray-600">
-                                        {productTypeAccount.productSchemes ? productTypeAccount.productSchemes.filter(scheme => scheme.is_active).length : 0}
+                                        {productTypeAccount.product_schemes ? productTypeAccount.product_schemes.filter(scheme => scheme.is_active).length : 0}
                                     </span>
                                 </div>
                             </CardContent>

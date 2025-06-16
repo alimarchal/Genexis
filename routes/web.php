@@ -63,8 +63,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Product CRUD - singular route
     Route::resource('product', ProductController::class);
-    Route::resource('product-types', ProductTypeController::class);
-    Route::resource('product-type-accounts', ProductTypeAccountController::class);
+
+    // Route::resource('product-types', ProductTypeController::class);
+    // Route::resource('product-type-accounts', ProductTypeAccountController::class);
     Route::resource('product-schemes', ProductSchemeController::class);
     Route::resource('product-scheme-attributes', ProductSchemeAttributeController::class);
 

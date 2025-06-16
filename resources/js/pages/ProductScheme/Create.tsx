@@ -35,13 +35,13 @@ interface Product {
 interface ProductType {
     id: number;
     name: string;
-    product: Product;
+    product?: Product;
 }
 
 interface ProductTypeAccount {
     id: number;
     name: string;
-    productType: ProductType;
+    product_type?: ProductType;
 }
 
 interface Props {
@@ -85,7 +85,7 @@ export default function CreateProductScheme({ accounts }: Props) {
                                         <SelectContent>
                                             {accounts.map((account) => (
                                                 <SelectItem key={account.id} value={account.id.toString()}>
-                                                    {account.name} ({account.productType.product.name} - {account.productType.name})
+                                                    {account.name} ({account.product_type?.product?.name || 'N/A'} - {account.product_type?.name || 'N/A'})
                                                 </SelectItem>
                                             ))}
                                         </SelectContent>

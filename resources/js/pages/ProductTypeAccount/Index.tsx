@@ -47,7 +47,7 @@ interface ProductTypeAccount {
     is_active: boolean;
     created_at: string;
     updated_at: string;
-    productType?: ProductType;
+    product_type?: ProductType;  // Changed from productType to product_type
 }
 
 interface Props {
@@ -226,10 +226,10 @@ export default function ProductTypeAccountIndex({ productTypeAccounts, productTy
                                                 </div>
                                             </TableCell>
                                             <TableCell>
-                                                <Badge variant="outline">{account.productType?.name || 'N/A'}</Badge>
+                                                <Badge variant="outline">{account.product_type?.name || 'N/A'}</Badge>
                                             </TableCell>
                                             <TableCell>
-                                                <Badge variant="secondary">{account.productType?.product?.name || 'N/A'}</Badge>
+                                                <Badge variant="secondary">{account.product_type?.product?.name || 'N/A'}</Badge>
                                             </TableCell>
                                             <TableCell>
                                                 {getStatusBadge(account.is_active)}
