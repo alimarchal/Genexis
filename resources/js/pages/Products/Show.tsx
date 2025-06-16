@@ -35,11 +35,11 @@ export default function ShowProduct({ product }: Props) {
         },
         {
             title: 'Products',
-            href: route('products.index'),
+            href: route('product.index'),
         },
         {
             title: product.name,
-            href: route('products.show', product.id),
+            href: route('product.show', product.id),
         },
     ];
 
@@ -55,7 +55,7 @@ export default function ShowProduct({ product }: Props) {
                 <div className="flex items-center justify-between">
                     <Heading title={product.name} description="View product details" />
                     <Button asChild>
-                        <Link href={route('products.edit', product.id)}>
+                        <Link href={route('product.edit', product.id)}>
                             <Edit className="mr-2 h-4 w-4" />
                             Edit Product
                         </Link>
@@ -177,14 +177,14 @@ export default function ShowProduct({ product }: Props) {
                             </CardHeader>
                             <CardContent className="space-y-3">
                                 <Button asChild className="w-full">
-                                    <Link href={route('products.edit', product.id)}>
+                                    <Link href={route('product.edit', product.id)}>
                                         <Edit className="mr-2 h-4 w-4" />
                                         Edit Product
                                     </Link>
                                 </Button>
 
                                 <Button variant="outline" asChild className="w-full">
-                                    <Link href={route('products.index')}>Back to List</Link>
+                                    <Link href={route('product.index')}>Back to List</Link>
                                 </Button>
                             </CardContent>
                         </Card>

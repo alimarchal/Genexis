@@ -25,7 +25,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
     {
         title: 'Products',
-        href: route('products.index'),
+        href: route('product.index'),
     },
 ];
 
@@ -74,7 +74,7 @@ export default function ProductIndex({ products, filters }: Props) {
 
     const handleSearch = (value: string) => {
         setSearch(value);
-        router.get(route('products.index'), {
+        router.get(route('product.index'), {
             ...buildParams(),
             'filter[name]': value.trim() ? value : undefined
         }, { preserveState: true, replace: true });
@@ -82,14 +82,14 @@ export default function ProductIndex({ products, filters }: Props) {
 
     const handleStatusFilter = (value: string) => {
         setStatusFilter(value);
-        router.get(route('products.index'), {
+        router.get(route('product.index'), {
             ...buildParams(),
             'filter[is_active]': value !== 'all' ? (value === 'active' ? '1' : '0') : undefined
         }, { preserveState: true, replace: true });
     };
 
     const handlePagination = (page: number) => {
-        router.get(route('products.index'), {
+        router.get(route('product.index'), {
             ...buildParams(),
             page
         });
@@ -97,7 +97,7 @@ export default function ProductIndex({ products, filters }: Props) {
 
     const handleDelete = (id: number) => {
         if (confirm('Are you sure you want to delete this product?')) {
-            router.delete(route('products.destroy', id));
+            router.delete(route('product.destroy', id));
         }
     };
 
@@ -147,7 +147,7 @@ export default function ProductIndex({ products, filters }: Props) {
                         </div>
 
                         <Button asChild>
-                            <Link href={route('products.create')}>
+                            <Link href={route('product.create')}>
                                 <Plus className="mr-2 h-4 w-4" />
                                 Add Product
                             </Link>
@@ -200,13 +200,13 @@ export default function ProductIndex({ products, filters }: Props) {
                                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                         <DropdownMenuSeparator />
                                                         <DropdownMenuItem asChild>
-                                                            <Link href={route('products.show', product.id)}>
+                                                            <Link href={route('product.show', product.id)}>
                                                                 <Eye className="mr-2 h-4 w-4" />
                                                                 View
                                                             </Link>
                                                         </DropdownMenuItem>
                                                         <DropdownMenuItem asChild>
-                                                            <Link href={route('products.edit', product.id)}>
+                                                            <Link href={route('product.edit', product.id)}>
                                                                 <Edit className="mr-2 h-4 w-4" />
                                                                 Edit
                                                             </Link>
