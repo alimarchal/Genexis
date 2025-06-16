@@ -28,11 +28,11 @@ export default function EditProduct({ product }: Props) {
         },
         {
             title: 'Products',
-            href: route('products.index'),
+            href: route('product.index'),
         },
         {
             title: 'Edit',
-            href: route('products.edit', product.id),
+            href: route('product.edit', product.id),
         },
     ];
 
@@ -44,7 +44,7 @@ export default function EditProduct({ product }: Props) {
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
-        router.post(route('products.update', product.id), {
+        router.post(route('product.update', product.id), {
             ...data,
             _method: 'PUT',
         });
@@ -97,7 +97,7 @@ export default function EditProduct({ product }: Props) {
                         {/* Action Buttons */}
                         <div className="flex justify-end gap-2">
                             <Button variant="outline" asChild>
-                                <Link href={route('products.index')}>Cancel</Link>
+                                <Link href={route('product.index')}>Cancel</Link>
                             </Button>
                             <Button type="submit" disabled={processing}>
                                 <Save className="mr-2 h-4 w-4" />
