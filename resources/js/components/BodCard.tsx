@@ -22,11 +22,37 @@ interface BodCardProps {
 const BodCard: React.FC<BodCardProps> = ({ boardMember }) => {
     const [isHovered, setIsHovered] = useState(false);
     const [openModal, setOpenModal] = useState(false);
+    const [imageError, setImageError] = useState(false);
 
     const { title, full_name, designation, short_description, full_biography, experience = [], achievements = [], image, is_chairman } = boardMember;
 
     const displayName = title ? `${title} ${full_name}` : full_name;
-    const displayImage = image ? `/storage/${image}` : 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&crop=face';
+
+    // Generate initials from name
+    const getInitials = (fullName: string) => {
+        if (!fullName) return 'NA';
+        return fullName
+            .split(' ')
+            .map((part) => part.charAt(0).toUpperCase())
+            .slice(0, 2)
+            .join('');
+    };
+
+    // Generate dummy avatar URL using DiceBear
+    const getDummyAvatar = (fullName: string) => {
+        if (!fullName) return '';
+        const seed = encodeURIComponent(fullName.toLowerCase().replace(/\s+/g, ''));
+        return `https://api.dicebear.com/7.x/initials/svg?seed=${seed}&backgroundColor=4A7C59&textColor=ffffff`;
+    };
+
+    const initials = getInitials(full_name);
+    const avatarUrl = image ? `/storage/${image}` : getDummyAvatar(full_name);
+    const shouldShowImage = (image && !imageError) || (!image && avatarUrl);
+    const shouldShowInitials = !shouldShowImage || (image && imageError);
+
+    const handleImageError = () => {
+        setImageError(true);
+    };
 
     const truncateText = (text: string, limit: number) => {
         return text && text.length > limit ? text.substring(0, limit) + '...' : text;
@@ -60,17 +86,32 @@ const BodCard: React.FC<BodCardProps> = ({ boardMember }) => {
                                     : 'inset 0 4px 16px rgba(74, 124, 89, 0.2)',
                             }}
                         >
-                            <img
-                                src={displayImage}
-                                alt={displayName}
-                                className="h-32 w-32 transform rounded-full border-4 border-white object-cover shadow-xl transition-all duration-500 hover:scale-110 hover:border-[#F9B912] sm:h-40 sm:w-40 md:h-48 md:w-48"
-                                style={{
-                                    filter: isHovered ? 'brightness(1.1) contrast(1.05)' : 'brightness(1)',
-                                    boxShadow: isHovered
-                                        ? '0 12px 40px rgba(0,0,0,0.2), 0 0 0 3px rgba(249, 185, 18, 0.5)'
-                                        : '0 8px 25px rgba(0,0,0,0.15)',
-                                }}
-                            />
+                            {shouldShowImage && !shouldShowInitials ? (
+                                <img
+                                    src={avatarUrl}
+                                    alt={displayName}
+                                    className="h-32 w-32 transform rounded-full border-4 border-white object-cover shadow-xl transition-all duration-500 hover:scale-110 hover:border-[#F9B912] sm:h-40 sm:w-40 md:h-48 md:w-48"
+                                    style={{
+                                        filter: isHovered ? 'brightness(1.1) contrast(1.05)' : 'brightness(1)',
+                                        boxShadow: isHovered
+                                            ? '0 12px 40px rgba(0,0,0,0.2), 0 0 0 3px rgba(249, 185, 18, 0.5)'
+                                            : '0 8px 25px rgba(0,0,0,0.15)',
+                                    }}
+                                    onError={handleImageError}
+                                />
+                            ) : (
+                                <div
+                                    className="flex h-32 w-32 transform items-center justify-center rounded-full border-4 border-white bg-white/20 text-4xl font-bold text-white shadow-xl transition-all duration-500 hover:scale-110 hover:border-[#F9B912] sm:h-40 sm:w-40 sm:text-5xl md:h-48 md:w-48 md:text-6xl"
+                                    style={{
+                                        filter: isHovered ? 'brightness(1.1) contrast(1.05)' : 'brightness(1)',
+                                        boxShadow: isHovered
+                                            ? '0 12px 40px rgba(0,0,0,0.2), 0 0 0 3px rgba(249, 185, 18, 0.5)'
+                                            : '0 8px 25px rgba(0,0,0,0.15)',
+                                    }}
+                                >
+                                    {initials}
+                                </div>
+                            )}
                         </div>
 
                         {/* Animated Overlay */}
@@ -138,11 +179,18 @@ const BodCard: React.FC<BodCardProps> = ({ boardMember }) => {
                         {/* Modal Header */}
                         <div className="relative bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A] px-6 py-4">
                             <div className="flex items-center space-x-4">
-                                <img
-                                    src={displayImage}
-                                    alt={displayName}
-                                    className="h-16 w-16 rounded-full border-3 border-white object-cover shadow-lg"
-                                />
+                                {shouldShowImage && !shouldShowInitials ? (
+                                    <img
+                                        src={avatarUrl}
+                                        alt={displayName}
+                                        className="h-16 w-16 rounded-full border-3 border-white object-cover shadow-lg"
+                                        onError={handleImageError}
+                                    />
+                                ) : (
+                                    <div className="flex h-16 w-16 items-center justify-center rounded-full border-3 border-white bg-white/20 text-xl font-bold text-white shadow-lg">
+                                        {initials}
+                                    </div>
+                                )}
                                 <div className="text-white">
                                     <div className="flex items-center gap-2">
                                         <h2 className="text-2xl font-bold">{displayName}</h2>

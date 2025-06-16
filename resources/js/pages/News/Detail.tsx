@@ -77,10 +77,10 @@ export default function NewsDetail({ news, relatedNews }: Props) {
         <>
             <Head title={news.title} />
 
-            <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+            <div className="min-h-screen bg-gradient-to-br from-[#e9f7ef] to-[#fff7e6]">
                 {/* Article */}
                 <article className="mx-auto max-w-7xl px-6 py-8">
-                    <div className="overflow-hidden rounded-2xl bg-white shadow-lg">
+                    <div className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-lg">
                         {/* Featured Image */}
                         {news.image_url && (
                             <div className="relative h-64 overflow-hidden md:h-80">
@@ -118,7 +118,7 @@ export default function NewsDetail({ news, relatedNews }: Props) {
 
                             {/* Content */}
                             <div
-                                className="prose prose-lg prose-headings:text-gray-900 prose-p:text-gray-700 prose-p:leading-relaxed prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline max-w-none"
+                                className="prose prose-lg prose-headings:text-gray-900 prose-p:text-gray-700 prose-p:leading-relaxed prose-a:text-[#4A7C59] prose-a:no-underline hover:prose-a:underline max-w-none"
                                 dangerouslySetInnerHTML={{ __html: news.content }}
                             />
 
@@ -128,7 +128,7 @@ export default function NewsDetail({ news, relatedNews }: Props) {
                                     <div className="text-sm text-gray-500">Published on {formatDate(news.published_date)}</div>
                                     <button
                                         onClick={handleShare}
-                                        className="inline-flex items-center gap-2 text-sm font-medium text-gray-600 transition-colors duration-200 hover:text-blue-600"
+                                        className="inline-flex items-center gap-2 text-sm font-medium text-gray-600 transition-colors duration-200 hover:text-[#4A7C59]"
                                     >
                                         <Share2 className="h-4 w-4" />
                                         Share
@@ -147,7 +147,7 @@ export default function NewsDetail({ news, relatedNews }: Props) {
                             {relatedNews.map((item) => (
                                 <div
                                     key={item.id}
-                                    className="group overflow-hidden rounded-xl bg-white shadow-md transition-shadow duration-300 hover:shadow-lg"
+                                    className="group overflow-hidden rounded-xl border border-gray-100 bg-white shadow-lg transition-shadow duration-300 hover:shadow-xl"
                                 >
                                     <div className="p-6">
                                         <div className="mb-3 flex items-center justify-between">
@@ -160,7 +160,7 @@ export default function NewsDetail({ news, relatedNews }: Props) {
                                             <span className="text-xs text-gray-500">{formatDate(item.published_date)}</span>
                                         </div>
 
-                                        <h3 className="mb-2 text-lg font-semibold text-gray-900 transition-colors duration-200 group-hover:text-blue-600">
+                                        <h3 className="mb-2 text-lg font-semibold text-gray-900 transition-colors duration-200 group-hover:text-[#4A7C59]">
                                             <Link href={`/news/${item.slug}`} className="hover:underline">
                                                 {item.title}
                                             </Link>
@@ -170,11 +170,11 @@ export default function NewsDetail({ news, relatedNews }: Props) {
 
                                         <Link
                                             href={`/news/${item.slug}`}
-                                            className="inline-flex items-center text-sm font-medium text-blue-600 transition-colors duration-200 hover:text-blue-800"
+                                            className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A] px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:from-[#3d6b4a] hover:to-[#5a8a69]"
                                         >
                                             Read More
                                             <svg
-                                                className="ml-1 h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
+                                                className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
                                                 fill="none"
                                                 stroke="currentColor"
                                                 viewBox="0 0 24 24"

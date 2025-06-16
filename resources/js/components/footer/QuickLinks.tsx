@@ -1,3 +1,4 @@
+// QuickLinks.tsx
 import { Link } from '@inertiajs/react';
 import React from 'react';
 
@@ -8,37 +9,29 @@ interface QuickLinkItem {
 }
 
 const quickLinkItems: QuickLinkItem[] = [
-    { label: 'About Us', href: route('about.board-directors') }, // Assuming 'About Us' can map to board of directors or a general about page if you create one.
+    { label: 'About Us', href: route('about.board-directors') },
     { label: 'Branch Network', href: route('about.branch-network') },
-    { label: 'News & Update', href: route('news') },
-    { label: 'Email Login', href: 'https://www.bankajk.com:2096', isExternal: true }, // Opens in new window
+    { label: 'News & Updates', href: route('news') },
     { label: 'Downloads', href: route('public-downloads') },
-    { label: 'Contact', href: route('contact') },
+    { label: 'Careers', href: route('public-careers') },
 ];
 
 const QuickLinks: React.FC = () => {
-    const handleExternalLink = (url: string) => {
-        window.open(url, 'EmailLogin', 'width=1200,height=800,scrollbars=yes,resizable=yes,status=yes,location=yes,menubar=yes,toolbar=yes');
-    };
-
     return (
-        <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Quick Links</h3>
-            <ul className="space-y-2 text-sm">
+        <div className="space-y-6">
+            <h3 className="inline-block border-b border-[#F9B912] pb-2 text-xl font-semibold text-white">Quick Links</h3>
+            <ul className="space-y-3">
                 {quickLinkItems.map((item, i) => (
                     <li key={i}>
                         {item.isExternal ? (
                             <button
                                 onClick={() => handleExternalLink(item.href)}
-                                className="relative inline-block after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-0 after:bg-[#F9B912] after:transition-all after:duration-300 after:content-[''] hover:text-[#F9B912] hover:after:w-full text-left"
+                                className="text-sm text-gray-200 transition-colors duration-200 hover:text-[#F9B912]"
                             >
                                 {item.label}
                             </button>
                         ) : (
-                            <Link
-                                href={item.href}
-                                className="relative inline-block after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-0 after:bg-[#F9B912] after:transition-all after:duration-300 after:content-[''] hover:text-[#F9B912] hover:after:w-full"
-                            >
+                            <Link href={item.href} className="text-sm text-gray-200 transition-colors duration-200 hover:text-[#F9B912]">
                                 {item.label}
                             </Link>
                         )}

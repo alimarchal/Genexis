@@ -1,6 +1,6 @@
 import WebsiteLayout from '@/layouts/WebsiteLayout';
 import { Head, Link } from '@inertiajs/react';
-import { Calendar, Eye, Star, Tag } from 'lucide-react';
+import { Calendar, Eye, Newspaper, Star, Tag } from 'lucide-react';
 import React from 'react';
 
 interface NewsAnnouncement {
@@ -61,21 +61,21 @@ export default function NewsIndex({ newsAnnouncements }: Props) {
         <>
             <Head title="News & Announcements" />
 
-            <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-                {/* Hero Section */}
-                <div className="bg-gradient-to-r from-blue-900 via-blue-800 to-indigo-900 text-white">
-                    <div className="mx-auto max-w-7xl px-6 py-16">
-                        <div className="text-center">
-                            <h1 className="mb-4 text-4xl font-bold tracking-tight sm:text-5xl">News & Announcements</h1>
-                            <p className="mx-auto max-w-2xl text-xl text-blue-100">
-                                Stay updated with the latest news, announcements, and updates from Bank of Azad Jammu & Kashmir
-                            </p>
+            <div className="min-h-screen bg-gradient-to-br from-[#e9f7ef] to-[#fff7e6]">
+                <div className="mx-auto max-w-7xl px-6 py-8">
+                    {/* Hero Section */}
+                    <div className="mb-12 text-center">
+                        <div className="mb-6 flex justify-center">
+                            <div className="rounded-full bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A] p-4">
+                                <Newspaper className="h-12 w-12 text-white" />
+                            </div>
                         </div>
+                        <h1 className="mb-4 text-4xl font-bold text-gray-900">News & Announcements</h1>
+                        <p className="mx-auto mb-8 max-w-3xl text-xl text-gray-600">
+                            Stay updated with the latest news, announcements, and updates from Bank of Azad Jammu & Kashmir
+                        </p>
                     </div>
-                </div>
 
-                {/* News Grid */}
-                <div className="mx-auto max-w-7xl px-6 py-12">
                     {newsAnnouncements.data.length > 0 ? (
                         <>
                             <div className="mb-8">
@@ -88,7 +88,7 @@ export default function NewsIndex({ newsAnnouncements }: Props) {
                                 {newsAnnouncements.data.map((news) => (
                                     <div
                                         key={news.id}
-                                        className="group relative overflow-hidden rounded-xl bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+                                        className="group relative overflow-hidden rounded-xl border border-gray-100 bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
                                     >
                                         {/* Featured Badge */}
                                         {news.is_featured && (
@@ -101,7 +101,7 @@ export default function NewsIndex({ newsAnnouncements }: Props) {
                                         )}
 
                                         {/* Image */}
-                                        <div className="relative h-48 overflow-hidden bg-gradient-to-br from-blue-100 to-indigo-100">
+                                        <div className="relative h-48 overflow-hidden bg-gradient-to-br from-[#e9f7ef] to-[#f0f9f3]">
                                             {news.image_url ? (
                                                 <img
                                                     src={news.image_url}
@@ -116,7 +116,7 @@ export default function NewsIndex({ newsAnnouncements }: Props) {
                                                     </div>
                                                 </div>
                                             )}
-                                            <div className="absolute inset-0 bg-black/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                                            <div className="absolute inset-0 bg-black/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                                         </div>
 
                                         {/* Content */}
@@ -136,7 +136,7 @@ export default function NewsIndex({ newsAnnouncements }: Props) {
                                             </div>
 
                                             {/* Title */}
-                                            <h3 className="mb-3 text-lg font-semibold text-gray-900 transition-colors duration-200 group-hover:text-blue-600">
+                                            <h3 className="mb-3 text-lg font-semibold text-gray-900 transition-colors duration-200 group-hover:text-[#4A7C59]">
                                                 <Link href={`/news/${news.slug}`} className="hover:underline">
                                                     {news.title}
                                                 </Link>
@@ -148,11 +148,11 @@ export default function NewsIndex({ newsAnnouncements }: Props) {
                                             {/* Read More Link */}
                                             <Link
                                                 href={`/news/${news.slug}`}
-                                                className="inline-flex items-center text-sm font-medium text-blue-600 transition-colors duration-200 hover:text-blue-800"
+                                                className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A] px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:from-[#3d6b4a] hover:to-[#5a8a69] hover:shadow-lg"
                                             >
                                                 Read More
                                                 <svg
-                                                    className="ml-1 h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
+                                                    className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
                                                     fill="none"
                                                     stroke="currentColor"
                                                     viewBox="0 0 24 24"
@@ -176,7 +176,7 @@ export default function NewsIndex({ newsAnnouncements }: Props) {
                                                         href={link.url}
                                                         className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors duration-200 ${
                                                             link.active
-                                                                ? 'bg-blue-600 text-white'
+                                                                ? 'bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A] text-white'
                                                                 : 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
                                                         }`}
                                                         dangerouslySetInnerHTML={{ __html: link.label }}
@@ -195,13 +195,40 @@ export default function NewsIndex({ newsAnnouncements }: Props) {
                         </>
                     ) : (
                         <div className="py-16 text-center">
-                            <div className="mx-auto max-w-sm">
+                            <div className="mx-auto max-w-sm rounded-xl border border-gray-100 bg-white p-8 shadow-lg">
                                 <Eye className="mx-auto mb-4 h-12 w-12 text-gray-400" />
                                 <h3 className="mb-2 text-lg font-medium text-gray-900">No News Available</h3>
                                 <p className="text-gray-600">There are currently no news announcements to display.</p>
                             </div>
                         </div>
                     )}
+
+                    {/* Information Section */}
+                    <div className="mt-12 rounded-xl border border-gray-100 bg-white p-8 shadow-lg">
+                        <h3 className="mb-4 text-xl font-semibold text-[#4A7C59]">About News & Announcements</h3>
+                        <div className="grid gap-6 md:grid-cols-2">
+                            <div>
+                                <h4 className="mb-2 font-medium text-gray-900">Stay Informed</h4>
+                                <ul className="space-y-1 text-sm text-gray-600">
+                                    <li>• Latest banking updates and policies</li>
+                                    <li>• Important announcements and alerts</li>
+                                    <li>• New services and product launches</li>
+                                    <li>• Featured news for priority updates</li>
+                                    <li>• Regular updates from management</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 className="mb-2 font-medium text-gray-900">Categories</h4>
+                                <ul className="space-y-1 text-sm text-gray-600">
+                                    <li>• Banking - Core banking services</li>
+                                    <li>• Announcements - Official statements</li>
+                                    <li>• Updates - System and service updates</li>
+                                    <li>• Alerts - Important notifications</li>
+                                    <li>• Promotions - Special offers and campaigns</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </>

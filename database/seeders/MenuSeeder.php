@@ -22,7 +22,7 @@ class MenuSeeder extends Seeder
                 'is_active' => true,
             ],
             [
-                'title' => 'About Us',
+                'title' => 'About',
                 'slug' => 'about-us',
                 'route_name' => 'about.index',
                 'sort_order' => 2,
@@ -177,7 +177,7 @@ class MenuSeeder extends Seeder
                 ],
             ],
             [
-                'title' => 'Rates & Charges',
+                'title' => 'Rates',
                 'slug' => 'rates-charges',
                 'url' => '#',
                 'sort_order' => 6,
@@ -197,13 +197,42 @@ class MenuSeeder extends Seeder
                     ],
                 ],
             ],
+             [
+                'title' => 'Resources',
+                'slug' => 'resources',
+                'url' => '#',
+                'sort_order' => 7,
+                'is_active' => true,
+                'children' => [
+                     [
+                        'title' => 'News & Updates',
+                        'slug' => 'news-updates',
+                        'route_name' => 'news',
+                        'sort_order' => 1,
+                    ],
+                     [
+                        'title' => 'Careers',
+                        'slug' => 'careers',
+                        'route_name' => 'public-careers',
+                        'sort_order' => 2,
+                    ],
+                    [
+                        'title' => 'Downloads',
+                        'slug' => 'downloads',
+                        'route_name' => 'public-downloads',
+                        'sort_order' => 3,
+                    ],
+                ],
+            ],
             [
                 'title' => 'Contact',
                 'slug' => 'contact',
                 'route_name' => 'contact',
-                'sort_order' => 7,
+                'sort_order' => 8,
                 'is_active' => true,
             ],
+
+
         ];
 
         $this->createMenuItems($menus);

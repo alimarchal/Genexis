@@ -58,11 +58,7 @@ export default function Create() {
 
             <div className="space-y-6">
                 <div className="flex items-center justify-between">
-                    <Heading
-                        title="Create Career"
-                        description="Add a new job posting to the career opportunities"
-                        breadcrumbs={breadcrumbs}
-                    />
+                    <Heading title="Create Career" description="Add a new job posting to the career opportunities" breadcrumbs={breadcrumbs} />
                     <Link href={route('careers.index')}>
                         <Button variant="outline">
                             <ArrowLeft className="mr-2 h-4 w-4" />
@@ -131,9 +127,9 @@ export default function Create() {
                                             onChange={handleFileChange}
                                             className={errors.document ? 'border-red-500' : ''}
                                         />
-                                        <Upload className="h-4 w-4 text-muted-foreground" />
+                                        <Upload className="text-muted-foreground h-4 w-4" />
                                     </div>
-                                    <p className="text-sm text-muted-foreground">
+                                    <p className="text-muted-foreground text-sm">
                                         Optional. Upload a PDF document with detailed job description (max 10MB)
                                     </p>
                                     <InputError message={errors.document} />
@@ -190,11 +186,7 @@ export default function Create() {
                                 </div>
 
                                 <div className="flex items-center space-x-2">
-                                    <Switch
-                                        id="is_active"
-                                        checked={data.is_active}
-                                        onCheckedChange={(checked) => setData('is_active', checked)}
-                                    />
+                                    <Switch id="is_active" checked={data.is_active} onCheckedChange={(checked) => setData('is_active', checked)} />
                                     <Label htmlFor="is_active">Active</Label>
                                 </div>
                             </div>

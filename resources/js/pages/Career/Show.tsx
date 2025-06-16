@@ -81,11 +81,7 @@ export default function Show({ career }: Props) {
 
             <div className="space-y-6">
                 <div className="flex items-center justify-between">
-                    <Heading
-                        title="Career Details"
-                        description={career.title}
-                        breadcrumbs={breadcrumbs}
-                    />
+                    <Heading title="Career Details" description={career.title} breadcrumbs={breadcrumbs} />
                     <div className="flex gap-2">
                         {career.document_url && (
                             <Link href={route('careers.admin-download', career.id)}>
@@ -111,17 +107,17 @@ export default function Show({ career }: Props) {
                 </div>
 
                 <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-                    <div className="lg:col-span-2 space-y-6">
+                    <div className="space-y-6 lg:col-span-2">
                         <Card>
                             <CardHeader>
                                 <div className="flex items-start justify-between">
                                     <div className="flex items-center gap-3">
-                                        <div className="rounded-lg bg-primary/10 p-2">
-                                            <Briefcase className="h-6 w-6 text-primary" />
+                                        <div className="bg-primary/10 rounded-lg p-2">
+                                            <Briefcase className="text-primary h-6 w-6" />
                                         </div>
                                         <div>
                                             <CardTitle className="text-2xl">{career.title}</CardTitle>
-                                            <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                                            <div className="text-muted-foreground flex items-center gap-4 text-sm">
                                                 <div className="flex items-center gap-1">
                                                     <MapPin className="h-3 w-3" />
                                                     {career.location}
@@ -138,9 +134,7 @@ export default function Show({ career }: Props) {
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-2">
-                                        {career.is_featured && (
-                                            <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-                                        )}
+                                        {career.is_featured && <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />}
                                         <Badge
                                             variant={career.is_active ? 'default' : 'secondary'}
                                             className={isExpired(career.closing_date) ? 'bg-red-100 text-red-800' : ''}
@@ -152,44 +146,36 @@ export default function Show({ career }: Props) {
                             </CardHeader>
                             <CardContent className="space-y-6">
                                 <div>
-                                    <h3 className="text-lg font-semibold mb-3">Job Description</h3>
+                                    <h3 className="mb-3 text-lg font-semibold">Job Description</h3>
                                     <div className="prose max-w-none">
-                                        <p className="whitespace-pre-wrap text-sm leading-relaxed">
-                                            {career.description}
-                                        </p>
+                                        <p className="text-sm leading-relaxed whitespace-pre-wrap">{career.description}</p>
                                     </div>
                                 </div>
 
                                 <div>
-                                    <h3 className="text-lg font-semibold mb-3">Requirements</h3>
+                                    <h3 className="mb-3 text-lg font-semibold">Requirements</h3>
                                     <div className="prose max-w-none">
-                                        <p className="whitespace-pre-wrap text-sm leading-relaxed">
-                                            {career.requirements}
-                                        </p>
+                                        <p className="text-sm leading-relaxed whitespace-pre-wrap">{career.requirements}</p>
                                     </div>
                                 </div>
 
                                 {career.benefits && (
                                     <div>
-                                        <h3 className="text-lg font-semibold mb-3">Benefits & Compensation</h3>
+                                        <h3 className="mb-3 text-lg font-semibold">Benefits & Compensation</h3>
                                         <div className="prose max-w-none">
-                                            <p className="whitespace-pre-wrap text-sm leading-relaxed">
-                                                {career.benefits}
-                                            </p>
+                                            <p className="text-sm leading-relaxed whitespace-pre-wrap">{career.benefits}</p>
                                         </div>
                                     </div>
                                 )}
 
                                 {career.document_url && (
                                     <div>
-                                        <h3 className="text-lg font-semibold mb-3">Additional Documents</h3>
+                                        <h3 className="mb-3 text-lg font-semibold">Additional Documents</h3>
                                         <div className="flex items-center gap-3 rounded-lg border p-4">
                                             <FileText className="h-8 w-8 text-red-600" />
                                             <div className="flex-1">
                                                 <div className="font-medium">Job Description Document</div>
-                                                <div className="text-sm text-muted-foreground">
-                                                    PDF document with detailed information
-                                                </div>
+                                                <div className="text-muted-foreground text-sm">PDF document with detailed information</div>
                                             </div>
                                             <Link href={route('careers.admin-download', career.id)}>
                                                 <Button variant="outline" size="sm">
@@ -212,14 +198,12 @@ export default function Show({ career }: Props) {
                             <CardContent className="space-y-4">
                                 <div className="grid grid-cols-2 gap-4">
                                     <div className="text-center">
-                                        <div className="text-2xl font-bold text-primary">{career.views_count}</div>
-                                        <div className="text-xs text-muted-foreground">Total Views</div>
+                                        <div className="text-primary text-2xl font-bold">{career.views_count}</div>
+                                        <div className="text-muted-foreground text-xs">Total Views</div>
                                     </div>
                                     <div className="text-center">
-                                        <div className="text-2xl font-bold text-primary">
-                                            {career.is_featured ? '★' : '☆'}
-                                        </div>
-                                        <div className="text-xs text-muted-foreground">Featured</div>
+                                        <div className="text-primary text-2xl font-bold">{career.is_featured ? '★' : '☆'}</div>
+                                        <div className="text-muted-foreground text-xs">Featured</div>
                                     </div>
                                 </div>
                             </CardContent>
@@ -232,9 +216,7 @@ export default function Show({ career }: Props) {
                             <CardContent className="space-y-4">
                                 <div className="space-y-2">
                                     <div className="text-sm font-medium">Status</div>
-                                    <Badge variant={career.is_active ? 'default' : 'secondary'}>
-                                        {career.status}
-                                    </Badge>
+                                    <Badge variant={career.is_active ? 'default' : 'secondary'}>{career.status}</Badge>
                                 </div>
 
                                 <div className="space-y-2">
@@ -267,16 +249,12 @@ export default function Show({ career }: Props) {
 
                                 <div className="space-y-2">
                                     <div className="text-sm font-medium">Created</div>
-                                    <div className="text-sm text-muted-foreground">
-                                        {formatDateTime(career.created_at)}
-                                    </div>
+                                    <div className="text-muted-foreground text-sm">{formatDateTime(career.created_at)}</div>
                                 </div>
 
                                 <div className="space-y-2">
                                     <div className="text-sm font-medium">Last Updated</div>
-                                    <div className="text-sm text-muted-foreground">
-                                        {formatDateTime(career.updated_at)}
-                                    </div>
+                                    <div className="text-muted-foreground text-sm">{formatDateTime(career.updated_at)}</div>
                                 </div>
                             </CardContent>
                         </Card>

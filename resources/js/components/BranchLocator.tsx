@@ -1,6 +1,6 @@
-import { CheckCircle, Clock, Globe, Mail, MapPin, Navigation, Phone, Search, XCircle } from 'lucide-react';
+import { CheckCircle, Clock, FileSpreadsheet, FileText, Globe, Mail, MapPin, Navigation, Phone, Search, XCircle } from 'lucide-react';
 import React, { useMemo, useState } from 'react';
-import InteractiveMap from './InteractiveMap';
+
 
 interface Branch {
     id: number;
@@ -51,6 +51,8 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedBranch, setSelectedBranch] = useState<number | null>(null);
     const [branchTypeFilter, setBranchTypeFilter] = useState('all');
+    const [isDownloading, setIsDownloading] = useState(false);
+
 
     // Get unique cities/districts for filtering
     const cities = useMemo(() => [...new Set(branches.map((b) => b.city))].sort(), [branches]);
@@ -117,36 +119,212 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
         }
     };
 
+    // Download functions
+    const downloadExcel = async () => {
+        setIsDownloading(true);
+        try {
+            // Dynamic import - only loads when user clicks download
+            const ExcelJS = await import('exceljs');
+
+            const workbook = new ExcelJS.Workbook();
+            const worksheet = workbook.addWorksheet('Branches');
+
+            // Define columns with headers and widths
+            worksheet.columns = [
+                { header: 'Branch Code', key: 'code', width: 12 },
+                { header: 'Branch Name', key: 'name', width: 30 },
+                { header: 'Type', key: 'type', width: 15 },
+                { header: 'Address', key: 'address', width: 50 },
+                { header: 'City', key: 'city', width: 20 },
+                { header: 'Region', key: 'region', width: 15 },
+                { header: 'Phone', key: 'phone', width: 18 },
+                { header: 'Email', key: 'email', width: 30 },
+                { header: 'Status', key: 'status', width: 12 },
+                { header: 'Operating Hours', key: 'hours', width: 25 },
+                { header: 'Has ATM', key: 'atm', width: 10 },
+                { header: 'Services', key: 'services', width: 40 },
+                { header: 'Facilities', key: 'facilities', width: 30 }
+            ];
+
+            // Add data rows
+            filteredBranches.forEach(branch => {
+                worksheet.addRow({
+                    code: branch.code,
+                    name: branch.name,
+                    type: branch.type,
+                    address: branch.full_address || `${branch.address}, ${branch.city}`,
+                    city: branch.city,
+                    region: branch.region,
+                    phone: branch.phone,
+                    email: branch.email,
+                    status: branch.operating_status,
+                    hours: branch.today_hours || 'Mon-Thu: 9AM-5PM, Fri: 9AM-12:30PM',
+                    atm: branch.has_atm ? 'Yes' : 'No',
+                    services: branch.services.join(', '),
+                    facilities: branch.facilities.join(', ')
+                });
+            });
+
+            // Style the header row
+            const headerRow = worksheet.getRow(1);
+            headerRow.eachCell((cell) => {
+                cell.font = { bold: true, color: { argb: 'FFFFFFFF' } };
+                cell.fill = {
+                    type: 'pattern',
+                    pattern: 'solid',
+                    fgColor: { argb: 'FF4A7C59' }
+                };
+                cell.alignment = { vertical: 'middle', horizontal: 'center' };
+            });
+
+            // Generate buffer and download
+            const buffer = await workbook.xlsx.writeBuffer();
+            const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `BAJK_Branches_${new Date().toISOString().split('T')[0]}.xlsx`;
+            link.click();
+            window.URL.revokeObjectURL(url);
+        } catch (error) {
+            console.error('Error generating Excel file:', error);
+            alert('Failed to generate Excel file. Please try again.');
+        } finally {
+            setIsDownloading(false);
+        }
+    };
+
+    const downloadPDF = () => {
+        // Create a printable version of the data
+        const printContent = `
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>BAJK Branch Network</title>
+                <style>
+                    body { font-family: Arial, sans-serif; margin: 20px; }
+                    .header { text-align: center; margin-bottom: 30px; }
+                    .logo { font-size: 24px; font-weight: bold; color: #4A7C59; margin-bottom: 10px; }
+                    .subtitle { color: #666; margin-bottom: 20px; }
+                    .stats { background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+                    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+                    .stat-item { text-align: center; }
+                    .stat-number { font-size: 24px; font-weight: bold; color: #4A7C59; }
+                    .stat-label { font-size: 12px; color: #666; }
+                    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+                    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; font-size: 11px; }
+                    th { background-color: #4A7C59; color: white; font-weight: bold; }
+                    tr:nth-child(even) { background-color: #f9f9f9; }
+                    .branch-code { font-weight: bold; color: #4A7C59; }
+                    .status-open { color: #28a745; font-weight: bold; }
+                    .status-closed { color: #dc3545; font-weight: bold; }
+                    @media print {
+                        body { margin: 0; }
+                        .no-print { display: none; }
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="header">
+                    <div class="logo">Bank of Azad Jammu & Kashmir</div>
+                    <div class="subtitle">Branch Network Directory</div>
+                    <div style="font-size: 12px; color: #888;">Generated on: ${new Date().toLocaleDateString()}</div>
+                </div>
+                
+                <div class="stats">
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-number">${filteredBranches.length}</div>
+                            <div class="stat-label">Filtered Branches</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">${filteredBranches.filter(b => b.is_open).length}</div>
+                            <div class="stat-label">Open Now</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">${filteredBranches.filter(b => b.has_atm).length}</div>
+                            <div class="stat-label">With ATM</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">${[...new Set(filteredBranches.map(b => b.city))].length}</div>
+                            <div class="stat-label">Cities</div>
+                        </div>
+                    </div>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Branch Name</th>
+                            <th>Type</th>
+                            <th>Address</th>
+                            <th>Phone</th>
+                            <th>Status</th>
+                            <th>ATM</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${filteredBranches.map(branch => `
+                            <tr>
+                                <td class="branch-code">${branch.code}</td>
+                                <td>${branch.name}</td>
+                                <td>${branch.type.replace(/[-_]/g, ' ')}</td>
+                                <td>${branch.full_address || `${branch.address}, ${branch.city}`}</td>
+                                <td>${branch.phone}</td>
+                                <td class="${branch.is_open ? 'status-open' : 'status-closed'}">${branch.operating_status}</td>
+                                <td>${branch.has_atm ? '✓' : '✗'}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            </body>
+            </html>
+        `;
+
+        const printWindow = window.open('', '_blank');
+        if (printWindow) {
+            printWindow.document.write(printContent);
+            printWindow.document.close();
+
+            // Wait for content to load then trigger print
+            setTimeout(() => {
+                printWindow.print();
+                // printWindow.close();
+            }, 250);
+        }
+    };
+
     // Fallback data if no branches are provided
     const displayBranches =
         filteredBranches.length > 0
             ? filteredBranches
             : [
-                  {
-                      id: 1,
-                      name: 'Head Office',
-                      code: 'HO001',
-                      type: 'Head Office',
-                      address: 'Bank Square, Chattar Domel',
-                      city: 'Muzaffarabad',
-                      region: 'Muzaffarabad',
-                      full_address: 'Bank Square, Chattar Domel, Muzaffarabad, AJK',
-                      latitude: 34.3587,
-                      longitude: 73.4713,
-                      phone: '+92-5822-924244',
-                      email: 'info@bankajk.com',
-                      fax: '+92-5822-924245',
-                      services: ['All Banking Services', 'Corporate Banking', 'Foreign Exchange'],
-                      facilities: ['ATM', 'Parking', 'Wheelchair Access'],
-                      operating_hours: {},
-                      is_24_hours: false,
-                      is_open: true,
-                      operating_status: 'Open Now',
-                      today_hours: '9:00 AM - 5:00 PM',
-                      google_maps_url: 'https://www.google.com/maps?q=34.3587,73.4713',
-                      has_atm: true,
-                  },
-              ];
+                {
+                    id: 1,
+                    name: 'Head Office',
+                    code: 'HO001',
+                    type: 'Head Office',
+                    address: 'Bank Square, Chattar Domel',
+                    city: 'Muzaffarabad',
+                    region: 'Muzaffarabad',
+                    full_address: 'Bank Square, Chattar Domel, Muzaffarabad, AJK',
+                    latitude: 34.3587,
+                    longitude: 73.4713,
+                    phone: '+92-5822-924244',
+                    email: 'info@bankajk.com',
+                    fax: '+92-5822-924245',
+                    services: ['All Banking Services', 'Corporate Banking', 'Foreign Exchange'],
+                    facilities: ['ATM', 'Parking', 'Wheelchair Access'],
+                    operating_hours: {},
+                    is_24_hours: false,
+                    is_open: true,
+                    operating_status: 'Open Now',
+                    today_hours: '9:00 AM - 5:00 PM',
+                    google_maps_url: 'https://www.google.com/maps?q=34.3587,73.4713',
+                    has_atm: true,
+                },
+            ];
 
     const displayStats = branches.length > 0 ? stats : { totalBranches: 87, atmLocations: 150, citiesCovered: 25, openNow: 65 };
 
@@ -231,10 +409,34 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
                         </div>
                     </div>
 
-                    {/* Results Count */}
-                    <div className="mt-4 text-sm text-gray-600">
-                        Showing {displayBranches.length} of {branches.length || 87} branches
-                        {searchTerm && <span className="ml-2 font-medium text-[#4A7C59]">for "{searchTerm}"</span>}
+                    {/* Results Count and Download Options */}
+                    <div className="mt-4 flex items-center justify-between">
+                        <div className="text-sm text-gray-600">
+                            Showing {displayBranches.length} of {branches.length || 87} branches
+                            {searchTerm && <span className="ml-2 font-medium text-[#4A7C59]">for "{searchTerm}"</span>}
+                        </div>
+
+                        {/* Download Buttons */}
+                        <div className="flex items-center gap-3">
+                            <span className="text-sm text-gray-600">Download:</span>
+                            <button
+                                onClick={downloadExcel}
+                                disabled={isDownloading}
+                                className="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-50"
+                                title="Download as Excel"
+                            >
+                                <FileSpreadsheet className="h-4 w-4" />
+                                {isDownloading ? 'Generating...' : 'Excel'}
+                            </button>
+                            <button
+                                onClick={downloadPDF}
+                                className="flex items-center gap-2 rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+                                title="Download as PDF"
+                            >
+                                <FileText className="h-4 w-4" />
+                                PDF
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -244,11 +446,10 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
                         {displayBranches.map((branch) => (
                             <div
                                 key={branch.id}
-                                className={`group cursor-pointer rounded-2xl border border-white/20 bg-white/90 p-6 shadow-lg backdrop-blur-sm transition-all duration-300 ${
-                                    selectedBranch === branch.id
-                                        ? 'scale-[1.02] shadow-2xl ring-2 ring-[#4A7C59]/30'
-                                        : 'hover:scale-[1.01] hover:shadow-xl'
-                                }`}
+                                className={`group cursor-pointer rounded-2xl border border-white/20 bg-white/90 p-6 shadow-lg backdrop-blur-sm transition-all duration-300 ${selectedBranch === branch.id
+                                    ? 'scale-[1.02] shadow-2xl ring-2 ring-[#4A7C59]/30'
+                                    : 'hover:scale-[1.01] hover:shadow-xl'
+                                    }`}
                                 onClick={() => setSelectedBranch(selectedBranch === branch.id ? null : branch.id)}
                             >
                                 {/* Branch Header */}
@@ -261,14 +462,16 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
                                                     {branch.name}
                                                 </h3>
                                             </div>
+                                            {branch.code && (
+                                                <span className="rounded-full bg-[#0d4a12] px-3 py-1 text-xs font-medium text-white">
+                                                    Branch Code: {branch.code}
+                                                </span>
+                                            )}
+
                                             <span className={`rounded-full px-3 py-1 text-xs font-medium ${getBranchTypeColor(branch.type)}`}>
                                                 {branch.type.replace(/[-_]/g, ' ').toUpperCase()}
                                             </span>
-                                            {branch.code && (
-                                                <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700">
-                                                    {branch.code}
-                                                </span>
-                                            )}
+
                                         </div>
 
                                         {/* Status & ATM */}
@@ -283,11 +486,6 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
                                                     {branch.operating_status}
                                                 </span>
                                             </div>
-                                            {branch.has_atm && (
-                                                <span className="rounded-full bg-green-500 px-3 py-1 text-xs font-medium text-white">
-                                                    💳 ATM Available
-                                                </span>
-                                            )}
                                         </div>
 
                                         {/* Contact Information */}
@@ -441,29 +639,6 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
                                     <span className="text-xl font-bold text-purple-600">{displayStats.citiesCovered}</span>
                                 </div>
                             </div>
-                        </div>
-
-                        {/* Interactive Map */}
-                        <div className="overflow-hidden rounded-2xl border border-white/20 bg-white/90 shadow-lg backdrop-blur-sm">
-                            <div className="border-b border-gray-200 bg-gradient-to-r from-blue-50 to-indigo-50 p-4">
-                                <h3 className="flex items-center gap-2 text-lg font-semibold text-gray-900">
-                                    🗺️ Interactive Map
-                                    <span className="text-sm font-normal text-gray-600">
-                                        ({filteredBranches.filter((b) => b.latitude && b.longitude).length} locations)
-                                    </span>
-                                </h3>
-                                <p className="mt-1 text-sm text-gray-600">Click on any branch marker to view details</p>
-                            </div>
-                            <InteractiveMap
-                                branches={filteredBranches}
-                                selectedRegion={selectedRegion !== 'all' ? regions.find((r) => r.id.toString() === selectedRegion)?.name : undefined}
-                                selectedDistrict={
-                                    selectedDistrict !== 'all'
-                                        ? availableDistricts.find((d) => d.id.toString() === selectedDistrict)?.name
-                                        : undefined
-                                }
-                                selectedBranchType={branchTypeFilter !== 'all' ? branchTypeFilter : undefined}
-                            />
                         </div>
 
                         {/* Help Card */}

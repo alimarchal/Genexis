@@ -1,30 +1,44 @@
-import { usePage } from '@inertiajs/react';
 import React from 'react';
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaTwitter, FaYoutube } from 'react-icons/fa';
-import logo from '../../../../public/logo.png';
 
-const LogoSection: React.FC = () => {
-    // grab the shared prop
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { bankBranchesCount } = usePage<any>().props;
+interface LogoSectionProps {
+    bankBranchesCount: number;
+    socialLinks: {
+        facebook: string;
+        twitter: string;
+        instagram: string;
+        linkedin: string;
+        youtube: string;
+    };
+}
 
+const LogoSection: React.FC<LogoSectionProps> = ({ bankBranchesCount, socialLinks }) => {
     return (
-        <div className="space-y-4">
-            <img src={logo} alt="BAJK Logo" className="h-16 w-auto" />
-            <p className="text-sm leading-relaxed opacity-90">
-                A growing Bank in Azad Jammu & Kashmir with <strong>{bankBranchesCount}</strong> branches, mobilizing savings, promoting economic
-                development, and offering tailored banking solutions for equal access to resources.
+        <div className="space-y-6">
+            <div>
+                <img src="/logo.png" alt="BAJK Logo" className="h-16 w-auto" />
+            </div>
+            <p className="max-w-sm text-sm leading-relaxed text-gray-100">
+                A growing Bank in Azad Jammu & Kashmir with <strong className="text-[#F9B912]">{bankBranchesCount}</strong> branches, mobilizing
+                savings, promoting economic development, and offering tailored banking solutions for equal access to resources.
             </p>
-            <div className="flex space-x-4 text-lg">
+            <div className="flex space-x-4">
                 {[
-                    { Icon: FaFacebookF, label: 'Facebook' },
-                    { Icon: FaTwitter, label: 'Twitter' },
-                    { Icon: FaInstagram, label: 'Instagram' },
-                    { Icon: FaLinkedinIn, label: 'LinkedIn' },
-                    { Icon: FaYoutube, label: 'YouTube' },
-                ].map(({ Icon, label }, i) => (
-                    <a key={i} href="#" aria-label={label} className="text-white transition-colors hover:text-[#F9B912]">
-                        <Icon />
+                    { Icon: FaFacebookF, label: 'Facebook', href: socialLinks.facebook },
+                    { Icon: FaTwitter, label: 'Twitter', href: socialLinks.twitter },
+                    { Icon: FaInstagram, label: 'Instagram', href: socialLinks.instagram },
+                    { Icon: FaLinkedinIn, label: 'LinkedIn', href: socialLinks.linkedin },
+                    { Icon: FaYoutube, label: 'YouTube', href: socialLinks.youtube },
+                ].map(({ Icon, label, href }, i) => (
+                    <a
+                        key={i}
+                        href={href}
+                        aria-label={label}
+                        target={href !== '#' ? '_blank' : undefined}
+                        rel={href !== '#' ? 'noopener noreferrer' : undefined}
+                        className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition-all duration-200 hover:bg-[#F9B912] hover:text-[#195f1f]"
+                    >
+                        <Icon className="h-4 w-4" />
                     </a>
                 ))}
             </div>
