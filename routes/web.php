@@ -35,15 +35,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
 
-
     Route::resource('carousels', CarouselController::class);
     Route::resource('bank-services', BankServiceController::class);
     Route::resource('news-announcements', NewsAnnouncementController::class);
     Route::resource('managments', ManagmentController::class);
     Route::resource('board-of-directors', controller: BoardOfDirectorController::class);
-
-
-
 
     Route::resource('financial-reports', FinancialReportController::class);
     Route::resource('annual-reports', AnnualReportController::class);
@@ -65,32 +61,29 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('schedule-of-charges', ScheduleOfChargeController::class);
     Route::resource('downloads', DownloadController::class);
 
-    // Career CRUD routes
-    Route::prefix('admin')->group(function () {
-        Route::resource('careers', CareerController::class);
-        Route::get('careers/{career}/download', [CareerController::class, 'download'])->name('careers.admin-download');
-    });
+    // Product CRUD - singular route
+    Route::resource('product', ProductController::class);
 
-    // Additional CRUD routes for existing controllers
-    Route::resource('products', ProductController::class);
-    Route::resource('product-types', ProductTypeController::class);
-    Route::resource('product-type-accounts', ProductTypeAccountController::class);
-
+    // Route::resource('product-types', ProductTypeController::class);
+    // Route::resource('product-type-accounts', ProductTypeAccountController::class);
     Route::resource('product-schemes', ProductSchemeController::class);
     Route::resource('product-scheme-attributes', ProductSchemeAttributeController::class);
 
     Route::resource('service-attributes', ServiceAttributeController::class);
+
+    // Career CRUD routes - moved to admin prefix to avoid conflict with public routes
+    Route::prefix('admin')->group(function () {
+        Route::resource('careers', CareerController::class);
+        Route::get('careers/{career}/download', [CareerController::class, 'download'])->name('careers.admin-download');
+    });
 
     // CRUD download routes (for authenticated users)
     Route::get('schedule-of-charges/{scheduleOfCharge}/download', [ScheduleOfChargeController::class, 'download'])->name('schedule-of-charges.admin-download');
     Route::get('downloads/{download}/download', [DownloadController::class, 'download'])->name('downloads.admin-download');
 });
 
-Route::get('/', [PageController::class, 'home'])->name(name: 'home');
-// Route::get('/about-us', [PageController::class, 'about'])->name('about');
-// Route::get('/about-us/board-of-directors', [PageController::class, 'bod'])->name('about.bod');
-// // Route::get('/about-us/managment', [PageController::class, 'managment'])->name('about.managment');
-// Route::get('/test-component', [PageController::class, 'testComponent'])->name('test-component');
+// Public routes
+Route::get('/', [PageController::class, 'home'])->name('home');
 
 Route::prefix('about-us')->name('about.')->group(function () {
     Route::get('/board-of-directors', [PageController::class, 'boardOfDirectors'])->name('board-directors');
@@ -108,13 +101,11 @@ Route::prefix('products')->name('products.')->group(function () {
 });
 
 Route::prefix('services')->name('services.')->group(function () {
-
     Route::get('/all-services', [ServiceController::class, 'index'])->name('index');
     Route::get('/lockers-facility', [ServiceController::class, 'lockersFacility'])->name('lockers-facility');
     Route::get('/utility-bills-collection', [ServiceController::class, 'utilityBillsCollection'])->name('utility-bills-collection');
     Route::get('/services-for-ajk-psc', [ServiceController::class, 'servicesForAjkPsc'])->name('services-for-ajk-psc');
     Route::get('/home-remittance', [ServiceController::class, 'homeRemittance'])->name('home-remittance');
-    // Route::get('/{service}', [ServiceController::class, 'show'])->name('home-remittance');
 });
 
 Route::prefix('financials')->name('financials.')->group(function () {
@@ -139,7 +130,7 @@ Route::get('/careers', [CareerController::class, 'publicIndex'])->name('public-c
 Route::get('/careers/{career}', [CareerController::class, 'publicShow'])->name('public-careers.show');
 Route::get('/careers/{career}/download', [CareerController::class, 'download'])->name('public-careers.download');
 
-Route::get('/news', [PageController::class, 'news'])->name(name: 'news');
+Route::get('/news', [PageController::class, 'news'])->name('news');
 Route::get('/news/{slug}', [PageController::class, 'newsDetail'])->name('news.detail');
 
 // API Routes

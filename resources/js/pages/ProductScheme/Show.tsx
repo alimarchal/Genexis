@@ -18,14 +18,14 @@ interface ProductType {
     id: number;
     name: string;
     is_active: boolean;
-    product: Product;
+    product?: Product;
 }
 
 interface ProductTypeAccount {
     id: number;
     name: string;
     is_active: boolean;
-    productType: ProductType;
+    product_type?: ProductType;
 }
 
 interface ProductSchemeAttribute {
@@ -44,7 +44,7 @@ interface ProductScheme {
     is_active: boolean;
     created_at: string;
     updated_at: string;
-    productTypeAccount: ProductTypeAccount;
+    product_type_account?: ProductTypeAccount;
     attributes?: ProductSchemeAttribute[];
 }
 
@@ -99,9 +99,9 @@ export default function ShowProductScheme({ productScheme }: Props) {
                                     <div className="flex-1 space-y-2">
                                         <CardTitle className="text-2xl">{productScheme.name}</CardTitle>
                                         <div className="flex items-center gap-2 flex-wrap">
-                                            <Badge variant="outline">{productScheme.productTypeAccount.name}</Badge>
-                                            <Badge variant="secondary">{productScheme.productTypeAccount.productType.name}</Badge>
-                                            <Badge variant="destructive">{productScheme.productTypeAccount.productType.product.name}</Badge>
+                                            <Badge variant="outline">{productScheme.product_type_account?.name || 'N/A'}</Badge>
+                                            <Badge variant="secondary">{productScheme.product_type_account?.product_type?.name || 'N/A'}</Badge>
+                                            <Badge variant="destructive">{productScheme.product_type_account?.product_type?.product?.name || 'N/A'}</Badge>
                                             {getStatusBadge(productScheme.is_active)}
                                         </div>
                                     </div>
@@ -163,7 +163,7 @@ export default function ShowProductScheme({ productScheme }: Props) {
                                     <div>
                                         <p className="text-sm font-medium">Account</p>
                                         <div className="mt-1">
-                                            <Badge variant="outline">{productScheme.productTypeAccount.name}</Badge>
+                                            <Badge variant="outline">{productScheme.product_type_account?.name || 'N/A'}</Badge>
                                         </div>
                                     </div>
                                 </div>
@@ -175,9 +175,9 @@ export default function ShowProductScheme({ productScheme }: Props) {
                                     <div>
                                         <p className="text-sm font-medium">Type & Product</p>
                                         <div className="mt-1 space-y-1">
-                                            <Badge variant="secondary">{productScheme.productTypeAccount.productType.name}</Badge>
+                                            <Badge variant="secondary">{productScheme.product_type_account?.product_type?.name || 'N/A'}</Badge>
                                             <br />
-                                            <Badge variant="destructive">{productScheme.productTypeAccount.productType.product.name}</Badge>
+                                            <Badge variant="destructive">{productScheme.product_type_account?.product_type?.product?.name || 'N/A'}</Badge>
                                         </div>
                                     </div>
                                 </div>

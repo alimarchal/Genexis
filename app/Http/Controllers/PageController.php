@@ -31,7 +31,7 @@ class PageController extends Controller
 {
     private function getImageUrl($image)
     {
-        if (! $image) {
+        if (!$image) {
             return null;
         }
 
@@ -57,7 +57,7 @@ class PageController extends Controller
         }
 
         // Otherwise, treat as a storage file path
-        return asset('storage/'.$image);
+        return asset('storage/' . $image);
     }
 
     public function home()
@@ -118,7 +118,7 @@ class PageController extends Controller
                     'slug' => $news->slug,
                     'is_published' => $news->is_published,
                     'created_at' => $news->created_at->toISOString(),
-                    'excerpt' => substr(strip_tags($news->content), 0, 150).'...',
+                    'excerpt' => substr(strip_tags($news->content), 0, 150) . '...',
                 ];
             });
 
@@ -163,7 +163,7 @@ class PageController extends Controller
     public function contactSubmit(StoreContactSubmissionRequest $request)
     {
         // Rate limiting: 1 submission per 30 seconds per IP
-        $key = 'contact-form:'.$request->getClientIp();
+        $key = 'contact-form:' . $request->getClientIp();
 
         if (RateLimiter::tooManyAttempts($key, 1)) {
             $seconds = RateLimiter::availableIn($key);
@@ -196,7 +196,7 @@ class PageController extends Controller
                     'submitted_at' => now(),
                 ]);
 
-                Log::info('Contact submission created with ID: '.$submission->id);
+                Log::info('Contact submission created with ID: ' . $submission->id);
 
                 // Send email to CONTACT_EMAIL
                 Mail::to(env('CONTACT_EMAIL', 'contact@bankajk.com'))->send(new ContactSubmissionMail($submission));
@@ -216,8 +216,8 @@ class PageController extends Controller
             ]);
 
         } catch (\Exception $e) {
-            Log::error('Failed to process contact submission: '.$e->getMessage());
-            Log::error('Stack trace: '.$e->getTraceAsString());
+            Log::error('Failed to process contact submission: ' . $e->getMessage());
+            Log::error('Stack trace: ' . $e->getTraceAsString());
 
             return response()->json([
                 'success' => false,
@@ -244,7 +244,7 @@ class PageController extends Controller
                     'slug' => $news->slug,
                     'is_published' => $news->is_published,
                     'created_at' => $news->created_at->toISOString(),
-                    'excerpt' => substr(strip_tags($news->content), 0, 150).'...',
+                    'excerpt' => substr(strip_tags($news->content), 0, 150) . '...',
                 ];
             });
 
@@ -275,7 +275,7 @@ class PageController extends Controller
                     'slug' => $news->slug,
                     'category' => $news->category,
                     'published_date' => $news->published_date,
-                    'excerpt' => substr(strip_tags($news->content), 0, 100).'...',
+                    'excerpt' => substr(strip_tags($news->content), 0, 100) . '...',
                 ];
             });
 
@@ -307,10 +307,12 @@ class PageController extends Controller
         $depositAccount = ProductTypeAccount::where('name', 'Deposit Accounts')->first();
 
         $schemes = $depositAccount->productSchemes()
-            ->with(['attributes' => function ($query) {
-                $query->where('is_active', true)
-                    ->orderBy('sort_order');
-            }])
+            ->with([
+                'attributes' => function ($query) {
+                    $query->where('is_active', true)
+                        ->orderBy('sort_order');
+                }
+            ])
             ->where('is_active', true)
             ->get();
 
@@ -325,10 +327,12 @@ class PageController extends Controller
         $termDeposit = ProductTypeAccount::where('name', 'Term Deposit')->first();
 
         $schemes = $termDeposit->productSchemes()
-            ->with(['attributes' => function ($query) {
-                $query->where('is_active', true)
-                    ->orderBy('sort_order');
-            }])
+            ->with([
+                'attributes' => function ($query) {
+                    $query->where('is_active', true)
+                        ->orderBy('sort_order');
+                }
+            ])
             ->where('is_active', true)
             ->get();
 
@@ -341,10 +345,12 @@ class PageController extends Controller
     {
         $consumerFinance = ProductTypeAccount::where('name', 'Consumer Finances')->first();
 
-        $schemes = $consumerFinance->productSchemes()
-            ->with(['attributes' => function ($query) {
-                $query->where('is_active', true)->orderBy('sort_order');
-            }])
+        $schemes = $consumerFinance?->productSchemes()
+            ->with([
+                'attributes' => function ($query) {
+                    $query->where('is_active', true)->orderBy('sort_order');
+                }
+            ])
             ->where('is_active', true)
             ->get();
 
@@ -356,9 +362,11 @@ class PageController extends Controller
         $commercialSME = ProductTypeAccount::where('name', 'Commercial / SME Finances')->first();
 
         $schemes = $commercialSME->productSchemes()
-            ->with(['attributes' => function ($query) {
-                $query->where('is_active', true)->orderBy('sort_order');
-            }])
+            ->with([
+                'attributes' => function ($query) {
+                    $query->where('is_active', true)->orderBy('sort_order');
+                }
+            ])
             ->where('is_active', true)
             ->get();
 
@@ -370,9 +378,11 @@ class PageController extends Controller
         $agriculture = ProductTypeAccount::where('name', 'Agriculture Finances')->first();
 
         $schemes = $agriculture->productSchemes()
-            ->with(['attributes' => function ($query) {
-                $query->where('is_active', true)->orderBy('sort_order');
-            }])
+            ->with([
+                'attributes' => function ($query) {
+                    $query->where('is_active', true)->orderBy('sort_order');
+                }
+            ])
             ->where('is_active', true)
             ->get();
 
@@ -384,9 +394,11 @@ class PageController extends Controller
         $microFinance = ProductTypeAccount::where('name', 'Micro Finances')->first();
 
         $schemes = $microFinance->productSchemes()
-            ->with(['attributes' => function ($query) {
-                $query->where('is_active', true)->orderBy('sort_order');
-            }])
+            ->with([
+                'attributes' => function ($query) {
+                    $query->where('is_active', true)->orderBy('sort_order');
+                }
+            ])
             ->where('is_active', true)
             ->get();
 
@@ -529,7 +541,7 @@ class PageController extends Controller
                     'id' => $report->id,
                     'fiscal_year' => $report->annual_report_fiscal_year,
                     'file_name' => $report->annual_report ? basename($report->annual_report) : null,
-                    'file_size' => $report->annual_report ? (file_exists(storage_path('app/public/'.$report->annual_report)) ? filesize(storage_path('app/public/'.$report->annual_report)) : 0) : 0,
+                    'file_size' => $report->annual_report ? (file_exists(storage_path('app/public/' . $report->annual_report)) ? filesize(storage_path('app/public/' . $report->annual_report)) : 0) : 0,
                     'download_url' => $report->annual_report ? route('annual-reports.download', $report) : null,
                     'created_at' => $report->created_at->format('M d, Y'),
                 ];
@@ -549,7 +561,7 @@ class PageController extends Controller
                     'id' => $highlight->id,
                     'fiscal_year' => $highlight->fiscal_year,
                     'file_name' => $highlight->financial_highlights ? basename($highlight->financial_highlights) : null,
-                    'file_size' => $highlight->financial_highlights ? (file_exists(storage_path('app/public/'.$highlight->financial_highlights)) ? filesize(storage_path('app/public/'.$highlight->financial_highlights)) : 0) : 0,
+                    'file_size' => $highlight->financial_highlights ? (file_exists(storage_path('app/public/' . $highlight->financial_highlights)) ? filesize(storage_path('app/public/' . $highlight->financial_highlights)) : 0) : 0,
                     'download_url' => $highlight->financial_highlights ? route('financial-highlights.download', $highlight) : null,
                     'created_at' => $highlight->created_at->format('M d, Y'),
                 ];
