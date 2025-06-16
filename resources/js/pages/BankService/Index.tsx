@@ -1,13 +1,21 @@
 import Heading from '@/components/heading';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
-import { Building, Edit, Eye, Plus, Search, Trash2 } from 'lucide-react';
+import { Building, Edit, Eye, MoreHorizontal, Plus, Search, Trash } from 'lucide-react';
 import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -48,15 +56,10 @@ interface Props {
         last_page: number;
         per_page: number;
         total: number;
+        from: number;
+        to: number;
     };
-    filters: {
-        filter?: {
-            title?: string;
-            status?: string;
-            service_type?: string;
-        };
-        sort?: string;
-    };
+    filters: Record<string, string>;
 }
 
 export default function BankServiceIndex({ bankServices, filters }: Props) {
@@ -76,37 +79,60 @@ export default function BankServiceIndex({ bankServices, filters }: Props) {
         return [];
     };
 
-    const [search, setSearch] = useState(filters.filter?.title || '');
-    const [statusFilter, setStatusFilter] = useState(filters.filter?.status || 'all');
-    const [typeFilter, setTypeFilter] = useState(filters.filter?.service_type || 'all');
+    const [search, setSearch] = useState(filters['filter[title]'] || '');
+    const [statusFilter, setStatusFilter] = useState(() => {
+        const statusParam = filters['filter[status]'];
+        if (statusParam === '1') return '1';
+        if (statusParam === '0') return '0';
+        return 'all';
+    });
+    const [typeFilter, setTypeFilter] = useState(filters['filter[service_type]'] || 'all');
+
+    const buildParams = () => {
+        const params: Record<string, string> = {};
+
+        if (search.trim()) {
+            params['filter[title]'] = search;
+        }
+        if (statusFilter !== 'all') {
+            params['filter[status]'] = statusFilter;
+        }
+        if (typeFilter !== 'all') {
+            params['filter[service_type]'] = typeFilter;
+        }
+
+        return params;
+    };
 
     const handleSearch = (value: string) => {
         setSearch(value);
-        router.get(
-            route('bank-services.index'),
-            { search: value, status: statusFilter, service_type: typeFilter },
-            { preserveState: true, replace: true },
-        );
+        router.get(route('bank-services.index'), {
+            ...buildParams(),
+            'filter[title]': value.trim() ? value : undefined
+        }, { preserveState: true, replace: true });
     };
 
     const handleStatusFilter = (value: string) => {
         setStatusFilter(value);
-        const statusParam = value === 'all' ? undefined : value;
-        router.get(
-            route('bank-services.index'),
-            { search, status: statusParam, service_type: typeFilter === 'all' ? undefined : typeFilter },
-            { preserveState: true, replace: true },
-        );
+        router.get(route('bank-services.index'), {
+            ...buildParams(),
+            'filter[status]': value !== 'all' ? value : undefined
+        }, { preserveState: true, replace: true });
     };
 
     const handleTypeFilter = (value: string) => {
         setTypeFilter(value);
-        const typeParam = value === 'all' ? undefined : value;
-        router.get(
-            route('bank-services.index'),
-            { search, status: statusFilter === 'all' ? undefined : statusFilter, service_type: typeParam },
-            { preserveState: true, replace: true },
-        );
+        router.get(route('bank-services.index'), {
+            ...buildParams(),
+            'filter[service_type]': value !== 'all' ? value : undefined
+        }, { preserveState: true, replace: true });
+    };
+
+    const handlePagination = (page: number) => {
+        router.get(route('bank-services.index'), {
+            ...buildParams(),
+            page
+        });
     };
 
     const handleDelete = (id: number) => {
@@ -150,7 +176,12 @@ export default function BankServiceIndex({ bankServices, filters }: Props) {
                         <div className="flex flex-1 gap-4">
                             <div className="relative max-w-sm flex-1">
                                 <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
-                                <Input placeholder="Search services..." value={search} onChange={(e) => handleSearch(e.target.value)} className="pl-10" />
+                                <Input
+                                    placeholder="Search services..."
+                                    value={search}
+                                    onChange={(e) => handleSearch(e.target.value)}
+                                    className="pl-10"
+                                />
                             </div>
 
                             <Select value={statusFilter} onValueChange={handleStatusFilter}>
@@ -235,27 +266,35 @@ export default function BankServiceIndex({ bankServices, filters }: Props) {
                                             <TableCell className="text-muted-foreground text-sm">
                                                 {formatDate(service.created_at)}
                                             </TableCell>
-                                            <TableCell>
-                                                <div className="flex gap-1">
-                                                    <Button size="sm" variant="ghost" asChild>
-                                                        <Link href={route('bank-services.show', service.id)}>
-                                                            <Eye className="h-4 w-4" />
-                                                        </Link>
-                                                    </Button>
-                                                    <Button size="sm" variant="ghost" asChild>
-                                                        <Link href={route('bank-services.edit', service.id)}>
-                                                            <Edit className="h-4 w-4" />
-                                                        </Link>
-                                                    </Button>
-                                                    <Button
-                                                        size="sm"
-                                                        variant="ghost"
-                                                        onClick={() => handleDelete(service.id)}
-                                                        className="text-destructive hover:text-destructive"
-                                                    >
-                                                        <Trash2 className="h-4 w-4" />
-                                                    </Button>
-                                                </div>
+                                            <TableCell className="text-right">
+                                                <DropdownMenu>
+                                                    <DropdownMenuTrigger asChild>
+                                                        <Button variant="ghost" className="h-8 w-8 p-0">
+                                                            <MoreHorizontal className="h-4 w-4" />
+                                                        </Button>
+                                                    </DropdownMenuTrigger>
+                                                    <DropdownMenuContent align="end">
+                                                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                                        <DropdownMenuSeparator />
+                                                        <DropdownMenuItem asChild>
+                                                            <Link href={route('bank-services.show', service.id)}>
+                                                                <Eye className="mr-2 h-4 w-4" />
+                                                                View
+                                                            </Link>
+                                                        </DropdownMenuItem>
+                                                        <DropdownMenuItem asChild>
+                                                            <Link href={route('bank-services.edit', service.id)}>
+                                                                <Edit className="mr-2 h-4 w-4" />
+                                                                Edit
+                                                            </Link>
+                                                        </DropdownMenuItem>
+                                                        <DropdownMenuSeparator />
+                                                        <DropdownMenuItem onClick={() => handleDelete(service.id)} className="text-red-600">
+                                                            <Trash className="mr-2 h-4 w-4" />
+                                                            Delete
+                                                        </DropdownMenuItem>
+                                                    </DropdownMenuContent>
+                                                </DropdownMenu>
                                             </TableCell>
                                         </TableRow>
                                     ))
@@ -268,18 +307,25 @@ export default function BankServiceIndex({ bankServices, filters }: Props) {
                     {bankServices.total > 0 && (
                         <div className="flex items-center justify-between text-sm text-gray-500">
                             <div>
-                                Showing {(bankServices.current_page - 1) * bankServices.per_page + 1} to{' '}
-                                {Math.min(bankServices.current_page * bankServices.per_page, bankServices.total)} of {bankServices.total} results
+                                Showing {bankServices.from} to {bankServices.to} of {bankServices.total} results
                             </div>
                             <div className="flex gap-2">
                                 {bankServices.current_page > 1 && (
-                                    <Button variant="outline" size="sm" asChild>
-                                        <Link href={route('bank-services.index', { page: bankServices.current_page - 1 })}>Previous</Link>
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => handlePagination(bankServices.current_page - 1)}
+                                    >
+                                        Previous
                                     </Button>
                                 )}
                                 {bankServices.current_page < bankServices.last_page && (
-                                    <Button variant="outline" size="sm" asChild>
-                                        <Link href={route('bank-services.index', { page: bankServices.current_page + 1 })}>Next</Link>
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => handlePagination(bankServices.current_page + 1)}
+                                    >
+                                        Next
                                     </Button>
                                 )}
                             </div>

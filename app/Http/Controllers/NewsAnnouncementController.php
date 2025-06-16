@@ -8,6 +8,7 @@ use App\Models\NewsAnnouncement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class NewsAnnouncementController extends Controller
@@ -15,7 +16,11 @@ class NewsAnnouncementController extends Controller
     public function index(Request $request)
     {
         $newsAnnouncements = QueryBuilder::for(NewsAnnouncement::class)
-            ->allowedFilters(['title', 'category', 'is_featured', 'is_published'])
+            ->allowedFilters([
+                'title',
+                'category',
+                AllowedFilter::exact('is_published')
+            ])
             ->allowedSorts(['id', 'title', 'published_date', 'category', 'created_at'])
             ->defaultSort('-created_at')
             ->paginate(request('per_page', 15))
@@ -23,7 +28,7 @@ class NewsAnnouncementController extends Controller
 
         return Inertia::render('NewsAnnouncement/Index', [
             'newsAnnouncements' => $newsAnnouncements,
-            'filters' => request()->only(['filter', 'sort']),
+            'filters' => request()->all(),
         ]);
     }
 

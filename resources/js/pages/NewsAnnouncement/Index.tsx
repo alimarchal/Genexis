@@ -58,37 +58,60 @@ interface Props {
 }
 
 export default function NewsAnnouncementIndex({ newsAnnouncements, filters }: Props) {
-    const [search, setSearch] = useState(filters.search || '');
-    const [statusFilter, setStatusFilter] = useState(filters.status || 'all');
-    const [categoryFilter, setCategoryFilter] = useState(filters.category || 'all');
+    const [search, setSearch] = useState(filters['filter[title]'] || '');
+    const [statusFilter, setStatusFilter] = useState(() => {
+        const publishedFilter = filters['filter[is_published]'];
+        if (publishedFilter === '1') return 'published';
+        if (publishedFilter === '0') return 'draft';
+        return 'all';
+    });
+    const [categoryFilter, setCategoryFilter] = useState(filters['filter[category]'] || 'all');
+
+    const buildParams = () => {
+        const params: Record<string, string> = {};
+
+        if (search.trim()) {
+            params['filter[title]'] = search;
+        }
+        if (statusFilter !== 'all') {
+            params['filter[is_published]'] = statusFilter === 'published' ? '1' : '0';
+        }
+        if (categoryFilter !== 'all') {
+            params['filter[category]'] = categoryFilter;
+        }
+
+        return params;
+    };
 
     const handleSearch = (value: string) => {
         setSearch(value);
-        router.get(
-            route('news-announcements.index'),
-            { search: value, status: statusFilter, category: categoryFilter },
-            { preserveState: true, replace: true },
-        );
+        router.get(route('news-announcements.index'), {
+            ...buildParams(),
+            'filter[title]': value.trim() ? value : undefined
+        }, { preserveState: true, replace: true });
     };
 
     const handleStatusFilter = (value: string) => {
         setStatusFilter(value);
-        const statusParam = value === 'all' ? undefined : value;
-        router.get(
-            route('news-announcements.index'),
-            { search, status: statusParam, category: categoryFilter === 'all' ? undefined : categoryFilter },
-            { preserveState: true, replace: true },
-        );
+        router.get(route('news-announcements.index'), {
+            ...buildParams(),
+            'filter[is_published]': value !== 'all' ? (value === 'published' ? '1' : '0') : undefined
+        }, { preserveState: true, replace: true });
     };
 
     const handleCategoryFilter = (value: string) => {
         setCategoryFilter(value);
-        const categoryParam = value === 'all' ? undefined : value;
-        router.get(
-            route('news-announcements.index'),
-            { search, status: statusFilter === 'all' ? undefined : statusFilter, category: categoryParam },
-            { preserveState: true, replace: true },
-        );
+        router.get(route('news-announcements.index'), {
+            ...buildParams(),
+            'filter[category]': value !== 'all' ? value : undefined
+        }, { preserveState: true, replace: true });
+    };
+
+    const handlePagination = (page: number) => {
+        router.get(route('news-announcements.index'), {
+            ...buildParams(),
+            page
+        });
     };
 
     const handleDelete = (id: number) => {
@@ -126,7 +149,12 @@ export default function NewsAnnouncementIndex({ newsAnnouncements, filters }: Pr
                         <div className="flex flex-1 gap-4">
                             <div className="relative max-w-sm flex-1">
                                 <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
-                                <Input placeholder="Search news..." value={search} onChange={(e) => handleSearch(e.target.value)} className="pl-10" />
+                                <Input
+                                    placeholder="Search news..."
+                                    value={search}
+                                    onChange={(e) => handleSearch(e.target.value)}
+                                    className="pl-10"
+                                />
                             </div>
 
                             <Select value={statusFilter} onValueChange={handleStatusFilter}>
@@ -255,12 +283,7 @@ export default function NewsAnnouncementIndex({ newsAnnouncements, filters }: Pr
                                     <Button
                                         variant="outline"
                                         size="sm"
-                                        onClick={() =>
-                                            router.get(route('news-announcements.index'), {
-                                                ...filters,
-                                                page: newsAnnouncements.current_page - 1,
-                                            })
-                                        }
+                                        onClick={() => handlePagination(newsAnnouncements.current_page - 1)}
                                     >
                                         Previous
                                     </Button>
@@ -269,12 +292,7 @@ export default function NewsAnnouncementIndex({ newsAnnouncements, filters }: Pr
                                     <Button
                                         variant="outline"
                                         size="sm"
-                                        onClick={() =>
-                                            router.get(route('news-announcements.index'), {
-                                                ...filters,
-                                                page: newsAnnouncements.current_page + 1,
-                                            })
-                                        }
+                                        onClick={() => handlePagination(newsAnnouncements.current_page + 1)}
                                     >
                                         Next
                                     </Button>
