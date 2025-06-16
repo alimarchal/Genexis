@@ -71,6 +71,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::resource('service-attributes', ServiceAttributeController::class);
 
+    // Career CRUD routes - moved to admin prefix to avoid conflict with public routes
+    Route::prefix('admin')->group(function () {
+        Route::resource('careers', CareerController::class);
+        Route::get('careers/{career}/download', [CareerController::class, 'download'])->name('careers.admin-download');
+    });
+
     // CRUD download routes (for authenticated users)
     Route::get('schedule-of-charges/{scheduleOfCharge}/download', [ScheduleOfChargeController::class, 'download'])->name('schedule-of-charges.admin-download');
     Route::get('downloads/{download}/download', [DownloadController::class, 'download'])->name('downloads.admin-download');
@@ -137,10 +143,6 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
     Route::resource('menus', MenuController::class);
     Route::post('menus/reorder', [MenuController::class, 'reorder'])->name('menus.reorder');
     Route::post('clear-menu-cache', [MenuController::class, 'clearCache'])->name('clear-menu-cache');
-
-    // Career CRUD routes
-    Route::resource('careers', CareerController::class);
-    Route::get('careers/{career}/download', [CareerController::class, 'download'])->name('careers.admin-download');
 });
 
 require __DIR__ . '/settings.php';

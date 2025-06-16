@@ -18,9 +18,10 @@ describe('Career CRUD Operations', function () {
         $response = $this->get(route('careers.index'));
 
         $response->assertStatus(200);
-        $response->assertInertia(fn ($page) => $page
-            ->component('Career/Index')
-            ->has('careers.data', 5)
+        $response->assertInertia(
+            fn($page) => $page
+                ->component('Career/Index')
+                ->has('careers.data', 5)
         );
     });
 
@@ -28,8 +29,9 @@ describe('Career CRUD Operations', function () {
         $response = $this->get(route('careers.create'));
 
         $response->assertStatus(200);
-        $response->assertInertia(fn ($page) => $page
-            ->component('Career/Create')
+        $response->assertInertia(
+            fn($page) => $page
+                ->component('Career/Create')
         );
     });
 
@@ -88,10 +90,11 @@ describe('Career CRUD Operations', function () {
         $response = $this->get(route('careers.show', $career));
 
         $response->assertStatus(200);
-        $response->assertInertia(fn ($page) => $page
-            ->component('Career/Show')
-            ->has('career')
-            ->where('career.id', $career->id)
+        $response->assertInertia(
+            fn($page) => $page
+                ->component('Career/Show')
+                ->has('career')
+                ->where('career.id', $career->id)
         );
     });
 
@@ -101,10 +104,11 @@ describe('Career CRUD Operations', function () {
         $response = $this->get(route('careers.edit', $career));
 
         $response->assertStatus(200);
-        $response->assertInertia(fn ($page) => $page
-            ->component('Career/Edit')
-            ->has('career')
-            ->where('career.id', $career->id)
+        $response->assertInertia(
+            fn($page) => $page
+                ->component('Career/Edit')
+                ->has('career')
+                ->where('career.id', $career->id)
         );
     });
 
@@ -296,9 +300,10 @@ describe('Public Career Pages', function () {
         $response = $this->get(route('public-careers'));
 
         $response->assertStatus(200);
-        $response->assertInertia(fn ($page) => $page
-            ->component('Careers/PublicCareers')
-            ->has('careers.data', 3) // Only active careers
+        $response->assertInertia(
+            fn($page) => $page
+                ->component('Careers/PublicCareers')
+                ->has('careers.data', 3) // Only active careers
         );
     });
 
@@ -308,10 +313,11 @@ describe('Public Career Pages', function () {
         $response = $this->get(route('public-careers.show', $career));
 
         $response->assertStatus(200);
-        $response->assertInertia(fn ($page) => $page
-            ->component('Careers/PublicCareerDetail')
-            ->has('career')
-            ->where('career.id', $career->id)
+        $response->assertInertia(
+            fn($page) => $page
+                ->component('Careers/PublicCareerDetail')
+                ->has('career')
+                ->where('career.id', $career->id)
         );
     });
 
@@ -366,9 +372,10 @@ describe('Career Query Builder', function () {
         $response = $this->get(route('careers.index', ['filter[location]' => 'Dhaka']));
 
         $response->assertStatus(200);
-        $response->assertInertia(fn ($page) => $page
-            ->has('careers.data', 1)
-            ->where('careers.data.0.location', 'Dhaka')
+        $response->assertInertia(
+            fn($page) => $page
+                ->has('careers.data', 1)
+                ->where('careers.data.0.location', 'Dhaka')
         );
     });
 
@@ -379,8 +386,9 @@ describe('Career Query Builder', function () {
         $response = $this->get(route('careers.index', ['filter[is_active]' => '1']));
 
         $response->assertStatus(200);
-        $response->assertInertia(fn ($page) => $page
-            ->has('careers.data', 2)
+        $response->assertInertia(
+            fn($page) => $page
+                ->has('careers.data', 2)
         );
     });
 
@@ -391,9 +399,10 @@ describe('Career Query Builder', function () {
         $response = $this->get(route('careers.index', ['filter[title]' => 'Software']));
 
         $response->assertStatus(200);
-        $response->assertInertia(fn ($page) => $page
-            ->has('careers.data', 1)
-            ->where('careers.data.0.title', 'Software Engineer')
+        $response->assertInertia(
+            fn($page) => $page
+                ->has('careers.data', 1)
+                ->where('careers.data.0.title', 'Software Engineer')
         );
     });
 
@@ -404,9 +413,10 @@ describe('Career Query Builder', function () {
         $response = $this->get(route('careers.index', ['sort' => 'closing_date']));
 
         $response->assertStatus(200);
-        $response->assertInertia(fn ($page) => $page
-            ->has('careers.data', 2)
-            ->where('careers.data.0.id', $career1->id) // Earlier date first
+        $response->assertInertia(
+            fn($page) => $page
+                ->has('careers.data', 2)
+                ->where('careers.data.0.id', $career1->id) // Earlier date first
         );
     });
 });
