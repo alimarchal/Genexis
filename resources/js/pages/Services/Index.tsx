@@ -39,7 +39,7 @@ interface Service {
     image_url: string | null;
     is_active: boolean;
     sort_order: number;
-    meta_data: any;
+    meta_data: Record<string, string | number | boolean | null> | null;
     created_at: string;
     updated_at: string;
 }
