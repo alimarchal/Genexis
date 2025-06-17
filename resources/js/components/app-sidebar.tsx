@@ -91,6 +91,34 @@ const productsNavItems: NavItem[] = [
     },
 ];
 
+// Services
+const servicesNavItems: NavItem[] = [
+    {
+        title: 'Services',
+        href: '/services',
+        icon: Settings,
+    },
+];
+
+// Financial
+const financialStatementsNavItems: NavItem[] = [
+    {
+        title: 'Financial Reports',
+        href: '/financial-reports',
+        icon: FileText,
+    },
+    {
+        title: 'Annual Reports',
+        href: '/annual-reports',
+        icon: PieChart,
+    },
+    {
+        title: 'Financial Highlights',
+        href: '/financial-highlights',
+        icon: TrendingUp,
+    },
+];
+
 // Banking & Services
 const bankingNavItems: NavItem[] = [
     {
@@ -107,21 +135,6 @@ const bankingNavItems: NavItem[] = [
 
 // Financial Management
 const financialNavItems: NavItem[] = [
-    {
-        title: 'Financial Reports',
-        href: '/financial-reports',
-        icon: FileText,
-    },
-    {
-        title: 'Annual Reports',
-        href: '/annual-reports',
-        icon: PieChart,
-    },
-    {
-        title: 'Financial Highlights',
-        href: '/financial-highlights',
-        icon: TrendingUp,
-    },
     {
         title: 'Profit Rates',
         href: '/profit-rates',
@@ -242,6 +255,8 @@ export function AppSidebar() {
                 <NavGroup title="Home" items={homeNavItems} />
                 <NavGroup title="About" items={aboutNavItems} />
                 <NavGroup title="Products" items={productsNavItems} />
+                <NavGroup title="Services" items={servicesNavItems} />
+                <NavGroup title="Financial" items={financialStatementsNavItems} />
                 <NavGroup title="Banking & Services" items={bankingNavItems} />
                 <NavGroup title="Financial Management" items={financialNavItems} />
                 <NavGroup title="Location Management" items={locationNavItems} />
