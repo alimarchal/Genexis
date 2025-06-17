@@ -19,7 +19,7 @@ describe('Career CRUD Operations', function () {
 
         $response->assertStatus(200);
         $response->assertInertia(
-            fn($page) => $page
+            fn ($page) => $page
                 ->component('Career/Index')
                 ->has('careers.data', 5)
         );
@@ -30,7 +30,7 @@ describe('Career CRUD Operations', function () {
 
         $response->assertStatus(200);
         $response->assertInertia(
-            fn($page) => $page
+            fn ($page) => $page
                 ->component('Career/Create')
         );
     });
@@ -91,7 +91,7 @@ describe('Career CRUD Operations', function () {
 
         $response->assertStatus(200);
         $response->assertInertia(
-            fn($page) => $page
+            fn ($page) => $page
                 ->component('Career/Show')
                 ->has('career')
                 ->where('career.id', $career->id)
@@ -105,7 +105,7 @@ describe('Career CRUD Operations', function () {
 
         $response->assertStatus(200);
         $response->assertInertia(
-            fn($page) => $page
+            fn ($page) => $page
                 ->component('Career/Edit')
                 ->has('career')
                 ->where('career.id', $career->id)
@@ -301,7 +301,7 @@ describe('Public Career Pages', function () {
 
         $response->assertStatus(200);
         $response->assertInertia(
-            fn($page) => $page
+            fn ($page) => $page
                 ->component('Careers/PublicCareers')
                 ->has('careers.data', 3) // Only active careers
         );
@@ -314,7 +314,7 @@ describe('Public Career Pages', function () {
 
         $response->assertStatus(200);
         $response->assertInertia(
-            fn($page) => $page
+            fn ($page) => $page
                 ->component('Careers/PublicCareerDetail')
                 ->has('career')
                 ->where('career.id', $career->id)
@@ -373,7 +373,7 @@ describe('Career Query Builder', function () {
 
         $response->assertStatus(200);
         $response->assertInertia(
-            fn($page) => $page
+            fn ($page) => $page
                 ->has('careers.data', 1)
                 ->where('careers.data.0.location', 'Dhaka')
         );
@@ -387,7 +387,7 @@ describe('Career Query Builder', function () {
 
         $response->assertStatus(200);
         $response->assertInertia(
-            fn($page) => $page
+            fn ($page) => $page
                 ->has('careers.data', 2)
         );
     });
@@ -400,7 +400,7 @@ describe('Career Query Builder', function () {
 
         $response->assertStatus(200);
         $response->assertInertia(
-            fn($page) => $page
+            fn ($page) => $page
                 ->has('careers.data', 1)
                 ->where('careers.data.0.title', 'Software Engineer')
         );
@@ -414,7 +414,7 @@ describe('Career Query Builder', function () {
 
         $response->assertStatus(200);
         $response->assertInertia(
-            fn($page) => $page
+            fn ($page) => $page
                 ->has('careers.data', 2)
                 ->where('careers.data.0.id', $career1->id) // Earlier date first
         );

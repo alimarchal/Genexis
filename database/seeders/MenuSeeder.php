@@ -232,11 +232,9 @@ class MenuSeeder extends Seeder
                 'is_active' => true,
             ],
 
-
         ];
 
         $this->createMenuItems($menus);
-
 
         // Get the Services parent menu
         $servicesParent = Menu::where('slug', 'services')->first();
@@ -273,14 +271,10 @@ class MenuSeeder extends Seeder
 
             $menu = Menu::create($menuData);
 
-            if (!empty($children)) {
+            if (! empty($children)) {
                 $this->createMenuItems($children, $menu->id);
             }
         }
 
-
     }
-
-
-
 }

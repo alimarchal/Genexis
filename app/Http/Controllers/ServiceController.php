@@ -61,9 +61,9 @@ class ServiceController extends Controller
         $service = Service::create($validated);
 
         // Handle service attributes
-        if (!empty($validated['attributes'])) {
+        if (! empty($validated['attributes'])) {
             foreach ($validated['attributes'] as $index => $attribute) {
-                if (!empty($attribute['name']) && !empty($attribute['value'])) {
+                if (! empty($attribute['name']) && ! empty($attribute['value'])) {
                     ServiceAttribute::create([
                         'service_id' => $service->id,
                         'attribute_name' => $attribute['name'],
@@ -85,7 +85,7 @@ class ServiceController extends Controller
         return Inertia::render('Services/Show', [
             'service' => [
                 ...$service->toArray(),
-                'image_url' => $service->image ? asset('storage/' . $service->image) : null,
+                'image_url' => $service->image ? asset('storage/'.$service->image) : null,
             ],
         ]);
     }
@@ -97,7 +97,7 @@ class ServiceController extends Controller
         return Inertia::render('Services/Edit', [
             'service' => [
                 ...$service->toArray(),
-                'image_url' => $service->image ? asset('storage/' . $service->image) : null,
+                'image_url' => $service->image ? asset('storage/'.$service->image) : null,
             ],
         ]);
     }
@@ -129,7 +129,7 @@ class ServiceController extends Controller
 
             // Create new attributes
             foreach ($validated['attributes'] as $index => $attribute) {
-                if (!empty($attribute['name']) && !empty($attribute['value'])) {
+                if (! empty($attribute['name']) && ! empty($attribute['value'])) {
                     ServiceAttribute::create([
                         'service_id' => $service->id,
                         'attribute_name' => $attribute['name'],

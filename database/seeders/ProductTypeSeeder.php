@@ -19,7 +19,7 @@ class ProductTypeSeeder extends Seeder
         ]);
 
         ProductType::create([
-            'product_id' => 2,  // Asset product  
+            'product_id' => 2,  // Asset product
             'name' => 'Asset',
             'is_active' => true,
         ]);

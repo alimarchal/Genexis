@@ -46,9 +46,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('product-scheme-attributes', ProductSchemeAttributeController::class);
     Route::resource('services', ServiceController::class);
 
-
-
-
     Route::resource('financial-reports', FinancialReportController::class);
     Route::resource('annual-reports', AnnualReportController::class);
     Route::resource('financial-highlights', FinancialHighlightController::class);
@@ -71,7 +68,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Product CRUD - singular route
     Route::resource('product', ProductController::class);
-
 
     Route::resource('service-attributes', ServiceAttributeController::class);
 
@@ -115,7 +111,6 @@ Route::prefix('services-page')->name('service-pages.')->group(function () {
     Route::get('/{slug}', [ServiceController::class, 'showHomePage'])->name('show');
 });
 
-
 Route::prefix('financials')->name('financials.')->group(function () {
     Route::get('/statements', [PageController::class, 'financialStatements'])->name('statements');
     Route::get('/annual-reports', [PageController::class, 'annualReports'])->name('annualReports');
@@ -153,5 +148,5 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
     Route::post('clear-menu-cache', [MenuController::class, 'clearCache'])->name('clear-menu-cache');
 });
 
-require __DIR__ . '/settings.php';
-require __DIR__ . '/auth.php';
+require __DIR__.'/settings.php';
+require __DIR__.'/auth.php';
