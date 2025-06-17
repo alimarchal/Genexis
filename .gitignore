@@ -32,5 +32,3 @@ bun.lockb
 /node_modules/.bin/bun
 bun.lockb
 /node_modules/.bin/bun
-.bun.lock
-.package.json
