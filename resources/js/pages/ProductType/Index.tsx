@@ -86,32 +86,44 @@ export default function ProductTypeIndex({ productTypes, products, filters }: Pr
 
     const handleSearch = (value: string) => {
         setSearch(value);
-        router.get(route('product-types.index'), {
-            ...buildParams(),
-            'filter[name]': value.trim() ? value : undefined
-        }, { preserveState: true, replace: true });
+        router.get(
+            route('product-types.index'),
+            {
+                ...buildParams(),
+                'filter[name]': value.trim() ? value : undefined,
+            },
+            { preserveState: true, replace: true },
+        );
     };
 
     const handleStatusFilter = (value: string) => {
         setStatusFilter(value);
-        router.get(route('product-types.index'), {
-            ...buildParams(),
-            'filter[is_active]': value !== 'all' ? (value === 'active' ? '1' : '0') : undefined
-        }, { preserveState: true, replace: true });
+        router.get(
+            route('product-types.index'),
+            {
+                ...buildParams(),
+                'filter[is_active]': value !== 'all' ? (value === 'active' ? '1' : '0') : undefined,
+            },
+            { preserveState: true, replace: true },
+        );
     };
 
     const handleProductFilter = (value: string) => {
         setProductFilter(value);
-        router.get(route('product-types.index'), {
-            ...buildParams(),
-            'filter[product_id]': value !== 'all' ? value : undefined
-        }, { preserveState: true, replace: true });
+        router.get(
+            route('product-types.index'),
+            {
+                ...buildParams(),
+                'filter[product_id]': value !== 'all' ? value : undefined,
+            },
+            { preserveState: true, replace: true },
+        );
     };
 
     const handlePagination = (page: number) => {
         router.get(route('product-types.index'), {
             ...buildParams(),
-            page
+            page,
         });
     };
 
@@ -221,12 +233,8 @@ export default function ProductTypeIndex({ productTypes, products, filters }: Pr
                                             <TableCell>
                                                 <Badge variant="outline">{productType.product.name}</Badge>
                                             </TableCell>
-                                            <TableCell>
-                                                {getStatusBadge(productType.is_active)}
-                                            </TableCell>
-                                            <TableCell className="text-sm text-gray-500">
-                                                {formatDate(productType.created_at)}
-                                            </TableCell>
+                                            <TableCell>{getStatusBadge(productType.is_active)}</TableCell>
+                                            <TableCell className="text-sm text-gray-500">{formatDate(productType.created_at)}</TableCell>
                                             <TableCell className="text-right">
                                                 <DropdownMenu>
                                                     <DropdownMenuTrigger asChild>
@@ -272,20 +280,12 @@ export default function ProductTypeIndex({ productTypes, products, filters }: Pr
                             </div>
                             <div className="flex gap-2">
                                 {productTypes.current_page > 1 && (
-                                    <Button
-                                        variant="outline"
-                                        size="sm"
-                                        onClick={() => handlePagination(productTypes.current_page - 1)}
-                                    >
+                                    <Button variant="outline" size="sm" onClick={() => handlePagination(productTypes.current_page - 1)}>
                                         Previous
                                     </Button>
                                 )}
                                 {productTypes.current_page < productTypes.last_page && (
-                                    <Button
-                                        variant="outline"
-                                        size="sm"
-                                        onClick={() => handlePagination(productTypes.current_page + 1)}
-                                    >
+                                    <Button variant="outline" size="sm" onClick={() => handlePagination(productTypes.current_page + 1)}>
                                         Next
                                     </Button>
                                 )}

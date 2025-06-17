@@ -109,7 +109,7 @@ export default function ShowProductSchemeAttribute({ productSchemeAttribute }: P
                                 {/* Attribute Value */}
                                 <div className="space-y-3">
                                     <h3 className="text-lg font-medium">Attribute Value</h3>
-                                    <div className="rounded-lg border p-4 bg-gray-50">
+                                    <div className="rounded-lg border bg-gray-50 p-4">
                                         <p className="text-sm whitespace-pre-wrap">{productSchemeAttribute.attribute_value}</p>
                                     </div>
                                 </div>
@@ -121,18 +121,20 @@ export default function ShowProductSchemeAttribute({ productSchemeAttribute }: P
                                         <div className="rounded-lg border p-4">
                                             <div className="space-y-2">
                                                 <div>
-                                                    <span className="font-medium text-sm">Scheme:</span>
+                                                    <span className="text-sm font-medium">Scheme:</span>
                                                     <p className="text-sm text-gray-600">{productSchemeAttribute.product_scheme.name}</p>
                                                 </div>
                                                 {productSchemeAttribute.product_scheme.description && (
                                                     <div>
-                                                        <span className="font-medium text-sm">Description:</span>
+                                                        <span className="text-sm font-medium">Description:</span>
                                                         <p className="text-sm text-gray-600">{productSchemeAttribute.product_scheme.description}</p>
                                                     </div>
                                                 )}
                                                 <div>
-                                                    <span className="font-medium text-sm">Account:</span>
-                                                    <p className="text-sm text-gray-600">{productSchemeAttribute.product_scheme.product_type_account?.name || 'N/A'}</p>
+                                                    <span className="text-sm font-medium">Account:</span>
+                                                    <p className="text-sm text-gray-600">
+                                                        {productSchemeAttribute.product_scheme.product_type_account?.name || 'N/A'}
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>

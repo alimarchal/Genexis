@@ -64,22 +64,18 @@ export default function EditBoardOfDirector({ boardOfDirector }: Props) {
     });
 
     const [experienceItems, setExperienceItems] = useState(
-        boardOfDirector.experience && boardOfDirector.experience.length > 0
-            ? boardOfDirector.experience
-            : ['']
+        boardOfDirector.experience && boardOfDirector.experience.length > 0 ? boardOfDirector.experience : [''],
     );
     const [achievementItems, setAchievementItems] = useState(
-        boardOfDirector.achievements && boardOfDirector.achievements.length > 0
-            ? boardOfDirector.achievements
-            : ['']
+        boardOfDirector.achievements && boardOfDirector.achievements.length > 0 ? boardOfDirector.achievements : [''],
     );
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
         // Filter out empty experience and achievement items
-        const filteredExperience = experienceItems.filter(item => item.trim() !== '');
-        const filteredAchievements = achievementItems.filter(item => item.trim() !== '');
+        const filteredExperience = experienceItems.filter((item) => item.trim() !== '');
+        const filteredAchievements = achievementItems.filter((item) => item.trim() !== '');
 
         router.post(route('board-of-directors.update', boardOfDirector.id), {
             ...data,
@@ -297,12 +293,7 @@ export default function EditBoardOfDirector({ boardOfDirector }: Props) {
                                             className="flex-1"
                                         />
                                         {experienceItems.length > 1 && (
-                                            <Button
-                                                type="button"
-                                                variant="outline"
-                                                size="sm"
-                                                onClick={() => removeExperienceItem(index)}
-                                            >
+                                            <Button type="button" variant="outline" size="sm" onClick={() => removeExperienceItem(index)}>
                                                 <Minus className="h-4 w-4" />
                                             </Button>
                                         )}
@@ -333,12 +324,7 @@ export default function EditBoardOfDirector({ boardOfDirector }: Props) {
                                             className="flex-1"
                                         />
                                         {achievementItems.length > 1 && (
-                                            <Button
-                                                type="button"
-                                                variant="outline"
-                                                size="sm"
-                                                onClick={() => removeAchievementItem(index)}
-                                            >
+                                            <Button type="button" variant="outline" size="sm" onClick={() => removeAchievementItem(index)}>
                                                 <Minus className="h-4 w-4" />
                                             </Button>
                                         )}
@@ -361,11 +347,7 @@ export default function EditBoardOfDirector({ boardOfDirector }: Props) {
                                         </Label>
                                         <p className="text-sm text-gray-500">Make this member visible on the website</p>
                                     </div>
-                                    <Switch
-                                        id="is_active"
-                                        checked={data.is_active}
-                                        onCheckedChange={(checked) => setData('is_active', checked)}
-                                    />
+                                    <Switch id="is_active" checked={data.is_active} onCheckedChange={(checked) => setData('is_active', checked)} />
                                 </div>
 
                                 <div className="flex items-center justify-between">

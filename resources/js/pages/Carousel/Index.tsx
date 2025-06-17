@@ -80,24 +80,32 @@ export default function CarouselIndex({ carousels, filters }: Props) {
 
     const handleSearch = (value: string) => {
         setSearch(value);
-        router.get(route('carousels.index'), {
-            ...buildParams(),
-            'filter[title]': value.trim() ? value : undefined
-        }, { preserveState: true, replace: true });
+        router.get(
+            route('carousels.index'),
+            {
+                ...buildParams(),
+                'filter[title]': value.trim() ? value : undefined,
+            },
+            { preserveState: true, replace: true },
+        );
     };
 
     const handleStatusFilter = (value: string) => {
         setStatusFilter(value);
-        router.get(route('carousels.index'), {
-            ...buildParams(),
-            'filter[status]': value !== 'all' ? value : undefined
-        }, { preserveState: true, replace: true });
+        router.get(
+            route('carousels.index'),
+            {
+                ...buildParams(),
+                'filter[status]': value !== 'all' ? value : undefined,
+            },
+            { preserveState: true, replace: true },
+        );
     };
 
     const handlePagination = (page: number) => {
         router.get(route('carousels.index'), {
             ...buildParams(),
-            page
+            page,
         });
     };
 
@@ -200,28 +208,20 @@ export default function CarouselIndex({ carousels, filters }: Props) {
                                                 </div>
                                             </TableCell>
                                             <TableCell>
-                                                <div className="max-w-xs truncate text-sm text-gray-500">
-                                                    {carousel.description || '-'}
-                                                </div>
+                                                <div className="max-w-xs truncate text-sm text-gray-500">{carousel.description || '-'}</div>
                                             </TableCell>
                                             <TableCell>
                                                 {carousel.button_text ? (
                                                     <div className="text-sm">
                                                         <div className="font-medium">{carousel.button_text}</div>
-                                                        <div className="text-xs text-gray-500 truncate max-w-xs">
-                                                            {carousel.button_url}
-                                                        </div>
+                                                        <div className="max-w-xs truncate text-xs text-gray-500">{carousel.button_url}</div>
                                                     </div>
                                                 ) : (
                                                     '-'
                                                 )}
                                             </TableCell>
-                                            <TableCell>
-                                                {getStatusBadge(carousel.status)}
-                                            </TableCell>
-                                            <TableCell className="text-sm text-gray-500">
-                                                {formatDate(carousel.created_at)}
-                                            </TableCell>
+                                            <TableCell>{getStatusBadge(carousel.status)}</TableCell>
+                                            <TableCell className="text-sm text-gray-500">{formatDate(carousel.created_at)}</TableCell>
                                             <TableCell className="text-right">
                                                 <DropdownMenu>
                                                     <DropdownMenuTrigger asChild>
@@ -267,20 +267,12 @@ export default function CarouselIndex({ carousels, filters }: Props) {
                             </div>
                             <div className="flex gap-2">
                                 {carousels.current_page > 1 && (
-                                    <Button
-                                        variant="outline"
-                                        size="sm"
-                                        onClick={() => handlePagination(carousels.current_page - 1)}
-                                    >
+                                    <Button variant="outline" size="sm" onClick={() => handlePagination(carousels.current_page - 1)}>
                                         Previous
                                     </Button>
                                 )}
                                 {carousels.current_page < carousels.last_page && (
-                                    <Button
-                                        variant="outline"
-                                        size="sm"
-                                        onClick={() => handlePagination(carousels.current_page + 1)}
-                                    >
+                                    <Button variant="outline" size="sm" onClick={() => handlePagination(carousels.current_page + 1)}>
                                         Next
                                     </Button>
                                 )}

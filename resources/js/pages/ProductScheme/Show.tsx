@@ -98,10 +98,12 @@ export default function ShowProductScheme({ productScheme }: Props) {
                                     </div>
                                     <div className="flex-1 space-y-2">
                                         <CardTitle className="text-2xl">{productScheme.name}</CardTitle>
-                                        <div className="flex items-center gap-2 flex-wrap">
+                                        <div className="flex flex-wrap items-center gap-2">
                                             <Badge variant="outline">{productScheme.product_type_account?.name || 'N/A'}</Badge>
                                             <Badge variant="secondary">{productScheme.product_type_account?.product_type?.name || 'N/A'}</Badge>
-                                            <Badge variant="destructive">{productScheme.product_type_account?.product_type?.product?.name || 'N/A'}</Badge>
+                                            <Badge variant="destructive">
+                                                {productScheme.product_type_account?.product_type?.product?.name || 'N/A'}
+                                            </Badge>
                                             {getStatusBadge(productScheme.is_active)}
                                         </div>
                                     </div>
@@ -112,7 +114,7 @@ export default function ShowProductScheme({ productScheme }: Props) {
                                 {productScheme.description && (
                                     <div className="space-y-2">
                                         <h3 className="text-lg font-medium">Description</h3>
-                                        <p className="text-gray-700 leading-relaxed">{productScheme.description}</p>
+                                        <p className="leading-relaxed text-gray-700">{productScheme.description}</p>
                                     </div>
                                 )}
 
@@ -125,7 +127,7 @@ export default function ShowProductScheme({ productScheme }: Props) {
                                                 <div key={attribute.id} className="flex items-start justify-between rounded-lg border p-3">
                                                     <div className="flex-1">
                                                         <h4 className="font-medium">{attribute.attribute_name}</h4>
-                                                        <p className="text-sm text-gray-600 mt-1 whitespace-pre-wrap">{attribute.attribute_value}</p>
+                                                        <p className="mt-1 text-sm whitespace-pre-wrap text-gray-600">{attribute.attribute_value}</p>
                                                         <Badge variant="outline" className="mt-2 text-xs">
                                                             {attribute.attribute_type}
                                                         </Badge>
@@ -177,7 +179,9 @@ export default function ShowProductScheme({ productScheme }: Props) {
                                         <div className="mt-1 space-y-1">
                                             <Badge variant="secondary">{productScheme.product_type_account?.product_type?.name || 'N/A'}</Badge>
                                             <br />
-                                            <Badge variant="destructive">{productScheme.product_type_account?.product_type?.product?.name || 'N/A'}</Badge>
+                                            <Badge variant="destructive">
+                                                {productScheme.product_type_account?.product_type?.product?.name || 'N/A'}
+                                            </Badge>
                                         </div>
                                     </div>
                                 </div>
@@ -202,9 +206,7 @@ export default function ShowProductScheme({ productScheme }: Props) {
                             <CardContent className="space-y-4 text-sm">
                                 <div className="flex justify-between">
                                     <span className="font-medium">Attributes:</span>
-                                    <span className="text-gray-600">
-                                        {productScheme.attributes ? productScheme.attributes.length : 0}
-                                    </span>
+                                    <span className="text-gray-600">{productScheme.attributes ? productScheme.attributes.length : 0}</span>
                                 </div>
 
                                 <Separator />
@@ -212,7 +214,7 @@ export default function ShowProductScheme({ productScheme }: Props) {
                                 <div className="flex justify-between">
                                     <span className="font-medium">Active Attributes:</span>
                                     <span className="text-gray-600">
-                                        {productScheme.attributes ? productScheme.attributes.filter(attr => attr.is_active).length : 0}
+                                        {productScheme.attributes ? productScheme.attributes.filter((attr) => attr.is_active).length : 0}
                                     </span>
                                 </div>
 
@@ -220,9 +222,7 @@ export default function ShowProductScheme({ productScheme }: Props) {
 
                                 <div className="flex justify-between">
                                     <span className="font-medium">Has Description:</span>
-                                    <span className="text-gray-600">
-                                        {productScheme.description ? 'Yes' : 'No'}
-                                    </span>
+                                    <span className="text-gray-600">{productScheme.description ? 'Yes' : 'No'}</span>
                                 </div>
                             </CardContent>
                         </Card>

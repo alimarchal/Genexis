@@ -73,9 +73,7 @@ export default function ShowProduct({ product }: Props) {
                                     </div>
                                     <div className="flex-1 space-y-2">
                                         <CardTitle className="text-2xl">{product.name}</CardTitle>
-                                        <div className="flex items-center gap-2">
-                                            {getStatusBadge(product.is_active)}
-                                        </div>
+                                        <div className="flex items-center gap-2">{getStatusBadge(product.is_active)}</div>
                                     </div>
                                 </div>
                             </CardHeader>
@@ -134,9 +132,7 @@ export default function ShowProduct({ product }: Props) {
                             <CardContent className="space-y-4 text-sm">
                                 <div className="flex justify-between">
                                     <span className="font-medium">Product Types:</span>
-                                    <span className="text-gray-600">
-                                        {product.product_types ? product.product_types.length : 0}
-                                    </span>
+                                    <span className="text-gray-600">{product.product_types ? product.product_types.length : 0}</span>
                                 </div>
 
                                 <Separator />
@@ -144,7 +140,7 @@ export default function ShowProduct({ product }: Props) {
                                 <div className="flex justify-between">
                                     <span className="font-medium">Active Types:</span>
                                     <span className="text-gray-600">
-                                        {product.product_types ? product.product_types.filter(type => type.is_active).length : 0}
+                                        {product.product_types ? product.product_types.filter((type) => type.is_active).length : 0}
                                     </span>
                                 </div>
                             </CardContent>

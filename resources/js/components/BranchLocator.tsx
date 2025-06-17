@@ -1,7 +1,6 @@
 import { CheckCircle, Clock, FileSpreadsheet, FileText, Globe, Mail, MapPin, Navigation, Phone, Search, XCircle } from 'lucide-react';
 import React, { useMemo, useState } from 'react';
 
-
 interface Branch {
     id: number;
     name: string;
@@ -52,7 +51,6 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
     const [selectedBranch, setSelectedBranch] = useState<number | null>(null);
     const [branchTypeFilter, setBranchTypeFilter] = useState('all');
     const [isDownloading, setIsDownloading] = useState(false);
-
 
     // Get unique cities/districts for filtering
     const cities = useMemo(() => [...new Set(branches.map((b) => b.city))].sort(), [branches]);
@@ -143,11 +141,11 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
                 { header: 'Operating Hours', key: 'hours', width: 25 },
                 { header: 'Has ATM', key: 'atm', width: 10 },
                 { header: 'Services', key: 'services', width: 40 },
-                { header: 'Facilities', key: 'facilities', width: 30 }
+                { header: 'Facilities', key: 'facilities', width: 30 },
             ];
 
             // Add data rows
-            filteredBranches.forEach(branch => {
+            filteredBranches.forEach((branch) => {
                 worksheet.addRow({
                     code: branch.code,
                     name: branch.name,
@@ -161,7 +159,7 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
                     hours: branch.today_hours || 'Mon-Thu: 9AM-5PM, Fri: 9AM-12:30PM',
                     atm: branch.has_atm ? 'Yes' : 'No',
                     services: branch.services.join(', '),
-                    facilities: branch.facilities.join(', ')
+                    facilities: branch.facilities.join(', '),
                 });
             });
 
@@ -172,7 +170,7 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
                 cell.fill = {
                     type: 'pattern',
                     pattern: 'solid',
-                    fgColor: { argb: 'FF4A7C59' }
+                    fgColor: { argb: 'FF4A7C59' },
                 };
                 cell.alignment = { vertical: 'middle', horizontal: 'center' };
             });
@@ -238,15 +236,15 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
                             <div class="stat-label">Filtered Branches</div>
                         </div>
                         <div class="stat-item">
-                            <div class="stat-number">${filteredBranches.filter(b => b.is_open).length}</div>
+                            <div class="stat-number">${filteredBranches.filter((b) => b.is_open).length}</div>
                             <div class="stat-label">Open Now</div>
                         </div>
                         <div class="stat-item">
-                            <div class="stat-number">${filteredBranches.filter(b => b.has_atm).length}</div>
+                            <div class="stat-number">${filteredBranches.filter((b) => b.has_atm).length}</div>
                             <div class="stat-label">With ATM</div>
                         </div>
                         <div class="stat-item">
-                            <div class="stat-number">${[...new Set(filteredBranches.map(b => b.city))].length}</div>
+                            <div class="stat-number">${[...new Set(filteredBranches.map((b) => b.city))].length}</div>
                             <div class="stat-label">Cities</div>
                         </div>
                     </div>
@@ -265,7 +263,9 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
                         </tr>
                     </thead>
                     <tbody>
-                        ${filteredBranches.map(branch => `
+                        ${filteredBranches
+                            .map(
+                                (branch) => `
                             <tr>
                                 <td class="branch-code">${branch.code}</td>
                                 <td>${branch.name}</td>
@@ -275,7 +275,9 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
                                 <td class="${branch.is_open ? 'status-open' : 'status-closed'}">${branch.operating_status}</td>
                                 <td>${branch.has_atm ? '✓' : '✗'}</td>
                             </tr>
-                        `).join('')}
+                        `,
+                            )
+                            .join('')}
                     </tbody>
                 </table>
             </body>
@@ -300,31 +302,31 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
         filteredBranches.length > 0
             ? filteredBranches
             : [
-                {
-                    id: 1,
-                    name: 'Head Office',
-                    code: 'HO001',
-                    type: 'Head Office',
-                    address: 'Bank Square, Chattar Domel',
-                    city: 'Muzaffarabad',
-                    region: 'Muzaffarabad',
-                    full_address: 'Bank Square, Chattar Domel, Muzaffarabad, AJK',
-                    latitude: 34.3587,
-                    longitude: 73.4713,
-                    phone: '+92-5822-924244',
-                    email: 'info@bankajk.com',
-                    fax: '+92-5822-924245',
-                    services: ['All Banking Services', 'Corporate Banking', 'Foreign Exchange'],
-                    facilities: ['ATM', 'Parking', 'Wheelchair Access'],
-                    operating_hours: {},
-                    is_24_hours: false,
-                    is_open: true,
-                    operating_status: 'Open Now',
-                    today_hours: '9:00 AM - 5:00 PM',
-                    google_maps_url: 'https://www.google.com/maps?q=34.3587,73.4713',
-                    has_atm: true,
-                },
-            ];
+                  {
+                      id: 1,
+                      name: 'Head Office',
+                      code: 'HO001',
+                      type: 'Head Office',
+                      address: 'Bank Square, Chattar Domel',
+                      city: 'Muzaffarabad',
+                      region: 'Muzaffarabad',
+                      full_address: 'Bank Square, Chattar Domel, Muzaffarabad, AJK',
+                      latitude: 34.3587,
+                      longitude: 73.4713,
+                      phone: '+92-5822-924244',
+                      email: 'info@bankajk.com',
+                      fax: '+92-5822-924245',
+                      services: ['All Banking Services', 'Corporate Banking', 'Foreign Exchange'],
+                      facilities: ['ATM', 'Parking', 'Wheelchair Access'],
+                      operating_hours: {},
+                      is_24_hours: false,
+                      is_open: true,
+                      operating_status: 'Open Now',
+                      today_hours: '9:00 AM - 5:00 PM',
+                      google_maps_url: 'https://www.google.com/maps?q=34.3587,73.4713',
+                      has_atm: true,
+                  },
+              ];
 
     const displayStats = branches.length > 0 ? stats : { totalBranches: 87, atmLocations: 150, citiesCovered: 25, openNow: 65 };
 
@@ -422,7 +424,7 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
                             <button
                                 onClick={downloadExcel}
                                 disabled={isDownloading}
-                                className="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-50"
+                                className="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-green-700 focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:outline-none disabled:opacity-50"
                                 title="Download as Excel"
                             >
                                 <FileSpreadsheet className="h-4 w-4" />
@@ -430,7 +432,7 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
                             </button>
                             <button
                                 onClick={downloadPDF}
-                                className="flex items-center gap-2 rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+                                className="flex items-center gap-2 rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-700 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-none"
                                 title="Download as PDF"
                             >
                                 <FileText className="h-4 w-4" />
@@ -446,10 +448,11 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
                         {displayBranches.map((branch) => (
                             <div
                                 key={branch.id}
-                                className={`group cursor-pointer rounded-2xl border border-white/20 bg-white/90 p-6 shadow-lg backdrop-blur-sm transition-all duration-300 ${selectedBranch === branch.id
-                                    ? 'scale-[1.02] shadow-2xl ring-2 ring-[#4A7C59]/30'
-                                    : 'hover:scale-[1.01] hover:shadow-xl'
-                                    }`}
+                                className={`group cursor-pointer rounded-2xl border border-white/20 bg-white/90 p-6 shadow-lg backdrop-blur-sm transition-all duration-300 ${
+                                    selectedBranch === branch.id
+                                        ? 'scale-[1.02] shadow-2xl ring-2 ring-[#4A7C59]/30'
+                                        : 'hover:scale-[1.01] hover:shadow-xl'
+                                }`}
                                 onClick={() => setSelectedBranch(selectedBranch === branch.id ? null : branch.id)}
                             >
                                 {/* Branch Header */}
@@ -471,7 +474,6 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
                                             <span className={`rounded-full px-3 py-1 text-xs font-medium ${getBranchTypeColor(branch.type)}`}>
                                                 {branch.type.replace(/[-_]/g, ' ').toUpperCase()}
                                             </span>
-
                                         </div>
 
                                         {/* Status & ATM */}

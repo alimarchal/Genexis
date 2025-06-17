@@ -106,32 +106,44 @@ export default function BankServiceIndex({ bankServices, filters }: Props) {
 
     const handleSearch = (value: string) => {
         setSearch(value);
-        router.get(route('bank-services.index'), {
-            ...buildParams(),
-            'filter[title]': value.trim() ? value : undefined
-        }, { preserveState: true, replace: true });
+        router.get(
+            route('bank-services.index'),
+            {
+                ...buildParams(),
+                'filter[title]': value.trim() ? value : undefined,
+            },
+            { preserveState: true, replace: true },
+        );
     };
 
     const handleStatusFilter = (value: string) => {
         setStatusFilter(value);
-        router.get(route('bank-services.index'), {
-            ...buildParams(),
-            'filter[status]': value !== 'all' ? value : undefined
-        }, { preserveState: true, replace: true });
+        router.get(
+            route('bank-services.index'),
+            {
+                ...buildParams(),
+                'filter[status]': value !== 'all' ? value : undefined,
+            },
+            { preserveState: true, replace: true },
+        );
     };
 
     const handleTypeFilter = (value: string) => {
         setTypeFilter(value);
-        router.get(route('bank-services.index'), {
-            ...buildParams(),
-            'filter[service_type]': value !== 'all' ? value : undefined
-        }, { preserveState: true, replace: true });
+        router.get(
+            route('bank-services.index'),
+            {
+                ...buildParams(),
+                'filter[service_type]': value !== 'all' ? value : undefined,
+            },
+            { preserveState: true, replace: true },
+        );
     };
 
     const handlePagination = (page: number) => {
         router.get(route('bank-services.index'), {
             ...buildParams(),
-            page
+            page,
         });
     };
 
@@ -248,9 +260,7 @@ export default function BankServiceIndex({ bankServices, filters }: Props) {
                                                     </div>
                                                 </div>
                                             </TableCell>
-                                            <TableCell>
-                                                {getTypeBadge(service.service_type)}
-                                            </TableCell>
+                                            <TableCell>{getTypeBadge(service.service_type)}</TableCell>
                                             <TableCell>
                                                 <div className="text-sm">
                                                     {ensureArray(service.products).length > 0 ? (
@@ -260,12 +270,8 @@ export default function BankServiceIndex({ bankServices, filters }: Props) {
                                                     )}
                                                 </div>
                                             </TableCell>
-                                            <TableCell>
-                                                {getStatusBadge(service.status)}
-                                            </TableCell>
-                                            <TableCell className="text-muted-foreground text-sm">
-                                                {formatDate(service.created_at)}
-                                            </TableCell>
+                                            <TableCell>{getStatusBadge(service.status)}</TableCell>
+                                            <TableCell className="text-muted-foreground text-sm">{formatDate(service.created_at)}</TableCell>
                                             <TableCell className="text-right">
                                                 <DropdownMenu>
                                                     <DropdownMenuTrigger asChild>
@@ -311,20 +317,12 @@ export default function BankServiceIndex({ bankServices, filters }: Props) {
                             </div>
                             <div className="flex gap-2">
                                 {bankServices.current_page > 1 && (
-                                    <Button
-                                        variant="outline"
-                                        size="sm"
-                                        onClick={() => handlePagination(bankServices.current_page - 1)}
-                                    >
+                                    <Button variant="outline" size="sm" onClick={() => handlePagination(bankServices.current_page - 1)}>
                                         Previous
                                     </Button>
                                 )}
                                 {bankServices.current_page < bankServices.last_page && (
-                                    <Button
-                                        variant="outline"
-                                        size="sm"
-                                        onClick={() => handlePagination(bankServices.current_page + 1)}
-                                    >
+                                    <Button variant="outline" size="sm" onClick={() => handlePagination(bankServices.current_page + 1)}>
                                         Next
                                     </Button>
                                 )}
