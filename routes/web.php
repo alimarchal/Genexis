@@ -40,6 +40,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('news-announcements', NewsAnnouncementController::class);
     Route::resource('managments', ManagmentController::class);
     Route::resource('board-of-directors', controller: BoardOfDirectorController::class);
+    // Route::resource('product-types', ProductTypeController::class);
+    // Route::resource('product-type-accounts', ProductTypeAccountController::class);
+    Route::resource('product-schemes', ProductSchemeController::class);
+    Route::resource('product-scheme-attributes', ProductSchemeAttributeController::class);
+
+
 
     Route::resource('financial-reports', FinancialReportController::class);
     Route::resource('annual-reports', AnnualReportController::class);
@@ -64,10 +70,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Product CRUD - singular route
     Route::resource('product', ProductController::class);
 
-    // Route::resource('product-types', ProductTypeController::class);
-    // Route::resource('product-type-accounts', ProductTypeAccountController::class);
-    Route::resource('product-schemes', ProductSchemeController::class);
-    Route::resource('product-scheme-attributes', ProductSchemeAttributeController::class);
 
     Route::resource('service-attributes', ServiceAttributeController::class);
 
