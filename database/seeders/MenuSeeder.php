@@ -236,6 +236,30 @@ class MenuSeeder extends Seeder
         ];
 
         $this->createMenuItems($menus);
+
+
+        // Get the Services parent menu
+        $servicesParent = Menu::where('slug', 'services')->first();
+
+        if ($servicesParent) {
+            // Get all services except the hardcoded ones
+            $services = \App\Models\Service::active()
+                ->whereNotIn('slug', ['lockers-facility', 'utility-bills-collection', 'services-for-ajk-psc', 'home-remittance'])
+                ->ordered()
+                ->get();
+
+            foreach ($services as $index => $service) {
+                Menu::create([
+                    'title' => $service->name,
+                    'slug' => $service->slug,
+                    'route_name' => 'service-pages.show',
+                    'route_params' => ['slug' => $service->slug],
+                    'parent_id' => $servicesParent->id,
+                    'sort_order' => 10 + $index,
+                    'is_active' => true,
+                ]);
+            }
+        }
     }
 
     private function createMenuItems(array $menus, $parentId = null): void
@@ -253,5 +277,10 @@ class MenuSeeder extends Seeder
                 $this->createMenuItems($children, $menu->id);
             }
         }
+
+
     }
+
+
+
 }

@@ -64,7 +64,6 @@ export default function EditService({ service }: Props) {
         attributes: service.attributes || [],
         _method: 'PUT',
     });
-
     const [attributeItems, setAttributeItems] = useState(
         service.attributes && service.attributes.length > 0
             ? service.attributes.map(attr => ({

@@ -104,14 +104,16 @@ Route::prefix('products')->name('products.')->group(function () {
     Route::get('/micro-finances', [PageController::class, 'microFinance'])->name('micro-finances');
 });
 
-Route::prefix('services-page')->name('service-pages.')->group(callback: function () {
+Route::prefix('services-page')->name('service-pages.')->group(function () {
     Route::get('/all-services', [ServiceController::class, 'indexHomePage'])->name('all');
     Route::get('/lockers-facility', [ServiceController::class, 'lockersFacility'])->name('lockers-facility');
     Route::get('/utility-bills-collection', [ServiceController::class, 'utilityBillsCollection'])->name('utility-bills-collection');
     Route::get('/services-for-ajk-psc', [ServiceController::class, 'servicesForAjkPsc'])->name('services-for-ajk-psc');
     Route::get('/home-remittance', [ServiceController::class, 'homeRemittance'])->name('home-remittance');
-});
 
+    // This route handles new services
+    Route::get('/{slug}', [ServiceController::class, 'showHomePage'])->name('show');
+});
 Route::prefix('financials')->name('financials.')->group(function () {
     Route::get('/statements', [PageController::class, 'financialStatements'])->name('statements');
     Route::get('/annual-reports', [PageController::class, 'annualReports'])->name('annualReports');

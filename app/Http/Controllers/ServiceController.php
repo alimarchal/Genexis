@@ -114,12 +114,7 @@ class ServiceController extends Controller
 
     public function edit(Service $service)
     {
-        // Ensure attributes are loaded with proper ordering
-        $service->load([
-            'attributes' => function ($query) {
-                $query->orderBy('sort_order');
-            }
-        ]);
+        $service->load('attributes');
 
         return Inertia::render('Services/Edit', [
             'service' => [
@@ -127,36 +122,28 @@ class ServiceController extends Controller
                 'name' => $service->name,
                 'slug' => $service->slug,
                 'description' => $service->description,
-                'icon' => $service->icon,
+                'icon' => $service->icon ?? '',
                 'image' => $service->image,
                 'image_url' => $service->image_url,
                 'is_active' => $service->is_active,
                 'sort_order' => $service->sort_order,
                 'meta_data' => $service->meta_data,
-                'attributes' => $service->attributes->map(function ($attr) {
-                    return [
-                        'id' => $attr->id,
-                        'attribute_name' => $attr->attribute_name,
-                        'attribute_value' => $attr->attribute_value,
-                        'sort_order' => $attr->sort_order,
-                    ];
-                })->values()->toArray(), // Ensure it's a proper array
+                'attributes' => $service->attributes->map(fn($attr) => [
+                    'attribute_name' => $attr->attribute_name,
+                    'attribute_value' => $attr->attribute_value,
+                ])->toArray(),
             ],
         ]);
     }
-
     public function update(UpdateServiceRequest $request, Service $service)
     {
         $validated = $request->validated();
 
-        // Generate slug if not provided
         if (empty($validated['slug'])) {
             $validated['slug'] = Str::slug($validated['name']);
         }
 
-        // Handle image upload
         if ($request->hasFile('image')) {
-            // Delete old image
             if ($service->image) {
                 Storage::disk('public')->delete($service->image);
             }
@@ -165,28 +152,24 @@ class ServiceController extends Controller
 
         $service->update($validated);
 
-        // Update attributes
-        if (isset($validated['attributes'])) {
-            // Delete existing attributes
-            $service->attributes()->delete();
+        // Always delete existing attributes first
+        $service->attributes()->delete();
 
-            // Create new attributes
+        // Add new attributes from the request
+        if (!empty($validated['attributes'])) {
             foreach ($validated['attributes'] as $index => $attribute) {
-                if (!empty(trim($attribute['attribute_name'])) && !empty(trim($attribute['attribute_value']))) {
+                if (!empty($attribute['attribute_name']) && !empty($attribute['attribute_value'])) {
                     $service->attributes()->create([
-                        'attribute_name' => trim($attribute['attribute_name']),
-                        'attribute_value' => trim($attribute['attribute_value']),
+                        'attribute_name' => $attribute['attribute_name'],
+                        'attribute_value' => $attribute['attribute_value'],
                         'sort_order' => $index + 1,
                     ]);
                 }
             }
         }
 
-        return redirect()
-            ->route('services.index')
-            ->with('success', 'Service updated successfully.');
+        return redirect()->route('services.index')->with('success', 'Service updated successfully.');
     }
-
     public function destroy(Service $service)
     {
         // Delete image file
