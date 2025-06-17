@@ -34,7 +34,42 @@ declare module '@inertiajs/core' {
         bankBranchesCount: number;
         contact_phone: string;
         contact_email: string;
-        contact_address: string; // Add this line
+        contact_address: string;
+        menu: {
+            id: number;
+            title: string;
+            url: string;
+            target: string;
+            icon?: string;
+            cssClass?: string;
+            isActive: boolean;
+            hasChildren: boolean;
+            isMegaMenu: boolean;
+            children: {
+                id: number;
+                title: string;
+                url: string;
+                target: string;
+                icon?: string;
+                cssClass?: string;
+                isActive: boolean;
+                hasChildren: boolean;
+                isMegaMenu: boolean;
+                children: unknown[];
+            }[];
+        }[];
+        autoBreadcrumbs: {
+            label: string;
+            href?: string;
+            isActive?: boolean;
+        }[];
+        socialLinks: {
+            facebook: string;
+            twitter: string;
+            instagram: string;
+            linkedin: string;
+            youtube: string;
+        };
 
         // Add any other globally shared props here as you define them
     }
