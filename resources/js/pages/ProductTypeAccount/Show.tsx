@@ -35,8 +35,8 @@ interface ProductTypeAccount {
     is_active: boolean;
     created_at: string;
     updated_at: string;
-    product_type?: ProductType;  // Changed from productType to product_type
-    product_schemes?: ProductScheme[];  // Changed from productSchemes to product_schemes
+    product_type?: ProductType; // Changed from productType to product_type
+    product_schemes?: ProductScheme[]; // Changed from productSchemes to product_schemes
 }
 
 interface Props {
@@ -108,9 +108,7 @@ export default function ShowProductTypeAccount({ productTypeAccount }: Props) {
                                                     <div>
                                                         <span className="font-medium">{scheme.name}</span>
                                                         {scheme.description && (
-                                                            <p className="text-sm text-gray-600 mt-1 max-w-md truncate">
-                                                                {scheme.description}
-                                                            </p>
+                                                            <p className="mt-1 max-w-md truncate text-sm text-gray-600">{scheme.description}</p>
                                                         )}
                                                     </div>
                                                     {getStatusBadge(scheme.is_active)}
@@ -193,7 +191,9 @@ export default function ShowProductTypeAccount({ productTypeAccount }: Props) {
                                 <div className="flex justify-between">
                                     <span className="font-medium">Active Schemes:</span>
                                     <span className="text-gray-600">
-                                        {productTypeAccount.product_schemes ? productTypeAccount.product_schemes.filter(scheme => scheme.is_active).length : 0}
+                                        {productTypeAccount.product_schemes
+                                            ? productTypeAccount.product_schemes.filter((scheme) => scheme.is_active).length
+                                            : 0}
                                     </span>
                                 </div>
                             </CardContent>

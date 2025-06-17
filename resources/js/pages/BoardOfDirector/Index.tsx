@@ -93,32 +93,44 @@ export default function BoardOfDirectorIndex({ boardOfDirectors, filters }: Prop
 
     const handleSearch = (value: string) => {
         setSearch(value);
-        router.get(route('board-of-directors.index'), {
-            ...buildParams(),
-            'filter[full_name]': value.trim() ? value : undefined
-        }, { preserveState: true, replace: true });
+        router.get(
+            route('board-of-directors.index'),
+            {
+                ...buildParams(),
+                'filter[full_name]': value.trim() ? value : undefined,
+            },
+            { preserveState: true, replace: true },
+        );
     };
 
     const handleStatusFilter = (value: string) => {
         setStatusFilter(value);
-        router.get(route('board-of-directors.index'), {
-            ...buildParams(),
-            'filter[is_active]': value !== 'all' ? (value === 'active' ? '1' : '0') : undefined
-        }, { preserveState: true, replace: true });
+        router.get(
+            route('board-of-directors.index'),
+            {
+                ...buildParams(),
+                'filter[is_active]': value !== 'all' ? (value === 'active' ? '1' : '0') : undefined,
+            },
+            { preserveState: true, replace: true },
+        );
     };
 
     const handleRoleFilter = (value: string) => {
         setRoleFilter(value);
-        router.get(route('board-of-directors.index'), {
-            ...buildParams(),
-            'filter[is_chairman]': value !== 'all' ? (value === 'chairman' ? '1' : '0') : undefined
-        }, { preserveState: true, replace: true });
+        router.get(
+            route('board-of-directors.index'),
+            {
+                ...buildParams(),
+                'filter[is_chairman]': value !== 'all' ? (value === 'chairman' ? '1' : '0') : undefined,
+            },
+            { preserveState: true, replace: true },
+        );
     };
 
     const handlePagination = (page: number) => {
         router.get(route('board-of-directors.index'), {
             ...buildParams(),
-            page
+            page,
         });
     };
 
@@ -245,7 +257,7 @@ export default function BoardOfDirectorIndex({ boardOfDirectors, filters }: Prop
                                                             {member.title && `${member.title} `}
                                                             {member.full_name}
                                                         </div>
-                                                        <div className="text-sm text-gray-500 max-w-xs truncate">
+                                                        <div className="max-w-xs truncate text-sm text-gray-500">
                                                             {member.short_description || '-'}
                                                         </div>
                                                     </div>
@@ -261,15 +273,9 @@ export default function BoardOfDirectorIndex({ boardOfDirectors, filters }: Prop
                                                     ))}
                                                 </div>
                                             </TableCell>
-                                            <TableCell>
-                                                {getRoleBadge(member.is_chairman)}
-                                            </TableCell>
-                                            <TableCell>
-                                                {getStatusBadge(member.is_active)}
-                                            </TableCell>
-                                            <TableCell className="text-sm text-gray-500">
-                                                {formatDate(member.created_at)}
-                                            </TableCell>
+                                            <TableCell>{getRoleBadge(member.is_chairman)}</TableCell>
+                                            <TableCell>{getStatusBadge(member.is_active)}</TableCell>
+                                            <TableCell className="text-sm text-gray-500">{formatDate(member.created_at)}</TableCell>
                                             <TableCell className="text-right">
                                                 <DropdownMenu>
                                                     <DropdownMenuTrigger asChild>
@@ -315,20 +321,12 @@ export default function BoardOfDirectorIndex({ boardOfDirectors, filters }: Prop
                             </div>
                             <div className="flex gap-2">
                                 {boardOfDirectors.current_page > 1 && (
-                                    <Button
-                                        variant="outline"
-                                        size="sm"
-                                        onClick={() => handlePagination(boardOfDirectors.current_page - 1)}
-                                    >
+                                    <Button variant="outline" size="sm" onClick={() => handlePagination(boardOfDirectors.current_page - 1)}>
                                         Previous
                                     </Button>
                                 )}
                                 {boardOfDirectors.current_page < boardOfDirectors.last_page && (
-                                    <Button
-                                        variant="outline"
-                                        size="sm"
-                                        onClick={() => handlePagination(boardOfDirectors.current_page + 1)}
-                                    >
+                                    <Button variant="outline" size="sm" onClick={() => handlePagination(boardOfDirectors.current_page + 1)}>
                                         Next
                                     </Button>
                                 )}

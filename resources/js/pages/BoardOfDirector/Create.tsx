@@ -49,8 +49,8 @@ export default function CreateBoardOfDirector() {
         e.preventDefault();
 
         // Filter out empty experience and achievement items
-        const filteredExperience = experienceItems.filter(item => item.trim() !== '');
-        const filteredAchievements = achievementItems.filter(item => item.trim() !== '');
+        const filteredExperience = experienceItems.filter((item) => item.trim() !== '');
+        const filteredAchievements = achievementItems.filter((item) => item.trim() !== '');
 
         router.post(route('board-of-directors.store'), {
             ...data,
@@ -248,12 +248,7 @@ export default function CreateBoardOfDirector() {
                                             className="flex-1"
                                         />
                                         {experienceItems.length > 1 && (
-                                            <Button
-                                                type="button"
-                                                variant="outline"
-                                                size="sm"
-                                                onClick={() => removeExperienceItem(index)}
-                                            >
+                                            <Button type="button" variant="outline" size="sm" onClick={() => removeExperienceItem(index)}>
                                                 <Minus className="h-4 w-4" />
                                             </Button>
                                         )}
@@ -284,12 +279,7 @@ export default function CreateBoardOfDirector() {
                                             className="flex-1"
                                         />
                                         {achievementItems.length > 1 && (
-                                            <Button
-                                                type="button"
-                                                variant="outline"
-                                                size="sm"
-                                                onClick={() => removeAchievementItem(index)}
-                                            >
+                                            <Button type="button" variant="outline" size="sm" onClick={() => removeAchievementItem(index)}>
                                                 <Minus className="h-4 w-4" />
                                             </Button>
                                         )}
@@ -312,11 +302,7 @@ export default function CreateBoardOfDirector() {
                                         </Label>
                                         <p className="text-sm text-gray-500">Make this member visible on the website</p>
                                     </div>
-                                    <Switch
-                                        id="is_active"
-                                        checked={data.is_active}
-                                        onCheckedChange={(checked) => setData('is_active', checked)}
-                                    />
+                                    <Switch id="is_active" checked={data.is_active} onCheckedChange={(checked) => setData('is_active', checked)} />
                                 </div>
 
                                 <div className="flex items-center justify-between">

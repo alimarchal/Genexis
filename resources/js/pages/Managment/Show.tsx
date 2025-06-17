@@ -78,9 +78,7 @@ export default function ShowManagement({ managment }: Props) {
                                             {managment.full_name}
                                         </CardTitle>
                                         <div className="flex items-center gap-2">
-                                            <Badge variant={managment.status === 'active' ? 'default' : 'secondary'}>
-                                                {managment.status}
-                                            </Badge>
+                                            <Badge variant={managment.status === 'active' ? 'default' : 'secondary'}>{managment.status}</Badge>
                                         </div>
                                     </div>
                                 </div>
@@ -155,14 +153,14 @@ export default function ShowManagement({ managment }: Props) {
                             <CardContent className="space-y-4">
                                 <div>
                                     <label className="text-muted-foreground text-sm font-medium">Member ID</label>
-                                    <p className="text-muted-foreground font-mono mt-1 text-xl font-bold">#{managment.id.toString().padStart(4, '0')}</p>
+                                    <p className="text-muted-foreground mt-1 font-mono text-xl font-bold">
+                                        #{managment.id.toString().padStart(4, '0')}
+                                    </p>
                                 </div>
                                 <div>
                                     <label className="text-muted-foreground text-sm font-medium">Status</label>
                                     <div className="mt-1">
-                                        <Badge variant={managment.status === 'active' ? 'default' : 'secondary'}>
-                                            {managment.status}
-                                        </Badge>
+                                        <Badge variant={managment.status === 'active' ? 'default' : 'secondary'}>{managment.status}</Badge>
                                     </div>
                                 </div>
                                 <div>

@@ -74,24 +74,32 @@ export default function ProductIndex({ products, filters }: Props) {
 
     const handleSearch = (value: string) => {
         setSearch(value);
-        router.get(route('product.index'), {
-            ...buildParams(),
-            'filter[name]': value.trim() ? value : undefined
-        }, { preserveState: true, replace: true });
+        router.get(
+            route('product.index'),
+            {
+                ...buildParams(),
+                'filter[name]': value.trim() ? value : undefined,
+            },
+            { preserveState: true, replace: true },
+        );
     };
 
     const handleStatusFilter = (value: string) => {
         setStatusFilter(value);
-        router.get(route('product.index'), {
-            ...buildParams(),
-            'filter[is_active]': value !== 'all' ? (value === 'active' ? '1' : '0') : undefined
-        }, { preserveState: true, replace: true });
+        router.get(
+            route('product.index'),
+            {
+                ...buildParams(),
+                'filter[is_active]': value !== 'all' ? (value === 'active' ? '1' : '0') : undefined,
+            },
+            { preserveState: true, replace: true },
+        );
     };
 
     const handlePagination = (page: number) => {
         router.get(route('product.index'), {
             ...buildParams(),
-            page
+            page,
         });
     };
 
@@ -183,12 +191,8 @@ export default function ProductIndex({ products, filters }: Props) {
                                                     </div>
                                                 </div>
                                             </TableCell>
-                                            <TableCell>
-                                                {getStatusBadge(product.is_active)}
-                                            </TableCell>
-                                            <TableCell className="text-sm text-gray-500">
-                                                {formatDate(product.created_at)}
-                                            </TableCell>
+                                            <TableCell>{getStatusBadge(product.is_active)}</TableCell>
+                                            <TableCell className="text-sm text-gray-500">{formatDate(product.created_at)}</TableCell>
                                             <TableCell className="text-right">
                                                 <DropdownMenu>
                                                     <DropdownMenuTrigger asChild>
@@ -234,20 +238,12 @@ export default function ProductIndex({ products, filters }: Props) {
                             </div>
                             <div className="flex gap-2">
                                 {products.current_page > 1 && (
-                                    <Button
-                                        variant="outline"
-                                        size="sm"
-                                        onClick={() => handlePagination(products.current_page - 1)}
-                                    >
+                                    <Button variant="outline" size="sm" onClick={() => handlePagination(products.current_page - 1)}>
                                         Previous
                                     </Button>
                                 )}
                                 {products.current_page < products.last_page && (
-                                    <Button
-                                        variant="outline"
-                                        size="sm"
-                                        onClick={() => handlePagination(products.current_page + 1)}
-                                    >
+                                    <Button variant="outline" size="sm" onClick={() => handlePagination(products.current_page + 1)}>
                                         Next
                                     </Button>
                                 )}

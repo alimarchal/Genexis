@@ -5,6 +5,25 @@ import TopNavbar from '@/components/topnavbar/top-nav-bar';
 import { Head, usePage } from '@inertiajs/react';
 import { PropsWithChildren, useEffect, useRef, useState } from 'react';
 
+interface MenuItem {
+    id: number;
+    title: string;
+    url: string;
+    target: string;
+    icon?: string;
+    cssClass?: string;
+    isActive: boolean;
+    hasChildren: boolean;
+    isMegaMenu: boolean;
+    children: MenuItem[];
+}
+
+interface BreadcrumbItem {
+    label: string;
+    href?: string;
+    isActive?: boolean;
+}
+
 interface WebsiteLayoutProps extends PropsWithChildren {
     title: string;
     breadcrumbs?: Array<{
@@ -14,40 +33,13 @@ interface WebsiteLayoutProps extends PropsWithChildren {
     }>;
 }
 
-interface MenuItem {
-    id: number;
-    title: string;
-    url?: string;
-    children?: MenuItem[];
-    // Add other menu properties as needed
-}
-
-interface BreadcrumbItem {
-    label: string;
-    href?: string;
-    isActive?: boolean;
-}
-
-interface SharedProps {
-    menu: MenuItem[];
-    autoBreadcrumbs: BreadcrumbItem[];
-    bankBranchesCount: number;
-    socialLinks: {
-        facebook: string;
-        twitter: string;
-        instagram: string;
-        linkedin: string;
-        youtube: string;
-    };
-}
-
 export default function WebsiteLayout({ children, title, breadcrumbs = [] }: WebsiteLayoutProps) {
-    const { menu, autoBreadcrumbs, bankBranchesCount, socialLinks } = usePage<SharedProps>().props;
+    const { menu, autoBreadcrumbs, bankBranchesCount, socialLinks } = usePage().props;
     const headerRef = useRef<HTMLDivElement>(null);
     const [headerHeight, setHeaderHeight] = useState(120);
 
     // Use manual breadcrumbs if provided, otherwise use auto breadcrumbs
-    const finalBreadcrumbs = breadcrumbs.length > 0 ? breadcrumbs : autoBreadcrumbs;
+    const finalBreadcrumbs = breadcrumbs.length > 0 ? breadcrumbs : (autoBreadcrumbs as BreadcrumbItem[]);
 
     useEffect(() => {
         const updateHeaderHeight = () => {
@@ -79,7 +71,7 @@ export default function WebsiteLayout({ children, title, breadcrumbs = [] }: Web
             {/* Fixed TopNavbar, Header, and Breadcrumb */}
             <div className="fixed top-0 right-0 left-0 z-50" ref={headerRef}>
                 <TopNavbar />
-                <Header menuItems={menu} />
+                <Header menuItems={menu as MenuItem[]} />
                 {finalBreadcrumbs.length > 0 && <BreadcrumbNav items={finalBreadcrumbs} />}
             </div>
 

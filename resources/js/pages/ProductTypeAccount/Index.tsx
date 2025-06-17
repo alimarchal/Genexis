@@ -47,7 +47,7 @@ interface ProductTypeAccount {
     is_active: boolean;
     created_at: string;
     updated_at: string;
-    product_type?: ProductType;  // Changed from productType to product_type
+    product_type?: ProductType; // Changed from productType to product_type
 }
 
 interface Props {
@@ -92,32 +92,44 @@ export default function ProductTypeAccountIndex({ productTypeAccounts, productTy
 
     const handleSearch = (value: string) => {
         setSearch(value);
-        router.get(route('product-type-accounts.index'), {
-            ...buildParams(),
-            'filter[name]': value.trim() ? value : undefined
-        }, { preserveState: true, replace: true });
+        router.get(
+            route('product-type-accounts.index'),
+            {
+                ...buildParams(),
+                'filter[name]': value.trim() ? value : undefined,
+            },
+            { preserveState: true, replace: true },
+        );
     };
 
     const handleStatusFilter = (value: string) => {
         setStatusFilter(value);
-        router.get(route('product-type-accounts.index'), {
-            ...buildParams(),
-            'filter[is_active]': value !== 'all' ? (value === 'active' ? '1' : '0') : undefined
-        }, { preserveState: true, replace: true });
+        router.get(
+            route('product-type-accounts.index'),
+            {
+                ...buildParams(),
+                'filter[is_active]': value !== 'all' ? (value === 'active' ? '1' : '0') : undefined,
+            },
+            { preserveState: true, replace: true },
+        );
     };
 
     const handleProductTypeFilter = (value: string) => {
         setProductTypeFilter(value);
-        router.get(route('product-type-accounts.index'), {
-            ...buildParams(),
-            'filter[product_type_id]': value !== 'all' ? value : undefined
-        }, { preserveState: true, replace: true });
+        router.get(
+            route('product-type-accounts.index'),
+            {
+                ...buildParams(),
+                'filter[product_type_id]': value !== 'all' ? value : undefined,
+            },
+            { preserveState: true, replace: true },
+        );
     };
 
     const handlePagination = (page: number) => {
         router.get(route('product-type-accounts.index'), {
             ...buildParams(),
-            page
+            page,
         });
     };
 
@@ -231,12 +243,8 @@ export default function ProductTypeAccountIndex({ productTypeAccounts, productTy
                                             <TableCell>
                                                 <Badge variant="secondary">{account.product_type?.product?.name || 'N/A'}</Badge>
                                             </TableCell>
-                                            <TableCell>
-                                                {getStatusBadge(account.is_active)}
-                                            </TableCell>
-                                            <TableCell className="text-sm text-gray-500">
-                                                {formatDate(account.created_at)}
-                                            </TableCell>
+                                            <TableCell>{getStatusBadge(account.is_active)}</TableCell>
+                                            <TableCell className="text-sm text-gray-500">{formatDate(account.created_at)}</TableCell>
                                             <TableCell className="text-right">
                                                 <DropdownMenu>
                                                     <DropdownMenuTrigger asChild>
@@ -282,20 +290,12 @@ export default function ProductTypeAccountIndex({ productTypeAccounts, productTy
                             </div>
                             <div className="flex gap-2">
                                 {productTypeAccounts.current_page > 1 && (
-                                    <Button
-                                        variant="outline"
-                                        size="sm"
-                                        onClick={() => handlePagination(productTypeAccounts.current_page - 1)}
-                                    >
+                                    <Button variant="outline" size="sm" onClick={() => handlePagination(productTypeAccounts.current_page - 1)}>
                                         Previous
                                     </Button>
                                 )}
                                 {productTypeAccounts.current_page < productTypeAccounts.last_page && (
-                                    <Button
-                                        variant="outline"
-                                        size="sm"
-                                        onClick={() => handlePagination(productTypeAccounts.current_page + 1)}
-                                    >
+                                    <Button variant="outline" size="sm" onClick={() => handlePagination(productTypeAccounts.current_page + 1)}>
                                         Next
                                     </Button>
                                 )}

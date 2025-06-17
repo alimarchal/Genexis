@@ -118,11 +118,7 @@ export default function EditProductTypeAccount({ productTypeAccount, productType
                                         </Label>
                                         <p className="text-sm text-gray-500">Enable this account for use</p>
                                     </div>
-                                    <Switch
-                                        id="is_active"
-                                        checked={data.is_active}
-                                        onCheckedChange={(checked) => setData('is_active', checked)}
-                                    />
+                                    <Switch id="is_active" checked={data.is_active} onCheckedChange={(checked) => setData('is_active', checked)} />
                                 </div>
                             </CardContent>
                         </Card>
