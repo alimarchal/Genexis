@@ -5,8 +5,7 @@ namespace Database\Seeders;
 use App\Models\Managment;
 use Illuminate\Database\Seeder;
 
-class ManagmentSeeder extends Seeder
-{
+return new class extends Seeder {
     public function run(): void
     {
 
@@ -133,4 +132,4 @@ class ManagmentSeeder extends Seeder
             ]));
         }
     }
-}
+};

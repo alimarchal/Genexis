@@ -31,7 +31,7 @@ import {
     Settings,
     TrendingUp,
     User,
-    Users
+    Users,
 } from 'lucide-react';
 import AppLogo from './app-logo';
 
@@ -74,6 +74,20 @@ const aboutNavItems: NavItem[] = [
         title: 'Management',
         href: '/managments',
         icon: User,
+    },
+];
+
+// Products
+const productsNavItems: NavItem[] = [
+    {
+        title: 'Product Schemes',
+        href: '/product-schemes',
+        icon: Package,
+    },
+    {
+        title: 'Scheme Attributes',
+        href: '/product-scheme-attributes',
+        icon: Settings,
     },
 ];
 
@@ -156,16 +170,6 @@ const productNavItems: NavItem[] = [
         href: '/product-type-accounts',
         icon: Building,
     },
-    {
-        title: 'Product Schemes',
-        href: '/product-schemes',
-        icon: Package,
-    },
-    {
-        title: 'Product Scheme Attributes',
-        href: '/product-scheme-attributes',
-        icon: Settings,
-    },
 ];
 
 // System Management
@@ -237,6 +241,7 @@ export function AppSidebar() {
                 <NavGroup title="Dashboard" items={coreNavItems} />
                 <NavGroup title="Home" items={homeNavItems} />
                 <NavGroup title="About" items={aboutNavItems} />
+                <NavGroup title="Products" items={productsNavItems} />
                 <NavGroup title="Banking & Services" items={bankingNavItems} />
                 <NavGroup title="Financial Management" items={financialNavItems} />
                 <NavGroup title="Location Management" items={locationNavItems} />

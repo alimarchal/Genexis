@@ -19,7 +19,7 @@ class NewsAnnouncementController extends Controller
             ->allowedFilters([
                 'title',
                 'category',
-                AllowedFilter::exact('is_published')
+                AllowedFilter::exact('is_published'),
             ])
             ->allowedSorts(['id', 'title', 'published_date', 'category', 'created_at'])
             ->defaultSort('-created_at')

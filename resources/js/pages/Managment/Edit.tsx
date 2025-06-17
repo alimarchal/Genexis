@@ -94,7 +94,10 @@ export default function EditManagement({ managment }: Props) {
                                     <div>
                                         <div className="space-y-2">
                                             <Label htmlFor="title">Title</Label>
-                                            <Select value={data.title || 'none'} onValueChange={(value) => setData('title', value === 'none' ? '' : value)}>
+                                            <Select
+                                                value={data.title || 'none'}
+                                                onValueChange={(value) => setData('title', value === 'none' ? '' : value)}
+                                            >
                                                 <SelectTrigger id="title" className={errors.title ? 'border-red-500' : ''}>
                                                     <SelectValue placeholder="Select title" />
                                                 </SelectTrigger>
@@ -189,7 +192,12 @@ export default function EditManagement({ managment }: Props) {
                                             {managment.attachment_url && !data.attachment && (
                                                 <p className="text-xs text-blue-600">
                                                     Current file:{' '}
-                                                    <a href={managment.attachment_url} target="_blank" rel="noopener noreferrer" className="underline">
+                                                    <a
+                                                        href={managment.attachment_url}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="underline"
+                                                    >
                                                         View attachment
                                                     </a>
                                                 </p>

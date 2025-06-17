@@ -17,7 +17,7 @@ export default function ManagementPage() {
     const { managment } = usePage<any>().props;
 
     return (
-        <div className="mx-auto max-w-7xl px-6 py-8">
+        <div className="mx-auto min-h-screen bg-gradient-to-br from-[#e9f7ef] to-[#fff7e6] px-6 py-8">
             {/* <h1 className="text-3xl font-bold text-gray-900 mb-6">
                 Management Team
             </h1>

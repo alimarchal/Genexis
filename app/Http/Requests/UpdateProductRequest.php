@@ -19,7 +19,7 @@ class UpdateProductRequest extends FormRequest
                 'required',
                 'string',
                 'max:255',
-                Rule::unique('products', 'name')->ignore($this->product->id)
+                Rule::unique('products', 'name')->ignore($this->product->id),
             ],
             'is_active' => 'boolean',
         ];

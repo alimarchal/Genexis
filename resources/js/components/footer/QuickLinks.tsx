@@ -17,6 +17,10 @@ const quickLinkItems: QuickLinkItem[] = [
 ];
 
 const QuickLinks: React.FC = () => {
+    const handleExternalLink = (href: string) => {
+        window.open(href, '_blank', 'noopener,noreferrer');
+    };
+
     return (
         <div className="space-y-6">
             <h3 className="inline-block border-b border-[#F9B912] pb-2 text-xl font-semibold text-white">Quick Links</h3>

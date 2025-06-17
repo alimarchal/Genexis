@@ -5,10 +5,10 @@ const AddressMarqueeSection = () => {
     const [isAnimating, setIsAnimating] = useState(false);
     const [isPaused, setIsPaused] = useState(false);
     const [animationDuration, setAnimationDuration] = useState(12);
-    const textRef = useRef(null);
-    const containerRef = useRef(null);
-    const animationTimeoutRef = useRef(null);
-    const intervalRef = useRef(null);
+    const textRef = useRef<HTMLDivElement>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const animationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
     // Array of messages with different types and priorities
     const messages = [
@@ -93,7 +93,7 @@ const AddressMarqueeSection = () => {
 
     // Function to change message with smooth transition
     const changeMessage = useCallback(
-        (targetIndex = null) => {
+        (targetIndex: number | null = null) => {
             if (isAnimating) return; // Prevent double animation
 
             setIsAnimating(true);
@@ -154,7 +154,7 @@ const AddressMarqueeSection = () => {
         changeMessage();
     };
 
-    const handleDotClick = (index) => {
+    const handleDotClick = (index: number) => {
         if (index === currentMessageIndex) return;
 
         if (intervalRef.current) {

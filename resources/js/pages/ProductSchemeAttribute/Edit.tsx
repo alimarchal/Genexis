@@ -172,11 +172,7 @@ export default function EditProductSchemeAttribute({ productSchemeAttribute, sch
                                         </Label>
                                         <p className="text-sm text-gray-500">Make this attribute visible</p>
                                     </div>
-                                    <Switch
-                                        id="is_active"
-                                        checked={data.is_active}
-                                        onCheckedChange={(checked) => setData('is_active', checked)}
-                                    />
+                                    <Switch id="is_active" checked={data.is_active} onCheckedChange={(checked) => setData('is_active', checked)} />
                                 </div>
                             </CardContent>
                         </Card>

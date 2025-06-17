@@ -22,9 +22,8 @@ class ProductTypeAccountController extends Controller
             ->paginate(request('per_page', 15))
             ->withQueryString();
 
-
-
         $productTypes = ProductType::with('product')->active()->get();
+
         // dd($productTypeAccounts);
         return Inertia::render('ProductTypeAccount/Index', [
             'productTypeAccounts' => $productTypeAccounts,

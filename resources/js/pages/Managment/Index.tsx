@@ -80,24 +80,32 @@ export default function ManagementIndex({ managments, filters }: Props) {
 
     const handleSearch = (value: string) => {
         setSearch(value);
-        router.get(route('managments.index'), {
-            ...buildParams(),
-            'filter[full_name]': value.trim() ? value : undefined
-        }, { preserveState: true, replace: true });
+        router.get(
+            route('managments.index'),
+            {
+                ...buildParams(),
+                'filter[full_name]': value.trim() ? value : undefined,
+            },
+            { preserveState: true, replace: true },
+        );
     };
 
     const handleStatusFilter = (value: string) => {
         setStatusFilter(value);
-        router.get(route('managments.index'), {
-            ...buildParams(),
-            'filter[status]': value !== 'all' ? value : undefined
-        }, { preserveState: true, replace: true });
+        router.get(
+            route('managments.index'),
+            {
+                ...buildParams(),
+                'filter[status]': value !== 'all' ? value : undefined,
+            },
+            { preserveState: true, replace: true },
+        );
     };
 
     const handlePagination = (page: number) => {
         router.get(route('managments.index'), {
             ...buildParams(),
-            page
+            page,
         });
     };
 
@@ -205,12 +213,8 @@ export default function ManagementIndex({ managments, filters }: Props) {
                                                 </div>
                                             </TableCell>
                                             <TableCell>{member.designation}</TableCell>
-                                            <TableCell>
-                                                {getStatusBadge(member.status)}
-                                            </TableCell>
-                                            <TableCell className="text-sm text-gray-500">
-                                                {formatDate(member.created_at)}
-                                            </TableCell>
+                                            <TableCell>{getStatusBadge(member.status)}</TableCell>
+                                            <TableCell className="text-sm text-gray-500">{formatDate(member.created_at)}</TableCell>
                                             <TableCell className="text-right">
                                                 <DropdownMenu>
                                                     <DropdownMenuTrigger asChild>
@@ -256,20 +260,12 @@ export default function ManagementIndex({ managments, filters }: Props) {
                             </div>
                             <div className="flex gap-2">
                                 {managments.current_page > 1 && (
-                                    <Button
-                                        variant="outline"
-                                        size="sm"
-                                        onClick={() => handlePagination(managments.current_page - 1)}
-                                    >
+                                    <Button variant="outline" size="sm" onClick={() => handlePagination(managments.current_page - 1)}>
                                         Previous
                                     </Button>
                                 )}
                                 {managments.current_page < managments.last_page && (
-                                    <Button
-                                        variant="outline"
-                                        size="sm"
-                                        onClick={() => handlePagination(managments.current_page + 1)}
-                                    >
+                                    <Button variant="outline" size="sm" onClick={() => handlePagination(managments.current_page + 1)}>
                                         Next
                                     </Button>
                                 )}
