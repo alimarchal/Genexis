@@ -12,10 +12,11 @@ import { Minus, Plus, Save } from 'lucide-react';
 import { FormEventHandler, useState } from 'react';
 
 interface ServiceAttribute {
-    id: number;
+    id?: number;
+    service_id?: number;
     attribute_name: string;
     attribute_value: string;
-    sort_order: number;
+    sort_order?: number;
 }
 
 interface Service {
@@ -54,31 +55,31 @@ export default function EditService({ service }: Props) {
 
     const { data, setData, processing, errors } = useForm({
         name: service.name,
-        slug: service.slug,
         description: service.description,
         icon: service.icon || '',
         image: null as File | null,
-        is_active: service.is_active as boolean,
+        is_active: service.is_active,
         sort_order: service.sort_order,
-        meta_data: service.meta_data,
-        attributes: service.attributes || [],
+        meta_data: service.meta_data || {},
+        attributes: [] as { name: string; value: string }[],
         _method: 'PUT',
     });
-    const [attributeItems, setAttributeItems] = useState(
-        service.attributes && service.attributes.length > 0
-            ? service.attributes.map(attr => ({
-                attribute_name: attr.attribute_name,
-                attribute_value: attr.attribute_value
-            }))
-            : [{ attribute_name: '', attribute_value: '' }]
-    );
+
+    const [attributeItems, setAttributeItems] = useState(() => {
+        if (service.attributes && service.attributes.length > 0) {
+            return service.attributes.map(attr => ({
+                name: attr.attribute_name,
+                value: attr.attribute_value
+            }));
+        }
+        return [{ name: '', value: '' }];
+    });
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
-        const filteredAttributes = attributeItems.filter((item) =>
-            item.attribute_name.trim() !== '' && item.attribute_value.trim() !== ''
-        );
+        // Filter out empty attributes
+        const filteredAttributes = attributeItems.filter((item) => item.name.trim() !== '' && item.value.trim() !== '');
 
         router.post(route('services.update', service.slug), {
             ...data,
@@ -93,7 +94,7 @@ export default function EditService({ service }: Props) {
     };
 
     const addAttributeItem = () => {
-        setAttributeItems([...attributeItems, { attribute_name: '', attribute_value: '' }]);
+        setAttributeItems([...attributeItems, { name: '', value: '' }]);
     };
 
     const removeAttributeItem = (index: number) => {
@@ -103,7 +104,7 @@ export default function EditService({ service }: Props) {
         }
     };
 
-    const updateAttributeItem = (index: number, field: 'attribute_name' | 'attribute_value', value: string) => {
+    const updateAttributeItem = (index: number, field: 'name' | 'value', value: string) => {
         const newItems = [...attributeItems];
         newItems[index][field] = value;
         setAttributeItems(newItems);
@@ -117,12 +118,14 @@ export default function EditService({ service }: Props) {
                 <Heading title="Edit Service" description="Update the details of this service" />
 
                 <div className="mt-8">
-                    <div className="space-y-8">
+                    <form onSubmit={submit} className="space-y-8">
+                        {/* Basic Information */}
                         <Card>
                             <CardHeader>
                                 <CardTitle>Basic Information</CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-6">
+                                {/* Current Image Preview */}
                                 {service.image_url && (
                                     <div className="space-y-2">
                                         <Label>Current Image</Label>
@@ -138,6 +141,7 @@ export default function EditService({ service }: Props) {
                                 )}
 
                                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                                    {/* Service Name */}
                                     <div className="space-y-2">
                                         <Label htmlFor="name">Service Name *</Label>
                                         <Input
@@ -150,34 +154,7 @@ export default function EditService({ service }: Props) {
                                         {errors.name && <p className="text-sm text-red-500">{errors.name}</p>}
                                     </div>
 
-                                    <div className="space-y-2">
-                                        <Label htmlFor="slug">Slug</Label>
-                                        <Input
-                                            id="slug"
-                                            value={data.slug}
-                                            onChange={(e) => setData('slug', e.target.value)}
-                                            placeholder="service-slug"
-                                            className={errors.slug ? 'border-red-500' : ''}
-                                        />
-                                        {errors.slug && <p className="text-sm text-red-500">{errors.slug}</p>}
-                                        <p className="text-sm text-gray-500">Leave empty to auto-generate from name</p>
-                                    </div>
-                                </div>
-
-                                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                                    <div className="space-y-2">
-                                        <Label htmlFor="icon">Icon</Label>
-                                        <Input
-                                            id="icon"
-                                            value={data.icon}
-                                            onChange={(e) => setData('icon', e.target.value)}
-                                            placeholder="🏦 or icon name"
-                                            className={errors.icon ? 'border-red-500' : ''}
-                                        />
-                                        {errors.icon && <p className="text-sm text-red-500">{errors.icon}</p>}
-                                        <p className="text-sm text-gray-500">Use emoji or icon name</p>
-                                    </div>
-
+                                    {/* Sort Order */}
                                     <div className="space-y-2">
                                         <Label htmlFor="sort_order">Sort Order</Label>
                                         <Input
@@ -193,19 +170,21 @@ export default function EditService({ service }: Props) {
                                     </div>
                                 </div>
 
+                                {/* Icon */}
                                 <div className="space-y-2">
-                                    <Label htmlFor="description">Description *</Label>
-                                    <Textarea
-                                        id="description"
-                                        value={data.description}
-                                        onChange={(e) => setData('description', e.target.value)}
-                                        placeholder="Detailed description of the service"
-                                        rows={5}
-                                        className={errors.description ? 'border-red-500' : ''}
+                                    <Label htmlFor="icon">Icon</Label>
+                                    <Input
+                                        id="icon"
+                                        value={data.icon}
+                                        onChange={(e) => setData('icon', e.target.value)}
+                                        placeholder="Enter icon name or emoji (e.g., 🔒, CreditCard)"
+                                        className={errors.icon ? 'border-red-500' : ''}
                                     />
-                                    {errors.description && <p className="text-sm text-red-500">{errors.description}</p>}
+                                    {errors.icon && <p className="text-sm text-red-500">{errors.icon}</p>}
+                                    <p className="text-sm text-gray-500">Icon name for Lucide icons or emoji</p>
                                 </div>
 
+                                {/* Image Upload */}
                                 <div className="space-y-2">
                                     <Label htmlFor="image">Service Image</Label>
                                     <Input
@@ -219,12 +198,34 @@ export default function EditService({ service }: Props) {
                                     <p className="text-sm text-gray-500">
                                         {service.image_url
                                             ? 'Upload a new image to replace the current one (optional)'
-                                            : 'Upload a service image (optional, max 2MB)'}
+                                            : 'Upload a service image (optional)'}
                                     </p>
                                 </div>
                             </CardContent>
                         </Card>
 
+                        {/* Description */}
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Service Description</CardTitle>
+                            </CardHeader>
+                            <CardContent className="space-y-6">
+                                <div className="space-y-2">
+                                    <Label htmlFor="description">Description *</Label>
+                                    <Textarea
+                                        id="description"
+                                        value={data.description}
+                                        onChange={(e) => setData('description', e.target.value)}
+                                        placeholder="Detailed description of the service"
+                                        rows={6}
+                                        className={errors.description ? 'border-red-500' : ''}
+                                    />
+                                    {errors.description && <p className="text-sm text-red-500">{errors.description}</p>}
+                                </div>
+                            </CardContent>
+                        </Card>
+
+                        {/* Service Attributes */}
                         <Card>
                             <CardHeader>
                                 <div className="flex items-center justify-between">
@@ -237,32 +238,37 @@ export default function EditService({ service }: Props) {
                             </CardHeader>
                             <CardContent className="space-y-4">
                                 {attributeItems.map((item, index) => (
-                                    <div key={index} className="grid gap-4 grid-cols-1 md:grid-cols-5 items-end">
-                                        <div className="md:col-span-2 space-y-2">
-                                            <Label htmlFor={`attribute_name_${index}`}>Attribute Name</Label>
+                                    <div key={index} className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                                        <div className="space-y-2">
+                                            <Label>Attribute Name</Label>
                                             <Input
-                                                id={`attribute_name_${index}`}
-                                                value={item.attribute_name}
-                                                onChange={(e) => updateAttributeItem(index, 'attribute_name', e.target.value)}
+                                                value={item.name}
+                                                onChange={(e) => updateAttributeItem(index, 'name', e.target.value)}
                                                 placeholder={`Attribute ${index + 1} name`}
                                             />
                                         </div>
-                                        <div className="md:col-span-2 space-y-2">
-                                            <Label htmlFor={`attribute_value_${index}`}>Attribute Value</Label>
-                                            <Textarea
-                                                id={`attribute_value_${index}`}
-                                                value={item.attribute_value}
-                                                onChange={(e) => updateAttributeItem(index, 'attribute_value', e.target.value)}
-                                                placeholder={`Attribute ${index + 1} value`}
-                                                rows={2}
-                                            />
-                                        </div>
-                                        <div>
-                                            {attributeItems.length > 1 && (
-                                                <Button type="button" variant="outline" size="sm" onClick={() => removeAttributeItem(index)}>
-                                                    <Minus className="h-4 w-4" />
-                                                </Button>
-                                            )}
+                                        <div className="space-y-2">
+                                            <Label>Attribute Value</Label>
+                                            <div className="flex gap-2">
+                                                <Textarea
+                                                    value={item.value}
+                                                    onChange={(e) => updateAttributeItem(index, 'value', e.target.value)}
+                                                    placeholder={`Attribute ${index + 1} value`}
+                                                    rows={2}
+                                                    className="flex-1"
+                                                />
+                                                {attributeItems.length > 1 && (
+                                                    <Button
+                                                        type="button"
+                                                        variant="outline"
+                                                        size="sm"
+                                                        onClick={() => removeAttributeItem(index)}
+                                                        className="self-start"
+                                                    >
+                                                        <Minus className="h-4 w-4" />
+                                                    </Button>
+                                                )}
+                                            </div>
                                         </div>
                                     </div>
                                 ))}
@@ -270,6 +276,7 @@ export default function EditService({ service }: Props) {
                             </CardContent>
                         </Card>
 
+                        {/* Settings */}
                         <Card>
                             <CardHeader>
                                 <CardTitle>Settings</CardTitle>
@@ -287,16 +294,17 @@ export default function EditService({ service }: Props) {
                             </CardContent>
                         </Card>
 
+                        {/* Action Buttons */}
                         <div className="flex justify-end gap-2">
                             <Button variant="outline" asChild>
                                 <Link href={route('services.index')}>Cancel</Link>
                             </Button>
-                            <Button onClick={submit} disabled={processing}>
+                            <Button type="submit" disabled={processing}>
                                 <Save className="mr-2 h-4 w-4" />
                                 {processing ? 'Updating...' : 'Update Service'}
                             </Button>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </AppLayout>

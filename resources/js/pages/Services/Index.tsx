@@ -15,7 +15,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
-import { Edit, Eye, Hash, MoreHorizontal, Plus, Search, Trash } from 'lucide-react';
+import { Edit, Eye, MoreHorizontal, Plus, Search, Trash } from 'lucide-react';
 import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -39,7 +39,7 @@ interface Service {
     image_url: string | null;
     is_active: boolean;
     sort_order: number;
-    attributes_count: number;
+    meta_data: any;
     created_at: string;
     updated_at: string;
 }
@@ -128,12 +128,16 @@ export default function ServicesIndex({ services, filters }: Props) {
         });
     };
 
+    const truncateText = (text: string, length: number = 100) => {
+        return text.length > length ? text.substring(0, length) + '...' : text;
+    };
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Services" />
 
             <div className="px-10 py-6">
-                <Heading title="Services" description="Manage your organization's services and their attributes" />
+                <Heading title="Services" description="Manage your organization's services and offerings" />
 
                 <div className="mt-8 space-y-6">
                     {/* Search and Filters */}
@@ -177,7 +181,6 @@ export default function ServicesIndex({ services, filters }: Props) {
                                     <TableHead>Order</TableHead>
                                     <TableHead>Service</TableHead>
                                     <TableHead>Description</TableHead>
-                                    <TableHead>Attributes</TableHead>
                                     <TableHead>Status</TableHead>
                                     <TableHead>Created</TableHead>
                                     <TableHead className="text-right">Actions</TableHead>
@@ -186,7 +189,7 @@ export default function ServicesIndex({ services, filters }: Props) {
                             <TableBody>
                                 {services.data.length === 0 ? (
                                     <TableRow>
-                                        <TableCell colSpan={7} className="py-8 text-center text-gray-500">
+                                        <TableCell colSpan={6} className="py-8 text-center text-gray-500">
                                             No services found.
                                         </TableCell>
                                     </TableRow>
@@ -204,24 +207,15 @@ export default function ServicesIndex({ services, filters }: Props) {
                                                         />
                                                     )}
                                                     <div>
-                                                        <div className="font-medium flex items-center gap-2">
-                                                            {service.icon && <span>{service.icon}</span>}
-                                                            {service.name}
-                                                        </div>
+                                                        <div className="font-medium">{service.name}</div>
                                                         <div className="text-sm text-gray-500">{service.slug}</div>
                                                     </div>
                                                 </div>
                                             </TableCell>
                                             <TableCell>
-                                                <div className="max-w-xs truncate text-sm text-gray-500">
-                                                    {service.description}
+                                                <div className="max-w-xs">
+                                                    <p className="text-sm leading-tight">{truncateText(service.description, 80)}</p>
                                                 </div>
-                                            </TableCell>
-                                            <TableCell>
-                                                <Badge variant="outline" className="gap-1">
-                                                    <Hash className="h-3 w-3" />
-                                                    {service.attributes_count}
-                                                </Badge>
                                             </TableCell>
                                             <TableCell>{getStatusBadge(service.is_active)}</TableCell>
                                             <TableCell className="text-sm text-gray-500">{formatDate(service.created_at)}</TableCell>

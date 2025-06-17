@@ -114,6 +114,8 @@ Route::prefix('services-page')->name('service-pages.')->group(function () {
     // This route handles new services
     Route::get('/{slug}', [ServiceController::class, 'showHomePage'])->name('show');
 });
+
+
 Route::prefix('financials')->name('financials.')->group(function () {
     Route::get('/statements', [PageController::class, 'financialStatements'])->name('statements');
     Route::get('/annual-reports', [PageController::class, 'annualReports'])->name('annualReports');

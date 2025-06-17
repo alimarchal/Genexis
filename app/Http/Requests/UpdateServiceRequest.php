@@ -14,11 +14,8 @@ class UpdateServiceRequest extends FormRequest
 
     public function rules(): array
     {
-        $serviceId = $this->route('service')->id;
-
         return [
             'name' => ['required', 'string', 'max:255'],
-            'slug' => ['nullable', 'string', 'max:255', Rule::unique('services', 'slug')->ignore($serviceId)],
             'description' => ['required', 'string'],
             'icon' => ['nullable', 'string', 'max:255'],
             'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
@@ -26,8 +23,8 @@ class UpdateServiceRequest extends FormRequest
             'sort_order' => ['integer', 'min:0'],
             'meta_data' => ['nullable', 'array'],
             'attributes' => ['nullable', 'array'],
-            'attributes.*.attribute_name' => ['required_with:attributes.*.attribute_value', 'string', 'max:255'],
-            'attributes.*.attribute_value' => ['required_with:attributes.*.attribute_name', 'string'],
+            'attributes.*.name' => ['required_with:attributes.*.value', 'string', 'max:255'],
+            'attributes.*.value' => ['required_with:attributes.*.name', 'string'],
         ];
     }
 
@@ -35,33 +32,14 @@ class UpdateServiceRequest extends FormRequest
     {
         return [
             'name.required' => 'The service name is required.',
-            'name.max' => 'The service name may not be greater than 255 characters.',
-            'slug.unique' => 'This slug is already taken.',
+            'name.max' => 'The service name must not exceed 255 characters.',
             'description.required' => 'The service description is required.',
             'image.image' => 'The file must be an image.',
             'image.mimes' => 'The image must be a file of type: jpeg, png, jpg, gif.',
-            'image.max' => 'The image may not be greater than 2MB.',
-            'sort_order.integer' => 'The sort order must be a number.',
+            'image.max' => 'The image must not be larger than 2MB.',
             'sort_order.min' => 'The sort order must be at least 0.',
-            'attributes.*.attribute_name.required_with' => 'Attribute name is required when attribute value is provided.',
-            'attributes.*.attribute_value.required_with' => 'Attribute value is required when attribute name is provided.',
+            'attributes.*.name.required_with' => 'Attribute name is required when value is provided.',
+            'attributes.*.value.required_with' => 'Attribute value is required when name is provided.',
         ];
-    }
-
-    protected function prepareForValidation(): void
-    {
-        if ($this->has('attributes')) {
-            $attributes = collect($this->attributes)
-                ->filter(function ($attribute) {
-                    return !empty(trim($attribute['attribute_name'] ?? '')) ||
-                        !empty(trim($attribute['attribute_value'] ?? ''));
-                })
-                ->values()
-                ->toArray();
-
-            $this->merge([
-                'attributes' => $attributes,
-            ]);
-        }
     }
 }

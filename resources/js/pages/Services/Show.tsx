@@ -6,10 +6,11 @@ import { Separator } from '@/components/ui/separator';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
-import { Edit, Hash, List, Settings, Tag } from 'lucide-react';
+import { Edit, Hash, Info, List, Settings } from 'lucide-react';
 
 interface ServiceAttribute {
     id: number;
+    service_id: number;
     attribute_name: string;
     attribute_value: string;
     sort_order: number;
@@ -61,10 +62,7 @@ export default function ShowService({ service }: Props) {
 
             <div className="px-10 py-6">
                 <div className="flex items-center justify-between">
-                    <Heading
-                        title={service.name}
-                        description="View service details and attributes"
-                    />
+                    <Heading title={service.name} description="View service details" />
                     <Button asChild>
                         <Link href={route('services.edit', service.slug)}>
                             <Edit className="mr-2 h-4 w-4" />
@@ -89,14 +87,17 @@ export default function ShowService({ service }: Props) {
                                     )}
                                     <div className="flex-1 space-y-4">
                                         <div>
-                                            <CardTitle className="text-2xl flex items-center gap-2">
-                                                {service.icon && <span className="text-2xl">{service.icon}</span>}
-                                                {service.name}
-                                            </CardTitle>
+                                            <CardTitle className="text-2xl">{service.name}</CardTitle>
                                             <p className="mt-1 text-lg text-gray-600">{service.slug}</p>
                                         </div>
                                         <div className="flex items-center gap-2">
                                             {getStatusBadge(service.is_active)}
+                                            {service.icon && (
+                                                <Badge variant="outline" className="gap-1">
+                                                    <span>{service.icon}</span>
+                                                    Icon
+                                                </Badge>
+                                            )}
                                         </div>
                                     </div>
                                 </div>
@@ -105,7 +106,7 @@ export default function ShowService({ service }: Props) {
                                 {/* Description */}
                                 <div className="space-y-2">
                                     <h3 className="flex items-center gap-2 text-lg font-medium">
-                                        <List className="h-5 w-5" />
+                                        <Info className="h-5 w-5" />
                                         Description
                                     </h3>
                                     <div className="prose max-w-none">
@@ -117,22 +118,15 @@ export default function ShowService({ service }: Props) {
                                 {service.attributes && service.attributes.length > 0 && (
                                     <div className="space-y-3">
                                         <h3 className="flex items-center gap-2 text-lg font-medium">
-                                            <Tag className="h-5 w-5" />
-                                            Service Attributes
+                                            <List className="h-5 w-5" />
+                                            Service Details
                                         </h3>
-                                        <div className="space-y-4">
+                                        <div className="grid gap-4">
                                             {service.attributes.map((attribute, index) => (
-                                                <div key={attribute.id} className="rounded-lg border p-4">
-                                                    <div className="flex items-start justify-between gap-4">
-                                                        <div className="flex-1">
-                                                            <h4 className="font-medium text-gray-900">{attribute.attribute_name}</h4>
-                                                            <p className="mt-1 whitespace-pre-wrap text-gray-700 leading-relaxed">
-                                                                {attribute.attribute_value}
-                                                            </p>
-                                                        </div>
-                                                        <Badge variant="outline" className="text-xs">
-                                                            #{index + 1}
-                                                        </Badge>
+                                                <div key={attribute.id || index} className="rounded-lg border p-4">
+                                                    <h4 className="font-medium text-gray-900">{attribute.attribute_name}</h4>
+                                                    <div className="mt-2 whitespace-pre-wrap text-gray-700">
+                                                        {attribute.attribute_value}
                                                     </div>
                                                 </div>
                                             ))}
@@ -162,17 +156,17 @@ export default function ShowService({ service }: Props) {
                                 <Separator />
 
                                 <div className="flex items-center gap-3">
-                                    <Tag className="h-4 w-4 text-gray-500" />
+                                    <Settings className="h-4 w-4 text-gray-500" />
                                     <div>
                                         <p className="text-sm font-medium">Slug</p>
-                                        <p className="text-sm text-gray-600">{service.slug}</p>
+                                        <p className="text-sm text-gray-600 font-mono">{service.slug}</p>
                                     </div>
                                 </div>
 
                                 <Separator />
 
                                 <div className="flex items-center gap-3">
-                                    <Settings className="h-4 w-4 text-gray-500" />
+                                    <div className="h-4 w-4 rounded-full bg-gray-400" />
                                     <div>
                                         <p className="text-sm font-medium">Status</p>
                                         <div className="mt-1">{getStatusBadge(service.is_active)}</div>
@@ -183,7 +177,7 @@ export default function ShowService({ service }: Props) {
                                     <>
                                         <Separator />
                                         <div className="flex items-center gap-3">
-                                            <span className="h-4 w-4 text-gray-500">🎨</span>
+                                            <span className="text-lg">{service.icon}</span>
                                             <div>
                                                 <p className="text-sm font-medium">Icon</p>
                                                 <p className="text-sm text-gray-600">{service.icon}</p>
@@ -201,14 +195,14 @@ export default function ShowService({ service }: Props) {
                             </CardHeader>
                             <CardContent className="space-y-4 text-sm">
                                 <div className="flex justify-between">
-                                    <span className="font-medium">Total Attributes:</span>
+                                    <span className="font-medium">Attributes:</span>
                                     <span className="text-gray-600">{service.attributes ? service.attributes.length : 0}</span>
                                 </div>
 
                                 <Separator />
 
                                 <div className="flex justify-between">
-                                    <span className="font-medium">Service Image:</span>
+                                    <span className="font-medium">Has Image:</span>
                                     <span className="text-gray-600">{service.image_url ? 'Yes' : 'No'}</span>
                                 </div>
 
@@ -217,6 +211,13 @@ export default function ShowService({ service }: Props) {
                                 <div className="flex justify-between">
                                     <span className="font-medium">Has Icon:</span>
                                     <span className="text-gray-600">{service.icon ? 'Yes' : 'No'}</span>
+                                </div>
+
+                                <Separator />
+
+                                <div className="flex justify-between">
+                                    <span className="font-medium">Description Length:</span>
+                                    <span className="text-gray-600">{service.description.length} chars</span>
                                 </div>
                             </CardContent>
                         </Card>
