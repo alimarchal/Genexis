@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('content');
-            $table->string('image')->nullable();
+          $table->string('image', 1000)->nullable();
+
             $table->date('published_date');
             $table->boolean('is_featured')->default(false);
             $table->string('category')->default('general');
