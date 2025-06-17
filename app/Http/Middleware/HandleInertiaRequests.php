@@ -56,7 +56,7 @@ class HandleInertiaRequests extends Middleware
             'contact_phone' => config('app.contact_phone'),
             'contact_email' => config('app.contact_email'),
             'contact_address' => config('app.contact_address'), // Add this line
-             'socialLinks' => [
+            'socialLinks' => [
                 'facebook' => env('SOCIAL_FACEBOOK_URL', '#'),
                 'twitter' => env('SOCIAL_TWITTER_URL', '#'),
                 'instagram' => env('SOCIAL_INSTAGRAM_URL', '#'),

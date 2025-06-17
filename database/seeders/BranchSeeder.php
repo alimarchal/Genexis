@@ -439,7 +439,7 @@ class BranchSeeder extends Seeder
                 'code' => '0043',
                 'name' => 'Sharda Branch',
                 'address' => 'Main Sharda Bazar District Neelum A.K',
-               'latitude' => 34.7937680,
+                'latitude' => 34.7937680,
                 'longitude' => 74.1836830,
             ],
             [
@@ -556,7 +556,7 @@ class BranchSeeder extends Seeder
                 'code' => '0056',
                 'name' => 'CMH Road Rawalakot Branch',
                 'address' => 'CMH Road Rawalakot AK',
-                  'latitude' => 33.86364144175627,
+                'latitude' => 33.86364144175627,
                 'longitude' => 73.75891473843073,
             ],
             [
@@ -565,7 +565,7 @@ class BranchSeeder extends Seeder
                 'code' => '0057',
                 'name' => 'Main Bazar Chakswari Branch',
                 'address' => 'Main Bazar Chakswari Tehsil & District Mirpur AK',
-                  'latitude' => 33.2572500,
+                'latitude' => 33.2572500,
                 'longitude' => 73.7745960,
             ],
             [
@@ -673,7 +673,7 @@ class BranchSeeder extends Seeder
                 'code' => '0069',
                 'name' => 'Kundal Shahi Branch',
                 'address' => 'Main Bazar, Kundal Shahi, Tehsil Athmuqam, District Neelum',
-                 'latitude' => 34.5544730,
+                'latitude' => 34.5544730,
                 'longitude' => 73.8469930,
             ],
             [

@@ -6,23 +6,31 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreProductSchemeAttributeRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
-            //
+            'product_scheme_id' => 'required|exists:product_schemes,id',
+            'attribute_name' => 'required|string|max:255',
+            'attribute_value' => 'required|string',
+            'attribute_type' => 'required|string|in:text,number,boolean,date',
+            'sort_order' => 'nullable|integer|min:0',
+            'is_active' => 'boolean',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'product_scheme_id.required' => 'Please select a scheme.',
+            'product_scheme_id.exists' => 'The selected scheme is invalid.',
+            'attribute_name.required' => 'The attribute name is required.',
+            'attribute_value.required' => 'The attribute value is required.',
+            'attribute_type.required' => 'Please select an attribute type.',
         ];
     }
 }

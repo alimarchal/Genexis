@@ -13,13 +13,13 @@ class ProductTypeSeeder extends Seeder
     public function run(): void
     {
         ProductType::create([
-            'product_id' => 1,
+            'product_id' => 1,  // Liability product
             'name' => 'Liability',
             'is_active' => true,
         ]);
 
         ProductType::create([
-            'product_id' => 1,
+            'product_id' => 2,  // Asset product
             'name' => 'Asset',
             'is_active' => true,
         ]);

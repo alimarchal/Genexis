@@ -13,7 +13,7 @@ class ProductSeeder extends Seeder
     {
         \App\Models\Product::create([
             'name' => 'Liability',
-            'is_active' => false,
+            'is_active' => true,
         ]);
 
         \App\Models\Product::create([

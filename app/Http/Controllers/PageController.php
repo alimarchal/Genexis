@@ -307,10 +307,12 @@ class PageController extends Controller
         $depositAccount = ProductTypeAccount::where('name', 'Deposit Accounts')->first();
 
         $schemes = $depositAccount->productSchemes()
-            ->with(['attributes' => function ($query) {
-                $query->where('is_active', true)
-                    ->orderBy('sort_order');
-            }])
+            ->with([
+                'attributes' => function ($query) {
+                    $query->where('is_active', true)
+                        ->orderBy('sort_order');
+                },
+            ])
             ->where('is_active', true)
             ->get();
 
@@ -325,10 +327,12 @@ class PageController extends Controller
         $termDeposit = ProductTypeAccount::where('name', 'Term Deposit')->first();
 
         $schemes = $termDeposit->productSchemes()
-            ->with(['attributes' => function ($query) {
-                $query->where('is_active', true)
-                    ->orderBy('sort_order');
-            }])
+            ->with([
+                'attributes' => function ($query) {
+                    $query->where('is_active', true)
+                        ->orderBy('sort_order');
+                },
+            ])
             ->where('is_active', true)
             ->get();
 
@@ -341,10 +345,12 @@ class PageController extends Controller
     {
         $consumerFinance = ProductTypeAccount::where('name', 'Consumer Finances')->first();
 
-        $schemes = $consumerFinance->productSchemes()
-            ->with(['attributes' => function ($query) {
-                $query->where('is_active', true)->orderBy('sort_order');
-            }])
+        $schemes = $consumerFinance?->productSchemes()
+            ->with([
+                'attributes' => function ($query) {
+                    $query->where('is_active', true)->orderBy('sort_order');
+                },
+            ])
             ->where('is_active', true)
             ->get();
 
@@ -356,9 +362,11 @@ class PageController extends Controller
         $commercialSME = ProductTypeAccount::where('name', 'Commercial / SME Finances')->first();
 
         $schemes = $commercialSME->productSchemes()
-            ->with(['attributes' => function ($query) {
-                $query->where('is_active', true)->orderBy('sort_order');
-            }])
+            ->with([
+                'attributes' => function ($query) {
+                    $query->where('is_active', true)->orderBy('sort_order');
+                },
+            ])
             ->where('is_active', true)
             ->get();
 
@@ -370,9 +378,11 @@ class PageController extends Controller
         $agriculture = ProductTypeAccount::where('name', 'Agriculture Finances')->first();
 
         $schemes = $agriculture->productSchemes()
-            ->with(['attributes' => function ($query) {
-                $query->where('is_active', true)->orderBy('sort_order');
-            }])
+            ->with([
+                'attributes' => function ($query) {
+                    $query->where('is_active', true)->orderBy('sort_order');
+                },
+            ])
             ->where('is_active', true)
             ->get();
 
@@ -384,9 +394,11 @@ class PageController extends Controller
         $microFinance = ProductTypeAccount::where('name', 'Micro Finances')->first();
 
         $schemes = $microFinance->productSchemes()
-            ->with(['attributes' => function ($query) {
-                $query->where('is_active', true)->orderBy('sort_order');
-            }])
+            ->with([
+                'attributes' => function ($query) {
+                    $query->where('is_active', true)->orderBy('sort_order');
+                },
+            ])
             ->where('is_active', true)
             ->get();
 

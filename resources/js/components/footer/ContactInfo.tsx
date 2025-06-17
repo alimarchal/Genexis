@@ -3,14 +3,8 @@ import { usePage } from '@inertiajs/react';
 import React from 'react';
 import { FaEnvelope, FaMapMarkerAlt, FaPhoneAlt } from 'react-icons/fa';
 
-interface ContactInfoProps {
-    contact_phone?: string;
-    contact_email?: string;
-    contact_address?: string;
-}
-
 const ContactInfo: React.FC = () => {
-    const { contact_phone, contact_email, contact_address } = usePage<ContactInfoProps>().props;
+    const { contact_phone, contact_email, contact_address } = usePage().props;
 
     return (
         <div className="space-y-6">
