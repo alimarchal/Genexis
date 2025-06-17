@@ -20,7 +20,7 @@ class ScheduleOfChargeSeeder extends Seeder
             ],
             // [
             //     'title' => 'Savings Account Charges 2024',
-            //     'from' => '2024-01-01',s
+            //     'from' => '2024-01-01',
             //     'to' => '2024-12-31',
             //     'description' => 'Schedule of charges for savings account services effective from January 2024',
             //     'is_active' => true,
