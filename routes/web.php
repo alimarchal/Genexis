@@ -44,6 +44,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Route::resource('product-type-accounts', ProductTypeAccountController::class);
     Route::resource('product-schemes', ProductSchemeController::class);
     Route::resource('product-scheme-attributes', ProductSchemeAttributeController::class);
+    Route::resource('services', ServiceController::class);
+
 
 
 
@@ -102,8 +104,8 @@ Route::prefix('products')->name('products.')->group(function () {
     Route::get('/micro-finances', [PageController::class, 'microFinance'])->name('micro-finances');
 });
 
-Route::prefix('services')->name('services.')->group(function () {
-    Route::get('/all-services', [ServiceController::class, 'index'])->name('index');
+Route::prefix('services-page')->name('service-pages.')->group(callback: function () {
+    Route::get('/all-services', [ServiceController::class, 'indexHomePage'])->name('all');
     Route::get('/lockers-facility', [ServiceController::class, 'lockersFacility'])->name('lockers-facility');
     Route::get('/utility-bills-collection', [ServiceController::class, 'utilityBillsCollection'])->name('utility-bills-collection');
     Route::get('/services-for-ajk-psc', [ServiceController::class, 'servicesForAjkPsc'])->name('services-for-ajk-psc');
