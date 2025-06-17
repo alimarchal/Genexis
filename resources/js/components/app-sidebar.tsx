@@ -31,7 +31,7 @@ import {
     Settings,
     TrendingUp,
     User,
-    Users
+    Users,
 } from 'lucide-react';
 import AppLogo from './app-logo';
 

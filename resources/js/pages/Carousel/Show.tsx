@@ -81,9 +81,7 @@ export default function ShowCarousel({ carousel }: Props) {
                                     <div className="space-y-2">
                                         <CardTitle className="text-2xl">{carousel.title}</CardTitle>
                                         <div className="flex items-center gap-2">
-                                            <Badge variant={carousel.status === 'active' ? 'default' : 'secondary'}>
-                                                {carousel.status}
-                                            </Badge>
+                                            <Badge variant={carousel.status === 'active' ? 'default' : 'secondary'}>{carousel.status}</Badge>
                                         </div>
                                     </div>
                                 </div>
@@ -93,11 +91,7 @@ export default function ShowCarousel({ carousel }: Props) {
                                 {carousel.image_url && (
                                     <div className="space-y-2">
                                         <h3 className="text-lg font-semibold">Slide Image</h3>
-                                        <img
-                                            src={carousel.image_url}
-                                            alt={carousel.title}
-                                            className="w-full rounded-lg border object-cover"
-                                        />
+                                        <img src={carousel.image_url} alt={carousel.title} className="w-full rounded-lg border object-cover" />
                                     </div>
                                 )}
 
@@ -177,9 +171,7 @@ export default function ShowCarousel({ carousel }: Props) {
                                 <div>
                                     <label className="text-muted-foreground text-sm font-medium">Status</label>
                                     <div className="mt-1">
-                                        <Badge variant={carousel.status === 'active' ? 'default' : 'secondary'}>
-                                            {carousel.status}
-                                        </Badge>
+                                        <Badge variant={carousel.status === 'active' ? 'default' : 'secondary'}>{carousel.status}</Badge>
                                     </div>
                                 </div>
                                 {carousel.button_text && (

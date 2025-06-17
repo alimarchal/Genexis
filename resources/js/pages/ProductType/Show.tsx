@@ -165,7 +165,9 @@ export default function ShowProductType({ productType }: Props) {
                                 <div className="flex justify-between">
                                     <span className="font-medium">Active Accounts:</span>
                                     <span className="text-gray-600">
-                                        {productType.productTypeAccounts ? productType.productTypeAccounts.filter(account => account.is_active).length : 0}
+                                        {productType.productTypeAccounts
+                                            ? productType.productTypeAccounts.filter((account) => account.is_active).length
+                                            : 0}
                                     </span>
                                 </div>
                             </CardContent>

@@ -99,32 +99,44 @@ export default function ProductSchemeIndex({ productSchemes, accounts, filters }
 
     const handleSearch = (value: string) => {
         setSearch(value);
-        router.get(route('product-schemes.index'), {
-            ...buildParams(),
-            'filter[name]': value.trim() ? value : undefined
-        }, { preserveState: true, replace: true });
+        router.get(
+            route('product-schemes.index'),
+            {
+                ...buildParams(),
+                'filter[name]': value.trim() ? value : undefined,
+            },
+            { preserveState: true, replace: true },
+        );
     };
 
     const handleStatusFilter = (value: string) => {
         setStatusFilter(value);
-        router.get(route('product-schemes.index'), {
-            ...buildParams(),
-            'filter[is_active]': value !== 'all' ? (value === 'active' ? '1' : '0') : undefined
-        }, { preserveState: true, replace: true });
+        router.get(
+            route('product-schemes.index'),
+            {
+                ...buildParams(),
+                'filter[is_active]': value !== 'all' ? (value === 'active' ? '1' : '0') : undefined,
+            },
+            { preserveState: true, replace: true },
+        );
     };
 
     const handleAccountFilter = (value: string) => {
         setAccountFilter(value);
-        router.get(route('product-schemes.index'), {
-            ...buildParams(),
-            'filter[product_type_account_id]': value !== 'all' ? value : undefined
-        }, { preserveState: true, replace: true });
+        router.get(
+            route('product-schemes.index'),
+            {
+                ...buildParams(),
+                'filter[product_type_account_id]': value !== 'all' ? value : undefined,
+            },
+            { preserveState: true, replace: true },
+        );
     };
 
     const handlePagination = (page: number) => {
         router.get(route('product-schemes.index'), {
             ...buildParams(),
-            page
+            page,
         });
     };
 
@@ -239,20 +251,16 @@ export default function ProductSchemeIndex({ productSchemes, accounts, filters }
                                             <TableCell>
                                                 <div className="text-sm">
                                                     <div>{scheme.product_type_account?.product_type?.name || 'N/A'}</div>
-                                                    <div className="text-gray-500">{scheme.product_type_account?.product_type?.product?.name || 'N/A'}</div>
+                                                    <div className="text-gray-500">
+                                                        {scheme.product_type_account?.product_type?.product?.name || 'N/A'}
+                                                    </div>
                                                 </div>
                                             </TableCell>
                                             <TableCell>
-                                                <div className="max-w-xs text-sm text-gray-600 truncate">
-                                                    {scheme.description || '-'}
-                                                </div>
+                                                <div className="max-w-xs truncate text-sm text-gray-600">{scheme.description || '-'}</div>
                                             </TableCell>
-                                            <TableCell>
-                                                {getStatusBadge(scheme.is_active)}
-                                            </TableCell>
-                                            <TableCell className="text-sm text-gray-500">
-                                                {formatDate(scheme.created_at)}
-                                            </TableCell>
+                                            <TableCell>{getStatusBadge(scheme.is_active)}</TableCell>
+                                            <TableCell className="text-sm text-gray-500">{formatDate(scheme.created_at)}</TableCell>
                                             <TableCell className="text-right">
                                                 <DropdownMenu>
                                                     <DropdownMenuTrigger asChild>
@@ -298,20 +306,12 @@ export default function ProductSchemeIndex({ productSchemes, accounts, filters }
                             </div>
                             <div className="flex gap-2">
                                 {productSchemes.current_page > 1 && (
-                                    <Button
-                                        variant="outline"
-                                        size="sm"
-                                        onClick={() => handlePagination(productSchemes.current_page - 1)}
-                                    >
+                                    <Button variant="outline" size="sm" onClick={() => handlePagination(productSchemes.current_page - 1)}>
                                         Previous
                                     </Button>
                                 )}
                                 {productSchemes.current_page < productSchemes.last_page && (
-                                    <Button
-                                        variant="outline"
-                                        size="sm"
-                                        onClick={() => handlePagination(productSchemes.current_page + 1)}
-                                    >
+                                    <Button variant="outline" size="sm" onClick={() => handlePagination(productSchemes.current_page + 1)}>
                                         Next
                                     </Button>
                                 )}

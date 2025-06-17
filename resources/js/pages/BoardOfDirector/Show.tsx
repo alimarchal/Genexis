@@ -102,7 +102,7 @@ export default function ShowBoardOfDirector({ boardOfDirector }: Props) {
                                                 {boardOfDirector.title && `${boardOfDirector.title} `}
                                                 {boardOfDirector.full_name}
                                             </CardTitle>
-                                            <p className="text-lg text-gray-600 mt-1">{boardOfDirector.designation}</p>
+                                            <p className="mt-1 text-lg text-gray-600">{boardOfDirector.designation}</p>
                                         </div>
                                         <div className="flex items-center gap-2">
                                             {getStatusBadge(boardOfDirector.is_active)}
@@ -115,7 +115,7 @@ export default function ShowBoardOfDirector({ boardOfDirector }: Props) {
                                 {/* Short Description */}
                                 {boardOfDirector.short_description && (
                                     <div className="space-y-2">
-                                        <h3 className="text-lg font-medium flex items-center gap-2">
+                                        <h3 className="flex items-center gap-2 text-lg font-medium">
                                             <Users className="h-5 w-5" />
                                             Overview
                                         </h3>
@@ -136,14 +136,14 @@ export default function ShowBoardOfDirector({ boardOfDirector }: Props) {
                                 {/* Experience */}
                                 {boardOfDirector.experience && boardOfDirector.experience.length > 0 && (
                                     <div className="space-y-3">
-                                        <h3 className="text-lg font-medium flex items-center gap-2">
+                                        <h3 className="flex items-center gap-2 text-lg font-medium">
                                             <Award className="h-5 w-5" />
                                             Experience
                                         </h3>
                                         <ul className="space-y-2">
                                             {boardOfDirector.experience.map((item, index) => (
                                                 <li key={index} className="flex items-start gap-2">
-                                                    <span className="mt-1.5 h-2 w-2 rounded-full bg-blue-500 flex-shrink-0"></span>
+                                                    <span className="mt-1.5 h-2 w-2 flex-shrink-0 rounded-full bg-blue-500"></span>
                                                     <span className="text-gray-700">{item}</span>
                                                 </li>
                                             ))}
@@ -154,14 +154,14 @@ export default function ShowBoardOfDirector({ boardOfDirector }: Props) {
                                 {/* Achievements */}
                                 {boardOfDirector.achievements && boardOfDirector.achievements.length > 0 && (
                                     <div className="space-y-3">
-                                        <h3 className="text-lg font-medium flex items-center gap-2">
+                                        <h3 className="flex items-center gap-2 text-lg font-medium">
                                             <Trophy className="h-5 w-5" />
                                             Achievements
                                         </h3>
                                         <ul className="space-y-2">
                                             {boardOfDirector.achievements.map((item, index) => (
                                                 <li key={index} className="flex items-start gap-2">
-                                                    <span className="mt-1.5 h-2 w-2 rounded-full bg-green-500 flex-shrink-0"></span>
+                                                    <span className="mt-1.5 h-2 w-2 flex-shrink-0 rounded-full bg-green-500"></span>
                                                     <span className="text-gray-700">{item}</span>
                                                 </li>
                                             ))}
@@ -228,27 +228,21 @@ export default function ShowBoardOfDirector({ boardOfDirector }: Props) {
                             <CardContent className="space-y-4 text-sm">
                                 <div className="flex justify-between">
                                     <span className="font-medium">Experience Items:</span>
-                                    <span className="text-gray-600">
-                                        {boardOfDirector.experience ? boardOfDirector.experience.length : 0}
-                                    </span>
+                                    <span className="text-gray-600">{boardOfDirector.experience ? boardOfDirector.experience.length : 0}</span>
                                 </div>
 
                                 <Separator />
 
                                 <div className="flex justify-between">
                                     <span className="font-medium">Achievements:</span>
-                                    <span className="text-gray-600">
-                                        {boardOfDirector.achievements ? boardOfDirector.achievements.length : 0}
-                                    </span>
+                                    <span className="text-gray-600">{boardOfDirector.achievements ? boardOfDirector.achievements.length : 0}</span>
                                 </div>
 
                                 <Separator />
 
                                 <div className="flex justify-between">
                                     <span className="font-medium">Profile Image:</span>
-                                    <span className="text-gray-600">
-                                        {boardOfDirector.image_url ? 'Yes' : 'No'}
-                                    </span>
+                                    <span className="text-gray-600">{boardOfDirector.image_url ? 'Yes' : 'No'}</span>
                                 </div>
                             </CardContent>
                         </Card>

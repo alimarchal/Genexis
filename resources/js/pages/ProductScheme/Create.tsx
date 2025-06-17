@@ -85,7 +85,8 @@ export default function CreateProductScheme({ accounts }: Props) {
                                         <SelectContent>
                                             {accounts.map((account) => (
                                                 <SelectItem key={account.id} value={account.id.toString()}>
-                                                    {account.name} ({account.product_type?.product?.name || 'N/A'} - {account.product_type?.name || 'N/A'})
+                                                    {account.name} ({account.product_type?.product?.name || 'N/A'} -{' '}
+                                                    {account.product_type?.name || 'N/A'})
                                                 </SelectItem>
                                             ))}
                                         </SelectContent>
@@ -128,11 +129,7 @@ export default function CreateProductScheme({ accounts }: Props) {
                                         </Label>
                                         <p className="text-sm text-gray-500">Enable this scheme for use</p>
                                     </div>
-                                    <Switch
-                                        id="is_active"
-                                        checked={data.is_active}
-                                        onCheckedChange={(checked) => setData('is_active', checked)}
-                                    />
+                                    <Switch id="is_active" checked={data.is_active} onCheckedChange={(checked) => setData('is_active', checked)} />
                                 </div>
                             </CardContent>
                         </Card>

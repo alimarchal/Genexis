@@ -126,7 +126,7 @@ export default function ShowBankService({ bankService }: Props) {
                                 <div className="space-y-2">
                                     <h3 className="text-lg font-medium">Description</h3>
                                     <div className="prose max-w-none">
-                                        <p className="text-gray-700 whitespace-pre-wrap">{bankService.description}</p>
+                                        <p className="whitespace-pre-wrap text-gray-700">{bankService.description}</p>
                                     </div>
                                 </div>
 
@@ -136,7 +136,7 @@ export default function ShowBankService({ bankService }: Props) {
                                         <h3 className="text-lg font-medium">Statistics</h3>
                                         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                                             <div className="rounded-lg border p-4">
-                                                <div className="text-2xl font-bold text-primary">{bankService.stat_number}</div>
+                                                <div className="text-primary text-2xl font-bold">{bankService.stat_number}</div>
                                                 <div className="text-sm font-medium text-gray-600">{bankService.stat_label}</div>
                                                 {bankService.stat_description && (
                                                     <div className="text-xs text-gray-500">{bankService.stat_description}</div>
@@ -287,9 +287,7 @@ export default function ShowBankService({ bankService }: Props) {
                                 </Button>
 
                                 <Button variant="outline" asChild className="w-full">
-                                    <Link href={route('bank-services.index')}>
-                                        Back to Services
-                                    </Link>
+                                    <Link href={route('bank-services.index')}>Back to Services</Link>
                                 </Button>
                             </CardContent>
                         </Card>
