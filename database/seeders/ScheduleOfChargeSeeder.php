@@ -12,40 +12,40 @@ class ScheduleOfChargeSeeder extends Seeder
         // Create specific schedule of charges
         $schedules = [
             [
-                'title' => 'Current Account Charges 2024',
-                'from' => '2024-01-01',
-                'to' => '2024-12-31',
-                'description' => 'Schedule of charges for current account services effective from January 2024',
+                'title' => 'Schedule Of Bank Charges ',
+                'from' => '2025-01-01',
+                'to' => '2025-6-30',
+                'description' => ' Bank Of Azad Jammu And Kashmir Schedule Of Charges 2025',
                 'is_active' => true,
             ],
-            [
-                'title' => 'Savings Account Charges 2024',
-                'from' => '2024-01-01',
-                'to' => '2024-12-31',
-                'description' => 'Schedule of charges for savings account services effective from January 2024',
-                'is_active' => true,
-            ],
-            [
-                'title' => 'ATM and Digital Banking Charges',
-                'from' => '2024-06-01',
-                'to' => null,
-                'description' => 'Updated charges for ATM transactions and digital banking services',
-                'is_active' => true,
-            ],
-            [
-                'title' => 'Corporate Banking Charges 2024',
-                'from' => '2024-01-01',
-                'to' => '2024-12-31',
-                'description' => 'Schedule of charges for corporate banking services',
-                'is_active' => true,
-            ],
-            [
-                'title' => 'Previous Schedule 2023',
-                'from' => '2023-01-01',
-                'to' => '2023-12-31',
-                'description' => 'Previous year schedule of charges (archived)',
-                'is_active' => false,
-            ],
+            // [
+            //     'title' => 'Savings Account Charges 2024',
+            //     'from' => '2024-01-01',
+            //     'to' => '2024-12-31',
+            //     'description' => 'Schedule of charges for savings account services effective from January 2024',
+            //     'is_active' => true,
+            // ],
+            // [
+            //     'title' => 'ATM and Digital Banking Charges',
+            //     'from' => '2024-06-01',
+            //     'to' => null,
+            //     'description' => 'Updated charges for ATM transactions and digital banking services',
+            //     'is_active' => true,
+            // ],
+            // [
+            //     'title' => 'Corporate Banking Charges 2024',
+            //     'from' => '2024-01-01',
+            //     'to' => '2024-12-31',
+            //     'description' => 'Schedule of charges for corporate banking services',
+            //     'is_active' => true,
+            // ],
+            // [
+            //     'title' => 'Previous Schedule 2023',
+            //     'from' => '2023-01-01',
+            //     'to' => '2023-12-31',
+            //     'description' => 'Previous year schedule of charges (archived)',
+            //     'is_active' => false,
+            // ],
         ];
 
         foreach ($schedules as $schedule) {
