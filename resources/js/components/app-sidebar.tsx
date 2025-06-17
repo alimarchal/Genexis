@@ -91,6 +91,15 @@ const productsNavItems: NavItem[] = [
     },
 ];
 
+// Services
+const servicesNavItems: NavItem[] = [
+    {
+        title: 'Services',
+        href: '/services',
+        icon: Settings,
+    },
+];
+
 // Banking & Services
 const bankingNavItems: NavItem[] = [
     {
@@ -242,6 +251,7 @@ export function AppSidebar() {
                 <NavGroup title="Home" items={homeNavItems} />
                 <NavGroup title="About" items={aboutNavItems} />
                 <NavGroup title="Products" items={productsNavItems} />
+                <NavGroup title="Services" items={servicesNavItems} />
                 <NavGroup title="Banking & Services" items={bankingNavItems} />
                 <NavGroup title="Financial Management" items={financialNavItems} />
                 <NavGroup title="Location Management" items={locationNavItems} />
