@@ -90,6 +90,13 @@ class FinancialReportSeeder extends Seeder
                 'third_quarter_report' => 'financial-reports/q3-2024.pdf',
                 'annual_report' => 'financial-reports/annual-2024.pdf',
             ],
+            //  [
+            //     'fiscal_year' => 2025,
+            //     'first_quarter_report' => 'financial-reports/q1-2025.pdf',
+            //     'half_yearly_report' => 'financial-reports/half-yearly-2024.pdf',
+            //     'third_quarter_report' => 'financial-reports/q3-2024.pdf',
+            //     'annual_report' => 'financial-reports/annual-2024.pdf',
+            // ],
         ];
 
         foreach ($financialReports as $data) {
