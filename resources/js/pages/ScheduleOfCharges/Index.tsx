@@ -15,29 +15,30 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
-import { Edit, Eye, MoreHorizontal, Percent, Plus, Search, Trash } from 'lucide-react';
+import { Calendar, Download, Edit, Eye, MoreHorizontal, Plus, Search, Trash } from 'lucide-react';
 import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Dashboard', href: route('dashboard') },
-    { title: 'Profit Rates', href: route('profit-rates.index') },
+    { title: 'Schedule of Charges', href: route('schedule-of-charges.index') },
 ];
 
-interface ProfitRate {
+interface ScheduleOfCharge {
     id: number;
-    category: string;
-    rate: number;
-    valid_from: string;
-    valid_to: string | null;
+    title: string;
+    from: string;
+    to: string | null;
+    attachment: string | null;
+    attachment_url: string | null;
+    description: string | null;
     is_active: boolean;
-    sort_order: number | null;
     created_at: string;
     updated_at: string;
 }
 
 interface Props {
-    profitRates: {
-        data: ProfitRate[];
+    scheduleOfCharges: {
+        data: ScheduleOfCharge[];
         current_page: number;
         last_page: number;
         per_page: number;
@@ -48,23 +49,22 @@ interface Props {
     filters: Record<string, string>;
 }
 
-export default function ProfitRateIndex({ profitRates, filters }: Props) {
-    const [search, setSearch] = useState(filters['filter[category]'] || '');
+export default function ScheduleOfChargeIndex({ scheduleOfCharges, filters }: Props) {
+    const [search, setSearch] = useState(filters['filter[title]'] || '');
     const [statusFilter, setStatusFilter] = useState(() => {
         const param = filters['filter[is_active]'];
         if (param === '1') return 'active';
         if (param === '0') return 'inactive';
         return 'all';
     });
-    const [rateFilter, setRateFilter] = useState(() => {
-        const param = filters['filter[rate_range]'];
-        if (param === 'low') return 'low';
-        if (param === 'medium') return 'medium';
-        if (param === 'high') return 'high';
+    const [attachmentFilter, setAttachmentFilter] = useState(() => {
+        const param = filters['filter[has_attachment]'];
+        if (param === 'yes') return 'yes';
+        if (param === 'no') return 'no';
         return 'all';
     });
-    const [validityFilter, setValidityFilter] = useState(() => {
-        const param = filters['filter[validity_status]'];
+    const [dateFilter, setDateFilter] = useState(() => {
+        const param = filters['filter[date_range]'];
         if (param === 'current') return 'current';
         if (param === 'upcoming') return 'upcoming';
         if (param === 'expired') return 'expired';
@@ -73,71 +73,71 @@ export default function ProfitRateIndex({ profitRates, filters }: Props) {
 
     const buildParams = () => {
         const params: Record<string, string> = {};
-        if (search.trim()) params['filter[category]'] = search;
+        if (search.trim()) params['filter[title]'] = search;
         if (statusFilter !== 'all') params['filter[is_active]'] = statusFilter === 'active' ? '1' : '0';
-        if (rateFilter !== 'all') params['filter[rate_range]'] = rateFilter;
-        if (validityFilter !== 'all') params['filter[validity_status]'] = validityFilter;
+        if (attachmentFilter !== 'all') params['filter[has_attachment]'] = attachmentFilter;
+        if (dateFilter !== 'all') params['filter[date_range]'] = dateFilter;
         return params;
     };
 
     const handleSearch = (value: string) => {
         setSearch(value);
-        router.get(route('profit-rates.index'), {
+        router.get(route('schedule-of-charges.index'), {
             ...buildParams(),
-            'filter[category]': value.trim() ? value : undefined,
+            'filter[title]': value.trim() ? value : undefined,
         }, { preserveState: true, replace: true });
     };
 
     const handleStatusFilter = (value: string) => {
         setStatusFilter(value);
-        router.get(route('profit-rates.index'), {
+        router.get(route('schedule-of-charges.index'), {
             ...buildParams(),
             'filter[is_active]': value !== 'all' ? (value === 'active' ? '1' : '0') : undefined,
         }, { preserveState: true, replace: true });
     };
 
-    const handleRateFilter = (value: string) => {
-        setRateFilter(value);
-        router.get(route('profit-rates.index'), {
+    const handleAttachmentFilter = (value: string) => {
+        setAttachmentFilter(value);
+        router.get(route('schedule-of-charges.index'), {
             ...buildParams(),
-            'filter[rate_range]': value !== 'all' ? value : undefined,
+            'filter[has_attachment]': value !== 'all' ? value : undefined,
         }, { preserveState: true, replace: true });
     };
 
-    const handleValidityFilter = (value: string) => {
-        setValidityFilter(value);
-        router.get(route('profit-rates.index'), {
+    const handleDateFilter = (value: string) => {
+        setDateFilter(value);
+        router.get(route('schedule-of-charges.index'), {
             ...buildParams(),
-            'filter[validity_status]': value !== 'all' ? value : undefined,
+            'filter[date_range]': value !== 'all' ? value : undefined,
         }, { preserveState: true, replace: true });
     };
 
     const handlePagination = (page: number) => {
-        router.get(route('profit-rates.index'), { ...buildParams(), page });
+        router.get(route('schedule-of-charges.index'), { ...buildParams(), page });
     };
 
     const handleDelete = (id: number) => {
-        if (confirm('Are you sure you want to delete this profit rate?')) {
-            router.delete(route('profit-rates.destroy', id));
+        if (confirm('Are you sure you want to delete this schedule of charges?')) {
+            router.delete(route('schedule-of-charges.destroy', id));
         }
     };
 
-    const getStatusBadge = (rate: ProfitRate) => {
-        if (!rate.is_active) return <Badge variant="outline">Inactive</Badge>;
+    const getStatusBadge = (charge: ScheduleOfCharge) => {
+        if (!charge.is_active) return <Badge variant="outline">Inactive</Badge>;
 
         const currentDate = new Date().toISOString().split('T')[0];
-        const fromDate = rate.valid_from;
-        const toDate = rate.valid_to;
+        const fromDate = charge.from;
+        const toDate = charge.to;
 
         if (fromDate > currentDate) return <Badge variant="secondary">Upcoming</Badge>;
         if (toDate && toDate < currentDate) return <Badge variant="destructive">Expired</Badge>;
         return <Badge variant="default">Current</Badge>;
     };
 
-    const getRateBadge = (rateValue: number) => {
-        if (rateValue < 5) return <Badge variant="secondary">Low (&lt;5%)</Badge>;
-        if (rateValue <= 10) return <Badge variant="default">Medium (5-10%)</Badge>;
-        return <Badge variant="destructive">High (&gt;10%)</Badge>;
+    const getAttachmentBadge = (hasAttachment: boolean) => {
+        return hasAttachment
+            ? <Badge variant="outline">Has File</Badge>
+            : <Badge variant="secondary">No File</Badge>;
     };
 
     const formatDate = (dateString: string) => {
@@ -154,15 +154,15 @@ export default function ProfitRateIndex({ profitRates, filters }: Props) {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Profit Rates" />
+            <Head title="Schedule of Charges" />
             <div className="px-10 py-6">
-                <Heading title="Profit Rates" description="Manage banking profit rates by category" />
+                <Heading title="Schedule of Charges" description="Manage banking charges and fee schedules" />
                 <div className="mt-8 space-y-6">
                     <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                         <div className="flex flex-1 gap-4">
                             <div className="relative max-w-sm flex-1">
                                 <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
-                                <Input placeholder="Search by category..." value={search} onChange={(e) => handleSearch(e.target.value)} className="pl-10" />
+                                <Input placeholder="Search by title..." value={search} onChange={(e) => handleSearch(e.target.value)} className="pl-10" />
                             </div>
                             <Select value={statusFilter} onValueChange={handleStatusFilter}>
                                 <SelectTrigger className="w-40"><SelectValue placeholder="All Status" /></SelectTrigger>
@@ -172,19 +172,18 @@ export default function ProfitRateIndex({ profitRates, filters }: Props) {
                                     <SelectItem value="inactive">Inactive</SelectItem>
                                 </SelectContent>
                             </Select>
-                            <Select value={rateFilter} onValueChange={handleRateFilter}>
-                                <SelectTrigger className="w-40"><SelectValue placeholder="All Rates" /></SelectTrigger>
+                            <Select value={attachmentFilter} onValueChange={handleAttachmentFilter}>
+                                <SelectTrigger className="w-44"><SelectValue placeholder="All Files" /></SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="all">All Rates</SelectItem>
-                                    <SelectItem value="low">Low (&lt;5%)</SelectItem>
-                                    <SelectItem value="medium">Medium (5-10%)</SelectItem>
-                                    <SelectItem value="high">High (&gt;10%)</SelectItem>
+                                    <SelectItem value="all">All Files</SelectItem>
+                                    <SelectItem value="yes">Has Attachment</SelectItem>
+                                    <SelectItem value="no">No Attachment</SelectItem>
                                 </SelectContent>
                             </Select>
-                            <Select value={validityFilter} onValueChange={handleValidityFilter}>
-                                <SelectTrigger className="w-40"><SelectValue placeholder="All Validity" /></SelectTrigger>
+                            <Select value={dateFilter} onValueChange={handleDateFilter}>
+                                <SelectTrigger className="w-40"><SelectValue placeholder="All Dates" /></SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="all">All Validity</SelectItem>
+                                    <SelectItem value="all">All Dates</SelectItem>
                                     <SelectItem value="current">Current</SelectItem>
                                     <SelectItem value="upcoming">Upcoming</SelectItem>
                                     <SelectItem value="expired">Expired</SelectItem>
@@ -192,8 +191,8 @@ export default function ProfitRateIndex({ profitRates, filters }: Props) {
                             </Select>
                         </div>
                         <Button asChild>
-                            <Link href={route('profit-rates.create')}>
-                                <Plus className="mr-2 h-4 w-4" />Add Rate
+                            <Link href={route('schedule-of-charges.create')}>
+                                <Plus className="mr-2 h-4 w-4" />Add Schedule
                             </Link>
                         </Button>
                     </div>
@@ -201,45 +200,41 @@ export default function ProfitRateIndex({ profitRates, filters }: Props) {
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Order</TableHead>
-                                    <TableHead>Category</TableHead>
-                                    <TableHead>Rate</TableHead>
-                                    <TableHead>Valid Period</TableHead>
+                                    <TableHead>Title</TableHead>
+                                    <TableHead>Date Range</TableHead>
                                     <TableHead>Status</TableHead>
+                                    <TableHead>Attachment</TableHead>
                                     <TableHead>Created</TableHead>
                                     <TableHead className="text-right">Actions</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {profitRates.data.length === 0 ? (
+                                {scheduleOfCharges.data.length === 0 ? (
                                     <TableRow>
-                                        <TableCell colSpan={7} className="py-8 text-center text-gray-500">No profit rates found.</TableCell>
+                                        <TableCell colSpan={6} className="py-8 text-center text-gray-500">No schedule of charges found.</TableCell>
                                     </TableRow>
                                 ) : (
-                                    profitRates.data.map((rate) => (
-                                        <TableRow key={rate.id}>
-                                            <TableCell className="font-medium">{rate.sort_order || '-'}</TableCell>
+                                    scheduleOfCharges.data.map((charge) => (
+                                        <TableRow key={charge.id}>
                                             <TableCell>
                                                 <div className="flex items-center gap-3">
-                                                    <Percent className="h-5 w-5 text-emerald-500" />
+                                                    <Calendar className="h-5 w-5 text-indigo-500" />
                                                     <div>
-                                                        <div className="font-medium">{rate.category}</div>
+                                                        <div className="font-medium">{charge.title}</div>
+                                                        {charge.description && (
+                                                            <div className="text-sm text-gray-500 max-w-xs truncate">{charge.description}</div>
+                                                        )}
                                                     </div>
                                                 </div>
                                             </TableCell>
                                             <TableCell>
-                                                <div className="flex items-center gap-2">
-                                                    <span className="text-lg font-semibold text-emerald-600">{rate.rate}%</span>
-                                                    {getRateBadge(rate.rate)}
-                                                </div>
-                                            </TableCell>
-                                            <TableCell>
                                                 <div className="text-sm">
-                                                    {formatDateRange(rate.valid_from, rate.valid_to)}
+                                                    {formatDateRange(charge.from, charge.to)}
                                                 </div>
                                             </TableCell>
-                                            <TableCell>{getStatusBadge(rate)}</TableCell>
-                                            <TableCell className="text-sm text-gray-500">{formatDate(rate.created_at)}</TableCell>
+                                            <TableCell>{getStatusBadge(charge)}</TableCell>
+                                            <TableCell>{getAttachmentBadge(!!charge.attachment)}</TableCell>
+                                            <TableCell className="text-sm text-gray-500">{formatDate(charge.created_at)}</TableCell>
                                             <TableCell className="text-right">
                                                 <DropdownMenu>
                                                     <DropdownMenuTrigger asChild>
@@ -249,17 +244,27 @@ export default function ProfitRateIndex({ profitRates, filters }: Props) {
                                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                         <DropdownMenuSeparator />
                                                         <DropdownMenuItem asChild>
-                                                            <Link href={route('profit-rates.show', rate.id)}>
+                                                            <Link href={route('schedule-of-charges.show', charge.id)}>
                                                                 <Eye className="mr-2 h-4 w-4" />View
                                                             </Link>
                                                         </DropdownMenuItem>
                                                         <DropdownMenuItem asChild>
-                                                            <Link href={route('profit-rates.edit', rate.id)}>
+                                                            <Link href={route('schedule-of-charges.edit', charge.id)}>
                                                                 <Edit className="mr-2 h-4 w-4" />Edit
                                                             </Link>
                                                         </DropdownMenuItem>
+                                                        {charge.attachment_url && (
+                                                            <>
+                                                                <DropdownMenuSeparator />
+                                                                <DropdownMenuItem asChild>
+                                                                    <a href={charge.attachment_url} target="_blank" rel="noopener noreferrer">
+                                                                        <Download className="mr-2 h-4 w-4" />Download
+                                                                    </a>
+                                                                </DropdownMenuItem>
+                                                            </>
+                                                        )}
                                                         <DropdownMenuSeparator />
-                                                        <DropdownMenuItem onClick={() => handleDelete(rate.id)} className="text-red-600">
+                                                        <DropdownMenuItem onClick={() => handleDelete(charge.id)} className="text-red-600">
                                                             <Trash className="mr-2 h-4 w-4" />Delete
                                                         </DropdownMenuItem>
                                                     </DropdownMenuContent>
@@ -271,15 +276,15 @@ export default function ProfitRateIndex({ profitRates, filters }: Props) {
                             </TableBody>
                         </Table>
                     </div>
-                    {profitRates.total > 0 && (
+                    {scheduleOfCharges.total > 0 && (
                         <div className="flex items-center justify-between text-sm text-gray-500">
-                            <div>Showing {profitRates.from} to {profitRates.to} of {profitRates.total} results</div>
+                            <div>Showing {scheduleOfCharges.from} to {scheduleOfCharges.to} of {scheduleOfCharges.total} results</div>
                             <div className="flex gap-2">
-                                {profitRates.current_page > 1 && (
-                                    <Button variant="outline" size="sm" onClick={() => handlePagination(profitRates.current_page - 1)}>Previous</Button>
+                                {scheduleOfCharges.current_page > 1 && (
+                                    <Button variant="outline" size="sm" onClick={() => handlePagination(scheduleOfCharges.current_page - 1)}>Previous</Button>
                                 )}
-                                {profitRates.current_page < profitRates.last_page && (
-                                    <Button variant="outline" size="sm" onClick={() => handlePagination(profitRates.current_page + 1)}>Next</Button>
+                                {scheduleOfCharges.current_page < scheduleOfCharges.last_page && (
+                                    <Button variant="outline" size="sm" onClick={() => handlePagination(scheduleOfCharges.current_page + 1)}>Next</Button>
                                 )}
                             </div>
                         </div>

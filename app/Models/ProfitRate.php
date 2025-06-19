@@ -9,7 +9,6 @@ use Spatie\QueryBuilder\AllowedFilter;
 
 class ProfitRate extends Model
 {
-    /** @use HasFactory<\Database\Factories\ProfitRateFactory> */
     use HasFactory, UserTracking;
 
     protected $fillable = [
@@ -28,33 +27,48 @@ class ProfitRate extends Model
         'valid_from' => 'date',
         'valid_to' => 'date',
         'is_active' => 'boolean',
+        'sort_order' => 'integer',
     ];
-
-    public function scopeActive($query)
-    {
-        return $query->where('is_active', true);
-    }
-
-    public function scopeInactive($query)
-    {
-        return $query->where('is_active', false);
-    }
-
-    public function scopeCurrent($query)
-    {
-        return $query->where('valid_from', '<=', now())
-            ->where(function ($q) {
-                $q->whereNull('valid_to')
-                    ->orWhere('valid_to', '>=', now());
-            });
-    }
 
     public static function getAllowedFilters(): array
     {
         return [
             AllowedFilter::partial('category'),
-            AllowedFilter::exact('is_active'),
-            AllowedFilter::scope('current'),
+            AllowedFilter::callback('rate_range', function ($query, $value) {
+                switch ($value) {
+                    case 'low':
+                        return $query->where('rate', '<', 5);
+                    case 'medium':
+                        return $query->whereBetween('rate', [5, 10]);
+                    case 'high':
+                        return $query->where('rate', '>', 10);
+                    default:
+                        return $query;
+                }
+            }),
+            AllowedFilter::callback('is_active', function ($query, $value) {
+                if ($value === '1')
+                    return $query->where('is_active', true);
+                if ($value === '0')
+                    return $query->where('is_active', false);
+                return $query;
+            }),
+            AllowedFilter::callback('validity_status', function ($query, $value) {
+                $currentDate = now()->toDateString();
+                switch ($value) {
+                    case 'current':
+                        return $query->where('valid_from', '<=', $currentDate)
+                            ->where(function ($q) use ($currentDate) {
+                                $q->whereNull('valid_to')->orWhere('valid_to', '>=', $currentDate);
+                            });
+                    case 'upcoming':
+                        return $query->where('valid_from', '>', $currentDate);
+                    case 'expired':
+                        return $query->whereNotNull('valid_to')->where('valid_to', '<', $currentDate);
+                    default:
+                        return $query;
+                }
+            }),
         ];
     }
 
@@ -66,8 +80,8 @@ class ProfitRate extends Model
             'rate',
             'valid_from',
             'valid_to',
-            'is_active',
             'sort_order',
+            'is_active',
             'created_at',
             'updated_at',
         ];
@@ -75,6 +89,38 @@ class ProfitRate extends Model
 
     public function getStatusAttribute(): string
     {
-        return $this->is_active ? 'Active' : 'Inactive';
+        if (!$this->is_active)
+            return 'inactive';
+
+        $currentDate = now()->toDateString();
+
+        if ($this->valid_from > $currentDate)
+            return 'upcoming';
+        if ($this->valid_to && $this->valid_to < $currentDate)
+            return 'expired';
+        return 'current';
+    }
+
+    public function getRateRangeAttribute(): string
+    {
+        if ($this->rate < 5)
+            return 'low';
+        if ($this->rate <= 10)
+            return 'medium';
+        return 'high';
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
+
+    public function scopeCurrent($query)
+    {
+        $currentDate = now()->toDateString();
+        return $query->where('valid_from', '<=', $currentDate)
+            ->where(function ($q) use ($currentDate) {
+                $q->whereNull('valid_to')->orWhere('valid_to', '>=', $currentDate);
+            });
     }
 }

@@ -2,25 +2,11 @@ import Heading from '@/components/heading';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, Link, router } from '@inertiajs/react';
-import { ArrowLeft, Calendar, Edit, Percent, Trash2 } from 'lucide-react';
-
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Dashboard',
-        href: route('dashboard'),
-    },
-    {
-        title: 'Profit Rates',
-        href: route('profit-rates.index'),
-    },
-    {
-        title: 'Details',
-        href: '',
-    },
-];
+import { Head, Link } from '@inertiajs/react';
+import { Calendar, Edit, Hash, Percent, TrendingUp } from 'lucide-react';
 
 interface ProfitRate {
     id: number;
@@ -29,233 +15,219 @@ interface ProfitRate {
     valid_from: string;
     valid_to: string | null;
     is_active: boolean;
-    sort_order?: number;
-    status: string;
+    sort_order: number | null;
     created_at: string;
     updated_at: string;
-    creator?: {
-        name: string;
-    };
-    updater?: {
-        name: string;
-    };
 }
 
 interface Props {
     profitRate: ProfitRate;
 }
 
-export default function Show({ profitRate }: Props) {
+export default function ShowProfitRate({ profitRate }: Props) {
+    const breadcrumbs: BreadcrumbItem[] = [
+        { title: 'Dashboard', href: route('dashboard') },
+        { title: 'Profit Rates', href: route('profit-rates.index') },
+        { title: profitRate.category, href: route('profit-rates.show', profitRate.id) },
+    ];
+
+    const getStatusBadge = () => {
+        if (!profitRate.is_active) return <Badge variant="outline">Inactive</Badge>;
+
+        const currentDate = new Date().toISOString().split('T')[0];
+        const fromDate = profitRate.valid_from;
+        const toDate = profitRate.valid_to;
+
+        if (fromDate > currentDate) return <Badge variant="secondary">Upcoming</Badge>;
+        if (toDate && toDate < currentDate) return <Badge variant="destructive">Expired</Badge>;
+        return <Badge variant="default">Current</Badge>;
+    };
+
+    const getRateBadge = () => {
+        if (profitRate.rate < 5) return <Badge variant="secondary">Low Rate</Badge>;
+        if (profitRate.rate <= 10) return <Badge variant="default">Medium Rate</Badge>;
+        return <Badge variant="destructive">High Rate</Badge>;
+    };
+
     const formatDate = (dateString: string) => {
         return new Date(dateString).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
+            year: 'numeric', month: 'long', day: 'numeric',
         });
-    };
-
-    const formatDateOnly = (dateString: string) => {
-        return new Date(dateString).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-        });
-    };
-
-    const handleDelete = () => {
-        if (confirm('Are you sure you want to delete this profit rate?')) {
-            router.delete(route('profit-rates.destroy', profitRate.id));
-        }
-    };
-
-    const isCurrentRate = () => {
-        const now = new Date();
-        const validFrom = new Date(profitRate.valid_from);
-        const validTo = profitRate.valid_to ? new Date(profitRate.valid_to) : null;
-
-        return validFrom <= now && (!validTo || validTo >= now);
     };
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={`Profit Rate - ${profitRate.category}`} />
-
-            <div className="px-4 py-6">
-                <div className="mb-6 flex items-center justify-between">
-                    <Button variant="ghost" size="sm" asChild>
-                        <Link href={route('profit-rates.index')}>
-                            <ArrowLeft className="mr-2 h-4 w-4" />
-                            Back to Profit Rates
+            <Head title={`${profitRate.category} - Profit Rate`} />
+            <div className="px-10 py-6">
+                <div className="flex items-center justify-between">
+                    <Heading title={profitRate.category} description="Profit rate details" />
+                    <Button asChild>
+                        <Link href={route('profit-rates.edit', profitRate.id)}>
+                            <Edit className="mr-2 h-4 w-4" />Edit Rate
                         </Link>
                     </Button>
-                    <div className="flex gap-2">
-                        <Button asChild>
-                            <Link href={route('profit-rates.edit', profitRate.id)}>
-                                <Edit className="mr-2 h-4 w-4" />
-                                Edit Rate
-                            </Link>
-                        </Button>
-                        <Button variant="destructive" onClick={handleDelete}>
-                            <Trash2 className="mr-2 h-4 w-4" />
-                            Delete
-                        </Button>
-                    </div>
                 </div>
 
-                <Heading title={`Profit Rate - ${profitRate.category}`} description="View complete information about this profit rate" />
-
-                <div className="grid max-w-6xl grid-cols-1 gap-6 lg:grid-cols-3">
-                    {/* Main Content */}
-                    <div className="space-y-6 lg:col-span-2">
-                        {/* Basic Information */}
-                        <Card>
+                <div className="mt-8 grid gap-6 lg:grid-cols-3">
+                    <div className="lg:col-span-2">
+                        <Card className="mb-6">
                             <CardHeader>
-                                <CardTitle className="flex items-center">
-                                    <Percent className="mr-2 h-5 w-5" />
-                                    Rate Information
-                                </CardTitle>
-                            </CardHeader>
-                            <CardContent className="space-y-4">
-                                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                                    <div>
-                                        <label className="text-sm font-medium text-gray-500">Category</label>
-                                        <p className="text-lg font-semibold text-gray-900">{profitRate.category}</p>
+                                <div className="flex items-start gap-6">
+                                    <div className="flex h-20 w-20 items-center justify-center rounded-full bg-emerald-100">
+                                        <Percent className="h-10 w-10 text-emerald-600" />
                                     </div>
-                                    <div>
-                                        <label className="text-sm font-medium text-gray-500">Rate</label>
-                                        <p className="text-2xl font-bold text-green-600">{profitRate.rate}%</p>
-                                    </div>
-                                    <div>
-                                        <label className="text-sm font-medium text-gray-500">Status</label>
-                                        <div className="mt-1">
-                                            <Badge variant={profitRate.is_active ? 'default' : 'secondary'}>{profitRate.status}</Badge>
+                                    <div className="flex-1 space-y-4">
+                                        <div>
+                                            <CardTitle className="text-2xl">{profitRate.category}</CardTitle>
+                                            <p className="mt-1 text-3xl font-bold text-emerald-600">{profitRate.rate}%</p>
                                         </div>
-                                    </div>
-                                    <div>
-                                        <label className="text-sm font-medium text-gray-500">Sort Order</label>
-                                        <p className="mt-1 text-lg font-semibold text-gray-900">{profitRate.sort_order || 'Not set'}</p>
-                                    </div>
-                                    <div>
-                                        <label className="text-sm font-medium text-gray-500">Current Rate</label>
-                                        <div className="mt-1">
-                                            {isCurrentRate() ? (
-                                                <Badge className="bg-green-100 text-green-800">Active Period</Badge>
-                                            ) : (
-                                                <Badge variant="outline">Not Current</Badge>
-                                            )}
+                                        <div className="flex items-center gap-2">
+                                            {getStatusBadge()}
+                                            {getRateBadge()}
                                         </div>
                                     </div>
                                 </div>
-                            </CardContent>
+                            </CardHeader>
                         </Card>
 
-                        {/* Validity Period */}
                         <Card>
-                            <CardHeader>
-                                <CardTitle className="flex items-center">
-                                    <Calendar className="mr-2 h-5 w-5" />
-                                    Validity Period
-                                </CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                                    <div>
-                                        <label className="text-sm font-medium text-gray-500">Valid From</label>
-                                        <p className="mt-1 text-lg font-semibold text-gray-900">{formatDateOnly(profitRate.valid_from)}</p>
+                            <CardHeader><CardTitle className="text-lg">Rate Information</CardTitle></CardHeader>
+                            <CardContent className="space-y-6">
+                                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                                    <div className="space-y-2">
+                                        <h3 className="flex items-center gap-2 text-sm font-medium text-gray-700">
+                                            <Calendar className="h-4 w-4" />
+                                            Valid From
+                                        </h3>
+                                        <p className="text-lg font-semibold">{formatDate(profitRate.valid_from)}</p>
                                     </div>
-                                    <div>
-                                        <label className="text-sm font-medium text-gray-500">Valid To</label>
-                                        <p className="mt-1 text-lg font-semibold text-gray-900">
-                                            {profitRate.valid_to ? formatDateOnly(profitRate.valid_to) : 'Ongoing'}
+                                    <div className="space-y-2">
+                                        <h3 className="flex items-center gap-2 text-sm font-medium text-gray-700">
+                                            <Calendar className="h-4 w-4" />
+                                            Valid To
+                                        </h3>
+                                        <p className="text-lg font-semibold">
+                                            {profitRate.valid_to ? formatDate(profitRate.valid_to) : 'Ongoing'}
                                         </p>
                                     </div>
                                 </div>
 
-                                {profitRate.valid_to && (
-                                    <div className="mt-4 rounded-lg bg-blue-50 p-4">
-                                        <p className="text-sm text-blue-800">
-                                            This rate is valid for a specific period.
-                                            {isCurrentRate() ? ' It is currently active.' : ' It is no longer active.'}
+                                <Separator />
+
+                                <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+                                    <div className="text-center p-4 bg-emerald-50 rounded-lg">
+                                        <p className="text-3xl font-bold text-emerald-600">{profitRate.rate}%</p>
+                                        <p className="text-sm text-gray-600 mt-1">Current Rate</p>
+                                    </div>
+                                    <div className="text-center p-4 bg-blue-50 rounded-lg">
+                                        <p className="text-3xl font-bold text-blue-600">{profitRate.sort_order || '-'}</p>
+                                        <p className="text-sm text-gray-600 mt-1">Sort Order</p>
+                                    </div>
+                                    <div className="text-center p-4 bg-purple-50 rounded-lg">
+                                        <p className="text-3xl font-bold text-purple-600">
+                                            {((profitRate.valid_to ? new Date(profitRate.valid_to) : new Date()).getTime() - new Date(profitRate.valid_from).getTime()) / (1000 * 60 * 60 * 24) > 0
+                                                ? Math.ceil(((profitRate.valid_to ? new Date(profitRate.valid_to) : new Date()).getTime() - new Date(profitRate.valid_from).getTime()) / (1000 * 60 * 60 * 24))
+                                                : '∞'
+                                            }
                                         </p>
+                                        <p className="text-sm text-gray-600 mt-1">Days Valid</p>
                                     </div>
-                                )}
-
-                                {!profitRate.valid_to && (
-                                    <div className="mt-4 rounded-lg bg-green-50 p-4">
-                                        <p className="text-sm text-green-800">This is an ongoing rate with no end date specified.</p>
-                                    </div>
-                                )}
-                            </CardContent>
-                        </Card>
-
-                        {/* Audit Information */}
-                        <Card>
-                            <CardHeader>
-                                <CardTitle>Record Information</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <dl className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                                    <div>
-                                        <dt className="text-sm font-medium text-gray-500">Created</dt>
-                                        <dd className="mt-1 text-sm text-gray-900">{formatDate(profitRate.created_at)}</dd>
-                                        {profitRate.creator && <dd className="text-xs text-gray-500">by {profitRate.creator.name}</dd>}
-                                    </div>
-                                    <div>
-                                        <dt className="text-sm font-medium text-gray-500">Last Updated</dt>
-                                        <dd className="mt-1 text-sm text-gray-900">{formatDate(profitRate.updated_at)}</dd>
-                                        {profitRate.updater && <dd className="text-xs text-gray-500">by {profitRate.updater.name}</dd>}
-                                    </div>
-                                </dl>
+                                </div>
                             </CardContent>
                         </Card>
                     </div>
 
-                    {/* Sidebar */}
                     <div className="space-y-6">
-                        {/* Quick Actions */}
                         <Card>
-                            <CardHeader>
-                                <CardTitle>Quick Actions</CardTitle>
-                            </CardHeader>
-                            <CardContent className="space-y-2">
-                                <Button asChild className="w-full">
-                                    <Link href={route('profit-rates.edit', profitRate.id)}>
-                                        <Edit className="mr-2 h-4 w-4" />
-                                        Edit Rate
-                                    </Link>
-                                </Button>
-                                <Button asChild variant="outline" className="w-full">
-                                    <Link href={route('profit-rates.create')}>Create New Rate</Link>
-                                </Button>
+                            <CardHeader><CardTitle className="text-lg">Details</CardTitle></CardHeader>
+                            <CardContent className="space-y-4">
+                                <div className="flex items-center gap-3">
+                                    <Hash className="h-4 w-4 text-gray-500" />
+                                    <div>
+                                        <p className="text-sm font-medium">ID</p>
+                                        <p className="text-sm text-gray-600">#{profitRate.id}</p>
+                                    </div>
+                                </div>
+                                <Separator />
+                                <div className="flex items-center gap-3">
+                                    <Percent className="h-4 w-4 text-gray-500" />
+                                    <div>
+                                        <p className="text-sm font-medium">Category</p>
+                                        <p className="text-sm text-gray-600">{profitRate.category}</p>
+                                    </div>
+                                </div>
+                                <Separator />
+                                <div className="flex items-center gap-3">
+                                    <TrendingUp className="h-4 w-4 text-gray-500" />
+                                    <div>
+                                        <p className="text-sm font-medium">Rate</p>
+                                        <p className="text-sm text-gray-600">{profitRate.rate}%</p>
+                                    </div>
+                                </div>
+                                <Separator />
+                                <div className="flex items-center gap-3">
+                                    <div className="h-4 w-4 rounded-full bg-gray-400" />
+                                    <div>
+                                        <p className="text-sm font-medium">Status</p>
+                                        <div className="mt-1">{getStatusBadge()}</div>
+                                    </div>
+                                </div>
                             </CardContent>
                         </Card>
 
-                        {/* Rate Summary */}
                         <Card>
-                            <CardHeader>
-                                <CardTitle>Rate Summary</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="space-y-3">
-                                    <div className="text-center">
-                                        <div className="text-3xl font-bold text-green-600">{profitRate.rate}%</div>
-                                        <div className="text-sm text-gray-500">Annual Rate</div>
-                                    </div>
-                                    <div className="border-t pt-3">
-                                        <div className="text-sm">
-                                            <div className="flex justify-between">
-                                                <span className="text-gray-500">Product:</span>
-                                                <span className="font-medium">{profitRate.category}</span>
-                                            </div>
-                                            <div className="mt-1 flex justify-between">
-                                                <span className="text-gray-500">Status:</span>
-                                                <span className={profitRate.is_active ? 'text-green-600' : 'text-gray-600'}>{profitRate.status}</span>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <CardHeader><CardTitle className="text-lg">Statistics</CardTitle></CardHeader>
+                            <CardContent className="space-y-4 text-sm">
+                                <div className="flex justify-between">
+                                    <span className="font-medium">Active:</span>
+                                    <span className="text-gray-600">{profitRate.is_active ? 'Yes' : 'No'}</span>
                                 </div>
+                                <Separator />
+                                <div className="flex justify-between">
+                                    <span className="font-medium">Rate Range:</span>
+                                    <span className="text-gray-600">
+                                        {profitRate.rate < 5 ? 'Low (<5%)' : profitRate.rate <= 10 ? 'Medium (5-10%)' : 'High (>10%)'}
+                                    </span>
+                                </div>
+                                <Separator />
+                                <div className="flex justify-between">
+                                    <span className="font-medium">Has End Date:</span>
+                                    <span className="text-gray-600">{profitRate.valid_to ? 'Yes' : 'No'}</span>
+                                </div>
+                                <Separator />
+                                <div className="flex justify-between">
+                                    <span className="font-medium">Sort Order:</span>
+                                    <span className="text-gray-600">{profitRate.sort_order || 'Not set'}</span>
+                                </div>
+                            </CardContent>
+                        </Card>
+
+                        <Card>
+                            <CardHeader><CardTitle className="text-lg">Timestamps</CardTitle></CardHeader>
+                            <CardContent className="space-y-4 text-sm">
+                                <div>
+                                    <p className="font-medium">Created</p>
+                                    <p className="text-gray-600">{new Date(profitRate.created_at).toLocaleString()}</p>
+                                </div>
+                                <Separator />
+                                <div>
+                                    <p className="font-medium">Last Updated</p>
+                                    <p className="text-gray-600">{new Date(profitRate.updated_at).toLocaleString()}</p>
+                                </div>
+                            </CardContent>
+                        </Card>
+
+                        <Card>
+                            <CardHeader><CardTitle className="text-lg">Actions</CardTitle></CardHeader>
+                            <CardContent className="space-y-3">
+                                <Button asChild className="w-full">
+                                    <Link href={route('profit-rates.edit', profitRate.id)}>
+                                        <Edit className="mr-2 h-4 w-4" />Edit Rate
+                                    </Link>
+                                </Button>
+                                <Button variant="outline" asChild className="w-full">
+                                    <Link href={route('profit-rates.index')}>Back to List</Link>
+                                </Button>
                             </CardContent>
                         </Card>
                     </div>
