@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Managment;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class ManagmentSeeder extends Seeder
 {
@@ -13,7 +14,7 @@ class ManagmentSeeder extends Seeder
         $user = \App\Models\User::create([
             'name' => 'System Admin',
             'email' => 'admin@example.com',
-            'password' => bcrypt('password'),
+            'password' => Hash::make('password'),
         ]);
         $managementData = [
             [

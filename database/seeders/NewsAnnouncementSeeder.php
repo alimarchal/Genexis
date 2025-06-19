@@ -46,7 +46,7 @@ class NewsAnnouncementSeeder extends Seeder
             'is_published' => true,
         ]);
 
-          NewsAnnouncement::create([
+        NewsAnnouncement::create([
             'title' => 'Bank of Azad Jammu & Kashmir Holds 89th Board Meeting: Strategic Approvals and Vision for Future Growth',
             'content' => 'BAJK Board of Directors 89th Meeting Held at Bank Head Office, Muzaffarabad <br>
 Muzaffarabad <br>
@@ -66,6 +66,10 @@ Chairman Mr. Khan Abdul Majid Khan commended the dedication of BAJK’s team, ma
 
 Future Vision:<br>
 The Board reaffirmed its resolve to sustain progress, expand services, and adopt cutting-edge banking technologies for the benefit of customers and stakeholders. <br>
+
+
+<br><br><br><br>
+<p style="direction: rtl; text-aligh: right;">
  بینک آف آزاد جموں و کشمیر کے بورڈ آف ڈائریکٹرز کا 89 واں اجلاس
 مظفرآباد
 4 جون 2025
@@ -86,6 +90,7 @@ The Board reaffirmed its resolve to sustain progress, expand services, and adopt
 
 مستقبل کا وژن:
 بورڈ نے اس عزم کا اعادہ کیا کہ وہ ترقی کا سفر جاری رکھے گا، خدمات میں توسیع کرے گا، اور صارفین و شراکت داروں کے مفاد میں جدید ترین بینکاری ٹیکنالوجی اپنائے گا۔
+</p>
 ',
 
             'image' => 'https://scontent.fisb29-1.fna.fbcdn.net/v/t39.30808-6/503934417_1118839720266189_7461228307053208556_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeFo76-2ouCzu0HPg5YnyxDDRQnP_GA_h-JFCc_8YD-H4rnw3H8L85R8TkBa6TpRkwQoyId5WL3gD2Z8WOdrqlg2&_nc_ohc=zY-ZJELtUD4Q7kNvwHXGtrM&_nc_oc=AdmzvawswSFX5HYul_rGE8mD0NL458vmb4737NRZ4VohOnomiLF8t7ICSzO9kWs4bSg&_nc_zt=23&_nc_ht=scontent.fisb29-1.fna&_nc_gid=ai68VKQNIJZewGOFnCZ45A&oh=00_AfOXHCbUaGtr02CeZ9Py4OfV6WvyCKmZ3ir80JlmuXm_kQ&oe=6856AD72',
@@ -96,7 +101,7 @@ The Board reaffirmed its resolve to sustain progress, expand services, and adopt
             'is_published' => true,
         ]);
 
-  NewsAnnouncement::create([
+        NewsAnnouncement::create([
             'title' => 'Bank of Azad Jammu and Kashmir Signs Strategic MoU with Silverlake to Advance Digital Banking Infrastructure',
             'content' => 'The Bank of Azad Jammu and Kashmir (BAJK) has signed a Memorandum of Understanding (MoU) with Silverlake , a world-renowned Malaysian company, marking a significant step towards digitalization and scheduling. The MoU was signed during a ceremony held in Kuala Lumpur, Malaysia, after which documents were exchanged. Azad Jammu and Kashmir Minister for Finance and Cooperatives/Chairman of BAJK, Khan Abdul Majid Khan, President/CEO of BAJK, Mr. Shahid Shahzad Mir, and representatives of Silverlake were present on the occasion. <br> 
 Notably, the local partner of Silverlake, I-Consult played an instrumental role in facilitating this MoU, and its representatives Mr. Shahid Ahmed Khan and Mr. Khurram Jamal were also present during the signing ceremony, contributing to the successful collaboration. <br>
@@ -113,7 +118,7 @@ Speaking at the event, Chairman Khan Abdul Majid Khan stated that this MoU is no
             'is_published' => true,
         ]);
 
-          NewsAnnouncement::create([
+        NewsAnnouncement::create([
             'title' => 'Bank of AJK Convenes 88th Board of Directors Meeting Under the Chairmanship of Finance Minister Khan Abdul Majid Khan',
             'content' => 'The 88th Meeting of the Board of Directors of Bank of Azad Jammu & Kashmir Held Under the Chairmanship of Finance Minister Khan Abdul Majid Khan
 The 88th meeting of the Board of Directors of Bank of Azad Jammu & Kashmir was held under the chairmanship of Mr. Khan Abdul Majid Khan, Minister for Finance & Cooperatives, Government of Azad Jammu & Kashmir, and Chairman of the Bank. The meeting was convened on Monday at the Bank’s Head Office.
@@ -214,7 +219,7 @@ BAJK مستقبل میں اپنی ترقی، جدت، اور سماجی اثرا
             'is_published' => true,
         ]);
 
-             NewsAnnouncement::create([
+        NewsAnnouncement::create([
             'title' => 'Recognizing Excellence: BAJK Awards Outstanding Employees for Exceptional Performance',
             'content' => 'Muzaffarabad 
 Bank of Azad Jammu and Kashmir Honors Top Performers in Prestigious Ceremony**  
@@ -267,7 +272,7 @@ As the Bank of Azad Jammu and Kashmir continues to break new ground, events like
             'is_published' => true,
         ]);
 
-                NewsAnnouncement::create([
+        NewsAnnouncement::create([
             'title' => 'Barrister Sultan Mehmood Assures Maximum Facilitation for Bank of AJK’s Institutional Growth',
             'content' => 'Presidential Secretariat, Aiwan-e-Sadr, Kashmir House, Islamabad<br>
 07 April 2025<br>
@@ -290,7 +295,7 @@ He also assured his full cooperation and support in this regard.<br>
             'is_published' => true,
         ]);
 
-             NewsAnnouncement::create([
+        NewsAnnouncement::create([
             'title' => 'HR Division of BAJK Organizes Comprehensive Training on Islamic Banking Operations',
             'content' => 'HR Division of BAJK Organizes Comprehensive Training on Islamic Banking Operations
 Muzaffarabad
@@ -344,14 +349,14 @@ BAJK کی اسلامی بینکاری ڈویژن کے ایک رکن نے کہا:
 BAJK کا HR ڈویژن اپنے ملازمین کے لیے مسلسل پیشہ ورانہ ترقی کے مواقع فراہم کرنے کے لیے پرعزم ہے۔ یہ تربیتی پروگرام اس بات کا عکاس ہے کہ بینک اپنے عملے کی اسلامی بینکاری کے شعبے میں علم اور مہارت بڑھانے کے لیے سنجیدہ اقدامات کر رہا ہے، تاکہ ادارے کی اسلامی بینکاری خدمات مزید مستحکم اور کامیاب ہو سکیں۔
 ',
             'image' => 'https://scontent.fisb29-1.fna.fbcdn.net/v/t39.30808-6/489088614_1075345067948988_9066752535007055815_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeGwYRepOJD7_XmIuvH78tJs7w4W5HZmybLvDhbkdmbJssINLgqPFBohQLHsk03WnEYEyoPhgbMNy8NTb86ar-dP&_nc_ohc=X3lem-tlSM4Q7kNvwHo1jHR&_nc_oc=AdmRg6GNULnhj7GOHnfZ2Bo7Jir49ZRStVBMWAImvF74gXWt7ZaAINsRnApU8-gFvOE&_nc_zt=23&_nc_ht=scontent.fisb29-1.fna&_nc_gid=hKMml_QUS7XcvRcHmN2B-Q&oh=00_AfMmCRtHJJwyvpJukrKCIsk_8CKHgRz92p7nc2JXMZiBMQ&oe=6856F4F4',
-           'published_date' => '2025-01-23',
+            'published_date' => '2025-01-23',
             'is_featured' => false,
             'category' => 'general',
             'slug' => 'bajk-hr-organizes-islamic-banking-training',
             'is_published' => true,
         ]);
 
-           NewsAnnouncement::create([
+        NewsAnnouncement::create([
             'title' => 'Proudly Honoring Pakistan’s Brave Forces',
             'content' => 'The Bank of Azad Jammu and Kashmir pays heartfelt tribute to the courageous armed forces of Pakistan, recognizing their unwavering dedication and sacrifices for national security and peace. Their bravery continues to inspire the nation with pride and gratitude. <br>
             بینک آف آزاد جموں و کشمیر پاکستان کی بہادر مسلح افواج کو دل کی گہرائیوں سے خراجِ تحسین پیش کرتا ہے، جو قومی سلامتی اور امن کے لیے اپنی بے مثال قربانیوں اور غیر متزلزل عزم کے لیے جانے جاتے ہیں۔ ان کی بہادری پوری قوم کے لیے فخر اور شکرگزاری کا باعث ہے۔
@@ -364,7 +369,7 @@ BAJK کا HR ڈویژن اپنے ملازمین کے لیے مسلسل پیشہ 
             'is_published' => true,
         ]);
 
-                NewsAnnouncement::create([
+        NewsAnnouncement::create([
             'title' => 'BAJK Partners with Faysal Bank to Revolutionize Financial Transactions and Cash Management',
             'content' => 'Bank of AJK Partners with Faysal Bank to Revolutionize Financial Transactions and Enhance Cash Management
 Islamabad
@@ -413,7 +418,7 @@ IBAN سسٹم کو اپنانے کے ذریعے BAJK اپنے مالیاتی آ�
         ]);
 
 
-           NewsAnnouncement::create([
+        NewsAnnouncement::create([
             'title' => 'Bank of AJK Collaborates with NIBAF to Elevate Enterprise Risk Management Standards',
             'content' => 'Bank of AJK Strengthens Risk Management with NIBAF’s Support<br>
 Muzaffarabad,<br>
@@ -455,7 +460,7 @@ NIBAF کے ساتھ شراکت داری کے ذریعے BAJK کا مقصد اپ�
             'is_published' => true,
         ]);
 
-         NewsAnnouncement::create([
+        NewsAnnouncement::create([
             'title' => 'BAJK Sharda Branch Commemorates 18th Anniversary with Community Leaders and Dignitaries',
             'content' => 'On the occasion of the 18th anniversary of the Bank of Azad Jammu and Kashmir, Assistant Commissioner Mr. Muhammad Qadeer Mughal, Principal of Boys Degree College Sharda Madam Sakeena Khawaja, President of the Sharda Bazaar Traders Association Mr. Babar Nawaz, and other local dignitaries attended a cake-cutting ceremony held at the BAJK Sharda Branch. The participants expressed their commitment to continued cooperation with the bank. Prayers were offered for the bank’s growth and success. Branch Manager Noor Zaman extended thanks to the guests for their participation.<br>
             بینک آف آزاد جموں و کشمیر کی 18ویں سالگرہ کے موقع پر اسسٹنٹ کمشنر جناب محمد قدیر مغل، پرنسپل بوائز ڈگری کالج شاردا میڈم سکینہ خواجہ، صدر بازار تاجر برادری جناب بابر نواز اور دیگر معززین علاقہ نے بینک آ ف آزاد جموں و کشمیر شاردہ برانچ میں کیک کاٹنے کی تقریب میں شرکت کی۔ شرکاء نے بینک کے ساتھ تعاون کا اعلان کیا ۔ اس موقع پر بینک کی ترقی و کامیابی کے لئے دعا کی گئی۔برانچ منیجر نور زماں نے مہمانوں کا شکریہ ادا کیا ۔
@@ -468,7 +473,7 @@ NIBAF کے ساتھ شراکت داری کے ذریعے BAJK کا مقصد اپ�
             'is_published' => true,
         ]);
 
-              NewsAnnouncement::create([
+        NewsAnnouncement::create([
             'title' => 'BAJK Celebrates 18th Anniversary at Pulmanda Branch, Khari Sharif',
             'content' => 'ChatGPT said:
 Khari Sharif <br>
@@ -488,7 +493,7 @@ The ceremony concluded with a vote of thanks from Branch Manager Waqas Javed to 
             'is_published' => true,
         ]);
 
-        
+
         NewsAnnouncement::create([
             'title' => 'BAJK Celebrates 18th Anniversary with Cake-Cutting Ceremony in Rawalakot',
             'content' => 'A cake-cutting ceremony took place at the Main Branch in Rawalakot to mark the 18th anniversary of BAJK. The event was honored by the presence of Deputy Commissioner Poonch, Syed Mumtaz Kazmi, and Assistant Commissioner, Sardar Mushtaq, who joined alongside the Chief Manager of the Main Branch Rawalakot. Divisional Head CMD, Mr. Imtiaz Shaheen, was also in attendance and shared an inspiring briefing on BAJK’s achievements over the years. Regional Head, ROM, RBM, Rawalakot Region were present as well, contributing to the festive atmosphere as they celebrated this important milestone together.<br>
@@ -502,7 +507,7 @@ The ceremony concluded with a vote of thanks from Branch Manager Waqas Javed to 
             'slug' => 'bajk-celebrates-18th-anniversary-cake-cutting-rawalakot',
             'is_published' => true,
         ]);
-   NewsAnnouncement::create([
+        NewsAnnouncement::create([
             'title' => 'AJK Finance Minister and Chairman Bank of AJK Emphasizes Role of Kashmir Bank in Regional Business Growth',
             'content' => 'Mirpur <br>
 The Finance and Cooperative Minister of the Azad Government of the State of Jammu and Kashmir, and Chairman of the Bank of Azad Jammu and Kashmir (BAJK), Khan Abdul Majid Khan, stated that Kashmir Bank is playing a key role in promoting business activities in the region. Attractive loan schemes, including Small Business Trade Finance (SBTF), are contributing significantly to business growth.<br>
@@ -520,8 +525,8 @@ The Chairman highlighted the bank’s remarkable performance, praising President
             'slug' => 'ajk-finance-minister-highlights-kashmir-bank-role-in-regional-business-growth',
             'is_published' => true,
         ]);
-   
-             NewsAnnouncement::create([
+
+        NewsAnnouncement::create([
             'title' => 'AJK Finance Minister Khan Abdul Majid Khan’s Visit to Bank of AJK: Focus on Service and Customer Relations',
             'content' => 'Muzaffarabad <br>
 The Finance & Cooperatives Minister of the Azad Government of the State of Jammu & Kashmir and Chairman of the Bank of Azad Jammu & Kashmir (BAJK), Mr. Khan Abdul Majid Khan, recently visited the bank’s field monitoring offices and branches in Mirpur. He chaired a meeting with managers and officers at the regional office and also visited the Overseas Desk at the Main Branch. CRBD Head Raja Ghulam Mustafa and Mirpur Regional Head Muhammad Waseem Khan accompanied him during the visit. <br>
@@ -538,7 +543,7 @@ While interacting with customers, he described them as the bank’s most valuabl
             'is_published' => true,
         ]);
 
-           NewsAnnouncement::create([
+        NewsAnnouncement::create([
             'title' => 'Bank of Azad Jammu and Kashmir Sponsors Shahidae Jammu Floodlight Football Tournament in Muzaffarabad',
             'content' => 'Muzaffarabad <br>
 With the support of the Bank of Azad Jammu and Kashmir, the Shuhada-e-Jammu Floodlight Football Tournament was held in Muzaffarabad. A total of 23 teams participated in the tournament. The final match was played between Shah Football Club and Real Football Club, where Shah Club clinched the title in an exciting penalty shootout. This marked Shah Club’s fifth consecutive tournament victory.<br>
@@ -556,7 +561,7 @@ The efforts of District Football Association President Mehtab Ahmed Mir, Aamir H
             'is_published' => true,
         ]);
 
-            NewsAnnouncement::create([
+        NewsAnnouncement::create([
             'title' => 'State Bank Governor Endorses Bank of AJK’s Growth and Path Toward Schedule Bank License',
             'content' => 'Islamabad <br>
 The Governor of the State Bank of Pakistan highly appreciated the performance of the Bank of Azad Jammu and Kashmir (BAJK) and the steps taken towards acquiring scheduled bank status. He expressed principled agreement with the State Bank’s position to issue a license, commending the pace and manner in which Kashmir’s financial institution is progressing and contributing to the economic and social development of the state. He stated that this bank will soon be among the most successful banks.
@@ -573,20 +578,20 @@ The Governor of the State Bank of Pakistan highly appreciated the performance of
 گورنر سٹیٹ بینک آف پاکستان نے بینک آف آزاد جموں و کشمیر کی کارکردگی اور شیڈول بینک درجہ کے حصول سے متعلق اقدامات کی زبردست تعریف اور حوصلہ افزائی کرتے ہوئے سٹیٹ بینک کی جانب سے لائسنس اجراء کرنے کے موقف سے اصولی اتفاق کر لیا اور کہا کہ جس انداز و رفتار سے کشمیر کامالیاتی ادارہ ترقی کی جانب گامزن رہتے ہوئے ریاست کی معاشی وسماجی ترقی میں کردار ادا کررہا ہے، اس سے ظاہر ہوتا ہے کہ یہ بینک بہت جلد کامیاب ترین بینکوں کی صف میں شامل ہو جائے گا۔جمعرات کو یہاں ان خیالات کا اظہار گورنر سٹیٹ بینک جناب جمیل احمد نے آزاد کشمیرکے وزیر خزانہ وکواپریٹوز اور بینک بورڈ آف ڈائریکٹرز کے چیئر مین خان عبدالماجد خان، صدر و چیف ایگزیکٹو آفیسر جناب شاہد شہزاد میر، آزاد کشمیر کے سیکریٹری فنانس اور ڈائریکٹر بینک جناب اسلام زیب، کمپنی سیکرٹری ڈاکٹر عدنان اللہ خان کے ساتھ ایک میٹنگ کے دوران بات چیت کرتے ہوئے کیا۔گورنر نے کشمیر بینک کی کارکردگی کا جائزہ لیتے ہوئے کہا کہ شیڈول نہ ہونے کے باوجود آزادکشمیر بینک کی کارکردگی شاندار رہی ہے۔ انہوں نے کشمیر بینک کی جانب سے اسلامک بینکنگ شروع کرنے کی تعریف کی اور کہا کہ بینک ایکویٹی اور کور بینکنگ سے متعلق لوازمات مکمل کر کے سٹیٹ بینک سے رجوع کرے۔ بینک کی جانب سے ایکسچینج کمپنی کھولنے کی بھی تعریف کرتے ہوئے گورنر نے کہا کہ اس سلسلے میں قواعد و ضوابط مکمل ہونے پر سٹیٹ بینک کی جانب سے لائسنس جاری کر دیا جائے گا۔قبل ازیں،چیئرمین نے ریاستی معیشت میں بینک آف آزاد جموں و کشمیر کی اہمیت،ادارے کے ساتھ سمندر پار کشمیری تارکین وطن کی وابستگی اور دلچسپی، شیڈول درجہ دلانے کے لئے لائسنس اجرائیگی کی اہمیت وافادیت، مالیاتی ادارے اور ریاستی حکومت کی جانب سے ترقی اور شیڈول بینک درجہ کے حصول کے لئے اٹھائے گئے اقدامات سے آگاہ کیا جن میں قابل ذکر کور بینکنگ سافٹ ویئر کی تنصیب، قرضہ جات منصوبوں کی از سر نو بہتری، اسٹیٹ بینک میں درخواست دائر کرنے کے لئے بزنس کیس کی تیاری اور قانونی لوازمات کی تکمیل کے لئے کنسلٹنٹ کی خدمات کا حصول، آزاد کشمیر کے عوام بالخصوص سمندر پار تارکین وطن کشمیریوں وکارپوریٹ سیکٹر کی بینک کو شیڈول کا درجہ دینے کی خواہشات شامل ہیں۔چیئرمین نے مزید بتایا کہ بینک کو حکومت پاکستان کے پن بجلی، سیاحت، معاشی طور پر خواتین کو بااختیار بنانے، زراعت و ہاؤسنگ جیسے خصوصی منصوبوں میں شامل کرنے سے بینک کی ترقی میں تیزی آئے گی۔ علاوہ ازیں سٹیٹ بینک کی جانب سے اس بینک کو لائسنس کے اجراء، رہنمائی و تعاون کے لئے فوکل پرسن کی نامزدگی جب کہ اسلام آباد میں بینک کے کارپوریٹ دفتر کھولنے کے مثبت کاروباری نتائج برآمد ہوں گے۔قبل ازیں گورنرسٹیٹ بینک کو صدر بینک جناب شاہد شہزاد میرکی جانب سے ریاستی بینک کی تاریخ، انتظامی ڈھانچے، پھیلتے ہوئے نیٹ ورک اور صارفین تک رسائی، ادا شدہ سرمایہ سمیت فنانشل ترقی کی صورتحال سے متعلق بریفنگ دی گئی۔جناب گورنر نے بینک ٹیم کی بریفنگ دلچسپی اور توجہ سے سنی اور شیڈول بینک درجہ کے حصول کے لئے ادارے کے موقف پر اصولی اتفاق کر لیا۔اس موقع پر گورنر سٹیٹ بینک کو سوینئرز پیش کی گئیں۔
 ',
             'image' => 'https://scontent.fisb29-1.fna.fbcdn.net/v/t39.30808-6/487823963_1069835825166579_8806387721767641550_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeH6ClaXrFGQ3mu6Cd9Shmz_aYBgQVqJgXxpgGBBWomBfMzeqJBc3grGdYopu4w_UPkc99Ph3D3VQ_WN8T3TCzhV&_nc_ohc=yMHajkwh0XYQ7kNvwHfWWJq&_nc_oc=AdkSjMAJmblp55dRNhgvx9hs2ulh9ks7iDDUv1vopVE2lQE4vMvUC6zDORzxYqTCunE&_nc_zt=23&_nc_ht=scontent.fisb29-1.fna&_nc_gid=M-DeG0p6mRlaCM184hpOTw&oh=00_AfN-q7LHMGkFotUOrIBrz96EAVN35SOgdgVK7gFxChTmbA&oe=68570A5F',
-             'published_date' => '2024-09-19',
+            'published_date' => '2024-09-19',
             'is_featured' => false,
             'category' => 'general',
             'slug' => 'state-bank-governor-endorses-bajk-growth-schedule-bank-license-path',
             'is_published' => true,
         ]);
-          NewsAnnouncement::create([
+        NewsAnnouncement::create([
             'title' => '79th Board of Directors Meeting of BAJK Approves Semi-Annual Financial Accounts, Expresses Satisfaction Over Profit and Asset Growth',
             'content' => 'The 79th meeting of the Board of Directors of the Bank of Azad Jammu & Kashmir was held under the chairmanship of Mr. Khan Abdul Majid Khan, Honorable Minister for Finance & Cooperatives, Government of Azad Jammu & Kashmir, and Chairman of the Bank. The meeting took place on Monday at the Bank’s Head Office and was attended by President & Chief Executive Officer Mr. Shahid Shehzad Mir; Directors; Secretary Finance, Government of Azad Jammu & Kashmir, Mr. Islam Zaib; Secretary Industries & Commerce Mr. Khalid Mahmood Mirza; Secretary Law & Justice Mr. Muhammad Sajjad; Mr. Mubashir Nabi; Mr. Zulfiqar Abbasi; Ms. Bushra Naz Malik; and Company Secretary Dr. Adnan Ullah Khan. <br>
 Various operational agendas, including the financial accounts for the first half of the year (as of June 30, 2024), were presented during the meeting. After detailed discussions, the items were approved. According to the half-yearly financial accounts, the Bank has recorded consistent growth in profit, assets, deposits, and remittances. Customers are being offered attractive loan schemes on easy terms and with minimal markup. <br>
 The Board was informed that during the first half of the current year, the Bank earned an operating profit of Rs. 906 million. The Bank’s assets increased to Rs. 48 billion, and deposits rose to Rs. 39 billion. Under various attractive schemes, loans amounting to Rs. 4.5 billion were provided to customers. <br>
 The Board appreciated the excellent performance and acknowledged the contributions of all stakeholders, reaffirming the commitment to continue the Bank’s journey of success and progress <br>
 آزاد حکومت ریاست جموں وکشمیر کے وزیر خزانہ و امداد باہمی اوربینک آف آزاد جموں وکشمیر کے چیئرمین جناب خان عبدالماجد خان کی زیرصدارت بینک کے بورڈ آف ڈائریکٹرز کا79واں اجلاس منعقد ہوا۔پیر کے روزبینک کے ہیڈ آفس میں منعقدہ اجلاس میں صدر و چیف ایگزیکٹو آفیسرجناب شاہد شہزاد میر، ڈائریکٹرز صاحبان، سیکریٹری فنانس حکومت آزاد جموں وکشمیرجناب اسلام زیب، سیکریٹری صنعت وحرفت جناب خالد محمود مرزا، سیکریٹری قانون و انصاف جناب محمد سجاد، جناب مبشر نبی،جناب ذوالفقارعباسی، محترمہ بشریٰ ناز ملک اورکمپنی سیکریٹری ڈاکٹرعدنان اللہ خان نے شرکت کی۔اجلاس میں سال کے پہلے ششماہی فنانشل اکاؤنٹس(30جون2024) سمیت مختلف آپریشنل ایجنڈے پیش کئے جن کی مفصل بحث و مباحثہ کے بعد منظوری دی گئی۔ششماہی فنانشل اکاؤنٹس کے مطابق بینک کے منافع، اثاثہ جات، ڈیپازٹس اور ترسیلات زرمیں مسلسل اضافہ ہو رہا ہے جب کہ صارفین کوآسان شرائط اور کم از کم مارک اپ پرپر کشش قرضہ جات فراہم کئے جا رہے ہیں۔بورڈ کو بتایا گیا کہ رواں سال کی پہلی ششماہی میں بینک نے 906ملین روپے آپریٹنگ منافع حاصل کیا، اثاثہ جات بڑھ کر 48ارب روپے تک پہنچ گئے، ڈیپازٹس 39ارب روپے ہو گئے۔ مختلف پرکشش سکیموں کے تحت صارفین کو 4.5ارب روپے کے قرضہ جات فراہم کئے گئے۔بورڈ نے شاندار کارکردگی اور تعاون پر تمام سٹیک ہولڈرز کے کردار کی تعریف کرتے ہوئے بینک کی کامیابی اور ترقی کے سفر کو جاری رکھنے کے عزم کا اعادہ کیا۔اس موقع پرجناب چیئرمین نے کہا کہ حکومت کی سر پرستی میں ادارے کو کامیاب اور صف اول کے بینکوں میں شامل کرنے کے لئے تمام کوششیں بروئے کار لائی جا رہی ہیں۔انہوں نے کہا کہ عملے کی محنت، ٹیم ورک،معزز صارفین کے بھرپور تعاون سے بہترین بزنس نتائج کے حصول کا سلسلہ جاری رکھا جائے گا
-',   
+',
             'image' => 'https://scontent.fisb29-1.fna.fbcdn.net/v/t39.30808-6/487455111_1069130745237087_3360551514462751988_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeG2WKbXhIPsenoEi3afehNTCF_4G1xhUOMIX_gbXGFQ4_gJtzEEmfhnSg106_h7mCZaQa0EWb61W04OYgiVLe9x&_nc_ohc=uMLuGspzGioQ7kNvwHKJEBU&_nc_oc=AdmlOzr6fHpZhiFGxpCRE95eadb5i4wnh8SRFqKh4DhljREIQnQx-3854myABrNaZAU&_nc_zt=23&_nc_ht=scontent.fisb29-1.fna&_nc_gid=3zbW6eLjLwNqVC9nlg33fw&oh=00_AfP2uoRWGx2k3VhpAwK4DcZBkAhQOUG8F-jrvOMroxxYzw&oe=68572DE8',
             'published_date' => '2024-09-02',
             'is_featured' => false,
