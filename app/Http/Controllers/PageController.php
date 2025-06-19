@@ -21,6 +21,7 @@ use App\Models\Page;
 use App\Models\ProductTypeAccount;
 use App\Models\ProfitRate;
 use App\Models\Region;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -454,59 +455,6 @@ class PageController extends Controller
         return Inertia::render('TestComponent');
     }
 
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StorePageRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Page $page)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Page $page)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdatePageRequest $request, Page $page)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Page $page)
-    {
-        //
-    }
-
     public function financialStatements()
     {
         $financialReports = FinancialReport::orderBy('fiscal_year', 'desc')
@@ -593,5 +541,12 @@ class PageController extends Controller
         return Inertia::render('Rates/ProfitRates', [
             'profitRates' => $profitRates,
         ]);
+    }
+
+
+
+    public function organizationStructure(Request $request)
+    {
+
     }
 }

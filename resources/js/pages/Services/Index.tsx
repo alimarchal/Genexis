@@ -200,11 +200,7 @@ export default function ServicesIndex({ services, filters }: Props) {
                                             <TableCell>
                                                 <div className="flex items-center gap-3">
                                                     {service.image_url && (
-                                                        <img
-                                                            src={service.image_url}
-                                                            alt={service.name}
-                                                            className="h-10 w-10 rounded object-cover"
-                                                        />
+                                                        <img src={service.image_url} alt={service.name} className="h-10 w-10 rounded object-cover" />
                                                     )}
                                                     <div>
                                                         <div className="font-medium">{service.name}</div>

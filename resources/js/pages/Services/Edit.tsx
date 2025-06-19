@@ -67,9 +67,9 @@ export default function EditService({ service }: Props) {
 
     const [attributeItems, setAttributeItems] = useState(() => {
         if (service.attributes && service.attributes.length > 0) {
-            return service.attributes.map(attr => ({
+            return service.attributes.map((attr) => ({
                 name: attr.attribute_name,
-                value: attr.attribute_value
+                value: attr.attribute_value,
             }));
         }
         return [{ name: '', value: '' }];
@@ -130,11 +130,7 @@ export default function EditService({ service }: Props) {
                                     <div className="space-y-2">
                                         <Label>Current Image</Label>
                                         <div className="flex items-center gap-4">
-                                            <img
-                                                src={service.image_url}
-                                                alt={service.name}
-                                                className="h-20 w-20 rounded object-cover"
-                                            />
+                                            <img src={service.image_url} alt={service.name} className="h-20 w-20 rounded object-cover" />
                                             <p className="text-sm text-gray-500">Upload a new image to replace the current one</p>
                                         </div>
                                     </div>

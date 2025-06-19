@@ -79,11 +79,7 @@ export default function ShowService({ service }: Props) {
                                 <div className="flex items-start gap-6">
                                     {/* Service Image */}
                                     {service.image_url && (
-                                        <img
-                                            src={service.image_url}
-                                            alt={service.name}
-                                            className="h-32 w-32 rounded border object-cover"
-                                        />
+                                        <img src={service.image_url} alt={service.name} className="h-32 w-32 rounded border object-cover" />
                                     )}
                                     <div className="flex-1 space-y-4">
                                         <div>
@@ -125,9 +121,7 @@ export default function ShowService({ service }: Props) {
                                             {service.attributes.map((attribute, index) => (
                                                 <div key={attribute.id || index} className="rounded-lg border p-4">
                                                     <h4 className="font-medium text-gray-900">{attribute.attribute_name}</h4>
-                                                    <div className="mt-2 whitespace-pre-wrap text-gray-700">
-                                                        {attribute.attribute_value}
-                                                    </div>
+                                                    <div className="mt-2 whitespace-pre-wrap text-gray-700">{attribute.attribute_value}</div>
                                                 </div>
                                             ))}
                                         </div>
@@ -159,7 +153,7 @@ export default function ShowService({ service }: Props) {
                                     <Settings className="h-4 w-4 text-gray-500" />
                                     <div>
                                         <p className="text-sm font-medium">Slug</p>
-                                        <p className="text-sm text-gray-600 font-mono">{service.slug}</p>
+                                        <p className="font-mono text-sm text-gray-600">{service.slug}</p>
                                     </div>
                                 </div>
 

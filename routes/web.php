@@ -86,6 +86,7 @@ Route::prefix('about-us')->name('about.')->group(function () {
     Route::get('/board-of-directors', [PageController::class, 'boardOfDirectors'])->name('board-directors');
     Route::get('/management', [PageController::class, 'management'])->name('management');
     Route::get('/branch-network', [PageController::class, 'branchNetwork'])->name('branch-network');
+    Route::get('/organogram', [PageController::class, 'organizationStructure'])->name('organogram');
 });
 
 Route::prefix('products')->name('products.')->group(function () {
@@ -148,6 +149,12 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
     Route::post('menus/reorder', [MenuController::class, 'reorder'])->name('menus.reorder');
     Route::post('clear-menu-cache', [MenuController::class, 'clearCache'])->name('clear-menu-cache');
 });
+
+
+Route::get('/email-login-proxy', function () {
+    $emailUrl = 'https://www.bankajk.com:2096';
+    return redirect()->away($emailUrl);
+})->name('email.login.proxy');
 
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';
