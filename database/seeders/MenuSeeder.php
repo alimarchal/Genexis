@@ -271,7 +271,7 @@ class MenuSeeder extends Seeder
 
             $menu = Menu::create($menuData);
 
-            if (! empty($children)) {
+            if (!empty($children)) {
                 $this->createMenuItems($children, $menu->id);
             }
         }

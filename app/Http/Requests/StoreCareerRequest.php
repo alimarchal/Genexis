@@ -14,28 +14,28 @@ class StoreCareerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['required', 'string', 'max:255'],
-            'description' => ['required', 'string'],
-            'requirements' => ['required', 'string'],
-            'location' => ['required', 'string', 'max:255'],
-            'document' => ['nullable', 'file', 'mimes:pdf', 'max:10240'], // 10MB
-            'closing_date' => ['nullable', 'date', 'after:today'],
-            'benefits' => ['nullable', 'string'],
-            'is_featured' => ['boolean'],
-            'is_active' => ['boolean'],
+            'title' => 'required|string|max:255',
+            'description' => 'required|string|max:5000',
+            'requirements' => 'required|string|max:5000',
+            'location' => 'required|string|max:255',
+            'document' => 'nullable|file|mimes:pdf,doc,docx|max:10240',
+            'closing_date' => 'nullable|date|after_or_equal:today',
+            'is_active' => 'boolean',
+            'is_featured' => 'boolean',
+            'benefits' => 'nullable|string|max:3000',
         ];
     }
 
     public function messages(): array
     {
         return [
-            'title.required' => 'Job title is required.',
-            'description.required' => 'Job description is required.',
-            'requirements.required' => 'Job requirements are required.',
-            'location.required' => 'Job location is required.',
-            'document.mimes' => 'Document must be a PDF file.',
-            'document.max' => 'Document size cannot exceed 10MB.',
-            'closing_date.after' => 'Closing date must be a future date.',
+            'title.required' => 'The job title is required.',
+            'description.required' => 'The job description is required.',
+            'requirements.required' => 'The job requirements are required.',
+            'location.required' => 'The job location is required.',
+            'closing_date.after_or_equal' => 'The closing date must be today or a future date.',
+            'document.mimes' => 'The document must be a PDF or Word file.',
+            'document.max' => 'The document size cannot exceed 10MB.',
         ];
     }
 }
