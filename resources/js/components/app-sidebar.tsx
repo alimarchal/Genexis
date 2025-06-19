@@ -119,6 +119,24 @@ const financialStatementsNavItems: NavItem[] = [
     },
 ];
 
+
+
+// Financial Management
+const financialNavItems: NavItem[] = [
+    {
+        title: 'Schedule of Charges',
+        href: '/schedule-of-charges',
+        icon: Calculator,
+    },
+    {
+        title: 'Profit Rates',
+        href: '/profit-rates',
+        icon: PercentCircle,
+    },
+
+];
+
+
 // Banking & Services
 const bankingNavItems: NavItem[] = [
     {
@@ -130,20 +148,6 @@ const bankingNavItems: NavItem[] = [
         title: 'Service Attributes',
         href: '/service-attributes',
         icon: Settings,
-    },
-];
-
-// Financial Management
-const financialNavItems: NavItem[] = [
-    {
-        title: 'Profit Rates',
-        href: '/profit-rates',
-        icon: PercentCircle,
-    },
-    {
-        title: 'Schedule of Charges',
-        href: '/schedule-of-charges',
-        icon: Calculator,
     },
 ];
 
@@ -257,8 +261,8 @@ export function AppSidebar() {
                 <NavGroup title="Products" items={productsNavItems} />
                 <NavGroup title="Services" items={servicesNavItems} />
                 <NavGroup title="Financial" items={financialStatementsNavItems} />
-                <NavGroup title="Banking & Services" items={bankingNavItems} />
                 <NavGroup title="Financial Management" items={financialNavItems} />
+                <NavGroup title="Banking & Services" items={bankingNavItems} />
                 <NavGroup title="Location Management" items={locationNavItems} />
                 <NavGroup title="Product Management" items={productNavItems} />
                 <NavGroup title="System Management" items={systemNavItems} />
