@@ -109,4 +109,18 @@ class ProfitRate extends Model
             return 'medium';
         return 'high';
     }
+
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
+
+    public function scopeCurrent($query)
+    {
+        $currentDate = now()->toDateString();
+        return $query->where('valid_from', '<=', $currentDate)
+            ->where(function ($q) use ($currentDate) {
+                $q->whereNull('valid_to')->orWhere('valid_to', '>=', $currentDate);
+            });
+    }
 }
