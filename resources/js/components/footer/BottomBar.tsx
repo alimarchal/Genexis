@@ -44,8 +44,7 @@ const BottomBar: React.FC = () => {
             <div className="mx-auto max-w-7xl px-6 py-6">
                 <div className="flex flex-col items-center justify-between space-y-4 sm:flex-row sm:space-y-0">
                     <span className="text-sm text-gray-300">
-                        © {getYearRange()} Bank of Azad Jammu & Kashmir. All Rights Reserved. Developed & Maintained by Information Technology
-                        Division
+                        © {getYearRange()} Bank of Azad Jammu & Kashmir. All Rights Reserved. Digital Banking Solutions by Information Technology Division.
                     </span>
                     <div className="flex flex-wrap items-center justify-center gap-6">
                         {links.map((link, i) => (
