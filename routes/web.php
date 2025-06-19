@@ -51,9 +51,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('financial-highlights', FinancialHighlightController::class);
     Route::resource('profit-rates', ProfitRateController::class);
 
-    // Download routes
-    Route::get('annual-reports/{annual_report}/download', [AnnualReportController::class, 'download'])->name('annual-reports.download');
-    Route::get('financial-highlights/{financial_highlight}/download', [FinancialHighlightController::class, 'download'])->name('financial-highlights.download');
 
     // New CRUD routes
     Route::resource('regions', RegionController::class);
@@ -115,6 +112,10 @@ Route::prefix('financials')->name('financials.')->group(function () {
     Route::get('/statements', [PageController::class, 'financialStatements'])->name('statements');
     Route::get('/annual-reports', [PageController::class, 'annualReports'])->name('annualReports');
     Route::get('/financial-highlights', [PageController::class, 'financialHighlights'])->name('financialHighlights');
+    // Download routes
+    Route::get('annual-reports/{annual_report}/download', [AnnualReportController::class, 'download'])->name('annual-reports.download');
+    Route::get('financial-highlights/{financial_highlight}/download', [FinancialHighlightController::class, 'download'])->name('financial-highlights.download');
+
 });
 
 Route::prefix('rates')->name('rates.')->group(function () {
@@ -148,5 +149,5 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
     Route::post('clear-menu-cache', [MenuController::class, 'clearCache'])->name('clear-menu-cache');
 });
 
-require __DIR__.'/settings.php';
-require __DIR__.'/auth.php';
+require __DIR__ . '/settings.php';
+require __DIR__ . '/auth.php';

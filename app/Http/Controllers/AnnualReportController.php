@@ -93,13 +93,13 @@ class AnnualReportController extends Controller
 
     public function download(AnnualReport $annualReport)
     {
-        if (! $annualReport->annual_report || ! Storage::disk('public')->exists($annualReport->annual_report)) {
+        if (!$annualReport->annual_report || !Storage::disk('public')->exists($annualReport->annual_report)) {
             abort(404, 'File not found');
         }
 
         return Storage::disk('public')->download(
             $annualReport->annual_report,
-            'Annual-Report-'.$annualReport->annual_report_fiscal_year.'.pdf'
+            'Annual-Report-' . $annualReport->annual_report_fiscal_year . '.pdf'
         );
     }
 }
