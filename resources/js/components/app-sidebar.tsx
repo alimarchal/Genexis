@@ -103,7 +103,7 @@ const servicesNavItems: NavItem[] = [
 // Financial
 const financialStatementsNavItems: NavItem[] = [
     {
-        title: 'Financial Reports',
+        title: 'Financial Statements',
         href: '/financial-reports',
         icon: FileText,
     },

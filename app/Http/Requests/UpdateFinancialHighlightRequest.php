@@ -3,12 +3,10 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateFinancialHighlightRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
@@ -16,11 +14,41 @@ class UpdateFinancialHighlightRequest extends FormRequest
 
     public function rules(): array
     {
-        $financialHighlightId = $this->route('financial_highlight')->id ?? null;
-
         return [
-            'fiscal_year' => 'required|integer|min:2000|max:'.(date('Y') + 5).'|unique:financial_highlights,fiscal_year,'.$financialHighlightId,
-            'financial_highlights' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:10240',
+            'fiscal_year' => [
+                'required',
+                'integer',
+                'min:1900',
+                'max:' . (date('Y') + 5),
+                Rule::unique('financial_highlights', 'fiscal_year')->ignore($this->route('financial_highlight')),
+            ],
+            'financial_highlights' => [
+                'nullable',
+                'file',
+                'mimes:pdf,doc,docx,xls,xlsx',
+                'max:10240',
+            ],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'fiscal_year.required' => 'The fiscal year is required.',
+            'fiscal_year.unique' => 'Financial highlights for this fiscal year already exist.',
+            'fiscal_year.min' => 'The fiscal year must be at least 1900.',
+            'fiscal_year.max' => 'The fiscal year cannot be more than 5 years in the future.',
+            'financial_highlights.file' => 'The file must be a valid file.',
+            'financial_highlights.mimes' => 'The file must be a PDF, Word document, or Excel file.',
+            'financial_highlights.max' => 'The file size cannot exceed 10MB.',
+        ];
+    }
+
+    public function attributes(): array
+    {
+        return [
+            'fiscal_year' => 'fiscal year',
+            'financial_highlights' => 'financial highlights',
         ];
     }
 }

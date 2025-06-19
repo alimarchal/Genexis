@@ -30,7 +30,17 @@ class AnnualReport extends Model
     public static function getAllowedFilters(): array
     {
         return [
-            AllowedFilter::partial('annual_report_fiscal_year'),
+            AllowedFilter::callback('annual_report_fiscal_year', function ($query, $value) {
+                // Cross-database compatible integer search
+                $dbDriver = config('database.default');
+
+                if ($dbDriver === 'pgsql') {
+                    return $query->whereRaw("CAST(annual_report_fiscal_year AS TEXT) LIKE ?", ["%{$value}%"]);
+                } else {
+                    // MySQL, MariaDB, SQLite
+                    return $query->whereRaw("CAST(annual_report_fiscal_year AS CHAR) LIKE ?", ["%{$value}%"]);
+                }
+            }),
             AllowedFilter::callback('has_report', function ($query, $value) {
                 if ($value === 'yes') {
                     return $query->whereNotNull('annual_report');

@@ -36,7 +36,17 @@ class FinancialReport extends Model
     public static function getAllowedFilters(): array
     {
         return [
-            AllowedFilter::partial('fiscal_year'),
+            AllowedFilter::callback('fiscal_year', function ($query, $value) {
+                // Cross-database compatible integer search
+                $dbDriver = config('database.default');
+
+                if ($dbDriver === 'pgsql') {
+                    return $query->whereRaw("CAST(fiscal_year AS TEXT) LIKE ?", ["%{$value}%"]);
+                } else {
+                    // MySQL, MariaDB, SQLite
+                    return $query->whereRaw("CAST(fiscal_year AS CHAR) LIKE ?", ["%{$value}%"]);
+                }
+            }),
             AllowedFilter::callback('has_reports', function ($query, $value) {
                 switch ($value) {
                     case 'complete':
