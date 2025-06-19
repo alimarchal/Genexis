@@ -1,4 +1,4 @@
-// BottomBar.tsx - Fixed unused error variable
+// BottomBar.tsx - Updated with IT Division text and dynamic year
 import { Link } from '@inertiajs/react';
 import React from 'react';
 
@@ -8,6 +8,15 @@ const BottomBar: React.FC = () => {
         { label: 'Portal Login', href: '#', isExternal: false },
         { label: 'Organogram', href: '#', isExternal: false },
     ];
+
+    const getYearRange = () => {
+        const currentYear = new Date().getFullYear();
+        if (currentYear === 2025) {
+            return '2025';
+        } else {
+            return `25-${currentYear}`;
+        }
+    };
 
     const handleExternalLink = (e: React.MouseEvent, url: string) => {
         e.preventDefault();
@@ -33,7 +42,9 @@ const BottomBar: React.FC = () => {
         <div className="border-t border-white/20 bg-[#0d4a12]">
             <div className="mx-auto max-w-7xl px-6 py-6">
                 <div className="flex flex-col items-center justify-between space-y-4 sm:flex-row sm:space-y-0">
-                    <span className="text-sm text-gray-300">© {new Date().getFullYear()} Bank of Azad Jammu & Kashmir. All Rights Reserved.</span>
+                    <span className="text-sm text-gray-300">
+                        © {getYearRange()} Bank of Azad Jammu & Kashmir. All Rights Reserved. Developed & Maintained by Information Technology Division
+                    </span>
                     <div className="flex flex-wrap items-center justify-center space-x-6">
                         {links.map((link, i) =>
                             link.isExternal ? (
