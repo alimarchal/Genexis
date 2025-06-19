@@ -132,6 +132,8 @@ Route::get('/careers/{career}', [CareerController::class, 'publicShow'])->name('
 
 
 // Download routes
+
+
 Route::get('/careers/{career}/download', [CareerController::class, 'download'])->name('public-careers.download');
 Route::get('schedule-of-charges/{scheduleOfCharge}/download', [ScheduleOfChargeController::class, 'download'])->name('schedule-of-charges.admin-download');
 Route::get('downloads/{download}/download', [DownloadController::class, 'download'])->name('downloads.admin-download');
