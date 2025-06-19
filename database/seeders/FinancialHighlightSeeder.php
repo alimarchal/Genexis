@@ -20,7 +20,7 @@ class FinancialHighlightSeeder extends Seeder
             // ],
             [
                 'fiscal_year' => 2022,
-                'financial_highlights' => 'financial-highlights/Financial Highlight-2022.pptx',
+                'financial_highlights' => 'financial-highlights/Financial-Highlight-2022.pptx',
             ],
             // [
             //     'fiscal_year' => 2023,
