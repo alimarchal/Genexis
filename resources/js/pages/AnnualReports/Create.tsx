@@ -1,13 +1,13 @@
 import Heading from '@/components/heading';
-import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/app-layout';
-import { BreadcrumbItem } from '@/types';
-import { Head, Link, useForm } from '@inertiajs/react';
-import { ArrowLeft, Save, Upload } from 'lucide-react';
+import { type BreadcrumbItem } from '@/types';
+import { Head, Link, router, useForm } from '@inertiajs/react';
+import { FileText, Save, Upload } from 'lucide-react';
+import { FormEventHandler, useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -20,102 +20,164 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
     {
         title: 'Create',
-        href: '',
+        href: route('annual-reports.create'),
     },
 ];
 
-export default function Create() {
-    const { data, setData, post, processing, errors } = useForm({
+export default function CreateAnnualReport() {
+    const { data, setData, processing, errors } = useForm({
         annual_report_fiscal_year: new Date().getFullYear(),
         annual_report: null as File | null,
     });
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const [fileName, setFileName] = useState('');
+
+    const submit: FormEventHandler = (e) => {
         e.preventDefault();
-        post(route('annual-reports.store'));
+        router.post(route('annual-reports.store'), data);
     };
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0] || null;
         setData('annual_report', file);
+        setFileName(file ? file.name : '');
+    };
+
+    const getFileSize = (file: File | null): string => {
+        if (!file) return '';
+        const sizeInMB = (file.size / (1024 * 1024)).toFixed(2);
+        return `${sizeInMB} MB`;
     };
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Create Annual Report" />
 
-            <div className="px-4 py-6">
-                <div className="mb-6 flex items-center justify-between">
-                    <Button variant="ghost" size="sm" asChild>
-                        <Link href={route('annual-reports.index')}>
-                            <ArrowLeft className="mr-2 h-4 w-4" />
-                            Back to Annual Reports
-                        </Link>
-                    </Button>
-                </div>
+            <div className="px-10 py-6">
+                <Heading title="Create Annual Report" description="Add an annual report for a fiscal year" />
 
-                <Heading title="Create Annual Report" description="Add a new annual financial report" />
+                <div className="mt-8">
+                    <form onSubmit={submit} className="space-y-8">
+                        {/* Basic Information */}
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Basic Information</CardTitle>
+                            </CardHeader>
+                            <CardContent className="space-y-6">
+                                <div className="space-y-2">
+                                    <Label htmlFor="annual_report_fiscal_year">Fiscal Year *</Label>
+                                    <Input
+                                        id="annual_report_fiscal_year"
+                                        type="number"
+                                        min="1900"
+                                        max={new Date().getFullYear() + 5}
+                                        value={data.annual_report_fiscal_year}
+                                        onChange={(e) => setData('annual_report_fiscal_year', parseInt(e.target.value) || new Date().getFullYear())}
+                                        placeholder="Enter fiscal year"
+                                        className={errors.annual_report_fiscal_year ? 'border-red-500' : ''}
+                                    />
+                                    {errors.annual_report_fiscal_year && <p className="text-sm text-red-500">{errors.annual_report_fiscal_year}</p>}
+                                    <p className="text-sm text-gray-500">
+                                        The fiscal year for which this annual report is being uploaded (e.g., {new Date().getFullYear()})
+                                    </p>
+                                </div>
+                            </CardContent>
+                        </Card>
 
-                <Card className="mt-6">
-                    <CardHeader>
-                        <CardTitle>Annual Report Information</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <form onSubmit={handleSubmit} className="space-y-6">
-                            {/* Fiscal Year */}
-                            <div className="space-y-2">
-                                <Label htmlFor="annual_report_fiscal_year">Fiscal Year *</Label>
-                                <Input
-                                    id="annual_report_fiscal_year"
-                                    type="number"
-                                    min="2000"
-                                    max={new Date().getFullYear() + 5}
-                                    value={data.annual_report_fiscal_year}
-                                    onChange={(e) => setData('annual_report_fiscal_year', parseInt(e.target.value))}
-                                    placeholder="Enter fiscal year (e.g. 2024)"
-                                    required
-                                />
-                                <InputError message={errors.annual_report_fiscal_year} />
-                            </div>
-
-                            {/* Annual Report File Upload */}
-                            <div className="space-y-2">
-                                <Label htmlFor="annual_report">Annual Report File</Label>
-                                <div className="rounded-lg border-2 border-dashed border-gray-300 p-6 transition-colors hover:border-gray-400">
-                                    <div className="text-center">
-                                        <Upload className="mx-auto h-12 w-12 text-gray-400" />
-                                        <div className="mt-4">
-                                            <label htmlFor="annual_report" className="cursor-pointer">
-                                                <span className="mt-2 block text-sm font-medium text-gray-900">Upload Annual Report</span>
-                                                <span className="mt-1 block text-sm text-gray-500">PDF, JPG, JPEG, PNG up to 10MB</span>
-                                            </label>
-                                            <input
-                                                id="annual_report"
-                                                type="file"
-                                                className="sr-only"
-                                                accept=".pdf,.jpg,.jpeg,.png"
-                                                onChange={handleFileChange}
-                                            />
-                                        </div>
+                        {/* Annual Report Upload */}
+                        <Card>
+                            <CardHeader>
+                                <div className="flex items-center gap-3">
+                                    <FileText className="h-5 w-5 text-purple-500" />
+                                    <div>
+                                        <CardTitle>Annual Report</CardTitle>
+                                        <p className="text-sm text-gray-500 mt-1">Upload the comprehensive annual financial report</p>
                                     </div>
                                 </div>
-                                {data.annual_report && <div className="text-sm text-gray-600">Selected: {data.annual_report.name}</div>}
-                                <InputError message={errors.annual_report} />
-                            </div>
+                            </CardHeader>
+                            <CardContent className="space-y-4">
+                                <div className="space-y-2">
+                                    <Label htmlFor="annual_report">Upload File</Label>
+                                    <div className="flex items-center gap-4">
+                                        <div className="relative flex-1">
+                                            <Input
+                                                id="annual_report"
+                                                type="file"
+                                                accept=".pdf,.doc,.docx,.xls,.xlsx"
+                                                onChange={handleFileChange}
+                                                className={errors.annual_report ? 'border-red-500' : ''}
+                                            />
+                                            <Upload className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
+                                        </div>
+                                    </div>
+                                    {errors.annual_report && <p className="text-sm text-red-500">{errors.annual_report}</p>}
 
-                            {/* Submit Button */}
-                            <div className="flex items-center space-x-4">
-                                <Button type="submit" disabled={processing}>
-                                    <Save className="mr-2 h-4 w-4" />
-                                    {processing ? 'Creating...' : 'Create Annual Report'}
-                                </Button>
-                                <Button variant="outline" asChild>
-                                    <Link href={route('annual-reports.index')}>Cancel</Link>
-                                </Button>
-                            </div>
-                        </form>
-                    </CardContent>
-                </Card>
+                                    {/* File Info */}
+                                    {fileName && (
+                                        <div className="rounded-md bg-gray-50 p-3">
+                                            <div className="flex items-center justify-between">
+                                                <div className="flex items-center gap-2">
+                                                    <FileText className="h-4 w-4 text-gray-500" />
+                                                    <span className="text-sm font-medium text-gray-900">
+                                                        {fileName}
+                                                    </span>
+                                                </div>
+                                                <span className="text-sm text-gray-500">
+                                                    {getFileSize(data.annual_report)}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    <p className="text-sm text-gray-500">
+                                        Supported formats: PDF, Word (.doc, .docx), Excel (.xls, .xlsx). Maximum size: 10MB
+                                    </p>
+                                </div>
+                            </CardContent>
+                        </Card>
+
+                        {/* Upload Summary */}
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Upload Summary</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="space-y-3">
+                                    <div className="flex items-center justify-between text-sm">
+                                        <span className="font-medium">Fiscal Year:</span>
+                                        <span className="text-gray-600">FY {data.annual_report_fiscal_year} ({data.annual_report_fiscal_year}-{data.annual_report_fiscal_year + 1})</span>
+                                    </div>
+                                    <div className="flex items-center justify-between text-sm">
+                                        <span className="font-medium">Report Status:</span>
+                                        <span className="text-gray-600">
+                                            {fileName ? 'Ready to upload' : 'No file selected'}
+                                        </span>
+                                    </div>
+                                    {fileName && (
+                                        <div className="mt-4">
+                                            <p className="text-sm font-medium text-gray-700 mb-2">Selected File:</p>
+                                            <div className="flex items-center gap-2 text-sm text-gray-600">
+                                                <div className="h-2 w-2 rounded-full bg-green-500"></div>
+                                                <span>Annual Report: {fileName}</span>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            </CardContent>
+                        </Card>
+
+                        {/* Action Buttons */}
+                        <div className="flex justify-end gap-2">
+                            <Button variant="outline" asChild>
+                                <Link href={route('annual-reports.index')}>Cancel</Link>
+                            </Button>
+                            <Button type="submit" disabled={processing}>
+                                <Save className="mr-2 h-4 w-4" />
+                                {processing ? 'Creating...' : 'Create Report'}
+                            </Button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </AppLayout>
     );
