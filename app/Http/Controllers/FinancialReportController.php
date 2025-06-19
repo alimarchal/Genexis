@@ -115,4 +115,32 @@ class FinancialReportController extends Controller
         return redirect()->route('financial-reports.index')
             ->with('success', 'Financial report deleted successfully.');
     }
+
+    public function download(FinancialReport $financialReport, $type)
+    {
+        $allowedTypes = ['first_quarter_report', 'half_yearly_report', 'third_quarter_report', 'annual_report'];
+
+        if (!in_array($type, $allowedTypes)) {
+            abort(404, 'Invalid report type');
+        }
+
+        $filePath = $financialReport->$type;
+
+        if (!$filePath || !Storage::disk('public')->exists($filePath)) {
+            abort(404, 'File not found');
+        }
+
+        // Generate a proper filename
+        $typeNames = [
+            'first_quarter_report' => 'Q1',
+            'half_yearly_report' => 'Half-Yearly',
+            'third_quarter_report' => 'Q3',
+            'annual_report' => 'Annual'
+        ];
+
+        $typeName = $typeNames[$type];
+        $fileName = "Financial-Report-{$typeName}-{$financialReport->fiscal_year}.pdf";
+
+        return Storage::disk('public')->download($filePath, $fileName);
+    }
 }

@@ -137,6 +137,7 @@ Route::get('schedule-of-charges/{scheduleOfCharge}/download', [ScheduleOfChargeC
 Route::get('downloads/{download}/download', [DownloadController::class, 'download'])->name('downloads.admin-download');
 Route::get('annual-reports/{annual_report}/download', [AnnualReportController::class, 'download'])->name('annual-reports.download');
 Route::get('financial-highlights/{financial_highlight}/download', [FinancialHighlightController::class, 'download'])->name('financial-highlights.download');
+Route::get('financial-reports/{financial_report}/download/{type}', [FinancialReportController::class, 'download'])->name('financial-reports.download');
 
 
 

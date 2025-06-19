@@ -45,7 +45,7 @@ class FinancialReport extends Model
     public function getFirstQuarterReportUrlAttribute(): ?string
     {
         if ($this->first_quarter_report) {
-            return asset('storage/'.$this->first_quarter_report);
+            return route('financial-reports.download', ['financial_report' => $this->id, 'type' => 'first_quarter_report']);
         }
 
         return null;
@@ -54,7 +54,7 @@ class FinancialReport extends Model
     public function getHalfYearlyReportUrlAttribute(): ?string
     {
         if ($this->half_yearly_report) {
-            return asset('storage/'.$this->half_yearly_report);
+            return route('financial-reports.download', ['financial_report' => $this->id, 'type' => 'half_yearly_report']);
         }
 
         return null;
@@ -63,7 +63,7 @@ class FinancialReport extends Model
     public function getThirdQuarterReportUrlAttribute(): ?string
     {
         if ($this->third_quarter_report) {
-            return asset('storage/'.$this->third_quarter_report);
+            return route('financial-reports.download', ['financial_report' => $this->id, 'type' => 'third_quarter_report']);
         }
 
         return null;
@@ -72,7 +72,7 @@ class FinancialReport extends Model
     public function getAnnualReportUrlAttribute(): ?string
     {
         if ($this->annual_report) {
-            return asset('storage/'.$this->annual_report);
+            return route('financial-reports.download', ['financial_report' => $this->id, 'type' => 'annual_report']);
         }
 
         return null;
