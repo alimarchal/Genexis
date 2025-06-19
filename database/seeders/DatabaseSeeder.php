@@ -42,7 +42,7 @@ class DatabaseSeeder extends Seeder
             CareerSeeder::class,
         ]);
 
-        \App\Models\User::factory()->create([
+        User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);

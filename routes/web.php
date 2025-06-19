@@ -75,8 +75,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     // CRUD download routes (for authenticated users)
-    Route::get('schedule-of-charges/{scheduleOfCharge}/download', [ScheduleOfChargeController::class, 'download'])->name('schedule-of-charges.admin-download');
-    Route::get('downloads/{download}/download', [DownloadController::class, 'download'])->name('downloads.admin-download');
+
 });
 
 // Public routes
@@ -113,10 +112,6 @@ Route::prefix('financials')->name('financials.')->group(function () {
     Route::get('/statements', [PageController::class, 'financialStatements'])->name('statements');
     Route::get('/annual-reports', [PageController::class, 'annualReports'])->name('annualReports');
     Route::get('/financial-highlights', [PageController::class, 'financialHighlights'])->name('financialHighlights');
-    // Download routes
-    Route::get('annual-reports/{annual_report}/download', [AnnualReportController::class, 'download'])->name('annual-reports.download');
-    Route::get('financial-highlights/{financial_highlight}/download', [FinancialHighlightController::class, 'download'])->name('financial-highlights.download');
-
 });
 
 Route::prefix('rates')->name('rates.')->group(function () {
@@ -131,9 +126,19 @@ Route::post('/contact-us', [PageController::class, 'contactSubmit'])->name('cont
 Route::get('/public-downloads', [DownloadController::class, 'publicIndex'])->name('public-downloads');
 Route::get('/public-downloads/{download}/download', [DownloadController::class, 'download'])->name('public-downloads.download');
 
+
 Route::get('/careers', [CareerController::class, 'publicIndex'])->name('public-careers');
 Route::get('/careers/{career}', [CareerController::class, 'publicShow'])->name('public-careers.show');
+
+
+// Download routes
 Route::get('/careers/{career}/download', [CareerController::class, 'download'])->name('public-careers.download');
+Route::get('schedule-of-charges/{scheduleOfCharge}/download', [ScheduleOfChargeController::class, 'download'])->name('schedule-of-charges.admin-download');
+Route::get('downloads/{download}/download', [DownloadController::class, 'download'])->name('downloads.admin-download');
+Route::get('annual-reports/{annual_report}/download', [AnnualReportController::class, 'download'])->name('annual-reports.download');
+Route::get('financial-highlights/{financial_highlight}/download', [FinancialHighlightController::class, 'download'])->name('financial-highlights.download');
+
+
 
 Route::get('/news', [PageController::class, 'news'])->name('news');
 Route::get('/news/{slug}', [PageController::class, 'newsDetail'])->name('news.detail');

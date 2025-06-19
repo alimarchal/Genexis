@@ -490,7 +490,7 @@ class PageController extends Controller
                     'fiscal_year' => $report->annual_report_fiscal_year,
                     'file_name' => $report->annual_report ? basename($report->annual_report) : null,
                     'file_size' => $report->annual_report ? (file_exists(storage_path('app/public/' . $report->annual_report)) ? filesize(storage_path('app/public/' . $report->annual_report)) : 0) : 0,
-                    'download_url' => $report->annual_report ? route('financials.annual-reports.download', $report) : null,
+                    'download_url' => $report->annual_report ? route('annual-reports.download', $report) : null,
                     'created_at' => $report->created_at->format('M d, Y'),
                 ];
             });
@@ -510,7 +510,7 @@ class PageController extends Controller
                     'fiscal_year' => $highlight->fiscal_year,
                     'file_name' => $highlight->financial_highlights ? basename($highlight->financial_highlights) : null,
                     'file_size' => $highlight->financial_highlights ? (file_exists(storage_path('app/public/' . $highlight->financial_highlights)) ? filesize(storage_path('app/public/' . $highlight->financial_highlights)) : 0) : 0,
-                    'download_url' => $highlight->financial_highlights ? route('financials.financial-highlights.download', $highlight) : null,
+                    'download_url' => $highlight->financial_highlights ? route('financial-highlights.download', $highlight) : null,
                     'created_at' => $highlight->created_at->format('M d, Y'),
                 ];
             });

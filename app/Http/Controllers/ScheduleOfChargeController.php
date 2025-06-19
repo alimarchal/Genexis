@@ -154,13 +154,13 @@ class ScheduleOfChargeController extends Controller
 
     public function download(ScheduleOfCharge $scheduleOfCharge)
     {
-        if (! $scheduleOfCharge->attachment || ! Storage::disk('public')->exists($scheduleOfCharge->attachment)) {
+        if (!$scheduleOfCharge->attachment || !Storage::disk('public')->exists($scheduleOfCharge->attachment)) {
             abort(404, 'File not found');
         }
 
         return Storage::disk('public')->download(
             $scheduleOfCharge->attachment,
-            $scheduleOfCharge->title.'.pdf'
+            $scheduleOfCharge->title . '.pdf'
         );
     }
 
