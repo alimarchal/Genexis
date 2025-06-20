@@ -26,7 +26,7 @@ class DownloadFactory extends Factory
         return [
             'title' => fake()->sentence(4, true),
             'description' => fake()->boolean(70) ? fake()->paragraph() : null,
-            'file_path' => 'downloads/'.fake()->uuid().'.'.$extension,
+            'file_path' => 'downloads/' . fake()->uuid() . '.' . $extension,
             'file_type' => $fileType,
             'file_size' => fake()->numberBetween(50000, 10000000), // 50KB to 10MB
             'category' => fake()->randomElement($categories),
