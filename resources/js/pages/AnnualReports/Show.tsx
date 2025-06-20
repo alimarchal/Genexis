@@ -98,9 +98,7 @@ export default function ShowAnnualReport({ annualReport }: Props) {
                                     </div>
                                     <div className="flex-1 space-y-4">
                                         <div>
-                                            <CardTitle className="text-2xl">
-                                                Fiscal Year {annualReport.annual_report_fiscal_year}
-                                            </CardTitle>
+                                            <CardTitle className="text-2xl">Fiscal Year {annualReport.annual_report_fiscal_year}</CardTitle>
                                             <p className="mt-1 text-lg text-gray-600">
                                                 {annualReport.annual_report_fiscal_year} - {annualReport.annual_report_fiscal_year + 1}
                                             </p>
@@ -122,7 +120,7 @@ export default function ShowAnnualReport({ annualReport }: Props) {
                                         <FileText className="h-5 w-5 text-purple-500" />
                                         <div>
                                             <CardTitle className="text-lg">Annual Report</CardTitle>
-                                            <p className="text-sm text-gray-500 mt-1">Comprehensive yearly financial report</p>
+                                            <p className="mt-1 text-sm text-gray-500">Comprehensive yearly financial report</p>
                                         </div>
                                     </div>
                                     {annualReport.annual_report && annualReport.annual_report_url && (
@@ -138,13 +136,11 @@ export default function ShowAnnualReport({ annualReport }: Props) {
                             <CardContent>
                                 {annualReport.annual_report ? (
                                     <div className="flex items-center gap-4 rounded-md bg-gray-50 p-4">
-                                        <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-white border">
+                                        <div className="flex h-12 w-12 items-center justify-center rounded-lg border bg-white">
                                             <FileText className="h-6 w-6 text-gray-500" />
                                         </div>
                                         <div className="flex-1">
-                                            <div className="font-medium text-gray-900">
-                                                {getCurrentFileName(annualReport.annual_report)}
-                                            </div>
+                                            <div className="font-medium text-gray-900">{getCurrentFileName(annualReport.annual_report)}</div>
                                             <div className="flex items-center gap-2 text-sm text-gray-500">
                                                 <span>{getFileExtension(annualReport.annual_report)} File</span>
                                                 <span>•</span>
@@ -160,9 +156,7 @@ export default function ShowAnnualReport({ annualReport }: Props) {
                                         <div className="flex-1">
                                             <FileText className="mx-auto h-8 w-8 text-gray-400" />
                                             <p className="mt-2 text-sm font-medium text-gray-900">No file uploaded</p>
-                                            <p className="text-sm text-gray-500">
-                                                The annual report has not been uploaded yet
-                                            </p>
+                                            <p className="text-sm text-gray-500">The annual report has not been uploaded yet</p>
                                         </div>
                                     </div>
                                 )}
@@ -288,7 +282,7 @@ export default function ShowAnnualReport({ annualReport }: Props) {
 
                                 {/* Download Report */}
                                 {annualReport.annual_report_url && (
-                                    <div className="pt-2 border-t">
+                                    <div className="border-t pt-2">
                                         <Button asChild variant="outline" size="sm" className="w-full">
                                             <a href={annualReport.annual_report_url} target="_blank" rel="noopener noreferrer">
                                                 <Download className="mr-2 h-4 w-4" />

@@ -91,7 +91,7 @@ export default function CreateAnnualReport() {
                                     <FileText className="h-5 w-5 text-purple-500" />
                                     <div>
                                         <CardTitle>Annual Report</CardTitle>
-                                        <p className="text-sm text-gray-500 mt-1">Upload the comprehensive annual financial report</p>
+                                        <p className="mt-1 text-sm text-gray-500">Upload the comprehensive annual financial report</p>
                                     </div>
                                 </div>
                             </CardHeader>
@@ -107,7 +107,7 @@ export default function CreateAnnualReport() {
                                                 onChange={handleFileChange}
                                                 className={errors.annual_report ? 'border-red-500' : ''}
                                             />
-                                            <Upload className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
+                                            <Upload className="absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
                                         </div>
                                     </div>
                                     {errors.annual_report && <p className="text-sm text-red-500">{errors.annual_report}</p>}
@@ -118,19 +118,15 @@ export default function CreateAnnualReport() {
                                             <div className="flex items-center justify-between">
                                                 <div className="flex items-center gap-2">
                                                     <FileText className="h-4 w-4 text-gray-500" />
-                                                    <span className="text-sm font-medium text-gray-900">
-                                                        {fileName}
-                                                    </span>
+                                                    <span className="text-sm font-medium text-gray-900">{fileName}</span>
                                                 </div>
-                                                <span className="text-sm text-gray-500">
-                                                    {getFileSize(data.annual_report)}
-                                                </span>
+                                                <span className="text-sm text-gray-500">{getFileSize(data.annual_report)}</span>
                                             </div>
                                         </div>
                                     )}
 
                                     <p className="text-sm text-gray-500">
-                                        Supported formats: PDF, Word (.doc, .docx), Excel (.xls, .xlsx). Maximum size: 10MB
+                                        Supported formats: PDF, Word (.doc, .docx), Excel (.xls, .xlsx). Maximum size: 300MB
                                     </p>
                                 </div>
                             </CardContent>
@@ -145,17 +141,18 @@ export default function CreateAnnualReport() {
                                 <div className="space-y-3">
                                     <div className="flex items-center justify-between text-sm">
                                         <span className="font-medium">Fiscal Year:</span>
-                                        <span className="text-gray-600">FY {data.annual_report_fiscal_year} ({data.annual_report_fiscal_year}-{data.annual_report_fiscal_year + 1})</span>
+                                        <span className="text-gray-600">
+                                            FY {data.annual_report_fiscal_year} ({data.annual_report_fiscal_year}-{data.annual_report_fiscal_year + 1}
+                                            )
+                                        </span>
                                     </div>
                                     <div className="flex items-center justify-between text-sm">
                                         <span className="font-medium">Report Status:</span>
-                                        <span className="text-gray-600">
-                                            {fileName ? 'Ready to upload' : 'No file selected'}
-                                        </span>
+                                        <span className="text-gray-600">{fileName ? 'Ready to upload' : 'No file selected'}</span>
                                     </div>
                                     {fileName && (
                                         <div className="mt-4">
-                                            <p className="text-sm font-medium text-gray-700 mb-2">Selected File:</p>
+                                            <p className="mb-2 text-sm font-medium text-gray-700">Selected File:</p>
                                             <div className="flex items-center gap-2 text-sm text-gray-600">
                                                 <div className="h-2 w-2 rounded-full bg-green-500"></div>
                                                 <span>Annual Report: {fileName}</span>

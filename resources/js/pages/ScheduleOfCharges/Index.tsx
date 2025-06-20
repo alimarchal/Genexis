@@ -82,34 +82,50 @@ export default function ScheduleOfChargeIndex({ scheduleOfCharges, filters }: Pr
 
     const handleSearch = (value: string) => {
         setSearch(value);
-        router.get(route('schedule-of-charges.index'), {
-            ...buildParams(),
-            'filter[title]': value.trim() ? value : undefined,
-        }, { preserveState: true, replace: true });
+        router.get(
+            route('schedule-of-charges.index'),
+            {
+                ...buildParams(),
+                'filter[title]': value.trim() ? value : undefined,
+            },
+            { preserveState: true, replace: true },
+        );
     };
 
     const handleStatusFilter = (value: string) => {
         setStatusFilter(value);
-        router.get(route('schedule-of-charges.index'), {
-            ...buildParams(),
-            'filter[is_active]': value !== 'all' ? (value === 'active' ? '1' : '0') : undefined,
-        }, { preserveState: true, replace: true });
+        router.get(
+            route('schedule-of-charges.index'),
+            {
+                ...buildParams(),
+                'filter[is_active]': value !== 'all' ? (value === 'active' ? '1' : '0') : undefined,
+            },
+            { preserveState: true, replace: true },
+        );
     };
 
     const handleAttachmentFilter = (value: string) => {
         setAttachmentFilter(value);
-        router.get(route('schedule-of-charges.index'), {
-            ...buildParams(),
-            'filter[has_attachment]': value !== 'all' ? value : undefined,
-        }, { preserveState: true, replace: true });
+        router.get(
+            route('schedule-of-charges.index'),
+            {
+                ...buildParams(),
+                'filter[has_attachment]': value !== 'all' ? value : undefined,
+            },
+            { preserveState: true, replace: true },
+        );
     };
 
     const handleDateFilter = (value: string) => {
         setDateFilter(value);
-        router.get(route('schedule-of-charges.index'), {
-            ...buildParams(),
-            'filter[date_range]': value !== 'all' ? value : undefined,
-        }, { preserveState: true, replace: true });
+        router.get(
+            route('schedule-of-charges.index'),
+            {
+                ...buildParams(),
+                'filter[date_range]': value !== 'all' ? value : undefined,
+            },
+            { preserveState: true, replace: true },
+        );
     };
 
     const handlePagination = (page: number) => {
@@ -135,14 +151,14 @@ export default function ScheduleOfChargeIndex({ scheduleOfCharges, filters }: Pr
     };
 
     const getAttachmentBadge = (hasAttachment: boolean) => {
-        return hasAttachment
-            ? <Badge variant="outline">Has File</Badge>
-            : <Badge variant="secondary">No File</Badge>;
+        return hasAttachment ? <Badge variant="outline">Has File</Badge> : <Badge variant="secondary">No File</Badge>;
     };
 
     const formatDate = (dateString: string) => {
         return new Date(dateString).toLocaleDateString('en-US', {
-            year: 'numeric', month: 'short', day: 'numeric',
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
         });
     };
 
@@ -162,10 +178,17 @@ export default function ScheduleOfChargeIndex({ scheduleOfCharges, filters }: Pr
                         <div className="flex flex-1 gap-4">
                             <div className="relative max-w-sm flex-1">
                                 <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
-                                <Input placeholder="Search by title..." value={search} onChange={(e) => handleSearch(e.target.value)} className="pl-10" />
+                                <Input
+                                    placeholder="Search by title..."
+                                    value={search}
+                                    onChange={(e) => handleSearch(e.target.value)}
+                                    className="pl-10"
+                                />
                             </div>
                             <Select value={statusFilter} onValueChange={handleStatusFilter}>
-                                <SelectTrigger className="w-40"><SelectValue placeholder="All Status" /></SelectTrigger>
+                                <SelectTrigger className="w-40">
+                                    <SelectValue placeholder="All Status" />
+                                </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="all">All Status</SelectItem>
                                     <SelectItem value="active">Active</SelectItem>
@@ -173,7 +196,9 @@ export default function ScheduleOfChargeIndex({ scheduleOfCharges, filters }: Pr
                                 </SelectContent>
                             </Select>
                             <Select value={attachmentFilter} onValueChange={handleAttachmentFilter}>
-                                <SelectTrigger className="w-44"><SelectValue placeholder="All Files" /></SelectTrigger>
+                                <SelectTrigger className="w-44">
+                                    <SelectValue placeholder="All Files" />
+                                </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="all">All Files</SelectItem>
                                     <SelectItem value="yes">Has Attachment</SelectItem>
@@ -181,7 +206,9 @@ export default function ScheduleOfChargeIndex({ scheduleOfCharges, filters }: Pr
                                 </SelectContent>
                             </Select>
                             <Select value={dateFilter} onValueChange={handleDateFilter}>
-                                <SelectTrigger className="w-40"><SelectValue placeholder="All Dates" /></SelectTrigger>
+                                <SelectTrigger className="w-40">
+                                    <SelectValue placeholder="All Dates" />
+                                </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="all">All Dates</SelectItem>
                                     <SelectItem value="current">Current</SelectItem>
@@ -192,7 +219,8 @@ export default function ScheduleOfChargeIndex({ scheduleOfCharges, filters }: Pr
                         </div>
                         <Button asChild>
                             <Link href={route('schedule-of-charges.create')}>
-                                <Plus className="mr-2 h-4 w-4" />Add Schedule
+                                <Plus className="mr-2 h-4 w-4" />
+                                Add Schedule
                             </Link>
                         </Button>
                     </div>
@@ -211,7 +239,9 @@ export default function ScheduleOfChargeIndex({ scheduleOfCharges, filters }: Pr
                             <TableBody>
                                 {scheduleOfCharges.data.length === 0 ? (
                                     <TableRow>
-                                        <TableCell colSpan={6} className="py-8 text-center text-gray-500">No schedule of charges found.</TableCell>
+                                        <TableCell colSpan={6} className="py-8 text-center text-gray-500">
+                                            No schedule of charges found.
+                                        </TableCell>
                                     </TableRow>
                                 ) : (
                                     scheduleOfCharges.data.map((charge) => (
@@ -222,15 +252,13 @@ export default function ScheduleOfChargeIndex({ scheduleOfCharges, filters }: Pr
                                                     <div>
                                                         <div className="font-medium">{charge.title}</div>
                                                         {charge.description && (
-                                                            <div className="text-sm text-gray-500 max-w-xs truncate">{charge.description}</div>
+                                                            <div className="max-w-xs truncate text-sm text-gray-500">{charge.description}</div>
                                                         )}
                                                     </div>
                                                 </div>
                                             </TableCell>
                                             <TableCell>
-                                                <div className="text-sm">
-                                                    {formatDateRange(charge.from, charge.to)}
-                                                </div>
+                                                <div className="text-sm">{formatDateRange(charge.from, charge.to)}</div>
                                             </TableCell>
                                             <TableCell>{getStatusBadge(charge)}</TableCell>
                                             <TableCell>{getAttachmentBadge(!!charge.attachment)}</TableCell>
@@ -238,19 +266,23 @@ export default function ScheduleOfChargeIndex({ scheduleOfCharges, filters }: Pr
                                             <TableCell className="text-right">
                                                 <DropdownMenu>
                                                     <DropdownMenuTrigger asChild>
-                                                        <Button variant="ghost" className="h-8 w-8 p-0"><MoreHorizontal className="h-4 w-4" /></Button>
+                                                        <Button variant="ghost" className="h-8 w-8 p-0">
+                                                            <MoreHorizontal className="h-4 w-4" />
+                                                        </Button>
                                                     </DropdownMenuTrigger>
                                                     <DropdownMenuContent align="end">
                                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                         <DropdownMenuSeparator />
                                                         <DropdownMenuItem asChild>
                                                             <Link href={route('schedule-of-charges.show', charge.id)}>
-                                                                <Eye className="mr-2 h-4 w-4" />View
+                                                                <Eye className="mr-2 h-4 w-4" />
+                                                                View
                                                             </Link>
                                                         </DropdownMenuItem>
                                                         <DropdownMenuItem asChild>
                                                             <Link href={route('schedule-of-charges.edit', charge.id)}>
-                                                                <Edit className="mr-2 h-4 w-4" />Edit
+                                                                <Edit className="mr-2 h-4 w-4" />
+                                                                Edit
                                                             </Link>
                                                         </DropdownMenuItem>
                                                         {charge.attachment_url && (
@@ -258,14 +290,16 @@ export default function ScheduleOfChargeIndex({ scheduleOfCharges, filters }: Pr
                                                                 <DropdownMenuSeparator />
                                                                 <DropdownMenuItem asChild>
                                                                     <a href={charge.attachment_url} target="_blank" rel="noopener noreferrer">
-                                                                        <Download className="mr-2 h-4 w-4" />Download
+                                                                        <Download className="mr-2 h-4 w-4" />
+                                                                        Download
                                                                     </a>
                                                                 </DropdownMenuItem>
                                                             </>
                                                         )}
                                                         <DropdownMenuSeparator />
                                                         <DropdownMenuItem onClick={() => handleDelete(charge.id)} className="text-red-600">
-                                                            <Trash className="mr-2 h-4 w-4" />Delete
+                                                            <Trash className="mr-2 h-4 w-4" />
+                                                            Delete
                                                         </DropdownMenuItem>
                                                     </DropdownMenuContent>
                                                 </DropdownMenu>
@@ -278,13 +312,19 @@ export default function ScheduleOfChargeIndex({ scheduleOfCharges, filters }: Pr
                     </div>
                     {scheduleOfCharges.total > 0 && (
                         <div className="flex items-center justify-between text-sm text-gray-500">
-                            <div>Showing {scheduleOfCharges.from} to {scheduleOfCharges.to} of {scheduleOfCharges.total} results</div>
+                            <div>
+                                Showing {scheduleOfCharges.from} to {scheduleOfCharges.to} of {scheduleOfCharges.total} results
+                            </div>
                             <div className="flex gap-2">
                                 {scheduleOfCharges.current_page > 1 && (
-                                    <Button variant="outline" size="sm" onClick={() => handlePagination(scheduleOfCharges.current_page - 1)}>Previous</Button>
+                                    <Button variant="outline" size="sm" onClick={() => handlePagination(scheduleOfCharges.current_page - 1)}>
+                                        Previous
+                                    </Button>
                                 )}
                                 {scheduleOfCharges.current_page < scheduleOfCharges.last_page && (
-                                    <Button variant="outline" size="sm" onClick={() => handlePagination(scheduleOfCharges.current_page + 1)}>Next</Button>
+                                    <Button variant="outline" size="sm" onClick={() => handlePagination(scheduleOfCharges.current_page + 1)}>
+                                        Next
+                                    </Button>
                                 )}
                             </div>
                         </div>

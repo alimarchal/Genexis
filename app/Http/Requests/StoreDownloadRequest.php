@@ -16,7 +16,7 @@ class StoreDownloadRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
-            'file' => ['required', 'file', 'mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,jpg,jpeg,png,zip,rar', 'max:51200'], // 50MB
+            'file' => ['required', 'file', 'mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,jpg,jpeg,png,zip,rar', 'max:307200'], // 300MB
             'category' => ['required', 'string', 'in:forms,reports,brochures,policies,general'],
             'is_featured' => ['boolean'],
             'is_active' => ['boolean'],
@@ -29,7 +29,7 @@ class StoreDownloadRequest extends FormRequest
             'title.required' => 'Title is required.',
             'file.required' => 'File is required.',
             'file.mimes' => 'File must be a valid document, image, or archive file.',
-            'file.max' => 'File size cannot exceed 50MB.',
+            'file.max' => 'File size cannot exceed 300MB.',
             'category.required' => 'Category is required.',
             'category.in' => 'Invalid category selected.',
         ];

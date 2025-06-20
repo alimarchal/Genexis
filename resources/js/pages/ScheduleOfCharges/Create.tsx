@@ -53,13 +53,18 @@ export default function CreateScheduleOfCharge() {
                 <div className="mt-8">
                     <form onSubmit={submit} className="space-y-8">
                         <Card>
-                            <CardHeader><CardTitle>Basic Information</CardTitle></CardHeader>
+                            <CardHeader>
+                                <CardTitle>Basic Information</CardTitle>
+                            </CardHeader>
                             <CardContent className="space-y-6">
                                 <div className="space-y-2">
                                     <Label htmlFor="title">Title *</Label>
                                     <Input
-                                        id="title" value={data.title} onChange={(e) => setData('title', e.target.value)}
-                                        placeholder="Enter schedule title" className={errors.title ? 'border-red-500' : ''}
+                                        id="title"
+                                        value={data.title}
+                                        onChange={(e) => setData('title', e.target.value)}
+                                        placeholder="Enter schedule title"
+                                        className={errors.title ? 'border-red-500' : ''}
                                     />
                                     {errors.title && <p className="text-sm text-red-500">{errors.title}</p>}
                                 </div>
@@ -68,7 +73,10 @@ export default function CreateScheduleOfCharge() {
                                     <div className="space-y-2">
                                         <Label htmlFor="from">Start Date *</Label>
                                         <Input
-                                            id="from" type="date" value={data.from} onChange={(e) => setData('from', e.target.value)}
+                                            id="from"
+                                            type="date"
+                                            value={data.from}
+                                            onChange={(e) => setData('from', e.target.value)}
                                             className={errors.from ? 'border-red-500' : ''}
                                         />
                                         {errors.from && <p className="text-sm text-red-500">{errors.from}</p>}
@@ -76,7 +84,10 @@ export default function CreateScheduleOfCharge() {
                                     <div className="space-y-2">
                                         <Label htmlFor="to">End Date</Label>
                                         <Input
-                                            id="to" type="date" value={data.to} onChange={(e) => setData('to', e.target.value)}
+                                            id="to"
+                                            type="date"
+                                            value={data.to}
+                                            onChange={(e) => setData('to', e.target.value)}
                                             className={errors.to ? 'border-red-500' : ''}
                                         />
                                         {errors.to && <p className="text-sm text-red-500">{errors.to}</p>}
@@ -87,8 +98,11 @@ export default function CreateScheduleOfCharge() {
                                 <div className="space-y-2">
                                     <Label htmlFor="description">Description</Label>
                                     <Textarea
-                                        id="description" value={data.description} onChange={(e) => setData('description', e.target.value)}
-                                        placeholder="Brief description of the charges" rows={3}
+                                        id="description"
+                                        value={data.description}
+                                        onChange={(e) => setData('description', e.target.value)}
+                                        placeholder="Brief description of the charges"
+                                        rows={3}
                                         className={errors.description ? 'border-red-500' : ''}
                                     />
                                     {errors.description && <p className="text-sm text-red-500">{errors.description}</p>}
@@ -102,7 +116,7 @@ export default function CreateScheduleOfCharge() {
                                     <FileText className="h-5 w-5 text-indigo-500" />
                                     <div>
                                         <CardTitle>Attachment</CardTitle>
-                                        <p className="text-sm text-gray-500 mt-1">Upload the charges document or file</p>
+                                        <p className="mt-1 text-sm text-gray-500">Upload the charges document or file</p>
                                     </div>
                                 </div>
                             </CardHeader>
@@ -111,10 +125,13 @@ export default function CreateScheduleOfCharge() {
                                     <Label htmlFor="attachment">Upload File</Label>
                                     <div className="relative flex-1">
                                         <Input
-                                            id="attachment" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx"
-                                            onChange={handleFileChange} className={errors.attachment ? 'border-red-500' : ''}
+                                            id="attachment"
+                                            type="file"
+                                            accept=".pdf,.doc,.docx,.xls,.xlsx"
+                                            onChange={handleFileChange}
+                                            className={errors.attachment ? 'border-red-500' : ''}
                                         />
-                                        <Upload className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
+                                        <Upload className="absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
                                     </div>
                                     {errors.attachment && <p className="text-sm text-red-500">{errors.attachment}</p>}
 
@@ -130,17 +147,23 @@ export default function CreateScheduleOfCharge() {
                                         </div>
                                     )}
 
-                                    <p className="text-sm text-gray-500">Supported formats: PDF, Word (.doc, .docx), Excel (.xls, .xlsx). Maximum size: 10MB</p>
+                                    <p className="text-sm text-gray-500">
+                                        Supported formats: PDF, Word (.doc, .docx), Excel (.xls, .xlsx). Maximum size: 300MB
+                                    </p>
                                 </div>
                             </CardContent>
                         </Card>
 
                         <Card>
-                            <CardHeader><CardTitle>Settings</CardTitle></CardHeader>
+                            <CardHeader>
+                                <CardTitle>Settings</CardTitle>
+                            </CardHeader>
                             <CardContent className="space-y-6">
                                 <div className="flex items-center justify-between">
                                     <div className="space-y-0.5">
-                                        <Label htmlFor="is_active" className="text-base">Active Status</Label>
+                                        <Label htmlFor="is_active" className="text-base">
+                                            Active Status
+                                        </Label>
                                         <p className="text-sm text-gray-500">Make this schedule visible and active</p>
                                     </div>
                                     <Switch id="is_active" checked={data.is_active} onCheckedChange={(checked) => setData('is_active', checked)} />
@@ -149,7 +172,9 @@ export default function CreateScheduleOfCharge() {
                         </Card>
 
                         <Card>
-                            <CardHeader><CardTitle>Summary</CardTitle></CardHeader>
+                            <CardHeader>
+                                <CardTitle>Summary</CardTitle>
+                            </CardHeader>
                             <CardContent>
                                 <div className="space-y-3">
                                     <div className="flex items-center justify-between text-sm">
@@ -159,7 +184,8 @@ export default function CreateScheduleOfCharge() {
                                     <div className="flex items-center justify-between text-sm">
                                         <span className="font-medium">Date Range:</span>
                                         <span className="text-gray-600">
-                                            {data.from ? new Date(data.from).toLocaleDateString() : 'Not set'} - {data.to ? new Date(data.to).toLocaleDateString() : 'Ongoing'}
+                                            {data.from ? new Date(data.from).toLocaleDateString() : 'Not set'} -{' '}
+                                            {data.to ? new Date(data.to).toLocaleDateString() : 'Ongoing'}
                                         </span>
                                     </div>
                                     <div className="flex items-center justify-between text-sm">

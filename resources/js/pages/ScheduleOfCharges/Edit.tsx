@@ -48,7 +48,8 @@ export default function EditScheduleOfCharge({ scheduleOfCharge }: Props) {
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
         router.post(route('schedule-of-charges.update', scheduleOfCharge.id), {
-            ...data, _method: 'PUT',
+            ...data,
+            _method: 'PUT',
         });
     };
 
@@ -76,13 +77,18 @@ export default function EditScheduleOfCharge({ scheduleOfCharge }: Props) {
                 <div className="mt-8">
                     <form onSubmit={submit} className="space-y-8">
                         <Card>
-                            <CardHeader><CardTitle>Basic Information</CardTitle></CardHeader>
+                            <CardHeader>
+                                <CardTitle>Basic Information</CardTitle>
+                            </CardHeader>
                             <CardContent className="space-y-6">
                                 <div className="space-y-2">
                                     <Label htmlFor="title">Title *</Label>
                                     <Input
-                                        id="title" value={data.title} onChange={(e) => setData('title', e.target.value)}
-                                        placeholder="Enter schedule title" className={errors.title ? 'border-red-500' : ''}
+                                        id="title"
+                                        value={data.title}
+                                        onChange={(e) => setData('title', e.target.value)}
+                                        placeholder="Enter schedule title"
+                                        className={errors.title ? 'border-red-500' : ''}
                                     />
                                     {errors.title && <p className="text-sm text-red-500">{errors.title}</p>}
                                 </div>
@@ -91,7 +97,10 @@ export default function EditScheduleOfCharge({ scheduleOfCharge }: Props) {
                                     <div className="space-y-2">
                                         <Label htmlFor="from">Start Date *</Label>
                                         <Input
-                                            id="from" type="date" value={data.from} onChange={(e) => setData('from', e.target.value)}
+                                            id="from"
+                                            type="date"
+                                            value={data.from}
+                                            onChange={(e) => setData('from', e.target.value)}
                                             className={errors.from ? 'border-red-500' : ''}
                                         />
                                         {errors.from && <p className="text-sm text-red-500">{errors.from}</p>}
@@ -99,7 +108,10 @@ export default function EditScheduleOfCharge({ scheduleOfCharge }: Props) {
                                     <div className="space-y-2">
                                         <Label htmlFor="to">End Date</Label>
                                         <Input
-                                            id="to" type="date" value={data.to} onChange={(e) => setData('to', e.target.value)}
+                                            id="to"
+                                            type="date"
+                                            value={data.to}
+                                            onChange={(e) => setData('to', e.target.value)}
                                             className={errors.to ? 'border-red-500' : ''}
                                         />
                                         {errors.to && <p className="text-sm text-red-500">{errors.to}</p>}
@@ -110,8 +122,11 @@ export default function EditScheduleOfCharge({ scheduleOfCharge }: Props) {
                                 <div className="space-y-2">
                                     <Label htmlFor="description">Description</Label>
                                     <Textarea
-                                        id="description" value={data.description} onChange={(e) => setData('description', e.target.value)}
-                                        placeholder="Brief description of the charges" rows={3}
+                                        id="description"
+                                        value={data.description}
+                                        onChange={(e) => setData('description', e.target.value)}
+                                        placeholder="Brief description of the charges"
+                                        rows={3}
                                         className={errors.description ? 'border-red-500' : ''}
                                     />
                                     {errors.description && <p className="text-sm text-red-500">{errors.description}</p>}
@@ -125,7 +140,7 @@ export default function EditScheduleOfCharge({ scheduleOfCharge }: Props) {
                                     <FileText className="h-5 w-5 text-indigo-500" />
                                     <div>
                                         <CardTitle>Attachment</CardTitle>
-                                        <p className="text-sm text-gray-500 mt-1">Upload the charges document or file</p>
+                                        <p className="mt-1 text-sm text-gray-500">Upload the charges document or file</p>
                                     </div>
                                 </div>
                             </CardHeader>
@@ -134,7 +149,7 @@ export default function EditScheduleOfCharge({ scheduleOfCharge }: Props) {
                                     <div className="space-y-2">
                                         <Label>Current File</Label>
                                         <div className="flex items-center gap-4 rounded-md bg-gray-50 p-4">
-                                            <div className="flex items-center gap-3 flex-1">
+                                            <div className="flex flex-1 items-center gap-3">
                                                 <FileText className="h-5 w-5 text-gray-500" />
                                                 <div>
                                                     <div className="font-medium text-gray-900">{getCurrentFileName(scheduleOfCharge.attachment)}</div>
@@ -144,7 +159,8 @@ export default function EditScheduleOfCharge({ scheduleOfCharge }: Props) {
                                             {scheduleOfCharge.attachment_url && (
                                                 <Button asChild variant="outline" size="sm">
                                                     <a href={scheduleOfCharge.attachment_url} target="_blank" rel="noopener noreferrer">
-                                                        <Download className="mr-2 h-4 w-4" />Download
+                                                        <Download className="mr-2 h-4 w-4" />
+                                                        Download
                                                     </a>
                                                 </Button>
                                             )}
@@ -156,15 +172,18 @@ export default function EditScheduleOfCharge({ scheduleOfCharge }: Props) {
                                     <Label htmlFor="attachment">{scheduleOfCharge.attachment ? 'Replace File' : 'Upload File'}</Label>
                                     <div className="relative flex-1">
                                         <Input
-                                            id="attachment" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx"
-                                            onChange={handleFileChange} className={errors.attachment ? 'border-red-500' : ''}
+                                            id="attachment"
+                                            type="file"
+                                            accept=".pdf,.doc,.docx,.xls,.xlsx"
+                                            onChange={handleFileChange}
+                                            className={errors.attachment ? 'border-red-500' : ''}
                                         />
-                                        <Upload className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
+                                        <Upload className="absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
                                     </div>
                                     {errors.attachment && <p className="text-sm text-red-500">{errors.attachment}</p>}
 
                                     {fileName && (
-                                        <div className="rounded-md bg-blue-50 border border-blue-200 p-3">
+                                        <div className="rounded-md border border-blue-200 bg-blue-50 p-3">
                                             <div className="flex items-center justify-between">
                                                 <div className="flex items-center gap-2">
                                                     <FileText className="h-4 w-4 text-blue-500" />
@@ -173,7 +192,7 @@ export default function EditScheduleOfCharge({ scheduleOfCharge }: Props) {
                                                 <span className="text-sm text-blue-600">{getFileSize(data.attachment)}</span>
                                             </div>
                                             {scheduleOfCharge.attachment && (
-                                                <p className="text-xs text-blue-600 mt-1">This will replace the current file</p>
+                                                <p className="mt-1 text-xs text-blue-600">This will replace the current file</p>
                                             )}
                                         </div>
                                     )}
@@ -181,19 +200,22 @@ export default function EditScheduleOfCharge({ scheduleOfCharge }: Props) {
                                     <p className="text-sm text-gray-500">
                                         {scheduleOfCharge.attachment
                                             ? 'Upload a new file to replace the current one (optional)'
-                                            : 'Supported formats: PDF, Word (.doc, .docx), Excel (.xls, .xlsx). Maximum size: 10MB'
-                                        }
+                                            : 'Supported formats: PDF, Word (.doc, .docx), Excel (.xls, .xlsx). Maximum size: 300MB'}
                                     </p>
                                 </div>
                             </CardContent>
                         </Card>
 
                         <Card>
-                            <CardHeader><CardTitle>Settings</CardTitle></CardHeader>
+                            <CardHeader>
+                                <CardTitle>Settings</CardTitle>
+                            </CardHeader>
                             <CardContent className="space-y-6">
                                 <div className="flex items-center justify-between">
                                     <div className="space-y-0.5">
-                                        <Label htmlFor="is_active" className="text-base">Active Status</Label>
+                                        <Label htmlFor="is_active" className="text-base">
+                                            Active Status
+                                        </Label>
                                         <p className="text-sm text-gray-500">Make this schedule visible and active</p>
                                     </div>
                                     <Switch id="is_active" checked={data.is_active} onCheckedChange={(checked) => setData('is_active', checked)} />
@@ -202,7 +224,9 @@ export default function EditScheduleOfCharge({ scheduleOfCharge }: Props) {
                         </Card>
 
                         <Card>
-                            <CardHeader><CardTitle>Update Summary</CardTitle></CardHeader>
+                            <CardHeader>
+                                <CardTitle>Update Summary</CardTitle>
+                            </CardHeader>
                             <CardContent>
                                 <div className="space-y-3">
                                     <div className="flex items-center justify-between text-sm">
@@ -212,7 +236,8 @@ export default function EditScheduleOfCharge({ scheduleOfCharge }: Props) {
                                     <div className="flex items-center justify-between text-sm">
                                         <span className="font-medium">Date Range:</span>
                                         <span className="text-gray-600">
-                                            {data.from ? new Date(data.from).toLocaleDateString() : 'Not set'} - {data.to ? new Date(data.to).toLocaleDateString() : 'Ongoing'}
+                                            {data.from ? new Date(data.from).toLocaleDateString() : 'Not set'} -{' '}
+                                            {data.to ? new Date(data.to).toLocaleDateString() : 'Ongoing'}
                                         </span>
                                     </div>
                                     <div className="flex items-center justify-between text-sm">
@@ -221,7 +246,9 @@ export default function EditScheduleOfCharge({ scheduleOfCharge }: Props) {
                                     </div>
                                     <div className="flex items-center justify-between text-sm">
                                         <span className="font-medium">Current File:</span>
-                                        <span className="text-gray-600">{scheduleOfCharge.attachment ? getCurrentFileName(scheduleOfCharge.attachment) : 'No file'}</span>
+                                        <span className="text-gray-600">
+                                            {scheduleOfCharge.attachment ? getCurrentFileName(scheduleOfCharge.attachment) : 'No file'}
+                                        </span>
                                     </div>
                                     {fileName && (
                                         <div className="flex items-center justify-between text-sm">

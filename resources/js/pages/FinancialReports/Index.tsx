@@ -143,12 +143,7 @@ export default function FinancialReportIndex({ financialReports, filters }: Prop
     };
 
     const getReportsBadge = (report: FinancialReport) => {
-        const reports = [
-            report.first_quarter_report,
-            report.half_yearly_report,
-            report.third_quarter_report,
-            report.annual_report,
-        ].filter(Boolean);
+        const reports = [report.first_quarter_report, report.half_yearly_report, report.third_quarter_report, report.annual_report].filter(Boolean);
 
         if (reports.length === 4) {
             return <Badge variant="default">Complete ({reports.length}/4)</Badge>;
@@ -273,9 +268,7 @@ export default function FinancialReportIndex({ financialReports, filters }: Prop
                                                 <div className="flex items-center gap-3">
                                                     <FileText className="h-5 w-5 text-blue-500" />
                                                     <div>
-                                                        <div className="font-medium text-lg">
-                                                            FY {report.fiscal_year}
-                                                        </div>
+                                                        <div className="text-lg font-medium">FY {report.fiscal_year}</div>
                                                         <div className="text-sm text-gray-500">
                                                             {report.fiscal_year}-{report.fiscal_year + 1}
                                                         </div>

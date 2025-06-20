@@ -82,34 +82,50 @@ export default function ProfitRateIndex({ profitRates, filters }: Props) {
 
     const handleSearch = (value: string) => {
         setSearch(value);
-        router.get(route('profit-rates.index'), {
-            ...buildParams(),
-            'filter[category]': value.trim() ? value : undefined,
-        }, { preserveState: true, replace: true });
+        router.get(
+            route('profit-rates.index'),
+            {
+                ...buildParams(),
+                'filter[category]': value.trim() ? value : undefined,
+            },
+            { preserveState: true, replace: true },
+        );
     };
 
     const handleStatusFilter = (value: string) => {
         setStatusFilter(value);
-        router.get(route('profit-rates.index'), {
-            ...buildParams(),
-            'filter[is_active]': value !== 'all' ? (value === 'active' ? '1' : '0') : undefined,
-        }, { preserveState: true, replace: true });
+        router.get(
+            route('profit-rates.index'),
+            {
+                ...buildParams(),
+                'filter[is_active]': value !== 'all' ? (value === 'active' ? '1' : '0') : undefined,
+            },
+            { preserveState: true, replace: true },
+        );
     };
 
     const handleRateFilter = (value: string) => {
         setRateFilter(value);
-        router.get(route('profit-rates.index'), {
-            ...buildParams(),
-            'filter[rate_range]': value !== 'all' ? value : undefined,
-        }, { preserveState: true, replace: true });
+        router.get(
+            route('profit-rates.index'),
+            {
+                ...buildParams(),
+                'filter[rate_range]': value !== 'all' ? value : undefined,
+            },
+            { preserveState: true, replace: true },
+        );
     };
 
     const handleValidityFilter = (value: string) => {
         setValidityFilter(value);
-        router.get(route('profit-rates.index'), {
-            ...buildParams(),
-            'filter[validity_status]': value !== 'all' ? value : undefined,
-        }, { preserveState: true, replace: true });
+        router.get(
+            route('profit-rates.index'),
+            {
+                ...buildParams(),
+                'filter[validity_status]': value !== 'all' ? value : undefined,
+            },
+            { preserveState: true, replace: true },
+        );
     };
 
     const handlePagination = (page: number) => {
@@ -142,7 +158,9 @@ export default function ProfitRateIndex({ profitRates, filters }: Props) {
 
     const formatDate = (dateString: string) => {
         return new Date(dateString).toLocaleDateString('en-US', {
-            year: 'numeric', month: 'short', day: 'numeric',
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
         });
     };
 
@@ -162,10 +180,17 @@ export default function ProfitRateIndex({ profitRates, filters }: Props) {
                         <div className="flex flex-1 gap-4">
                             <div className="relative max-w-sm flex-1">
                                 <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
-                                <Input placeholder="Search by category..." value={search} onChange={(e) => handleSearch(e.target.value)} className="pl-10" />
+                                <Input
+                                    placeholder="Search by category..."
+                                    value={search}
+                                    onChange={(e) => handleSearch(e.target.value)}
+                                    className="pl-10"
+                                />
                             </div>
                             <Select value={statusFilter} onValueChange={handleStatusFilter}>
-                                <SelectTrigger className="w-40"><SelectValue placeholder="All Status" /></SelectTrigger>
+                                <SelectTrigger className="w-40">
+                                    <SelectValue placeholder="All Status" />
+                                </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="all">All Status</SelectItem>
                                     <SelectItem value="active">Active</SelectItem>
@@ -173,7 +198,9 @@ export default function ProfitRateIndex({ profitRates, filters }: Props) {
                                 </SelectContent>
                             </Select>
                             <Select value={rateFilter} onValueChange={handleRateFilter}>
-                                <SelectTrigger className="w-40"><SelectValue placeholder="All Rates" /></SelectTrigger>
+                                <SelectTrigger className="w-40">
+                                    <SelectValue placeholder="All Rates" />
+                                </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="all">All Rates</SelectItem>
                                     <SelectItem value="low">Low (&lt;5%)</SelectItem>
@@ -182,7 +209,9 @@ export default function ProfitRateIndex({ profitRates, filters }: Props) {
                                 </SelectContent>
                             </Select>
                             <Select value={validityFilter} onValueChange={handleValidityFilter}>
-                                <SelectTrigger className="w-40"><SelectValue placeholder="All Validity" /></SelectTrigger>
+                                <SelectTrigger className="w-40">
+                                    <SelectValue placeholder="All Validity" />
+                                </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="all">All Validity</SelectItem>
                                     <SelectItem value="current">Current</SelectItem>
@@ -193,7 +222,8 @@ export default function ProfitRateIndex({ profitRates, filters }: Props) {
                         </div>
                         <Button asChild>
                             <Link href={route('profit-rates.create')}>
-                                <Plus className="mr-2 h-4 w-4" />Add Rate
+                                <Plus className="mr-2 h-4 w-4" />
+                                Add Rate
                             </Link>
                         </Button>
                     </div>
@@ -213,7 +243,9 @@ export default function ProfitRateIndex({ profitRates, filters }: Props) {
                             <TableBody>
                                 {profitRates.data.length === 0 ? (
                                     <TableRow>
-                                        <TableCell colSpan={7} className="py-8 text-center text-gray-500">No profit rates found.</TableCell>
+                                        <TableCell colSpan={7} className="py-8 text-center text-gray-500">
+                                            No profit rates found.
+                                        </TableCell>
                                     </TableRow>
                                 ) : (
                                     profitRates.data.map((rate) => (
@@ -234,33 +266,36 @@ export default function ProfitRateIndex({ profitRates, filters }: Props) {
                                                 </div>
                                             </TableCell>
                                             <TableCell>
-                                                <div className="text-sm">
-                                                    {formatDateRange(rate.valid_from, rate.valid_to)}
-                                                </div>
+                                                <div className="text-sm">{formatDateRange(rate.valid_from, rate.valid_to)}</div>
                                             </TableCell>
                                             <TableCell>{getStatusBadge(rate)}</TableCell>
                                             <TableCell className="text-sm text-gray-500">{formatDate(rate.created_at)}</TableCell>
                                             <TableCell className="text-right">
                                                 <DropdownMenu>
                                                     <DropdownMenuTrigger asChild>
-                                                        <Button variant="ghost" className="h-8 w-8 p-0"><MoreHorizontal className="h-4 w-4" /></Button>
+                                                        <Button variant="ghost" className="h-8 w-8 p-0">
+                                                            <MoreHorizontal className="h-4 w-4" />
+                                                        </Button>
                                                     </DropdownMenuTrigger>
                                                     <DropdownMenuContent align="end">
                                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                         <DropdownMenuSeparator />
                                                         <DropdownMenuItem asChild>
                                                             <Link href={route('profit-rates.show', rate.id)}>
-                                                                <Eye className="mr-2 h-4 w-4" />View
+                                                                <Eye className="mr-2 h-4 w-4" />
+                                                                View
                                                             </Link>
                                                         </DropdownMenuItem>
                                                         <DropdownMenuItem asChild>
                                                             <Link href={route('profit-rates.edit', rate.id)}>
-                                                                <Edit className="mr-2 h-4 w-4" />Edit
+                                                                <Edit className="mr-2 h-4 w-4" />
+                                                                Edit
                                                             </Link>
                                                         </DropdownMenuItem>
                                                         <DropdownMenuSeparator />
                                                         <DropdownMenuItem onClick={() => handleDelete(rate.id)} className="text-red-600">
-                                                            <Trash className="mr-2 h-4 w-4" />Delete
+                                                            <Trash className="mr-2 h-4 w-4" />
+                                                            Delete
                                                         </DropdownMenuItem>
                                                     </DropdownMenuContent>
                                                 </DropdownMenu>
@@ -273,13 +308,19 @@ export default function ProfitRateIndex({ profitRates, filters }: Props) {
                     </div>
                     {profitRates.total > 0 && (
                         <div className="flex items-center justify-between text-sm text-gray-500">
-                            <div>Showing {profitRates.from} to {profitRates.to} of {profitRates.total} results</div>
+                            <div>
+                                Showing {profitRates.from} to {profitRates.to} of {profitRates.total} results
+                            </div>
                             <div className="flex gap-2">
                                 {profitRates.current_page > 1 && (
-                                    <Button variant="outline" size="sm" onClick={() => handlePagination(profitRates.current_page - 1)}>Previous</Button>
+                                    <Button variant="outline" size="sm" onClick={() => handlePagination(profitRates.current_page - 1)}>
+                                        Previous
+                                    </Button>
                                 )}
                                 {profitRates.current_page < profitRates.last_page && (
-                                    <Button variant="outline" size="sm" onClick={() => handlePagination(profitRates.current_page + 1)}>Next</Button>
+                                    <Button variant="outline" size="sm" onClick={() => handlePagination(profitRates.current_page + 1)}>
+                                        Next
+                                    </Button>
                                 )}
                             </div>
                         </div>

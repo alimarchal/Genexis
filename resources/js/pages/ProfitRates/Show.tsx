@@ -51,7 +51,9 @@ export default function ShowProfitRate({ profitRate }: Props) {
 
     const formatDate = (dateString: string) => {
         return new Date(dateString).toLocaleDateString('en-US', {
-            year: 'numeric', month: 'long', day: 'numeric',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
         });
     };
 
@@ -63,7 +65,8 @@ export default function ShowProfitRate({ profitRate }: Props) {
                     <Heading title={profitRate.category} description="Profit rate details" />
                     <Button asChild>
                         <Link href={route('profit-rates.edit', profitRate.id)}>
-                            <Edit className="mr-2 h-4 w-4" />Edit Rate
+                            <Edit className="mr-2 h-4 w-4" />
+                            Edit Rate
                         </Link>
                     </Button>
                 </div>
@@ -91,7 +94,9 @@ export default function ShowProfitRate({ profitRate }: Props) {
                         </Card>
 
                         <Card>
-                            <CardHeader><CardTitle className="text-lg">Rate Information</CardTitle></CardHeader>
+                            <CardHeader>
+                                <CardTitle className="text-lg">Rate Information</CardTitle>
+                            </CardHeader>
                             <CardContent className="space-y-6">
                                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                                     <div className="space-y-2">
@@ -106,31 +111,35 @@ export default function ShowProfitRate({ profitRate }: Props) {
                                             <Calendar className="h-4 w-4" />
                                             Valid To
                                         </h3>
-                                        <p className="text-lg font-semibold">
-                                            {profitRate.valid_to ? formatDate(profitRate.valid_to) : 'Ongoing'}
-                                        </p>
+                                        <p className="text-lg font-semibold">{profitRate.valid_to ? formatDate(profitRate.valid_to) : 'Ongoing'}</p>
                                     </div>
                                 </div>
 
                                 <Separator />
 
                                 <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-                                    <div className="text-center p-4 bg-emerald-50 rounded-lg">
+                                    <div className="rounded-lg bg-emerald-50 p-4 text-center">
                                         <p className="text-3xl font-bold text-emerald-600">{profitRate.rate}%</p>
-                                        <p className="text-sm text-gray-600 mt-1">Current Rate</p>
+                                        <p className="mt-1 text-sm text-gray-600">Current Rate</p>
                                     </div>
-                                    <div className="text-center p-4 bg-blue-50 rounded-lg">
+                                    <div className="rounded-lg bg-blue-50 p-4 text-center">
                                         <p className="text-3xl font-bold text-blue-600">{profitRate.sort_order || '-'}</p>
-                                        <p className="text-sm text-gray-600 mt-1">Sort Order</p>
+                                        <p className="mt-1 text-sm text-gray-600">Sort Order</p>
                                     </div>
-                                    <div className="text-center p-4 bg-purple-50 rounded-lg">
+                                    <div className="rounded-lg bg-purple-50 p-4 text-center">
                                         <p className="text-3xl font-bold text-purple-600">
-                                            {((profitRate.valid_to ? new Date(profitRate.valid_to) : new Date()).getTime() - new Date(profitRate.valid_from).getTime()) / (1000 * 60 * 60 * 24) > 0
-                                                ? Math.ceil(((profitRate.valid_to ? new Date(profitRate.valid_to) : new Date()).getTime() - new Date(profitRate.valid_from).getTime()) / (1000 * 60 * 60 * 24))
-                                                : '∞'
-                                            }
+                                            {((profitRate.valid_to ? new Date(profitRate.valid_to) : new Date()).getTime() -
+                                                new Date(profitRate.valid_from).getTime()) /
+                                                (1000 * 60 * 60 * 24) >
+                                            0
+                                                ? Math.ceil(
+                                                      ((profitRate.valid_to ? new Date(profitRate.valid_to) : new Date()).getTime() -
+                                                          new Date(profitRate.valid_from).getTime()) /
+                                                          (1000 * 60 * 60 * 24),
+                                                  )
+                                                : '∞'}
                                         </p>
-                                        <p className="text-sm text-gray-600 mt-1">Days Valid</p>
+                                        <p className="mt-1 text-sm text-gray-600">Days Valid</p>
                                     </div>
                                 </div>
                             </CardContent>
@@ -139,7 +148,9 @@ export default function ShowProfitRate({ profitRate }: Props) {
 
                     <div className="space-y-6">
                         <Card>
-                            <CardHeader><CardTitle className="text-lg">Details</CardTitle></CardHeader>
+                            <CardHeader>
+                                <CardTitle className="text-lg">Details</CardTitle>
+                            </CardHeader>
                             <CardContent className="space-y-4">
                                 <div className="flex items-center gap-3">
                                     <Hash className="h-4 w-4 text-gray-500" />
@@ -176,7 +187,9 @@ export default function ShowProfitRate({ profitRate }: Props) {
                         </Card>
 
                         <Card>
-                            <CardHeader><CardTitle className="text-lg">Statistics</CardTitle></CardHeader>
+                            <CardHeader>
+                                <CardTitle className="text-lg">Statistics</CardTitle>
+                            </CardHeader>
                             <CardContent className="space-y-4 text-sm">
                                 <div className="flex justify-between">
                                     <span className="font-medium">Active:</span>
@@ -203,7 +216,9 @@ export default function ShowProfitRate({ profitRate }: Props) {
                         </Card>
 
                         <Card>
-                            <CardHeader><CardTitle className="text-lg">Timestamps</CardTitle></CardHeader>
+                            <CardHeader>
+                                <CardTitle className="text-lg">Timestamps</CardTitle>
+                            </CardHeader>
                             <CardContent className="space-y-4 text-sm">
                                 <div>
                                     <p className="font-medium">Created</p>
@@ -218,11 +233,14 @@ export default function ShowProfitRate({ profitRate }: Props) {
                         </Card>
 
                         <Card>
-                            <CardHeader><CardTitle className="text-lg">Actions</CardTitle></CardHeader>
+                            <CardHeader>
+                                <CardTitle className="text-lg">Actions</CardTitle>
+                            </CardHeader>
                             <CardContent className="space-y-3">
                                 <Button asChild className="w-full">
                                     <Link href={route('profit-rates.edit', profitRate.id)}>
-                                        <Edit className="mr-2 h-4 w-4" />Edit Rate
+                                        <Edit className="mr-2 h-4 w-4" />
+                                        Edit Rate
                                     </Link>
                                 </Button>
                                 <Button variant="outline" asChild className="w-full">

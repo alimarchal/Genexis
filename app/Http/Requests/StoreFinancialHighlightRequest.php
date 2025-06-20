@@ -26,7 +26,7 @@ class StoreFinancialHighlightRequest extends FormRequest
                 'nullable',
                 'file',
                 'mimes:pdf,doc,docx,xls,xlsx',
-                'max:10240',
+                'max:307200',
             ],
         ];
     }
@@ -40,7 +40,7 @@ class StoreFinancialHighlightRequest extends FormRequest
             'fiscal_year.max' => 'The fiscal year cannot be more than 5 years in the future.',
             'financial_highlights.file' => 'The file must be a valid file.',
             'financial_highlights.mimes' => 'The file must be a PDF, Word document, or Excel file.',
-            'financial_highlights.max' => 'The file size cannot exceed 10MB.',
+            'financial_highlights.max' => 'The file size cannot exceed 300MB.',
         ];
     }
 

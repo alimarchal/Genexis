@@ -38,7 +38,8 @@ export default function EditFinancialHighlight({ financialHighlight }: Props) {
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
         router.post(route('financial-highlights.update', financialHighlight.id), {
-            ...data, _method: 'PUT',
+            ...data,
+            _method: 'PUT',
         });
     };
 
@@ -66,12 +67,17 @@ export default function EditFinancialHighlight({ financialHighlight }: Props) {
                 <div className="mt-8">
                     <form onSubmit={submit} className="space-y-8">
                         <Card>
-                            <CardHeader><CardTitle>Basic Information</CardTitle></CardHeader>
+                            <CardHeader>
+                                <CardTitle>Basic Information</CardTitle>
+                            </CardHeader>
                             <CardContent className="space-y-6">
                                 <div className="space-y-2">
                                     <Label htmlFor="fiscal_year">Fiscal Year *</Label>
                                     <Input
-                                        id="fiscal_year" type="number" min="1900" max={new Date().getFullYear() + 5}
+                                        id="fiscal_year"
+                                        type="number"
+                                        min="1900"
+                                        max={new Date().getFullYear() + 5}
                                         value={data.fiscal_year}
                                         onChange={(e) => setData('fiscal_year', parseInt(e.target.value) || financialHighlight.fiscal_year)}
                                         placeholder="Enter fiscal year"
@@ -89,7 +95,7 @@ export default function EditFinancialHighlight({ financialHighlight }: Props) {
                                     <FileText className="h-5 w-5 text-orange-500" />
                                     <div>
                                         <CardTitle>Financial Highlights</CardTitle>
-                                        <p className="text-sm text-gray-500 mt-1">Upload the financial highlights document</p>
+                                        <p className="mt-1 text-sm text-gray-500">Upload the financial highlights document</p>
                                     </div>
                                 </div>
                             </CardHeader>
@@ -98,7 +104,7 @@ export default function EditFinancialHighlight({ financialHighlight }: Props) {
                                     <div className="space-y-2">
                                         <Label>Current File</Label>
                                         <div className="flex items-center gap-4 rounded-md bg-gray-50 p-4">
-                                            <div className="flex items-center gap-3 flex-1">
+                                            <div className="flex flex-1 items-center gap-3">
                                                 <FileText className="h-5 w-5 text-gray-500" />
                                                 <div>
                                                     <div className="font-medium text-gray-900">
@@ -110,7 +116,8 @@ export default function EditFinancialHighlight({ financialHighlight }: Props) {
                                             {financialHighlight.financial_highlights_url && (
                                                 <Button asChild variant="outline" size="sm">
                                                     <a href={financialHighlight.financial_highlights_url} target="_blank" rel="noopener noreferrer">
-                                                        <Download className="mr-2 h-4 w-4" />Download
+                                                        <Download className="mr-2 h-4 w-4" />
+                                                        Download
                                                     </a>
                                                 </Button>
                                             )}
@@ -124,16 +131,18 @@ export default function EditFinancialHighlight({ financialHighlight }: Props) {
                                     </Label>
                                     <div className="relative flex-1">
                                         <Input
-                                            id="financial_highlights" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx"
+                                            id="financial_highlights"
+                                            type="file"
+                                            accept=".pdf,.doc,.docx,.xls,.xlsx"
                                             onChange={handleFileChange}
                                             className={errors.financial_highlights ? 'border-red-500' : ''}
                                         />
-                                        <Upload className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
+                                        <Upload className="absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
                                     </div>
                                     {errors.financial_highlights && <p className="text-sm text-red-500">{errors.financial_highlights}</p>}
 
                                     {fileName && (
-                                        <div className="rounded-md bg-blue-50 border border-blue-200 p-3">
+                                        <div className="rounded-md border border-blue-200 bg-blue-50 p-3">
                                             <div className="flex items-center justify-between">
                                                 <div className="flex items-center gap-2">
                                                     <FileText className="h-4 w-4 text-blue-500" />
@@ -142,7 +151,7 @@ export default function EditFinancialHighlight({ financialHighlight }: Props) {
                                                 <span className="text-sm text-blue-600">{getFileSize(data.financial_highlights)}</span>
                                             </div>
                                             {financialHighlight.financial_highlights && (
-                                                <p className="text-xs text-blue-600 mt-1">This will replace the current file</p>
+                                                <p className="mt-1 text-xs text-blue-600">This will replace the current file</p>
                                             )}
                                         </div>
                                     )}
@@ -150,20 +159,23 @@ export default function EditFinancialHighlight({ financialHighlight }: Props) {
                                     <p className="text-sm text-gray-500">
                                         {financialHighlight.financial_highlights
                                             ? 'Upload a new file to replace the current one (optional)'
-                                            : 'Supported formats: PDF, Word (.doc, .docx), Excel (.xls, .xlsx). Maximum size: 10MB'
-                                        }
+                                            : 'Supported formats: PDF, Word (.doc, .docx), Excel (.xls, .xlsx). Maximum size: 300MB'}
                                     </p>
                                 </div>
                             </CardContent>
                         </Card>
 
                         <Card>
-                            <CardHeader><CardTitle>Update Summary</CardTitle></CardHeader>
+                            <CardHeader>
+                                <CardTitle>Update Summary</CardTitle>
+                            </CardHeader>
                             <CardContent>
                                 <div className="space-y-3">
                                     <div className="flex items-center justify-between text-sm">
                                         <span className="font-medium">Fiscal Year:</span>
-                                        <span className="text-gray-600">FY {data.fiscal_year} ({data.fiscal_year}-{data.fiscal_year + 1})</span>
+                                        <span className="text-gray-600">
+                                            FY {data.fiscal_year} ({data.fiscal_year}-{data.fiscal_year + 1})
+                                        </span>
                                     </div>
                                     <div className="flex items-center justify-between text-sm">
                                         <span className="font-medium">Current Highlights:</span>
@@ -176,7 +188,7 @@ export default function EditFinancialHighlight({ financialHighlight }: Props) {
 
                                     {financialHighlight.financial_highlights && (
                                         <div className="mt-4">
-                                            <p className="text-sm font-medium text-gray-700 mb-2">Current File:</p>
+                                            <p className="mb-2 text-sm font-medium text-gray-700">Current File:</p>
                                             <div className="flex items-center gap-2 text-sm text-gray-600">
                                                 <div className="h-2 w-2 rounded-full bg-green-500"></div>
                                                 <span>Financial Highlights: {getCurrentFileName(financialHighlight.financial_highlights)}</span>
@@ -186,7 +198,7 @@ export default function EditFinancialHighlight({ financialHighlight }: Props) {
 
                                     {fileName && (
                                         <div className="mt-4">
-                                            <p className="text-sm font-medium text-blue-700 mb-2">File Being Updated:</p>
+                                            <p className="mb-2 text-sm font-medium text-blue-700">File Being Updated:</p>
                                             <div className="flex items-center gap-2 text-sm text-blue-600">
                                                 <div className="h-2 w-2 rounded-full bg-blue-500"></div>
                                                 <span>Financial Highlights: {fileName}</span>

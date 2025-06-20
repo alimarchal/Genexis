@@ -29,9 +29,7 @@ export default function ShowFinancialHighlight({ financialHighlight }: Props) {
     ];
 
     const getHighlightsBadge = () => {
-        return financialHighlight.financial_highlights
-            ? <Badge variant="default">Uploaded</Badge>
-            : <Badge variant="outline">No Highlights</Badge>;
+        return financialHighlight.financial_highlights ? <Badge variant="default">Uploaded</Badge> : <Badge variant="outline">No Highlights</Badge>;
     };
 
     const getYearBadge = () => {
@@ -64,7 +62,8 @@ export default function ShowFinancialHighlight({ financialHighlight }: Props) {
                     />
                     <Button asChild>
                         <Link href={route('financial-highlights.edit', financialHighlight.id)}>
-                            <Edit className="mr-2 h-4 w-4" />Edit Highlights
+                            <Edit className="mr-2 h-4 w-4" />
+                            Edit Highlights
                         </Link>
                     </Button>
                 </div>
@@ -80,7 +79,9 @@ export default function ShowFinancialHighlight({ financialHighlight }: Props) {
                                     <div className="flex-1 space-y-4">
                                         <div>
                                             <CardTitle className="text-2xl">Fiscal Year {financialHighlight.fiscal_year}</CardTitle>
-                                            <p className="mt-1 text-lg text-gray-600">{financialHighlight.fiscal_year} - {financialHighlight.fiscal_year + 1}</p>
+                                            <p className="mt-1 text-lg text-gray-600">
+                                                {financialHighlight.fiscal_year} - {financialHighlight.fiscal_year + 1}
+                                            </p>
                                         </div>
                                         <div className="flex items-center gap-2">
                                             {getHighlightsBadge()}
@@ -98,13 +99,14 @@ export default function ShowFinancialHighlight({ financialHighlight }: Props) {
                                         <FileText className="h-5 w-5 text-orange-500" />
                                         <div>
                                             <CardTitle className="text-lg">Financial Highlights</CardTitle>
-                                            <p className="text-sm text-gray-500 mt-1">Key financial metrics and achievements</p>
+                                            <p className="mt-1 text-sm text-gray-500">Key financial metrics and achievements</p>
                                         </div>
                                     </div>
                                     {financialHighlight.financial_highlights && financialHighlight.financial_highlights_url && (
                                         <Button asChild variant="outline" size="sm">
                                             <a href={financialHighlight.financial_highlights_url} target="_blank" rel="noopener noreferrer">
-                                                <Download className="mr-2 h-4 w-4" />Download
+                                                <Download className="mr-2 h-4 w-4" />
+                                                Download
                                             </a>
                                         </Button>
                                     )}
@@ -113,18 +115,22 @@ export default function ShowFinancialHighlight({ financialHighlight }: Props) {
                             <CardContent>
                                 {financialHighlight.financial_highlights ? (
                                     <div className="flex items-center gap-4 rounded-md bg-gray-50 p-4">
-                                        <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-white border">
+                                        <div className="flex h-12 w-12 items-center justify-center rounded-lg border bg-white">
                                             <FileText className="h-6 w-6 text-gray-500" />
                                         </div>
                                         <div className="flex-1">
-                                            <div className="font-medium text-gray-900">{getCurrentFileName(financialHighlight.financial_highlights)}</div>
+                                            <div className="font-medium text-gray-900">
+                                                {getCurrentFileName(financialHighlight.financial_highlights)}
+                                            </div>
                                             <div className="flex items-center gap-2 text-sm text-gray-500">
                                                 <span>{getFileExtension(financialHighlight.financial_highlights)} File</span>
                                                 <span>•</span>
                                                 <span>Available for download</span>
                                             </div>
                                         </div>
-                                        <Badge variant="outline" className="text-xs">Uploaded</Badge>
+                                        <Badge variant="outline" className="text-xs">
+                                            Uploaded
+                                        </Badge>
                                     </div>
                                 ) : (
                                     <div className="flex items-center gap-4 rounded-md border-2 border-dashed border-gray-200 p-6 text-center">
@@ -141,7 +147,9 @@ export default function ShowFinancialHighlight({ financialHighlight }: Props) {
 
                     <div className="space-y-6">
                         <Card>
-                            <CardHeader><CardTitle className="text-lg">Details</CardTitle></CardHeader>
+                            <CardHeader>
+                                <CardTitle className="text-lg">Details</CardTitle>
+                            </CardHeader>
                             <CardContent className="space-y-4">
                                 <div className="flex items-center gap-3">
                                     <Hash className="h-4 w-4 text-gray-500" />
@@ -155,7 +163,9 @@ export default function ShowFinancialHighlight({ financialHighlight }: Props) {
                                     <Calendar className="h-4 w-4 text-gray-500" />
                                     <div>
                                         <p className="text-sm font-medium">Period</p>
-                                        <p className="text-sm text-gray-600">{financialHighlight.fiscal_year} - {financialHighlight.fiscal_year + 1}</p>
+                                        <p className="text-sm text-gray-600">
+                                            {financialHighlight.fiscal_year} - {financialHighlight.fiscal_year + 1}
+                                        </p>
                                     </div>
                                 </div>
                                 <Separator />
@@ -178,7 +188,9 @@ export default function ShowFinancialHighlight({ financialHighlight }: Props) {
                         </Card>
 
                         <Card>
-                            <CardHeader><CardTitle className="text-lg">Statistics</CardTitle></CardHeader>
+                            <CardHeader>
+                                <CardTitle className="text-lg">Statistics</CardTitle>
+                            </CardHeader>
                             <CardContent className="space-y-4 text-sm">
                                 <div className="flex justify-between">
                                     <span className="font-medium">Highlights Uploaded:</span>
@@ -187,7 +199,9 @@ export default function ShowFinancialHighlight({ financialHighlight }: Props) {
                                 <Separator />
                                 <div className="flex justify-between">
                                     <span className="font-medium">File Type:</span>
-                                    <span className="text-gray-600">{financialHighlight.financial_highlights ? getFileExtension(financialHighlight.financial_highlights) : 'N/A'}</span>
+                                    <span className="text-gray-600">
+                                        {financialHighlight.financial_highlights ? getFileExtension(financialHighlight.financial_highlights) : 'N/A'}
+                                    </span>
                                 </div>
                                 <Separator />
                                 <div className="flex justify-between">
@@ -198,7 +212,9 @@ export default function ShowFinancialHighlight({ financialHighlight }: Props) {
                         </Card>
 
                         <Card>
-                            <CardHeader><CardTitle className="text-lg">Timestamps</CardTitle></CardHeader>
+                            <CardHeader>
+                                <CardTitle className="text-lg">Timestamps</CardTitle>
+                            </CardHeader>
                             <CardContent className="space-y-4 text-sm">
                                 <div>
                                     <p className="font-medium">Created</p>
@@ -213,21 +229,25 @@ export default function ShowFinancialHighlight({ financialHighlight }: Props) {
                         </Card>
 
                         <Card>
-                            <CardHeader><CardTitle className="text-lg">Actions</CardTitle></CardHeader>
+                            <CardHeader>
+                                <CardTitle className="text-lg">Actions</CardTitle>
+                            </CardHeader>
                             <CardContent className="space-y-3">
                                 <Button asChild className="w-full">
                                     <Link href={route('financial-highlights.edit', financialHighlight.id)}>
-                                        <Edit className="mr-2 h-4 w-4" />Edit Highlights
+                                        <Edit className="mr-2 h-4 w-4" />
+                                        Edit Highlights
                                     </Link>
                                 </Button>
                                 <Button variant="outline" asChild className="w-full">
                                     <Link href={route('financial-highlights.index')}>Back to List</Link>
                                 </Button>
                                 {financialHighlight.financial_highlights_url && (
-                                    <div className="pt-2 border-t">
+                                    <div className="border-t pt-2">
                                         <Button asChild variant="outline" size="sm" className="w-full">
                                             <a href={financialHighlight.financial_highlights_url} target="_blank" rel="noopener noreferrer">
-                                                <Download className="mr-2 h-4 w-4" />Download Highlights
+                                                <Download className="mr-2 h-4 w-4" />
+                                                Download Highlights
                                             </a>
                                         </Button>
                                     </div>

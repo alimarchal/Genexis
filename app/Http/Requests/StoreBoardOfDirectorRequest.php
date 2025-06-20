@@ -23,7 +23,7 @@ class StoreBoardOfDirectorRequest extends FormRequest
             'experience.*' => 'nullable|string|max:500',
             'achievements' => 'nullable|array',
             'achievements.*' => 'nullable|string|max:500',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:307200',
             'sort_order' => 'nullable|integer|min:0',
             'is_active' => 'boolean',
             'is_chairman' => 'boolean',

@@ -92,13 +92,16 @@ export default function EditAnnualReport({ annualReport }: Props) {
                                         min="1900"
                                         max={new Date().getFullYear() + 5}
                                         value={data.annual_report_fiscal_year}
-                                        onChange={(e) => setData('annual_report_fiscal_year', parseInt(e.target.value) || annualReport.annual_report_fiscal_year)}
+                                        onChange={(e) =>
+                                            setData('annual_report_fiscal_year', parseInt(e.target.value) || annualReport.annual_report_fiscal_year)
+                                        }
                                         placeholder="Enter fiscal year"
                                         className={errors.annual_report_fiscal_year ? 'border-red-500' : ''}
                                     />
                                     {errors.annual_report_fiscal_year && <p className="text-sm text-red-500">{errors.annual_report_fiscal_year}</p>}
                                     <p className="text-sm text-gray-500">
-                                        The fiscal year for which this annual report is being uploaded (e.g., {annualReport.annual_report_fiscal_year})
+                                        The fiscal year for which this annual report is being uploaded (e.g., {annualReport.annual_report_fiscal_year}
+                                        )
                                     </p>
                                 </div>
                             </CardContent>
@@ -111,7 +114,7 @@ export default function EditAnnualReport({ annualReport }: Props) {
                                     <FileText className="h-5 w-5 text-purple-500" />
                                     <div>
                                         <CardTitle>Annual Report</CardTitle>
-                                        <p className="text-sm text-gray-500 mt-1">Upload the comprehensive annual financial report</p>
+                                        <p className="mt-1 text-sm text-gray-500">Upload the comprehensive annual financial report</p>
                                     </div>
                                 </div>
                             </CardHeader>
@@ -121,15 +124,11 @@ export default function EditAnnualReport({ annualReport }: Props) {
                                     <div className="space-y-2">
                                         <Label>Current File</Label>
                                         <div className="flex items-center gap-4 rounded-md bg-gray-50 p-4">
-                                            <div className="flex items-center gap-3 flex-1">
+                                            <div className="flex flex-1 items-center gap-3">
                                                 <FileText className="h-5 w-5 text-gray-500" />
                                                 <div>
-                                                    <div className="font-medium text-gray-900">
-                                                        {getCurrentFileName(annualReport.annual_report)}
-                                                    </div>
-                                                    <div className="text-sm text-gray-500">
-                                                        Currently uploaded file
-                                                    </div>
+                                                    <div className="font-medium text-gray-900">{getCurrentFileName(annualReport.annual_report)}</div>
+                                                    <div className="text-sm text-gray-500">Currently uploaded file</div>
                                                 </div>
                                             </div>
                                             {annualReport.annual_report_url && (
@@ -146,9 +145,7 @@ export default function EditAnnualReport({ annualReport }: Props) {
 
                                 {/* File Upload */}
                                 <div className="space-y-2">
-                                    <Label htmlFor="annual_report">
-                                        {annualReport.annual_report ? 'Replace File' : 'Upload File'}
-                                    </Label>
+                                    <Label htmlFor="annual_report">{annualReport.annual_report ? 'Replace File' : 'Upload File'}</Label>
                                     <div className="flex items-center gap-4">
                                         <div className="relative flex-1">
                                             <Input
@@ -158,29 +155,23 @@ export default function EditAnnualReport({ annualReport }: Props) {
                                                 onChange={handleFileChange}
                                                 className={errors.annual_report ? 'border-red-500' : ''}
                                             />
-                                            <Upload className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
+                                            <Upload className="absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
                                         </div>
                                     </div>
                                     {errors.annual_report && <p className="text-sm text-red-500">{errors.annual_report}</p>}
 
                                     {/* New File Info */}
                                     {fileName && (
-                                        <div className="rounded-md bg-blue-50 border border-blue-200 p-3">
+                                        <div className="rounded-md border border-blue-200 bg-blue-50 p-3">
                                             <div className="flex items-center justify-between">
                                                 <div className="flex items-center gap-2">
                                                     <FileText className="h-4 w-4 text-blue-500" />
-                                                    <span className="text-sm font-medium text-blue-900">
-                                                        New: {fileName}
-                                                    </span>
+                                                    <span className="text-sm font-medium text-blue-900">New: {fileName}</span>
                                                 </div>
-                                                <span className="text-sm text-blue-600">
-                                                    {getFileSize(data.annual_report)}
-                                                </span>
+                                                <span className="text-sm text-blue-600">{getFileSize(data.annual_report)}</span>
                                             </div>
                                             {annualReport.annual_report && (
-                                                <p className="text-xs text-blue-600 mt-1">
-                                                    This will replace the current file
-                                                </p>
+                                                <p className="mt-1 text-xs text-blue-600">This will replace the current file</p>
                                             )}
                                         </div>
                                     )}
@@ -188,8 +179,7 @@ export default function EditAnnualReport({ annualReport }: Props) {
                                     <p className="text-sm text-gray-500">
                                         {annualReport.annual_report
                                             ? 'Upload a new file to replace the current one (optional)'
-                                            : 'Supported formats: PDF, Word (.doc, .docx), Excel (.xls, .xlsx). Maximum size: 10MB'
-                                        }
+                                            : 'Supported formats: PDF, Word (.doc, .docx), Excel (.xls, .xlsx). Maximum size: 300MB'}
                                     </p>
                                 </div>
                             </CardContent>
@@ -204,25 +194,24 @@ export default function EditAnnualReport({ annualReport }: Props) {
                                 <div className="space-y-3">
                                     <div className="flex items-center justify-between text-sm">
                                         <span className="font-medium">Fiscal Year:</span>
-                                        <span className="text-gray-600">FY {data.annual_report_fiscal_year} ({data.annual_report_fiscal_year}-{data.annual_report_fiscal_year + 1})</span>
+                                        <span className="text-gray-600">
+                                            FY {data.annual_report_fiscal_year} ({data.annual_report_fiscal_year}-{data.annual_report_fiscal_year + 1}
+                                            )
+                                        </span>
                                     </div>
                                     <div className="flex items-center justify-between text-sm">
                                         <span className="font-medium">Current Report:</span>
-                                        <span className="text-gray-600">
-                                            {annualReport.annual_report ? 'Uploaded' : 'No file'}
-                                        </span>
+                                        <span className="text-gray-600">{annualReport.annual_report ? 'Uploaded' : 'No file'}</span>
                                     </div>
                                     <div className="flex items-center justify-between text-sm">
                                         <span className="font-medium">File to Update:</span>
-                                        <span className="text-gray-600">
-                                            {fileName ? 'Selected' : 'None'}
-                                        </span>
+                                        <span className="text-gray-600">{fileName ? 'Selected' : 'None'}</span>
                                     </div>
 
                                     {/* Current File */}
                                     {annualReport.annual_report && (
                                         <div className="mt-4">
-                                            <p className="text-sm font-medium text-gray-700 mb-2">Current File:</p>
+                                            <p className="mb-2 text-sm font-medium text-gray-700">Current File:</p>
                                             <div className="flex items-center gap-2 text-sm text-gray-600">
                                                 <div className="h-2 w-2 rounded-full bg-green-500"></div>
                                                 <span>Annual Report: {getCurrentFileName(annualReport.annual_report)}</span>
@@ -233,7 +222,7 @@ export default function EditAnnualReport({ annualReport }: Props) {
                                     {/* File Being Updated */}
                                     {fileName && (
                                         <div className="mt-4">
-                                            <p className="text-sm font-medium text-blue-700 mb-2">File Being Updated:</p>
+                                            <p className="mb-2 text-sm font-medium text-blue-700">File Being Updated:</p>
                                             <div className="flex items-center gap-2 text-sm text-blue-600">
                                                 <div className="h-2 w-2 rounded-full bg-blue-500"></div>
                                                 <span>Annual Report: {fileName}</span>

@@ -18,7 +18,7 @@ class UpdateCareerRequest extends FormRequest
             'description' => 'required|string|max:5000',
             'requirements' => 'required|string|max:5000',
             'location' => 'required|string|max:255',
-            'document' => 'nullable|file|mimes:pdf,doc,docx|max:10240',
+            'document' => 'nullable|file|mimes:pdf,doc,docx|max:307200',
             'closing_date' => 'nullable|date|after_or_equal:today',
             'is_active' => 'boolean',
             'is_featured' => 'boolean',
@@ -35,7 +35,7 @@ class UpdateCareerRequest extends FormRequest
             'location.required' => 'The job location is required.',
             'closing_date.after_or_equal' => 'The closing date must be today or a future date.',
             'document.mimes' => 'The document must be a PDF or Word file.',
-            'document.max' => 'The document size cannot exceed 10MB.',
+            'document.max' => 'The document size cannot exceed 300MB.',
         ];
     }
 }

@@ -146,7 +146,7 @@ export default function Edit({ download }: Props) {
                                                 className={errors.file ? 'border-red-500' : ''}
                                             />
                                         </div>
-                                        <p className="text-sm text-gray-500">Upload a new file to replace the current one. Max size: 50MB</p>
+                                        <p className="text-sm text-gray-500">Upload a new file to replace the current one. Max size: 300MB</p>
                                         <InputError message={errors.file} />
                                     </div>
 

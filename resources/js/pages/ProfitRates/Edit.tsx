@@ -44,7 +44,8 @@ export default function EditProfitRate({ profitRate }: Props) {
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
         router.post(route('profit-rates.update', profitRate.id), {
-            ...data, _method: 'PUT',
+            ...data,
+            _method: 'PUT',
         });
     };
 
@@ -56,13 +57,18 @@ export default function EditProfitRate({ profitRate }: Props) {
                 <div className="mt-8">
                     <form onSubmit={submit} className="space-y-8">
                         <Card>
-                            <CardHeader><CardTitle>Basic Information</CardTitle></CardHeader>
+                            <CardHeader>
+                                <CardTitle>Basic Information</CardTitle>
+                            </CardHeader>
                             <CardContent className="space-y-6">
                                 <div className="space-y-2">
                                     <Label htmlFor="category">Category *</Label>
                                     <Input
-                                        id="category" value={data.category} onChange={(e) => setData('category', e.target.value)}
-                                        placeholder="e.g., PLS Saving Deposit" className={errors.category ? 'border-red-500' : ''}
+                                        id="category"
+                                        value={data.category}
+                                        onChange={(e) => setData('category', e.target.value)}
+                                        placeholder="e.g., PLS Saving Deposit"
+                                        className={errors.category ? 'border-red-500' : ''}
                                     />
                                     {errors.category && <p className="text-sm text-red-500">{errors.category}</p>}
                                 </div>
@@ -71,18 +77,28 @@ export default function EditProfitRate({ profitRate }: Props) {
                                     <div className="space-y-2">
                                         <Label htmlFor="rate">Profit Rate (%) *</Label>
                                         <Input
-                                            id="rate" type="number" step="0.01" min="0" max="99.99"
-                                            value={data.rate} onChange={(e) => setData('rate', e.target.value)}
-                                            placeholder="e.g., 10.50" className={errors.rate ? 'border-red-500' : ''}
+                                            id="rate"
+                                            type="number"
+                                            step="0.01"
+                                            min="0"
+                                            max="99.99"
+                                            value={data.rate}
+                                            onChange={(e) => setData('rate', e.target.value)}
+                                            placeholder="e.g., 10.50"
+                                            className={errors.rate ? 'border-red-500' : ''}
                                         />
                                         {errors.rate && <p className="text-sm text-red-500">{errors.rate}</p>}
                                     </div>
                                     <div className="space-y-2">
                                         <Label htmlFor="sort_order">Sort Order</Label>
                                         <Input
-                                            id="sort_order" type="number" min="0"
-                                            value={data.sort_order} onChange={(e) => setData('sort_order', e.target.value)}
-                                            placeholder="0" className={errors.sort_order ? 'border-red-500' : ''}
+                                            id="sort_order"
+                                            type="number"
+                                            min="0"
+                                            value={data.sort_order}
+                                            onChange={(e) => setData('sort_order', e.target.value)}
+                                            placeholder="0"
+                                            className={errors.sort_order ? 'border-red-500' : ''}
                                         />
                                         {errors.sort_order && <p className="text-sm text-red-500">{errors.sort_order}</p>}
                                     </div>
@@ -91,13 +107,18 @@ export default function EditProfitRate({ profitRate }: Props) {
                         </Card>
 
                         <Card>
-                            <CardHeader><CardTitle>Validity Period</CardTitle></CardHeader>
+                            <CardHeader>
+                                <CardTitle>Validity Period</CardTitle>
+                            </CardHeader>
                             <CardContent className="space-y-6">
                                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                                     <div className="space-y-2">
                                         <Label htmlFor="valid_from">Valid From *</Label>
                                         <Input
-                                            id="valid_from" type="date" value={data.valid_from} onChange={(e) => setData('valid_from', e.target.value)}
+                                            id="valid_from"
+                                            type="date"
+                                            value={data.valid_from}
+                                            onChange={(e) => setData('valid_from', e.target.value)}
                                             className={errors.valid_from ? 'border-red-500' : ''}
                                         />
                                         {errors.valid_from && <p className="text-sm text-red-500">{errors.valid_from}</p>}
@@ -105,7 +126,10 @@ export default function EditProfitRate({ profitRate }: Props) {
                                     <div className="space-y-2">
                                         <Label htmlFor="valid_to">Valid To</Label>
                                         <Input
-                                            id="valid_to" type="date" value={data.valid_to} onChange={(e) => setData('valid_to', e.target.value)}
+                                            id="valid_to"
+                                            type="date"
+                                            value={data.valid_to}
+                                            onChange={(e) => setData('valid_to', e.target.value)}
                                             className={errors.valid_to ? 'border-red-500' : ''}
                                         />
                                         {errors.valid_to && <p className="text-sm text-red-500">{errors.valid_to}</p>}
@@ -116,11 +140,15 @@ export default function EditProfitRate({ profitRate }: Props) {
                         </Card>
 
                         <Card>
-                            <CardHeader><CardTitle>Settings</CardTitle></CardHeader>
+                            <CardHeader>
+                                <CardTitle>Settings</CardTitle>
+                            </CardHeader>
                             <CardContent className="space-y-6">
                                 <div className="flex items-center justify-between">
                                     <div className="space-y-0.5">
-                                        <Label htmlFor="is_active" className="text-base">Active Status</Label>
+                                        <Label htmlFor="is_active" className="text-base">
+                                            Active Status
+                                        </Label>
                                         <p className="text-sm text-gray-500">Make this rate visible and active</p>
                                     </div>
                                     <Switch id="is_active" checked={data.is_active} onCheckedChange={(checked) => setData('is_active', checked)} />
@@ -129,7 +157,9 @@ export default function EditProfitRate({ profitRate }: Props) {
                         </Card>
 
                         <Card>
-                            <CardHeader><CardTitle>Update Summary</CardTitle></CardHeader>
+                            <CardHeader>
+                                <CardTitle>Update Summary</CardTitle>
+                            </CardHeader>
                             <CardContent>
                                 <div className="space-y-3">
                                     <div className="flex items-center justify-between text-sm">
@@ -143,7 +173,8 @@ export default function EditProfitRate({ profitRate }: Props) {
                                     <div className="flex items-center justify-between text-sm">
                                         <span className="font-medium">Valid Period:</span>
                                         <span className="text-gray-600">
-                                            {data.valid_from ? new Date(data.valid_from).toLocaleDateString() : 'Not set'} - {data.valid_to ? new Date(data.valid_to).toLocaleDateString() : 'Ongoing'}
+                                            {data.valid_from ? new Date(data.valid_from).toLocaleDateString() : 'Not set'} -{' '}
+                                            {data.valid_to ? new Date(data.valid_to).toLocaleDateString() : 'Ongoing'}
                                         </span>
                                     </div>
                                     <div className="flex items-center justify-between text-sm">

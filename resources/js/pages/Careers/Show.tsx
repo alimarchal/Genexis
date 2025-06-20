@@ -58,7 +58,9 @@ export default function ShowCareer({ career }: Props) {
 
     const formatDate = (dateString: string) => {
         return new Date(dateString).toLocaleDateString('en-US', {
-            year: 'numeric', month: 'long', day: 'numeric',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
         });
     };
 
@@ -70,7 +72,8 @@ export default function ShowCareer({ career }: Props) {
                     <Heading title={career.title} description="Job posting details" />
                     <Button asChild>
                         <Link href={route('careers.edit', career.id)}>
-                            <Edit className="mr-2 h-4 w-4" />Edit Career
+                            <Edit className="mr-2 h-4 w-4" />
+                            Edit Career
                         </Link>
                     </Button>
                 </div>
@@ -85,11 +88,11 @@ export default function ShowCareer({ career }: Props) {
                                     </div>
                                     <div className="flex-1 space-y-4">
                                         <div>
-                                            <CardTitle className="text-2xl flex items-center gap-2">
+                                            <CardTitle className="flex items-center gap-2 text-2xl">
                                                 {career.title}
-                                                {career.is_featured && <Star className="h-6 w-6 text-yellow-500 fill-current" />}
+                                                {career.is_featured && <Star className="h-6 w-6 fill-current text-yellow-500" />}
                                             </CardTitle>
-                                            <p className="mt-1 text-lg text-gray-600 flex items-center gap-2">
+                                            <p className="mt-1 flex items-center gap-2 text-lg text-gray-600">
                                                 <MapPin className="h-4 w-4" />
                                                 {career.location}
                                             </p>
@@ -158,13 +161,14 @@ export default function ShowCareer({ career }: Props) {
                                         <FileText className="h-5 w-5 text-blue-500" />
                                         <div>
                                             <CardTitle className="text-lg">Job Document</CardTitle>
-                                            <p className="text-sm text-gray-500 mt-1">Detailed job description or application form</p>
+                                            <p className="mt-1 text-sm text-gray-500">Detailed job description or application form</p>
                                         </div>
                                     </div>
                                     {career.document && career.document_url && (
                                         <Button asChild variant="outline" size="sm">
                                             <a href={career.document_url} target="_blank" rel="noopener noreferrer">
-                                                <Download className="mr-2 h-4 w-4" />Download
+                                                <Download className="mr-2 h-4 w-4" />
+                                                Download
                                             </a>
                                         </Button>
                                     )}
@@ -173,7 +177,7 @@ export default function ShowCareer({ career }: Props) {
                             <CardContent>
                                 {career.document ? (
                                     <div className="flex items-center gap-4 rounded-md bg-gray-50 p-4">
-                                        <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-white border">
+                                        <div className="flex h-12 w-12 items-center justify-center rounded-lg border bg-white">
                                             <FileText className="h-6 w-6 text-gray-500" />
                                         </div>
                                         <div className="flex-1">
@@ -184,7 +188,9 @@ export default function ShowCareer({ career }: Props) {
                                                 <span>Available for download</span>
                                             </div>
                                         </div>
-                                        <Badge variant="outline" className="text-xs">Uploaded</Badge>
+                                        <Badge variant="outline" className="text-xs">
+                                            Uploaded
+                                        </Badge>
                                     </div>
                                 ) : (
                                     <div className="flex items-center gap-4 rounded-md border-2 border-dashed border-gray-200 p-6 text-center">
@@ -201,7 +207,9 @@ export default function ShowCareer({ career }: Props) {
 
                     <div className="space-y-6">
                         <Card>
-                            <CardHeader><CardTitle className="text-lg">Details</CardTitle></CardHeader>
+                            <CardHeader>
+                                <CardTitle className="text-lg">Details</CardTitle>
+                            </CardHeader>
                             <CardContent className="space-y-4">
                                 <div className="flex items-center gap-3">
                                     <Hash className="h-4 w-4 text-gray-500" />
@@ -223,7 +231,9 @@ export default function ShowCareer({ career }: Props) {
                                     <Calendar className="h-4 w-4 text-gray-500" />
                                     <div>
                                         <p className="text-sm font-medium">Closing Date</p>
-                                        <p className="text-sm text-gray-600">{career.closing_date ? formatDate(career.closing_date) : 'Open-ended'}</p>
+                                        <p className="text-sm text-gray-600">
+                                            {career.closing_date ? formatDate(career.closing_date) : 'Open-ended'}
+                                        </p>
                                     </div>
                                 </div>
                                 <Separator />
@@ -238,7 +248,9 @@ export default function ShowCareer({ career }: Props) {
                         </Card>
 
                         <Card>
-                            <CardHeader><CardTitle className="text-lg">Statistics</CardTitle></CardHeader>
+                            <CardHeader>
+                                <CardTitle className="text-lg">Statistics</CardTitle>
+                            </CardHeader>
                             <CardContent className="space-y-4 text-sm">
                                 <div className="flex justify-between">
                                     <span className="font-medium">Views:</span>
@@ -268,7 +280,9 @@ export default function ShowCareer({ career }: Props) {
                         </Card>
 
                         <Card>
-                            <CardHeader><CardTitle className="text-lg">Timestamps</CardTitle></CardHeader>
+                            <CardHeader>
+                                <CardTitle className="text-lg">Timestamps</CardTitle>
+                            </CardHeader>
                             <CardContent className="space-y-4 text-sm">
                                 <div>
                                     <p className="font-medium">Created</p>
@@ -283,21 +297,25 @@ export default function ShowCareer({ career }: Props) {
                         </Card>
 
                         <Card>
-                            <CardHeader><CardTitle className="text-lg">Actions</CardTitle></CardHeader>
+                            <CardHeader>
+                                <CardTitle className="text-lg">Actions</CardTitle>
+                            </CardHeader>
                             <CardContent className="space-y-3">
                                 <Button asChild className="w-full">
                                     <Link href={route('careers.edit', career.id)}>
-                                        <Edit className="mr-2 h-4 w-4" />Edit Career
+                                        <Edit className="mr-2 h-4 w-4" />
+                                        Edit Career
                                     </Link>
                                 </Button>
                                 <Button variant="outline" asChild className="w-full">
                                     <Link href={route('careers.index')}>Back to List</Link>
                                 </Button>
                                 {career.document_url && (
-                                    <div className="pt-2 border-t">
+                                    <div className="border-t pt-2">
                                         <Button asChild variant="outline" size="sm" className="w-full">
                                             <a href={career.document_url} target="_blank" rel="noopener noreferrer">
-                                                <Download className="mr-2 h-4 w-4" />Download Document
+                                                <Download className="mr-2 h-4 w-4" />
+                                                Download Document
                                             </a>
                                         </Button>
                                     </div>

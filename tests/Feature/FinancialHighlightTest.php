@@ -115,7 +115,7 @@ test('it cannot create financial highlight with invalid file type', function () 
 });
 
 test('it cannot create financial highlight with file too large', function () {
-    $file = UploadedFile::fake()->create('large-file.pdf', 11000, 'application/pdf'); // 11MB
+    $file = UploadedFile::fake()->create('large-file.pdf', 350000, 'application/pdf'); // 350MB (larger than 300MB limit)
 
     $response = $this->post(route('financial-highlights.store'), [
         'fiscal_year' => 2024,

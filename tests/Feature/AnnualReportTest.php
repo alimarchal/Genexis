@@ -109,7 +109,7 @@ test('it cannot create annual report with invalid file type', function () {
 });
 
 test('it cannot create annual report with file too large', function () {
-    $file = UploadedFile::fake()->create('large-file.pdf', 11000, 'application/pdf'); // 11MB
+    $file = UploadedFile::fake()->create('large-file.pdf', 350000, 'application/pdf'); // 350MB (larger than 300MB limit)
 
     $response = $this->post(route('annual-reports.store'), [
         'annual_report_fiscal_year' => 2024,

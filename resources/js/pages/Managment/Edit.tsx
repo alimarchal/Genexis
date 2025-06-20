@@ -188,7 +188,7 @@ export default function EditManagement({ managment }: Props) {
                                                 accept=".jpg,.jpeg,.png,.pdf"
                                                 className={`cursor-pointer ${errors.attachment ? 'border-red-500' : ''}`}
                                             />
-                                            <p className="text-muted-foreground text-xs">Supported formats: JPG, JPEG, PNG, PDF (Max: 2MB)</p>
+                                            <p className="text-muted-foreground text-xs">Supported formats: JPG, JPEG, PNG, PDF (Max: 300MB)</p>
                                             {managment.attachment_url && !data.attachment && (
                                                 <p className="text-xs text-blue-600">
                                                     Current file:{' '}

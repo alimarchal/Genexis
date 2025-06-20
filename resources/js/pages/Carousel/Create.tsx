@@ -56,7 +56,7 @@ export default function CreateCarousel() {
             },
             onSuccess: () => {
                 console.log('Form submitted successfully');
-            }
+            },
         });
     };
 
@@ -65,10 +65,10 @@ export default function CreateCarousel() {
         setFileError(null); // Clear any previous file errors
 
         if (file) {
-            // Check file size (2MB = 2048KB = 2048 * 1024 bytes)
-            const maxSize = 2048 * 1024; // 2MB in bytes
+            // Check file size (300MB = 307200KB = 307200 * 1024 bytes)
+            const maxSize = 307200 * 1024; // 300MB in bytes
             if (file.size > maxSize) {
-                setFileError('File size is too large. Maximum size allowed is 2MB.');
+                setFileError('File size is too large. Maximum size allowed is 300MB.');
                 e.target.value = ''; // Clear the input
                 return;
             }
@@ -158,7 +158,7 @@ export default function CreateCarousel() {
                                         className={errors.image || fileError ? 'border-red-500' : ''}
                                         required
                                     />
-                                    <p className="text-muted-foreground text-sm">Upload JPG, JPEG, or PNG. Max file size: 2MB</p>
+                                    <p className="text-muted-foreground text-sm">Upload JPG, JPEG, or PNG. Max file size: 300MB</p>
                                     {fileError && <p className="text-sm text-red-500">{fileError}</p>}
                                     {errors.image && <p className="text-sm text-red-500">{errors.image}</p>}
                                 </div>

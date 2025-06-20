@@ -80,7 +80,7 @@ export default function ShowFinancialReport({ financialReport }: Props) {
             file: financialReport.first_quarter_report,
             downloadUrl: financialReport.first_quarter_report_url,
             icon: <FileText className="h-5 w-5 text-blue-500" />,
-            color: 'blue'
+            color: 'blue',
         },
         {
             title: 'Half Yearly Report',
@@ -88,7 +88,7 @@ export default function ShowFinancialReport({ financialReport }: Props) {
             file: financialReport.half_yearly_report,
             downloadUrl: financialReport.half_yearly_report_url,
             icon: <FileText className="h-5 w-5 text-green-500" />,
-            color: 'green'
+            color: 'green',
         },
         {
             title: 'Third Quarter Report (Q3)',
@@ -96,7 +96,7 @@ export default function ShowFinancialReport({ financialReport }: Props) {
             file: financialReport.third_quarter_report,
             downloadUrl: financialReport.third_quarter_report_url,
             icon: <FileText className="h-5 w-5 text-orange-500" />,
-            color: 'orange'
+            color: 'orange',
         },
         {
             title: 'Annual Report',
@@ -104,8 +104,8 @@ export default function ShowFinancialReport({ financialReport }: Props) {
             file: financialReport.annual_report,
             downloadUrl: financialReport.annual_report_url,
             icon: <FileText className="h-5 w-5 text-purple-500" />,
-            color: 'purple'
-        }
+            color: 'purple',
+        },
     ];
 
     const getCurrentFileName = (filePath: string | null): string => {
@@ -148,9 +148,7 @@ export default function ShowFinancialReport({ financialReport }: Props) {
                                     </div>
                                     <div className="flex-1 space-y-4">
                                         <div>
-                                            <CardTitle className="text-2xl">
-                                                Fiscal Year {financialReport.fiscal_year}
-                                            </CardTitle>
+                                            <CardTitle className="text-2xl">Fiscal Year {financialReport.fiscal_year}</CardTitle>
                                             <p className="mt-1 text-lg text-gray-600">
                                                 {financialReport.fiscal_year} - {financialReport.fiscal_year + 1}
                                             </p>
@@ -174,7 +172,7 @@ export default function ShowFinancialReport({ financialReport }: Props) {
                                                 {section.icon}
                                                 <div>
                                                     <CardTitle className="text-lg">{section.title}</CardTitle>
-                                                    <p className="text-sm text-gray-500 mt-1">{section.description}</p>
+                                                    <p className="mt-1 text-sm text-gray-500">{section.description}</p>
                                                 </div>
                                             </div>
                                             {section.file && section.downloadUrl && (
@@ -190,13 +188,11 @@ export default function ShowFinancialReport({ financialReport }: Props) {
                                     <CardContent>
                                         {section.file ? (
                                             <div className="flex items-center gap-4 rounded-md bg-gray-50 p-4">
-                                                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-white border">
+                                                <div className="flex h-12 w-12 items-center justify-center rounded-lg border bg-white">
                                                     <FileText className="h-6 w-6 text-gray-500" />
                                                 </div>
                                                 <div className="flex-1">
-                                                    <div className="font-medium text-gray-900">
-                                                        {getCurrentFileName(section.file)}
-                                                    </div>
+                                                    <div className="font-medium text-gray-900">{getCurrentFileName(section.file)}</div>
                                                     <div className="flex items-center gap-2 text-sm text-gray-500">
                                                         <span>{getFileExtension(section.file)} File</span>
                                                         <span>•</span>
@@ -212,9 +208,7 @@ export default function ShowFinancialReport({ financialReport }: Props) {
                                                 <div className="flex-1">
                                                     <FileText className="mx-auto h-8 w-8 text-gray-400" />
                                                     <p className="mt-2 text-sm font-medium text-gray-900">No file uploaded</p>
-                                                    <p className="text-sm text-gray-500">
-                                                        This report has not been uploaded yet
-                                                    </p>
+                                                    <p className="text-sm text-gray-500">This report has not been uploaded yet</p>
                                                 </div>
                                             </div>
                                         )}
@@ -283,12 +277,15 @@ export default function ShowFinancialReport({ financialReport }: Props) {
                                 <div className="flex justify-between">
                                     <span className="font-medium">Total Reports:</span>
                                     <span className="text-gray-600">
-                                        {[
-                                            financialReport.first_quarter_report,
-                                            financialReport.half_yearly_report,
-                                            financialReport.third_quarter_report,
-                                            financialReport.annual_report,
-                                        ].filter(Boolean).length} of 4
+                                        {
+                                            [
+                                                financialReport.first_quarter_report,
+                                                financialReport.half_yearly_report,
+                                                financialReport.third_quarter_report,
+                                                financialReport.annual_report,
+                                            ].filter(Boolean).length
+                                        }{' '}
+                                        of 4
                                     </span>
                                 </div>
 
@@ -366,44 +363,44 @@ export default function ShowFinancialReport({ financialReport }: Props) {
                                     financialReport.third_quarter_report,
                                     financialReport.annual_report,
                                 ].filter(Boolean).length > 0 && (
-                                        <div className="pt-2 border-t">
-                                            <p className="text-sm font-medium text-gray-700 mb-2">Download Reports:</p>
-                                            <div className="space-y-2">
-                                                {financialReport.first_quarter_report_url && (
-                                                    <Button asChild variant="outline" size="sm" className="w-full">
-                                                        <a href={financialReport.first_quarter_report_url} target="_blank" rel="noopener noreferrer">
-                                                            <Download className="mr-2 h-4 w-4" />
-                                                            Q1 Report
-                                                        </a>
-                                                    </Button>
-                                                )}
-                                                {financialReport.half_yearly_report_url && (
-                                                    <Button asChild variant="outline" size="sm" className="w-full">
-                                                        <a href={financialReport.half_yearly_report_url} target="_blank" rel="noopener noreferrer">
-                                                            <Download className="mr-2 h-4 w-4" />
-                                                            Half-Year Report
-                                                        </a>
-                                                    </Button>
-                                                )}
-                                                {financialReport.third_quarter_report_url && (
-                                                    <Button asChild variant="outline" size="sm" className="w-full">
-                                                        <a href={financialReport.third_quarter_report_url} target="_blank" rel="noopener noreferrer">
-                                                            <Download className="mr-2 h-4 w-4" />
-                                                            Q3 Report
-                                                        </a>
-                                                    </Button>
-                                                )}
-                                                {financialReport.annual_report_url && (
-                                                    <Button asChild variant="outline" size="sm" className="w-full">
-                                                        <a href={financialReport.annual_report_url} target="_blank" rel="noopener noreferrer">
-                                                            <Download className="mr-2 h-4 w-4" />
-                                                            Annual Report
-                                                        </a>
-                                                    </Button>
-                                                )}
-                                            </div>
+                                    <div className="border-t pt-2">
+                                        <p className="mb-2 text-sm font-medium text-gray-700">Download Reports:</p>
+                                        <div className="space-y-2">
+                                            {financialReport.first_quarter_report_url && (
+                                                <Button asChild variant="outline" size="sm" className="w-full">
+                                                    <a href={financialReport.first_quarter_report_url} target="_blank" rel="noopener noreferrer">
+                                                        <Download className="mr-2 h-4 w-4" />
+                                                        Q1 Report
+                                                    </a>
+                                                </Button>
+                                            )}
+                                            {financialReport.half_yearly_report_url && (
+                                                <Button asChild variant="outline" size="sm" className="w-full">
+                                                    <a href={financialReport.half_yearly_report_url} target="_blank" rel="noopener noreferrer">
+                                                        <Download className="mr-2 h-4 w-4" />
+                                                        Half-Year Report
+                                                    </a>
+                                                </Button>
+                                            )}
+                                            {financialReport.third_quarter_report_url && (
+                                                <Button asChild variant="outline" size="sm" className="w-full">
+                                                    <a href={financialReport.third_quarter_report_url} target="_blank" rel="noopener noreferrer">
+                                                        <Download className="mr-2 h-4 w-4" />
+                                                        Q3 Report
+                                                    </a>
+                                                </Button>
+                                            )}
+                                            {financialReport.annual_report_url && (
+                                                <Button asChild variant="outline" size="sm" className="w-full">
+                                                    <a href={financialReport.annual_report_url} target="_blank" rel="noopener noreferrer">
+                                                        <Download className="mr-2 h-4 w-4" />
+                                                        Annual Report
+                                                    </a>
+                                                </Button>
+                                            )}
                                         </div>
-                                    )}
+                                    </div>
+                                )}
                             </CardContent>
                         </Card>
                     </div>

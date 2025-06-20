@@ -47,12 +47,17 @@ export default function CreateFinancialHighlight() {
                 <div className="mt-8">
                     <form onSubmit={submit} className="space-y-8">
                         <Card>
-                            <CardHeader><CardTitle>Basic Information</CardTitle></CardHeader>
+                            <CardHeader>
+                                <CardTitle>Basic Information</CardTitle>
+                            </CardHeader>
                             <CardContent className="space-y-6">
                                 <div className="space-y-2">
                                     <Label htmlFor="fiscal_year">Fiscal Year *</Label>
                                     <Input
-                                        id="fiscal_year" type="number" min="1900" max={new Date().getFullYear() + 5}
+                                        id="fiscal_year"
+                                        type="number"
+                                        min="1900"
+                                        max={new Date().getFullYear() + 5}
                                         value={data.fiscal_year}
                                         onChange={(e) => setData('fiscal_year', parseInt(e.target.value) || new Date().getFullYear())}
                                         placeholder="Enter fiscal year"
@@ -70,7 +75,7 @@ export default function CreateFinancialHighlight() {
                                     <FileText className="h-5 w-5 text-orange-500" />
                                     <div>
                                         <CardTitle>Financial Highlights</CardTitle>
-                                        <p className="text-sm text-gray-500 mt-1">Upload the financial highlights document</p>
+                                        <p className="mt-1 text-sm text-gray-500">Upload the financial highlights document</p>
                                     </div>
                                 </div>
                             </CardHeader>
@@ -79,11 +84,13 @@ export default function CreateFinancialHighlight() {
                                     <Label htmlFor="financial_highlights">Upload File</Label>
                                     <div className="relative flex-1">
                                         <Input
-                                            id="financial_highlights" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx"
+                                            id="financial_highlights"
+                                            type="file"
+                                            accept=".pdf,.doc,.docx,.xls,.xlsx"
                                             onChange={handleFileChange}
                                             className={errors.financial_highlights ? 'border-red-500' : ''}
                                         />
-                                        <Upload className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
+                                        <Upload className="absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
                                     </div>
                                     {errors.financial_highlights && <p className="text-sm text-red-500">{errors.financial_highlights}</p>}
 
@@ -99,18 +106,24 @@ export default function CreateFinancialHighlight() {
                                         </div>
                                     )}
 
-                                    <p className="text-sm text-gray-500">Supported formats: PDF, Word (.doc, .docx), Excel (.xls, .xlsx). Maximum size: 10MB</p>
+                                    <p className="text-sm text-gray-500">
+                                        Supported formats: PDF, Word (.doc, .docx), Excel (.xls, .xlsx). Maximum size: 300MB
+                                    </p>
                                 </div>
                             </CardContent>
                         </Card>
 
                         <Card>
-                            <CardHeader><CardTitle>Upload Summary</CardTitle></CardHeader>
+                            <CardHeader>
+                                <CardTitle>Upload Summary</CardTitle>
+                            </CardHeader>
                             <CardContent>
                                 <div className="space-y-3">
                                     <div className="flex items-center justify-between text-sm">
                                         <span className="font-medium">Fiscal Year:</span>
-                                        <span className="text-gray-600">FY {data.fiscal_year} ({data.fiscal_year}-{data.fiscal_year + 1})</span>
+                                        <span className="text-gray-600">
+                                            FY {data.fiscal_year} ({data.fiscal_year}-{data.fiscal_year + 1})
+                                        </span>
                                     </div>
                                     <div className="flex items-center justify-between text-sm">
                                         <span className="font-medium">Highlights Status:</span>
@@ -118,7 +131,7 @@ export default function CreateFinancialHighlight() {
                                     </div>
                                     {fileName && (
                                         <div className="mt-4">
-                                            <p className="text-sm font-medium text-gray-700 mb-2">Selected File:</p>
+                                            <p className="mb-2 text-sm font-medium text-gray-700">Selected File:</p>
                                             <div className="flex items-center gap-2 text-sm text-gray-600">
                                                 <div className="h-2 w-2 rounded-full bg-green-500"></div>
                                                 <span>Financial Highlights: {fileName}</span>

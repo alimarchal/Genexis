@@ -17,7 +17,7 @@ class StoreScheduleOfChargeRequest extends FormRequest
             'title' => 'required|string|max:255',
             'from' => 'required|date',
             'to' => 'nullable|date|after_or_equal:from',
-            'attachment' => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx|max:10240',
+            'attachment' => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx|max:307200',
             'description' => 'nullable|string|max:1000',
             'is_active' => 'boolean',
         ];
@@ -30,7 +30,7 @@ class StoreScheduleOfChargeRequest extends FormRequest
             'from.required' => 'The start date is required.',
             'to.after_or_equal' => 'The end date must be after or equal to the start date.',
             'attachment.mimes' => 'The attachment must be a PDF, Word document, or Excel file.',
-            'attachment.max' => 'The attachment size cannot exceed 10MB.',
+            'attachment.max' => 'The attachment size cannot exceed 300MB.',
         ];
     }
 }

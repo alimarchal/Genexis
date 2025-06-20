@@ -26,25 +26,25 @@ class UpdateFinancialReportRequest extends FormRequest
                 'nullable',
                 'file',
                 'mimes:pdf,doc,docx,xls,xlsx',
-                'max:10240',
+                'max:307200',
             ],
             'half_yearly_report' => [
                 'nullable',
                 'file',
                 'mimes:pdf,doc,docx,xls,xlsx',
-                'max:10240',
+                'max:307200',
             ],
             'third_quarter_report' => [
                 'nullable',
                 'file',
                 'mimes:pdf,doc,docx,xls,xlsx',
-                'max:10240',
+                'max:307200',
             ],
             'annual_report' => [
                 'nullable',
                 'file',
                 'mimes:pdf,doc,docx,xls,xlsx',
-                'max:10240',
+                'max:307200',
             ],
         ];
     }
@@ -58,7 +58,7 @@ class UpdateFinancialReportRequest extends FormRequest
             'fiscal_year.max' => 'The fiscal year cannot be more than 5 years in the future.',
             '*.file' => 'The file must be a valid file.',
             '*.mimes' => 'The file must be a PDF, Word document, or Excel file.',
-            '*.max' => 'The file size cannot exceed 10MB.',
+            '*.max' => 'The file size cannot exceed 300MB.',
         ];
     }
 

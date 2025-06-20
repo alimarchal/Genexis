@@ -86,7 +86,7 @@ class ScheduleOfCharge extends Model
     public function getAttachmentUrlAttribute(): ?string
     {
         if ($this->attachment && Storage::disk('public')->exists($this->attachment)) {
-            return route('schedule-of-charges.download', $this->id);
+            return route('schedule-of-charges.admin-download', $this->id);
         }
         return null;
     }

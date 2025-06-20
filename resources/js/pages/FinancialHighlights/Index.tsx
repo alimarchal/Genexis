@@ -77,26 +77,38 @@ export default function FinancialHighlightIndex({ financialHighlights, filters }
 
     const handleSearch = (value: string) => {
         setSearch(value);
-        router.get(route('financial-highlights.index'), {
-            ...buildParams(),
-            'filter[fiscal_year]': value.trim() ? value : undefined,
-        }, { preserveState: true, replace: true });
+        router.get(
+            route('financial-highlights.index'),
+            {
+                ...buildParams(),
+                'filter[fiscal_year]': value.trim() ? value : undefined,
+            },
+            { preserveState: true, replace: true },
+        );
     };
 
     const handleHighlightsFilter = (value: string) => {
         setHighlightsFilter(value);
-        router.get(route('financial-highlights.index'), {
-            ...buildParams(),
-            'filter[has_highlights]': value !== 'all' ? value : undefined,
-        }, { preserveState: true, replace: true });
+        router.get(
+            route('financial-highlights.index'),
+            {
+                ...buildParams(),
+                'filter[has_highlights]': value !== 'all' ? value : undefined,
+            },
+            { preserveState: true, replace: true },
+        );
     };
 
     const handleYearFilter = (value: string) => {
         setYearFilter(value);
-        router.get(route('financial-highlights.index'), {
-            ...buildParams(),
-            'filter[year_range]': value !== 'all' ? value : undefined,
-        }, { preserveState: true, replace: true });
+        router.get(
+            route('financial-highlights.index'),
+            {
+                ...buildParams(),
+                'filter[year_range]': value !== 'all' ? value : undefined,
+            },
+            { preserveState: true, replace: true },
+        );
     };
 
     const handlePagination = (page: number) => {
@@ -110,9 +122,7 @@ export default function FinancialHighlightIndex({ financialHighlights, filters }
     };
 
     const getHighlightsBadge = (highlight: FinancialHighlight) => {
-        return highlight.financial_highlights
-            ? <Badge variant="default">Uploaded</Badge>
-            : <Badge variant="outline">No Highlights</Badge>;
+        return highlight.financial_highlights ? <Badge variant="default">Uploaded</Badge> : <Badge variant="outline">No Highlights</Badge>;
     };
 
     const getYearBadge = (year: number) => {
@@ -126,7 +136,9 @@ export default function FinancialHighlightIndex({ financialHighlights, filters }
 
     const formatDate = (dateString: string) => {
         return new Date(dateString).toLocaleDateString('en-US', {
-            year: 'numeric', month: 'short', day: 'numeric',
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
         });
     };
 
@@ -140,10 +152,17 @@ export default function FinancialHighlightIndex({ financialHighlights, filters }
                         <div className="flex flex-1 gap-4">
                             <div className="relative max-w-sm flex-1">
                                 <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
-                                <Input placeholder="Search by fiscal year..." value={search} onChange={(e) => handleSearch(e.target.value)} className="pl-10" />
+                                <Input
+                                    placeholder="Search by fiscal year..."
+                                    value={search}
+                                    onChange={(e) => handleSearch(e.target.value)}
+                                    className="pl-10"
+                                />
                             </div>
                             <Select value={highlightsFilter} onValueChange={handleHighlightsFilter}>
-                                <SelectTrigger className="w-48"><SelectValue placeholder="All Highlights" /></SelectTrigger>
+                                <SelectTrigger className="w-48">
+                                    <SelectValue placeholder="All Highlights" />
+                                </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="all">All Highlights</SelectItem>
                                     <SelectItem value="yes">Has Highlights</SelectItem>
@@ -151,7 +170,9 @@ export default function FinancialHighlightIndex({ financialHighlights, filters }
                                 </SelectContent>
                             </Select>
                             <Select value={yearFilter} onValueChange={handleYearFilter}>
-                                <SelectTrigger className="w-40"><SelectValue placeholder="All Years" /></SelectTrigger>
+                                <SelectTrigger className="w-40">
+                                    <SelectValue placeholder="All Years" />
+                                </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="all">All Years</SelectItem>
                                     <SelectItem value="recent">Recent</SelectItem>
@@ -162,7 +183,8 @@ export default function FinancialHighlightIndex({ financialHighlights, filters }
                         </div>
                         <Button asChild>
                             <Link href={route('financial-highlights.create')}>
-                                <Plus className="mr-2 h-4 w-4" />Add Highlights
+                                <Plus className="mr-2 h-4 w-4" />
+                                Add Highlights
                             </Link>
                         </Button>
                     </div>
@@ -180,7 +202,9 @@ export default function FinancialHighlightIndex({ financialHighlights, filters }
                             <TableBody>
                                 {financialHighlights.data.length === 0 ? (
                                     <TableRow>
-                                        <TableCell colSpan={5} className="py-8 text-center text-gray-500">No financial highlights found.</TableCell>
+                                        <TableCell colSpan={5} className="py-8 text-center text-gray-500">
+                                            No financial highlights found.
+                                        </TableCell>
                                     </TableRow>
                                 ) : (
                                     financialHighlights.data.map((highlight) => (
@@ -189,8 +213,10 @@ export default function FinancialHighlightIndex({ financialHighlights, filters }
                                                 <div className="flex items-center gap-3">
                                                     <FileText className="h-5 w-5 text-orange-500" />
                                                     <div>
-                                                        <div className="font-medium text-lg">FY {highlight.fiscal_year}</div>
-                                                        <div className="text-sm text-gray-500">{highlight.fiscal_year}-{highlight.fiscal_year + 1}</div>
+                                                        <div className="text-lg font-medium">FY {highlight.fiscal_year}</div>
+                                                        <div className="text-sm text-gray-500">
+                                                            {highlight.fiscal_year}-{highlight.fiscal_year + 1}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </TableCell>
@@ -200,34 +226,44 @@ export default function FinancialHighlightIndex({ financialHighlights, filters }
                                             <TableCell className="text-right">
                                                 <DropdownMenu>
                                                     <DropdownMenuTrigger asChild>
-                                                        <Button variant="ghost" className="h-8 w-8 p-0"><MoreHorizontal className="h-4 w-4" /></Button>
+                                                        <Button variant="ghost" className="h-8 w-8 p-0">
+                                                            <MoreHorizontal className="h-4 w-4" />
+                                                        </Button>
                                                     </DropdownMenuTrigger>
                                                     <DropdownMenuContent align="end">
                                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                         <DropdownMenuSeparator />
                                                         <DropdownMenuItem asChild>
                                                             <Link href={route('financial-highlights.show', highlight.id)}>
-                                                                <Eye className="mr-2 h-4 w-4" />View
+                                                                <Eye className="mr-2 h-4 w-4" />
+                                                                View
                                                             </Link>
                                                         </DropdownMenuItem>
                                                         <DropdownMenuItem asChild>
                                                             <Link href={route('financial-highlights.edit', highlight.id)}>
-                                                                <Edit className="mr-2 h-4 w-4" />Edit
+                                                                <Edit className="mr-2 h-4 w-4" />
+                                                                Edit
                                                             </Link>
                                                         </DropdownMenuItem>
                                                         {highlight.financial_highlights_url && (
                                                             <>
                                                                 <DropdownMenuSeparator />
                                                                 <DropdownMenuItem asChild>
-                                                                    <a href={highlight.financial_highlights_url} target="_blank" rel="noopener noreferrer">
-                                                                        <Download className="mr-2 h-4 w-4" />Download Highlights
+                                                                    <a
+                                                                        href={highlight.financial_highlights_url}
+                                                                        target="_blank"
+                                                                        rel="noopener noreferrer"
+                                                                    >
+                                                                        <Download className="mr-2 h-4 w-4" />
+                                                                        Download Highlights
                                                                     </a>
                                                                 </DropdownMenuItem>
                                                             </>
                                                         )}
                                                         <DropdownMenuSeparator />
                                                         <DropdownMenuItem onClick={() => handleDelete(highlight.id)} className="text-red-600">
-                                                            <Trash className="mr-2 h-4 w-4" />Delete
+                                                            <Trash className="mr-2 h-4 w-4" />
+                                                            Delete
                                                         </DropdownMenuItem>
                                                     </DropdownMenuContent>
                                                 </DropdownMenu>
@@ -240,13 +276,19 @@ export default function FinancialHighlightIndex({ financialHighlights, filters }
                     </div>
                     {financialHighlights.total > 0 && (
                         <div className="flex items-center justify-between text-sm text-gray-500">
-                            <div>Showing {financialHighlights.from} to {financialHighlights.to} of {financialHighlights.total} results</div>
+                            <div>
+                                Showing {financialHighlights.from} to {financialHighlights.to} of {financialHighlights.total} results
+                            </div>
                             <div className="flex gap-2">
                                 {financialHighlights.current_page > 1 && (
-                                    <Button variant="outline" size="sm" onClick={() => handlePagination(financialHighlights.current_page - 1)}>Previous</Button>
+                                    <Button variant="outline" size="sm" onClick={() => handlePagination(financialHighlights.current_page - 1)}>
+                                        Previous
+                                    </Button>
                                 )}
                                 {financialHighlights.current_page < financialHighlights.last_page && (
-                                    <Button variant="outline" size="sm" onClick={() => handlePagination(financialHighlights.current_page + 1)}>Next</Button>
+                                    <Button variant="outline" size="sm" onClick={() => handlePagination(financialHighlights.current_page + 1)}>
+                                        Next
+                                    </Button>
                                 )}
                             </div>
                         </div>

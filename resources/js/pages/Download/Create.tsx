@@ -109,7 +109,7 @@ export default function Create() {
                                         />
                                         <InputError message={errors.file} />
                                         <p className="mt-1 text-sm text-gray-500">
-                                            Accepted formats: PDF, DOC, XLS, PPT, Images, Archives (Max: 50MB)
+                                            Accepted formats: PDF, DOC, XLS, PPT, Images, Archives (Max: 300MB)
                                         </p>
                                     </div>
                                     <Upload className="h-5 w-5 text-gray-400" />

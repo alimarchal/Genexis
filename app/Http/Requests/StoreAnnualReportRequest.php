@@ -26,7 +26,7 @@ class StoreAnnualReportRequest extends FormRequest
                 'nullable',
                 'file',
                 'mimes:pdf,doc,docx,xls,xlsx',
-                'max:10240', // 10MB
+                'max:307200', // 300MB
             ],
         ];
     }
@@ -40,7 +40,7 @@ class StoreAnnualReportRequest extends FormRequest
             'annual_report_fiscal_year.max' => 'The fiscal year cannot be more than 5 years in the future.',
             'annual_report.file' => 'The file must be a valid file.',
             'annual_report.mimes' => 'The file must be a PDF, Word document, or Excel file.',
-            'annual_report.max' => 'The file size cannot exceed 10MB.',
+            'annual_report.max' => 'The file size cannot exceed 300MB.',
         ];
     }
 

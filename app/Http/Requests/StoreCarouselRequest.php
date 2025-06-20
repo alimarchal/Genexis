@@ -16,7 +16,7 @@ class StoreCarouselRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
-            'image' => ['required', 'file', 'mimes:jpg,jpeg,png', 'max:2048'],
+            'image' => ['required', 'file', 'mimes:jpg,jpeg,png', 'max:307200'],
             'button_text' => ['nullable', 'string', 'max:255'],
             'button_url' => ['nullable', 'string', 'max:255'],
             'order' => ['nullable', 'integer', 'min:0'],
@@ -30,7 +30,7 @@ class StoreCarouselRequest extends FormRequest
             'title.required' => 'The title field is required.',
             'image.required' => 'The image field is required.',
             'image.mimes' => 'The image must be a file of type: jpg, jpeg, png.',
-            'image.max' => 'The image may not be greater than 2MB.',
+            'image.max' => 'The image may not be greater than 300MB.',
             'status.required' => 'The status field is required.',
             'status.in' => 'The status must be either active or inactive.',
         ];

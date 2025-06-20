@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Download;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
 class DownloadSeeder extends Seeder
@@ -22,6 +23,8 @@ class DownloadSeeder extends Seeder
                 'is_featured' => true,
                 'is_active' => true,
                 'download_count' => 245,
+                'created_at' => Carbon::parse('2025-05-21'),
+                'updated_at' => Carbon::parse('2025-05-21'),
             ],
             [
                 'title' => 'Tender Of Goods - 07-03-2025',
@@ -105,7 +108,7 @@ class DownloadSeeder extends Seeder
                 'is_active' => true,
                 'download_count' => 423,
             ],
-             [
+            [
                 'title' => 'Account Opening Form',
                 'description' => 'Form used to collect customer information for opening a new bank account',
                 'file_path' => 'public/downloads/gp%20insurance%20(1).pdf',
@@ -116,7 +119,7 @@ class DownloadSeeder extends Seeder
                 'is_active' => true,
                 'download_count' => 423,
             ],
-             [
+            [
                 'title' => 'Mobile App User Manual',
                 'description' => 'Complete user manual for our mobile banking application',
                 'file_path' => 'downloads/mobile-app-manual.pdf',

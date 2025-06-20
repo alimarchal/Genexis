@@ -240,9 +240,7 @@ export default function AnnualReportIndex({ annualReports, filters }: Props) {
                                                 <div className="flex items-center gap-3">
                                                     <FileText className="h-5 w-5 text-blue-500" />
                                                     <div>
-                                                        <div className="font-medium text-lg">
-                                                            FY {report.annual_report_fiscal_year}
-                                                        </div>
+                                                        <div className="text-lg font-medium">FY {report.annual_report_fiscal_year}</div>
                                                         <div className="text-sm text-gray-500">
                                                             {report.annual_report_fiscal_year}-{report.annual_report_fiscal_year + 1}
                                                         </div>

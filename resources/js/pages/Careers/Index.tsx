@@ -87,42 +87,62 @@ export default function CareerIndex({ careers, filters }: Props) {
 
     const handleSearch = (value: string) => {
         setSearch(value);
-        router.get(route('careers.index'), {
-            ...buildParams(),
-            'filter[title]': value.trim() ? value : undefined,
-        }, { preserveState: true, replace: true });
+        router.get(
+            route('careers.index'),
+            {
+                ...buildParams(),
+                'filter[title]': value.trim() ? value : undefined,
+            },
+            { preserveState: true, replace: true },
+        );
     };
 
     const handleLocationFilter = (value: string) => {
         setLocationFilter(value);
-        router.get(route('careers.index'), {
-            ...buildParams(),
-            'filter[location]': value.trim() ? value : undefined,
-        }, { preserveState: true, replace: true });
+        router.get(
+            route('careers.index'),
+            {
+                ...buildParams(),
+                'filter[location]': value.trim() ? value : undefined,
+            },
+            { preserveState: true, replace: true },
+        );
     };
 
     const handleStatusFilter = (value: string) => {
         setStatusFilter(value);
-        router.get(route('careers.index'), {
-            ...buildParams(),
-            'filter[is_active]': value !== 'all' ? (value === 'active' ? '1' : '0') : undefined,
-        }, { preserveState: true, replace: true });
+        router.get(
+            route('careers.index'),
+            {
+                ...buildParams(),
+                'filter[is_active]': value !== 'all' ? (value === 'active' ? '1' : '0') : undefined,
+            },
+            { preserveState: true, replace: true },
+        );
     };
 
     const handleFeaturedFilter = (value: string) => {
         setFeaturedFilter(value);
-        router.get(route('careers.index'), {
-            ...buildParams(),
-            'filter[is_featured]': value !== 'all' ? (value === 'featured' ? '1' : '0') : undefined,
-        }, { preserveState: true, replace: true });
+        router.get(
+            route('careers.index'),
+            {
+                ...buildParams(),
+                'filter[is_featured]': value !== 'all' ? (value === 'featured' ? '1' : '0') : undefined,
+            },
+            { preserveState: true, replace: true },
+        );
     };
 
     const handleClosingFilter = (value: string) => {
         setClosingFilter(value);
-        router.get(route('careers.index'), {
-            ...buildParams(),
-            'filter[closing_status]': value !== 'all' ? value : undefined,
-        }, { preserveState: true, replace: true });
+        router.get(
+            route('careers.index'),
+            {
+                ...buildParams(),
+                'filter[closing_status]': value !== 'all' ? value : undefined,
+            },
+            { preserveState: true, replace: true },
+        );
     };
 
     const handlePagination = (page: number) => {
@@ -147,7 +167,9 @@ export default function CareerIndex({ careers, filters }: Props) {
 
     const formatDate = (dateString: string) => {
         return new Date(dateString).toLocaleDateString('en-US', {
-            year: 'numeric', month: 'short', day: 'numeric',
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
         });
     };
 
@@ -161,11 +183,23 @@ export default function CareerIndex({ careers, filters }: Props) {
                         <div className="flex flex-1 gap-4">
                             <div className="relative max-w-sm flex-1">
                                 <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
-                                <Input placeholder="Search by title..." value={search} onChange={(e) => handleSearch(e.target.value)} className="pl-10" />
+                                <Input
+                                    placeholder="Search by title..."
+                                    value={search}
+                                    onChange={(e) => handleSearch(e.target.value)}
+                                    className="pl-10"
+                                />
                             </div>
-                            <Input placeholder="Location..." value={locationFilter} onChange={(e) => handleLocationFilter(e.target.value)} className="w-40" />
+                            <Input
+                                placeholder="Location..."
+                                value={locationFilter}
+                                onChange={(e) => handleLocationFilter(e.target.value)}
+                                className="w-40"
+                            />
                             <Select value={statusFilter} onValueChange={handleStatusFilter}>
-                                <SelectTrigger className="w-40"><SelectValue placeholder="All Status" /></SelectTrigger>
+                                <SelectTrigger className="w-40">
+                                    <SelectValue placeholder="All Status" />
+                                </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="all">All Status</SelectItem>
                                     <SelectItem value="active">Active</SelectItem>
@@ -173,7 +207,9 @@ export default function CareerIndex({ careers, filters }: Props) {
                                 </SelectContent>
                             </Select>
                             <Select value={featuredFilter} onValueChange={handleFeaturedFilter}>
-                                <SelectTrigger className="w-40"><SelectValue placeholder="All Types" /></SelectTrigger>
+                                <SelectTrigger className="w-40">
+                                    <SelectValue placeholder="All Types" />
+                                </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="all">All Types</SelectItem>
                                     <SelectItem value="featured">Featured</SelectItem>
@@ -181,7 +217,9 @@ export default function CareerIndex({ careers, filters }: Props) {
                                 </SelectContent>
                             </Select>
                             <Select value={closingFilter} onValueChange={handleClosingFilter}>
-                                <SelectTrigger className="w-40"><SelectValue placeholder="All Applications" /></SelectTrigger>
+                                <SelectTrigger className="w-40">
+                                    <SelectValue placeholder="All Applications" />
+                                </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="all">All Applications</SelectItem>
                                     <SelectItem value="open">Open</SelectItem>
@@ -191,7 +229,8 @@ export default function CareerIndex({ careers, filters }: Props) {
                         </div>
                         <Button asChild>
                             <Link href={route('careers.create')}>
-                                <Plus className="mr-2 h-4 w-4" />Add Career
+                                <Plus className="mr-2 h-4 w-4" />
+                                Add Career
                             </Link>
                         </Button>
                     </div>
@@ -211,7 +250,9 @@ export default function CareerIndex({ careers, filters }: Props) {
                             <TableBody>
                                 {careers.data.length === 0 ? (
                                     <TableRow>
-                                        <TableCell colSpan={7} className="py-8 text-center text-gray-500">No careers found.</TableCell>
+                                        <TableCell colSpan={7} className="py-8 text-center text-gray-500">
+                                            No careers found.
+                                        </TableCell>
                                     </TableRow>
                                 ) : (
                                     careers.data.map((career) => (
@@ -222,9 +263,9 @@ export default function CareerIndex({ careers, filters }: Props) {
                                                     <div>
                                                         <div className="flex items-center gap-2">
                                                             <span className="font-medium">{career.title}</span>
-                                                            {career.is_featured && <Star className="h-4 w-4 text-yellow-500 fill-current" />}
+                                                            {career.is_featured && <Star className="h-4 w-4 fill-current text-yellow-500" />}
                                                         </div>
-                                                        <div className="text-sm text-gray-500 max-w-xs truncate">{career.description}</div>
+                                                        <div className="max-w-xs truncate text-sm text-gray-500">{career.description}</div>
                                                     </div>
                                                 </div>
                                             </TableCell>
@@ -245,19 +286,23 @@ export default function CareerIndex({ careers, filters }: Props) {
                                             <TableCell className="text-right">
                                                 <DropdownMenu>
                                                     <DropdownMenuTrigger asChild>
-                                                        <Button variant="ghost" className="h-8 w-8 p-0"><MoreHorizontal className="h-4 w-4" /></Button>
+                                                        <Button variant="ghost" className="h-8 w-8 p-0">
+                                                            <MoreHorizontal className="h-4 w-4" />
+                                                        </Button>
                                                     </DropdownMenuTrigger>
                                                     <DropdownMenuContent align="end">
                                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                         <DropdownMenuSeparator />
                                                         <DropdownMenuItem asChild>
                                                             <Link href={route('careers.show', career.id)}>
-                                                                <Eye className="mr-2 h-4 w-4" />View
+                                                                <Eye className="mr-2 h-4 w-4" />
+                                                                View
                                                             </Link>
                                                         </DropdownMenuItem>
                                                         <DropdownMenuItem asChild>
                                                             <Link href={route('careers.edit', career.id)}>
-                                                                <Edit className="mr-2 h-4 w-4" />Edit
+                                                                <Edit className="mr-2 h-4 w-4" />
+                                                                Edit
                                                             </Link>
                                                         </DropdownMenuItem>
                                                         {career.document_url && (
@@ -265,14 +310,16 @@ export default function CareerIndex({ careers, filters }: Props) {
                                                                 <DropdownMenuSeparator />
                                                                 <DropdownMenuItem asChild>
                                                                     <a href={career.document_url} target="_blank" rel="noopener noreferrer">
-                                                                        <Download className="mr-2 h-4 w-4" />Download
+                                                                        <Download className="mr-2 h-4 w-4" />
+                                                                        Download
                                                                     </a>
                                                                 </DropdownMenuItem>
                                                             </>
                                                         )}
                                                         <DropdownMenuSeparator />
                                                         <DropdownMenuItem onClick={() => handleDelete(career.id)} className="text-red-600">
-                                                            <Trash className="mr-2 h-4 w-4" />Delete
+                                                            <Trash className="mr-2 h-4 w-4" />
+                                                            Delete
                                                         </DropdownMenuItem>
                                                     </DropdownMenuContent>
                                                 </DropdownMenu>
@@ -285,13 +332,19 @@ export default function CareerIndex({ careers, filters }: Props) {
                     </div>
                     {careers.total > 0 && (
                         <div className="flex items-center justify-between text-sm text-gray-500">
-                            <div>Showing {careers.from} to {careers.to} of {careers.total} results</div>
+                            <div>
+                                Showing {careers.from} to {careers.to} of {careers.total} results
+                            </div>
                             <div className="flex gap-2">
                                 {careers.current_page > 1 && (
-                                    <Button variant="outline" size="sm" onClick={() => handlePagination(careers.current_page - 1)}>Previous</Button>
+                                    <Button variant="outline" size="sm" onClick={() => handlePagination(careers.current_page - 1)}>
+                                        Previous
+                                    </Button>
                                 )}
                                 {careers.current_page < careers.last_page && (
-                                    <Button variant="outline" size="sm" onClick={() => handlePagination(careers.current_page + 1)}>Next</Button>
+                                    <Button variant="outline" size="sm" onClick={() => handlePagination(careers.current_page + 1)}>
+                                        Next
+                                    </Button>
                                 )}
                             </div>
                         </div>

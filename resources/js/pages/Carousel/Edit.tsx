@@ -68,17 +68,21 @@ export default function EditCarousel({ carousel }: Props) {
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
-        router.post(route('carousels.update', carousel.id), {
-            ...data,
-            _method: 'PUT',
-        }, {
-            onError: (errors) => {
-                console.log('Form validation errors:', errors);
+        router.post(
+            route('carousels.update', carousel.id),
+            {
+                ...data,
+                _method: 'PUT',
             },
-            onSuccess: () => {
-                console.log('Form updated successfully');
-            }
-        });
+            {
+                onError: (errors) => {
+                    console.log('Form validation errors:', errors);
+                },
+                onSuccess: () => {
+                    console.log('Form updated successfully');
+                },
+            },
+        );
     };
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -86,10 +90,10 @@ export default function EditCarousel({ carousel }: Props) {
         setFileError(null); // Clear any previous file errors
 
         if (file) {
-            // Check file size (2MB = 2048KB = 2048 * 1024 bytes)
-            const maxSize = 2048 * 1024; // 2MB in bytes
+            // Check file size (300MB = 307200KB = 307200 * 1024 bytes)
+            const maxSize = 307200 * 1024; // 300MB in bytes
             if (file.size > maxSize) {
-                setFileError('File size is too large. Maximum size allowed is 2MB.');
+                setFileError('File size is too large. Maximum size allowed is 300MB.');
                 e.target.value = ''; // Clear the input
                 return;
             }
@@ -185,7 +189,7 @@ export default function EditCarousel({ carousel }: Props) {
                                         className={errors.image || fileError ? 'border-red-500' : ''}
                                     />
                                     <p className="text-muted-foreground text-sm">
-                                        Upload JPG, JPEG, or PNG to replace current image. Max file size: 2MB
+                                        Upload JPG, JPEG, or PNG to replace current image. Max file size: 300MB
                                     </p>
                                     {fileError && <p className="text-sm text-red-500">{fileError}</p>}
                                     {errors.image && <p className="text-sm text-red-500">{errors.image}</p>}

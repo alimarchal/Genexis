@@ -69,9 +69,9 @@ export default function EditFinancialReport({ financialReport }: Props) {
     const handleFileChange = (field: keyof typeof fileNames, e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0] || null;
         setData(field, file);
-        setFileNames(prev => ({
+        setFileNames((prev) => ({
             ...prev,
-            [field]: file ? file.name : ''
+            [field]: file ? file.name : '',
         }));
     };
 
@@ -164,7 +164,7 @@ export default function EditFinancialReport({ financialReport }: Props) {
                                         {field.icon}
                                         <div>
                                             <CardTitle>{field.title}</CardTitle>
-                                            <p className="text-sm text-gray-500 mt-1">{field.description}</p>
+                                            <p className="mt-1 text-sm text-gray-500">{field.description}</p>
                                         </div>
                                     </div>
                                 </CardHeader>
@@ -174,15 +174,11 @@ export default function EditFinancialReport({ financialReport }: Props) {
                                         <div className="space-y-2">
                                             <Label>Current File</Label>
                                             <div className="flex items-center gap-4 rounded-md bg-gray-50 p-4">
-                                                <div className="flex items-center gap-3 flex-1">
+                                                <div className="flex flex-1 items-center gap-3">
                                                     <FileText className="h-5 w-5 text-gray-500" />
                                                     <div>
-                                                        <div className="font-medium text-gray-900">
-                                                            {getCurrentFileName(field.currentFile)}
-                                                        </div>
-                                                        <div className="text-sm text-gray-500">
-                                                            Currently uploaded file
-                                                        </div>
+                                                        <div className="font-medium text-gray-900">{getCurrentFileName(field.currentFile)}</div>
+                                                        <div className="text-sm text-gray-500">Currently uploaded file</div>
                                                     </div>
                                                 </div>
                                                 {field.downloadUrl && (
@@ -199,9 +195,7 @@ export default function EditFinancialReport({ financialReport }: Props) {
 
                                     {/* File Upload */}
                                     <div className="space-y-2">
-                                        <Label htmlFor={field.key}>
-                                            {field.currentFile ? 'Replace File' : 'Upload File'}
-                                        </Label>
+                                        <Label htmlFor={field.key}>{field.currentFile ? 'Replace File' : 'Upload File'}</Label>
                                         <div className="flex items-center gap-4">
                                             <div className="relative flex-1">
                                                 <Input
@@ -211,29 +205,23 @@ export default function EditFinancialReport({ financialReport }: Props) {
                                                     onChange={(e) => handleFileChange(field.key, e)}
                                                     className={errors[field.key] ? 'border-red-500' : ''}
                                                 />
-                                                <Upload className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
+                                                <Upload className="absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
                                             </div>
                                         </div>
                                         {errors[field.key] && <p className="text-sm text-red-500">{errors[field.key]}</p>}
 
                                         {/* New File Info */}
                                         {fileNames[field.key] && (
-                                            <div className="rounded-md bg-blue-50 border border-blue-200 p-3">
+                                            <div className="rounded-md border border-blue-200 bg-blue-50 p-3">
                                                 <div className="flex items-center justify-between">
                                                     <div className="flex items-center gap-2">
                                                         <FileText className="h-4 w-4 text-blue-500" />
-                                                        <span className="text-sm font-medium text-blue-900">
-                                                            New: {fileNames[field.key]}
-                                                        </span>
+                                                        <span className="text-sm font-medium text-blue-900">New: {fileNames[field.key]}</span>
                                                     </div>
-                                                    <span className="text-sm text-blue-600">
-                                                        {getFileSize(data[field.key])}
-                                                    </span>
+                                                    <span className="text-sm text-blue-600">{getFileSize(data[field.key])}</span>
                                                 </div>
                                                 {field.currentFile && (
-                                                    <p className="text-xs text-blue-600 mt-1">
-                                                        This will replace the current file
-                                                    </p>
+                                                    <p className="mt-1 text-xs text-blue-600">This will replace the current file</p>
                                                 )}
                                             </div>
                                         )}
@@ -241,8 +229,7 @@ export default function EditFinancialReport({ financialReport }: Props) {
                                         <p className="text-sm text-gray-500">
                                             {field.currentFile
                                                 ? 'Upload a new file to replace the current one (optional)'
-                                                : 'Supported formats: PDF, Word (.doc, .docx), Excel (.xls, .xlsx). Maximum size: 10MB'
-                                            }
+                                                : 'Supported formats: PDF, Word (.doc, .docx), Excel (.xls, .xlsx). Maximum size: 300MB'}
                                         </p>
                                     </div>
                                 </CardContent>
@@ -258,33 +245,36 @@ export default function EditFinancialReport({ financialReport }: Props) {
                                 <div className="space-y-3">
                                     <div className="flex items-center justify-between text-sm">
                                         <span className="font-medium">Fiscal Year:</span>
-                                        <span className="text-gray-600">FY {data.fiscal_year} ({data.fiscal_year}-{data.fiscal_year + 1})</span>
+                                        <span className="text-gray-600">
+                                            FY {data.fiscal_year} ({data.fiscal_year}-{data.fiscal_year + 1})
+                                        </span>
                                     </div>
                                     <div className="flex items-center justify-between text-sm">
                                         <span className="font-medium">Current Reports:</span>
                                         <span className="text-gray-600">
-                                            {reportFields.filter(field => field.currentFile).length} of 4 uploaded
+                                            {reportFields.filter((field) => field.currentFile).length} of 4 uploaded
                                         </span>
                                     </div>
                                     <div className="flex items-center justify-between text-sm">
                                         <span className="font-medium">Files to Update:</span>
-                                        <span className="text-gray-600">
-                                            {Object.values(fileNames).filter(Boolean).length} selected
-                                        </span>
+                                        <span className="text-gray-600">{Object.values(fileNames).filter(Boolean).length} selected</span>
                                     </div>
 
                                     {/* Current Files */}
-                                    {reportFields.some(field => field.currentFile) && (
+                                    {reportFields.some((field) => field.currentFile) && (
                                         <div className="mt-4">
-                                            <p className="text-sm font-medium text-gray-700 mb-2">Current Files:</p>
+                                            <p className="mb-2 text-sm font-medium text-gray-700">Current Files:</p>
                                             <ul className="space-y-1">
-                                                {reportFields.map((field) =>
-                                                    field.currentFile && (
-                                                        <li key={field.key} className="flex items-center gap-2 text-sm text-gray-600">
-                                                            <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                                                            <span>{field.title.replace(' Report', '')}: {getCurrentFileName(field.currentFile)}</span>
-                                                        </li>
-                                                    )
+                                                {reportFields.map(
+                                                    (field) =>
+                                                        field.currentFile && (
+                                                            <li key={field.key} className="flex items-center gap-2 text-sm text-gray-600">
+                                                                <div className="h-2 w-2 rounded-full bg-green-500"></div>
+                                                                <span>
+                                                                    {field.title.replace(' Report', '')}: {getCurrentFileName(field.currentFile)}
+                                                                </span>
+                                                            </li>
+                                                        ),
                                                 )}
                                             </ul>
                                         </div>
@@ -293,15 +283,18 @@ export default function EditFinancialReport({ financialReport }: Props) {
                                     {/* Files Being Updated */}
                                     {Object.values(fileNames).filter(Boolean).length > 0 && (
                                         <div className="mt-4">
-                                            <p className="text-sm font-medium text-blue-700 mb-2">Files Being Updated:</p>
+                                            <p className="mb-2 text-sm font-medium text-blue-700">Files Being Updated:</p>
                                             <ul className="space-y-1">
-                                                {reportFields.map((field) =>
-                                                    fileNames[field.key] && (
-                                                        <li key={field.key} className="flex items-center gap-2 text-sm text-blue-600">
-                                                            <div className="h-2 w-2 rounded-full bg-blue-500"></div>
-                                                            <span>{field.title.replace(' Report', '')}: {fileNames[field.key]}</span>
-                                                        </li>
-                                                    )
+                                                {reportFields.map(
+                                                    (field) =>
+                                                        fileNames[field.key] && (
+                                                            <li key={field.key} className="flex items-center gap-2 text-sm text-blue-600">
+                                                                <div className="h-2 w-2 rounded-full bg-blue-500"></div>
+                                                                <span>
+                                                                    {field.title.replace(' Report', '')}: {fileNames[field.key]}
+                                                                </span>
+                                                            </li>
+                                                        ),
                                                 )}
                                             </ul>
                                         </div>

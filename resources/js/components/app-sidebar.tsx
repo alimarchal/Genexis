@@ -16,6 +16,7 @@ import { type NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
 import {
     Building,
+    Briefcase,
     Calculator,
     Contact,
     Download,
@@ -55,11 +56,6 @@ const homeNavItems: NavItem[] = [
         title: 'Bank Services',
         href: '/bank-services',
         icon: Building,
-    },
-    {
-        title: 'News & Announcements',
-        href: '/news-announcements',
-        icon: Newspaper,
     },
 ];
 
@@ -119,10 +115,8 @@ const financialStatementsNavItems: NavItem[] = [
     },
 ];
 
-
-
-// Financial Management
-const financialNavItems: NavItem[] = [
+// Rates
+const ratesNavItems: NavItem[] = [
     {
         title: 'Schedule of Charges',
         href: '/schedule-of-charges',
@@ -133,9 +127,26 @@ const financialNavItems: NavItem[] = [
         href: '/profit-rates',
         icon: PercentCircle,
     },
-
 ];
 
+// Resources
+const resourcesNavItems: NavItem[] = [
+    {
+        title: 'News Updates',
+        href: '/news-announcements',
+        icon: Newspaper,
+    },
+    {
+        title: 'Careers',
+        href: '/careers',
+        icon: Briefcase,
+    },
+    {
+        title: 'Downloads',
+        href: '/downloads',
+        icon: Download,
+    },
+];
 
 // Banking & Services
 const bankingNavItems: NavItem[] = [
@@ -191,11 +202,6 @@ const productNavItems: NavItem[] = [
 
 // System Management
 const systemNavItems: NavItem[] = [
-    {
-        title: 'Downloads',
-        href: '/downloads',
-        icon: Download,
-    },
     {
         title: 'Admin Menus',
         href: '/admin/menus',
@@ -261,7 +267,8 @@ export function AppSidebar() {
                 <NavGroup title="Products" items={productsNavItems} />
                 <NavGroup title="Services" items={servicesNavItems} />
                 <NavGroup title="Financial" items={financialStatementsNavItems} />
-                <NavGroup title="Financial Management" items={financialNavItems} />
+                <NavGroup title="Rates" items={ratesNavItems} />
+                <NavGroup title="Resources" items={resourcesNavItems} />
                 <NavGroup title="Banking & Services" items={bankingNavItems} />
                 <NavGroup title="Location Management" items={locationNavItems} />
                 <NavGroup title="Product Management" items={productNavItems} />
