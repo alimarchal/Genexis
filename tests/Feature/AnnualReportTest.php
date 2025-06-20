@@ -27,18 +27,19 @@ test('it can view annual reports index page', function () {
         );
 });
 
-// test('it can search annual reports by fiscal year', function () {
-//     AnnualReport::factory()->create(['annual_report_fiscal_year' => 2023]);
-//     AnnualReport::factory()->create(['annual_report_fiscal_year' => 2024]);
+test('it can search annual reports by fiscal year', function () {
+    AnnualReport::factory()->create(['annual_report_fiscal_year' => 2023]);
+    AnnualReport::factory()->create(['annual_report_fiscal_year' => 2024]);
 
-//     $response = $this->get(route('annual-reports.index', ['filter[search]' => '2023']));
+    $response = $this->get(route('annual-reports.index', ['filter' => ['annual_report_fiscal_year' => '2023']]));
 
-//     $response->assertOk()
-//         ->assertInertia(fn ($page) => $page
-//             ->has('annualReports.data', 1)
-//             ->where('annualReports.data.0.annual_report_fiscal_year', 2023)
-//         );
-// });
+    $response->assertOk()
+        ->assertInertia(
+            fn($page) => $page
+                ->has('annualReports.data', 1)
+                ->where('annualReports.data.0.annual_report_fiscal_year', 2023)
+        );
+});
 
 test('it can sort annual reports by fiscal year', function () {
     AnnualReport::factory()->create(['annual_report_fiscal_year' => 2023]);
@@ -95,13 +96,6 @@ test('it cannot create annual report with duplicate fiscal year', function () {
     $response->assertSessionHasErrors('annual_report_fiscal_year');
 });
 
-// test('it cannot create annual report without file', function () {
-//     $response = $this->post(route('annual-reports.store'), [
-//         'annual_report_fiscal_year' => 2024,
-//     ]);
-
-//     $response->assertSessionHasErrors('annual_report');
-// });
 
 test('it cannot create annual report with invalid file type', function () {
     $file = UploadedFile::fake()->create('document.txt', 1000, 'text/plain');
