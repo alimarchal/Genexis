@@ -60,35 +60,49 @@ interface Props {
 }
 
 export default function DownloadIndex({ downloads, filters }: Props) {
-    const [search, setSearch] = useState(filters.search || '');
-    const [statusFilter, setStatusFilter] = useState(filters.status || 'all');
-    const [categoryFilter, setCategoryFilter] = useState(filters.category || 'all');
+    const [search, setSearch] = useState(filters['filter[title]'] || '');
+    const [statusFilter, setStatusFilter] = useState(() => {
+        if (filters['filter[is_active]'] === '1') return 'active';
+        if (filters['filter[is_active]'] === '0') return 'inactive';
+        return 'all';
+    });
+    const [categoryFilter, setCategoryFilter] = useState(filters['filter[category]'] || 'all');
 
     const handleSearch = (value: string) => {
         setSearch(value);
         router.get(
             route('downloads.index'),
-            { search: value, status: statusFilter, category: categoryFilter },
+            {
+                ...filters,
+                'filter[title]': value || undefined,
+                page: undefined
+            },
             { preserveState: true, replace: true },
         );
     };
 
     const handleStatusFilter = (value: string) => {
         setStatusFilter(value);
-        const statusParam = value === 'all' ? undefined : value;
         router.get(
             route('downloads.index'),
-            { search, status: statusParam, category: categoryFilter === 'all' ? undefined : categoryFilter },
+            {
+                ...filters,
+                'filter[is_active]': value === 'all' ? undefined : (value === 'active' ? '1' : '0'),
+                page: undefined
+            },
             { preserveState: true, replace: true },
         );
     };
 
     const handleCategoryFilter = (value: string) => {
         setCategoryFilter(value);
-        const categoryParam = value === 'all' ? undefined : value;
         router.get(
             route('downloads.index'),
-            { search, status: statusFilter === 'all' ? undefined : statusFilter, category: categoryParam },
+            {
+                ...filters,
+                'filter[category]': value === 'all' ? undefined : value,
+                page: undefined
+            },
             { preserveState: true, replace: true },
         );
     };

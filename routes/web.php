@@ -62,12 +62,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Schedule of Charges and Downloads CRUD
     Route::resource('schedule-of-charges', ScheduleOfChargeController::class);
     Route::resource('downloads', DownloadController::class);
-    Route::resource('careers', DownloadController::class);
+
     // Product CRUD - singular route
     Route::resource('product', ProductController::class);
     Route::resource('service-attributes', ServiceAttributeController::class);
     Route::resource('careers', CareerController::class);
-    ;
 
 });
 
