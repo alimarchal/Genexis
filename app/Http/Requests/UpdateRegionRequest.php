@@ -22,8 +22,9 @@ class UpdateRegionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255|unique:regions,name,'.$this->region->id,
+            'name' => 'required|string|max:255|unique:regions,name,' . $this->region->id,
             'status' => 'required|in:active,inactive',
+            'division_id' => 'required|exists:divisions,id',
         ];
     }
 }

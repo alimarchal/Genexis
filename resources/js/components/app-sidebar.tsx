@@ -15,8 +15,8 @@ import {
 import { type NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
 import {
-    Building,
     Briefcase,
+    Building,
     Calculator,
     Contact,
     Download,
