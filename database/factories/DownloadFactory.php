@@ -16,7 +16,7 @@ class DownloadFactory extends Factory
      */
     public function definition(): array
     {
-        $categories = ['forms', 'reports', 'brochures', 'policies', 'general'];
+        $categories = ['general', 'Document', 'picture', 'form', 'forms', 'reports'];
         $fileTypes = ['application/pdf', 'application/msword', 'application/vnd.ms-excel', 'image/jpeg', 'application/zip'];
         $extensions = ['pdf', 'doc', 'xls', 'jpg', 'zip'];
 

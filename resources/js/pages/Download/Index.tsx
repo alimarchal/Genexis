@@ -139,10 +139,6 @@ export default function DownloadIndex({ downloads, filters }: Props) {
         return download.is_active ? <Badge variant="default">Active</Badge> : <Badge variant="outline">Inactive</Badge>;
     };
 
-    const getFeaturedBadge = (isFeatured: boolean) => {
-        return isFeatured ? <Badge variant="secondary">Featured</Badge> : <Badge variant="outline">Regular</Badge>;
-    };
-
     const getCategoryBadge = (category: string) => {
         const categoryColors: Record<string, string> = {
             document: 'bg-blue-100 text-blue-800',

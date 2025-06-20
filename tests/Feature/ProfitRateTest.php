@@ -291,7 +291,11 @@ test('it tracks user information when updating profit rate', function () {
 });
 
 test('it returns correct status attribute', function () {
-    $activeRate = ProfitRate::factory()->create(['is_active' => true]);
+    $activeRate = ProfitRate::factory()->create([
+        'is_active' => true,
+        'valid_from' => Carbon::now()->subDays(10),
+        'valid_to' => Carbon::now()->addDays(10),
+    ]);
     $inactiveRate = ProfitRate::factory()->create(['is_active' => false]);
 
     expect($activeRate->status)->toBe('current');

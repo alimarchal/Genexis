@@ -62,14 +62,6 @@ export default function ShowDownload({ download }: Props) {
         );
     };
 
-    const formatDate = (dateString: string) => {
-        return new Date(dateString).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-        });
-    };
-
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={`${download.title} - Download`} />
