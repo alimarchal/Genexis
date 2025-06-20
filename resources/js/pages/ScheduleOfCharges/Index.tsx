@@ -15,30 +15,33 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
-import { Calendar, Download, Edit, Eye, MoreHorizontal, Plus, Search, Trash } from 'lucide-react';
+import { Download, Edit, Eye, FileText, MoreHorizontal, Plus, Search, Star, Trash } from 'lucide-react';
 import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Dashboard', href: route('dashboard') },
-    { title: 'Schedule of Charges', href: route('schedule-of-charges.index') },
+    { title: 'Downloads', href: route('downloads.index') },
 ];
 
-interface ScheduleOfCharge {
+interface DownloadItem {
     id: number;
     title: string;
-    from: string;
-    to: string | null;
-    attachment: string | null;
-    attachment_url: string | null;
     description: string | null;
+    file_path: string;
+    file_type: string | null;
+    file_size: number | null;
+    category: string;
+    is_featured: boolean;
     is_active: boolean;
+    download_count: number;
     created_at: string;
     updated_at: string;
+    file_size_formatted: string;
 }
 
 interface Props {
-    scheduleOfCharges: {
-        data: ScheduleOfCharge[];
+    downloads: {
+        data: DownloadItem[];
         current_page: number;
         last_page: number;
         per_page: number;
@@ -49,7 +52,7 @@ interface Props {
     filters: Record<string, string>;
 }
 
-export default function ScheduleOfChargeIndex({ scheduleOfCharges, filters }: Props) {
+export default function DownloadIndex({ downloads, filters }: Props) {
     const [search, setSearch] = useState(filters['filter[title]'] || '');
     const [statusFilter, setStatusFilter] = useState(() => {
         const param = filters['filter[is_active]'];
@@ -57,17 +60,11 @@ export default function ScheduleOfChargeIndex({ scheduleOfCharges, filters }: Pr
         if (param === '0') return 'inactive';
         return 'all';
     });
-    const [attachmentFilter, setAttachmentFilter] = useState(() => {
-        const param = filters['filter[has_attachment]'];
-        if (param === 'yes') return 'yes';
-        if (param === 'no') return 'no';
-        return 'all';
-    });
-    const [dateFilter, setDateFilter] = useState(() => {
-        const param = filters['filter[date_range]'];
-        if (param === 'current') return 'current';
-        if (param === 'upcoming') return 'upcoming';
-        if (param === 'expired') return 'expired';
+    const [categoryFilter, setCategoryFilter] = useState(filters['filter[category]'] || 'all');
+    const [featuredFilter, setFeaturedFilter] = useState(() => {
+        const param = filters['filter[is_featured]'];
+        if (param === '1') return 'featured';
+        if (param === '0') return 'not_featured';
         return 'all';
     });
 
@@ -75,15 +72,15 @@ export default function ScheduleOfChargeIndex({ scheduleOfCharges, filters }: Pr
         const params: Record<string, string> = {};
         if (search.trim()) params['filter[title]'] = search;
         if (statusFilter !== 'all') params['filter[is_active]'] = statusFilter === 'active' ? '1' : '0';
-        if (attachmentFilter !== 'all') params['filter[has_attachment]'] = attachmentFilter;
-        if (dateFilter !== 'all') params['filter[date_range]'] = dateFilter;
+        if (categoryFilter !== 'all') params['filter[category]'] = categoryFilter;
+        if (featuredFilter !== 'all') params['filter[is_featured]'] = featuredFilter === 'featured' ? '1' : '0';
         return params;
     };
 
     const handleSearch = (value: string) => {
         setSearch(value);
         router.get(
-            route('schedule-of-charges.index'),
+            route('downloads.index'),
             {
                 ...buildParams(),
                 'filter[title]': value.trim() ? value : undefined,
@@ -95,7 +92,7 @@ export default function ScheduleOfChargeIndex({ scheduleOfCharges, filters }: Pr
     const handleStatusFilter = (value: string) => {
         setStatusFilter(value);
         router.get(
-            route('schedule-of-charges.index'),
+            route('downloads.index'),
             {
                 ...buildParams(),
                 'filter[is_active]': value !== 'all' ? (value === 'active' ? '1' : '0') : undefined,
@@ -104,54 +101,61 @@ export default function ScheduleOfChargeIndex({ scheduleOfCharges, filters }: Pr
         );
     };
 
-    const handleAttachmentFilter = (value: string) => {
-        setAttachmentFilter(value);
+    const handleCategoryFilter = (value: string) => {
+        setCategoryFilter(value);
         router.get(
-            route('schedule-of-charges.index'),
+            route('downloads.index'),
             {
                 ...buildParams(),
-                'filter[has_attachment]': value !== 'all' ? value : undefined,
+                'filter[category]': value !== 'all' ? value : undefined,
             },
             { preserveState: true, replace: true },
         );
     };
 
-    const handleDateFilter = (value: string) => {
-        setDateFilter(value);
+    const handleFeaturedFilter = (value: string) => {
+        setFeaturedFilter(value);
         router.get(
-            route('schedule-of-charges.index'),
+            route('downloads.index'),
             {
                 ...buildParams(),
-                'filter[date_range]': value !== 'all' ? value : undefined,
+                'filter[is_featured]': value !== 'all' ? (value === 'featured' ? '1' : '0') : undefined,
             },
             { preserveState: true, replace: true },
         );
     };
 
     const handlePagination = (page: number) => {
-        router.get(route('schedule-of-charges.index'), { ...buildParams(), page });
+        router.get(route('downloads.index'), { ...buildParams(), page });
     };
 
     const handleDelete = (id: number) => {
-        if (confirm('Are you sure you want to delete this schedule of charges?')) {
-            router.delete(route('schedule-of-charges.destroy', id));
+        if (confirm('Are you sure you want to delete this download?')) {
+            router.delete(route('downloads.destroy', id));
         }
     };
 
-    const getStatusBadge = (charge: ScheduleOfCharge) => {
-        if (!charge.is_active) return <Badge variant="outline">Inactive</Badge>;
-
-        const currentDate = new Date().toISOString().split('T')[0];
-        const fromDate = charge.from;
-        const toDate = charge.to;
-
-        if (fromDate > currentDate) return <Badge variant="secondary">Upcoming</Badge>;
-        if (toDate && toDate < currentDate) return <Badge variant="destructive">Expired</Badge>;
-        return <Badge variant="default">Current</Badge>;
+    const getStatusBadge = (download: DownloadItem) => {
+        return download.is_active ? <Badge variant="default">Active</Badge> : <Badge variant="outline">Inactive</Badge>;
     };
 
-    const getAttachmentBadge = (hasAttachment: boolean) => {
-        return hasAttachment ? <Badge variant="outline">Has File</Badge> : <Badge variant="secondary">No File</Badge>;
+    const getFeaturedBadge = (isFeatured: boolean) => {
+        return isFeatured ? <Badge variant="secondary">Featured</Badge> : <Badge variant="outline">Regular</Badge>;
+    };
+
+    const getCategoryBadge = (category: string) => {
+        const categoryColors: Record<string, string> = {
+            document: 'bg-blue-100 text-blue-800',
+            picture: 'bg-green-100 text-green-800',
+            form: 'bg-purple-100 text-purple-800',
+            general: 'bg-gray-100 text-gray-800',
+        };
+
+        return (
+            <Badge variant="outline" className={categoryColors[category.toLowerCase()] || categoryColors.general}>
+                {category.charAt(0).toUpperCase() + category.slice(1)}
+            </Badge>
+        );
     };
 
     const formatDate = (dateString: string) => {
@@ -162,17 +166,11 @@ export default function ScheduleOfChargeIndex({ scheduleOfCharges, filters }: Pr
         });
     };
 
-    const formatDateRange = (from: string, to: string | null) => {
-        const fromFormatted = formatDate(from);
-        if (!to) return `${fromFormatted} - Ongoing`;
-        return `${fromFormatted} - ${formatDate(to)}`;
-    };
-
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Schedule of Charges" />
+            <Head title="Downloads" />
             <div className="px-10 py-6">
-                <Heading title="Schedule of Charges" description="Manage banking charges and fee schedules" />
+                <Heading title="Downloads" description="Manage downloadable files and resources" />
                 <div className="mt-8 space-y-6">
                     <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                         <div className="flex flex-1 gap-4">
@@ -195,32 +193,33 @@ export default function ScheduleOfChargeIndex({ scheduleOfCharges, filters }: Pr
                                     <SelectItem value="inactive">Inactive</SelectItem>
                                 </SelectContent>
                             </Select>
-                            <Select value={attachmentFilter} onValueChange={handleAttachmentFilter}>
+                            <Select value={categoryFilter} onValueChange={handleCategoryFilter}>
                                 <SelectTrigger className="w-44">
-                                    <SelectValue placeholder="All Files" />
+                                    <SelectValue placeholder="All Categories" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="all">All Files</SelectItem>
-                                    <SelectItem value="yes">Has Attachment</SelectItem>
-                                    <SelectItem value="no">No Attachment</SelectItem>
+                                    <SelectItem value="all">All Categories</SelectItem>
+                                    <SelectItem value="general">General</SelectItem>
+                                    <SelectItem value="Document">Document</SelectItem>
+                                    <SelectItem value="picture">Picture</SelectItem>
+                                    <SelectItem value="form">Form</SelectItem>
                                 </SelectContent>
                             </Select>
-                            <Select value={dateFilter} onValueChange={handleDateFilter}>
+                            <Select value={featuredFilter} onValueChange={handleFeaturedFilter}>
                                 <SelectTrigger className="w-40">
-                                    <SelectValue placeholder="All Dates" />
+                                    <SelectValue placeholder="All Items" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="all">All Dates</SelectItem>
-                                    <SelectItem value="current">Current</SelectItem>
-                                    <SelectItem value="upcoming">Upcoming</SelectItem>
-                                    <SelectItem value="expired">Expired</SelectItem>
+                                    <SelectItem value="all">All Items</SelectItem>
+                                    <SelectItem value="featured">Featured</SelectItem>
+                                    <SelectItem value="not_featured">Regular</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
                         <Button asChild>
-                            <Link href={route('schedule-of-charges.create')}>
+                            <Link href={route('downloads.create')}>
                                 <Plus className="mr-2 h-4 w-4" />
-                                Add Schedule
+                                Add Download
                             </Link>
                         </Button>
                     </div>
@@ -229,40 +228,54 @@ export default function ScheduleOfChargeIndex({ scheduleOfCharges, filters }: Pr
                             <TableHeader>
                                 <TableRow>
                                     <TableHead>Title</TableHead>
-                                    <TableHead>Date Range</TableHead>
+                                    <TableHead>Category</TableHead>
+                                    <TableHead>File Size</TableHead>
+                                    <TableHead>Downloads</TableHead>
                                     <TableHead>Status</TableHead>
-                                    <TableHead>Attachment</TableHead>
                                     <TableHead>Created</TableHead>
                                     <TableHead className="text-right">Actions</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {scheduleOfCharges.data.length === 0 ? (
+                                {downloads.data.length === 0 ? (
                                     <TableRow>
-                                        <TableCell colSpan={6} className="py-8 text-center text-gray-500">
-                                            No schedule of charges found.
+                                        <TableCell colSpan={7} className="py-8 text-center text-gray-500">
+                                            No downloads found.
                                         </TableCell>
                                     </TableRow>
                                 ) : (
-                                    scheduleOfCharges.data.map((charge) => (
-                                        <TableRow key={charge.id}>
+                                    downloads.data.map((download) => (
+                                        <TableRow key={download.id}>
                                             <TableCell>
                                                 <div className="flex items-center gap-3">
-                                                    <Calendar className="h-5 w-5 text-indigo-500" />
-                                                    <div>
-                                                        <div className="font-medium">{charge.title}</div>
-                                                        {charge.description && (
-                                                            <div className="max-w-xs truncate text-sm text-gray-500">{charge.description}</div>
+                                                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-100">
+                                                        <FileText className="h-5 w-5 text-indigo-600" />
+                                                    </div>
+                                                    <div className="min-w-0 flex-1">
+                                                        <div className="flex items-center gap-2">
+                                                            <div className="truncate font-medium">{download.title}</div>
+                                                            {download.is_featured && <Star className="h-4 w-4 fill-current text-yellow-500" />}
+                                                        </div>
+                                                        {download.description && (
+                                                            <div className="max-w-xs truncate text-sm text-gray-500">{download.description}</div>
                                                         )}
                                                     </div>
                                                 </div>
                                             </TableCell>
+                                            <TableCell>{getCategoryBadge(download.category)}</TableCell>
                                             <TableCell>
-                                                <div className="text-sm">{formatDateRange(charge.from, charge.to)}</div>
+                                                <div className="text-sm">{download.file_size_formatted}</div>
                                             </TableCell>
-                                            <TableCell>{getStatusBadge(charge)}</TableCell>
-                                            <TableCell>{getAttachmentBadge(!!charge.attachment)}</TableCell>
-                                            <TableCell className="text-sm text-gray-500">{formatDate(charge.created_at)}</TableCell>
+                                            <TableCell>
+                                                <div className="text-sm font-medium">{download.download_count.toLocaleString()}</div>
+                                            </TableCell>
+                                            <TableCell>
+                                                <div className="flex items-center gap-2">
+                                                    {getStatusBadge(download)}
+                                                    {download.is_featured && <Badge variant="secondary">Featured</Badge>}
+                                                </div>
+                                            </TableCell>
+                                            <TableCell className="text-sm text-gray-500">{formatDate(download.created_at)}</TableCell>
                                             <TableCell className="text-right">
                                                 <DropdownMenu>
                                                     <DropdownMenuTrigger asChild>
@@ -274,30 +287,30 @@ export default function ScheduleOfChargeIndex({ scheduleOfCharges, filters }: Pr
                                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                         <DropdownMenuSeparator />
                                                         <DropdownMenuItem asChild>
-                                                            <Link href={route('schedule-of-charges.show', charge.id)}>
+                                                            <Link href={route('downloads.show', download.id)}>
                                                                 <Eye className="mr-2 h-4 w-4" />
                                                                 View
                                                             </Link>
                                                         </DropdownMenuItem>
                                                         <DropdownMenuItem asChild>
-                                                            <Link href={route('schedule-of-charges.edit', charge.id)}>
+                                                            <Link href={route('downloads.edit', download.id)}>
                                                                 <Edit className="mr-2 h-4 w-4" />
                                                                 Edit
                                                             </Link>
                                                         </DropdownMenuItem>
-                                                        {charge.attachment_url && (
-                                                            <>
-                                                                <DropdownMenuSeparator />
-                                                                <DropdownMenuItem asChild>
-                                                                    <a href={charge.attachment_url} target="_blank" rel="noopener noreferrer">
-                                                                        <Download className="mr-2 h-4 w-4" />
-                                                                        Download
-                                                                    </a>
-                                                                </DropdownMenuItem>
-                                                            </>
-                                                        )}
                                                         <DropdownMenuSeparator />
-                                                        <DropdownMenuItem onClick={() => handleDelete(charge.id)} className="text-red-600">
+                                                        <DropdownMenuItem asChild>
+                                                            <a
+                                                                href={route('downloads.admin-download', download.id)}
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                            >
+                                                                <Download className="mr-2 h-4 w-4" />
+                                                                Download
+                                                            </a>
+                                                        </DropdownMenuItem>
+                                                        <DropdownMenuSeparator />
+                                                        <DropdownMenuItem onClick={() => handleDelete(download.id)} className="text-red-600">
                                                             <Trash className="mr-2 h-4 w-4" />
                                                             Delete
                                                         </DropdownMenuItem>
@@ -310,19 +323,19 @@ export default function ScheduleOfChargeIndex({ scheduleOfCharges, filters }: Pr
                             </TableBody>
                         </Table>
                     </div>
-                    {scheduleOfCharges.total > 0 && (
+                    {downloads.total > 0 && (
                         <div className="flex items-center justify-between text-sm text-gray-500">
                             <div>
-                                Showing {scheduleOfCharges.from} to {scheduleOfCharges.to} of {scheduleOfCharges.total} results
+                                Showing {downloads.from} to {downloads.to} of {downloads.total} results
                             </div>
                             <div className="flex gap-2">
-                                {scheduleOfCharges.current_page > 1 && (
-                                    <Button variant="outline" size="sm" onClick={() => handlePagination(scheduleOfCharges.current_page - 1)}>
+                                {downloads.current_page > 1 && (
+                                    <Button variant="outline" size="sm" onClick={() => handlePagination(downloads.current_page - 1)}>
                                         Previous
                                     </Button>
                                 )}
-                                {scheduleOfCharges.current_page < scheduleOfCharges.last_page && (
-                                    <Button variant="outline" size="sm" onClick={() => handlePagination(scheduleOfCharges.current_page + 1)}>
+                                {downloads.current_page < downloads.last_page && (
+                                    <Button variant="outline" size="sm" onClick={() => handlePagination(downloads.current_page + 1)}>
                                         Next
                                     </Button>
                                 )}

@@ -231,6 +231,16 @@ test('it filters downloads by status', function () {
     $response->assertInertia(fn($page) => $page->component('Download/Index'));
 });
 
+test('it filters downloads by featured status', function () {
+    Download::factory()->create(['is_featured' => true]);
+    Download::factory()->create(['is_featured' => false]);
+
+    $response = $this->get(route('downloads.index', ['filter[is_featured]' => '1']));
+
+    $response->assertStatus(200);
+    $response->assertInertia(fn($page) => $page->component('Download/Index'));
+});
+
 test('public downloads only shows active downloads', function () {
     Download::factory()->count(3)->create(['is_active' => true]);
     Download::factory()->count(2)->create(['is_active' => false]);

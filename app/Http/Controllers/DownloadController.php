@@ -18,7 +18,6 @@ class DownloadController extends Controller
             ->allowedFilters(Download::getAllowedFilters())
             ->allowedSorts(Download::getAllowedSorts())
             ->defaultSort('-created_at')
-            ->with(['creator', 'updater'])
             ->paginate(request('per_page', 15))
             ->withQueryString();
 
@@ -52,8 +51,6 @@ class DownloadController extends Controller
 
     public function show(Download $download)
     {
-        $download->load(['creator', 'updater']);
-
         return Inertia::render('Download/Show', [
             'download' => $download,
         ]);
