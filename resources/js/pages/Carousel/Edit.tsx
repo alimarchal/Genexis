@@ -8,7 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
 import { Head, Link, router, useForm } from '@inertiajs/react';
-import { FormEventHandler } from 'react';
+import { FormEventHandler, useState } from 'react';
 
 interface Carousel {
     id: number;
@@ -38,6 +38,8 @@ type CarouselForm = {
 };
 
 export default function EditCarousel({ carousel }: Props) {
+    const [fileError, setFileError] = useState<string | null>(null);
+
     const breadcrumbs: BreadcrumbItem[] = [
         {
             title: 'Dashboard',
@@ -69,11 +71,38 @@ export default function EditCarousel({ carousel }: Props) {
         router.post(route('carousels.update', carousel.id), {
             ...data,
             _method: 'PUT',
+        }, {
+            onError: (errors) => {
+                console.log('Form validation errors:', errors);
+            },
+            onSuccess: () => {
+                console.log('Form updated successfully');
+            }
         });
     };
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0] || null;
+        setFileError(null); // Clear any previous file errors
+
+        if (file) {
+            // Check file size (2MB = 2048KB = 2048 * 1024 bytes)
+            const maxSize = 2048 * 1024; // 2MB in bytes
+            if (file.size > maxSize) {
+                setFileError('File size is too large. Maximum size allowed is 2MB.');
+                e.target.value = ''; // Clear the input
+                return;
+            }
+
+            // Check file type
+            const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+            if (!allowedTypes.includes(file.type)) {
+                setFileError('Invalid file type. Only JPG, JPEG, and PNG files are allowed.');
+                e.target.value = ''; // Clear the input
+                return;
+            }
+        }
+
         setData('image', file);
     };
 
@@ -153,11 +182,12 @@ export default function EditCarousel({ carousel }: Props) {
                                         type="file"
                                         onChange={handleFileChange}
                                         accept="image/jpeg,image/jpg,image/png"
-                                        className={errors.image ? 'border-red-500' : ''}
+                                        className={errors.image || fileError ? 'border-red-500' : ''}
                                     />
                                     <p className="text-muted-foreground text-sm">
                                         Upload JPG, JPEG, or PNG to replace current image. Max file size: 2MB
                                     </p>
+                                    {fileError && <p className="text-sm text-red-500">{fileError}</p>}
                                     {errors.image && <p className="text-sm text-red-500">{errors.image}</p>}
                                 </div>
 
