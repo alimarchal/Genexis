@@ -32,7 +32,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 interface BranchService {
     id: number;
-    name: string;
+    service_name: string;
     description: string;
     branch_id: number;
     branch: {
@@ -60,14 +60,14 @@ interface Props {
     };
     filters: {
         filter?: {
-            name?: string;
+            service_name?: string;
             status?: string;
         };
     };
 }
 
 export default function Index({ branchServices, filters }: Props) {
-    const [searchTerm, setSearchTerm] = useState(filters.filter?.name || '');
+    const [searchTerm, setSearchTerm] = useState(filters.filter?.service_name || '');
     const [statusFilter, setStatusFilter] = useState(filters.filter?.status || 'all');
 
     const handleSearch = (e: React.FormEvent) => {
@@ -75,7 +75,7 @@ export default function Index({ branchServices, filters }: Props) {
         const params = new URLSearchParams();
 
         if (searchTerm) {
-            params.append('filter[name]', searchTerm);
+            params.append('filter[service_name]', searchTerm);
         }
 
         if (statusFilter && statusFilter !== 'all') {
@@ -165,7 +165,7 @@ export default function Index({ branchServices, filters }: Props) {
                                     ) : (
                                         branchServices.data.map((branchService) => (
                                             <TableRow key={branchService.id}>
-                                                <TableCell className="font-medium w-[200px]">{branchService.name}</TableCell>
+                                                <TableCell className="font-medium w-[200px]">{branchService.service_name}</TableCell>
                                                 <TableCell className="w-[150px]">{branchService.branch?.name || 'N/A'}</TableCell>
                                                 <TableCell className="w-[300px]">
                                                     <div className="max-w-[280px] truncate pr-4" title={branchService.description}>
