@@ -20,6 +20,7 @@ import {
     Calculator,
     Contact,
     Download,
+    FileEdit,
     FileText,
     Images,
     LayoutGrid,
@@ -30,9 +31,11 @@ import {
     PercentCircle,
     PieChart,
     Settings,
+    ShoppingCart,
     TrendingUp,
     User,
     Users,
+    UsersRound,
 } from 'lucide-react';
 import AppLogo from './app-logo';
 
@@ -62,9 +65,19 @@ const homeNavItems: NavItem[] = [
 // About
 const aboutNavItems: NavItem[] = [
     {
+        title: 'About Us',
+        href: '/admin-about-us',
+        icon: FileEdit,
+    },
+    {
         title: 'Board of Directors',
         href: '/board-of-directors',
         icon: Users,
+    },
+    {
+        title: 'BOD Committees',
+        href: '/bod-committees',
+        icon: UsersRound,
     },
     {
         title: 'Management',
@@ -188,6 +201,11 @@ const locationNavItems: NavItem[] = [
 
 // Product Management
 const productNavItems: NavItem[] = [
+    {
+        title: 'Product',
+        href: '/product',
+        icon: ShoppingCart,
+    },
     {
         title: 'Product Types',
         href: '/product-types',
