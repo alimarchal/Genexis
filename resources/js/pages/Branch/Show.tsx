@@ -6,7 +6,7 @@ import { Separator } from '@/components/ui/separator';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
-import { Building, Calendar, Edit, Hash, MapPin, Tag, User } from 'lucide-react';
+import { Building, Calendar, Edit, Hash, MapPin, Tag } from 'lucide-react';
 
 interface Region {
     id: number;

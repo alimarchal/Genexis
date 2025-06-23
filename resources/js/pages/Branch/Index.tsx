@@ -194,12 +194,12 @@ export default function BranchIndex({ branches, regions, districts, filters }: P
     };
 
     const getTypeBadge = (type: string) => {
-        const colors: Record<string, string> = {
+        const colors: Record<string, 'default' | 'secondary' | 'outline'> = {
             'main': 'default',
             'sub': 'secondary',
             'agent': 'outline',
         };
-        return <Badge variant={colors[type] as any || 'outline'}>{type.charAt(0).toUpperCase() + type.slice(1)}</Badge>;
+        return <Badge variant={colors[type] || 'outline'}>{type.charAt(0).toUpperCase() + type.slice(1)}</Badge>;
     };
 
     const formatDate = (dateString: string) => {
@@ -211,7 +211,7 @@ export default function BranchIndex({ branches, regions, districts, filters }: P
     };
 
     // Filter districts based on selected region
-    const filteredDistricts = regionFilter !== 'all' 
+    const filteredDistricts = regionFilter !== 'all'
         ? districts.filter(district => district.region.id.toString() === regionFilter)
         : districts;
 

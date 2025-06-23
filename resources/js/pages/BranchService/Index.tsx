@@ -143,70 +143,76 @@ export default function Index({ branchServices, filters }: Props) {
                         <CardTitle>Branch Services List</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <Table>
-                            <TableHeader>
-                                <TableRow>
-                                    <TableHead>Service Name</TableHead>
-                                    <TableHead>Branch</TableHead>
-                                    <TableHead>Description</TableHead>
-                                    <TableHead>Status</TableHead>
-                                    <TableHead>Created</TableHead>
-                                    <TableHead className="text-right">Actions</TableHead>
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                {branchServices.data.length === 0 ? (
+                        <div className="overflow-x-auto">
+                            <Table className="min-w-[970px]">
+                                <TableHeader>
                                     <TableRow>
-                                        <TableCell colSpan={6} className="py-8 text-center">
-                                            No branch services found.
-                                        </TableCell>
+                                        <TableHead className="w-[200px]">Service Name</TableHead>
+                                        <TableHead className="w-[150px]">Branch</TableHead>
+                                        <TableHead className="w-[300px]">Description</TableHead>
+                                        <TableHead className="w-[100px]">Status</TableHead>
+                                        <TableHead className="w-[120px]">Created</TableHead>
+                                        <TableHead className="w-[100px] text-right">Actions</TableHead>
                                     </TableRow>
-                                ) : (
-                                    branchServices.data.map((branchService) => (
-                                        <TableRow key={branchService.id}>
-                                            <TableCell className="font-medium">{branchService.name}</TableCell>
-                                            <TableCell>{branchService.branch?.name || 'N/A'}</TableCell>
-                                            <TableCell className="max-w-xs truncate">{branchService.description}</TableCell>
-                                            <TableCell>
-                                                <Badge variant={branchService.status === 'active' ? 'default' : 'secondary'}>
-                                                    {branchService.status}
-                                                </Badge>
-                                            </TableCell>
-                                            <TableCell>{new Date(branchService.created_at).toLocaleDateString()}</TableCell>
-                                            <TableCell className="text-right">
-                                                <DropdownMenu>
-                                                    <DropdownMenuTrigger asChild>
-                                                        <Button variant="ghost" className="h-8 w-8 p-0">
-                                                            <MoreHorizontal className="h-4 w-4" />
-                                                        </Button>
-                                                    </DropdownMenuTrigger>
-                                                    <DropdownMenuContent align="end">
-                                                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                                        <DropdownMenuSeparator />
-                                                        <DropdownMenuItem asChild>
-                                                            <Link href={route('branch-services.show', branchService.id)}>
-                                                                <Eye className="mr-2 h-4 w-4" />
-                                                                View
-                                                            </Link>
-                                                        </DropdownMenuItem>
-                                                        <DropdownMenuItem asChild>
-                                                            <Link href={route('branch-services.edit', branchService.id)}>
-                                                                <Edit className="mr-2 h-4 w-4" />
-                                                                Edit
-                                                            </Link>
-                                                        </DropdownMenuItem>
-                                                        <DropdownMenuItem onClick={() => handleDelete(branchService)} className="text-red-600">
-                                                            <Trash className="mr-2 h-4 w-4" />
-                                                            Delete
-                                                        </DropdownMenuItem>
-                                                    </DropdownMenuContent>
-                                                </DropdownMenu>
+                                </TableHeader>
+                                <TableBody>
+                                    {branchServices.data.length === 0 ? (
+                                        <TableRow>
+                                            <TableCell colSpan={6} className="py-8 text-center">
+                                                No branch services found.
                                             </TableCell>
                                         </TableRow>
-                                    ))
-                                )}
-                            </TableBody>
-                        </Table>
+                                    ) : (
+                                        branchServices.data.map((branchService) => (
+                                            <TableRow key={branchService.id}>
+                                                <TableCell className="font-medium w-[200px]">{branchService.name}</TableCell>
+                                                <TableCell className="w-[150px]">{branchService.branch?.name || 'N/A'}</TableCell>
+                                                <TableCell className="w-[300px]">
+                                                    <div className="max-w-[280px] truncate pr-4" title={branchService.description}>
+                                                        {branchService.description}
+                                                    </div>
+                                                </TableCell>
+                                                <TableCell className="w-[100px]">
+                                                    <Badge variant={branchService.status === 'active' ? 'default' : 'secondary'}>
+                                                        {branchService.status}
+                                                    </Badge>
+                                                </TableCell>
+                                                <TableCell className="w-[120px]">{new Date(branchService.created_at).toLocaleDateString()}</TableCell>
+                                                <TableCell className="w-[100px] text-right">
+                                                    <DropdownMenu>
+                                                        <DropdownMenuTrigger asChild>
+                                                            <Button variant="ghost" className="h-8 w-8 p-0">
+                                                                <MoreHorizontal className="h-4 w-4" />
+                                                            </Button>
+                                                        </DropdownMenuTrigger>
+                                                        <DropdownMenuContent align="end">
+                                                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                                            <DropdownMenuSeparator />
+                                                            <DropdownMenuItem asChild>
+                                                                <Link href={route('branch-services.show', branchService.id)}>
+                                                                    <Eye className="mr-2 h-4 w-4" />
+                                                                    View
+                                                                </Link>
+                                                            </DropdownMenuItem>
+                                                            <DropdownMenuItem asChild>
+                                                                <Link href={route('branch-services.edit', branchService.id)}>
+                                                                    <Edit className="mr-2 h-4 w-4" />
+                                                                    Edit
+                                                                </Link>
+                                                            </DropdownMenuItem>
+                                                            <DropdownMenuItem onClick={() => handleDelete(branchService)} className="text-red-600">
+                                                                <Trash className="mr-2 h-4 w-4" />
+                                                                Delete
+                                                            </DropdownMenuItem>
+                                                        </DropdownMenuContent>
+                                                    </DropdownMenu>
+                                                </TableCell>
+                                            </TableRow>
+                                        ))
+                                    )}
+                                </TableBody>
+                            </Table>
+                        </div>
                     </CardContent>
                 </Card>
 
