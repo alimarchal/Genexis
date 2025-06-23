@@ -11,21 +11,6 @@ import { Head, Link, useForm } from '@inertiajs/react';
 import { Save } from 'lucide-react';
 import { FormEventHandler, useState } from 'react';
 
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Dashboard',
-        href: route('dashboard'),
-    },
-    {
-        title: 'Branches',
-        href: route('branches.index'),
-    },
-    {
-        title: 'Create',
-        href: route('branches.create'),
-    },
-];
-
 interface Region {
     id: number;
     name: string;
@@ -40,7 +25,19 @@ interface District {
     };
 }
 
+interface Branch {
+    id: number;
+    name: string;
+    code: string;
+    address: string;
+    region_id: number;
+    district_id: number;
+    type: 'main' | 'sub' | 'agent';
+    status: 'active' | 'inactive';
+}
+
 interface Props {
+    branch: Branch;
     regions: Region[];
     districts: District[];
 }
@@ -55,22 +52,41 @@ type BranchForm = {
     status: 'active' | 'inactive';
 };
 
-export default function CreateBranch({ regions, districts }: Props) {
-    const { data, setData, post, processing, errors } = useForm<BranchForm>({
-        name: '',
-        code: '',
-        address: '',
-        region_id: '',
-        district_id: '',
-        type: 'sub',
-        status: 'active',
+export default function EditBranch({ branch, regions, districts }: Props) {
+    const breadcrumbs: BreadcrumbItem[] = [
+        {
+            title: 'Dashboard',
+            href: route('dashboard'),
+        },
+        {
+            title: 'Branches',
+            href: route('branches.index'),
+        },
+        {
+            title: branch.name,
+            href: route('branches.show', branch.id),
+        },
+        {
+            title: 'Edit',
+            href: route('branches.edit', branch.id),
+        },
+    ];
+
+    const { data, setData, put, processing, errors } = useForm<BranchForm>({
+        name: branch.name,
+        code: branch.code,
+        address: branch.address,
+        region_id: branch.region_id.toString(),
+        district_id: branch.district_id.toString(),
+        type: branch.type,
+        status: branch.status,
     });
 
-    const [selectedRegion, setSelectedRegion] = useState('');
+    const [selectedRegion, setSelectedRegion] = useState(branch.region_id.toString());
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
-        post(route('branches.store'));
+        put(route('branches.update', branch.id));
     };
 
     const handleRegionChange = (value: string) => {
@@ -86,10 +102,10 @@ export default function CreateBranch({ regions, districts }: Props) {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Create Branch" />
+            <Head title={`Edit ${branch.name}`} />
 
             <div className="px-10 py-6">
-                <Heading title="Create Branch" description="Add a new branch to your organization" />
+                <Heading title={`Edit Branch: ${branch.name}`} description="Update branch information" />
 
                 <div className="mt-8">
                     <form onSubmit={submit} className="space-y-8">
@@ -235,7 +251,7 @@ export default function CreateBranch({ regions, districts }: Props) {
                             </Button>
                             <Button type="submit" disabled={processing}>
                                 <Save className="mr-2 h-4 w-4" />
-                                {processing ? 'Creating...' : 'Create Branch'}
+                                {processing ? 'Updating...' : 'Update Branch'}
                             </Button>
                         </div>
                     </form>

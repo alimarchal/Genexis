@@ -144,7 +144,7 @@ export default function ShowContact({ contact }: Props) {
                                             Branch
                                         </p>
                                         <p className="text-lg font-semibold">
-                                            {contact.branch?.name || 'N/A'} 
+                                            {contact.branch?.name || 'N/A'}
                                             {contact.branch?.code && <span className="text-sm text-gray-500"> ({contact.branch.code})</span>}
                                         </p>
                                     </div>
