@@ -81,6 +81,11 @@ class AboutUsController extends Controller
 
         return Inertia::render('About/AboutUs', [
             'aboutUs' => $aboutUs,
+            'organizationStats' => [
+                'branches' => (int) env('BANK_BRANCHES_COUNT', 87),
+                'established' => (int) env('BANK_ESTABLISHED_YEAR', 2006),
+                'servingDistricts' => env('BANK_SERVING_DISTRICTS', 'All Districts of AJK'),
+            ],
         ]);
     }
 }

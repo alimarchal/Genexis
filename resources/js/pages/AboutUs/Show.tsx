@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
-import { ArrowLeft, Edit } from 'lucide-react';
+import { Edit } from 'lucide-react';
 
 interface AboutUs {
     id: number;
@@ -35,27 +35,19 @@ export default function ShowAboutUs({ aboutUs }: Props) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={`About Us - ${aboutUs.title}`} />
 
-            <div className="space-y-6">
+            <div className="px-10 py-6">
                 <div className="flex items-center justify-between">
-                    <Heading title="About Us Details" />
-                    <div className="flex items-center space-x-2">
-                        <Button variant="outline" asChild>
-                            <Link href={route('about-us.index')}>
-                                <ArrowLeft className="mr-2 h-4 w-4" />
-                                Back to List
-                            </Link>
-                        </Button>
-                        <Button asChild>
-                            <Link href={route('about-us.edit', aboutUs.id)}>
-                                <Edit className="mr-2 h-4 w-4" />
-                                Edit
-                            </Link>
-                        </Button>
-                    </div>
+                    <Heading title="About Us Details" description="View about us content details" />
+                    <Button asChild>
+                        <Link href={route('about-us.edit', aboutUs.id)}>
+                            <Edit className="mr-2 h-4 w-4" />
+                            Edit Content
+                        </Link>
+                    </Button>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <div className="lg:col-span-2 space-y-6">
+                <div className="mt-8 grid gap-6 lg:grid-cols-3">
+                    <div className="space-y-6 lg:col-span-2">
                         <Card>
                             <CardHeader>
                                 <CardTitle>{aboutUs.title}</CardTitle>
@@ -101,20 +93,18 @@ export default function ShowAboutUs({ aboutUs }: Props) {
                             </CardHeader>
                             <CardContent className="space-y-4">
                                 <div>
-                                    <h4 className="font-medium mb-1">Status</h4>
-                                    <Badge variant={aboutUs.is_active ? 'default' : 'secondary'}>
-                                        {aboutUs.status}
-                                    </Badge>
+                                    <h4 className="mb-1 font-medium">Status</h4>
+                                    <Badge variant={aboutUs.is_active ? 'default' : 'secondary'}>{aboutUs.status}</Badge>
                                 </div>
 
                                 <div>
-                                    <h4 className="font-medium mb-1">Sort Order</h4>
-                                    <p className="text-sm text-muted-foreground">{aboutUs.sort_order}</p>
+                                    <h4 className="mb-1 font-medium">Sort Order</h4>
+                                    <p className="text-muted-foreground text-sm">{aboutUs.sort_order}</p>
                                 </div>
 
                                 <div>
-                                    <h4 className="font-medium mb-1">Created</h4>
-                                    <p className="text-sm text-muted-foreground">
+                                    <h4 className="mb-1 font-medium">Created</h4>
+                                    <p className="text-muted-foreground text-sm">
                                         {new Date(aboutUs.created_at).toLocaleDateString('en-US', {
                                             year: 'numeric',
                                             month: 'long',
@@ -124,8 +114,8 @@ export default function ShowAboutUs({ aboutUs }: Props) {
                                 </div>
 
                                 <div>
-                                    <h4 className="font-medium mb-1">Last Updated</h4>
-                                    <p className="text-sm text-muted-foreground">
+                                    <h4 className="mb-1 font-medium">Last Updated</h4>
+                                    <p className="text-muted-foreground text-sm">
                                         {new Date(aboutUs.updated_at).toLocaleDateString('en-US', {
                                             year: 'numeric',
                                             month: 'long',

@@ -101,145 +101,167 @@ export default function AboutUsIndex({ aboutUsList, filters }: Props) {
         }
     };
 
+    const getStatusBadge = (isActive: boolean) => {
+        return isActive ? <Badge variant="default">Active</Badge> : <Badge variant="secondary">Inactive</Badge>;
+    };
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="About Us Management" />
 
-            <div className="space-y-6">
-                <div className="flex items-center justify-between">
-                    <Heading title="About Us Management" />
-                    <Button asChild>
-                        <Link href={route('about-us.create')}>
-                            <Plus className="mr-2 h-4 w-4" />
-                            Add About Us Content
-                        </Link>
-                    </Button>
-                </div>
+            <div className="px-10 py-6">
+                <Heading title="About Us Management" description="Manage your organization's about us content and information" />
 
-                <div className="flex items-center space-x-4">
-                    <div className="relative flex-1 max-w-sm">
-                        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                        <Input
-                            placeholder="Search by title..."
-                            value={search}
-                            onChange={(e) => handleSearch(e.target.value)}
-                            className="pl-10"
-                        />
+                <div className="mt-8 space-y-6">
+                    {/* Search and Filters */}
+                    <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                        <div className="flex flex-1 gap-4">
+                            <div className="relative max-w-sm flex-1">
+                                <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
+                                <Input
+                                    placeholder="Search by title..."
+                                    value={search}
+                                    onChange={(e) => handleSearch(e.target.value)}
+                                    className="pl-10"
+                                />
+                            </div>
+
+                            <Select value={statusFilter} onValueChange={handleStatusFilter}>
+                                <SelectTrigger className="w-40">
+                                    <SelectValue placeholder="All Status" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="all">All Status</SelectItem>
+                                    <SelectItem value="active">Active</SelectItem>
+                                    <SelectItem value="inactive">Inactive</SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </div>
+
+                        <Button asChild>
+                            <Link href={route('about-us.create')}>
+                                <Plus className="mr-2 h-4 w-4" />
+                                Add Content
+                            </Link>
+                        </Button>
                     </div>
-                    <Select value={statusFilter} onValueChange={handleStatusFilter}>
-                        <SelectTrigger className="w-32">
-                            <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="all">All Status</SelectItem>
-                            <SelectItem value="active">Active</SelectItem>
-                            <SelectItem value="inactive">Inactive</SelectItem>
-                        </SelectContent>
-                    </Select>
-                </div>
 
-                <div className="rounded-md border">
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Title</TableHead>
-                                <TableHead>Status</TableHead>
-                                <TableHead>Sort Order</TableHead>
-                                <TableHead>Created</TableHead>
-                                <TableHead className="text-right">Actions</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {aboutUsList.data.length === 0 ? (
+                    {/* Table */}
+                    <div className="rounded-md border">
+                        <Table>
+                            <TableHeader>
                                 <TableRow>
-                                    <TableCell colSpan={5} className="text-center py-6">
-                                        No about us content found.
-                                    </TableCell>
+                                    <TableHead>Order</TableHead>
+                                    <TableHead>Title</TableHead>
+                                    <TableHead>Content</TableHead>
+                                    <TableHead>Status</TableHead>
+                                    <TableHead>Created</TableHead>
+                                    <TableHead className="text-right">Actions</TableHead>
                                 </TableRow>
-                            ) : (
-                                aboutUsList.data.map((aboutUs) => (
-                                    <TableRow key={aboutUs.id}>
-                                        <TableCell className="font-medium">
-                                            <div>
-                                                <div className="font-medium">{aboutUs.title}</div>
-                                                <div className="text-sm text-muted-foreground truncate max-w-xs">
-                                                    {aboutUs.content.substring(0, 100)}...
-                                                </div>
-                                            </div>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Badge variant={aboutUs.is_active ? 'default' : 'secondary'}>
-                                                {aboutUs.status}
-                                            </Badge>
-                                        </TableCell>
-                                        <TableCell>{aboutUs.sort_order}</TableCell>
-                                        <TableCell>
-                                            {new Date(aboutUs.created_at).toLocaleDateString()}
-                                        </TableCell>
-                                        <TableCell className="text-right">
-                                            <DropdownMenu>
-                                                <DropdownMenuTrigger asChild>
-                                                    <Button variant="ghost" className="h-8 w-8 p-0">
-                                                        <span className="sr-only">Open menu</span>
-                                                        <MoreHorizontal className="h-4 w-4" />
-                                                    </Button>
-                                                </DropdownMenuTrigger>
-                                                <DropdownMenuContent align="end">
-                                                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                                    <DropdownMenuItem asChild>
-                                                        <Link href={route('about-us.show', aboutUs.id)}>
-                                                            <Eye className="mr-2 h-4 w-4" />
-                                                            View
-                                                        </Link>
-                                                    </DropdownMenuItem>
-                                                    <DropdownMenuItem asChild>
-                                                        <Link href={route('about-us.edit', aboutUs.id)}>
-                                                            <Edit className="mr-2 h-4 w-4" />
-                                                            Edit
-                                                        </Link>
-                                                    </DropdownMenuItem>
-                                                    <DropdownMenuSeparator />
-                                                    <DropdownMenuItem
-                                                        onClick={() => handleDelete(aboutUs.id)}
-                                                        className="text-destructive focus:text-destructive"
-                                                    >
-                                                        <Trash className="mr-2 h-4 w-4" />
-                                                        Delete
-                                                    </DropdownMenuItem>
-                                                </DropdownMenuContent>
-                                            </DropdownMenu>
+                            </TableHeader>
+                            <TableBody>
+                                {aboutUsList.data.length === 0 ? (
+                                    <TableRow>
+                                        <TableCell colSpan={6} className="py-8 text-center text-gray-500">
+                                            No about us content found.
                                         </TableCell>
                                     </TableRow>
-                                ))
-                            )}
-                        </TableBody>
-                    </Table>
-                </div>
-
-                {aboutUsList.last_page > 1 && (
-                    <div className="flex items-center justify-between">
-                        <div className="text-sm text-muted-foreground">
-                            Showing {aboutUsList.from} to {aboutUsList.to} of {aboutUsList.total} results
-                        </div>
-                        <div className="flex items-center space-x-2">
-                            {Array.from({ length: aboutUsList.last_page }, (_, i) => i + 1).map((page) => (
-                                <Button
-                                    key={page}
-                                    variant={page === aboutUsList.current_page ? 'default' : 'outline'}
-                                    size="sm"
-                                    onClick={() =>
-                                        router.get(route('about-us.index'), {
-                                            ...buildParams(),
-                                            page,
-                                        })
-                                    }
-                                >
-                                    {page}
-                                </Button>
-                            ))}
-                        </div>
+                                ) : (
+                                    aboutUsList.data.map((aboutUs) => (
+                                        <TableRow key={aboutUs.id}>
+                                            <TableCell className="font-medium">{aboutUs.sort_order}</TableCell>
+                                            <TableCell>
+                                                <div className="font-medium">{aboutUs.title}</div>
+                                            </TableCell>
+                                            <TableCell>
+                                                <div className="max-w-xs truncate text-sm text-gray-500">{aboutUs.content.substring(0, 100)}...</div>
+                                            </TableCell>
+                                            <TableCell>
+                                                {getStatusBadge(aboutUs.is_active)}
+                                            </TableCell>
+                                            <TableCell className="text-sm text-gray-500">
+                                                {new Date(aboutUs.created_at).toLocaleDateString('en-US', {
+                                                    year: 'numeric',
+                                                    month: 'short',
+                                                    day: 'numeric',
+                                                })}
+                                            </TableCell>
+                                            <TableCell className="text-right">
+                                                <DropdownMenu>
+                                                    <DropdownMenuTrigger asChild>
+                                                        <Button variant="ghost" className="h-8 w-8 p-0">
+                                                            <MoreHorizontal className="h-4 w-4" />
+                                                        </Button>
+                                                    </DropdownMenuTrigger>
+                                                    <DropdownMenuContent align="end">
+                                                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                                        <DropdownMenuSeparator />
+                                                        <DropdownMenuItem asChild>
+                                                            <Link href={route('about-us.show', aboutUs.id)}>
+                                                                <Eye className="mr-2 h-4 w-4" />
+                                                                View
+                                                            </Link>
+                                                        </DropdownMenuItem>
+                                                        <DropdownMenuItem asChild>
+                                                            <Link href={route('about-us.edit', aboutUs.id)}>
+                                                                <Edit className="mr-2 h-4 w-4" />
+                                                                Edit
+                                                            </Link>
+                                                        </DropdownMenuItem>
+                                                        <DropdownMenuSeparator />
+                                                        <DropdownMenuItem onClick={() => handleDelete(aboutUs.id)} className="text-red-600">
+                                                            <Trash className="mr-2 h-4 w-4" />
+                                                            Delete
+                                                        </DropdownMenuItem>
+                                                    </DropdownMenuContent>
+                                                </DropdownMenu>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))
+                                )}
+                            </TableBody>
+                        </Table>
                     </div>
-                )}
+
+                    {/* Pagination Info */}
+                    {aboutUsList.total > 0 && (
+                        <div className="flex items-center justify-between text-sm text-gray-500">
+                            <div>
+                                Showing {aboutUsList.from} to {aboutUsList.to} of {aboutUsList.total} results
+                            </div>
+                            <div className="flex gap-2">
+                                {aboutUsList.current_page > 1 && (
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() =>
+                                            router.get(route('about-us.index'), {
+                                                ...buildParams(),
+                                                page: aboutUsList.current_page - 1,
+                                            })
+                                        }
+                                    >
+                                        Previous
+                                    </Button>
+                                )}
+                                {aboutUsList.current_page < aboutUsList.last_page && (
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() =>
+                                            router.get(route('about-us.index'), {
+                                                ...buildParams(),
+                                                page: aboutUsList.current_page + 1,
+                                            })
+                                        }
+                                    >
+                                        Next
+                                    </Button>
+                                )}
+                            </div>
+                        </div>
+                    )}
+                </div>
             </div>
         </AppLayout>
     );
