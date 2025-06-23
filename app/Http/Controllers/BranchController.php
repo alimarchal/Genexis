@@ -23,9 +23,14 @@ class BranchController extends Controller
             ->paginate(request('per_page', 15))
             ->withQueryString();
 
+        $regions = Region::active()->orderBy('name')->get();
+        $districts = District::active()->with('region')->orderBy('name')->get();
+
         return Inertia::render('Branch/Index', [
             'branches' => $branches,
-            'filters' => request()->only(['filter', 'sort']),
+            'regions' => $regions,
+            'districts' => $districts,
+            'filters' => $request->query(),
         ]);
     }
 

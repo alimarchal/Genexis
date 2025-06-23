@@ -211,7 +211,7 @@ export default function BranchIndex({ branches, regions, districts, filters }: P
     };
 
     // Filter districts based on selected region
-    const filteredDistricts = regionFilter !== 'all' 
+    const filteredDistricts = regionFilter !== 'all'
         ? districts.filter(district => district.region.id.toString() === regionFilter)
         : districts;
 

@@ -47,6 +47,12 @@ interface Contact {
     updated_at: string;
 }
 
+interface Branch {
+    id: number;
+    name: string;
+    code: string;
+}
+
 interface Props {
     contacts: {
         data: Contact[];
@@ -54,36 +60,95 @@ interface Props {
         last_page: number;
         per_page: number;
         total: number;
+        from: number;
+        to: number;
     };
-    filters: {
-        filter?: {
-            name?: string;
-            status?: string;
-        };
-        sort?: string;
-    };
+    branches: Branch[];
+    filters: Record<string, string>;
 }
 
-export default function ContactIndex({ contacts, filters }: Props) {
-    const [searchTerm, setSearchTerm] = useState(filters.filter?.name || '');
-    const [statusFilter, setStatusFilter] = useState(filters.filter?.status || 'all');
+export default function ContactIndex({ contacts, branches, filters }: Props) {
+    const [search, setSearch] = useState(filters['filter[name]'] || '');
+    const [statusFilter, setStatusFilter] = useState(() => {
+        const statusParam = filters['filter[status]'];
+        if (statusParam === 'active') return 'active';
+        if (statusParam === 'inactive') return 'inactive';
+        return 'all';
+    });
+    const [branchFilter, setBranchFilter] = useState(filters['filter[branch_id]'] || 'all');
+    const [departmentFilter, setDepartmentFilter] = useState(filters['filter[department]'] || 'all');
 
-    const handleSearch = (e: React.FormEvent) => {
-        e.preventDefault();
-        const params: Record<string, unknown> = {};
+    const buildParams = () => {
+        const params: Record<string, string> = {};
 
-        if (searchTerm) {
-            params['filter[name]'] = searchTerm;
+        if (search.trim()) {
+            params['filter[name]'] = search;
         }
-
-        if (statusFilter && statusFilter !== 'all') {
+        if (statusFilter !== 'all') {
             params['filter[status]'] = statusFilter;
         }
+        if (branchFilter !== 'all') {
+            params['filter[branch_id]'] = branchFilter;
+        }
+        if (departmentFilter !== 'all') {
+            params['filter[department]'] = departmentFilter;
+        }
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        router.get(route('contacts.index'), params as any, {
-            preserveState: true,
-            preserveScroll: true,
+        return params;
+    };
+
+    const handleSearch = (value: string) => {
+        setSearch(value);
+        router.get(
+            route('contacts.index'),
+            {
+                ...buildParams(),
+                'filter[name]': value.trim() ? value : undefined,
+            },
+            { preserveState: true, preserveScroll: true }
+        );
+    };
+
+    const handleStatusFilter = (value: string) => {
+        setStatusFilter(value);
+        router.get(
+            route('contacts.index'),
+            {
+                ...buildParams(),
+                'filter[status]': value !== 'all' ? value : undefined,
+            },
+            { preserveState: true, preserveScroll: true },
+        );
+    };
+
+    const handleBranchFilter = (value: string) => {
+        setBranchFilter(value);
+        router.get(
+            route('contacts.index'),
+            {
+                ...buildParams(),
+                'filter[branch_id]': value !== 'all' ? value : undefined,
+            },
+            { preserveState: true, preserveScroll: true },
+        );
+    };
+
+    const handleDepartmentFilter = (value: string) => {
+        setDepartmentFilter(value);
+        router.get(
+            route('contacts.index'),
+            {
+                ...buildParams(),
+                'filter[department]': value !== 'all' ? value : undefined,
+            },
+            { preserveState: true, preserveScroll: true },
+        );
+    };
+
+    const handlePagination = (page: number) => {
+        router.get(route('contacts.index'), {
+            ...buildParams(),
+            page,
         });
     };
 
@@ -93,148 +158,182 @@ export default function ContactIndex({ contacts, filters }: Props) {
         }
     };
 
+    const getStatusBadge = (status: string) => {
+        return status === 'active' ? <Badge variant="default">Active</Badge> : <Badge variant="secondary">Inactive</Badge>;
+    };
+
+    const formatDate = (dateString: string) => {
+        return new Date(dateString).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+        });
+    };
+
+    // Get unique departments for filter
+    const departments = Array.from(new Set(contacts.data.map(contact => contact.department).filter(Boolean)));
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Contacts" />
 
-            <div className="px-4 py-6">
-                <div className="mb-6 flex items-center justify-between">
-                    <Heading title="Contact Directory" description="Manage your organization's contact information" />
-                    <Button asChild>
-                        <Link href={route('contacts.create')}>
-                            <Plus className="mr-2 h-4 w-4" />
-                            Add Contact
-                        </Link>
-                    </Button>
-                </div>
+            <div className="px-10 py-6">
+                <Heading title="Contacts" description="Manage contact information for your organization" />
 
-                {/* Filters */}
-                <form onSubmit={handleSearch} className="mb-6">
-                    <div className="flex gap-4">
-                        <div className="relative max-w-sm flex-1">
-                            <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
-                            <Input
-                                type="text"
-                                placeholder="Search by name..."
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                                className="pl-10"
-                            />
+                <div className="mt-8 space-y-6">
+                    {/* Search and Filters */}
+                    <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                        <div className="flex flex-1 gap-4">
+                            <div className="relative max-w-sm flex-1">
+                                <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
+                                <Input
+                                    placeholder="Search contacts..."
+                                    value={search}
+                                    onChange={(e) => handleSearch(e.target.value)}
+                                    className="pl-10"
+                                />
+                            </div>
+
+                            <Select value={branchFilter} onValueChange={handleBranchFilter}>
+                                <SelectTrigger className="w-48">
+                                    <SelectValue placeholder="All Branches" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="all">All Branches</SelectItem>
+                                    {branches.map((branch) => (
+                                        <SelectItem key={branch.id} value={branch.id.toString()}>
+                                            {branch.name} ({branch.code})
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+
+                            <Select value={departmentFilter} onValueChange={handleDepartmentFilter}>
+                                <SelectTrigger className="w-48">
+                                    <SelectValue placeholder="All Departments" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="all">All Departments</SelectItem>
+                                    {departments.map((department) => (
+                                        <SelectItem key={department} value={department}>
+                                            {department}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+
+                            <Select value={statusFilter} onValueChange={handleStatusFilter}>
+                                <SelectTrigger className="w-40">
+                                    <SelectValue placeholder="All Status" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="all">All Status</SelectItem>
+                                    <SelectItem value="active">Active</SelectItem>
+                                    <SelectItem value="inactive">Inactive</SelectItem>
+                                </SelectContent>
+                            </Select>
                         </div>
-                        <Select value={statusFilter} onValueChange={setStatusFilter}>
-                            <SelectTrigger className="w-[180px]">
-                                <SelectValue placeholder="Filter by status" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="all">All Status</SelectItem>
-                                <SelectItem value="active">Active</SelectItem>
-                                <SelectItem value="inactive">Inactive</SelectItem>
-                            </SelectContent>
-                        </Select>
-                        <Button type="submit">Filter</Button>
-                    </div>
-                </form>
 
-                {/* Table */}
-                <div className="rounded-md border">
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Name</TableHead>
-                                <TableHead>Position</TableHead>
-                                <TableHead>Department</TableHead>
-                                <TableHead>Branch</TableHead>
-                                <TableHead>Contact Info</TableHead>
-                                <TableHead>Status</TableHead>
-                                <TableHead className="text-right">Actions</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {contacts.data.length === 0 ? (
+                        <Button asChild>
+                            <Link href={route('contacts.create')}>
+                                <Plus className="mr-2 h-4 w-4" />
+                                Add Contact
+                            </Link>
+                        </Button>
+                    </div>
+
+                    {/* Table */}
+                    <div className="rounded-md border">
+                        <Table>
+                            <TableHeader>
                                 <TableRow>
-                                    <TableCell colSpan={7} className="text-muted-foreground py-8 text-center">
-                                        No contacts found.
-                                    </TableCell>
+                                    <TableHead>Name</TableHead>
+                                    <TableHead>Email</TableHead>
+                                    <TableHead>Phone</TableHead>
+                                    <TableHead>Position</TableHead>
+                                    <TableHead>Department</TableHead>
+                                    <TableHead>Branch</TableHead>
+                                    <TableHead>Status</TableHead>
+                                    <TableHead>Created</TableHead>
+                                    <TableHead className="text-right">Actions</TableHead>
                                 </TableRow>
-                            ) : (
-                                contacts.data.map((contact) => (
-                                    <TableRow key={contact.id}>
-                                        <TableCell>
-                                            <div>
-                                                <p className="font-medium">{contact.name}</p>
-                                            </div>
-                                        </TableCell>
-                                        <TableCell>{contact.position || 'N/A'}</TableCell>
-                                        <TableCell>{contact.department || 'N/A'}</TableCell>
-                                        <TableCell>
-                                            {contact.branch?.name} ({contact.branch?.code})
-                                        </TableCell>
-                                        <TableCell>
-                                            <div className="space-y-1">
-                                                <div className="text-sm">{contact.email}</div>
-                                                <div className="text-muted-foreground text-sm">{contact.phone || 'N/A'}</div>
-                                            </div>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Badge variant={contact.status === 'active' ? 'default' : 'secondary'}>{contact.status}</Badge>
-                                        </TableCell>
-                                        <TableCell className="text-right">
-                                            <DropdownMenu>
-                                                <DropdownMenuTrigger asChild>
-                                                    <Button variant="ghost" className="h-8 w-8 p-0">
-                                                        <span className="sr-only">Open menu</span>
-                                                        <MoreHorizontal className="h-4 w-4" />
-                                                    </Button>
-                                                </DropdownMenuTrigger>
-                                                <DropdownMenuContent align="end">
-                                                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                                    <DropdownMenuSeparator />
-                                                    <DropdownMenuItem asChild>
-                                                        <Link href={route('contacts.show', contact.id)}>
-                                                            <Eye className="mr-2 h-4 w-4" />
-                                                            View
-                                                        </Link>
-                                                    </DropdownMenuItem>
-                                                    <DropdownMenuItem asChild>
-                                                        <Link href={route('contacts.edit', contact.id)}>
-                                                            <Edit className="mr-2 h-4 w-4" />
-                                                            Edit
-                                                        </Link>
-                                                    </DropdownMenuItem>
-                                                    <DropdownMenuItem onClick={() => handleDelete(contact.id)} className="text-red-600">
-                                                        <Trash className="mr-2 h-4 w-4" />
-                                                        Delete
-                                                    </DropdownMenuItem>
-                                                </DropdownMenuContent>
-                                            </DropdownMenu>
+                            </TableHeader>
+                            <TableBody>
+                                {contacts.data.length === 0 ? (
+                                    <TableRow>
+                                        <TableCell colSpan={9} className="h-24 text-center">
+                                            No contacts found.
                                         </TableCell>
                                     </TableRow>
-                                ))
-                            )}
-                        </TableBody>
-                    </Table>
-                </div>
-
-                {/* Pagination */}
-                {contacts.last_page > 1 && (
-                    <div className="mt-6 flex items-center justify-between">
-                        <p className="text-muted-foreground text-sm">
-                            Showing {contacts.data.length} of {contacts.total} results
-                        </p>
-                        <div className="flex gap-2">
-                            {Array.from({ length: contacts.last_page }, (_, i) => i + 1).map((page) => (
-                                <Button
-                                    key={page}
-                                    variant={page === contacts.current_page ? 'default' : 'outline'}
-                                    size="sm"
-                                    onClick={() => router.get(route('contacts.index', { page }))}
-                                >
-                                    {page}
-                                </Button>
-                            ))}
-                        </div>
+                                ) : (
+                                    contacts.data.map((contact) => (
+                                        <TableRow key={contact.id}>
+                                            <TableCell className="font-medium">{contact.name}</TableCell>
+                                            <TableCell>{contact.email}</TableCell>
+                                            <TableCell>{contact.phone}</TableCell>
+                                            <TableCell>{contact.position}</TableCell>
+                                            <TableCell>{contact.department}</TableCell>
+                                            <TableCell>{contact.branch?.name || 'N/A'}</TableCell>
+                                            <TableCell>{getStatusBadge(contact.status)}</TableCell>
+                                            <TableCell>{formatDate(contact.created_at)}</TableCell>
+                                            <TableCell className="text-right">
+                                                <DropdownMenu>
+                                                    <DropdownMenuTrigger asChild>
+                                                        <Button variant="ghost" className="h-8 w-8 p-0">
+                                                            <span className="sr-only">Open menu</span>
+                                                            <MoreHorizontal className="h-4 w-4" />
+                                                        </Button>
+                                                    </DropdownMenuTrigger>
+                                                    <DropdownMenuContent align="end">
+                                                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                                        <DropdownMenuItem asChild>
+                                                            <Link href={route('contacts.show', contact.id)}>
+                                                                <Eye className="mr-2 h-4 w-4" />
+                                                                View
+                                                            </Link>
+                                                        </DropdownMenuItem>
+                                                        <DropdownMenuItem asChild>
+                                                            <Link href={route('contacts.edit', contact.id)}>
+                                                                <Edit className="mr-2 h-4 w-4" />
+                                                                Edit
+                                                            </Link>
+                                                        </DropdownMenuItem>
+                                                        <DropdownMenuSeparator />
+                                                        <DropdownMenuItem className="text-red-600" onClick={() => handleDelete(contact.id)}>
+                                                            <Trash className="mr-2 h-4 w-4" />
+                                                            Delete
+                                                        </DropdownMenuItem>
+                                                    </DropdownMenuContent>
+                                                </DropdownMenu>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))
+                                )}
+                            </TableBody>
+                        </Table>
                     </div>
-                )}
+
+                    {/* Pagination */}
+                    {contacts.last_page > 1 && (
+                        <div className="flex items-center justify-between">
+                            <div className="text-muted-foreground text-sm">
+                                Showing {contacts.from} to {contacts.to} of {contacts.total} results
+                            </div>
+                            <div className="flex gap-2">
+                                {Array.from({ length: contacts.last_page }, (_, i) => i + 1).map((page) => (
+                                    <Button
+                                        key={page}
+                                        variant={page === contacts.current_page ? 'default' : 'outline'}
+                                        size="sm"
+                                        onClick={() => handlePagination(page)}
+                                    >
+                                        {page}
+                                    </Button>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                </div>
             </div>
         </AppLayout>
     );
