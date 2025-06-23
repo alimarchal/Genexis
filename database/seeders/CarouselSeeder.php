@@ -17,7 +17,7 @@ class CarouselSeeder extends Seeder
                 'button_text' => 'Learn More',
                 'button_url' => '/digital-banking',
                 'order' => 1,
-                'status' => 'active',
+                'status' => 'inactive',
                 'created_by' => 1,
             ],
             [

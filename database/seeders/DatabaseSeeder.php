@@ -41,6 +41,7 @@ class DatabaseSeeder extends Seeder
             DownloadSeeder::class,
             CareerSeeder::class,
             BodCommitteeSeeder::class,
+            AboutUsSeeder::class,
         ]);
 
         User::factory()->create([

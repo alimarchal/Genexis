@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\MenuController;
+use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\AnnualReportController;
 use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\BankServiceController;
@@ -65,6 +66,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('schedule-of-charges', ScheduleOfChargeController::class);
     Route::resource('downloads', DownloadController::class);
 
+    // About Us CRUD (admin) - using different URL to avoid conflict with public routes
+    Route::resource('admin-about-us', AboutUsController::class)->names([
+        'index' => 'about-us.index',
+        'create' => 'about-us.create',
+        'store' => 'about-us.store',
+        'show' => 'about-us.show',
+        'edit' => 'about-us.edit',
+        'update' => 'about-us.update',
+        'destroy' => 'about-us.destroy',
+    ])->parameters(['admin-about-us' => 'aboutUs']);
+
     // Product CRUD - singular route
     Route::resource('product', ProductController::class);
     Route::resource('service-attributes', ServiceAttributeController::class);
@@ -76,6 +88,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::get('/', [PageController::class, 'home'])->name('home');
 
 Route::prefix('about-us')->name('about.')->group(function () {
+    Route::get('/', [AboutUsController::class, 'publicIndex'])->name('about-us');
     Route::get('/board-of-directors', [PageController::class, 'boardOfDirectors'])->name('board-directors');
     Route::get('/management', [PageController::class, 'management'])->name('management');
     Route::get('/bod-committees', [BodCommitteeController::class, 'publicIndex'])->name('bod-committees');
