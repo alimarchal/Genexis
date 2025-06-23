@@ -50,6 +50,27 @@ interface Props {
 }
 
 export default function EditBodCommittee({ bodCommittee, boardMembers, managementMembers }: Props) {
+    // Initialize hooks first
+    const { data, setData, processing, errors } = useForm({
+        name: bodCommittee?.name || '',
+        description: bodCommittee?.description || '',
+        chairman_board_id: bodCommittee?.chairman_board_id?.toString() || 'none',
+        secretary_board_id: bodCommittee?.secretary_board_id?.toString() || '',
+        secretary_management_id: bodCommittee?.secretary_management_id?.toString() || '',
+        board_members: bodCommittee?.board_members || [],
+        management_members: bodCommittee?.management_members || [],
+        is_active: bodCommittee?.is_active || false,
+        sort_order: bodCommittee?.sort_order || 0,
+        _method: 'PUT',
+    });
+
+    const [secretaryType, setSecretaryType] = useState<'board' | 'management' | ''>(() => {
+        if (bodCommittee?.secretary_board_id) return 'board';
+        if (bodCommittee?.secretary_management_id) return 'management';
+        return '';
+    });
+
+    // Early return after hooks
     if (!bodCommittee) {
         return <div>Loading...</div>;
     }
@@ -59,25 +80,6 @@ export default function EditBodCommittee({ bodCommittee, boardMembers, managemen
         { title: 'BOD Committees', href: route('bod-committees.index') },
         { title: 'Edit', href: route('bod-committees.edit', bodCommittee.id) },
     ];
-
-    const { data, setData, processing, errors } = useForm({
-        name: bodCommittee.name,
-        description: bodCommittee.description || '',
-        chairman_board_id: bodCommittee.chairman_board_id?.toString() || 'none',
-        secretary_board_id: bodCommittee.secretary_board_id?.toString() || '',
-        secretary_management_id: bodCommittee.secretary_management_id?.toString() || '',
-        board_members: bodCommittee.board_members || [],
-        management_members: bodCommittee.management_members || [],
-        is_active: bodCommittee.is_active as boolean,
-        sort_order: bodCommittee.sort_order || 0,
-        _method: 'PUT',
-    });
-
-    const [secretaryType, setSecretaryType] = useState<'board' | 'management' | ''>(() => {
-        if (bodCommittee.secretary_board_id) return 'board';
-        if (bodCommittee.secretary_management_id) return 'management';
-        return '';
-    });
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();

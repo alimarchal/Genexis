@@ -64,29 +64,31 @@ interface Props {
 }
 
 export default function BodCommitteeIndex({ bodCommittees, filters }: Props) {
-    if (!bodCommittees?.data) {
-        return <div>Loading...</div>;
-    }
-
-    const [search, setSearch] = useState(filters['filter[name]'] || '');
+    // Initialize hooks first
+    const [search, setSearch] = useState(filters?.['filter[name]'] || '');
     const [statusFilter, setStatusFilter] = useState(() => {
-        const param = filters['filter[is_active]'];
+        const param = filters?.['filter[is_active]'];
         if (param === '1') return 'active';
         if (param === '0') return 'inactive';
         return 'all';
     });
     const [chairmanFilter, setChairmanFilter] = useState(() => {
-        const param = filters['filter[has_chairman]'];
+        const param = filters?.['filter[has_chairman]'];
         if (param === 'yes') return 'yes';
         if (param === 'no') return 'no';
         return 'all';
     });
     const [secretaryFilter, setSecretaryFilter] = useState(() => {
-        const param = filters['filter[has_secretary]'];
+        const param = filters?.['filter[has_secretary]'];
         if (param === 'yes') return 'yes';
         if (param === 'no') return 'no';
         return 'all';
     });
+
+    // Early return after hooks
+    if (!bodCommittees?.data) {
+        return <div>Loading...</div>;
+    }
 
     const buildParams = () => {
         const params: Record<string, string> = {};
