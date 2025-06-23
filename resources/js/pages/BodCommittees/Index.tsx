@@ -15,30 +15,44 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
-import { Calendar, Download, Edit, Eye, MoreHorizontal, Plus, Search, Trash } from 'lucide-react';
+import { Edit, Eye, MoreHorizontal, Plus, Search, Trash } from 'lucide-react';
 import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Dashboard', href: route('dashboard') },
-    { title: 'Schedule of Charges', href: route('schedule-of-charges.index') },
+    { title: 'BOD Committees', href: route('bod-committees.index') },
 ];
 
-interface ScheduleOfCharge {
+interface BodCommittee {
     id: number;
-    title: string;
-    from: string;
-    to: string | null;
-    attachment: string | null;
-    attachment_url: string | null;
+    name: string;
     description: string | null;
+    chairman_board: {
+        id: number;
+        full_name: string;
+        designation: string;
+    } | null;
+    secretary_board: {
+        id: number;
+        full_name: string;
+        designation: string;
+    } | null;
+    secretary_management: {
+        id: number;
+        full_name: string;
+        designation: string;
+    } | null;
+    board_members: number[] | null;
+    management_members: number[] | null;
     is_active: boolean;
+    sort_order: number | null;
     created_at: string;
     updated_at: string;
 }
 
 interface Props {
-    scheduleOfCharges: {
-        data: ScheduleOfCharge[];
+    bodCommittees: {
+        data: BodCommittee[];
         current_page: number;
         last_page: number;
         per_page: number;
@@ -49,44 +63,47 @@ interface Props {
     filters: Record<string, string>;
 }
 
-export default function ScheduleOfChargeIndex({ scheduleOfCharges, filters }: Props) {
-    const [search, setSearch] = useState(filters['filter[title]'] || '');
+export default function BodCommitteeIndex({ bodCommittees, filters }: Props) {
+    if (!bodCommittees?.data) {
+        return <div>Loading...</div>;
+    }
+
+    const [search, setSearch] = useState(filters['filter[name]'] || '');
     const [statusFilter, setStatusFilter] = useState(() => {
         const param = filters['filter[is_active]'];
         if (param === '1') return 'active';
         if (param === '0') return 'inactive';
         return 'all';
     });
-    const [attachmentFilter, setAttachmentFilter] = useState(() => {
-        const param = filters['filter[has_attachment]'];
+    const [chairmanFilter, setChairmanFilter] = useState(() => {
+        const param = filters['filter[has_chairman]'];
         if (param === 'yes') return 'yes';
         if (param === 'no') return 'no';
         return 'all';
     });
-    const [dateFilter, setDateFilter] = useState(() => {
-        const param = filters['filter[date_range]'];
-        if (param === 'current') return 'current';
-        if (param === 'upcoming') return 'upcoming';
-        if (param === 'expired') return 'expired';
+    const [secretaryFilter, setSecretaryFilter] = useState(() => {
+        const param = filters['filter[has_secretary]'];
+        if (param === 'yes') return 'yes';
+        if (param === 'no') return 'no';
         return 'all';
     });
 
     const buildParams = () => {
         const params: Record<string, string> = {};
-        if (search.trim()) params['filter[title]'] = search;
+        if (search.trim()) params['filter[name]'] = search;
         if (statusFilter !== 'all') params['filter[is_active]'] = statusFilter === 'active' ? '1' : '0';
-        if (attachmentFilter !== 'all') params['filter[has_attachment]'] = attachmentFilter;
-        if (dateFilter !== 'all') params['filter[date_range]'] = dateFilter;
+        if (chairmanFilter !== 'all') params['filter[has_chairman]'] = chairmanFilter;
+        if (secretaryFilter !== 'all') params['filter[has_secretary]'] = secretaryFilter;
         return params;
     };
 
     const handleSearch = (value: string) => {
         setSearch(value);
         router.get(
-            route('schedule-of-charges.index'),
+            route('bod-committees.index'),
             {
                 ...buildParams(),
-                'filter[title]': value.trim() ? value : undefined,
+                'filter[name]': value.trim() ? value : undefined,
             },
             { preserveState: true, replace: true },
         );
@@ -95,7 +112,7 @@ export default function ScheduleOfChargeIndex({ scheduleOfCharges, filters }: Pr
     const handleStatusFilter = (value: string) => {
         setStatusFilter(value);
         router.get(
-            route('schedule-of-charges.index'),
+            route('bod-committees.index'),
             {
                 ...buildParams(),
                 'filter[is_active]': value !== 'all' ? (value === 'active' ? '1' : '0') : undefined,
@@ -104,54 +121,79 @@ export default function ScheduleOfChargeIndex({ scheduleOfCharges, filters }: Pr
         );
     };
 
-    const handleAttachmentFilter = (value: string) => {
-        setAttachmentFilter(value);
+    const handleChairmanFilter = (value: string) => {
+        setChairmanFilter(value);
         router.get(
-            route('schedule-of-charges.index'),
+            route('bod-committees.index'),
             {
                 ...buildParams(),
-                'filter[has_attachment]': value !== 'all' ? value : undefined,
+                'filter[has_chairman]': value !== 'all' ? value : undefined,
             },
             { preserveState: true, replace: true },
         );
     };
 
-    const handleDateFilter = (value: string) => {
-        setDateFilter(value);
+    const handleSecretaryFilter = (value: string) => {
+        setSecretaryFilter(value);
         router.get(
-            route('schedule-of-charges.index'),
+            route('bod-committees.index'),
             {
                 ...buildParams(),
-                'filter[date_range]': value !== 'all' ? value : undefined,
+                'filter[has_secretary]': value !== 'all' ? value : undefined,
             },
             { preserveState: true, replace: true },
         );
     };
 
     const handlePagination = (page: number) => {
-        router.get(route('schedule-of-charges.index'), { ...buildParams(), page });
+        router.get(route('bod-committees.index'), { ...buildParams(), page });
     };
 
     const handleDelete = (id: number) => {
-        if (confirm('Are you sure you want to delete this schedule of charges?')) {
-            router.delete(route('schedule-of-charges.destroy', id));
+        if (confirm('Are you sure you want to delete this committee?')) {
+            router.delete(route('bod-committees.destroy', id));
         }
     };
 
-    const getStatusBadge = (charge: ScheduleOfCharge) => {
-        if (!charge.is_active) return <Badge variant="outline">Inactive</Badge>;
-
-        const currentDate = new Date().toISOString().split('T')[0];
-        const fromDate = charge.from;
-        const toDate = charge.to;
-
-        if (fromDate > currentDate) return <Badge variant="secondary">Upcoming</Badge>;
-        if (toDate && toDate < currentDate) return <Badge variant="destructive">Expired</Badge>;
-        return <Badge variant="default">Current</Badge>;
+    const getStatusBadge = (isActive: boolean) => {
+        return isActive ? <Badge variant="default">Active</Badge> : <Badge variant="secondary">Inactive</Badge>;
     };
 
-    const getAttachmentBadge = (hasAttachment: boolean) => {
-        return hasAttachment ? <Badge variant="outline">Has File</Badge> : <Badge variant="secondary">No File</Badge>;
+    const getSecretaryInfo = (committee: BodCommittee) => {
+        if (committee.secretary_board) {
+            return (
+                <div className="text-sm">
+                    <div className="font-medium">{committee.secretary_board.full_name}</div>
+                    <div className="text-gray-500">Board Member</div>
+                </div>
+            );
+        }
+
+        if (committee.secretary_management) {
+            return (
+                <div className="text-sm">
+                    <div className="font-medium">{committee.secretary_management.full_name}</div>
+                    <div className="text-gray-500">Management</div>
+                </div>
+            );
+        }
+
+        return <span className="text-gray-400">Not assigned</span>;
+    };
+
+    const getMembersCount = (committee: BodCommittee) => {
+        const boardCount = committee.board_members?.length || 0;
+        const managementCount = committee.management_members?.length || 0;
+        const total = boardCount + managementCount;
+
+        return (
+            <div className="text-sm">
+                <div className="font-medium">{total} members</div>
+                <div className="text-gray-500">
+                    {boardCount} Board, {managementCount} Management
+                </div>
+            </div>
+        );
     };
 
     const formatDate = (dateString: string) => {
@@ -162,29 +204,27 @@ export default function ScheduleOfChargeIndex({ scheduleOfCharges, filters }: Pr
         });
     };
 
-    const formatDateRange = (from: string, to: string | null) => {
-        const fromFormatted = formatDate(from);
-        if (!to) return `${fromFormatted} - Ongoing`;
-        return `${fromFormatted} - ${formatDate(to)}`;
-    };
-
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Schedule of Charges" />
+            <Head title="BOD Committees" />
+
             <div className="px-10 py-6">
-                <Heading title="Schedule of Charges" description="Manage banking charges and fee schedules" />
+                <Heading title="BOD Committees" description="Manage Board of Directors committees and their members" />
+
                 <div className="mt-8 space-y-6">
+                    {/* Search and Filters */}
                     <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                         <div className="flex flex-1 gap-4">
                             <div className="relative max-w-sm flex-1">
                                 <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
                                 <Input
-                                    placeholder="Search by title..."
+                                    placeholder="Search committees..."
                                     value={search}
                                     onChange={(e) => handleSearch(e.target.value)}
                                     className="pl-10"
                                 />
                             </div>
+
                             <Select value={statusFilter} onValueChange={handleStatusFilter}>
                                 <SelectTrigger className="w-40">
                                     <SelectValue placeholder="All Status" />
@@ -195,74 +235,88 @@ export default function ScheduleOfChargeIndex({ scheduleOfCharges, filters }: Pr
                                     <SelectItem value="inactive">Inactive</SelectItem>
                                 </SelectContent>
                             </Select>
-                            <Select value={attachmentFilter} onValueChange={handleAttachmentFilter}>
-                                <SelectTrigger className="w-44">
-                                    <SelectValue placeholder="All Files" />
+
+                            <Select value={chairmanFilter} onValueChange={handleChairmanFilter}>
+                                <SelectTrigger className="w-40">
+                                    <SelectValue placeholder="Chairman" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="all">All Files</SelectItem>
-                                    <SelectItem value="yes">Has Attachment</SelectItem>
-                                    <SelectItem value="no">No Attachment</SelectItem>
+                                    <SelectItem value="all">All</SelectItem>
+                                    <SelectItem value="yes">Has Chairman</SelectItem>
+                                    <SelectItem value="no">No Chairman</SelectItem>
                                 </SelectContent>
                             </Select>
-                            <Select value={dateFilter} onValueChange={handleDateFilter}>
+
+                            <Select value={secretaryFilter} onValueChange={handleSecretaryFilter}>
                                 <SelectTrigger className="w-40">
-                                    <SelectValue placeholder="All Dates" />
+                                    <SelectValue placeholder="Secretary" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="all">All Dates</SelectItem>
-                                    <SelectItem value="current">Current</SelectItem>
-                                    <SelectItem value="upcoming">Upcoming</SelectItem>
-                                    <SelectItem value="expired">Expired</SelectItem>
+                                    <SelectItem value="all">All</SelectItem>
+                                    <SelectItem value="yes">Has Secretary</SelectItem>
+                                    <SelectItem value="no">No Secretary</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
+
                         <Button asChild>
-                            <Link href={route('schedule-of-charges.create')}>
+                            <Link href={route('bod-committees.create')}>
                                 <Plus className="mr-2 h-4 w-4" />
-                                Add Schedule
+                                Add Committee
                             </Link>
                         </Button>
                     </div>
+
+                    {/* Table */}
                     <div className="rounded-md border">
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Title</TableHead>
-                                    <TableHead>Date Range</TableHead>
+                                    <TableHead>Order</TableHead>
+                                    <TableHead>Committee</TableHead>
+                                    <TableHead>Chairman</TableHead>
+                                    <TableHead>Secretary</TableHead>
+                                    <TableHead>Members</TableHead>
                                     <TableHead>Status</TableHead>
-                                    <TableHead>Attachment</TableHead>
                                     <TableHead>Created</TableHead>
                                     <TableHead className="text-right">Actions</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {scheduleOfCharges.data.length === 0 ? (
+                                {bodCommittees.data.length === 0 ? (
                                     <TableRow>
-                                        <TableCell colSpan={6} className="py-8 text-center text-gray-500">
-                                            No schedule of charges found.
+                                        <TableCell colSpan={8} className="py-8 text-center text-gray-500">
+                                            No committees found.
                                         </TableCell>
                                     </TableRow>
                                 ) : (
-                                    scheduleOfCharges.data.map((charge) => (
-                                        <TableRow key={charge.id}>
+                                    bodCommittees.data.map((committee) => (
+                                        <TableRow key={committee.id}>
+                                            <TableCell className="font-medium">{committee.sort_order}</TableCell>
                                             <TableCell>
-                                                <div className="flex items-center gap-3">
-                                                    <Calendar className="h-5 w-5 text-indigo-500" />
-                                                    <div>
-                                                        <div className="font-medium">{charge.title}</div>
-                                                        {charge.description && (
-                                                            <div className="max-w-xs truncate text-sm text-gray-500">{charge.description}</div>
-                                                        )}
-                                                    </div>
+                                                <div className="max-w-xs">
+                                                    <div className="font-medium">{committee.name}</div>
+                                                    {committee.description && (
+                                                        <div className="mt-1 line-clamp-2 text-sm text-gray-500">{committee.description}</div>
+                                                    )}
                                                 </div>
                                             </TableCell>
                                             <TableCell>
-                                                <div className="text-sm">{formatDateRange(charge.from, charge.to)}</div>
+                                                {committee.chairman_board ? (
+                                                    <div className="text-sm">
+                                                        <div className="font-medium">{committee.chairman_board.full_name}</div>
+                                                        <div className="max-w-[200px] truncate text-gray-500">
+                                                            {committee.chairman_board.designation}
+                                                        </div>
+                                                    </div>
+                                                ) : (
+                                                    <span className="text-gray-400">Not assigned</span>
+                                                )}
                                             </TableCell>
-                                            <TableCell>{getStatusBadge(charge)}</TableCell>
-                                            <TableCell>{getAttachmentBadge(!!charge.attachment)}</TableCell>
-                                            <TableCell className="text-sm text-gray-500">{formatDate(charge.created_at)}</TableCell>
+                                            <TableCell>{getSecretaryInfo(committee)}</TableCell>
+                                            <TableCell>{getMembersCount(committee)}</TableCell>
+                                            <TableCell>{getStatusBadge(committee.is_active)}</TableCell>
+                                            <TableCell className="text-sm text-gray-500">{formatDate(committee.created_at)}</TableCell>
                                             <TableCell className="text-right">
                                                 <DropdownMenu>
                                                     <DropdownMenuTrigger asChild>
@@ -274,30 +328,19 @@ export default function ScheduleOfChargeIndex({ scheduleOfCharges, filters }: Pr
                                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                         <DropdownMenuSeparator />
                                                         <DropdownMenuItem asChild>
-                                                            <Link href={route('schedule-of-charges.show', charge.id)}>
+                                                            <Link href={route('bod-committees.show', committee.id)}>
                                                                 <Eye className="mr-2 h-4 w-4" />
                                                                 View
                                                             </Link>
                                                         </DropdownMenuItem>
                                                         <DropdownMenuItem asChild>
-                                                            <Link href={route('schedule-of-charges.edit', charge.id)}>
+                                                            <Link href={route('bod-committees.edit', committee.id)}>
                                                                 <Edit className="mr-2 h-4 w-4" />
                                                                 Edit
                                                             </Link>
                                                         </DropdownMenuItem>
-                                                        {charge.attachment_url && (
-                                                            <>
-                                                                <DropdownMenuSeparator />
-                                                                <DropdownMenuItem asChild>
-                                                                    <a href={charge.attachment_url} target="_blank" rel="noopener noreferrer">
-                                                                        <Download className="mr-2 h-4 w-4" />
-                                                                        Download
-                                                                    </a>
-                                                                </DropdownMenuItem>
-                                                            </>
-                                                        )}
                                                         <DropdownMenuSeparator />
-                                                        <DropdownMenuItem onClick={() => handleDelete(charge.id)} className="text-red-600">
+                                                        <DropdownMenuItem onClick={() => handleDelete(committee.id)} className="text-red-600">
                                                             <Trash className="mr-2 h-4 w-4" />
                                                             Delete
                                                         </DropdownMenuItem>
@@ -310,19 +353,21 @@ export default function ScheduleOfChargeIndex({ scheduleOfCharges, filters }: Pr
                             </TableBody>
                         </Table>
                     </div>
-                    {scheduleOfCharges.total > 0 && (
+
+                    {/* Pagination Info */}
+                    {bodCommittees.total > 0 && (
                         <div className="flex items-center justify-between text-sm text-gray-500">
                             <div>
-                                Showing {scheduleOfCharges.from} to {scheduleOfCharges.to} of {scheduleOfCharges.total} results
+                                Showing {bodCommittees.from} to {bodCommittees.to} of {bodCommittees.total} results
                             </div>
                             <div className="flex gap-2">
-                                {scheduleOfCharges.current_page > 1 && (
-                                    <Button variant="outline" size="sm" onClick={() => handlePagination(scheduleOfCharges.current_page - 1)}>
+                                {bodCommittees.current_page > 1 && (
+                                    <Button variant="outline" size="sm" onClick={() => handlePagination(bodCommittees.current_page - 1)}>
                                         Previous
                                     </Button>
                                 )}
-                                {scheduleOfCharges.current_page < scheduleOfCharges.last_page && (
-                                    <Button variant="outline" size="sm" onClick={() => handlePagination(scheduleOfCharges.current_page + 1)}>
+                                {bodCommittees.current_page < bodCommittees.last_page && (
+                                    <Button variant="outline" size="sm" onClick={() => handlePagination(bodCommittees.current_page + 1)}>
                                         Next
                                     </Button>
                                 )}

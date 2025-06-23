@@ -5,6 +5,7 @@ use App\Http\Controllers\AnnualReportController;
 use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\BankServiceController;
 use App\Http\Controllers\BoardOfDirectorController;
+use App\Http\Controllers\BodCommitteeController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\BranchServiceController;
 use App\Http\Controllers\CareerController;
@@ -40,6 +41,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('news-announcements', NewsAnnouncementController::class);
     Route::resource('managments', ManagmentController::class);
     Route::resource('board-of-directors', controller: BoardOfDirectorController::class);
+    Route::resource('bod-committees', BodCommitteeController::class);
     // Route::resource('product-types', ProductTypeController::class);
     // Route::resource('product-type-accounts', ProductTypeAccountController::class);
     Route::resource('product-schemes', ProductSchemeController::class);
@@ -76,6 +78,7 @@ Route::get('/', [PageController::class, 'home'])->name('home');
 Route::prefix('about-us')->name('about.')->group(function () {
     Route::get('/board-of-directors', [PageController::class, 'boardOfDirectors'])->name('board-directors');
     Route::get('/management', [PageController::class, 'management'])->name('management');
+    Route::get('/bod-committees', [BodCommitteeController::class, 'publicIndex'])->name('bod-committees');
     Route::get('/branch-network', [PageController::class, 'branchNetwork'])->name('branch-network');
     Route::get('/organogram', [PageController::class, 'organizationStructure'])->name('organogram');
 });

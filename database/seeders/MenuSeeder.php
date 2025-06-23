@@ -41,10 +41,16 @@ class MenuSeeder extends Seeder
                         'sort_order' => 2,
                     ],
                     [
+                        'title' => 'BOD Committees',
+                        'slug' => 'bod-committees',
+                        'route_name' => 'about.bod-committees',
+                        'sort_order' => 3,
+                    ],
+                    [
                         'title' => 'Branch Network',
                         'slug' => 'branch-network',
                         'route_name' => 'about.branch-network',
-                        'sort_order' => 3,
+                        'sort_order' => 4,
                     ],
                 ],
             ],
