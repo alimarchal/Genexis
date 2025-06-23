@@ -176,9 +176,7 @@ export default function AboutUsIndex({ aboutUsList, filters }: Props) {
                                             <TableCell>
                                                 <div className="max-w-xs truncate text-sm text-gray-500">{aboutUs.content.substring(0, 100)}...</div>
                                             </TableCell>
-                                            <TableCell>
-                                                {getStatusBadge(aboutUs.is_active)}
-                                            </TableCell>
+                                            <TableCell>{getStatusBadge(aboutUs.is_active)}</TableCell>
                                             <TableCell className="text-sm text-gray-500">
                                                 {new Date(aboutUs.created_at).toLocaleDateString('en-US', {
                                                     year: 'numeric',

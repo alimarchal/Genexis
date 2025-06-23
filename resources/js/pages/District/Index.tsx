@@ -1,7 +1,6 @@
 import Heading from '@/components/heading';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -43,6 +42,11 @@ interface District {
     updated_at: string;
 }
 
+interface Region {
+    id: number;
+    name: string;
+}
+
 interface Props {
     districts: {
         data: District[];
@@ -50,50 +54,98 @@ interface Props {
         last_page: number;
         per_page: number;
         total: number;
-        links: Array<{
-            url: string | null;
-            label: string;
-            active: boolean;
-        }>;
+        from: number;
+        to: number;
     };
-    filters: {
-        filter?: {
-            name?: string;
-            status?: string;
-        };
-    };
+    regions: Region[];
+    filters: Record<string, string>;
 }
 
-export default function Index({ districts, filters }: Props) {
-    const [searchTerm, setSearchTerm] = useState(filters.filter?.name || '');
-    const [statusFilter, setStatusFilter] = useState(filters.filter?.status || 'all');
+export default function DistrictIndex({ districts, regions, filters }: Props) {
+    const [search, setSearch] = useState(filters['filter[name]'] || '');
+    const [statusFilter, setStatusFilter] = useState(() => {
+        const statusParam = filters['filter[status]'];
+        if (statusParam === 'active') return 'active';
+        if (statusParam === 'inactive') return 'inactive';
+        return 'all';
+    });
+    const [regionFilter, setRegionFilter] = useState(filters['filter[region_id]'] || 'all');
 
-    const handleSearch = (e: React.FormEvent) => {
-        e.preventDefault();
-        const params = new URLSearchParams();
+    const buildParams = () => {
+        const params: Record<string, string> = {};
 
-        if (searchTerm) {
-            params.append('filter[name]', searchTerm);
+        if (search.trim()) {
+            params['filter[name]'] = search;
+        }
+        if (statusFilter !== 'all') {
+            params['filter[status]'] = statusFilter;
+        }
+        if (regionFilter !== 'all') {
+            params['filter[region_id]'] = regionFilter;
         }
 
-        if (statusFilter && statusFilter !== 'all') {
-            params.append('filter[status]', statusFilter);
-        }
+        return params;
+    };
 
+    const handleSearch = (value: string) => {
+        setSearch(value);
         router.get(
-            `${route('districts.index')}?${params.toString()}`,
-            {},
+            route('districts.index'),
             {
-                preserveState: true,
-                preserveScroll: true,
+                ...buildParams(),
+                'filter[name]': value.trim() ? value : undefined,
             },
+            { preserveState: true, preserveScroll: true },
         );
     };
 
-    const handleDelete = (district: District) => {
+    const handleStatusFilter = (value: string) => {
+        setStatusFilter(value);
+        router.get(
+            route('districts.index'),
+            {
+                ...buildParams(),
+                'filter[status]': value !== 'all' ? value : undefined,
+            },
+            { preserveState: true, preserveScroll: true },
+        );
+    };
+
+    const handleRegionFilter = (value: string) => {
+        setRegionFilter(value);
+        router.get(
+            route('districts.index'),
+            {
+                ...buildParams(),
+                'filter[region_id]': value !== 'all' ? value : undefined,
+            },
+            { preserveState: true, preserveScroll: true },
+        );
+    };
+
+    const handlePagination = (page: number) => {
+        router.get(route('districts.index'), {
+            ...buildParams(),
+            page,
+        });
+    };
+
+    const handleDelete = (id: number) => {
         if (confirm('Are you sure you want to delete this district?')) {
-            router.delete(route('districts.destroy', district.id));
+            router.delete(route('districts.destroy', id));
         }
+    };
+
+    const getStatusBadge = (status: string) => {
+        return status === 'active' ? <Badge variant="default">Active</Badge> : <Badge variant="secondary">Inactive</Badge>;
+    };
+
+    const formatDate = (dateString: string) => {
+        return new Date(dateString).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+        });
     };
 
     return (
@@ -101,46 +153,58 @@ export default function Index({ districts, filters }: Props) {
             <Head title="Districts" />
 
             <div className="px-10 py-6">
-                <div className="flex items-center justify-between">
-                    <Heading title="Districts" />
-                    <Link href={route('districts.create')}>
-                        <Button>
-                            <Plus className="mr-2 h-4 w-4" />
-                            Add District
+                <Heading title="Districts" description="Manage districts within your organization's regions" />
+
+                <div className="mt-8 space-y-6">
+                    {/* Search and Filters */}
+                    <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                        <div className="flex flex-1 gap-4">
+                            <div className="relative max-w-sm flex-1">
+                                <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
+                                <Input
+                                    placeholder="Search districts..."
+                                    value={search}
+                                    onChange={(e) => handleSearch(e.target.value)}
+                                    className="pl-10"
+                                />
+                            </div>
+
+                            <Select value={regionFilter} onValueChange={handleRegionFilter}>
+                                <SelectTrigger className="w-48">
+                                    <SelectValue placeholder="All Regions" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="all">All Regions</SelectItem>
+                                    {regions.map((region) => (
+                                        <SelectItem key={region.id} value={region.id.toString()}>
+                                            {region.name}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+
+                            <Select value={statusFilter} onValueChange={handleStatusFilter}>
+                                <SelectTrigger className="w-40">
+                                    <SelectValue placeholder="All Status" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="all">All Status</SelectItem>
+                                    <SelectItem value="active">Active</SelectItem>
+                                    <SelectItem value="inactive">Inactive</SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </div>
+
+                        <Button asChild>
+                            <Link href={route('districts.create')}>
+                                <Plus className="mr-2 h-4 w-4" />
+                                Add District
+                            </Link>
                         </Button>
-                    </Link>
-                </div>
-
-                <form onSubmit={handleSearch} className="my-4 flex items-center space-x-2">
-                    <div className="flex-1">
-                        <Input
-                            placeholder="Search districts..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                            className="max-w-sm"
-                        />
                     </div>
-                    <Select value={statusFilter} onValueChange={setStatusFilter}>
-                        <SelectTrigger className="w-[180px]">
-                            <SelectValue placeholder="Search by status" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="all">All Statuses</SelectItem>
-                            <SelectItem value="active">Active</SelectItem>
-                            <SelectItem value="inactive">Inactive</SelectItem>
-                        </SelectContent>
-                    </Select>
-                    <Button type="submit">
-                        <Search className="mr-2 h-4 w-4" />
-                        Search
-                    </Button>
-                </form>
 
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Districts List</CardTitle>
-                    </CardHeader>
-                    <CardContent>
+                    {/* Table */}
+                    <div className="rounded-md border">
                         <Table>
                             <TableHeader>
                                 <TableRow>
@@ -154,7 +218,7 @@ export default function Index({ districts, filters }: Props) {
                             <TableBody>
                                 {districts.data.length === 0 ? (
                                     <TableRow>
-                                        <TableCell colSpan={5} className="py-8 text-center">
+                                        <TableCell colSpan={5} className="h-24 text-center">
                                             No districts found.
                                         </TableCell>
                                     </TableRow>
@@ -163,20 +227,18 @@ export default function Index({ districts, filters }: Props) {
                                         <TableRow key={district.id}>
                                             <TableCell className="font-medium">{district.name}</TableCell>
                                             <TableCell>{district.region?.name || 'N/A'}</TableCell>
-                                            <TableCell>
-                                                <Badge variant={district.status === 'active' ? 'default' : 'secondary'}>{district.status}</Badge>
-                                            </TableCell>
-                                            <TableCell>{new Date(district.created_at).toLocaleDateString()}</TableCell>
+                                            <TableCell>{getStatusBadge(district.status)}</TableCell>
+                                            <TableCell>{formatDate(district.created_at)}</TableCell>
                                             <TableCell className="text-right">
                                                 <DropdownMenu>
                                                     <DropdownMenuTrigger asChild>
                                                         <Button variant="ghost" className="h-8 w-8 p-0">
+                                                            <span className="sr-only">Open menu</span>
                                                             <MoreHorizontal className="h-4 w-4" />
                                                         </Button>
                                                     </DropdownMenuTrigger>
                                                     <DropdownMenuContent align="end">
                                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                                        <DropdownMenuSeparator />
                                                         <DropdownMenuItem asChild>
                                                             <Link href={route('districts.show', district.id)}>
                                                                 <Eye className="mr-2 h-4 w-4" />
@@ -189,7 +251,8 @@ export default function Index({ districts, filters }: Props) {
                                                                 Edit
                                                             </Link>
                                                         </DropdownMenuItem>
-                                                        <DropdownMenuItem onClick={() => handleDelete(district)} className="text-red-600">
+                                                        <DropdownMenuSeparator />
+                                                        <DropdownMenuItem className="text-red-600" onClick={() => handleDelete(district.id)}>
                                                             <Trash className="mr-2 h-4 w-4" />
                                                             Delete
                                                         </DropdownMenuItem>
@@ -201,30 +264,29 @@ export default function Index({ districts, filters }: Props) {
                                 )}
                             </TableBody>
                         </Table>
-                    </CardContent>
-                </Card>
-
-                {/* Pagination */}
-                {districts.last_page > 1 && (
-                    <div className="mt-4 flex items-center justify-between">
-                        <div className="text-sm text-gray-700">
-                            Showing {(districts.current_page - 1) * districts.per_page + 1} to{' '}
-                            {Math.min(districts.current_page * districts.per_page, districts.total)} of {districts.total} results
-                        </div>
-                        <div className="flex items-center space-x-2">
-                            {districts.links.map((link, index) => (
-                                <Button
-                                    key={index}
-                                    variant={link.active ? 'default' : 'outline'}
-                                    size="sm"
-                                    disabled={!link.url}
-                                    onClick={() => link.url && router.get(link.url)}
-                                    dangerouslySetInnerHTML={{ __html: link.label }}
-                                />
-                            ))}
-                        </div>
                     </div>
-                )}
+
+                    {/* Pagination */}
+                    {districts.last_page > 1 && (
+                        <div className="flex items-center justify-between">
+                            <div className="text-muted-foreground text-sm">
+                                Showing {districts.from} to {districts.to} of {districts.total} results
+                            </div>
+                            <div className="flex gap-2">
+                                {Array.from({ length: districts.last_page }, (_, i) => i + 1).map((page) => (
+                                    <Button
+                                        key={page}
+                                        variant={page === districts.current_page ? 'default' : 'outline'}
+                                        size="sm"
+                                        onClick={() => handlePagination(page)}
+                                    >
+                                        {page}
+                                    </Button>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                </div>
             </div>
         </AppLayout>
     );

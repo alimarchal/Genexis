@@ -295,7 +295,7 @@ function CollapsibleNavGroup({
     title,
     icon: Icon,
     items,
-    defaultExpanded = false
+    defaultExpanded = false,
 }: {
     title: string;
     icon: React.ComponentType<{ className?: string }>;
@@ -305,7 +305,7 @@ function CollapsibleNavGroup({
     const page = usePage();
 
     // Check if any item in this group is currently active
-    const hasActiveItem = items.some(item => item.href === page.url);
+    const hasActiveItem = items.some((item) => item.href === page.url);
 
     // Determine if group should be expanded: default expanded, has active item, or user manually expanded
     const [isExpanded, setIsExpanded] = useState(defaultExpanded || hasActiveItem);
@@ -320,16 +320,10 @@ function CollapsibleNavGroup({
     return (
         <SidebarGroup className="px-2 py-0">
             <SidebarMenuItem>
-                <SidebarMenuButton
-                    onClick={() => setIsExpanded(!isExpanded)}
-                    className="group/collapsible"
-                >
+                <SidebarMenuButton onClick={() => setIsExpanded(!isExpanded)} className="group/collapsible">
                     <Icon />
                     <span>{title}</span>
-                    <ChevronDown
-                        className={`ml-auto transition-transform ${isExpanded ? 'rotate-180' : ''
-                            }`}
-                    />
+                    <ChevronDown className={`ml-auto transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
                 </SidebarMenuButton>
                 {isExpanded && (
                     <SidebarMenuSub>
