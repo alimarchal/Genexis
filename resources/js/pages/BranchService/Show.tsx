@@ -15,13 +15,15 @@ interface Branch {
     address: string;
 }
 
+type AvailabilityHours = string | string[] | Record<string, string[] | null> | null;
+
 interface BranchService {
     id: number;
     service_name: string;
     description: string;
     branch_id: number;
     is_available: boolean;
-    availability_hours: string[] | null;
+    availability_hours: AvailabilityHours;
     service_fee: string | null;
     status: 'active' | 'inactive';
     created_at: string;
@@ -170,10 +172,38 @@ export default function ShowBranchService({ branchService }: Props) {
                                             <div>
                                                 <p className="text-sm font-medium text-muted-foreground">Availability Hours</p>
                                                 <p className="mt-1">
-                                                    {branchService.availability_hours && branchService.availability_hours.length > 0
-                                                        ? branchService.availability_hours.join(', ')
-                                                        : 'Not specified'
-                                                    }
+                                                    {(() => {
+                                                        if (!branchService.availability_hours) return 'Not specified';
+
+                                                        // If it's already a string, return it
+                                                        if (typeof branchService.availability_hours === 'string') {
+                                                            return branchService.availability_hours;
+                                                        }
+
+                                                        // If it's an array, join it
+                                                        if (Array.isArray(branchService.availability_hours)) {
+                                                            return branchService.availability_hours.join(', ');
+                                                        }
+
+                                                        // If it's an object, process it
+                                                        if (typeof branchService.availability_hours === 'object') {
+                                                            const days = Object.entries(branchService.availability_hours)
+                                                                .filter(([, hours]) => hours !== null && hours !== undefined)
+                                                                .map(([day, hours]) => {
+                                                                    if (Array.isArray(hours)) {
+                                                                        if (hours.length >= 2) {
+                                                                            return `${day}: ${hours[0]} - ${hours[1]}`;
+                                                                        }
+                                                                        return `${day}: ${hours.join(', ')}`;
+                                                                    }
+                                                                    return `${day}: ${hours}`;
+                                                                });
+
+                                                            return days.join(', ') || 'Not specified';
+                                                        }
+
+                                                        return String(branchService.availability_hours);
+                                                    })()}
                                                 </p>
                                             </div>
                                         </div>

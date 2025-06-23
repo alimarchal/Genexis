@@ -18,13 +18,15 @@ interface Branch {
     code: string;
 }
 
+type AvailabilityHours = string | string[] | Record<string, string[] | null> | null;
+
 interface BranchService {
     id: number;
     service_name: string;
     description: string;
     branch_id: number;
     is_available: boolean;
-    availability_hours: string[] | null;
+    availability_hours: AvailabilityHours;
     service_fee: string | null;
     status: 'active' | 'inactive';
     branch: Branch;
@@ -40,7 +42,7 @@ type BranchServiceForm = {
     service_name: string;
     description: string;
     is_available: boolean;
-    availability_hours: string[];
+    availability_hours: string;
     service_fee: string;
     status: 'active' | 'inactive';
 };
@@ -65,12 +67,46 @@ export default function EditBranchService({ branchService, branches }: Props) {
         },
     ];
 
+    // Convert complex availability_hours object to simple string for editing
+    const getAvailabilityHoursString = (availabilityHours: AvailabilityHours): string => {
+        if (!availabilityHours) return '';
+
+        // If it's already a string, return it
+        if (typeof availabilityHours === 'string') {
+            return availabilityHours;
+        }
+
+        // If it's an array, join it
+        if (Array.isArray(availabilityHours)) {
+            return availabilityHours.join(', ');
+        }
+
+        // If it's an object, process it
+        if (typeof availabilityHours === 'object') {
+            const days = Object.entries(availabilityHours)
+                .filter(([, hours]) => hours !== null && hours !== undefined)
+                .map(([day, hours]) => {
+                    if (Array.isArray(hours)) {
+                        if (hours.length >= 2) {
+                            return `${day}: ${hours[0]} - ${hours[1]}`;
+                        }
+                        return `${day}: ${hours.join(', ')}`;
+                    }
+                    return `${day}: ${hours}`;
+                });
+
+            return days.join(', ');
+        }
+
+        return String(availabilityHours);
+    };
+
     const { data, setData, put, processing, errors } = useForm<BranchServiceForm>({
         branch_id: branchService.branch_id.toString(),
         service_name: branchService.service_name,
         description: branchService.description || '',
         is_available: branchService.is_available,
-        availability_hours: branchService.availability_hours || [],
+        availability_hours: getAvailabilityHoursString(branchService.availability_hours),
         service_fee: branchService.service_fee || '',
         status: branchService.status,
     });
@@ -81,9 +117,7 @@ export default function EditBranchService({ branchService, branches }: Props) {
     };
 
     const handleAvailabilityHoursChange = (value: string) => {
-        // Simple handling - store as JSON string array
-        const hours = value.split(',').map(h => h.trim()).filter(h => h.length > 0);
-        setData('availability_hours', hours);
+        setData('availability_hours', value);
     };
 
     return (
@@ -160,13 +194,13 @@ export default function EditBranchService({ branchService, branches }: Props) {
                                             <Label htmlFor="availability_hours">Availability Hours</Label>
                                             <Input
                                                 id="availability_hours"
-                                                value={data.availability_hours.join(', ')}
+                                                value={data.availability_hours}
                                                 onChange={(e) => handleAvailabilityHoursChange(e.target.value)}
-                                                placeholder="e.g., 9:00 AM - 5:00 PM, Monday to Friday"
+                                                placeholder="e.g., Monday: 9:00 - 17:00, Tuesday: 9:00 - 17:00"
                                                 className={errors.availability_hours ? 'border-red-500' : ''}
                                             />
                                             <p className="text-sm text-muted-foreground">
-                                                Enter availability hours separated by commas
+                                                Enter availability hours in text format
                                             </p>
                                             {errors.availability_hours && <p className="text-sm text-red-500">{errors.availability_hours}</p>}
                                         </div>

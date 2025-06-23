@@ -30,11 +30,18 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
+interface Branch {
+    id: number;
+    name: string;
+    code: string;
+}
+
 interface BranchService {
     id: number;
     service_name: string;
     description: string;
     branch_id: number;
+    is_available: boolean;
     branch: {
         id: number;
         name: string;
@@ -58,17 +65,22 @@ interface Props {
             active: boolean;
         }>;
     };
+    branches: Branch[];
     filters: {
         filter?: {
             service_name?: string;
             status?: string;
+            branch_id?: string;
+            is_available?: string;
         };
     };
 }
 
-export default function Index({ branchServices, filters }: Props) {
+export default function Index({ branchServices, branches, filters }: Props) {
     const [searchTerm, setSearchTerm] = useState(filters.filter?.service_name || '');
     const [statusFilter, setStatusFilter] = useState(filters.filter?.status || 'all');
+    const [branchFilter, setBranchFilter] = useState(filters.filter?.branch_id || 'all');
+    const [availabilityFilter, setAvailabilityFilter] = useState(filters.filter?.is_available || 'all');
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
@@ -80,6 +92,14 @@ export default function Index({ branchServices, filters }: Props) {
 
         if (statusFilter && statusFilter !== 'all') {
             params.append('filter[status]', statusFilter);
+        }
+
+        if (branchFilter && branchFilter !== 'all') {
+            params.append('filter[branch_id]', branchFilter);
+        }
+
+        if (availabilityFilter && availabilityFilter !== 'all') {
+            params.append('filter[is_available]', availabilityFilter);
         }
 
         router.get(
@@ -113,29 +133,58 @@ export default function Index({ branchServices, filters }: Props) {
                     </Link>
                 </div>
 
-                <form onSubmit={handleSearch} className="my-4 flex items-center space-x-2">
-                    <div className="flex-1">
-                        <Input
-                            placeholder="Search branch services..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                            className="max-w-sm"
-                        />
+                <form onSubmit={handleSearch} className="my-4">
+                    <div className="flex flex-wrap items-center gap-4">
+                        <div className="flex-1 min-w-[250px]">
+                            <Input
+                                placeholder="Search branch services..."
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                className="max-w-sm"
+                            />
+                        </div>
+
+                        <Select value={statusFilter} onValueChange={setStatusFilter}>
+                            <SelectTrigger className="w-[180px]">
+                                <SelectValue placeholder="Filter by status" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="all">All Statuses</SelectItem>
+                                <SelectItem value="active">Active</SelectItem>
+                                <SelectItem value="inactive">Inactive</SelectItem>
+                            </SelectContent>
+                        </Select>
+
+                        <Select value={branchFilter} onValueChange={setBranchFilter}>
+                            <SelectTrigger className="w-[200px]">
+                                <SelectValue placeholder="Filter by branch" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="all">All Branches</SelectItem>
+                                {branches.map((branch) => (
+                                    <SelectItem key={branch.id} value={branch.id.toString()}>
+                                        {branch.name}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+
+                        <Select value={availabilityFilter} onValueChange={setAvailabilityFilter}>
+                            <SelectTrigger className="w-[180px]">
+                                <SelectValue placeholder="Filter by availability" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="all">All Services</SelectItem>
+                                <SelectItem value="1">Available</SelectItem>
+                                <SelectItem value="0">Not Available</SelectItem>
+                            </SelectContent>
+                        </Select>
+
+                        <Button type="submit">
+                            <Search className="mr-2 h-4 w-4" />
+                            Search
+                        </Button>
                     </div>
-                    <Select value={statusFilter} onValueChange={setStatusFilter}>
-                        <SelectTrigger className="w-[180px]">
-                            <SelectValue placeholder="Search by status" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="all">All Statuses</SelectItem>
-                            <SelectItem value="active">Active</SelectItem>
-                            <SelectItem value="inactive">Inactive</SelectItem>
-                        </SelectContent>
-                    </Select>
-                    <Button type="submit">
-                        <Search className="mr-2 h-4 w-4" />
-                        Search
-                    </Button>
                 </form>
 
                 <Card>
@@ -144,13 +193,14 @@ export default function Index({ branchServices, filters }: Props) {
                     </CardHeader>
                     <CardContent>
                         <div className="overflow-x-auto">
-                            <Table className="min-w-[970px]">
+                            <Table className="min-w-[1120px]">
                                 <TableHeader>
                                     <TableRow>
                                         <TableHead className="w-[200px]">Service Name</TableHead>
                                         <TableHead className="w-[150px]">Branch</TableHead>
-                                        <TableHead className="w-[300px]">Description</TableHead>
+                                        <TableHead className="w-[280px]">Description</TableHead>
                                         <TableHead className="w-[100px]">Status</TableHead>
+                                        <TableHead className="w-[120px]">Availability</TableHead>
                                         <TableHead className="w-[120px]">Created</TableHead>
                                         <TableHead className="w-[100px] text-right">Actions</TableHead>
                                     </TableRow>
@@ -158,7 +208,7 @@ export default function Index({ branchServices, filters }: Props) {
                                 <TableBody>
                                     {branchServices.data.length === 0 ? (
                                         <TableRow>
-                                            <TableCell colSpan={6} className="py-8 text-center">
+                                            <TableCell colSpan={7} className="py-8 text-center">
                                                 No branch services found.
                                             </TableCell>
                                         </TableRow>
@@ -167,14 +217,19 @@ export default function Index({ branchServices, filters }: Props) {
                                             <TableRow key={branchService.id}>
                                                 <TableCell className="font-medium w-[200px]">{branchService.service_name}</TableCell>
                                                 <TableCell className="w-[150px]">{branchService.branch?.name || 'N/A'}</TableCell>
-                                                <TableCell className="w-[300px]">
-                                                    <div className="max-w-[280px] truncate pr-4" title={branchService.description}>
+                                                <TableCell className="w-[280px]">
+                                                    <div className="max-w-[260px] truncate pr-4" title={branchService.description}>
                                                         {branchService.description}
                                                     </div>
                                                 </TableCell>
                                                 <TableCell className="w-[100px]">
                                                     <Badge variant={branchService.status === 'active' ? 'default' : 'secondary'}>
                                                         {branchService.status}
+                                                    </Badge>
+                                                </TableCell>
+                                                <TableCell className="w-[120px]">
+                                                    <Badge variant={branchService.is_available ? 'default' : 'destructive'}>
+                                                        {branchService.is_available ? 'Available' : 'Not Available'}
                                                     </Badge>
                                                 </TableCell>
                                                 <TableCell className="w-[120px]">{new Date(branchService.created_at).toLocaleDateString()}</TableCell>

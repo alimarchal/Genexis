@@ -26,8 +26,7 @@ class StoreBranchServiceRequest extends FormRequest
             'service_name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'is_available' => 'boolean',
-            'availability_hours' => 'nullable|array',
-            'availability_hours.*' => 'string|max:255',
+            'availability_hours' => 'nullable|string',
             'service_fee' => 'nullable|numeric|min:0',
             'status' => 'required|in:active,inactive',
         ];
