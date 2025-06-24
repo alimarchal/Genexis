@@ -13,7 +13,7 @@ class DownloadSeeder extends Seeder
         $downloads = [
             [
                 'title' => 'Account Opening Form',
-                'description' => 'Complete this form to open a new account with Bank of Azad Jammu & Kashmir',
+                'description' => 'Complete this form to open a new account with BAJK',
                 'file_path' => 'downloads/account-opening-form.pdf',
                 'file_type' => 'application/pdf',
                 'file_size' => 245760, // ~240KB
