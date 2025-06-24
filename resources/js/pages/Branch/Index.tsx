@@ -121,7 +121,7 @@ export default function BranchIndex({ branches, regions, districts, filters }: P
                 ...buildParams(),
                 'filter[name]': value.trim() ? value : undefined,
             },
-            { preserveState: true, preserveScroll: true }
+            { preserveState: true, preserveScroll: true },
         );
     };
 
@@ -195,9 +195,9 @@ export default function BranchIndex({ branches, regions, districts, filters }: P
 
     const getTypeBadge = (type: string) => {
         const colors: Record<string, 'default' | 'secondary' | 'outline'> = {
-            'main': 'default',
-            'sub': 'secondary',
-            'agent': 'outline',
+            main: 'default',
+            sub: 'secondary',
+            agent: 'outline',
         };
         return <Badge variant={colors[type] || 'outline'}>{type.charAt(0).toUpperCase() + type.slice(1)}</Badge>;
     };
@@ -211,9 +211,7 @@ export default function BranchIndex({ branches, regions, districts, filters }: P
     };
 
     // Filter districts based on selected region
-    const filteredDistricts = regionFilter !== 'all'
-        ? districts.filter(district => district.region.id.toString() === regionFilter)
-        : districts;
+    const filteredDistricts = regionFilter !== 'all' ? districts.filter((district) => district.region.id.toString() === regionFilter) : districts;
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>

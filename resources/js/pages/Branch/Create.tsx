@@ -80,9 +80,7 @@ export default function CreateBranch({ regions, districts }: Props) {
     };
 
     // Filter districts based on selected region
-    const filteredDistricts = selectedRegion
-        ? districts.filter(district => district.region.id.toString() === selectedRegion)
-        : districts;
+    const filteredDistricts = selectedRegion ? districts.filter((district) => district.region.id.toString() === selectedRegion) : districts;
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -198,7 +196,7 @@ export default function CreateBranch({ regions, districts }: Props) {
                                             disabled={!selectedRegion}
                                         >
                                             <SelectTrigger className={errors.district_id ? 'border-red-500' : ''}>
-                                                <SelectValue placeholder={selectedRegion ? "Select a district" : "Select a region first"} />
+                                                <SelectValue placeholder={selectedRegion ? 'Select a district' : 'Select a region first'} />
                                             </SelectTrigger>
                                             <SelectContent>
                                                 {filteredDistricts.map((district) => (

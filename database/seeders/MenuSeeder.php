@@ -40,23 +40,17 @@ class MenuSeeder extends Seeder
                         'route_name' => 'about.board-directors',
                         'sort_order' => 2,
                     ],
+                      [
+                        'title' => 'BOD Committees',
+                        'slug' => 'bod-committees',
+                        'route_name' => 'about.bod-committees',
+                        'sort_order' => 3,
+                    ],
                     [
                         'title' => 'Management',
                         'slug' => 'management',
                         'route_name' => 'about.management',
-                        'sort_order' => 3,
-                    ],
-                    [
-                        'title' => 'BOD Committees',
-                        'slug' => 'bod-committees',
-                        'route_name' => 'about.bod-committees',
                         'sort_order' => 4,
-                    ],
-                    [
-                        'title' => 'Branch Network',
-                        'slug' => 'branch-network',
-                        'route_name' => 'about.branch-network',
-                        'sort_order' => 5,
                     ],
                 ],
             ],
@@ -242,6 +236,14 @@ class MenuSeeder extends Seeder
                 'route_name' => 'contact',
                 'sort_order' => 8,
                 'is_active' => true,
+                'children' => [
+                    [
+                        'title' => 'Branch Network',
+                        'slug' => 'branch-network',
+                        'route_name' => 'about.branch-network',
+                        'sort_order' => 1,
+                    ],
+                ],
             ],
 
         ];

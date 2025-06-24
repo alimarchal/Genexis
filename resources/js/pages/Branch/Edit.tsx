@@ -96,9 +96,7 @@ export default function EditBranch({ branch, regions, districts }: Props) {
     };
 
     // Filter districts based on selected region
-    const filteredDistricts = selectedRegion 
-        ? districts.filter(district => district.region.id.toString() === selectedRegion)
-        : districts;
+    const filteredDistricts = selectedRegion ? districts.filter((district) => district.region.id.toString() === selectedRegion) : districts;
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -208,13 +206,13 @@ export default function EditBranch({ branch, regions, districts }: Props) {
                                     {/* District */}
                                     <div className="space-y-2">
                                         <Label htmlFor="district_id">District</Label>
-                                        <Select 
-                                            value={data.district_id} 
+                                        <Select
+                                            value={data.district_id}
                                             onValueChange={(value) => setData('district_id', value)}
                                             disabled={!selectedRegion}
                                         >
                                             <SelectTrigger className={errors.district_id ? 'border-red-500' : ''}>
-                                                <SelectValue placeholder={selectedRegion ? "Select a district" : "Select a region first"} />
+                                                <SelectValue placeholder={selectedRegion ? 'Select a district' : 'Select a region first'} />
                                             </SelectTrigger>
                                             <SelectContent>
                                                 {filteredDistricts.map((district) => (

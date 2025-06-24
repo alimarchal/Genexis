@@ -135,7 +135,7 @@ export default function Index({ branchServices, branches, filters }: Props) {
 
                 <form onSubmit={handleSearch} className="my-4">
                     <div className="flex flex-wrap items-center gap-4">
-                        <div className="flex-1 min-w-[250px]">
+                        <div className="min-w-[250px] flex-1">
                             <Input
                                 placeholder="Search branch services..."
                                 value={searchTerm}
@@ -215,7 +215,7 @@ export default function Index({ branchServices, branches, filters }: Props) {
                                     ) : (
                                         branchServices.data.map((branchService) => (
                                             <TableRow key={branchService.id}>
-                                                <TableCell className="font-medium w-[200px]">{branchService.service_name}</TableCell>
+                                                <TableCell className="w-[200px] font-medium">{branchService.service_name}</TableCell>
                                                 <TableCell className="w-[150px]">{branchService.branch?.name || 'N/A'}</TableCell>
                                                 <TableCell className="w-[280px]">
                                                     <div className="max-w-[260px] truncate pr-4" title={branchService.description}>
