@@ -95,21 +95,21 @@ const CommitteeCard: React.FC<CommitteeCardProps> = ({ committee }) => {
                     <div className="p-6">
                         <div className="space-y-4">
                             {/* Committee Name */}
-                            <h3 className="flex min-h-[60px] transform items-center justify-center text-center text-xl font-bold text-[#4A7C59] transition-all duration-300 hover:text-[#F9B912]">
+                            <h3 className="flex min-h-[40px] transform items-center justify-center text-center text-xl font-bold text-[#4A7C59] transition-all duration-300 hover:text-[#F9B912]">
                                 {name}
                             </h3>
 
                             {/* Chairman */}
                             {chairman && (
                                 <div className="text-center">
-                                    <p className="text-sm font-semibold text-gray-600">Chairman:</p>
-                                    <p className="text-sm font-medium text-[#4A7C59]">{getMemberDisplayName(chairman)}</p>
+                                    <p className="text-sm font-semibold text-gray-600">Chairman: <span className="text-sm font-medium text-[#4A7C59]">{getMemberDisplayName(chairman)}</span>
+                                    </p>
                                 </div>
                             )}
 
                             {/* Description */}
                             <div className="text-left">
-                                <div className="flex min-h-[80px] transform items-start text-sm leading-relaxed text-gray-500 transition-all duration-300 hover:text-gray-700">
+                                <div className="flex min-h-[40px] transform items-start text-sm leading-relaxed text-gray-500 transition-all duration-300 hover:text-gray-700">
                                     {description ? (
                                         <span>{description.length > 120 ? `${description.substring(0, 120)}...` : description}</span>
                                     ) : (
