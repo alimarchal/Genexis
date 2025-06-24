@@ -198,14 +198,6 @@ export default function BodCommitteeIndex({ bodCommittees, filters }: Props) {
         );
     };
 
-    const formatDate = (dateString: string) => {
-        return new Date(dateString).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-        });
-    };
-
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="BOD Committees" />

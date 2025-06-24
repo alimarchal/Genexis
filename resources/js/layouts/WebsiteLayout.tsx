@@ -34,7 +34,7 @@ interface WebsiteLayoutProps extends PropsWithChildren {
 }
 
 export default function WebsiteLayout({ children, title, breadcrumbs = [] }: WebsiteLayoutProps) {
-    const { menu, autoBreadcrumbs, bankBranchesCount, socialLinks } = usePage().props;
+    const { menu, autoBreadcrumbs, bankBranchesCount, socialLinks, topNavbarMessages } = usePage().props;
     const headerRef = useRef<HTMLDivElement>(null);
     const [headerHeight, setHeaderHeight] = useState(120);
 
@@ -70,7 +70,7 @@ export default function WebsiteLayout({ children, title, breadcrumbs = [] }: Web
 
             {/* Fixed TopNavbar, Header, and Breadcrumb */}
             <div className="fixed top-0 right-0 left-0 z-50" ref={headerRef}>
-                <TopNavbar />
+                <TopNavbar messages={topNavbarMessages} />
                 <Header menuItems={menu as MenuItem[]} />
                 {finalBreadcrumbs.length > 0 && <BreadcrumbNav items={finalBreadcrumbs} />}
             </div>
