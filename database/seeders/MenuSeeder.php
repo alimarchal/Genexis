@@ -183,7 +183,7 @@ class MenuSeeder extends Seeder
                 ],
             ],
             [
-                'title' => 'Rates',
+                'title' => 'Rates & Charges',
                 'slug' => 'rates-charges',
                 'url' => '#',
                 'sort_order' => 6,
@@ -228,6 +228,12 @@ class MenuSeeder extends Seeder
                         'route_name' => 'public-downloads',
                         'sort_order' => 3,
                     ],
+                    [
+                        'title' => 'Branch Network',
+                        'slug' => 'branch-network',
+                        'route_name' => 'about.branch-network',
+                        'sort_order' => 4,
+                    ],
                 ],
             ],
             [
@@ -236,14 +242,6 @@ class MenuSeeder extends Seeder
                 'route_name' => 'contact',
                 'sort_order' => 8,
                 'is_active' => true,
-                'children' => [
-                    [
-                        'title' => 'Branch Network',
-                        'slug' => 'branch-network',
-                        'route_name' => 'about.branch-network',
-                        'sort_order' => 1,
-                    ],
-                ],
             ],
 
         ];
