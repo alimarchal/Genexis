@@ -43,12 +43,11 @@ import {
     PieChart,
     Settings,
     Settings2,
-    ShoppingCart,
     TrendingUp,
     User,
     Users,
     UsersRound,
-    Wrench,
+    Wrench
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import AppLogo from './app-logo';
@@ -239,28 +238,6 @@ const sidebarGroups = [
                 title: 'Contacts',
                 href: '/contacts',
                 icon: Contact,
-            },
-        ],
-    },
-    {
-        title: 'Product Management',
-        icon: Package,
-        defaultExpanded: false,
-        items: [
-            {
-                title: 'Product',
-                href: '/product',
-                icon: ShoppingCart,
-            },
-            {
-                title: 'Product Types',
-                href: '/product-types',
-                icon: Package,
-            },
-            {
-                title: 'Product Type Accounts',
-                href: '/product-type-accounts',
-                icon: Building,
             },
         ],
     },
