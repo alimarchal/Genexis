@@ -219,6 +219,16 @@ export default function EditBoardOfDirector({ boardOfDirector }: Props) {
                                 {/* Image Upload */}
                                 <div className="space-y-2">
                                     <Label htmlFor="image">Profile Image</Label>
+                                    {boardOfDirector.image_url && (
+                                        <div className="mb-3">
+                                            <img
+                                                src={boardOfDirector.image_url}
+                                                alt="Current profile"
+                                                className="h-24 w-24 rounded-lg border object-cover"
+                                            />
+                                            <p className="mt-1 text-sm text-gray-600">Current image</p>
+                                        </div>
+                                    )}
                                     <Input
                                         id="image"
                                         type="file"

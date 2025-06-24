@@ -17,6 +17,7 @@ class RegionFactory extends Factory
     public function definition(): array
     {
         return [
+            'division_id' => 10, // Use default division_id from migration
             'name' => fake()->unique()->randomElement([
                 'Central Region',
                 'Northern Region',

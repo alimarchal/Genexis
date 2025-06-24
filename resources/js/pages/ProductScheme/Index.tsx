@@ -237,14 +237,14 @@ export default function ProductSchemeIndex({ productSchemes, accounts, filters }
                                 ) : (
                                     productSchemes.data.map((scheme) => (
                                         <TableRow key={scheme.id}>
-                                            <TableCell>
-                                                <div className="flex items-center gap-3">
-                                                    <FileText className="h-4 w-4 text-gray-500" />
-                                                    <div>
-                                                        <div className="font-medium">{scheme.name}</div>
-                                                    </div>
-                                                </div>
-                                            </TableCell>
+<TableCell className="w-64 max-w-64">
+    <div className="flex items-center gap-3">
+        <FileText className="h-4 w-4 text-gray-500 shrink-0" />
+        <div className="min-w-0 flex-1 overflow-hidden">
+            <div className="font-medium truncate">{scheme.name}</div>
+        </div>
+    </div>
+</TableCell>
                                             <TableCell>
                                                 <Badge variant="outline">{scheme.product_type_account?.name || 'N/A'}</Badge>
                                             </TableCell>
@@ -256,9 +256,13 @@ export default function ProductSchemeIndex({ productSchemes, accounts, filters }
                                                     </div>
                                                 </div>
                                             </TableCell>
-                                            <TableCell>
-                                                <div className="max-w-xs truncate text-sm text-gray-600">{scheme.description || '-'}</div>
-                                            </TableCell>
+<TableCell className="w-80 max-w-80">
+    <div className="min-w-0 overflow-hidden">
+        <div className="text-sm text-gray-600 break-words hyphens-auto whitespace-normal line-clamp-2">
+            {scheme.description || '-'}
+        </div>
+    </div>
+</TableCell>
                                             <TableCell>{getStatusBadge(scheme.is_active)}</TableCell>
                                             <TableCell className="text-sm text-gray-500">{formatDate(scheme.created_at)}</TableCell>
                                             <TableCell className="text-right">

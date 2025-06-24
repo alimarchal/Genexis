@@ -83,7 +83,7 @@ export default function NewsDetail({ news, relatedNews }: Props) {
                     <div className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-lg">
                         {/* Featured Image */}
                         {news.image_url && (
-                            <div className="relative h-64 overflow-hidden md:h-80">
+                            <div className="relative h-80 overflow-hidden md:h-96 lg:h-[750px]">
                                 <img src={news.image_url} alt={news.title} className="h-full w-full object-cover" />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                             </div>

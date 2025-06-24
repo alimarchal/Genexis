@@ -1,242 +1,259 @@
+import Heading from '@/components/heading';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, Link, useForm } from '@inertiajs/react';
-import { ArrowLeft, Calendar, Clock, Download, Edit, File, Trash2, User } from 'lucide-react';
-
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Dashboard',
-        href: route('dashboard'),
-    },
-    {
-        title: 'Financial Highlights',
-        href: route('financial-highlights.index'),
-    },
-    {
-        title: 'Details',
-        href: '',
-    },
-];
+import { Head, Link } from '@inertiajs/react';
+import { Calendar, Download, Edit, FileText, Hash, TrendingUp } from 'lucide-react';
 
 interface FinancialHighlight {
     id: number;
     fiscal_year: number;
-    file_path: string;
-    file_name: string;
-    file_size: number;
+    financial_highlights: string | null;
+    financial_highlights_url: string | null;
     created_at: string;
     updated_at: string;
-    creator: {
-        name: string;
-        email: string;
-    };
-    updater: {
-        name: string;
-        email: string;
-    };
-    download_url: string;
-    edit_url: string;
 }
 
 interface Props {
-    financial_highlight: FinancialHighlight;
+    financialHighlight: FinancialHighlight;
 }
 
-export default function Show({ financial_highlight }: Props) {
-    const { delete: destroy, processing } = useForm();
+export default function ShowFinancialHighlight({ financialHighlight }: Props) {
+    const breadcrumbs: BreadcrumbItem[] = [
+        { title: 'Dashboard', href: route('dashboard') },
+        { title: 'Financial Highlights', href: route('financial-highlights.index') },
+        { title: `FY ${financialHighlight.fiscal_year}`, href: route('financial-highlights.show', financialHighlight.id) },
+    ];
 
-    const handleDelete = () => {
-        if (confirm('Are you sure you want to delete this financial highlight? This action cannot be undone.')) {
-            destroy(route('financial-highlights.destroy', financial_highlight.id), {
-                onSuccess: () => {
-                    // Redirect will be handled by the controller
-                },
-            });
-        }
+    const getHighlightsBadge = () => {
+        return financialHighlight.financial_highlights ? <Badge variant="default">Uploaded</Badge> : <Badge variant="outline">No Highlights</Badge>;
     };
 
-    const formatFileSize = (bytes: number) => {
-        if (bytes === 0) return '0 Bytes';
-        const k = 1024;
-        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-        const i = Math.floor(Math.log(bytes) / Math.log(k));
-        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    const getYearBadge = () => {
+        const currentYear = new Date().getFullYear();
+        const yearDiff = currentYear - financialHighlight.fiscal_year;
+
+        if (yearDiff <= 1) return <Badge variant="default">Recent</Badge>;
+        if (yearDiff <= 5) return <Badge variant="secondary">Last 5 Years</Badge>;
+        return <Badge variant="outline">Older</Badge>;
     };
 
-    const formatDate = (dateString: string) => {
-        return new Date(dateString).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-        });
+    const getCurrentFileName = (filePath: string | null): string => {
+        if (!filePath) return '';
+        return filePath.split('/').pop() || '';
     };
 
-    const getFileIcon = () => {
-        if (financial_highlight.file_name.toLowerCase().endsWith('.pdf')) {
-            return (
-                <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-lg bg-red-500">
-                    <span className="text-lg font-bold text-white">PDF</span>
-                </div>
-            );
-        } else {
-            return (
-                <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-lg bg-blue-500">
-                    <span className="text-lg font-bold text-white">IMG</span>
-                </div>
-            );
-        }
+    const getFileExtension = (filePath: string | null): string => {
+        if (!filePath) return '';
+        return filePath.split('.').pop()?.toUpperCase() || '';
     };
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={`Financial Highlight - ${financial_highlight.fiscal_year}`} />
-
-            <div className="space-y-6">
+            <Head title={`FY ${financialHighlight.fiscal_year} - Financial Highlights`} />
+            <div className="px-10 py-6">
                 <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                        <Link href={route('financial-highlights.index')}>
-                            <Button variant="ghost" size="sm">
-                                <ArrowLeft className="mr-2 h-4 w-4" />
-                                Back to Financial Highlights
-                            </Button>
+                    <Heading
+                        title={`Financial Highlights - FY ${financialHighlight.fiscal_year}`}
+                        description={`Financial highlights for fiscal year ${financialHighlight.fiscal_year}-${financialHighlight.fiscal_year + 1}`}
+                    />
+                    <Button asChild>
+                        <Link href={route('financial-highlights.edit', financialHighlight.id)}>
+                            <Edit className="mr-2 h-4 w-4" />
+                            Edit Highlights
                         </Link>
-                        <div>
-                            <h1 className="text-2xl font-semibold text-gray-900">Financial Highlight - {financial_highlight.fiscal_year}</h1>
-                            <p className="mt-1 text-sm text-gray-600">View and manage this financial highlight document</p>
-                        </div>
-                    </div>
-                    <div className="flex items-center gap-3">
-                        <Button onClick={() => window.open(financial_highlight.download_url, '_blank')} className="bg-blue-600 hover:bg-blue-700">
-                            <Download className="mr-2 h-4 w-4" />
-                            Download
-                        </Button>
-                        <Link href={financial_highlight.edit_url}>
-                            <Button variant="outline">
-                                <Edit className="mr-2 h-4 w-4" />
-                                Edit
-                            </Button>
-                        </Link>
-                        <Button variant="destructive" onClick={handleDelete} disabled={processing}>
-                            <Trash2 className="mr-2 h-4 w-4" />
-                            {processing ? 'Deleting...' : 'Delete'}
-                        </Button>
-                    </div>
+                    </Button>
                 </div>
 
-                <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-                    <div className="space-y-6 lg:col-span-2">
-                        <div className="rounded-lg bg-white p-6 shadow">
-                            <h2 className="mb-4 text-lg font-semibold text-gray-900">File Information</h2>
-                            <div className="flex items-start space-x-4">
-                                {getFileIcon()}
-                                <div className="flex-1">
-                                    <h3 className="mb-2 text-lg font-medium text-gray-900">{financial_highlight.file_name}</h3>
-                                    <div className="grid grid-cols-1 gap-4 text-sm text-gray-600 sm:grid-cols-2">
-                                        <div className="flex items-center">
-                                            <File className="mr-2 h-4 w-4 text-gray-400" />
-                                            <span>Size: {formatFileSize(financial_highlight.file_size)}</span>
-                                        </div>
-                                        <div className="flex items-center">
-                                            <Calendar className="mr-2 h-4 w-4 text-gray-400" />
-                                            <span>Fiscal Year: {financial_highlight.fiscal_year}</span>
-                                        </div>
+                <div className="mt-8 grid gap-6 lg:grid-cols-3">
+                    <div className="lg:col-span-2">
+                        <Card className="mb-6">
+                            <CardHeader>
+                                <div className="flex items-start gap-6">
+                                    <div className="flex h-20 w-20 items-center justify-center rounded-full bg-orange-100">
+                                        <TrendingUp className="h-10 w-10 text-orange-600" />
                                     </div>
-                                    <div className="mt-4">
-                                        <Button onClick={() => window.open(financial_highlight.download_url, '_blank')} className="w-full sm:w-auto">
-                                            <Download className="mr-2 h-4 w-4" />
-                                            Download Financial Highlight
-                                        </Button>
+                                    <div className="flex-1 space-y-4">
+                                        <div>
+                                            <CardTitle className="text-2xl">Fiscal Year {financialHighlight.fiscal_year}</CardTitle>
+                                            <p className="mt-1 text-lg text-gray-600">
+                                                {financialHighlight.fiscal_year} - {financialHighlight.fiscal_year + 1}
+                                            </p>
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                            {getHighlightsBadge()}
+                                            {getYearBadge()}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+                            </CardHeader>
+                        </Card>
 
-                        <div className="rounded-lg bg-white p-6 shadow">
-                            <h2 className="mb-4 text-lg font-semibold text-gray-900">Document Details</h2>
-                            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                                <div>
-                                    <h3 className="mb-2 text-sm font-medium text-gray-900">Fiscal Year</h3>
-                                    <p className="text-lg text-gray-600">{financial_highlight.fiscal_year}</p>
+                        <Card>
+                            <CardHeader>
+                                <div className="flex items-center justify-between">
+                                    <div className="flex items-center gap-3">
+                                        <FileText className="h-5 w-5 text-orange-500" />
+                                        <div>
+                                            <CardTitle className="text-lg">Financial Highlights</CardTitle>
+                                            <p className="mt-1 text-sm text-gray-500">Key financial metrics and achievements</p>
+                                        </div>
+                                    </div>
+                                    {financialHighlight.financial_highlights && financialHighlight.financial_highlights_url && (
+                                        <Button asChild variant="outline" size="sm">
+                                            <a href={financialHighlight.financial_highlights_url} target="_blank" rel="noopener noreferrer">
+                                                <Download className="mr-2 h-4 w-4" />
+                                                Download
+                                            </a>
+                                        </Button>
+                                    )}
                                 </div>
-                                <div>
-                                    <h3 className="mb-2 text-sm font-medium text-gray-900">File Type</h3>
-                                    <p className="text-lg text-gray-600">
-                                        {financial_highlight.file_name.toLowerCase().endsWith('.pdf') ? 'PDF Document' : 'Image File'}
-                                    </p>
-                                </div>
-                                <div>
-                                    <h3 className="mb-2 text-sm font-medium text-gray-900">File Size</h3>
-                                    <p className="text-lg text-gray-600">{formatFileSize(financial_highlight.file_size)}</p>
-                                </div>
-                                <div>
-                                    <h3 className="mb-2 text-sm font-medium text-gray-900">File Name</h3>
-                                    <p className="text-lg break-all text-gray-600">{financial_highlight.file_name}</p>
-                                </div>
-                            </div>
-                        </div>
+                            </CardHeader>
+                            <CardContent>
+                                {financialHighlight.financial_highlights ? (
+                                    <div className="flex items-center gap-4 rounded-md bg-gray-50 p-4">
+                                        <div className="flex h-12 w-12 items-center justify-center rounded-lg border bg-white">
+                                            <FileText className="h-6 w-6 text-gray-500" />
+                                        </div>
+                                        <div className="flex-1">
+                                            <div className="font-medium text-gray-900">
+                                                {getCurrentFileName(financialHighlight.financial_highlights)}
+                                            </div>
+                                            <div className="flex items-center gap-2 text-sm text-gray-500">
+                                                <span>{getFileExtension(financialHighlight.financial_highlights)} File</span>
+                                                <span>•</span>
+                                                <span>Available for download</span>
+                                            </div>
+                                        </div>
+                                        <Badge variant="outline" className="text-xs">
+                                            Uploaded
+                                        </Badge>
+                                    </div>
+                                ) : (
+                                    <div className="flex items-center gap-4 rounded-md border-2 border-dashed border-gray-200 p-6 text-center">
+                                        <div className="flex-1">
+                                            <FileText className="mx-auto h-8 w-8 text-gray-400" />
+                                            <p className="mt-2 text-sm font-medium text-gray-900">No file uploaded</p>
+                                            <p className="text-sm text-gray-500">The financial highlights have not been uploaded yet</p>
+                                        </div>
+                                    </div>
+                                )}
+                            </CardContent>
+                        </Card>
                     </div>
 
                     <div className="space-y-6">
-                        <div className="rounded-lg bg-white p-6 shadow">
-                            <h2 className="mb-4 text-lg font-semibold text-gray-900">Created Information</h2>
-                            <div className="space-y-3">
-                                <div className="flex items-center text-sm">
-                                    <Clock className="mr-2 h-4 w-4 text-gray-400" />
-                                    <span className="text-gray-600">{formatDate(financial_highlight.created_at)}</span>
-                                </div>
-                                <div className="flex items-center text-sm">
-                                    <User className="mr-2 h-4 w-4 text-gray-400" />
+                        <Card>
+                            <CardHeader>
+                                <CardTitle className="text-lg">Details</CardTitle>
+                            </CardHeader>
+                            <CardContent className="space-y-4">
+                                <div className="flex items-center gap-3">
+                                    <Hash className="h-4 w-4 text-gray-500" />
                                     <div>
-                                        <p className="font-medium text-gray-900">{financial_highlight.creator?.name || 'N/A'}</p>
-                                        <p className="text-xs text-gray-500">{financial_highlight.creator?.email || 'N/A'}</p>
+                                        <p className="text-sm font-medium">Fiscal Year</p>
+                                        <p className="text-sm text-gray-600">FY {financialHighlight.fiscal_year}</p>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-
-                        <div className="rounded-lg bg-white p-6 shadow">
-                            <h2 className="mb-4 text-lg font-semibold text-gray-900">Last Updated</h2>
-                            <div className="space-y-3">
-                                <div className="flex items-center text-sm">
-                                    <Clock className="mr-2 h-4 w-4 text-gray-400" />
-                                    <span className="text-gray-600">{formatDate(financial_highlight.updated_at)}</span>
-                                </div>
-                                <div className="flex items-center text-sm">
-                                    <User className="mr-2 h-4 w-4 text-gray-400" />
+                                <Separator />
+                                <div className="flex items-center gap-3">
+                                    <Calendar className="h-4 w-4 text-gray-500" />
                                     <div>
-                                        <p className="font-medium text-gray-900">{financial_highlight.updater?.name || 'N/A'}</p>
-                                        <p className="text-xs text-gray-500">{financial_highlight.updater?.email || 'N/A'}</p>
+                                        <p className="text-sm font-medium">Period</p>
+                                        <p className="text-sm text-gray-600">
+                                            {financialHighlight.fiscal_year} - {financialHighlight.fiscal_year + 1}
+                                        </p>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+                                <Separator />
+                                <div className="flex items-center gap-3">
+                                    <TrendingUp className="h-4 w-4 text-gray-500" />
+                                    <div>
+                                        <p className="text-sm font-medium">Status</p>
+                                        <div className="mt-1">{getHighlightsBadge()}</div>
+                                    </div>
+                                </div>
+                                <Separator />
+                                <div className="flex items-center gap-3">
+                                    <div className="h-4 w-4 rounded-full bg-gray-400" />
+                                    <div>
+                                        <p className="text-sm font-medium">Category</p>
+                                        <div className="mt-1">{getYearBadge()}</div>
+                                    </div>
+                                </div>
+                            </CardContent>
+                        </Card>
 
-                        <div className="rounded-lg bg-white p-6 shadow">
-                            <h2 className="mb-4 text-lg font-semibold text-gray-900">Quick Actions</h2>
-                            <div className="space-y-3">
-                                <Button
-                                    onClick={() => window.open(financial_highlight.download_url, '_blank')}
-                                    className="w-full justify-start"
-                                    variant="outline"
-                                >
-                                    <Download className="mr-2 h-4 w-4" />
-                                    Download Document
-                                </Button>
-                                <Link href={financial_highlight.edit_url} className="block">
-                                    <Button className="w-full justify-start" variant="outline">
+                        <Card>
+                            <CardHeader>
+                                <CardTitle className="text-lg">Statistics</CardTitle>
+                            </CardHeader>
+                            <CardContent className="space-y-4 text-sm">
+                                <div className="flex justify-between">
+                                    <span className="font-medium">Highlights Uploaded:</span>
+                                    <span className="text-gray-600">{financialHighlight.financial_highlights ? 'Yes' : 'No'}</span>
+                                </div>
+                                <Separator />
+                                <div className="flex justify-between">
+                                    <span className="font-medium">File Type:</span>
+                                    <span className="text-gray-600">
+                                        {financialHighlight.financial_highlights ? getFileExtension(financialHighlight.financial_highlights) : 'N/A'}
+                                    </span>
+                                </div>
+                                <Separator />
+                                <div className="flex justify-between">
+                                    <span className="font-medium">Downloadable:</span>
+                                    <span className="text-gray-600">{financialHighlight.financial_highlights_url ? 'Yes' : 'No'}</span>
+                                </div>
+                            </CardContent>
+                        </Card>
+
+                        <Card>
+                            <CardHeader>
+                                <CardTitle className="text-lg">Timestamps</CardTitle>
+                            </CardHeader>
+                            <CardContent className="space-y-4 text-sm">
+                                <div>
+                                    <p className="font-medium">Created</p>
+                                    <p className="text-gray-600">{new Date(financialHighlight.created_at).toLocaleString()}</p>
+                                </div>
+                                <Separator />
+                                <div>
+                                    <p className="font-medium">Last Updated</p>
+                                    <p className="text-gray-600">{new Date(financialHighlight.updated_at).toLocaleString()}</p>
+                                </div>
+                            </CardContent>
+                        </Card>
+
+                        <Card>
+                            <CardHeader>
+                                <CardTitle className="text-lg">Actions</CardTitle>
+                            </CardHeader>
+                            <CardContent className="space-y-3">
+                                <Button asChild className="w-full">
+                                    <Link href={route('financial-highlights.edit', financialHighlight.id)}>
                                         <Edit className="mr-2 h-4 w-4" />
-                                        Edit Details
-                                    </Button>
-                                </Link>
-                                <Button onClick={handleDelete} disabled={processing} className="w-full justify-start" variant="destructive">
-                                    <Trash2 className="mr-2 h-4 w-4" />
-                                    {processing ? 'Deleting...' : 'Delete Document'}
+                                        Edit Highlights
+                                    </Link>
                                 </Button>
-                            </div>
-                        </div>
+                                <Button variant="outline" asChild className="w-full">
+                                    <Link href={route('financial-highlights.index')}>Back to List</Link>
+                                </Button>
+                                {financialHighlight.financial_highlights_url && (
+                                    <div className="border-t pt-2">
+                                        <Button asChild variant="outline" size="sm" className="w-full">
+                                            <a href={financialHighlight.financial_highlights_url} target="_blank" rel="noopener noreferrer">
+                                                <Download className="mr-2 h-4 w-4" />
+                                                Download Highlights
+                                            </a>
+                                        </Button>
+                                    </div>
+                                )}
+                            </CardContent>
+                        </Card>
                     </div>
                 </div>
             </div>

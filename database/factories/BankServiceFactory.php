@@ -16,7 +16,7 @@ class BankServiceFactory extends Factory
      */
     public function definition(): array
     {
-        $serviceTypes = ['main', 'additional', 'stat'];
+        $serviceTypes = ['service', 'deposit', 'stat'];
         $serviceType = fake()->randomElement($serviceTypes);
         $icons = ['User', 'Building', 'Star', 'Smartphone', 'MapPin', 'Users', 'CreditCard', 'Shield', 'TrendingUp', 'Globe'];
         $colors = [
@@ -61,13 +61,13 @@ class BankServiceFactory extends Factory
             'icon' => fake()->randomElement($icons),
             'products' => fake()->randomElements($products, fake()->numberBetween(2, 5)),
             'cta_text' => fake()->randomElement(['Learn More', 'Open Account', 'Get Started', 'Apply Now', 'Contact Us']),
-            'cta_link' => '/'.fake()->slug(2),
+            'cta_link' => '/' . fake()->slug(2),
             'color' => fake()->randomElement($colors),
             'benefits' => fake()->randomElements($benefits, fake()->numberBetween(3, 6)),
             'order' => fake()->numberBetween(1, 10),
             'status' => fake()->boolean(80),
             'service_type' => $serviceType,
-            'stat_number' => $serviceType === 'stat' ? fake()->numberBetween(10, 999).'+' : null,
+            'stat_number' => $serviceType === 'stat' ? fake()->numberBetween(10, 999) . '+' : null,
             'stat_label' => $serviceType === 'stat' ? fake()->randomElement(['Branches', 'Customers', 'Years', 'Services']) : null,
             'stat_description' => $serviceType === 'stat' ? fake()->sentence(4) : null,
         ];

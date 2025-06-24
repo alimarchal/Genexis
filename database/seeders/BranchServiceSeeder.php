@@ -36,11 +36,11 @@ class BranchServiceSeeder extends Seeder
                 'description' => 'Apply for personal and business loans',
                 'service_fee' => 500.00,
             ],
-            [
-                'service_name' => 'ATM Card Issuance',
-                'description' => 'Issue new ATM/Debit cards',
-                'service_fee' => 200.00,
-            ],
+            // [
+            //     'service_name' => 'ATM Card Issuance',
+            //     'description' => 'Issue new ATM/Debit cards',
+            //     'service_fee' => 200.00,
+            // ],
             [
                 'service_name' => 'Statement Request',
                 'description' => 'Account statement printing',

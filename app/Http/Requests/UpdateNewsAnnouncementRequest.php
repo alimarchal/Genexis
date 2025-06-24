@@ -26,11 +26,11 @@ class UpdateNewsAnnouncementRequest extends FormRequest
         return [
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:307200',
             'published_date' => 'required|date',
             'is_featured' => 'boolean',
             'category' => 'required|string|in:general,banking,services,announcements,updates',
-            'slug' => 'nullable|string|unique:news_announcements,slug,'.$newsAnnouncementId,
+            'slug' => 'nullable|string|unique:news_announcements,slug,' . $newsAnnouncementId,
             'is_published' => 'boolean',
         ];
     }

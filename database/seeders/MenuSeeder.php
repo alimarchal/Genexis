@@ -29,22 +29,28 @@ class MenuSeeder extends Seeder
                 'is_active' => true,
                 'children' => [
                     [
+                        'title' => 'About Us',
+                        'slug' => 'about-us-page',
+                        'route_name' => 'about.about-us',
+                        'sort_order' => 1,
+                    ],
+                    [
                         'title' => 'Board of Directors',
                         'slug' => 'board-of-directors',
                         'route_name' => 'about.board-directors',
-                        'sort_order' => 1,
+                        'sort_order' => 2,
+                    ],
+                      [
+                        'title' => 'BOD Committees',
+                        'slug' => 'bod-committees',
+                        'route_name' => 'about.bod-committees',
+                        'sort_order' => 3,
                     ],
                     [
                         'title' => 'Management',
                         'slug' => 'management',
                         'route_name' => 'about.management',
-                        'sort_order' => 2,
-                    ],
-                    [
-                        'title' => 'Branch Network',
-                        'slug' => 'branch-network',
-                        'route_name' => 'about.branch-network',
-                        'sort_order' => 3,
+                        'sort_order' => 4,
                     ],
                 ],
             ],
@@ -113,38 +119,38 @@ class MenuSeeder extends Seeder
             [
                 'title' => 'Services',
                 'slug' => 'services',
-                'route_name' => 'services.index',
+                'route_name' => 'service-pages.all',
                 'sort_order' => 4,
                 'is_active' => true,
                 'children' => [
                     [
                         'title' => 'All Services',
                         'slug' => 'all-services',
-                        'route_name' => 'services.index',
+                        'route_name' => 'service-pages.all',
                         'sort_order' => 1,
                     ],
                     [
                         'title' => 'Home Remittance',
                         'slug' => 'home-remittance',
-                        'route_name' => 'services.home-remittance',
+                        'route_name' => 'service-pages.home-remittance',
                         'sort_order' => 2,
                     ],
                     [
                         'title' => 'Lockers Facility',
                         'slug' => 'lockers-facility',
-                        'route_name' => 'services.lockers-facility',
+                        'route_name' => 'service-pages.lockers-facility',
                         'sort_order' => 3,
                     ],
                     [
                         'title' => 'Utility Bills Collection',
                         'slug' => 'utility-bills-collection',
-                        'route_name' => 'services.utility-bills-collection',
+                        'route_name' => 'service-pages.utility-bills-collection',
                         'sort_order' => 4,
                     ],
                     [
                         'title' => 'Services for AJK PSC',
                         'slug' => 'services-for-ajk-psc',
-                        'route_name' => 'services.services-for-ajk-psc',
+                        'route_name' => 'service-pages.services-for-ajk-psc',
                         'sort_order' => 5,
                     ],
                 ],
@@ -177,7 +183,7 @@ class MenuSeeder extends Seeder
                 ],
             ],
             [
-                'title' => 'Rates',
+                'title' => 'Rates & Charges',
                 'slug' => 'rates-charges',
                 'url' => '#',
                 'sort_order' => 6,
@@ -197,20 +203,20 @@ class MenuSeeder extends Seeder
                     ],
                 ],
             ],
-             [
+            [
                 'title' => 'Resources',
                 'slug' => 'resources',
                 'url' => '#',
                 'sort_order' => 7,
                 'is_active' => true,
                 'children' => [
-                     [
+                    [
                         'title' => 'News & Updates',
                         'slug' => 'news-updates',
                         'route_name' => 'news',
                         'sort_order' => 1,
                     ],
-                     [
+                    [
                         'title' => 'Careers',
                         'slug' => 'careers',
                         'route_name' => 'public-careers',
@@ -222,6 +228,12 @@ class MenuSeeder extends Seeder
                         'route_name' => 'public-downloads',
                         'sort_order' => 3,
                     ],
+                    [
+                        'title' => 'Branch Network',
+                        'slug' => 'branch-network',
+                        'route_name' => 'about.branch-network',
+                        'sort_order' => 4,
+                    ],
                 ],
             ],
             [
@@ -232,10 +244,32 @@ class MenuSeeder extends Seeder
                 'is_active' => true,
             ],
 
-
         ];
 
         $this->createMenuItems($menus);
+
+        // Get the Services parent menu
+        $servicesParent = Menu::where('slug', 'services')->first();
+
+        if ($servicesParent) {
+            // Get all services except the hardcoded ones
+            $services = \App\Models\Service::active()
+                ->whereNotIn('slug', ['lockers-facility', 'utility-bills-collection', 'services-for-ajk-psc', 'home-remittance'])
+                ->ordered()
+                ->get();
+
+            foreach ($services as $index => $service) {
+                Menu::create([
+                    'title' => $service->name,
+                    'slug' => $service->slug,
+                    'route_name' => 'service-pages.show',
+                    'route_params' => ['slug' => $service->slug],
+                    'parent_id' => $servicesParent->id,
+                    'sort_order' => 10 + $index,
+                    'is_active' => true,
+                ]);
+            }
+        }
     }
 
     private function createMenuItems(array $menus, $parentId = null): void
@@ -249,9 +283,10 @@ class MenuSeeder extends Seeder
 
             $menu = Menu::create($menuData);
 
-            if (! empty($children)) {
+            if (!empty($children)) {
                 $this->createMenuItems($children, $menu->id);
             }
         }
+
     }
 }

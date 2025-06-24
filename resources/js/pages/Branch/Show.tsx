@@ -2,26 +2,33 @@ import Heading from '@/components/heading';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
-import { ArrowLeft, Building, Calendar, Edit, Eye, Hash, MapPin, Trash } from 'lucide-react';
+import { Building, Calendar, Edit, Hash, MapPin, Tag } from 'lucide-react';
+
+interface Region {
+    id: number;
+    name: string;
+}
+
+interface District {
+    id: number;
+    name: string;
+    region: Region;
+}
 
 interface Branch {
     id: number;
     name: string;
     code: string;
     address: string;
+    region_id: number;
     district_id: number;
-    district: {
-        id: number;
-        name: string;
-        region: {
-            id: number;
-            name: string;
-        };
-    };
+    type: 'main' | 'sub' | 'agent';
     status: 'active' | 'inactive';
+    district: District;
     created_at: string;
     updated_at: string;
 }
@@ -46,6 +53,30 @@ export default function ShowBranch({ branch }: Props) {
         },
     ];
 
+    const getStatusBadge = (status: string) => {
+        return status === 'active' ? <Badge variant="default">Active</Badge> : <Badge variant="secondary">Inactive</Badge>;
+    };
+
+    const getTypeBadge = (type: string) => {
+        const typeMapping = {
+            main: { variant: 'destructive' as const, label: 'Main Branch' },
+            sub: { variant: 'default' as const, label: 'Sub Branch' },
+            agent: { variant: 'outline' as const, label: 'Agent' },
+        };
+
+        const config = typeMapping[type as keyof typeof typeMapping] || {
+            variant: 'outline' as const,
+            label: type,
+        };
+
+        return (
+            <Badge variant={config.variant} className="gap-1">
+                <Building className="h-3 w-3" />
+                {config.label}
+            </Badge>
+        );
+    };
+
     const formatDate = (dateString: string) => {
         return new Date(dateString).toLocaleDateString('en-US', {
             year: 'numeric',
@@ -60,14 +91,9 @@ export default function ShowBranch({ branch }: Props) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={`${branch.name} - Branch`} />
 
-            <div className="px-4 py-6">
-                <div className="mb-6 flex items-center justify-between">
-                    <Button variant="ghost" size="sm" asChild>
-                        <Link href={route('branches.index')}>
-                            <ArrowLeft className="mr-2 h-4 w-4" />
-                            Back to Branches
-                        </Link>
-                    </Button>
+            <div className="px-10 py-6">
+                <div className="flex items-center justify-between">
+                    <Heading title={branch.name} description="View branch details and information" />
                     <Button asChild>
                         <Link href={route('branches.edit', branch.id)}>
                             <Edit className="mr-2 h-4 w-4" />
@@ -76,67 +102,87 @@ export default function ShowBranch({ branch }: Props) {
                     </Button>
                 </div>
 
-                <Heading title="Branch Details" description="View complete information about this branch" />
-
-                <div className="grid max-w-6xl grid-cols-1 gap-6 lg:grid-cols-3">
-                    {/* Main Information */}
-                    <div className="space-y-6 lg:col-span-2">
+                <div className="mt-8 grid gap-6 lg:grid-cols-3">
+                    {/* Main Content */}
+                    <div className="lg:col-span-2">
                         <Card>
                             <CardHeader>
-                                <CardTitle className="flex items-center gap-2">
-                                    <Building className="h-5 w-5" />
-                                    Branch Information
-                                </CardTitle>
-                            </CardHeader>
-                            <CardContent className="space-y-4">
-                                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                                    <div>
-                                        <p className="text-muted-foreground text-sm font-medium">Branch Name</p>
-                                        <p className="text-lg font-semibold">{branch.name}</p>
+                                <div className="flex items-start gap-6">
+                                    <div className="bg-muted flex h-20 w-20 items-center justify-center rounded-full">
+                                        <Building className="text-muted-foreground h-10 w-10" />
                                     </div>
-                                    <div>
-                                        <p className="text-muted-foreground text-sm font-medium">Branch Code</p>
-                                        <p className="text-lg font-semibold">{branch.code}</p>
-                                    </div>
-                                    <div>
-                                        <p className="text-muted-foreground text-sm font-medium">District</p>
-                                        <p className="text-lg font-semibold">{branch.district?.name || 'N/A'}</p>
-                                    </div>
-                                    <div>
-                                        <p className="text-muted-foreground text-sm font-medium">Region</p>
-                                        <p className="text-lg font-semibold">{branch.district?.region?.name || 'N/A'}</p>
+                                    <div className="flex-1 space-y-4">
+                                        <div>
+                                            <CardTitle className="text-2xl">{branch.name}</CardTitle>
+                                            <p className="text-muted-foreground mt-1">{branch.code}</p>
+                                        </div>
+                                        <div className="flex flex-wrap gap-2">
+                                            {getStatusBadge(branch.status)}
+                                            {getTypeBadge(branch.type)}
+                                        </div>
                                     </div>
                                 </div>
-                                <div>
-                                    <p className="text-muted-foreground text-sm font-medium">Address</p>
-                                    <p className="text-lg">{branch.address}</p>
-                                </div>
-                                <div>
-                                    <p className="text-muted-foreground text-sm font-medium">Status</p>
-                                    <Badge variant={branch.status === 'active' ? 'default' : 'secondary'} className="mt-1">
-                                        {branch.status}
-                                    </Badge>
-                                </div>
-                            </CardContent>
-                        </Card>
-
-                        {/* Timestamps */}
-                        <Card>
-                            <CardHeader>
-                                <CardTitle className="flex items-center gap-2">
-                                    <Calendar className="h-5 w-5" />
-                                    Timeline Information
-                                </CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                                <div className="space-y-6">
                                     <div>
-                                        <p className="text-muted-foreground text-sm font-medium">Created At</p>
-                                        <p className="text-lg">{formatDate(branch.created_at)}</p>
+                                        <h4 className="mb-2 font-semibold">Branch Information</h4>
+                                        <div className="grid gap-4 md:grid-cols-2">
+                                            <div>
+                                                <p className="text-muted-foreground text-sm font-medium">Branch Name</p>
+                                                <p className="mt-1">{branch.name}</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-muted-foreground text-sm font-medium">Branch Code</p>
+                                                <p className="mt-1 font-mono">{branch.code}</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-muted-foreground text-sm font-medium">Branch Type</p>
+                                                <p className="mt-1 capitalize">{branch.type.replace('_', ' ')}</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-muted-foreground text-sm font-medium">Status</p>
+                                                <p className="mt-1 capitalize">{branch.status}</p>
+                                            </div>
+                                        </div>
                                     </div>
+
+                                    <Separator />
+
                                     <div>
-                                        <p className="text-muted-foreground text-sm font-medium">Last Updated</p>
-                                        <p className="text-lg">{formatDate(branch.updated_at)}</p>
+                                        <h4 className="mb-2 font-semibold">Location Details</h4>
+                                        <div className="space-y-3">
+                                            <div>
+                                                <p className="text-muted-foreground text-sm font-medium">Address</p>
+                                                <p className="mt-1">{branch.address}</p>
+                                            </div>
+                                            <div className="grid gap-4 md:grid-cols-2">
+                                                <div>
+                                                    <p className="text-muted-foreground text-sm font-medium">District</p>
+                                                    <p className="mt-1">{branch.district.name}</p>
+                                                </div>
+                                                <div>
+                                                    <p className="text-muted-foreground text-sm font-medium">Region</p>
+                                                    <p className="mt-1">{branch.district.region.name}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <Separator />
+
+                                    <div>
+                                        <h4 className="mb-2 font-semibold">Timeline</h4>
+                                        <div className="grid gap-4 md:grid-cols-2">
+                                            <div>
+                                                <p className="text-muted-foreground text-sm font-medium">Created At</p>
+                                                <p className="mt-1">{formatDate(branch.created_at)}</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-muted-foreground text-sm font-medium">Last Updated</p>
+                                                <p className="mt-1">{formatDate(branch.updated_at)}</p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </CardContent>
@@ -145,63 +191,84 @@ export default function ShowBranch({ branch }: Props) {
 
                     {/* Sidebar */}
                     <div className="space-y-6">
-                        {/* Quick Actions */}
+                        {/* Branch ID Card */}
                         <Card>
-                            <CardHeader>
-                                <CardTitle className="text-lg">Quick Actions</CardTitle>
-                            </CardHeader>
-                            <CardContent className="space-y-2">
-                                <Button variant="outline" size="sm" className="w-full justify-start" asChild>
-                                    <Link href={route('branches.show', branch.id)}>
-                                        <Eye className="mr-2 h-4 w-4" />
-                                        View Details
-                                    </Link>
-                                </Button>
-                                <Button variant="outline" size="sm" className="w-full justify-start" asChild>
-                                    <Link href={route('branches.edit', branch.id)}>
-                                        <Edit className="mr-2 h-4 w-4" />
-                                        Edit Branch
-                                    </Link>
-                                </Button>
-                                <Button variant="outline" size="sm" className="w-full justify-start text-red-600 hover:bg-red-50 hover:text-red-700">
-                                    <Trash className="mr-2 h-4 w-4" />
-                                    Delete Branch
-                                </Button>
-                            </CardContent>
-                        </Card>
-
-                        {/* Branch ID */}
-                        <Card>
-                            <CardHeader>
-                                <CardTitle className="flex items-center gap-2 text-lg">
-                                    <Hash className="h-5 w-5" />
+                            <CardHeader className="pb-3">
+                                <CardTitle className="flex items-center gap-2 text-base">
+                                    <Hash className="h-4 w-4" />
                                     Branch ID
                                 </CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <p className="text-muted-foreground text-sm font-medium">Internal ID</p>
-                                <p className="text-2xl font-bold">{branch.id}</p>
+                                <div className="text-2xl font-bold">{branch.id}</div>
+                                <p className="text-muted-foreground text-sm">Internal identifier</p>
                             </CardContent>
                         </Card>
 
-                        {/* Location Info */}
+                        {/* Location Card */}
                         <Card>
-                            <CardHeader>
-                                <CardTitle className="flex items-center gap-2 text-lg">
-                                    <MapPin className="h-5 w-5" />
+                            <CardHeader className="pb-3">
+                                <CardTitle className="flex items-center gap-2 text-base">
+                                    <MapPin className="h-4 w-4" />
                                     Location
                                 </CardTitle>
                             </CardHeader>
-                            <CardContent>
-                                <div className="space-y-2">
-                                    <div>
-                                        <p className="text-muted-foreground text-sm">District</p>
-                                        <p className="font-semibold">{branch.district?.name || 'N/A'}</p>
-                                    </div>
-                                    <div>
-                                        <p className="text-muted-foreground text-sm">Region</p>
-                                        <p className="font-semibold">{branch.district?.region?.name || 'N/A'}</p>
-                                    </div>
+                            <CardContent className="space-y-3">
+                                <div>
+                                    <p className="text-muted-foreground text-sm font-medium">Region</p>
+                                    <p className="text-sm">{branch.district.region.name}</p>
+                                </div>
+                                <div>
+                                    <p className="text-muted-foreground text-sm font-medium">District</p>
+                                    <p className="text-sm">{branch.district.name}</p>
+                                </div>
+                                <div>
+                                    <p className="text-muted-foreground text-sm font-medium">Address</p>
+                                    <p className="text-sm">{branch.address}</p>
+                                </div>
+                            </CardContent>
+                        </Card>
+
+                        {/* Branch Details Card */}
+                        <Card>
+                            <CardHeader className="pb-3">
+                                <CardTitle className="flex items-center gap-2 text-base">
+                                    <Tag className="h-4 w-4" />
+                                    Details
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent className="space-y-3">
+                                <div>
+                                    <p className="text-muted-foreground text-sm font-medium">Code</p>
+                                    <p className="font-mono text-sm">{branch.code}</p>
+                                </div>
+                                <div>
+                                    <p className="text-muted-foreground text-sm font-medium">Type</p>
+                                    <p className="text-sm capitalize">{branch.type.replace('_', ' ')}</p>
+                                </div>
+                                <div>
+                                    <p className="text-muted-foreground text-sm font-medium">Status</p>
+                                    <div className="mt-1">{getStatusBadge(branch.status)}</div>
+                                </div>
+                            </CardContent>
+                        </Card>
+
+                        {/* Timeline Card */}
+                        <Card>
+                            <CardHeader className="pb-3">
+                                <CardTitle className="flex items-center gap-2 text-base">
+                                    <Calendar className="h-4 w-4" />
+                                    Timeline
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent className="space-y-3">
+                                <div>
+                                    <p className="text-muted-foreground text-sm font-medium">Created</p>
+                                    <p className="text-sm">{formatDate(branch.created_at)}</p>
+                                </div>
+                                <div>
+                                    <p className="text-muted-foreground text-sm font-medium">Updated</p>
+                                    <p className="text-sm">{formatDate(branch.updated_at)}</p>
                                 </div>
                             </CardContent>
                         </Card>

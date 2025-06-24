@@ -1,4 +1,4 @@
-// QuickLinks.tsx
+// footer/QuickLinks.tsx - Updated with existing structure + Organogram
 import { Link } from '@inertiajs/react';
 import React from 'react';
 
@@ -14,6 +14,7 @@ const quickLinkItems: QuickLinkItem[] = [
     { label: 'News & Updates', href: route('news') },
     { label: 'Downloads', href: route('public-downloads') },
     { label: 'Careers', href: route('public-careers') },
+    { label: 'Organogram', href: route('about.organogram') },
 ];
 
 const QuickLinks: React.FC = () => {

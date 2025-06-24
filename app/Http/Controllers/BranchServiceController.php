@@ -22,8 +22,11 @@ class BranchServiceController extends Controller
             ->paginate(request('per_page', 15))
             ->withQueryString();
 
+        $branches = Branch::active()->orderBy('name')->get();
+
         return Inertia::render('BranchService/Index', [
             'branchServices' => $branchServices,
+            'branches' => $branches,
             'filters' => request()->only(['filter', 'sort']),
         ]);
     }

@@ -22,9 +22,12 @@ class DistrictController extends Controller
             ->paginate(request('per_page', 15))
             ->withQueryString();
 
+        $regions = Region::active()->orderBy('name')->get();
+
         return Inertia::render('District/Index', [
             'districts' => $districts,
-            'filters' => request()->only(['filter', 'sort']),
+            'regions' => $regions,
+            'filters' => $request->query(),
         ]);
     }
 

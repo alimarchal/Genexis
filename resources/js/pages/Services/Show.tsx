@@ -1,8 +1,16 @@
-import WebsiteLayout from '@/layouts/WebsiteLayout';
-import { Shield } from 'lucide-react';
+import Heading from '@/components/heading';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
+import AppLayout from '@/layouts/app-layout';
+import { type BreadcrumbItem } from '@/types';
+import { Head, Link } from '@inertiajs/react';
+import { Edit, Hash, Info, List, Settings } from 'lucide-react';
 
 interface ServiceAttribute {
     id: number;
+    service_id: number;
     attribute_name: string;
     attribute_value: string;
     sort_order: number;
@@ -13,160 +21,242 @@ interface Service {
     name: string;
     slug: string;
     description: string;
-    icon: string;
-    image: string;
+    icon: string | null;
+    image: string | null;
+    image_url: string | null;
     is_active: boolean;
     sort_order: number;
+    meta_data: Record<string, string | number | boolean | null> | null;
     attributes: ServiceAttribute[];
+    created_at: string;
+    updated_at: string;
 }
 
-interface ServiceShowProps {
+interface Props {
     service: Service;
 }
 
-const ServiceShow = ({ service }: ServiceShowProps) => {
-    const getAttributeValue = (attributeName: string): string => {
-        const attr = service.attributes.find((a) => a.attribute_name.toLowerCase() === attributeName.toLowerCase());
-        return attr?.attribute_value || '';
-    };
+export default function ShowService({ service }: Props) {
+    const breadcrumbs: BreadcrumbItem[] = [
+        {
+            title: 'Dashboard',
+            href: route('dashboard'),
+        },
+        {
+            title: 'Services',
+            href: route('services.index'),
+        },
+        {
+            title: service.name,
+            href: route('services.show', service.slug),
+        },
+    ];
 
-    const getFeatures = (): ServiceAttribute[] => {
-        return service.attributes
-            .filter((a) => !['eligibility', 'required documents', 'annual charges', 'service charges'].includes(a.attribute_name.toLowerCase()))
-            .sort((a, b) => a.sort_order - b.sort_order);
+    const getStatusBadge = (isActive: boolean) => {
+        return isActive ? <Badge variant="default">Active</Badge> : <Badge variant="secondary">Inactive</Badge>;
     };
-
-    const getSpecialAttributes = (): ServiceAttribute[] => {
-        return service.attributes
-            .filter((attr) => ['required documents', 'annual charges', 'service charges'].includes(attr.attribute_name.toLowerCase()))
-            .sort((a, b) => a.sort_order - b.sort_order);
-    };
-
-    const eligibility = getAttributeValue('Eligibility');
-    const features = getFeatures();
-    const specialAttributes = getSpecialAttributes();
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-[#e9f7ef] to-[#fff7e6]">
-            <div className="mx-auto max-w-7xl px-6 py-8">
-                {/* Hero Section */}
-                <div className="mb-12 text-center">
-                    <div className="mb-6 flex justify-center">
-                        <div className="rounded-full bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A] p-4">
-                            <Shield className="h-12 w-12 text-white" />
-                        </div>
-                    </div>
-                    <h1 className="mb-4 text-4xl font-bold text-gray-900">{service.name}</h1>
-                    <p className="mx-auto mb-8 max-w-3xl text-xl text-gray-600">{service.description}</p>
+        <AppLayout breadcrumbs={breadcrumbs}>
+            <Head title={`${service.name} - Services`} />
+
+            <div className="px-10 py-6">
+                <div className="flex items-center justify-between">
+                    <Heading title={service.name} description="View service details" />
+                    <Button asChild>
+                        <Link href={route('services.edit', service.slug)}>
+                            <Edit className="mr-2 h-4 w-4" />
+                            Edit Service
+                        </Link>
+                    </Button>
                 </div>
 
-                {/* Service Details */}
-                <div className="relative transform overflow-hidden rounded-xl border border-gray-100 bg-white shadow-xl transition-all duration-500 hover:shadow-2xl">
-                    {/* Header with Image */}
-                    <div className="relative">
-                        <div className="relative overflow-hidden bg-gradient-to-r from-[#4A7C59] via-[#5D8A6A] to-[#6B9B7A] px-8 py-6">
-                            <div className="relative z-10 flex items-center gap-6">
-                                <div className="text-4xl text-white">{service.icon}</div>
-                                <div>
-                                    <h1 className="text-3xl font-bold text-white">{service.name}</h1>
-                                    <p className="mt-2 text-white/90">Complete details and information</p>
+                <div className="mt-8 grid gap-6 lg:grid-cols-3">
+                    {/* Main Content */}
+                    <div className="lg:col-span-2">
+                        <Card>
+                            <CardHeader>
+                                <div className="flex items-start gap-6">
+                                    {/* Service Image */}
+                                    {service.image_url && (
+                                        <img src={service.image_url} alt={service.name} className="h-32 w-32 rounded border object-cover" />
+                                    )}
+                                    <div className="flex-1 space-y-4">
+                                        <div>
+                                            <CardTitle className="text-2xl">{service.name}</CardTitle>
+                                            <p className="mt-1 text-lg text-gray-600">{service.slug}</p>
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                            {getStatusBadge(service.is_active)}
+                                            {service.icon && (
+                                                <Badge variant="outline" className="gap-1">
+                                                    <span>{service.icon}</span>
+                                                    Icon
+                                                </Badge>
+                                            )}
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="absolute top-0 right-0 h-32 w-32 translate-x-16 -translate-y-16 transform rounded-full bg-gradient-to-bl from-[#F9B912]/20 to-transparent" />
-                        </div>
+                            </CardHeader>
+                            <CardContent className="space-y-6">
+                                {/* Description */}
+                                <div className="space-y-2">
+                                    <h3 className="flex items-center gap-2 text-lg font-medium">
+                                        <Info className="h-5 w-5" />
+                                        Description
+                                    </h3>
+                                    <div className="prose max-w-none">
+                                        <p className="leading-relaxed whitespace-pre-wrap text-gray-700">{service.description}</p>
+                                    </div>
+                                </div>
 
-                        {/* Service Image */}
-                        {service.image && (
-                            <div className="relative h-64 overflow-hidden">
-                                <img
-                                    src={service.image}
-                                    alt={service.name}
-                                    className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-                            </div>
-                        )}
+                                {/* Service Attributes */}
+                                {service.attributes && service.attributes.length > 0 && (
+                                    <div className="space-y-3">
+                                        <h3 className="flex items-center gap-2 text-lg font-medium">
+                                            <List className="h-5 w-5" />
+                                            Service Details
+                                        </h3>
+                                        <div className="grid gap-4">
+                                            {service.attributes.map((attribute, index) => (
+                                                <div key={attribute.id || index} className="rounded-lg border p-4">
+                                                    <h4 className="font-medium text-gray-900">{attribute.attribute_name}</h4>
+                                                    <div className="mt-2 whitespace-pre-wrap text-gray-700">{attribute.attribute_value}</div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                            </CardContent>
+                        </Card>
                     </div>
 
-                    <div className="p-8">
-                        {/* Eligibility Section */}
-                        {eligibility && (
-                            <div className="mb-10">
-                                <h2 className="mb-4 flex items-center text-xl font-semibold text-[#4A7C59]">
-                                    <div className="mr-3 h-6 w-1 rounded-full bg-gradient-to-b from-[#4A7C59] to-[#F9B912]"></div>
-                                    Eligibility
-                                </h2>
-                                <div className="rounded-xl border border-[#4A7C59]/20 bg-gradient-to-r from-white via-[#4A7C59]/5 to-[#6B9B7A]/10 p-6 shadow-sm">
-                                    <p className="leading-relaxed text-gray-700">{eligibility}</p>
+                    {/* Sidebar */}
+                    <div className="space-y-6">
+                        {/* Details Card */}
+                        <Card>
+                            <CardHeader>
+                                <CardTitle className="text-lg">Details</CardTitle>
+                            </CardHeader>
+                            <CardContent className="space-y-4">
+                                <div className="flex items-center gap-3">
+                                    <Hash className="h-4 w-4 text-gray-500" />
+                                    <div>
+                                        <p className="text-sm font-medium">Sort Order</p>
+                                        <p className="text-sm text-gray-600">{service.sort_order}</p>
+                                    </div>
                                 </div>
-                            </div>
-                        )}
 
-                        {/* Service Features */}
-                        {features.length > 0 && (
-                            <div className="mb-10">
-                                <h2 className="mb-6 flex items-center text-xl font-semibold text-[#4A7C59]">
-                                    <div className="mr-3 h-6 w-1 rounded-full bg-gradient-to-b from-[#F9B912] to-[#4A7C59]"></div>
-                                    Service Details
-                                </h2>
-                                <div className="grid gap-4">
-                                    {features.map((feature) => (
-                                        <div
-                                            key={feature.id}
-                                            className="flex items-start rounded-xl border border-[#F9B912]/20 bg-gradient-to-r from-white via-[#4A7C59]/5 to-[#F9B912]/10 p-4 transition-all duration-300 hover:scale-[1.02] hover:border-[#F9B912]/40 hover:shadow-lg"
-                                        >
-                                            <div className="mt-2 mr-4 h-2 w-2 flex-shrink-0 rounded-full bg-[#F9B912]"></div>
+                                <Separator />
+
+                                <div className="flex items-center gap-3">
+                                    <Settings className="h-4 w-4 text-gray-500" />
+                                    <div>
+                                        <p className="text-sm font-medium">Slug</p>
+                                        <p className="font-mono text-sm text-gray-600">{service.slug}</p>
+                                    </div>
+                                </div>
+
+                                <Separator />
+
+                                <div className="flex items-center gap-3">
+                                    <div className="h-4 w-4 rounded-full bg-gray-400" />
+                                    <div>
+                                        <p className="text-sm font-medium">Status</p>
+                                        <div className="mt-1">{getStatusBadge(service.is_active)}</div>
+                                    </div>
+                                </div>
+
+                                {service.icon && (
+                                    <>
+                                        <Separator />
+                                        <div className="flex items-center gap-3">
+                                            <span className="text-lg">{service.icon}</span>
                                             <div>
-                                                <h4 className="mb-1 font-semibold text-[#4A7C59]">{feature.attribute_name}</h4>
-                                                <p className="leading-relaxed whitespace-pre-line text-gray-700">{feature.attribute_value}</p>
+                                                <p className="text-sm font-medium">Icon</p>
+                                                <p className="text-sm text-gray-600">{service.icon}</p>
                                             </div>
                                         </div>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
+                                    </>
+                                )}
+                            </CardContent>
+                        </Card>
 
-                        {/* Special Attributes */}
-                        {specialAttributes.length > 0 && (
-                            <div className="grid gap-6 md:grid-cols-2">
-                                {specialAttributes.map((attr) => (
-                                    <div
-                                        key={attr.id}
-                                        className="rounded-xl border border-gray-200 bg-gradient-to-br from-[#4A7C59]/5 to-[#F9B912]/5 p-6"
-                                    >
-                                        <h3 className="mb-3 flex items-center font-semibold text-[#4A7C59]">
-                                            <div className="mr-2 h-2 w-2 rounded-full bg-[#F9B912]"></div>
-                                            {attr.attribute_name}
-                                        </h3>
-                                        <p className="leading-relaxed whitespace-pre-line text-gray-700">{attr.attribute_value}</p>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
+                        {/* Statistics Card */}
+                        <Card>
+                            <CardHeader>
+                                <CardTitle className="text-lg">Statistics</CardTitle>
+                            </CardHeader>
+                            <CardContent className="space-y-4 text-sm">
+                                <div className="flex justify-between">
+                                    <span className="font-medium">Attributes:</span>
+                                    <span className="text-gray-600">{service.attributes ? service.attributes.length : 0}</span>
+                                </div>
+
+                                <Separator />
+
+                                <div className="flex justify-between">
+                                    <span className="font-medium">Has Image:</span>
+                                    <span className="text-gray-600">{service.image_url ? 'Yes' : 'No'}</span>
+                                </div>
+
+                                <Separator />
+
+                                <div className="flex justify-between">
+                                    <span className="font-medium">Has Icon:</span>
+                                    <span className="text-gray-600">{service.icon ? 'Yes' : 'No'}</span>
+                                </div>
+
+                                <Separator />
+
+                                <div className="flex justify-between">
+                                    <span className="font-medium">Description Length:</span>
+                                    <span className="text-gray-600">{service.description.length} chars</span>
+                                </div>
+                            </CardContent>
+                        </Card>
+
+                        {/* Timestamps Card */}
+                        <Card>
+                            <CardHeader>
+                                <CardTitle className="text-lg">Timestamps</CardTitle>
+                            </CardHeader>
+                            <CardContent className="space-y-4 text-sm">
+                                <div>
+                                    <p className="font-medium">Created</p>
+                                    <p className="text-gray-600">{new Date(service.created_at).toLocaleString()}</p>
+                                </div>
+
+                                <Separator />
+
+                                <div>
+                                    <p className="font-medium">Last Updated</p>
+                                    <p className="text-gray-600">{new Date(service.updated_at).toLocaleString()}</p>
+                                </div>
+                            </CardContent>
+                        </Card>
+
+                        {/* Actions Card */}
+                        <Card>
+                            <CardHeader>
+                                <CardTitle className="text-lg">Actions</CardTitle>
+                            </CardHeader>
+                            <CardContent className="space-y-3">
+                                <Button asChild className="w-full">
+                                    <Link href={route('services.edit', service.slug)}>
+                                        <Edit className="mr-2 h-4 w-4" />
+                                        Edit Service
+                                    </Link>
+                                </Button>
+
+                                <Button variant="outline" asChild className="w-full">
+                                    <Link href={route('services.index')}>Back to List</Link>
+                                </Button>
+                            </CardContent>
+                        </Card>
                     </div>
                 </div>
-
-                {/* Back to Services Button */}
-                <div className="mt-8 text-center">
-                    <a
-                        href={route('services.index')}
-                        className="inline-flex items-center rounded-lg bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A] px-6 py-3 font-medium text-white transition-all duration-300 hover:scale-105 hover:shadow-lg"
-                    >
-                        <svg className="mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                        </svg>
-                        Back to All Services
-                    </a>
-                </div>
             </div>
-        </div>
+        </AppLayout>
     );
-};
-
-ServiceShow.layout = (page: React.ReactNode) => (
-    <WebsiteLayout title="Service Details" breadcrumbs={[{ label: 'Services', href: '/services' }]}>
-        {page}
-    </WebsiteLayout>
-);
-
-export default ServiceShow;
+}

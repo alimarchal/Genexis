@@ -17,6 +17,7 @@ class ScheduleOfChargeSeeder extends Seeder
                 'to' => '2025-6-30',
                 'description' => ' Bank Of Azad Jammu And Kashmir Schedule Of Charges from jan to june 2025',
                 'is_active' => true,
+                 'attachment' => 'schedule_of_charges/schedule_from_jan_to_jun_2025.pdf',
             ],
             // [
             //     'title' => 'Savings Account Charges 2024',
@@ -56,6 +57,6 @@ class ScheduleOfChargeSeeder extends Seeder
         }
 
         // Create additional random schedules
-        ScheduleOfCharge::factory(15)->create();
+        //  ScheduleOfCharge::factory(15)->create();
     }
 }

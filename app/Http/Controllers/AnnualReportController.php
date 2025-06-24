@@ -17,13 +17,13 @@ class AnnualReportController extends Controller
         $annualReports = QueryBuilder::for(AnnualReport::class)
             ->allowedFilters(AnnualReport::getAllowedFilters())
             ->allowedSorts(AnnualReport::getAllowedSorts())
-            ->defaultSort('-created_at')
+            ->defaultSort('-annual_report_fiscal_year', '-created_at')
             ->paginate(request('per_page', 15))
             ->withQueryString();
 
         return Inertia::render('AnnualReports/Index', [
             'annualReports' => $annualReports,
-            'filters' => request()->only(['filter', 'sort']),
+            'filters' => request()->all(),
         ]);
     }
 
@@ -63,14 +63,17 @@ class AnnualReportController extends Controller
 
     public function update(UpdateAnnualReportRequest $request, AnnualReport $annualReport)
     {
-        $validated = $request->validated();
-        $data = $validated;
+        $data = $request->validated();
 
         if ($request->hasFile('annual_report')) {
+            // Delete old file if exists
             if ($annualReport->annual_report) {
                 Storage::disk('public')->delete($annualReport->annual_report);
             }
             $data['annual_report'] = $request->file('annual_report')->store('annual-reports', 'public');
+        } else {
+            // Remove from update data to preserve existing value
+            unset($data['annual_report']);
         }
 
         $annualReport->update($data);
@@ -93,13 +96,13 @@ class AnnualReportController extends Controller
 
     public function download(AnnualReport $annualReport)
     {
-        if (! $annualReport->annual_report || ! Storage::disk('public')->exists($annualReport->annual_report)) {
+        if (!$annualReport->annual_report || !Storage::disk('public')->exists($annualReport->annual_report)) {
             abort(404, 'File not found');
         }
 
-        return Storage::disk('public')->download(
-            $annualReport->annual_report,
-            'Annual-Report-'.$annualReport->annual_report_fiscal_year.'.pdf'
-        );
+        $extension = pathinfo($annualReport->annual_report, PATHINFO_EXTENSION);
+        $fileName = "Annual-Report-FY{$annualReport->annual_report_fiscal_year}.{$extension}";
+
+        return Storage::disk('public')->download($annualReport->annual_report, $fileName);
     }
 }

@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\Admin\MenuController;
+use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\AnnualReportController;
 use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\BankServiceController;
 use App\Http\Controllers\BoardOfDirectorController;
+use App\Http\Controllers\BodCommitteeController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\BranchServiceController;
 use App\Http\Controllers\CareerController;
@@ -40,15 +42,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('news-announcements', NewsAnnouncementController::class);
     Route::resource('managments', ManagmentController::class);
     Route::resource('board-of-directors', controller: BoardOfDirectorController::class);
+    Route::resource('bod-committees', BodCommitteeController::class);
+    // Route::resource('product-types', ProductTypeController::class);
+    // Route::resource('product-type-accounts', ProductTypeAccountController::class);
+    Route::resource('product-schemes', ProductSchemeController::class);
+    Route::resource('product-scheme-attributes', ProductSchemeAttributeController::class);
+    Route::resource('services', ServiceController::class);
 
     Route::resource('financial-reports', FinancialReportController::class);
     Route::resource('annual-reports', AnnualReportController::class);
     Route::resource('financial-highlights', FinancialHighlightController::class);
     Route::resource('profit-rates', ProfitRateController::class);
 
-    // Download routes
-    Route::get('annual-reports/{annual_report}/download', [AnnualReportController::class, 'download'])->name('annual-reports.download');
-    Route::get('financial-highlights/{financial_highlight}/download', [FinancialHighlightController::class, 'download'])->name('financial-highlights.download');
 
     // New CRUD routes
     Route::resource('regions', RegionController::class);
@@ -61,34 +66,34 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('schedule-of-charges', ScheduleOfChargeController::class);
     Route::resource('downloads', DownloadController::class);
 
+    // About Us CRUD (admin) - using different URL to avoid conflict with public routes
+    Route::resource('admin-about-us', AboutUsController::class)->names([
+        'index' => 'about-us.index',
+        'create' => 'about-us.create',
+        'store' => 'about-us.store',
+        'show' => 'about-us.show',
+        'edit' => 'about-us.edit',
+        'update' => 'about-us.update',
+        'destroy' => 'about-us.destroy',
+    ])->parameters(['admin-about-us' => 'aboutUs']);
+
     // Product CRUD - singular route
     Route::resource('product', ProductController::class);
-
-    // Route::resource('product-types', ProductTypeController::class);
-    // Route::resource('product-type-accounts', ProductTypeAccountController::class);
-    Route::resource('product-schemes', ProductSchemeController::class);
-    Route::resource('product-scheme-attributes', ProductSchemeAttributeController::class);
-
     Route::resource('service-attributes', ServiceAttributeController::class);
+    Route::resource('careers', CareerController::class);
 
-    // Career CRUD routes - moved to admin prefix to avoid conflict with public routes
-    Route::prefix('admin')->group(function () {
-        Route::resource('careers', CareerController::class);
-        Route::get('careers/{career}/download', [CareerController::class, 'download'])->name('careers.admin-download');
-    });
-
-    // CRUD download routes (for authenticated users)
-    Route::get('schedule-of-charges/{scheduleOfCharge}/download', [ScheduleOfChargeController::class, 'download'])->name('schedule-of-charges.admin-download');
-    Route::get('downloads/{download}/download', [DownloadController::class, 'download'])->name('downloads.admin-download');
 });
 
 // Public routes
 Route::get('/', [PageController::class, 'home'])->name('home');
 
 Route::prefix('about-us')->name('about.')->group(function () {
+    Route::get('/', [AboutUsController::class, 'publicIndex'])->name('about-us');
     Route::get('/board-of-directors', [PageController::class, 'boardOfDirectors'])->name('board-directors');
     Route::get('/management', [PageController::class, 'management'])->name('management');
+    Route::get('/bod-committees', [BodCommitteeController::class, 'publicIndex'])->name('bod-committees');
     Route::get('/branch-network', [PageController::class, 'branchNetwork'])->name('branch-network');
+    Route::get('/organogram', [PageController::class, 'organizationStructure'])->name('organogram');
 });
 
 Route::prefix('products')->name('products.')->group(function () {
@@ -100,12 +105,15 @@ Route::prefix('products')->name('products.')->group(function () {
     Route::get('/micro-finances', [PageController::class, 'microFinance'])->name('micro-finances');
 });
 
-Route::prefix('services')->name('services.')->group(function () {
-    Route::get('/all-services', [ServiceController::class, 'index'])->name('index');
+Route::prefix('services-page')->name('service-pages.')->group(function () {
+    Route::get('/all-services', [ServiceController::class, 'indexHomePage'])->name('all');
     Route::get('/lockers-facility', [ServiceController::class, 'lockersFacility'])->name('lockers-facility');
     Route::get('/utility-bills-collection', [ServiceController::class, 'utilityBillsCollection'])->name('utility-bills-collection');
     Route::get('/services-for-ajk-psc', [ServiceController::class, 'servicesForAjkPsc'])->name('services-for-ajk-psc');
     Route::get('/home-remittance', [ServiceController::class, 'homeRemittance'])->name('home-remittance');
+
+    // This route handles new services
+    Route::get('/{slug}', [ServiceController::class, 'showHomePage'])->name('show');
 });
 
 Route::prefix('financials')->name('financials.')->group(function () {
@@ -126,9 +134,22 @@ Route::post('/contact-us', [PageController::class, 'contactSubmit'])->name('cont
 Route::get('/public-downloads', [DownloadController::class, 'publicIndex'])->name('public-downloads');
 Route::get('/public-downloads/{download}/download', [DownloadController::class, 'download'])->name('public-downloads.download');
 
-Route::get('/careers', [CareerController::class, 'publicIndex'])->name('public-careers');
-Route::get('/careers/{career}', [CareerController::class, 'publicShow'])->name('public-careers.show');
-Route::get('/careers/{career}/download', [CareerController::class, 'download'])->name('public-careers.download');
+
+Route::get('/careers-at-bajk', [CareerController::class, 'publicIndex'])->name('public-careers');
+Route::get('/careers-at-bajk/{career}', [CareerController::class, 'publicShow'])->name('public-careers.show');
+
+
+// Download routes
+
+
+Route::get('careers/{career}/download', [CareerController::class, 'download'])->name('public-careers.download');
+Route::get('schedule-of-charges/{scheduleOfCharge}/download', [ScheduleOfChargeController::class, 'download'])->name('schedule-of-charges.admin-download');
+Route::get('downloads/{download}/download', [DownloadController::class, 'download'])->name('downloads.admin-download');
+Route::get('annual-reports/{annual_report}/download', [AnnualReportController::class, 'download'])->name('annual-reports.download');
+Route::get('financial-highlights/{financial_highlight}/download', [FinancialHighlightController::class, 'download'])->name('financial-highlights.download');
+Route::get('financial-reports/{financial_report}/download/{type}', [FinancialReportController::class, 'download'])->name('financial-reports.download');
+
+
 
 Route::get('/news', [PageController::class, 'news'])->name('news');
 Route::get('/news/{slug}', [PageController::class, 'newsDetail'])->name('news.detail');
@@ -144,6 +165,12 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
     Route::post('menus/reorder', [MenuController::class, 'reorder'])->name('menus.reorder');
     Route::post('clear-menu-cache', [MenuController::class, 'clearCache'])->name('clear-menu-cache');
 });
+
+
+Route::get('/email-login-proxy', function () {
+    $emailUrl = 'https://www.bankajk.com:2096';
+    return redirect()->away($emailUrl);
+})->name('email.login.proxy');
 
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';
