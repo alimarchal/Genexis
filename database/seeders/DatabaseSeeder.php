@@ -40,6 +40,8 @@ class DatabaseSeeder extends Seeder
             ScheduleOfChargeSeeder::class,
             DownloadSeeder::class,
             CareerSeeder::class,
+            BodCommitteeSeeder::class,
+            AboutUsSeeder::class,
         ]);
 
         User::factory()->create([

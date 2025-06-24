@@ -16,19 +16,13 @@ class ContactFactory extends Factory
      */
     public function definition(): array
     {
-        $type = fake()->randomElement(['email', 'fax', 'telephone_no', 'mobile_no', 'whatsapp']);
-
-        $contact = match ($type) {
-            'email' => fake()->email(),
-            'fax' => fake()->phoneNumber(),
-            'telephone_no' => fake()->phoneNumber(),
-            'mobile_no' => fake()->phoneNumber(),
-            'whatsapp' => fake()->phoneNumber(),
-        };
-
         return [
-            'contact' => $contact,
-            'type' => $type,
+            'name' => fake()->name(),
+            'email' => fake()->email(),
+            'phone' => fake()->phoneNumber(),
+            'position' => fake()->jobTitle(),
+            'department' => fake()->randomElement(['Customer Service', 'Operations', 'Finance', 'IT', 'HR', 'Marketing']),
+            'branch_id' => \App\Models\Branch::factory(),
             'status' => fake()->randomElement(['active', 'inactive']),
         ];
     }

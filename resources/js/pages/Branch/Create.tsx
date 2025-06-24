@@ -1,7 +1,6 @@
 import Heading from '@/components/heading';
-import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -10,7 +9,7 @@ import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { Save } from 'lucide-react';
-import { FormEventHandler } from 'react';
+import { FormEventHandler, useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -27,6 +26,11 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
+interface Region {
+    id: number;
+    name: string;
+}
+
 interface District {
     id: number;
     name: string;
@@ -37,6 +41,7 @@ interface District {
 }
 
 interface Props {
+    regions: Region[];
     districts: District[];
 }
 
@@ -44,36 +49,40 @@ type BranchForm = {
     name: string;
     code: string;
     address: string;
-    district_id: string;
     region_id: string;
-    type: 'main_branch' | 'sub_branch' | 'atm' | 'service_center' | 'mobile_unit';
+    district_id: string;
+    type: 'main' | 'sub' | 'agent';
     status: 'active' | 'inactive';
 };
 
-export default function CreateBranch({ districts }: Props) {
+export default function CreateBranch({ regions, districts }: Props) {
     const { data, setData, post, processing, errors } = useForm<BranchForm>({
         name: '',
         code: '',
         address: '',
-        district_id: '',
         region_id: '',
-        type: 'sub_branch',
+        district_id: '',
+        type: 'sub',
         status: 'active',
     });
 
-    const handleDistrictChange = (districtId: string) => {
-        const selectedDistrict = districts.find((d) => d.id.toString() === districtId);
-        setData({
-            ...data,
-            district_id: districtId,
-            region_id: selectedDistrict?.region.id.toString() || '',
-        });
-    };
+    const [selectedRegion, setSelectedRegion] = useState('');
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
         post(route('branches.store'));
     };
+
+    const handleRegionChange = (value: string) => {
+        setSelectedRegion(value);
+        setData('region_id', value);
+        setData('district_id', ''); // Reset district when region changes
+    };
+
+    // Filter districts based on selected region
+    const filteredDistricts = selectedRegion
+        ? districts.filter(district => district.region.id.toString() === selectedRegion)
+        : districts;
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -82,13 +91,17 @@ export default function CreateBranch({ districts }: Props) {
             <div className="px-10 py-6">
                 <Heading title="Create Branch" description="Add a new branch to your organization" />
 
-                <div className="flex flex-col space-y-8 lg:flex-row lg:space-y-0 lg:space-x-12">
-                    <form onSubmit={submit} className="w-full">
+                <div className="mt-8">
+                    <form onSubmit={submit} className="space-y-8">
+                        {/* Basic Information */}
                         <Card>
-                            <CardContent className="pt-6">
-                                {/* First Row - 3 columns */}
-                                <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-3">
-                                    <div>
+                            <CardHeader>
+                                <CardTitle>Basic Information</CardTitle>
+                            </CardHeader>
+                            <CardContent className="space-y-6">
+                                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                                    {/* Branch Name */}
+                                    <div className="space-y-2">
                                         <Label htmlFor="name">Branch Name</Label>
                                         <Input
                                             id="name"
@@ -96,12 +109,13 @@ export default function CreateBranch({ districts }: Props) {
                                             value={data.name}
                                             onChange={(e) => setData('name', e.target.value)}
                                             placeholder="Enter branch name"
-                                            required
+                                            className={errors.name ? 'border-red-500' : ''}
                                         />
-                                        <InputError message={errors.name} className="mt-2" />
+                                        {errors.name && <p className="text-sm text-red-500">{errors.name}</p>}
                                     </div>
 
-                                    <div>
+                                    {/* Branch Code */}
+                                    <div className="space-y-2">
                                         <Label htmlFor="code">Branch Code</Label>
                                         <Input
                                             id="code"
@@ -109,15 +123,34 @@ export default function CreateBranch({ districts }: Props) {
                                             value={data.code}
                                             onChange={(e) => setData('code', e.target.value)}
                                             placeholder="Enter branch code"
-                                            required
+                                            className={errors.code ? 'border-red-500' : ''}
                                         />
-                                        <InputError message={errors.code} className="mt-2" />
+                                        {errors.code && <p className="text-sm text-red-500">{errors.code}</p>}
+                                    </div>
+                                </div>
+
+                                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                                    {/* Type */}
+                                    <div className="space-y-2">
+                                        <Label htmlFor="type">Branch Type</Label>
+                                        <Select value={data.type} onValueChange={(value: 'main' | 'sub' | 'agent') => setData('type', value)}>
+                                            <SelectTrigger className={errors.type ? 'border-red-500' : ''}>
+                                                <SelectValue placeholder="Select branch type" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem value="main">Main Branch</SelectItem>
+                                                <SelectItem value="sub">Sub Branch</SelectItem>
+                                                <SelectItem value="agent">Agent</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                        {errors.type && <p className="text-sm text-red-500">{errors.type}</p>}
                                     </div>
 
-                                    <div>
+                                    {/* Status */}
+                                    <div className="space-y-2">
                                         <Label htmlFor="status">Status</Label>
                                         <Select value={data.status} onValueChange={(value: 'active' | 'inactive') => setData('status', value)}>
-                                            <SelectTrigger id="status">
+                                            <SelectTrigger className={errors.status ? 'border-red-500' : ''}>
                                                 <SelectValue placeholder="Select status" />
                                             </SelectTrigger>
                                             <SelectContent>
@@ -125,54 +158,62 @@ export default function CreateBranch({ districts }: Props) {
                                                 <SelectItem value="inactive">Inactive</SelectItem>
                                             </SelectContent>
                                         </Select>
-                                        <InputError message={errors.status} className="mt-2" />
+                                        {errors.status && <p className="text-sm text-red-500">{errors.status}</p>}
                                     </div>
                                 </div>
+                            </CardContent>
+                        </Card>
 
-                                {/* Second Row - 2 columns */}
-                                <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-2">
-                                    <div>
-                                        <Label htmlFor="district_id">District</Label>
-                                        <Select value={data.district_id} onValueChange={handleDistrictChange}>
-                                            <SelectTrigger id="district_id">
-                                                <SelectValue placeholder="Select district" />
+                        {/* Location Information */}
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Location Information</CardTitle>
+                            </CardHeader>
+                            <CardContent className="space-y-6">
+                                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                                    {/* Region */}
+                                    <div className="space-y-2">
+                                        <Label htmlFor="region_id">Region</Label>
+                                        <Select value={data.region_id} onValueChange={handleRegionChange}>
+                                            <SelectTrigger className={errors.region_id ? 'border-red-500' : ''}>
+                                                <SelectValue placeholder="Select a region" />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                {districts.map((district) => (
-                                                    <SelectItem key={district.id} value={district.id.toString()}>
-                                                        {district.name} ({district.region.name})
+                                                {regions.map((region) => (
+                                                    <SelectItem key={region.id} value={region.id.toString()}>
+                                                        {region.name}
                                                     </SelectItem>
                                                 ))}
                                             </SelectContent>
                                         </Select>
-                                        <InputError message={errors.district_id} className="mt-2" />
+                                        {errors.region_id && <p className="text-sm text-red-500">{errors.region_id}</p>}
                                     </div>
 
-                                    <div>
-                                        <Label htmlFor="type">Branch Type</Label>
+                                    {/* District */}
+                                    <div className="space-y-2">
+                                        <Label htmlFor="district_id">District</Label>
                                         <Select
-                                            value={data.type}
-                                            onValueChange={(value: 'main_branch' | 'sub_branch' | 'atm' | 'service_center' | 'mobile_unit') =>
-                                                setData('type', value)
-                                            }
+                                            value={data.district_id}
+                                            onValueChange={(value) => setData('district_id', value)}
+                                            disabled={!selectedRegion}
                                         >
-                                            <SelectTrigger id="type">
-                                                <SelectValue placeholder="Select branch type" />
+                                            <SelectTrigger className={errors.district_id ? 'border-red-500' : ''}>
+                                                <SelectValue placeholder={selectedRegion ? "Select a district" : "Select a region first"} />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="main_branch">Main Branch</SelectItem>
-                                                <SelectItem value="sub_branch">Sub Branch</SelectItem>
-                                                <SelectItem value="atm">ATM</SelectItem>
-                                                <SelectItem value="service_center">Service Center</SelectItem>
-                                                <SelectItem value="mobile_unit">Mobile Unit</SelectItem>
+                                                {filteredDistricts.map((district) => (
+                                                    <SelectItem key={district.id} value={district.id.toString()}>
+                                                        {district.name}
+                                                    </SelectItem>
+                                                ))}
                                             </SelectContent>
                                         </Select>
-                                        <InputError message={errors.type} className="mt-2" />
+                                        {errors.district_id && <p className="text-sm text-red-500">{errors.district_id}</p>}
                                     </div>
                                 </div>
 
-                                {/* Third Row - Full width */}
-                                <div className="mb-6">
+                                {/* Address - Full width */}
+                                <div className="space-y-2">
                                     <Label htmlFor="address">Address</Label>
                                     <Textarea
                                         id="address"
@@ -180,22 +221,23 @@ export default function CreateBranch({ districts }: Props) {
                                         onChange={(e) => setData('address', e.target.value)}
                                         rows={4}
                                         placeholder="Enter branch address..."
+                                        className={errors.address ? 'border-red-500' : ''}
                                     />
-                                    <InputError message={errors.address} className="mt-2" />
-                                </div>
-
-                                {/* Action Buttons */}
-                                <div className="flex justify-end gap-2">
-                                    <Button variant="outline" asChild>
-                                        <Link href={route('branches.index')}>Cancel</Link>
-                                    </Button>
-                                    <Button type="submit" disabled={processing}>
-                                        <Save className="mr-2 h-4 w-4" />
-                                        {processing ? 'Creating...' : 'Create Branch'}
-                                    </Button>
+                                    {errors.address && <p className="text-sm text-red-500">{errors.address}</p>}
                                 </div>
                             </CardContent>
                         </Card>
+
+                        {/* Action Buttons */}
+                        <div className="flex justify-end gap-2">
+                            <Button variant="outline" asChild>
+                                <Link href={route('branches.index')}>Cancel</Link>
+                            </Button>
+                            <Button type="submit" disabled={processing}>
+                                <Save className="mr-2 h-4 w-4" />
+                                {processing ? 'Creating...' : 'Create Branch'}
+                            </Button>
+                        </div>
                     </form>
                 </div>
             </div>

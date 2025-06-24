@@ -5,12 +5,11 @@ namespace App\Models;
 use App\Traits\UserTracking;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Spatie\QueryBuilder\AllowedFilter;
-use Spatie\QueryBuilder\AllowedSort;
 
 class ScheduleOfCharge extends Model
 {
-    /** @use HasFactory<\Database\Factories\ScheduleOfChargeFactory> */
     use HasFactory, UserTracking;
 
     protected $fillable = [
@@ -20,6 +19,8 @@ class ScheduleOfCharge extends Model
         'attachment',
         'description',
         'is_active',
+        'created_by',
+        'updated_by',
     ];
 
     protected $casts = [
@@ -28,45 +29,84 @@ class ScheduleOfCharge extends Model
         'is_active' => 'boolean',
     ];
 
+    protected $appends = [
+        'attachment_url',
+    ];
+
     public static function getAllowedFilters(): array
     {
         return [
-            AllowedFilter::exact('is_active'),
             AllowedFilter::partial('title'),
-            AllowedFilter::scope('date_range'),
+            AllowedFilter::callback('is_active', function ($query, $value) {
+                if ($value === '1')
+                    return $query->where('is_active', true);
+                if ($value === '0')
+                    return $query->where('is_active', false);
+                return $query;
+            }),
+            AllowedFilter::callback('has_attachment', function ($query, $value) {
+                if ($value === 'yes')
+                    return $query->whereNotNull('attachment');
+                if ($value === 'no')
+                    return $query->whereNull('attachment');
+                return $query;
+            }),
+            AllowedFilter::callback('date_range', function ($query, $value) {
+                $currentDate = now()->toDateString();
+                switch ($value) {
+                    case 'current':
+                        return $query->where('from', '<=', $currentDate)
+                            ->where(function ($q) use ($currentDate) {
+                                $q->whereNull('to')->orWhere('to', '>=', $currentDate);
+                            });
+                    case 'upcoming':
+                        return $query->where('from', '>', $currentDate);
+                    case 'expired':
+                        return $query->whereNotNull('to')->where('to', '<', $currentDate);
+                    default:
+                        return $query;
+                }
+            }),
         ];
     }
 
     public static function getAllowedSorts(): array
     {
         return [
-            AllowedSort::field('title'),
-            AllowedSort::field('from'),
-            AllowedSort::field('to'),
-            AllowedSort::field('created_at'),
-            AllowedSort::field('updated_at'),
+            'id',
+            'title',
+            'from',
+            'to',
+            'is_active',
+            'created_at',
+            'updated_at',
         ];
     }
 
-    public function scopeDateRange($query, $from = null, $to = null)
+    public function getAttachmentUrlAttribute(): ?string
     {
-        if ($from) {
-            $query->where('from', '>=', $from);
+        if ($this->attachment && Storage::disk('public')->exists($this->attachment)) {
+            return route('schedule-of-charges.admin-download', $this->id);
         }
-        if ($to) {
-            $query->where('to', '<=', $to);
-        }
-
-        return $query;
+        return null;
     }
 
-    public function getAttachmentUrlAttribute()
+    public function getStatusAttribute(): string
     {
-        return $this->attachment ? asset('storage/'.$this->attachment) : null;
+        if (!$this->is_active)
+            return 'inactive';
+
+        $currentDate = now()->toDateString();
+
+        if ($this->from > $currentDate)
+            return 'upcoming';
+        if ($this->to && $this->to < $currentDate)
+            return 'expired';
+        return 'current';
     }
 
-    public function getStatusAttribute()
+    public function getHasAttachmentAttribute(): bool
     {
-        return $this->is_active ? 'Active' : 'Inactive';
+        return !is_null($this->attachment);
     }
 }

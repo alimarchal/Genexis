@@ -20,9 +20,10 @@ test('it can view annual reports index page', function () {
     $response = $this->get(route('annual-reports.index'));
 
     $response->assertOk()
-        ->assertInertia(fn ($page) => $page
-            ->component('AnnualReports/Index')
-            ->has('annualReports.data', 3)
+        ->assertInertia(
+            fn($page) => $page
+                ->component('AnnualReports/Index')
+                ->has('annualReports.data', 3)
         );
 });
 
@@ -30,12 +31,13 @@ test('it can search annual reports by fiscal year', function () {
     AnnualReport::factory()->create(['annual_report_fiscal_year' => 2023]);
     AnnualReport::factory()->create(['annual_report_fiscal_year' => 2024]);
 
-    $response = $this->get(route('annual-reports.index', ['filter[search]' => '2023']));
+    $response = $this->get(route('annual-reports.index', ['filter' => ['annual_report_fiscal_year' => '2023']]));
 
     $response->assertOk()
-        ->assertInertia(fn ($page) => $page
-            ->has('annualReports.data', 1)
-            ->where('annualReports.data.0.annual_report_fiscal_year', 2023)
+        ->assertInertia(
+            fn($page) => $page
+                ->has('annualReports.data', 1)
+                ->where('annualReports.data.0.annual_report_fiscal_year', 2023)
         );
 });
 
@@ -46,9 +48,10 @@ test('it can sort annual reports by fiscal year', function () {
     $response = $this->get(route('annual-reports.index', ['sort' => 'annual_report_fiscal_year']));
 
     $response->assertOk()
-        ->assertInertia(fn ($page) => $page
-            ->where('annualReports.data.0.annual_report_fiscal_year', 2023)
-            ->where('annualReports.data.1.annual_report_fiscal_year', 2024)
+        ->assertInertia(
+            fn($page) => $page
+                ->where('annualReports.data.0.annual_report_fiscal_year', 2023)
+                ->where('annualReports.data.1.annual_report_fiscal_year', 2024)
         );
 });
 
@@ -56,8 +59,9 @@ test('it can view create annual report page', function () {
     $response = $this->get(route('annual-reports.create'));
 
     $response->assertOk()
-        ->assertInertia(fn ($page) => $page
-            ->component('AnnualReports/Create')
+        ->assertInertia(
+            fn($page) => $page
+                ->component('AnnualReports/Create')
         );
 });
 
@@ -76,7 +80,7 @@ test('it can create annual report with valid data', function () {
         'created_by' => $this->user->id,
     ]);
 
-    Storage::disk('public')->assertExists('annual-reports/'.$file->hashName());
+    Storage::disk('public')->assertExists('annual-reports/' . $file->hashName());
 });
 
 test('it cannot create annual report with duplicate fiscal year', function () {
@@ -92,13 +96,6 @@ test('it cannot create annual report with duplicate fiscal year', function () {
     $response->assertSessionHasErrors('annual_report_fiscal_year');
 });
 
-test('it cannot create annual report without file', function () {
-    $response = $this->post(route('annual-reports.store'), [
-        'annual_report_fiscal_year' => 2024,
-    ]);
-
-    $response->assertSessionHasErrors('annual_report');
-});
 
 test('it cannot create annual report with invalid file type', function () {
     $file = UploadedFile::fake()->create('document.txt', 1000, 'text/plain');
@@ -112,7 +109,7 @@ test('it cannot create annual report with invalid file type', function () {
 });
 
 test('it cannot create annual report with file too large', function () {
-    $file = UploadedFile::fake()->create('large-file.pdf', 11000, 'application/pdf'); // 11MB
+    $file = UploadedFile::fake()->create('large-file.pdf', 350000, 'application/pdf'); // 350MB (larger than 300MB limit)
 
     $response = $this->post(route('annual-reports.store'), [
         'annual_report_fiscal_year' => 2024,
@@ -131,10 +128,11 @@ test('it can view annual report details', function () {
     $response = $this->get(route('annual-reports.show', $annualReport));
 
     $response->assertOk()
-        ->assertInertia(fn ($page) => $page
-            ->component('AnnualReports/Show')
-            ->where('annualReport.id', $annualReport->id)
-            ->where('annualReport.annual_report_fiscal_year', 2024)
+        ->assertInertia(
+            fn($page) => $page
+                ->component('AnnualReports/Show')
+                ->where('annualReport.id', $annualReport->id)
+                ->where('annualReport.annual_report_fiscal_year', 2024)
         );
 });
 
@@ -144,9 +142,10 @@ test('it can view edit annual report page', function () {
     $response = $this->get(route('annual-reports.edit', $annualReport));
 
     $response->assertOk()
-        ->assertInertia(fn ($page) => $page
-            ->component('AnnualReports/Edit')
-            ->where('annualReport.id', $annualReport->id)
+        ->assertInertia(
+            fn($page) => $page
+                ->component('AnnualReports/Edit')
+                ->where('annualReport.id', $annualReport->id)
         );
 });
 

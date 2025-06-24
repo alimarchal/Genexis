@@ -6,6 +6,7 @@ use App\Http\Requests\StoreBoardOfDirectorRequest;
 use App\Http\Requests\UpdateBoardOfDirectorRequest;
 use App\Models\BoardOfDirector;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -64,7 +65,14 @@ class BoardOfDirectorController extends Controller
         $validated = $request->validated();
 
         if ($request->hasFile('image')) {
+            // Delete old image if exists
+            if ($boardOfDirector->image) {
+                Storage::disk('public')->delete($boardOfDirector->image);
+            }
             $validated['image'] = $request->file('image')->store('board-of-directors', 'public');
+        } else {
+            // Remove image from update data to preserve existing value
+            unset($validated['image']);
         }
 
         $boardOfDirector->update($validated);
@@ -75,6 +83,11 @@ class BoardOfDirectorController extends Controller
 
     public function destroy(BoardOfDirector $boardOfDirector)
     {
+        // Delete image if exists
+        if ($boardOfDirector->image) {
+            Storage::disk('public')->delete($boardOfDirector->image);
+        }
+
         $boardOfDirector->delete();
 
         return redirect()->route('board-of-directors.index')

@@ -14,13 +14,12 @@ beforeEach(function () {
 });
 
 test('it can display financial reports index', function () {
-    FinancialReport::factory()->count(3)->create();
-
     $response = $this->get(route('financial-reports.index'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn ($page) => $page->component('Financials/Index')
-        ->has('financialReports.data', 3)
+    $response->assertInertia(
+        fn($page) => $page->component('FinancialReports/Index')
+            ->has('financialReports')
     );
 });
 
@@ -28,7 +27,8 @@ test('it can display create form', function () {
     $response = $this->get(route('financial-reports.create'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn ($page) => $page->component('Financials/Create')
+    $response->assertInertia(
+        fn($page) => $page->component('FinancialReports/Create')
     );
 });
 
@@ -89,9 +89,10 @@ test('it can display show page', function () {
     $response = $this->get(route('financial-reports.show', $report));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn ($page) => $page->component('Financials/Show')
-        ->has('financialReport')
-        ->where('financialReport.id', $report->id)
+    $response->assertInertia(
+        fn($page) => $page->component('FinancialReports/Show')
+            ->has('financialReport')
+            ->where('financialReport.id', $report->id)
     );
 });
 

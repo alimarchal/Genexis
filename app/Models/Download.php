@@ -23,6 +23,8 @@ class Download extends Model
         'is_featured',
         'is_active',
         'download_count',
+        'created_by',
+        'updated_by',
     ];
 
     protected $casts = [
@@ -32,14 +34,35 @@ class Download extends Model
         'download_count' => 'integer',
     ];
 
+    protected $appends = [
+        'file_size_formatted',
+    ];
+
     public static function getAllowedFilters(): array
     {
         return [
             AllowedFilter::exact('category'),
-            AllowedFilter::exact('is_featured'),
-            AllowedFilter::exact('is_active'),
+            AllowedFilter::exact('file_type'),
             AllowedFilter::partial('title'),
             AllowedFilter::partial('description'),
+            AllowedFilter::callback('is_featured', function ($query, $value) {
+                if ($value === '1')
+                    return $query->where('is_featured', true);
+                if ($value === '0')
+                    return $query->where('is_featured', false);
+                return $query;
+            }),
+            AllowedFilter::callback('is_active', function ($query, $value) {
+                if ($value === '1')
+                    return $query->where('is_active', true);
+                if ($value === '0')
+                    return $query->where('is_active', false);
+                return $query;
+            }),
+            AllowedFilter::scope('file_size_min'),
+            AllowedFilter::scope('file_size_max'),
+            AllowedFilter::scope('download_count_min'),
+            AllowedFilter::scope('download_count_max'),
         ];
     }
 
@@ -48,7 +71,11 @@ class Download extends Model
         return [
             AllowedSort::field('title'),
             AllowedSort::field('category'),
+            AllowedSort::field('file_type'),
+            AllowedSort::field('file_size'),
             AllowedSort::field('download_count'),
+            AllowedSort::field('is_featured'),
+            AllowedSort::field('is_active'),
             AllowedSort::field('created_at'),
             AllowedSort::field('updated_at'),
         ];
@@ -56,12 +83,12 @@ class Download extends Model
 
     public function getFileUrlAttribute()
     {
-        return $this->file_path ? asset('storage/'.$this->file_path) : null;
+        return $this->file_path ? asset('storage/' . $this->file_path) : null;
     }
 
     public function getFileSizeFormattedAttribute()
     {
-        if (! $this->file_size) {
+        if (!$this->file_size) {
             return 'Unknown';
         }
 
@@ -74,12 +101,32 @@ class Download extends Model
             $i++;
         }
 
-        return round($bytes, 2).' '.$units[$i];
+        return round($bytes, 2) . ' ' . $units[$i];
     }
 
     public function getStatusAttribute()
     {
         return $this->is_active ? 'Active' : 'Inactive';
+    }
+
+    public function scopeFileSizeMin($query, $size)
+    {
+        return $query->where('file_size', '>=', $size);
+    }
+
+    public function scopeFileSizeMax($query, $size)
+    {
+        return $query->where('file_size', '<=', $size);
+    }
+
+    public function scopeDownloadCountMin($query, $count)
+    {
+        return $query->where('download_count', '>=', $count);
+    }
+
+    public function scopeDownloadCountMax($query, $count)
+    {
+        return $query->where('download_count', '<=', $count);
     }
 
     public function incrementDownloadCount()

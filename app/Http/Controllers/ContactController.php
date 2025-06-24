@@ -22,9 +22,12 @@ class ContactController extends Controller
             ->paginate(request('per_page', 15))
             ->withQueryString();
 
+        $branches = Branch::active()->orderBy('name')->get();
+
         return Inertia::render('ContactManagement/Index', [
             'contacts' => $contacts,
-            'filters' => request()->only(['filter', 'sort']),
+            'branches' => $branches,
+            'filters' => $request->query(),
         ]);
     }
 

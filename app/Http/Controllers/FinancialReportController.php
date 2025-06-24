@@ -17,19 +17,19 @@ class FinancialReportController extends Controller
         $financialReports = QueryBuilder::for(FinancialReport::class)
             ->allowedFilters(FinancialReport::getAllowedFilters())
             ->allowedSorts(FinancialReport::getAllowedSorts())
-            ->defaultSort('-created_at')
+            ->defaultSort('-fiscal_year', '-created_at')
             ->paginate(request('per_page', 15))
             ->withQueryString();
 
-        return Inertia::render('Financials/Index', [
+        return Inertia::render('FinancialReports/Index', [
             'financialReports' => $financialReports,
-            'filters' => request()->only(['filter', 'sort']),
+            'filters' => request()->all(),
         ]);
     }
 
     public function create()
     {
-        return Inertia::render('Financials/Create');
+        return Inertia::render('FinancialReports/Create');
     }
 
     public function store(StoreFinancialReportRequest $request)
@@ -37,21 +37,13 @@ class FinancialReportController extends Controller
         $validated = $request->validated();
         $data = $validated;
 
-        // Handle file uploads - check if files exist in the request
-        if ($request->hasFile('first_quarter_report')) {
-            $data['first_quarter_report'] = $request->file('first_quarter_report')->store('financial-reports', 'public');
-        }
+        // Handle file uploads
+        $reportTypes = ['first_quarter_report', 'half_yearly_report', 'third_quarter_report', 'annual_report'];
 
-        if ($request->hasFile('half_yearly_report')) {
-            $data['half_yearly_report'] = $request->file('half_yearly_report')->store('financial-reports', 'public');
-        }
-
-        if ($request->hasFile('third_quarter_report')) {
-            $data['third_quarter_report'] = $request->file('third_quarter_report')->store('financial-reports', 'public');
-        }
-
-        if ($request->hasFile('annual_report')) {
-            $data['annual_report'] = $request->file('annual_report')->store('financial-reports', 'public');
+        foreach ($reportTypes as $reportType) {
+            if ($request->hasFile($reportType)) {
+                $data[$reportType] = $request->file($reportType)->store('financial-reports', 'public');
+            }
         }
 
         FinancialReport::create($data);
@@ -62,14 +54,14 @@ class FinancialReportController extends Controller
 
     public function show(FinancialReport $financialReport)
     {
-        return Inertia::render('Financials/Show', [
+        return Inertia::render('FinancialReports/Show', [
             'financialReport' => $financialReport,
         ]);
     }
 
     public function edit(FinancialReport $financialReport)
     {
-        return Inertia::render('Financials/Edit', [
+        return Inertia::render('FinancialReports/Edit', [
             'financialReport' => $financialReport,
         ]);
     }
@@ -77,7 +69,6 @@ class FinancialReportController extends Controller
     public function update(UpdateFinancialReportRequest $request, FinancialReport $financialReport)
     {
         $data = $request->validated();
-
         $reportTypes = ['first_quarter_report', 'half_yearly_report', 'third_quarter_report', 'annual_report'];
 
         foreach ($reportTypes as $reportType) {
@@ -139,7 +130,8 @@ class FinancialReportController extends Controller
         ];
 
         $typeName = $typeNames[$type];
-        $fileName = "Financial-Report-{$typeName}-{$financialReport->fiscal_year}.pdf";
+        $extension = pathinfo($filePath, PATHINFO_EXTENSION);
+        $fileName = "Financial-Report-{$typeName}-FY{$financialReport->fiscal_year}.{$extension}";
 
         return Storage::disk('public')->download($filePath, $fileName);
     }

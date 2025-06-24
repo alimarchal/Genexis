@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
-import { ArrowLeft, Calendar, Edit, MapPin } from 'lucide-react';
+import { Calendar, Edit, MapPin } from 'lucide-react';
 
 interface Region {
     id: number;
@@ -49,14 +49,9 @@ export default function ShowRegion({ region }: Props) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={`${region.name} - Region`} />
 
-            <div className="px-4 py-6">
-                <div className="mb-6 flex items-center justify-between">
-                    <Button variant="ghost" size="sm" asChild>
-                        <Link href={route('regions.index')}>
-                            <ArrowLeft className="mr-2 h-4 w-4" />
-                            Back to Regions
-                        </Link>
-                    </Button>
+            <div className="px-10 py-6">
+                <div className="flex items-center justify-between">
+                    <Heading title={region.name} description="View region details" />
                     <Button asChild>
                         <Link href={route('regions.edit', region.id)}>
                             <Edit className="mr-2 h-4 w-4" />
@@ -65,11 +60,9 @@ export default function ShowRegion({ region }: Props) {
                     </Button>
                 </div>
 
-                <Heading title="Region Details" description="View complete information about this region" />
-
-                <div className="grid max-w-6xl grid-cols-1 gap-6 lg:grid-cols-3">
-                    {/* Main Information */}
-                    <div className="space-y-6 lg:col-span-2">
+                <div className="mt-8 grid gap-6 lg:grid-cols-3">
+                    {/* Main Content */}
+                    <div className="lg:col-span-2">
                         <Card>
                             <CardHeader>
                                 <CardTitle className="flex items-center gap-2">
@@ -77,24 +70,22 @@ export default function ShowRegion({ region }: Props) {
                                     Region Information
                                 </CardTitle>
                             </CardHeader>
-                            <CardContent className="space-y-4">
-                                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                                    <div>
-                                        <p className="text-muted-foreground text-sm">Region Name</p>
-                                        <p className="font-medium">{region.name}</p>
+                            <CardContent className="space-y-6">
+                                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                                    <div className="space-y-2">
+                                        <p className="text-muted-foreground text-sm font-medium">Region Name</p>
+                                        <p className="text-lg font-semibold">{region.name}</p>
                                     </div>
-                                    <div>
-                                        <p className="text-muted-foreground text-sm">Status</p>
-                                        <Badge variant={region.status === 'active' ? 'default' : 'secondary'} className="mt-1">
-                                            {region.status}
-                                        </Badge>
+                                    <div className="space-y-2">
+                                        <p className="text-muted-foreground text-sm font-medium">Status</p>
+                                        <Badge variant={region.status === 'active' ? 'default' : 'secondary'}>{region.status}</Badge>
                                     </div>
                                 </div>
                             </CardContent>
                         </Card>
 
-                        {/* Timestamps */}
-                        <Card>
+                        {/* Timeline */}
+                        <Card className="mt-6">
                             <CardHeader>
                                 <CardTitle className="flex items-center gap-2">
                                     <Calendar className="h-5 w-5" />
@@ -102,14 +93,14 @@ export default function ShowRegion({ region }: Props) {
                                 </CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <div className="space-y-3">
-                                    <div>
-                                        <p className="text-muted-foreground text-sm">Created At</p>
-                                        <p className="text-sm font-medium">{formatDate(region.created_at)}</p>
+                                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                                    <div className="space-y-2">
+                                        <p className="text-muted-foreground text-sm font-medium">Created At</p>
+                                        <p className="text-sm">{formatDate(region.created_at)}</p>
                                     </div>
-                                    <div>
-                                        <p className="text-muted-foreground text-sm">Last Updated</p>
-                                        <p className="text-sm font-medium">{formatDate(region.updated_at)}</p>
+                                    <div className="space-y-2">
+                                        <p className="text-muted-foreground text-sm font-medium">Last Updated</p>
+                                        <p className="text-sm">{formatDate(region.updated_at)}</p>
                                     </div>
                                 </div>
                             </CardContent>
@@ -121,12 +112,9 @@ export default function ShowRegion({ region }: Props) {
                         {/* Quick Actions */}
                         <Card>
                             <CardHeader>
-                                <CardTitle className="flex items-center gap-2">
-                                    <MapPin className="h-5 w-5" />
-                                    Quick Actions
-                                </CardTitle>
+                                <CardTitle>Quick Actions</CardTitle>
                             </CardHeader>
-                            <CardContent className="space-y-2">
+                            <CardContent className="space-y-3">
                                 <Button className="w-full" asChild>
                                     <Link href={route('regions.edit', region.id)}>
                                         <Edit className="mr-2 h-4 w-4" />

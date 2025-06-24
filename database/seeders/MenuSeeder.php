@@ -29,22 +29,34 @@ class MenuSeeder extends Seeder
                 'is_active' => true,
                 'children' => [
                     [
+                        'title' => 'About Us',
+                        'slug' => 'about-us-page',
+                        'route_name' => 'about.about-us',
+                        'sort_order' => 1,
+                    ],
+                    [
                         'title' => 'Board of Directors',
                         'slug' => 'board-of-directors',
                         'route_name' => 'about.board-directors',
-                        'sort_order' => 1,
+                        'sort_order' => 2,
                     ],
                     [
                         'title' => 'Management',
                         'slug' => 'management',
                         'route_name' => 'about.management',
-                        'sort_order' => 2,
+                        'sort_order' => 3,
+                    ],
+                    [
+                        'title' => 'BOD Committees',
+                        'slug' => 'bod-committees',
+                        'route_name' => 'about.bod-committees',
+                        'sort_order' => 4,
                     ],
                     [
                         'title' => 'Branch Network',
                         'slug' => 'branch-network',
                         'route_name' => 'about.branch-network',
-                        'sort_order' => 3,
+                        'sort_order' => 5,
                     ],
                 ],
             ],
@@ -271,7 +283,7 @@ class MenuSeeder extends Seeder
 
             $menu = Menu::create($menuData);
 
-            if (! empty($children)) {
+            if (!empty($children)) {
                 $this->createMenuItems($children, $menu->id);
             }
         }

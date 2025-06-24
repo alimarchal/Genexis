@@ -1,14 +1,13 @@
 import Heading from '@/components/heading';
-import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, useForm } from '@inertiajs/react';
-import { ArrowLeft, Save } from 'lucide-react';
+import { Save } from 'lucide-react';
 import { FormEventHandler } from 'react';
 
 interface Contact {
@@ -54,6 +53,10 @@ export default function EditContact({ contact, branches }: Props) {
             href: route('contacts.index'),
         },
         {
+            title: contact.name,
+            href: route('contacts.show', contact.id),
+        },
+        {
             title: 'Edit',
             href: route('contacts.edit', contact.id),
         },
@@ -62,108 +65,140 @@ export default function EditContact({ contact, branches }: Props) {
     const { data, setData, put, processing, errors } = useForm<ContactForm>({
         name: contact.name,
         email: contact.email,
-        phone: contact.phone || '',
-        position: contact.position || '',
-        department: contact.department || '',
+        phone: contact.phone,
+        position: contact.position,
+        department: contact.department,
         branch_id: contact.branch_id.toString(),
         status: contact.status,
     });
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
-        put(route('contacts.update', contact.id), {
-            onSuccess: () => {
-                console.log('Update successful');
-            },
-            onError: (errors) => {
-                console.error('Update failed:', errors);
-            },
-        });
+        put(route('contacts.update', contact.id));
     };
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Edit Contact" />
+            <Head title={`Edit ${contact.name}`} />
 
-            <div className="px-4 py-6">
-                <div className="mb-6">
-                    <Button variant="ghost" size="sm" asChild>
-                        <Link href={route('contacts.index')}>
-                            <ArrowLeft className="mr-2 h-4 w-4" />
-                            Back to Contacts
-                        </Link>
-                    </Button>
-                </div>
+            <div className="px-10 py-6">
+                <Heading title={`Edit Contact: ${contact.name}`} description="Update contact information" />
 
-                <Heading title="Edit Contact" description="Update contact details and information" />
+                <div className="mt-8">
+                    <form onSubmit={submit} className="space-y-8">
+                        {/* Basic Information */}
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Basic Information</CardTitle>
+                            </CardHeader>
+                            <CardContent className="space-y-6">
+                                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                                    {/* Name */}
+                                    <div className="space-y-2">
+                                        <Label htmlFor="name">Full Name</Label>
+                                        <Input
+                                            id="name"
+                                            type="text"
+                                            value={data.name}
+                                            onChange={(e) => setData('name', e.target.value)}
+                                            placeholder="Enter full name"
+                                            className={errors.name ? 'border-red-500' : ''}
+                                        />
+                                        {errors.name && <p className="text-sm text-red-500">{errors.name}</p>}
+                                    </div>
 
-                <form onSubmit={submit} className="max-w-4xl">
-                    <Card>
-                        <CardContent className="pt-6">
-                            {/* First Row - 3 columns */}
-                            <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-3">
-                                <div>
-                                    <Label htmlFor="name">Full Name</Label>
-                                    <Input id="name" type="text" value={data.name} onChange={(e) => setData('name', e.target.value)} required />
-                                    <InputError message={errors.name} className="mt-2" />
+                                    {/* Email */}
+                                    <div className="space-y-2">
+                                        <Label htmlFor="email">Email Address</Label>
+                                        <Input
+                                            id="email"
+                                            type="email"
+                                            value={data.email}
+                                            onChange={(e) => setData('email', e.target.value)}
+                                            placeholder="Enter email address"
+                                            className={errors.email ? 'border-red-500' : ''}
+                                        />
+                                        {errors.email && <p className="text-sm text-red-500">{errors.email}</p>}
+                                    </div>
                                 </div>
 
-                                <div>
-                                    <Label htmlFor="email">Email</Label>
-                                    <Input id="email" type="email" value={data.email} onChange={(e) => setData('email', e.target.value)} required />
-                                    <InputError message={errors.email} className="mt-2" />
+                                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                                    {/* Phone */}
+                                    <div className="space-y-2">
+                                        <Label htmlFor="phone">Phone Number</Label>
+                                        <Input
+                                            id="phone"
+                                            type="tel"
+                                            value={data.phone}
+                                            onChange={(e) => setData('phone', e.target.value)}
+                                            placeholder="Enter phone number"
+                                            className={errors.phone ? 'border-red-500' : ''}
+                                        />
+                                        {errors.phone && <p className="text-sm text-red-500">{errors.phone}</p>}
+                                    </div>
+
+                                    {/* Position */}
+                                    <div className="space-y-2">
+                                        <Label htmlFor="position">Position</Label>
+                                        <Input
+                                            id="position"
+                                            type="text"
+                                            value={data.position}
+                                            onChange={(e) => setData('position', e.target.value)}
+                                            placeholder="Enter position/title"
+                                            className={errors.position ? 'border-red-500' : ''}
+                                        />
+                                        {errors.position && <p className="text-sm text-red-500">{errors.position}</p>}
+                                    </div>
+                                </div>
+                            </CardContent>
+                        </Card>
+
+                        {/* Work Information */}
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Work Information</CardTitle>
+                            </CardHeader>
+                            <CardContent className="space-y-6">
+                                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                                    {/* Department */}
+                                    <div className="space-y-2">
+                                        <Label htmlFor="department">Department</Label>
+                                        <Input
+                                            id="department"
+                                            type="text"
+                                            value={data.department}
+                                            onChange={(e) => setData('department', e.target.value)}
+                                            placeholder="Enter department"
+                                            className={errors.department ? 'border-red-500' : ''}
+                                        />
+                                        {errors.department && <p className="text-sm text-red-500">{errors.department}</p>}
+                                    </div>
+
+                                    {/* Branch */}
+                                    <div className="space-y-2">
+                                        <Label htmlFor="branch_id">Branch</Label>
+                                        <Select value={data.branch_id} onValueChange={(value) => setData('branch_id', value)}>
+                                            <SelectTrigger className={errors.branch_id ? 'border-red-500' : ''}>
+                                                <SelectValue placeholder="Select a branch" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                {branches.map((branch) => (
+                                                    <SelectItem key={branch.id} value={branch.id.toString()}>
+                                                        {branch.name} ({branch.code})
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
+                                        {errors.branch_id && <p className="text-sm text-red-500">{errors.branch_id}</p>}
+                                    </div>
                                 </div>
 
-                                <div>
-                                    <Label htmlFor="phone">Phone</Label>
-                                    <Input id="phone" type="text" value={data.phone} onChange={(e) => setData('phone', e.target.value)} />
-                                    <InputError message={errors.phone} className="mt-2" />
-                                </div>
-                            </div>
-
-                            {/* Second Row - 3 columns */}
-                            <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-3">
-                                <div>
-                                    <Label htmlFor="position">Position</Label>
-                                    <Input id="position" type="text" value={data.position} onChange={(e) => setData('position', e.target.value)} />
-                                    <InputError message={errors.position} className="mt-2" />
-                                </div>
-
-                                <div>
-                                    <Label htmlFor="department">Department</Label>
-                                    <Input
-                                        id="department"
-                                        type="text"
-                                        value={data.department}
-                                        onChange={(e) => setData('department', e.target.value)}
-                                    />
-                                    <InputError message={errors.department} className="mt-2" />
-                                </div>
-
-                                <div>
-                                    <Label htmlFor="branch_id">Branch</Label>
-                                    <Select value={data.branch_id} onValueChange={(value) => setData('branch_id', value)}>
-                                        <SelectTrigger id="branch_id">
-                                            <SelectValue placeholder="Select branch" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {branches.map((branch) => (
-                                                <SelectItem key={branch.id} value={branch.id.toString()}>
-                                                    {branch.name} ({branch.code})
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
-                                    <InputError message={errors.branch_id} className="mt-2" />
-                                </div>
-                            </div>
-
-                            {/* Third Row - 1 column */}
-                            <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-3">
-                                <div>
+                                {/* Status - Full width */}
+                                <div className="space-y-2">
                                     <Label htmlFor="status">Status</Label>
                                     <Select value={data.status} onValueChange={(value: 'active' | 'inactive') => setData('status', value)}>
-                                        <SelectTrigger id="status">
+                                        <SelectTrigger className={errors.status ? 'border-red-500' : ''}>
                                             <SelectValue placeholder="Select status" />
                                         </SelectTrigger>
                                         <SelectContent>
@@ -171,23 +206,23 @@ export default function EditContact({ contact, branches }: Props) {
                                             <SelectItem value="inactive">Inactive</SelectItem>
                                         </SelectContent>
                                     </Select>
-                                    <InputError message={errors.status} className="mt-2" />
+                                    {errors.status && <p className="text-sm text-red-500">{errors.status}</p>}
                                 </div>
-                            </div>
+                            </CardContent>
+                        </Card>
 
-                            {/* Action Buttons */}
-                            <div className="flex justify-end gap-2">
-                                <Button variant="outline" asChild>
-                                    <Link href={route('contacts.index')}>Cancel</Link>
-                                </Button>
-                                <Button type="submit" disabled={processing}>
-                                    <Save className="mr-2 h-4 w-4" />
-                                    {processing ? 'Updating...' : 'Update Contact'}
-                                </Button>
-                            </div>
-                        </CardContent>
-                    </Card>
-                </form>
+                        {/* Action Buttons */}
+                        <div className="flex justify-end gap-2">
+                            <Button variant="outline" asChild>
+                                <Link href={route('contacts.index')}>Cancel</Link>
+                            </Button>
+                            <Button type="submit" disabled={processing}>
+                                <Save className="mr-2 h-4 w-4" />
+                                {processing ? 'Updating...' : 'Update Contact'}
+                            </Button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </AppLayout>
     );

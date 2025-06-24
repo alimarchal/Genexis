@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Download;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
 class DownloadSeeder extends Seeder
@@ -12,81 +13,111 @@ class DownloadSeeder extends Seeder
         // Create specific downloads
         $downloads = [
             [
-                'title' => 'Account Opening Form',
-                'description' => 'Complete this form to open a new account with Bank of Azad Jammu & Kashmir',
-                'file_path' => 'downloads/account-opening-form.pdf',
+                'title' => 'Tendor For Services - 21-05-2025',
+                'description' => 'Tender of services document outlining bidding details
+                 for specified services.',
+                'file_path' => 'public/downloads/TENDORS%20FOR%20SERVICES.pdf',
                 'file_type' => 'application/pdf',
                 'file_size' => 245760, // ~240KB
-                'category' => 'forms',
+                'category' => 'Document',
                 'is_featured' => true,
                 'is_active' => true,
                 'download_count' => 245,
+                'created_at' => Carbon::parse('2025-05-21'),
+                'updated_at' => Carbon::parse('2025-05-21'),
             ],
             [
-                'title' => 'Annual Report 2024',
-                'description' => 'Comprehensive annual report showcasing our financial performance and achievements',
-                'file_path' => 'downloads/annual-report-2024.pdf',
+                'title' => 'Tender Of Goods - 07-03-2025',
+                'description' => 'Tender of goods document detailing bidding requirements
+                 for the supply of specified items.',
+                'file_path' => 'public/downloads/TENDORS%20FOR%20GOODS.pdf',
                 'file_type' => 'application/pdf',
                 'file_size' => 5242880, // ~5MB
-                'category' => 'reports',
+                'category' => 'Document',
                 'is_featured' => true,
                 'is_active' => true,
+
                 'download_count' => 1250,
             ],
             [
-                'title' => 'Loan Application Form',
-                'description' => 'Apply for personal, business, or home loans using this comprehensive form',
-                'file_path' => 'downloads/loan-application-form.pdf',
+                'title' => 'Internship Opportunities',
+                'description' => 'Explore internship opportunities to gain hands-on experience and grow your professional skills.',
+                'file_path' => 'public/downloads/Internship%20Opportunities.pdf',
                 'file_type' => 'application/pdf',
                 'file_size' => 512000, // ~500KB
-                'category' => 'forms',
+                'category' => 'Document',
                 'is_featured' => true,
                 'is_active' => true,
                 'download_count' => 892,
             ],
             [
-                'title' => 'Banking Services Brochure',
-                'description' => 'Learn about our comprehensive range of banking products and services',
-                'file_path' => 'downloads/services-brochure.pdf',
+                'title' => 'corrigendum',
+                'description' => 'An official correction or amendment to a previously issued document or notice',
+                'file_path' => 'public/downloads/corrigendum.pdf',
                 'file_type' => 'application/pdf',
                 'file_size' => 1048576, // ~1MB
-                'category' => 'brochures',
+                'category' => 'Document',
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 156,
             ],
             [
-                'title' => 'Digital Banking Guide',
-                'description' => 'Step-by-step guide to using our online and mobile banking services',
-                'file_path' => 'downloads/digital-banking-guide.pdf',
+                'title' => 'Tender For Services-Hairing Of Testing Service Firm - 05-06-2024',
+                'description' => 'Tender for services regarding the hiring of a testing service firm, issued on 05-06-2024.',
+                'file_path' => 'public/downloads/TESTING.pdf',
                 'file_type' => 'application/pdf',
                 'file_size' => 2097152, // ~2MB
-                'category' => 'brochures',
+                'category' => 'Document',
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 678,
             ],
             [
-                'title' => 'Interest Rate Policy',
-                'description' => 'Current interest rates and policy guidelines for various banking products',
-                'file_path' => 'downloads/interest-rate-policy.pdf',
-                'file_type' => 'application/pdf',
+                'title' => 'Renovation of Chichian Branch Mirpur AJ&K (Single Stage Two Envelope Method). - 21-03-2024
+',
+                'description' => 'Tender for renovation of Chichian Branch, Mirpur AJ&K, using Single Stage Two Envelope Method, dated 21-03-2024',
+                'file_path' => 'public/downloads/chichian.jpeg',
+                'file_type' => 'application/pic',
                 'file_size' => 307200, // ~300KB
-                'category' => 'policies',
+                'category' => 'picture',
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 234,
             ],
             [
-                'title' => 'Financial Highlights Q4 2024',
-                'description' => 'Key financial metrics and performance indicators for the fourth quarter',
-                'file_path' => 'downloads/financial-highlights-q4-2024.pdf',
-                'file_type' => 'application/pdf',
+                'title' => 'Renovation of Main Branch Rawalakot & Main
+                 Branch Farword Kahota (Single stage Two Envelope Method). - 21-03-2024',
+                'description' => 'Tender for renovation of Main Branch Rawalakot and Main Branch Forward Kahota, 
+                using Single Stage Two Envelope Method.',
+                'file_path' => 'public/gp Rawalakot.jpeg',
+                'file_type' => 'application/pic',
                 'file_size' => 819200, // ~800KB
-                'category' => 'reports',
+                'category' => 'picture',
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 167,
+            ],
+            [
+                'title' => 'Tender for Services - 20-03-2024',
+                'description' => 'Tender for services inviting bids from qualified firms, issued on 20-03-2024',
+                'file_path' => 'public/downloads/gp%20insurance%20(1).pdf',
+                'file_type' => 'application/pdf',
+                'file_size' => 1572864, // ~1.5MB
+                'category' => 'Document',
+                'is_featured' => false,
+                'is_active' => true,
+                'download_count' => 423,
+            ],
+            [
+                'title' => 'Account Opening Form',
+                'description' => 'Form used to collect customer information for opening a new bank account',
+                'file_path' => 'public/downloads/gp%20insurance%20(1).pdf',
+                'file_type' => 'application/pdf',
+                'file_size' => 1572864, // ~1.5MB
+                'category' => 'form',
+                'is_featured' => false,
+                'is_active' => true,
+                'download_count' => 423,
             ],
             [
                 'title' => 'Mobile App User Manual',
@@ -109,6 +140,6 @@ class DownloadSeeder extends Seeder
         }
 
         // Create additional random downloads
-        Download::factory(20)->create();
+        // Download::factory(20)->create();
     }
 }

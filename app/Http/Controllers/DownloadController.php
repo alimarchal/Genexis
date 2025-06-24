@@ -18,13 +18,12 @@ class DownloadController extends Controller
             ->allowedFilters(Download::getAllowedFilters())
             ->allowedSorts(Download::getAllowedSorts())
             ->defaultSort('-created_at')
-            ->with(['creator', 'updater'])
-            ->paginate(10)
+            ->paginate(request('per_page', 15))
             ->withQueryString();
 
         return Inertia::render('Download/Index', [
             'downloads' => $downloads,
-            'filters' => $request->only(['filter']),
+            'filters' => request()->all(),
         ]);
     }
 
@@ -52,8 +51,6 @@ class DownloadController extends Controller
 
     public function show(Download $download)
     {
-        $download->load(['creator', 'updater']);
-
         return Inertia::render('Download/Show', [
             'download' => $download,
         ]);
@@ -103,13 +100,11 @@ class DownloadController extends Controller
 
     public function download(Download $download)
     {
-        if (! $download->file_path) {
+        if (!$download->file_path) {
             abort(404, 'File not found.');
         }
 
-        $filePath = storage_path('app/public/'.$download->file_path);
-
-        if (! file_exists($filePath)) {
+        if (!Storage::disk('public')->exists($download->file_path)) {
             abort(404, 'File not found.');
         }
 
@@ -117,20 +112,18 @@ class DownloadController extends Controller
         $download->incrementDownloadCount();
 
         $originalExtension = pathinfo($download->file_path, PATHINFO_EXTENSION);
-        $filename = $download->title.'.'.$originalExtension;
+        $filename = $download->title . '.' . $originalExtension;
 
-        return response()->download($filePath, $filename);
+        return Storage::disk('public')->download($download->file_path, $filename);
     }
 
     // Public method for website downloads
     public function publicIndex(Request $request)
     {
-        $perPage = $request->input('per_page', 10);
-
         $downloads = Download::where('is_active', true)
             ->orderBy('is_featured', 'desc')
-            ->orderBy('created_at', 'desc') // Latest records first
-            ->paginate($perPage)
+            ->orderBy('created_at', 'desc')
+            ->paginate(request('per_page', 12))
             ->withQueryString()
             ->through(function ($download) {
                 return [
@@ -139,28 +132,16 @@ class DownloadController extends Controller
                     'description' => $download->description,
                     'file_path' => $download->file_path,
                     'file_type' => $download->file_type,
-                    'file_size_formatted' => $this->formatFileSize($download->file_size),
+                    'file_size_formatted' => $download->file_size_formatted,
                     'category' => $download->category,
                     'is_featured' => $download->is_featured,
                     'download_count' => $download->download_count,
+                    'created_at' => $download->created_at->format('M d, Y'),
                 ];
             });
 
         return Inertia::render('Rates/PublicDownloads', [
             'downloads' => $downloads,
         ]);
-    }
-
-    private function formatFileSize($bytes)
-    {
-        if ($bytes == 0) {
-            return '0 Bytes';
-        }
-
-        $k = 1024;
-        $sizes = ['Bytes', 'KB', 'MB', 'GB'];
-        $i = floor(log($bytes) / log($k));
-
-        return round($bytes / pow($k, $i), 2).' '.$sizes[$i];
     }
 }
