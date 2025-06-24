@@ -146,9 +146,7 @@ export default function CreateBranchService({ branches }: Props) {
                                                 placeholder="e.g., 9:00 AM - 5:00 PM, Monday to Friday"
                                                 className={errors.availability_hours ? 'border-red-500' : ''}
                                             />
-                                            <p className="text-sm text-muted-foreground">
-                                                Enter availability hours separated by commas
-                                            </p>
+                                            <p className="text-muted-foreground text-sm">Enter availability hours separated by commas</p>
                                             {errors.availability_hours && <p className="text-sm text-red-500">{errors.availability_hours}</p>}
                                         </div>
 
@@ -164,9 +162,7 @@ export default function CreateBranchService({ branches }: Props) {
                                                 placeholder="0.00"
                                                 className={errors.service_fee ? 'border-red-500' : ''}
                                             />
-                                            <p className="text-sm text-muted-foreground">
-                                                Leave empty or 0 for free service
-                                            </p>
+                                            <p className="text-muted-foreground text-sm">Leave empty or 0 for free service</p>
                                             {errors.service_fee && <p className="text-sm text-red-500">{errors.service_fee}</p>}
                                         </div>
                                     </div>
@@ -221,19 +217,19 @@ export default function CreateBranchService({ branches }: Props) {
                             </CardHeader>
                             <CardContent className="space-y-3 text-sm">
                                 <div>
-                                    <p className="font-medium text-muted-foreground">Service Name</p>
+                                    <p className="text-muted-foreground font-medium">Service Name</p>
                                     <p>Enter a clear, descriptive name for the service</p>
                                 </div>
                                 <div>
-                                    <p className="font-medium text-muted-foreground">Branch</p>
+                                    <p className="text-muted-foreground font-medium">Branch</p>
                                     <p>Select the branch where this service is offered</p>
                                 </div>
                                 <div>
-                                    <p className="font-medium text-muted-foreground">Availability</p>
+                                    <p className="text-muted-foreground font-medium">Availability</p>
                                     <p>Specify when the service is available to customers</p>
                                 </div>
                                 <div>
-                                    <p className="font-medium text-muted-foreground">Service Fee</p>
+                                    <p className="text-muted-foreground font-medium">Service Fee</p>
                                     <p>Set the fee in PKR. Leave empty for free services</p>
                                 </div>
                             </CardContent>

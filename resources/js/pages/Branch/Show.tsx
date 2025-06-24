@@ -54,11 +54,7 @@ export default function ShowBranch({ branch }: Props) {
     ];
 
     const getStatusBadge = (status: string) => {
-        return status === 'active' ? (
-            <Badge variant="default">Active</Badge>
-        ) : (
-            <Badge variant="secondary">Inactive</Badge>
-        );
+        return status === 'active' ? <Badge variant="default">Active</Badge> : <Badge variant="secondary">Inactive</Badge>;
     };
 
     const getTypeBadge = (type: string) => {
@@ -112,8 +108,8 @@ export default function ShowBranch({ branch }: Props) {
                         <Card>
                             <CardHeader>
                                 <div className="flex items-start gap-6">
-                                    <div className="flex h-20 w-20 items-center justify-center rounded-full bg-muted">
-                                        <Building className="h-10 w-10 text-muted-foreground" />
+                                    <div className="bg-muted flex h-20 w-20 items-center justify-center rounded-full">
+                                        <Building className="text-muted-foreground h-10 w-10" />
                                     </div>
                                     <div className="flex-1 space-y-4">
                                         <div>
@@ -133,19 +129,19 @@ export default function ShowBranch({ branch }: Props) {
                                         <h4 className="mb-2 font-semibold">Branch Information</h4>
                                         <div className="grid gap-4 md:grid-cols-2">
                                             <div>
-                                                <p className="text-sm font-medium text-muted-foreground">Branch Name</p>
+                                                <p className="text-muted-foreground text-sm font-medium">Branch Name</p>
                                                 <p className="mt-1">{branch.name}</p>
                                             </div>
                                             <div>
-                                                <p className="text-sm font-medium text-muted-foreground">Branch Code</p>
+                                                <p className="text-muted-foreground text-sm font-medium">Branch Code</p>
                                                 <p className="mt-1 font-mono">{branch.code}</p>
                                             </div>
                                             <div>
-                                                <p className="text-sm font-medium text-muted-foreground">Branch Type</p>
+                                                <p className="text-muted-foreground text-sm font-medium">Branch Type</p>
                                                 <p className="mt-1 capitalize">{branch.type.replace('_', ' ')}</p>
                                             </div>
                                             <div>
-                                                <p className="text-sm font-medium text-muted-foreground">Status</p>
+                                                <p className="text-muted-foreground text-sm font-medium">Status</p>
                                                 <p className="mt-1 capitalize">{branch.status}</p>
                                             </div>
                                         </div>
@@ -157,16 +153,16 @@ export default function ShowBranch({ branch }: Props) {
                                         <h4 className="mb-2 font-semibold">Location Details</h4>
                                         <div className="space-y-3">
                                             <div>
-                                                <p className="text-sm font-medium text-muted-foreground">Address</p>
+                                                <p className="text-muted-foreground text-sm font-medium">Address</p>
                                                 <p className="mt-1">{branch.address}</p>
                                             </div>
                                             <div className="grid gap-4 md:grid-cols-2">
                                                 <div>
-                                                    <p className="text-sm font-medium text-muted-foreground">District</p>
+                                                    <p className="text-muted-foreground text-sm font-medium">District</p>
                                                     <p className="mt-1">{branch.district.name}</p>
                                                 </div>
                                                 <div>
-                                                    <p className="text-sm font-medium text-muted-foreground">Region</p>
+                                                    <p className="text-muted-foreground text-sm font-medium">Region</p>
                                                     <p className="mt-1">{branch.district.region.name}</p>
                                                 </div>
                                             </div>
@@ -179,11 +175,11 @@ export default function ShowBranch({ branch }: Props) {
                                         <h4 className="mb-2 font-semibold">Timeline</h4>
                                         <div className="grid gap-4 md:grid-cols-2">
                                             <div>
-                                                <p className="text-sm font-medium text-muted-foreground">Created At</p>
+                                                <p className="text-muted-foreground text-sm font-medium">Created At</p>
                                                 <p className="mt-1">{formatDate(branch.created_at)}</p>
                                             </div>
                                             <div>
-                                                <p className="text-sm font-medium text-muted-foreground">Last Updated</p>
+                                                <p className="text-muted-foreground text-sm font-medium">Last Updated</p>
                                                 <p className="mt-1">{formatDate(branch.updated_at)}</p>
                                             </div>
                                         </div>
@@ -205,7 +201,7 @@ export default function ShowBranch({ branch }: Props) {
                             </CardHeader>
                             <CardContent>
                                 <div className="text-2xl font-bold">{branch.id}</div>
-                                <p className="text-sm text-muted-foreground">Internal identifier</p>
+                                <p className="text-muted-foreground text-sm">Internal identifier</p>
                             </CardContent>
                         </Card>
 
@@ -219,15 +215,15 @@ export default function ShowBranch({ branch }: Props) {
                             </CardHeader>
                             <CardContent className="space-y-3">
                                 <div>
-                                    <p className="text-sm font-medium text-muted-foreground">Region</p>
+                                    <p className="text-muted-foreground text-sm font-medium">Region</p>
                                     <p className="text-sm">{branch.district.region.name}</p>
                                 </div>
                                 <div>
-                                    <p className="text-sm font-medium text-muted-foreground">District</p>
+                                    <p className="text-muted-foreground text-sm font-medium">District</p>
                                     <p className="text-sm">{branch.district.name}</p>
                                 </div>
                                 <div>
-                                    <p className="text-sm font-medium text-muted-foreground">Address</p>
+                                    <p className="text-muted-foreground text-sm font-medium">Address</p>
                                     <p className="text-sm">{branch.address}</p>
                                 </div>
                             </CardContent>
@@ -243,15 +239,15 @@ export default function ShowBranch({ branch }: Props) {
                             </CardHeader>
                             <CardContent className="space-y-3">
                                 <div>
-                                    <p className="text-sm font-medium text-muted-foreground">Code</p>
-                                    <p className="text-sm font-mono">{branch.code}</p>
+                                    <p className="text-muted-foreground text-sm font-medium">Code</p>
+                                    <p className="font-mono text-sm">{branch.code}</p>
                                 </div>
                                 <div>
-                                    <p className="text-sm font-medium text-muted-foreground">Type</p>
+                                    <p className="text-muted-foreground text-sm font-medium">Type</p>
                                     <p className="text-sm capitalize">{branch.type.replace('_', ' ')}</p>
                                 </div>
                                 <div>
-                                    <p className="text-sm font-medium text-muted-foreground">Status</p>
+                                    <p className="text-muted-foreground text-sm font-medium">Status</p>
                                     <div className="mt-1">{getStatusBadge(branch.status)}</div>
                                 </div>
                             </CardContent>
@@ -267,11 +263,11 @@ export default function ShowBranch({ branch }: Props) {
                             </CardHeader>
                             <CardContent className="space-y-3">
                                 <div>
-                                    <p className="text-sm font-medium text-muted-foreground">Created</p>
+                                    <p className="text-muted-foreground text-sm font-medium">Created</p>
                                     <p className="text-sm">{formatDate(branch.created_at)}</p>
                                 </div>
                                 <div>
-                                    <p className="text-sm font-medium text-muted-foreground">Updated</p>
+                                    <p className="text-muted-foreground text-sm font-medium">Updated</p>
                                     <p className="text-sm">{formatDate(branch.updated_at)}</p>
                                 </div>
                             </CardContent>

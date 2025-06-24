@@ -105,7 +105,7 @@ export default function ContactIndex({ contacts, branches, filters }: Props) {
                 ...buildParams(),
                 'filter[name]': value.trim() ? value : undefined,
             },
-            { preserveState: true, preserveScroll: true }
+            { preserveState: true, preserveScroll: true },
         );
     };
 
@@ -171,7 +171,7 @@ export default function ContactIndex({ contacts, branches, filters }: Props) {
     };
 
     // Get unique departments for filter
-    const departments = Array.from(new Set(contacts.data.map(contact => contact.department).filter(Boolean)));
+    const departments = Array.from(new Set(contacts.data.map((contact) => contact.department).filter(Boolean)));
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>

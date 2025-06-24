@@ -23,7 +23,7 @@ class BranchSeeder extends Seeder
                 'address' => 'Fatima Plaza, Chatter Domel Muzaffarabad',
                 'latitude' => 34.3444400,
                 'longitude' => 73.4664040,
-                'facilities' => 'ATM, Safe Deposit Boxes, Foreign Exchange, Loan Services',
+                'facilities' => 'Safe Deposit Boxes, Foreign Exchange, Loan Services',
                 'operating_hours' => [
                     'monday' => ['09:00', '17:00'],
                     'tuesday' => ['09:00', '17:00'],
@@ -53,7 +53,7 @@ class BranchSeeder extends Seeder
                 'address' => 'Nishat Centre, Allama Iqbal Road, Mirpur',
                 'latitude' => 33.1496860,
                 'longitude' => 73.7405310,
-                'facilities' => 'ATM, Safe Deposit Boxes, Foreign Exchange, Business Center',
+                'facilities' => 'Safe Deposit Boxes, Foreign Exchange, Business Center',
                 'operating_hours' => [
                     'monday' => ['09:00', '17:00'],
                     'tuesday' => ['09:00', '17:00'],

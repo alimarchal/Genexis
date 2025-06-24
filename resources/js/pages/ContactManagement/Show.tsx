@@ -88,15 +88,13 @@ export default function ShowContact({ contact }: Props) {
                                     </div>
                                     <div className="space-y-2">
                                         <p className="text-muted-foreground text-sm font-medium">Status</p>
-                                        <Badge variant={contact.status === 'active' ? 'default' : 'secondary'}>
-                                            {contact.status}
-                                        </Badge>
+                                        <Badge variant={contact.status === 'active' ? 'default' : 'secondary'}>{contact.status}</Badge>
                                     </div>
                                 </div>
 
                                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                                     <div className="space-y-2">
-                                        <p className="text-muted-foreground text-sm font-medium flex items-center gap-2">
+                                        <p className="text-muted-foreground flex items-center gap-2 text-sm font-medium">
                                             <Mail className="h-4 w-4" />
                                             Email Address
                                         </p>
@@ -105,7 +103,7 @@ export default function ShowContact({ contact }: Props) {
                                         </a>
                                     </div>
                                     <div className="space-y-2">
-                                        <p className="text-muted-foreground text-sm font-medium flex items-center gap-2">
+                                        <p className="text-muted-foreground flex items-center gap-2 text-sm font-medium">
                                             <Phone className="h-4 w-4" />
                                             Phone Number
                                         </p>
@@ -139,12 +137,12 @@ export default function ShowContact({ contact }: Props) {
 
                                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                                     <div className="space-y-2">
-                                        <p className="text-muted-foreground text-sm font-medium flex items-center gap-2">
+                                        <p className="text-muted-foreground flex items-center gap-2 text-sm font-medium">
                                             <MapPin className="h-4 w-4" />
                                             Branch
                                         </p>
                                         <p className="text-lg font-semibold">
-                                            {contact.branch?.name || 'N/A'} 
+                                            {contact.branch?.name || 'N/A'}
                                             {contact.branch?.code && <span className="text-sm text-gray-500"> ({contact.branch.code})</span>}
                                         </p>
                                     </div>

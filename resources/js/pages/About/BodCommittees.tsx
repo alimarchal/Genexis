@@ -51,7 +51,7 @@ export default function BodCommittees() {
                         <div className="mx-auto h-1 w-24 bg-gradient-to-r from-[#4A7C59] to-[#F9B912]"></div>
                     </div>
 
-                    <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 xl:grid-cols-2">
+                    <div className="grid grid-cols-1 gap-8 lg:grid-cols-3 xl:grid-cols-3">
                         {committees.map((committee: BodCommittee) => (
                             <CommitteeCard key={committee.id} committee={committee} />
                         ))}

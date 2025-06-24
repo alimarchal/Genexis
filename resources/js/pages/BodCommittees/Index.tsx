@@ -280,7 +280,7 @@ export default function BodCommitteeIndex({ bodCommittees, filters }: Props) {
                                     <TableHead>Secretary</TableHead>
                                     <TableHead>Members</TableHead>
                                     <TableHead>Status</TableHead>
-                                    <TableHead>Created</TableHead>
+                                    {/* <TableHead>Created</TableHead> */}
                                     <TableHead className="text-right">Actions</TableHead>
                                 </TableRow>
                             </TableHeader>
@@ -318,7 +318,7 @@ export default function BodCommitteeIndex({ bodCommittees, filters }: Props) {
                                             <TableCell>{getSecretaryInfo(committee)}</TableCell>
                                             <TableCell>{getMembersCount(committee)}</TableCell>
                                             <TableCell>{getStatusBadge(committee.is_active)}</TableCell>
-                                            <TableCell className="text-sm text-gray-500">{formatDate(committee.created_at)}</TableCell>
+                                            {/* <TableCell className="text-sm text-gray-500">{formatDate(committee.created_at)}</TableCell> */}
                                             <TableCell className="text-right">
                                                 <DropdownMenu>
                                                     <DropdownMenuTrigger asChild>

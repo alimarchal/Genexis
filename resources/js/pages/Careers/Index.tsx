@@ -269,12 +269,12 @@ export default function CareerIndex({ careers, filters }: Props) {
                                                     </div>
                                                 </div>
                                             </TableCell>
-                                            <TableCell>
-                                                <div className="flex items-center gap-1 text-sm">
-                                                    <MapPin className="h-4 w-4 text-gray-400" />
-                                                    {career.location}
-                                                </div>
-                                            </TableCell>
+<TableCell className="w-48 max-w-48">
+    <div className="flex items-center gap-1 text-sm min-w-0 overflow-hidden">
+        <MapPin className="h-4 w-4 text-gray-400 shrink-0" />
+        <span className="truncate">{career.location}</span>
+    </div>
+</TableCell>
                                             <TableCell>{getStatusBadge(career)}</TableCell>
                                             <TableCell className="text-sm">
                                                 {career.closing_date ? formatDate(career.closing_date) : 'Open'}

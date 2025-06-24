@@ -42,14 +42,14 @@ const Header: React.FC<HeaderProps> = ({ menuItems = [] }) => {
             return (
                 <div
                     key={item.id}
-                    className={`relative ${isMobile ? 'mb-2' : 'text-[14px] max-lg:px-3 max-lg:py-2 lg:flex lg:items-center'} ${item.cssClass || ''}`}
+                    className={`relative ${isMobile ? 'mb-2' : 'text-[13px] max-lg:px-3 max-lg:py-2 lg:flex lg:items-center lg:flex-shrink-0'} ${item.cssClass || ''}`}
                 >
                     <div className={isMobile ? '' : 'group lg:inline-block'}>
                         <button
                             className={
                                 isMobile
                                     ? `flex w-full items-center justify-between rounded-lg bg-gray-50 px-4 py-3 text-left text-base font-medium text-gray-900 transition-colors hover:bg-gray-100 ${openMobileSubmenu === menuId ? 'bg-gray-100' : ''}`
-                                    : `relative flex w-full items-center justify-between text-left text-[15px] font-medium text-slate-900 after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-0 after:bg-[#F9B912] after:transition-all after:duration-300 after:content-[''] hover:text-[#F9B912] hover:after:w-full max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 lg:px-2 lg:py-1 ${item.isActive ? 'text-blue-700' : ''}`
+                                    : `relative flex w-full items-center justify-between text-left min-w-fit flex-shrink-0 font-medium text-slate-900 whitespace-nowrap after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-0 after:bg-[#F9B912] after:transition-all after:duration-300 after:content-[''] hover:text-[#F9B912] hover:after:w-full max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 lg:px-1.5 lg:py-1 lg:text-[14px] xl:px-2 xl:text-[15px] 2xl:px-3 2xl:text-[16px] ${item.isActive ? 'text-blue-700' : ''}`
                             }
                             onClick={() => isMobile && handleSubmenuToggle(menuId)}
                             aria-expanded={openMobileSubmenu === menuId}
@@ -86,14 +86,14 @@ const Header: React.FC<HeaderProps> = ({ menuItems = [] }) => {
         }
 
         return (
-            <div key={item.id} className={isMobile ? 'mb-2' : 'max-lg:px-3 max-lg:py-2 lg:flex lg:items-center'}>
+            <div key={item.id} className={isMobile ? 'mb-2' : 'max-lg:px-3 max-lg:py-2 lg:flex lg:items-center lg:flex-shrink-0 lg:min-w-fit'}>
                 <a
                     href={item.url}
                     target={item.target}
                     className={
                         isMobile
                             ? `block rounded-lg px-4 py-3 text-base font-medium text-gray-900 transition-colors hover:bg-gray-100 ${item.isActive ? 'bg-blue-50 text-blue-700' : ''}`
-                            : `relative block text-[15px] font-medium after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-0 after:bg-[#F9B912] after:transition-all after:duration-300 after:content-[''] hover:text-[#F9B912] hover:after:w-full max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 lg:px-2 lg:py-1 ${item.isActive ? 'text-blue-700' : 'text-slate-900'}`
+                            : `relative block min-w-fit flex-shrink-0 font-medium whitespace-nowrap after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-0 after:bg-[#F9B912] after:transition-all after:duration-300 after:content-[''] hover:text-[#F9B912] hover:after:w-full max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 lg:px-1.5 lg:py-1 lg:text-[14px] xl:px-2 xl:text-[15px] 2xl:px-3 2xl:text-[16px] ${item.isActive ? 'text-blue-700' : 'text-slate-900'}`
                     }
                 >
                     {item.title}
@@ -113,7 +113,7 @@ const Header: React.FC<HeaderProps> = ({ menuItems = [] }) => {
                                     className={
                                         isMobile
                                             ? 'ml-4 flex w-full items-center justify-between rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-100'
-                                            : 'relative flex w-full items-center justify-between text-left text-[15px] font-normal text-slate-900 after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-0 after:bg-[#F9B912] after:transition-all after:duration-300 after:content-[""] hover:text-[#F9B912] hover:after:w-full'
+                                            : 'relative flex w-full items-center justify-between text-left text-[14px] font-normal text-slate-900 after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-0 after:bg-[#F9B912] after:transition-all after:duration-300 after:content-[""] hover:text-[#F9B912] hover:after:w-full'
                                     }
                                 >
                                     {child.title}
@@ -129,7 +129,7 @@ const Header: React.FC<HeaderProps> = ({ menuItems = [] }) => {
                                                     <a
                                                         href={grandchild.url}
                                                         target={grandchild.target}
-                                                        className="relative block text-[14px] font-normal text-slate-900 after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-0 after:bg-[#F9B912] after:transition-all after:duration-300 after:content-[''] hover:text-[#F9B912] hover:after:w-full"
+                                                        className="relative block text-[13px] font-normal text-slate-900 after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-0 after:bg-[#F9B912] after:transition-all after:duration-300 after:content-[''] hover:text-[#F9B912] hover:after:w-full"
                                                     >
                                                         {grandchild.title}
                                                     </a>
@@ -146,7 +146,7 @@ const Header: React.FC<HeaderProps> = ({ menuItems = [] }) => {
                                 className={
                                     isMobile
                                         ? 'ml-4 block rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-100'
-                                        : 'relative block text-[15px] font-normal text-slate-900 after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-0 after:bg-[#F9B912] after:transition-all after:duration-300 after:content-[""] hover:text-[#F9B912] hover:after:w-full'
+                                        : 'relative block text-[14px] font-normal text-slate-900 after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-0 after:bg-[#F9B912] after:transition-all after:duration-300 after:content-[""] hover:text-[#F9B912] hover:after:w-full'
                                 }
                                 role="menuitem"
                             >
@@ -170,7 +170,7 @@ const Header: React.FC<HeaderProps> = ({ menuItems = [] }) => {
                                 <a
                                     href={item.url}
                                     target={item.target}
-                                    className="relative block text-[14px] font-normal text-slate-900 after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-0 after:bg-[#F9B912] after:transition-all after:duration-300 after:content-[''] hover:text-[#F9B912] hover:after:w-full"
+                                    className="relative block text-[13px] font-normal text-slate-900 after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-0 after:bg-[#F9B912] after:transition-all after:duration-300 after:content-[''] hover:text-[#F9B912] hover:after:w-full"
                                 >
                                     {item.title}
                                 </a>
@@ -200,7 +200,7 @@ const Header: React.FC<HeaderProps> = ({ menuItems = [] }) => {
                         {isMobileMenuOpen && <div className="bg-opacity-50 fixed inset-0 z-40 bg-black lg:hidden" onClick={toggleMobileMenu} />}
 
                         {/* Desktop Menu */}
-                        <nav className="hidden lg:flex lg:items-center lg:gap-x-2 lg:rounded-xl lg:bg-gradient-to-r lg:from-[#e9f7ef] lg:to-[#fff7e6] lg:px-2 lg:py-1 xl:gap-x-4 xl:px-4">
+                        <nav className="hidden lg:flex lg:items-center lg:gap-x-1.5 lg:rounded-xl lg:bg-gradient-to-r lg:from-[#e9f7ef] lg:to-[#fff7e6] lg:px-2 lg:py-1.5 xl:gap-x-2.5 xl:px-3 xl:py-1.5 2xl:gap-x-4 2xl:px-4 2xl:py-2">
                             {menuItems.map((item) => renderMenuItem(item, false))}
                         </nav>
 

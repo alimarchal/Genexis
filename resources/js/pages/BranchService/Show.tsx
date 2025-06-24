@@ -52,11 +52,7 @@ export default function ShowBranchService({ branchService }: Props) {
     ];
 
     const getStatusBadge = (status: string) => {
-        return status === 'active' ? (
-            <Badge variant="default">Active</Badge>
-        ) : (
-            <Badge variant="secondary">Inactive</Badge>
-        );
+        return status === 'active' ? <Badge variant="default">Active</Badge> : <Badge variant="secondary">Inactive</Badge>;
     };
 
     const getAvailabilityBadge = (isAvailable: boolean) => {
@@ -111,8 +107,8 @@ export default function ShowBranchService({ branchService }: Props) {
                         <Card>
                             <CardHeader>
                                 <div className="flex items-start gap-6">
-                                    <div className="flex h-20 w-20 items-center justify-center rounded-full bg-muted">
-                                        <Settings className="h-10 w-10 text-muted-foreground" />
+                                    <div className="bg-muted flex h-20 w-20 items-center justify-center rounded-full">
+                                        <Settings className="text-muted-foreground h-10 w-10" />
                                     </div>
                                     <div className="flex-1 space-y-4">
                                         <div>
@@ -132,19 +128,21 @@ export default function ShowBranchService({ branchService }: Props) {
                                         <h4 className="mb-2 font-semibold">Service Information</h4>
                                         <div className="grid gap-4 md:grid-cols-2">
                                             <div>
-                                                <p className="text-sm font-medium text-muted-foreground">Service Name</p>
+                                                <p className="text-muted-foreground text-sm font-medium">Service Name</p>
                                                 <p className="mt-1">{branchService.service_name}</p>
                                             </div>
                                             <div>
-                                                <p className="text-sm font-medium text-muted-foreground">Branch</p>
-                                                <p className="mt-1">{branchService.branch.name} ({branchService.branch.code})</p>
+                                                <p className="text-muted-foreground text-sm font-medium">Branch</p>
+                                                <p className="mt-1">
+                                                    {branchService.branch.name} ({branchService.branch.code})
+                                                </p>
                                             </div>
                                             <div>
-                                                <p className="text-sm font-medium text-muted-foreground">Status</p>
+                                                <p className="text-muted-foreground text-sm font-medium">Status</p>
                                                 <p className="mt-1 capitalize">{branchService.status}</p>
                                             </div>
                                             <div>
-                                                <p className="text-sm font-medium text-muted-foreground">Available</p>
+                                                <p className="text-muted-foreground text-sm font-medium">Available</p>
                                                 <p className="mt-1">{branchService.is_available ? 'Yes' : 'No'}</p>
                                             </div>
                                         </div>
@@ -166,11 +164,11 @@ export default function ShowBranchService({ branchService }: Props) {
                                         <h4 className="mb-2 font-semibold">Service Details</h4>
                                         <div className="grid gap-4 md:grid-cols-2">
                                             <div>
-                                                <p className="text-sm font-medium text-muted-foreground">Service Fee</p>
+                                                <p className="text-muted-foreground text-sm font-medium">Service Fee</p>
                                                 <p className="mt-1 font-semibold">{getServiceFee()}</p>
                                             </div>
                                             <div>
-                                                <p className="text-sm font-medium text-muted-foreground">Availability Hours</p>
+                                                <p className="text-muted-foreground text-sm font-medium">Availability Hours</p>
                                                 <p className="mt-1">
                                                     {(() => {
                                                         if (!branchService.availability_hours) return 'Not specified';
@@ -215,7 +213,7 @@ export default function ShowBranchService({ branchService }: Props) {
                                         <h4 className="mb-2 font-semibold">Branch Information</h4>
                                         <div className="space-y-3">
                                             <div>
-                                                <p className="text-sm font-medium text-muted-foreground">Branch Address</p>
+                                                <p className="text-muted-foreground text-sm font-medium">Branch Address</p>
                                                 <p className="mt-1">{branchService.branch.address}</p>
                                             </div>
                                         </div>
@@ -227,11 +225,11 @@ export default function ShowBranchService({ branchService }: Props) {
                                         <h4 className="mb-2 font-semibold">Timeline</h4>
                                         <div className="grid gap-4 md:grid-cols-2">
                                             <div>
-                                                <p className="text-sm font-medium text-muted-foreground">Created At</p>
+                                                <p className="text-muted-foreground text-sm font-medium">Created At</p>
                                                 <p className="mt-1">{formatDate(branchService.created_at)}</p>
                                             </div>
                                             <div>
-                                                <p className="text-sm font-medium text-muted-foreground">Last Updated</p>
+                                                <p className="text-muted-foreground text-sm font-medium">Last Updated</p>
                                                 <p className="mt-1">{formatDate(branchService.updated_at)}</p>
                                             </div>
                                         </div>
@@ -253,7 +251,7 @@ export default function ShowBranchService({ branchService }: Props) {
                             </CardHeader>
                             <CardContent>
                                 <div className="text-2xl font-bold">{branchService.id}</div>
-                                <p className="text-sm text-muted-foreground">Internal identifier</p>
+                                <p className="text-muted-foreground text-sm">Internal identifier</p>
                             </CardContent>
                         </Card>
 
@@ -267,15 +265,15 @@ export default function ShowBranchService({ branchService }: Props) {
                             </CardHeader>
                             <CardContent className="space-y-3">
                                 <div>
-                                    <p className="text-sm font-medium text-muted-foreground">Name</p>
+                                    <p className="text-muted-foreground text-sm font-medium">Name</p>
                                     <p className="text-sm">{branchService.branch.name}</p>
                                 </div>
                                 <div>
-                                    <p className="text-sm font-medium text-muted-foreground">Code</p>
-                                    <p className="text-sm font-mono">{branchService.branch.code}</p>
+                                    <p className="text-muted-foreground text-sm font-medium">Code</p>
+                                    <p className="font-mono text-sm">{branchService.branch.code}</p>
                                 </div>
                                 <div>
-                                    <p className="text-sm font-medium text-muted-foreground">Address</p>
+                                    <p className="text-muted-foreground text-sm font-medium">Address</p>
                                     <p className="text-sm">{branchService.branch.address}</p>
                                 </div>
                             </CardContent>
@@ -291,15 +289,15 @@ export default function ShowBranchService({ branchService }: Props) {
                             </CardHeader>
                             <CardContent className="space-y-3">
                                 <div>
-                                    <p className="text-sm font-medium text-muted-foreground">Fee</p>
+                                    <p className="text-muted-foreground text-sm font-medium">Fee</p>
                                     <p className="text-sm font-semibold">{getServiceFee()}</p>
                                 </div>
                                 <div>
-                                    <p className="text-sm font-medium text-muted-foreground">Available</p>
+                                    <p className="text-muted-foreground text-sm font-medium">Available</p>
                                     <div className="mt-1">{getAvailabilityBadge(branchService.is_available)}</div>
                                 </div>
                                 <div>
-                                    <p className="text-sm font-medium text-muted-foreground">Status</p>
+                                    <p className="text-muted-foreground text-sm font-medium">Status</p>
                                     <div className="mt-1">{getStatusBadge(branchService.status)}</div>
                                 </div>
                             </CardContent>
@@ -315,11 +313,11 @@ export default function ShowBranchService({ branchService }: Props) {
                             </CardHeader>
                             <CardContent className="space-y-3">
                                 <div>
-                                    <p className="text-sm font-medium text-muted-foreground">Created</p>
+                                    <p className="text-muted-foreground text-sm font-medium">Created</p>
                                     <p className="text-sm">{formatDate(branchService.created_at)}</p>
                                 </div>
                                 <div>
-                                    <p className="text-sm font-medium text-muted-foreground">Updated</p>
+                                    <p className="text-muted-foreground text-sm font-medium">Updated</p>
                                     <p className="text-sm">{formatDate(branchService.updated_at)}</p>
                                 </div>
                             </CardContent>

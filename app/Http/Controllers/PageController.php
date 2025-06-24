@@ -149,7 +149,7 @@ class PageController extends Controller
 
     public function management()
     {
-        $managment = Managment::where('status', 'active')->get();
+        $managment = Managment::where('status', 'active')->orderBy('order')->get();
 
         return Inertia::render('About/Management', [
             'managment' => $managment,
