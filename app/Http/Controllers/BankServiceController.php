@@ -7,9 +7,8 @@ use App\Http\Requests\UpdateBankServiceRequest;
 use App\Models\BankService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
-
+use Spatie\QueryBuilder\QueryBuilder;
 
 class BankServiceController extends Controller
 {
@@ -20,7 +19,7 @@ class BankServiceController extends Controller
                 'title',
                 'description',
                 'service_type',
-                AllowedFilter::exact('status')
+                AllowedFilter::exact('status'),
             ])
             ->allowedSorts(['id', 'title', 'service_type', 'order', 'created_at'])
             ->defaultSort('-created_at')

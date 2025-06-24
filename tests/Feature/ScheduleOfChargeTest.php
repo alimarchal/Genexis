@@ -20,7 +20,7 @@ test('authenticated user can view schedule of charges index', function () {
         ->get(route('schedule-of-charges.index'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn ($page) => $page->component('ScheduleOfCharge/Index'));
+    $response->assertInertia(fn($page) => $page->component('ScheduleOfCharges/Index'));
 });
 
 test('authenticated user can view schedule of charges create form', function () {
@@ -28,7 +28,7 @@ test('authenticated user can view schedule of charges create form', function () 
         ->get(route('schedule-of-charges.create'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn ($page) => $page->component('ScheduleOfCharge/Create'));
+    $response->assertInertia(fn($page) => $page->component('ScheduleOfCharges/Create'));
 });
 
 test('authenticated user can create schedule of charge', function () {
@@ -56,7 +56,7 @@ test('authenticated user can create schedule of charge', function () {
         'created_by' => $this->user->id,
     ]);
 
-    Storage::disk('public')->assertExists('schedule_of_charges/'.$file->hashName());
+    Storage::disk('public')->assertExists('schedule-of-charges/' . $file->hashName());
 });
 
 test('authenticated user can view schedule of charge details', function () {
@@ -66,7 +66,7 @@ test('authenticated user can view schedule of charge details', function () {
         ->get(route('schedule-of-charges.show', $schedule));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn ($page) => $page->component('ScheduleOfCharge/Show'));
+    $response->assertInertia(fn($page) => $page->component('ScheduleOfCharges/Show'));
 });
 
 test('authenticated user can update schedule of charge', function () {

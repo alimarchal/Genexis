@@ -23,9 +23,14 @@ class BranchController extends Controller
             ->paginate(request('per_page', 15))
             ->withQueryString();
 
+        $regions = Region::active()->orderBy('name')->get();
+        $districts = District::active()->with('region')->orderBy('name')->get();
+
         return Inertia::render('Branch/Index', [
             'branches' => $branches,
-            'filters' => request()->only(['filter', 'sort']),
+            'regions' => $regions,
+            'districts' => $districts,
+            'filters' => $request->query(),
         ]);
     }
 
@@ -52,7 +57,7 @@ class BranchController extends Controller
 
     public function show(Branch $branch)
     {
-        $branch->load(['region', 'district', 'contacts', 'branchServices']);
+        $branch->load(['district.region', 'contacts', 'branchServices']);
 
         return Inertia::render('Branch/Show', [
             'branch' => $branch,
@@ -63,7 +68,7 @@ class BranchController extends Controller
     {
         $regions = Region::active()->orderBy('name')->get();
         $districts = District::active()->with('region')->orderBy('name')->get();
-        $branch->load(['region', 'district']);
+        $branch->load(['district.region']);
 
         return Inertia::render('Branch/Edit', [
             'branch' => $branch,

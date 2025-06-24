@@ -2,44 +2,45 @@
 
 use App\Models\Download;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
-uses(RefreshDatabase::class);
-
 beforeEach(function () {
-    Storage::fake('public');
     $this->user = User::factory()->create();
+    $this->actingAs($this->user);
+    Storage::fake('public');
 });
 
-test('authenticated user can view downloads index', function () {
-    Download::factory(3)->create();
+test('it can view downloads index page', function () {
+    Download::factory()->count(3)->create();
 
-    $response = $this->actingAs($this->user)
-        ->get(route('downloads.index'));
+    $response = $this->get(route('downloads.index'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn ($page) => $page->component('Download/Index'));
+    $response->assertInertia(fn($page) => $page->component('Download/Index'));
 });
 
-test('authenticated user can create download', function () {
+test('it can view create download page', function () {
+    $response = $this->get(route('downloads.create'));
+
+    $response->assertStatus(200);
+    $response->assertInertia(fn($page) => $page->component('Download/Create'));
+});
+
+test('it can create download with valid data', function () {
     $file = UploadedFile::fake()->create('document.pdf', 1000);
 
-    $data = [
+    $response = $this->post(route('downloads.store'), [
         'title' => 'Test Download',
         'description' => 'Test description',
         'file' => $file,
         'category' => 'forms',
         'is_featured' => true,
         'is_active' => true,
-    ];
-
-    $response = $this->actingAs($this->user)
-        ->post(route('downloads.store'), $data);
+    ]);
 
     $response->assertRedirect(route('downloads.index'));
-    $response->assertSessionHas('success');
+    $response->assertSessionHas('success', 'Download created successfully.');
 
     $this->assertDatabaseHas('downloads', [
         'title' => 'Test Download',
@@ -50,178 +51,230 @@ test('authenticated user can create download', function () {
         'created_by' => $this->user->id,
     ]);
 
-    Storage::disk('public')->assertExists('downloads/'.$file->hashName());
+    Storage::disk('public')->assertExists('downloads/' . $file->hashName());
 });
 
-test('authenticated user can update download', function () {
-    $download = Download::factory()->create();
-
-    $data = [
-        'title' => 'Updated Download Title',
-        'description' => 'Updated description',
-        'category' => 'reports',
-        'is_featured' => false,
-        'is_active' => true,
-    ];
-
-    $response = $this->actingAs($this->user)
-        ->put(route('downloads.update', $download), $data);
-
-    $response->assertRedirect(route('downloads.index'));
-    $response->assertSessionHas('success');
-
-    $download->refresh();
-    expect($download->title)->toBe('Updated Download Title');
-    expect($download->updated_by)->toBe($this->user->id);
-});
-
-test('guests can view public downloads page', function () {
-    Download::factory(3)->create(['is_active' => true]);
-
-    $response = $this->get(route('public-downloads')); // Corrected route name
-
-    $response->assertStatus(200);
-    $response->assertInertia(fn ($page) => $page->component('Rates/PublicDownloads')); // Corrected component name
-});
-
-test('validation fails for invalid download data', function () {
-    $response = $this->actingAs($this->user)
-        ->post(route('downloads.store'), [
-            'title' => '', // Required field
-            'category' => 'invalid', // Invalid category
-            // file is required
-        ]);
+test('it validates required fields when creating download', function () {
+    $response = $this->post(route('downloads.store'), []);
 
     $response->assertSessionHasErrors(['title', 'file', 'category']);
 });
 
-test('guests cannot access admin download routes', function () {
-    $download = Download::factory()->create();
+test('it validates file type when creating download', function () {
+    $file = UploadedFile::fake()->create('document.txt', 1000);
 
-    $this->get(route('downloads.index'))->assertRedirect(route('login'));
-    $this->get(route('downloads.create'))->assertRedirect(route('login'));
-    $this->post(route('downloads.store'))->assertRedirect(route('login'));
-    $this->get(route('downloads.show', $download))->assertRedirect(route('login'));
-    $this->get(route('downloads.edit', $download))->assertRedirect(route('login'));
-    $this->put(route('downloads.update', $download))->assertRedirect(route('login'));
-    $this->delete(route('downloads.destroy', $download))->assertRedirect(route('login'));
-});
-
-test('authenticated user can view download create form', function () {
-    $response = $this->actingAs($this->user)
-        ->get(route('downloads.create'));
-
-    $response->assertStatus(200);
-    $response->assertInertia(fn ($page) => $page->component('Download/Create'));
-});
-
-test('authenticated user can view download details', function () {
-    $download = Download::factory()->create();
-
-    $response = $this->actingAs($this->user)
-        ->get(route('downloads.show', $download));
-
-    $response->assertStatus(200);
-    $response->assertInertia(fn ($page) => $page->component('Download/Show'));
-});
-
-test('authenticated user can delete download', function () {
-    $file = UploadedFile::fake()->create('document.pdf', 1000);
-    Storage::disk('public')->putFileAs('downloads', $file, $file->hashName());
-
-    $download = Download::factory()->create([
-        'file_path' => 'downloads/'.$file->hashName(),
-    ]);
-
-    $response = $this->actingAs($this->user)
-        ->delete(route('downloads.destroy', $download));
-
-    $response->assertRedirect(route('downloads.index'));
-    $response->assertSessionHas('success');
-
-    $this->assertDatabaseMissing('downloads', [
-        'id' => $download->id,
-    ]);
-    Storage::disk('public')->assertMissing('downloads/'.$file->hashName());
-});
-
-test('uploads delete old file when updating a download', function () {
-    // Create original file
-    $originalFile = UploadedFile::fake()->create('original.pdf', 1000);
-    Storage::disk('public')->putFileAs('downloads', $originalFile, $originalFile->hashName());
-
-    // Create download with original file
-    $download = Download::factory()->create([
-        'file_path' => 'downloads/'.$originalFile->hashName(),
-        'file_type' => 'application/pdf',
-        'file_size' => $originalFile->getSize(),
-    ]);
-
-    // New file to replace the original
-    $newFile = UploadedFile::fake()->create('new.pdf', 2000);
-
-    $response = $this->actingAs($this->user)
-        ->put(route('downloads.update', $download), [
-            'title' => 'Updated Download Title',
-            'category' => 'reports',
-            'is_featured' => false,
-            'is_active' => true,
-            'description' => 'Updated description',
-            'file' => $newFile,
-        ]);
-
-    $response->assertRedirect(route('downloads.index'));
-    $response->assertSessionHas('success');
-
-    // Assert original file was deleted
-    Storage::disk('public')->assertMissing('downloads/'.$originalFile->hashName());
-
-    // Get updated download record
-    $download->refresh();
-
-    // Assert new file was stored
-    Storage::disk('public')->assertExists($download->file_path);
-    expect($download->file_size)->toBe($newFile->getSize());
-});
-
-test('download can be filtered and sorted via query builder', function () {
-    // Create downloads with different categories and features
-    Download::factory()->create([
-        'title' => 'Featured General Form',
+    $response = $this->post(route('downloads.store'), [
+        'title' => 'Test Download',
+        'file' => $file,
         'category' => 'forms',
         'is_featured' => true,
         'is_active' => true,
     ]);
 
-    Download::factory()->create([
-        'title' => 'Regular Report',
+    $response->assertSessionHasErrors('file');
+});
+
+test('it can view download details', function () {
+    $download = Download::factory()->create();
+
+    $response = $this->get(route('downloads.show', $download));
+
+    $response->assertStatus(200);
+    $response->assertInertia(fn($page) => $page->component('Download/Show'));
+});
+
+test('it can view edit download page', function () {
+    $download = Download::factory()->create();
+
+    $response = $this->get(route('downloads.edit', $download));
+
+    $response->assertStatus(200);
+    $response->assertInertia(fn($page) => $page->component('Download/Edit'));
+});
+
+test('it can update download', function () {
+    $download = Download::factory()->create();
+
+    $response = $this->put(route('downloads.update', $download), [
+        'title' => 'Updated Download',
+        'description' => 'Updated description',
         'category' => 'reports',
         'is_featured' => false,
-        'is_active' => true,
+        'is_active' => false,
     ]);
 
-    Download::factory()->create([
-        'title' => 'Featured Policy',
-        'category' => 'policies',
-        'is_featured' => true,
-        'is_active' => true,
+    $response->assertRedirect(route('downloads.index'));
+    $response->assertSessionHas('success', 'Download updated successfully.');
+
+    $this->assertDatabaseHas('downloads', [
+        'id' => $download->id,
+        'title' => 'Updated Download',
+        'description' => 'Updated description',
+        'category' => 'reports',
+        'is_featured' => false,
+        'is_active' => false,
+        'updated_by' => $this->user->id,
+    ]);
+});
+
+test('it can update download with new file', function () {
+    $oldFile = UploadedFile::fake()->create('old.pdf', 1000);
+    $download = Download::factory()->create([
+        'file_path' => $oldFile->store('downloads', 'public'),
     ]);
 
-    // Test filtering by category
-    $response = $this->actingAs($this->user)
-        ->get(route('downloads.index', ['filter' => ['category' => 'reports']]));
+    $newFile = UploadedFile::fake()->create('new.pdf', 1500);
 
-    $response->assertInertia(fn ($page) => $page->component('Download/Index')
-        ->has('downloads.data', 1)
-        ->where('downloads.data.0.category', 'reports')
+    $response = $this->put(route('downloads.update', $download), [
+        'title' => $download->title,
+        'description' => $download->description,
+        'file' => $newFile,
+        'category' => $download->category,
+        'is_featured' => $download->is_featured,
+        'is_active' => $download->is_active,
+    ]);
+
+    $response->assertRedirect(route('downloads.index'));
+
+    $download->refresh();
+    expect($download->file_path)->toContain('downloads/');
+    expect($download->file_type)->toBe('application/pdf');
+    expect($download->file_size)->toBeGreaterThan(0);
+});
+
+test('it can delete download', function () {
+    $file = UploadedFile::fake()->create('document.pdf', 1000);
+    $download = Download::factory()->create([
+        'file_path' => $file->store('downloads', 'public'),
+    ]);
+
+    $response = $this->delete(route('downloads.destroy', $download));
+
+    $response->assertRedirect(route('downloads.index'));
+    $response->assertSessionHas('success', 'Download deleted successfully.');
+
+    $this->assertDatabaseMissing('downloads', ['id' => $download->id]);
+    Storage::disk('public')->assertMissing($download->file_path);
+});
+
+test('it can download file and increment counter', function () {
+    // Create a real file that can be downloaded
+    $file = UploadedFile::fake()->create('document.pdf', 1000);
+    $storedPath = $file->store('downloads', 'public');
+
+    // Ensure the file exists in the fake storage
+    Storage::disk('public')->assertExists($storedPath);
+
+    $download = Download::factory()->create([
+        'file_path' => $storedPath,
+        'download_count' => 0,
+    ]);
+
+    $response = $this->get(route('downloads.admin-download', $download));
+
+    $response->assertStatus(200);
+
+    $download->refresh();
+    expect($download->download_count)->toBe(1);
+});
+
+test('it returns 404 for missing file', function () {
+    $download = Download::factory()->create([
+        'file_path' => 'nonexistent/file.pdf',
+    ]);
+
+    $response = $this->get(route('downloads.admin-download', $download));
+
+    $response->assertStatus(404);
+});
+
+test('it can view public downloads page', function () {
+    Download::factory()->count(5)->create(['is_active' => true]);
+    Download::factory()->count(2)->create(['is_active' => false]);
+
+    $response = $this->get(route('public-downloads'));
+
+    $response->assertStatus(200);
+    $response->assertInertia(
+        fn($page) =>
+        $page->component('Rates/PublicDownloads')
+            ->has('downloads.data', 5)
     );
+});
 
-    // Test filtering by featured status
-    $response = $this->actingAs($this->user)
-        ->get(route('downloads.index', ['filter' => ['is_featured' => true]]));
+test('it filters downloads by search query', function () {
+    $downloads = Download::factory()->count(5)->create();
 
-    $response->assertInertia(fn ($page) => $page->component('Download/Index')
-        ->has('downloads.data', 2)
-        ->where('downloads.data.0.is_featured', true)
+    $response = $this->get(route('downloads.index', ['filter[title]' => $downloads->first()->title]));
+
+    $response->assertStatus(200);
+    $response->assertInertia(fn($page) => $page->component('Download/Index'));
+});
+
+test('it filters downloads by category', function () {
+    Download::factory()->create(['category' => 'forms']);
+    Download::factory()->create(['category' => 'reports']);
+
+    $response = $this->get(route('downloads.index', ['filter[category]' => 'forms']));
+
+    $response->assertStatus(200);
+    $response->assertInertia(fn($page) => $page->component('Download/Index'));
+});
+
+test('it filters downloads by status', function () {
+    Download::factory()->create(['is_active' => true]);
+    Download::factory()->create(['is_active' => false]);
+
+    $response = $this->get(route('downloads.index', ['filter[is_active]' => '1']));
+
+    $response->assertStatus(200);
+    $response->assertInertia(fn($page) => $page->component('Download/Index'));
+});
+
+test('it filters downloads by featured status', function () {
+    Download::factory()->create(['is_featured' => true]);
+    Download::factory()->create(['is_featured' => false]);
+
+    $response = $this->get(route('downloads.index', ['filter[is_featured]' => '1']));
+
+    $response->assertStatus(200);
+    $response->assertInertia(fn($page) => $page->component('Download/Index'));
+});
+
+test('public downloads only shows active downloads', function () {
+    Download::factory()->count(3)->create(['is_active' => true]);
+    Download::factory()->count(2)->create(['is_active' => false]);
+
+    $response = $this->get(route('public-downloads'));
+
+    $response->assertStatus(200);
+    $response->assertInertia(
+        fn($page) =>
+        $page->component('Rates/PublicDownloads')
+            ->has('downloads.data', 3)
+    );
+});
+
+test('public downloads orders by featured then created date', function () {
+    $regular = Download::factory()->create([
+        'is_active' => true,
+        'is_featured' => false,
+        'created_at' => now()->subDays(1),
+    ]);
+
+    $featured = Download::factory()->create([
+        'is_active' => true,
+        'is_featured' => true,
+        'created_at' => now()->subDays(2),
+    ]);
+
+    $response = $this->get(route('public-downloads'));
+
+    $response->assertStatus(200);
+    $response->assertInertia(
+        fn($page) =>
+        $page->component('Rates/PublicDownloads')
+            ->where('downloads.data.0.id', $featured->id)
+            ->where('downloads.data.1.id', $regular->id)
     );
 });

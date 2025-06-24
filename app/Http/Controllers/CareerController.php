@@ -17,20 +17,19 @@ class CareerController extends Controller
         $careers = QueryBuilder::for(Career::class)
             ->allowedFilters(Career::getAllowedFilters())
             ->allowedSorts(Career::getAllowedSorts())
-            ->defaultSort('-created_at')
-            ->with(['creator', 'updater'])
-            ->paginate(10)
+            ->defaultSort('-is_featured', '-created_at')
+            ->paginate(request('per_page', 15))
             ->withQueryString();
 
-        return Inertia::render('Career/Index', [
+        return Inertia::render('Careers/Index', [
             'careers' => $careers,
-            'filters' => $request->only(['filter']),
+            'filters' => request()->all(),
         ]);
     }
 
     public function create()
     {
-        return Inertia::render('Career/Create');
+        return Inertia::render('Careers/Create');
     }
 
     public function store(StoreCareerRequest $request)
@@ -38,8 +37,7 @@ class CareerController extends Controller
         $data = $request->validated();
 
         if ($request->hasFile('document')) {
-            $file = $request->file('document');
-            $data['document'] = $file->store('careers', 'public');
+            $data['document'] = $request->file('document')->store('careers', 'public');
         }
 
         Career::create($data);
@@ -50,16 +48,16 @@ class CareerController extends Controller
 
     public function show(Career $career)
     {
-        $career->load(['creator', 'updater']);
+        $career->incrementViews();
 
-        return Inertia::render('Career/Show', [
+        return Inertia::render('Careers/Show', [
             'career' => $career,
         ]);
     }
 
     public function edit(Career $career)
     {
-        return Inertia::render('Career/Edit', [
+        return Inertia::render('Careers/Edit', [
             'career' => $career,
         ]);
     }
@@ -69,13 +67,12 @@ class CareerController extends Controller
         $data = $request->validated();
 
         if ($request->hasFile('document')) {
-            // Delete old document if it exists
             if ($career->document) {
                 Storage::disk('public')->delete($career->document);
             }
-
-            $file = $request->file('document');
-            $data['document'] = $file->store('careers', 'public');
+            $data['document'] = $request->file('document')->store('careers', 'public');
+        } else {
+            unset($data['document']);
         }
 
         $career->update($data);
@@ -86,7 +83,6 @@ class CareerController extends Controller
 
     public function destroy(Career $career)
     {
-        // Delete document if it exists
         if ($career->document) {
             Storage::disk('public')->delete($career->document);
         }
@@ -99,22 +95,14 @@ class CareerController extends Controller
 
     public function download(Career $career)
     {
-        if (! $career->document) {
-            abort(404, 'Document not found.');
+        if (!$career->document || !Storage::disk('public')->exists($career->document)) {
+            abort(404, 'File not found');
         }
 
-        if (! Storage::disk('public')->exists($career->document)) {
-            abort(404, 'Document not found.');
-        }
+        $extension = pathinfo($career->document, PATHINFO_EXTENSION);
+        $fileName = "Career-{$career->title}.{$extension}";
 
-        $filePath = Storage::disk('public')->path($career->document);
-
-        $originalExtension = pathinfo($career->document, PATHINFO_EXTENSION);
-        $filename = $career->title.'.'.$originalExtension;
-
-        return response()->download($filePath, $filename, [
-            'Content-Type' => 'application/pdf',
-        ]);
+        return Storage::disk('public')->download($career->document, $fileName);
     }
 
     // Public method for website careers
@@ -154,12 +142,13 @@ class CareerController extends Controller
 
     public function publicShow(Career $career)
     {
-        if (! $career->is_active || ($career->closing_date && $career->closing_date->isPast())) {
+        if (!$career->is_active || ($career->closing_date && $career->closing_date->isPast())) {
             abort(404, 'Career not available.');
         }
 
         // Increment views count
-        $career->incrementViewsCount();
+        $career->incrementViews();
+
 
         return Inertia::render('Careers/PublicCareerDetail', [
             'career' => [

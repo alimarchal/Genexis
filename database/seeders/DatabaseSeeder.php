@@ -40,10 +40,13 @@ class DatabaseSeeder extends Seeder
             ScheduleOfChargeSeeder::class,
             DownloadSeeder::class,
             CareerSeeder::class,
+            BodCommitteeSeeder::class,
+            AboutUsSeeder::class,
         ]);
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => '
+        User::factory()->create([
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+        ]);
     }
 }

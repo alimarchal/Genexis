@@ -15,18 +15,12 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
-import { Edit, Eye, MoreHorizontal, Plus, Search, Trash } from 'lucide-react';
+import { Edit, Eye, MoreHorizontal, Percent, Plus, Search, Trash } from 'lucide-react';
 import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Dashboard',
-        href: route('dashboard'),
-    },
-    {
-        title: 'Profit Rates',
-        href: route('profit-rates.index'),
-    },
+    { title: 'Dashboard', href: route('dashboard') },
+    { title: 'Profit Rates', href: route('profit-rates.index') },
 ];
 
 interface ProfitRate {
@@ -36,16 +30,9 @@ interface ProfitRate {
     valid_from: string;
     valid_to: string | null;
     is_active: boolean;
-    sort_order?: number;
-    status: string;
+    sort_order: number | null;
     created_at: string;
     updated_at: string;
-    creator?: {
-        name: string;
-    };
-    updater?: {
-        name: string;
-    };
 }
 
 interface Props {
@@ -55,50 +42,94 @@ interface Props {
         last_page: number;
         per_page: number;
         total: number;
-        links: Array<{
-            url: string | null;
-            label: string;
-            active: boolean;
-        }>;
+        from: number;
+        to: number;
     };
-    filters: {
-        search?: string;
-        is_active?: string;
-        current?: string;
-        sort?: string;
-        per_page?: number;
-    };
+    filters: Record<string, string>;
 }
 
-export default function Index({ profitRates, filters }: Props) {
-    const [search, setSearch] = useState(filters.search || '');
-    const [statusFilter, setStatusFilter] = useState(filters.is_active || 'all');
-    const [currentFilter, setCurrentFilter] = useState(filters.current || 'all');
+export default function ProfitRateIndex({ profitRates, filters }: Props) {
+    const [search, setSearch] = useState(filters['filter[category]'] || '');
+    const [statusFilter, setStatusFilter] = useState(() => {
+        const param = filters['filter[is_active]'];
+        if (param === '1') return 'active';
+        if (param === '0') return 'inactive';
+        return 'all';
+    });
+    const [rateFilter, setRateFilter] = useState(() => {
+        const param = filters['filter[rate_range]'];
+        if (param === 'low') return 'low';
+        if (param === 'medium') return 'medium';
+        if (param === 'high') return 'high';
+        return 'all';
+    });
+    const [validityFilter, setValidityFilter] = useState(() => {
+        const param = filters['filter[validity_status]'];
+        if (param === 'current') return 'current';
+        if (param === 'upcoming') return 'upcoming';
+        if (param === 'expired') return 'expired';
+        return 'all';
+    });
 
-    const handleSearch = (e: React.FormEvent) => {
-        e.preventDefault();
-        const params: Record<string, string | number | Record<string, string>> = {};
+    const buildParams = () => {
+        const params: Record<string, string> = {};
+        if (search.trim()) params['filter[category]'] = search;
+        if (statusFilter !== 'all') params['filter[is_active]'] = statusFilter === 'active' ? '1' : '0';
+        if (rateFilter !== 'all') params['filter[rate_range]'] = rateFilter;
+        if (validityFilter !== 'all') params['filter[validity_status]'] = validityFilter;
+        return params;
+    };
 
-        if (search) {
-            params.search = search;
-        }
+    const handleSearch = (value: string) => {
+        setSearch(value);
+        router.get(
+            route('profit-rates.index'),
+            {
+                ...buildParams(),
+                'filter[category]': value.trim() ? value : undefined,
+            },
+            { preserveState: true, replace: true },
+        );
+    };
 
-        const filterParams: Record<string, string> = {};
-        if (statusFilter !== 'all') {
-            filterParams.is_active = statusFilter;
-        }
-        if (currentFilter !== 'all') {
-            filterParams.current = currentFilter;
-        }
+    const handleStatusFilter = (value: string) => {
+        setStatusFilter(value);
+        router.get(
+            route('profit-rates.index'),
+            {
+                ...buildParams(),
+                'filter[is_active]': value !== 'all' ? (value === 'active' ? '1' : '0') : undefined,
+            },
+            { preserveState: true, replace: true },
+        );
+    };
 
-        if (Object.keys(filterParams).length > 0) {
-            params.filter = filterParams;
-        }
+    const handleRateFilter = (value: string) => {
+        setRateFilter(value);
+        router.get(
+            route('profit-rates.index'),
+            {
+                ...buildParams(),
+                'filter[rate_range]': value !== 'all' ? value : undefined,
+            },
+            { preserveState: true, replace: true },
+        );
+    };
 
-        router.get(route('profit-rates.index'), params, {
-            preserveState: true,
-            preserveScroll: true,
-        });
+    const handleValidityFilter = (value: string) => {
+        setValidityFilter(value);
+        router.get(
+            route('profit-rates.index'),
+            {
+                ...buildParams(),
+                'filter[validity_status]': value !== 'all' ? value : undefined,
+            },
+            { preserveState: true, replace: true },
+        );
+    };
+
+    const handlePagination = (page: number) => {
+        router.get(route('profit-rates.index'), { ...buildParams(), page });
     };
 
     const handleDelete = (id: number) => {
@@ -107,18 +138,22 @@ export default function Index({ profitRates, filters }: Props) {
         }
     };
 
-    const handlePerPageChange = (perPage: number) => {
-        router.get(
-            route('profit-rates.index'),
-            {
-                ...filters,
-                per_page: perPage,
-            },
-            {
-                preserveState: true,
-                preserveScroll: true,
-            },
-        );
+    const getStatusBadge = (rate: ProfitRate) => {
+        if (!rate.is_active) return <Badge variant="outline">Inactive</Badge>;
+
+        const currentDate = new Date().toISOString().split('T')[0];
+        const fromDate = rate.valid_from;
+        const toDate = rate.valid_to;
+
+        if (fromDate > currentDate) return <Badge variant="secondary">Upcoming</Badge>;
+        if (toDate && toDate < currentDate) return <Badge variant="destructive">Expired</Badge>;
+        return <Badge variant="default">Current</Badge>;
+    };
+
+    const getRateBadge = (rateValue: number) => {
+        if (rateValue < 5) return <Badge variant="secondary">Low (&lt;5%)</Badge>;
+        if (rateValue <= 10) return <Badge variant="default">Medium (5-10%)</Badge>;
+        return <Badge variant="destructive">High (&gt;10%)</Badge>;
     };
 
     const formatDate = (dateString: string) => {
@@ -129,116 +164,113 @@ export default function Index({ profitRates, filters }: Props) {
         });
     };
 
-    const formatRate = (rate: number) => {
-        return `${rate}%`;
+    const formatDateRange = (from: string, to: string | null) => {
+        const fromFormatted = formatDate(from);
+        if (!to) return `${fromFormatted} - Ongoing`;
+        return `${fromFormatted} - ${formatDate(to)}`;
     };
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Profit Rates" />
-
-            <div className="px-4 py-6">
-                <div className="mb-6 flex items-center justify-between">
-                    <Heading title="Profit Rates" description="Manage profit rates for different product categories" />
-                    <Button asChild>
-                        <Link href={route('profit-rates.create')}>
-                            <Plus className="mr-2 h-4 w-4" />
-                            Add Profit Rate
-                        </Link>
-                    </Button>
-                </div>
-
-                {/* Search and Filters */}
-                <div className="rounded-lg bg-white shadow">
-                    <div className="border-b border-gray-200 p-6">
-                        <form onSubmit={handleSearch} className="flex flex-col gap-4 sm:flex-row">
-                            <div className="relative flex-1">
+            <div className="px-10 py-6">
+                <Heading title="Profit Rates" description="Manage banking profit rates by category" />
+                <div className="mt-8 space-y-6">
+                    <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                        <div className="flex flex-1 gap-4">
+                            <div className="relative max-w-sm flex-1">
                                 <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
                                 <Input
-                                    type="text"
-                                    placeholder="Search profit rates..."
+                                    placeholder="Search by category..."
                                     value={search}
-                                    onChange={(e) => setSearch(e.target.value)}
+                                    onChange={(e) => handleSearch(e.target.value)}
                                     className="pl-10"
                                 />
                             </div>
-                            <div className="flex items-center gap-2">
-                                <Select value={statusFilter} onValueChange={setStatusFilter}>
-                                    <SelectTrigger className="w-32">
-                                        <SelectValue placeholder="Status" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="all">All Status</SelectItem>
-                                        <SelectItem value="1">Active</SelectItem>
-                                        <SelectItem value="0">Inactive</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                                <Select value={currentFilter} onValueChange={setCurrentFilter}>
-                                    <SelectTrigger className="w-32">
-                                        <SelectValue placeholder="Period" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="all">All Periods</SelectItem>
-                                        <SelectItem value="1">Current</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                                <span className="text-sm text-gray-600">Show:</span>
-                                <Select value={filters.per_page?.toString() || '15'} onValueChange={(value) => handlePerPageChange(parseInt(value))}>
-                                    <SelectTrigger className="w-20">
-                                        <SelectValue />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="10">10</SelectItem>
-                                        <SelectItem value="15">15</SelectItem>
-                                        <SelectItem value="25">25</SelectItem>
-                                        <SelectItem value="50">50</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                            </div>
-                            <Button type="submit">
-                                <Search className="mr-2 h-4 w-4" />
-                                Search
-                            </Button>
-                        </form>
+                            <Select value={statusFilter} onValueChange={handleStatusFilter}>
+                                <SelectTrigger className="w-40">
+                                    <SelectValue placeholder="All Status" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="all">All Status</SelectItem>
+                                    <SelectItem value="active">Active</SelectItem>
+                                    <SelectItem value="inactive">Inactive</SelectItem>
+                                </SelectContent>
+                            </Select>
+                            <Select value={rateFilter} onValueChange={handleRateFilter}>
+                                <SelectTrigger className="w-40">
+                                    <SelectValue placeholder="All Rates" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="all">All Rates</SelectItem>
+                                    <SelectItem value="low">Low (&lt;5%)</SelectItem>
+                                    <SelectItem value="medium">Medium (5-10%)</SelectItem>
+                                    <SelectItem value="high">High (&gt;10%)</SelectItem>
+                                </SelectContent>
+                            </Select>
+                            <Select value={validityFilter} onValueChange={handleValidityFilter}>
+                                <SelectTrigger className="w-40">
+                                    <SelectValue placeholder="All Validity" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="all">All Validity</SelectItem>
+                                    <SelectItem value="current">Current</SelectItem>
+                                    <SelectItem value="upcoming">Upcoming</SelectItem>
+                                    <SelectItem value="expired">Expired</SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </div>
+                        <Button asChild>
+                            <Link href={route('profit-rates.create')}>
+                                <Plus className="mr-2 h-4 w-4" />
+                                Add Rate
+                            </Link>
+                        </Button>
                     </div>
-
-                    {/* Table */}
-                    <div className="overflow-x-auto">
+                    <div className="rounded-md border">
                         <Table>
                             <TableHeader>
                                 <TableRow>
+                                    <TableHead>Order</TableHead>
                                     <TableHead>Category</TableHead>
                                     <TableHead>Rate</TableHead>
-                                    <TableHead>Valid From</TableHead>
-                                    <TableHead>Valid To</TableHead>
+                                    <TableHead>Valid Period</TableHead>
                                     <TableHead>Status</TableHead>
-                                    <TableHead>Sort Order</TableHead>
                                     <TableHead>Created</TableHead>
-                                    <TableHead>Created By</TableHead>
-                                    <TableHead className="w-32">Actions</TableHead>
+                                    <TableHead className="text-right">Actions</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
                                 {profitRates.data.length === 0 ? (
                                     <TableRow>
-                                        <TableCell colSpan={8} className="text-muted-foreground py-8 text-center">
+                                        <TableCell colSpan={7} className="py-8 text-center text-gray-500">
                                             No profit rates found.
                                         </TableCell>
                                     </TableRow>
                                 ) : (
                                     profitRates.data.map((rate) => (
                                         <TableRow key={rate.id}>
-                                            <TableCell className="font-medium">{rate.category}</TableCell>
-                                            <TableCell className="font-semibold text-green-600">{formatRate(rate.rate)}</TableCell>
-                                            <TableCell>{formatDate(rate.valid_from)}</TableCell>
-                                            <TableCell>{rate.valid_to ? formatDate(rate.valid_to) : 'Ongoing'}</TableCell>
+                                            <TableCell className="font-medium">{rate.sort_order || '-'}</TableCell>
                                             <TableCell>
-                                                <Badge variant={rate.is_active ? 'default' : 'secondary'}>{rate.status}</Badge>
+                                                <div className="flex items-center gap-3">
+                                                    <Percent className="h-5 w-5 text-emerald-500" />
+                                                    <div>
+                                                        <div className="font-medium">{rate.category}</div>
+                                                    </div>
+                                                </div>
                                             </TableCell>
-                                            <TableCell>{rate.sort_order || '-'}</TableCell>
-                                            <TableCell className="text-sm text-gray-600">{formatDate(rate.created_at)}</TableCell>
-                                            <TableCell className="text-sm text-gray-600">{rate.creator?.name || 'N/A'}</TableCell>
                                             <TableCell>
+                                                <div className="flex items-center gap-2">
+                                                    <span className="text-lg font-semibold text-emerald-600">{rate.rate}%</span>
+                                                    {getRateBadge(rate.rate)}
+                                                </div>
+                                            </TableCell>
+                                            <TableCell>
+                                                <div className="text-sm">{formatDateRange(rate.valid_from, rate.valid_to)}</div>
+                                            </TableCell>
+                                            <TableCell>{getStatusBadge(rate)}</TableCell>
+                                            <TableCell className="text-sm text-gray-500">{formatDate(rate.created_at)}</TableCell>
+                                            <TableCell className="text-right">
                                                 <DropdownMenu>
                                                     <DropdownMenuTrigger asChild>
                                                         <Button variant="ghost" className="h-8 w-8 p-0">
@@ -251,7 +283,7 @@ export default function Index({ profitRates, filters }: Props) {
                                                         <DropdownMenuItem asChild>
                                                             <Link href={route('profit-rates.show', rate.id)}>
                                                                 <Eye className="mr-2 h-4 w-4" />
-                                                                View Details
+                                                                View
                                                             </Link>
                                                         </DropdownMenuItem>
                                                         <DropdownMenuItem asChild>
@@ -261,7 +293,7 @@ export default function Index({ profitRates, filters }: Props) {
                                                             </Link>
                                                         </DropdownMenuItem>
                                                         <DropdownMenuSeparator />
-                                                        <DropdownMenuItem className="text-red-600" onClick={() => handleDelete(rate.id)}>
+                                                        <DropdownMenuItem onClick={() => handleDelete(rate.id)} className="text-red-600">
                                                             <Trash className="mr-2 h-4 w-4" />
                                                             Delete
                                                         </DropdownMenuItem>
@@ -274,27 +306,22 @@ export default function Index({ profitRates, filters }: Props) {
                             </TableBody>
                         </Table>
                     </div>
-
-                    {/* Pagination */}
                     {profitRates.total > 0 && (
-                        <div className="border-t border-gray-200 px-6 py-4">
-                            <div className="flex items-center justify-between">
-                                <div className="text-sm text-gray-700">
-                                    Showing {(profitRates.current_page - 1) * profitRates.per_page + 1} to{' '}
-                                    {Math.min(profitRates.current_page * profitRates.per_page, profitRates.total)} of {profitRates.total} results
-                                </div>
-                                <div className="flex items-center space-x-2">
-                                    {profitRates.links.map((link, index) => (
-                                        <Button
-                                            key={index}
-                                            variant={link.active ? 'default' : 'outline'}
-                                            size="sm"
-                                            disabled={!link.url}
-                                            onClick={() => link.url && router.get(link.url)}
-                                            dangerouslySetInnerHTML={{ __html: link.label }}
-                                        />
-                                    ))}
-                                </div>
+                        <div className="flex items-center justify-between text-sm text-gray-500">
+                            <div>
+                                Showing {profitRates.from} to {profitRates.to} of {profitRates.total} results
+                            </div>
+                            <div className="flex gap-2">
+                                {profitRates.current_page > 1 && (
+                                    <Button variant="outline" size="sm" onClick={() => handlePagination(profitRates.current_page - 1)}>
+                                        Previous
+                                    </Button>
+                                )}
+                                {profitRates.current_page < profitRates.last_page && (
+                                    <Button variant="outline" size="sm" onClick={() => handlePagination(profitRates.current_page + 1)}>
+                                        Next
+                                    </Button>
+                                )}
                             </div>
                         </div>
                     )}

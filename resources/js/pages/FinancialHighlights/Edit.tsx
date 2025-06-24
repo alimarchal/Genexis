@@ -1,321 +1,221 @@
+import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, Link, useForm } from '@inertiajs/react';
-import { ArrowLeft, Download, Eye, Upload, X } from 'lucide-react';
-import { useRef, useState } from 'react';
-
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Dashboard',
-        href: route('dashboard'),
-    },
-    {
-        title: 'Financial Highlights',
-        href: route('financial-highlights.index'),
-    },
-    {
-        title: 'Edit',
-        href: '',
-    },
-];
+import { Head, Link, router, useForm } from '@inertiajs/react';
+import { Download, FileText, Save, Upload } from 'lucide-react';
+import { FormEventHandler, useState } from 'react';
 
 interface FinancialHighlight {
     id: number;
     fiscal_year: number;
-    file_path: string;
-    file_name: string;
-    file_size: number;
-    created_at: string;
-    updated_at: string;
-    creator: {
-        name: string;
-    };
-    updater: {
-        name: string;
-    };
-    download_url: string;
-    view_url: string;
+    financial_highlights: string | null;
+    financial_highlights_url: string | null;
 }
 
 interface Props {
-    financial_highlight: FinancialHighlight;
+    financialHighlight: FinancialHighlight;
 }
 
-export default function Edit({ financial_highlight }: Props) {
-    const { data, setData, post, processing, errors, progress } = useForm({
-        fiscal_year: financial_highlight.fiscal_year,
-        file: null as File | null,
+export default function EditFinancialHighlight({ financialHighlight }: Props) {
+    const breadcrumbs: BreadcrumbItem[] = [
+        { title: 'Dashboard', href: route('dashboard') },
+        { title: 'Financial Highlights', href: route('financial-highlights.index') },
+        { title: 'Edit', href: route('financial-highlights.edit', financialHighlight.id) },
+    ];
+
+    const { data, setData, processing, errors } = useForm({
+        fiscal_year: financialHighlight.fiscal_year,
+        financial_highlights: null as File | null,
         _method: 'PUT',
     });
 
-    const [dragActive, setDragActive] = useState(false);
-    const [preview, setPreview] = useState<string | null>(null);
-    const fileInputRef = useRef<HTMLInputElement>(null);
+    const [fileName, setFileName] = useState('');
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const submit: FormEventHandler = (e) => {
         e.preventDefault();
-        post(route('financial-highlights.update', financial_highlight.id));
-    };
-
-    const handleFileChange = (file: File | null) => {
-        setData('file', file);
-
-        if (file) {
-            if (file.type === 'application/pdf') {
-                setPreview('pdf');
-            } else if (file.type.startsWith('image/')) {
-                const reader = new FileReader();
-                reader.onload = (e) => setPreview(e.target?.result as string);
-                reader.readAsDataURL(file);
-            }
-        } else {
-            setPreview(null);
-        }
-    };
-
-    const handleDrag = (e: React.DragEvent) => {
-        e.preventDefault();
-        e.stopPropagation();
-        if (e.type === 'dragenter' || e.type === 'dragover') {
-            setDragActive(true);
-        } else if (e.type === 'dragleave') {
-            setDragActive(false);
-        }
-    };
-
-    const handleDrop = (e: React.DragEvent) => {
-        e.preventDefault();
-        e.stopPropagation();
-        setDragActive(false);
-
-        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-            const file = e.dataTransfer.files[0];
-            if (file.type === 'application/pdf' || file.type.startsWith('image/')) {
-                handleFileChange(file);
-            }
-        }
-    };
-
-    const removeFile = () => {
-        handleFileChange(null);
-        if (fileInputRef.current) {
-            fileInputRef.current.value = '';
-        }
-    };
-
-    const formatFileSize = (bytes: number) => {
-        if (bytes === 0) return '0 Bytes';
-        const k = 1024;
-        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-        const i = Math.floor(Math.log(bytes) / Math.log(k));
-        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-    };
-
-    const formatDate = (dateString: string) => {
-        return new Date(dateString).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
+        router.post(route('financial-highlights.update', financialHighlight.id), {
+            ...data,
+            _method: 'PUT',
         });
+    };
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0] || null;
+        setData('financial_highlights', file);
+        setFileName(file ? file.name : '');
+    };
+
+    const getFileSize = (file: File | null): string => {
+        if (!file) return '';
+        return `${(file.size / (1024 * 1024)).toFixed(2)} MB`;
+    };
+
+    const getCurrentFileName = (filePath: string | null): string => {
+        if (!filePath) return '';
+        return filePath.split('/').pop() || '';
     };
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={`Edit Financial Highlight - ${financial_highlight.fiscal_year}`} />
+            <Head title="Edit Financial Highlights" />
+            <div className="px-10 py-6">
+                <Heading title="Edit Financial Highlights" description="Update the financial highlights for this fiscal year" />
+                <div className="mt-8">
+                    <form onSubmit={submit} className="space-y-8">
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Basic Information</CardTitle>
+                            </CardHeader>
+                            <CardContent className="space-y-6">
+                                <div className="space-y-2">
+                                    <Label htmlFor="fiscal_year">Fiscal Year *</Label>
+                                    <Input
+                                        id="fiscal_year"
+                                        type="number"
+                                        min="1900"
+                                        max={new Date().getFullYear() + 5}
+                                        value={data.fiscal_year}
+                                        onChange={(e) => setData('fiscal_year', parseInt(e.target.value) || financialHighlight.fiscal_year)}
+                                        placeholder="Enter fiscal year"
+                                        className={errors.fiscal_year ? 'border-red-500' : ''}
+                                    />
+                                    {errors.fiscal_year && <p className="text-sm text-red-500">{errors.fiscal_year}</p>}
+                                    <p className="text-sm text-gray-500">The fiscal year for which these highlights are being uploaded</p>
+                                </div>
+                            </CardContent>
+                        </Card>
 
-            <div className="space-y-6">
-                <div className="flex items-center gap-4">
-                    <Link href={route('financial-highlights.index')}>
-                        <Button variant="ghost" size="sm">
-                            <ArrowLeft className="mr-2 h-4 w-4" />
-                            Back to Financial Highlights
-                        </Button>
-                    </Link>
-                    <div>
-                        <h1 className="text-2xl font-semibold text-gray-900">Edit Financial Highlight - {financial_highlight.fiscal_year}</h1>
-                        <p className="mt-1 text-sm text-gray-600">Update the financial highlight document and its details</p>
-                    </div>
-                </div>
-
-                <div className="rounded-lg bg-white shadow">
-                    <form onSubmit={handleSubmit} className="space-y-6 p-6">
-                        <div>
-                            <Label htmlFor="fiscal_year">Fiscal Year</Label>
-                            <Input
-                                id="fiscal_year"
-                                type="number"
-                                min="1900"
-                                max="2100"
-                                value={data.fiscal_year}
-                                onChange={(e) => setData('fiscal_year', parseInt(e.target.value) || financial_highlight.fiscal_year)}
-                                className={errors.fiscal_year ? 'border-red-500' : ''}
-                                required
-                            />
-                            {errors.fiscal_year && <p className="mt-1 text-sm text-red-600">{errors.fiscal_year}</p>}
-                        </div>
-
-                        <div>
-                            <Label>Current File</Label>
-                            <div className="mt-2 rounded-lg bg-gray-50 p-4">
-                                <div className="flex items-center justify-between">
-                                    <div className="flex items-center space-x-3">
-                                        <div className="flex-shrink-0">
-                                            {financial_highlight.file_name.toLowerCase().endsWith('.pdf') ? (
-                                                <div className="flex h-10 w-10 items-center justify-center rounded bg-red-500">
-                                                    <span className="text-xs font-bold text-white">PDF</span>
+                        <Card>
+                            <CardHeader>
+                                <div className="flex items-center gap-3">
+                                    <FileText className="h-5 w-5 text-orange-500" />
+                                    <div>
+                                        <CardTitle>Financial Highlights</CardTitle>
+                                        <p className="mt-1 text-sm text-gray-500">Upload the financial highlights document</p>
+                                    </div>
+                                </div>
+                            </CardHeader>
+                            <CardContent className="space-y-6">
+                                {financialHighlight.financial_highlights && (
+                                    <div className="space-y-2">
+                                        <Label>Current File</Label>
+                                        <div className="flex items-center gap-4 rounded-md bg-gray-50 p-4">
+                                            <div className="flex flex-1 items-center gap-3">
+                                                <FileText className="h-5 w-5 text-gray-500" />
+                                                <div>
+                                                    <div className="font-medium text-gray-900">
+                                                        {getCurrentFileName(financialHighlight.financial_highlights)}
+                                                    </div>
+                                                    <div className="text-sm text-gray-500">Currently uploaded file</div>
                                                 </div>
-                                            ) : (
-                                                <div className="flex h-10 w-10 items-center justify-center rounded bg-blue-500">
-                                                    <span className="text-xs font-bold text-white">IMG</span>
-                                                </div>
+                                            </div>
+                                            {financialHighlight.financial_highlights_url && (
+                                                <Button asChild variant="outline" size="sm">
+                                                    <a href={financialHighlight.financial_highlights_url} target="_blank" rel="noopener noreferrer">
+                                                        <Download className="mr-2 h-4 w-4" />
+                                                        Download
+                                                    </a>
+                                                </Button>
                                             )}
                                         </div>
-                                        <div>
-                                            <p className="text-sm font-medium text-gray-900">{financial_highlight.file_name}</p>
-                                            <p className="text-xs text-gray-500">{formatFileSize(financial_highlight.file_size)}</p>
-                                        </div>
-                                    </div>
-                                    <div className="flex items-center space-x-2">
-                                        <Button
-                                            type="button"
-                                            variant="ghost"
-                                            size="sm"
-                                            onClick={() => window.open(financial_highlight.download_url, '_blank')}
-                                            title="Download"
-                                        >
-                                            <Download className="h-4 w-4" />
-                                        </Button>
-                                        <Link href={financial_highlight.view_url}>
-                                            <Button variant="ghost" size="sm" title="View">
-                                                <Eye className="h-4 w-4" />
-                                            </Button>
-                                        </Link>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div>
-                            <Label htmlFor="file">Replace File (Optional)</Label>
-                            <p className="mb-2 text-sm text-gray-600">
-                                Upload a new file to replace the current one, or leave empty to keep the existing file.
-                            </p>
-                            <div
-                                className={`relative rounded-lg border-2 border-dashed p-6 transition-colors ${
-                                    dragActive
-                                        ? 'border-blue-400 bg-blue-50'
-                                        : errors.file
-                                          ? 'border-red-300 bg-red-50'
-                                          : 'border-gray-300 hover:border-gray-400'
-                                }`}
-                                onDragEnter={handleDrag}
-                                onDragLeave={handleDrag}
-                                onDragOver={handleDrag}
-                                onDrop={handleDrop}
-                            >
-                                <input
-                                    ref={fileInputRef}
-                                    id="file"
-                                    type="file"
-                                    accept=".pdf,.jpg,.jpeg,.png"
-                                    onChange={(e) => handleFileChange(e.target.files?.[0] || null)}
-                                    className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
-                                />
-
-                                {!data.file ? (
-                                    <div className="text-center">
-                                        <Upload className="mx-auto h-12 w-12 text-gray-400" />
-                                        <div className="mt-4">
-                                            <p className="text-sm text-gray-600">
-                                                <span className="font-medium text-blue-600 hover:text-blue-500">Click to upload</span> or drag and
-                                                drop
-                                            </p>
-                                            <p className="mt-1 text-xs text-gray-500">PDF, JPG, PNG up to 10MB</p>
-                                        </div>
-                                    </div>
-                                ) : (
-                                    <div className="space-y-4">
-                                        <div className="flex items-center justify-between rounded-md bg-gray-50 p-3">
-                                            <div className="flex items-center space-x-3">
-                                                <div className="flex-shrink-0">
-                                                    {data.file.type === 'application/pdf' ? (
-                                                        <div className="flex h-8 w-8 items-center justify-center rounded bg-red-500">
-                                                            <span className="text-xs font-bold text-white">PDF</span>
-                                                        </div>
-                                                    ) : (
-                                                        <div className="flex h-8 w-8 items-center justify-center rounded bg-blue-500">
-                                                            <span className="text-xs font-bold text-white">IMG</span>
-                                                        </div>
-                                                    )}
-                                                </div>
-                                                <div className="min-w-0 flex-1">
-                                                    <p className="truncate text-sm font-medium text-gray-900">{data.file.name}</p>
-                                                    <p className="text-xs text-gray-500">{formatFileSize(data.file.size)}</p>
-                                                </div>
-                                            </div>
-                                            <Button
-                                                type="button"
-                                                variant="ghost"
-                                                size="sm"
-                                                onClick={removeFile}
-                                                className="text-gray-400 hover:text-gray-600"
-                                            >
-                                                <X className="h-4 w-4" />
-                                            </Button>
-                                        </div>
-
-                                        {preview && preview !== 'pdf' && (
-                                            <div className="mt-4">
-                                                <img src={preview} alt="Preview" className="mx-auto h-32 max-w-full rounded object-contain" />
-                                            </div>
-                                        )}
                                     </div>
                                 )}
-                            </div>
-                            {errors.file && <p className="mt-1 text-sm text-red-600">{errors.file}</p>}
-                        </div>
 
-                        {progress && (
-                            <div className="space-y-2">
-                                <div className="flex justify-between text-sm text-gray-600">
-                                    <span>Uploading...</span>
-                                    <span>{Math.round(progress.percentage || 0)}%</span>
+                                <div className="space-y-2">
+                                    <Label htmlFor="financial_highlights">
+                                        {financialHighlight.financial_highlights ? 'Replace File' : 'Upload File'}
+                                    </Label>
+                                    <div className="relative flex-1">
+                                        <Input
+                                            id="financial_highlights"
+                                            type="file"
+                                            accept=".pdf,.doc,.docx,.xls,.xlsx"
+                                            onChange={handleFileChange}
+                                            className={errors.financial_highlights ? 'border-red-500' : ''}
+                                        />
+                                        <Upload className="absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
+                                    </div>
+                                    {errors.financial_highlights && <p className="text-sm text-red-500">{errors.financial_highlights}</p>}
+
+                                    {fileName && (
+                                        <div className="rounded-md border border-blue-200 bg-blue-50 p-3">
+                                            <div className="flex items-center justify-between">
+                                                <div className="flex items-center gap-2">
+                                                    <FileText className="h-4 w-4 text-blue-500" />
+                                                    <span className="text-sm font-medium text-blue-900">New: {fileName}</span>
+                                                </div>
+                                                <span className="text-sm text-blue-600">{getFileSize(data.financial_highlights)}</span>
+                                            </div>
+                                            {financialHighlight.financial_highlights && (
+                                                <p className="mt-1 text-xs text-blue-600">This will replace the current file</p>
+                                            )}
+                                        </div>
+                                    )}
+
+                                    <p className="text-sm text-gray-500">
+                                        {financialHighlight.financial_highlights
+                                            ? 'Upload a new file to replace the current one (optional)'
+                                            : 'Supported formats: PDF, Word (.doc, .docx), Excel (.xls, .xlsx). Maximum size: 300MB'}
+                                    </p>
                                 </div>
-                                <div className="h-2 w-full rounded-full bg-gray-200">
-                                    <div
-                                        className="h-2 rounded-full bg-blue-600 transition-all duration-300"
-                                        style={{ width: `${progress.percentage || 0}%` }}
-                                    ></div>
+                            </CardContent>
+                        </Card>
+
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Update Summary</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="space-y-3">
+                                    <div className="flex items-center justify-between text-sm">
+                                        <span className="font-medium">Fiscal Year:</span>
+                                        <span className="text-gray-600">
+                                            FY {data.fiscal_year} ({data.fiscal_year}-{data.fiscal_year + 1})
+                                        </span>
+                                    </div>
+                                    <div className="flex items-center justify-between text-sm">
+                                        <span className="font-medium">Current Highlights:</span>
+                                        <span className="text-gray-600">{financialHighlight.financial_highlights ? 'Uploaded' : 'No file'}</span>
+                                    </div>
+                                    <div className="flex items-center justify-between text-sm">
+                                        <span className="font-medium">File to Update:</span>
+                                        <span className="text-gray-600">{fileName ? 'Selected' : 'None'}</span>
+                                    </div>
+
+                                    {financialHighlight.financial_highlights && (
+                                        <div className="mt-4">
+                                            <p className="mb-2 text-sm font-medium text-gray-700">Current File:</p>
+                                            <div className="flex items-center gap-2 text-sm text-gray-600">
+                                                <div className="h-2 w-2 rounded-full bg-green-500"></div>
+                                                <span>Financial Highlights: {getCurrentFileName(financialHighlight.financial_highlights)}</span>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {fileName && (
+                                        <div className="mt-4">
+                                            <p className="mb-2 text-sm font-medium text-blue-700">File Being Updated:</p>
+                                            <div className="flex items-center gap-2 text-sm text-blue-600">
+                                                <div className="h-2 w-2 rounded-full bg-blue-500"></div>
+                                                <span>Financial Highlights: {fileName}</span>
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
-                            </div>
-                        )}
+                            </CardContent>
+                        </Card>
 
-                        <div className="border-t border-gray-200 pt-6">
-                            <div className="space-y-1 text-sm text-gray-600">
-                                <p>
-                                    <span className="font-medium">Created:</span> {formatDate(financial_highlight.created_at)} by{' '}
-                                    {financial_highlight.creator?.name || 'N/A'}
-                                </p>
-                                <p>
-                                    <span className="font-medium">Last Updated:</span> {formatDate(financial_highlight.updated_at)} by{' '}
-                                    {financial_highlight.updater?.name || 'N/A'}
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className="flex justify-end space-x-3 border-t border-gray-200 pt-6">
-                            <Link href={route('financial-highlights.index')}>
-                                <Button type="button" variant="ghost">
-                                    Cancel
-                                </Button>
-                            </Link>
-                            <Button type="submit" disabled={processing} className="min-w-[120px]">
-                                {processing ? 'Updating...' : 'Update Financial Highlight'}
+                        <div className="flex justify-end gap-2">
+                            <Button variant="outline" asChild>
+                                <Link href={route('financial-highlights.index')}>Cancel</Link>
+                            </Button>
+                            <Button type="submit" disabled={processing}>
+                                <Save className="mr-2 h-4 w-4" />
+                                {processing ? 'Updating...' : 'Update Highlights'}
                             </Button>
                         </div>
                     </form>

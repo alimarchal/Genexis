@@ -15,7 +15,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
-import { Edit, Eye, MoreHorizontal, Plus, Search, Trash } from 'lucide-react';
+import { Edit, Eye, MoreHorizontal, Newspaper, Plus, Search, Star, Trash } from 'lucide-react';
 import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -221,19 +221,30 @@ export default function NewsAnnouncementIndex({ newsAnnouncements, filters }: Pr
                                 ) : (
                                     newsAnnouncements.data.map((announcement) => (
                                         <TableRow key={announcement.id}>
-                                            <TableCell>
-                                                <div className="flex items-center gap-3">
-                                                    {announcement.image_url && (
-                                                        <img
-                                                            src={announcement.image_url}
-                                                            alt={announcement.title}
-                                                            className="h-10 w-10 rounded-md object-cover"
-                                                        />
-                                                    )}
-                                                    <div>
-                                                        <div className="font-medium">{announcement.title}</div>
-                                                        <div className="line-clamp-1 text-sm text-gray-500">
-                                                            {announcement.content.substring(0, 60)}...
+                                            <TableCell className="w-[400px] max-w-[400px]">
+                                                <div className="flex items-start gap-3">
+                                                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-blue-100">
+                                                        {announcement.image_url ? (
+                                                            <img
+                                                                src={announcement.image_url}
+                                                                alt={announcement.title}
+                                                                className="h-10 w-10 rounded-lg object-cover"
+                                                            />
+                                                        ) : (
+                                                            <Newspaper className="h-5 w-5 text-blue-600" />
+                                                        )}
+                                                    </div>
+                                                    <div className="min-w-0 flex-1 overflow-hidden">
+                                                        <div className="flex items-start gap-2">
+                                                            <div className="pr-1 text-sm leading-tight font-medium break-words hyphens-auto whitespace-normal">
+                                                                {announcement.title}
+                                                            </div>
+                                                            {announcement.is_featured && (
+                                                                <Star className="mt-0.5 h-4 w-4 shrink-0 fill-current text-yellow-500" />
+                                                            )}
+                                                        </div>
+                                                        <div className="mt-1 line-clamp-2 text-xs break-words hyphens-auto whitespace-normal text-gray-500">
+                                                            {announcement.content.substring(0, 100)}...
                                                         </div>
                                                     </div>
                                                 </div>

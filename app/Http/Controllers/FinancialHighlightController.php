@@ -17,13 +17,13 @@ class FinancialHighlightController extends Controller
         $financialHighlights = QueryBuilder::for(FinancialHighlight::class)
             ->allowedFilters(FinancialHighlight::getAllowedFilters())
             ->allowedSorts(FinancialHighlight::getAllowedSorts())
-            ->defaultSort('-created_at')
+            ->defaultSort('-fiscal_year', '-created_at')
             ->paginate(request('per_page', 15))
             ->withQueryString();
 
         return Inertia::render('FinancialHighlights/Index', [
             'financialHighlights' => $financialHighlights,
-            'filters' => request()->only(['filter', 'sort']),
+            'filters' => request()->all(),
         ]);
     }
 
@@ -44,7 +44,7 @@ class FinancialHighlightController extends Controller
         FinancialHighlight::create($data);
 
         return redirect()->route('financial-highlights.index')
-            ->with('success', 'Financial highlight created successfully.');
+            ->with('success', 'Financial highlights created successfully.');
     }
 
     public function show(FinancialHighlight $financialHighlight)
@@ -63,20 +63,21 @@ class FinancialHighlightController extends Controller
 
     public function update(UpdateFinancialHighlightRequest $request, FinancialHighlight $financialHighlight)
     {
-        $validated = $request->validated();
-        $data = $validated;
+        $data = $request->validated();
 
         if ($request->hasFile('financial_highlights')) {
             if ($financialHighlight->financial_highlights) {
                 Storage::disk('public')->delete($financialHighlight->financial_highlights);
             }
             $data['financial_highlights'] = $request->file('financial_highlights')->store('financial-highlights', 'public');
+        } else {
+            unset($data['financial_highlights']);
         }
 
         $financialHighlight->update($data);
 
         return redirect()->route('financial-highlights.index')
-            ->with('success', 'Financial highlight updated successfully.');
+            ->with('success', 'Financial highlights updated successfully.');
     }
 
     public function destroy(FinancialHighlight $financialHighlight)
@@ -88,18 +89,18 @@ class FinancialHighlightController extends Controller
         $financialHighlight->delete();
 
         return redirect()->route('financial-highlights.index')
-            ->with('success', 'Financial highlight deleted successfully.');
+            ->with('success', 'Financial highlights deleted successfully.');
     }
 
     public function download(FinancialHighlight $financialHighlight)
     {
-        if (! $financialHighlight->financial_highlights || ! Storage::disk('public')->exists($financialHighlight->financial_highlights)) {
+        if (!$financialHighlight->financial_highlights || !Storage::disk('public')->exists($financialHighlight->financial_highlights)) {
             abort(404, 'File not found');
         }
 
-        return Storage::disk('public')->download(
-            $financialHighlight->financial_highlights,
-            'Financial-Highlights-'.$financialHighlight->fiscal_year.'.pdf'
-        );
+        $extension = pathinfo($financialHighlight->financial_highlights, PATHINFO_EXTENSION);
+        $fileName = "Financial-Highlights-FY{$financialHighlight->fiscal_year}.{$extension}";
+
+        return Storage::disk('public')->download($financialHighlight->financial_highlights, $fileName);
     }
 }

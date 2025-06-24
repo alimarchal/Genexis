@@ -24,6 +24,7 @@ class StoreRegionRequest extends FormRequest
         return [
             'name' => 'required|string|max:255|unique:regions,name',
             'status' => 'required|in:active,inactive',
+            'division_id' => 'required|exists:divisions,id',
         ];
     }
 }
