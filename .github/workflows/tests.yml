@@ -49,9 +49,12 @@ jobs:
 
       - name: Set Required Environment Variables
         run: |
+          echo "APP_NAME=BankAJK" >> .env
           echo "DB_CONNECTION=sqlite" >> .env
           echo "DB_DATABASE=:memory:" >> .env
           echo "CACHE_STORE=array" >> .env
+          echo "SESSION_DRIVER=array" >> .env
+          echo "SESSION_COOKIE=bankajk_session" >> .env
           echo "BANK_BRANCHES_COUNT=87" >> .env
           echo "CONTACT_PHONE=\"+92-5816-123456\"" >> .env
           echo "CONTACT_EMAIL=\"info@bajk.com\"" >> .env
