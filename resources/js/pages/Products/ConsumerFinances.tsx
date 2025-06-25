@@ -1,4 +1,5 @@
 import LoanSchemesComponent from '@/components/LoanSchemesComponent';
+import LoanCalculatorBanner from '@/components/LoanCalculatorBanner';
 import WebsiteLayout from '@/layouts/WebsiteLayout';
 
 interface ProductSchemeAttribute {
@@ -31,6 +32,14 @@ export default function ConsumerFinances({ schemes }: Props) {
                         education and everything in between.
                     </p>
                 </div>
+                
+                {/* Loan Calculator Banner */}
+                <LoanCalculatorBanner 
+                    title="Calculate Your Personal Loan"
+                    description="Plan your consumer financing with our easy-to-use calculator. Get instant EMI calculations for home loans, personal loans, education loans, and more."
+                    className="mb-8"
+                />
+                
                 <LoanSchemesComponent schemes={schemes} />
             </div>
         </div>
