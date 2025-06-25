@@ -197,22 +197,28 @@ export default function ServicesIndex({ services, filters }: Props) {
                                     services.data.map((service) => (
                                         <TableRow key={service.id}>
                                             <TableCell className="font-medium">{service.sort_order}</TableCell>
-                                           <TableCell className="w-64 max-w-64">
-    <div className="flex items-start gap-3">
-        {service.image_url && (
-            <img src={service.image_url} alt={service.name} className="h-10 w-10 rounded object-cover shrink-0" />
-        )}
-        <div className="min-w-0 flex-1 overflow-hidden">
-            <div className="font-medium truncate">{service.name}</div>
-            <div className="text-sm text-gray-500 truncate">{service.slug}</div>
-        </div>
-    </div>
-</TableCell>
-<TableCell className="w-80 max-w-80">
-    <div className="min-w-0 overflow-hidden">
-        <p className="text-sm leading-tight break-words hyphens-auto whitespace-normal">{truncateText(service.description, 80)}</p>
-    </div>
-</TableCell>
+                                            <TableCell className="w-64 max-w-64">
+                                                <div className="flex items-start gap-3">
+                                                    {service.image_url && (
+                                                        <img
+                                                            src={service.image_url}
+                                                            alt={service.name}
+                                                            className="h-10 w-10 shrink-0 rounded object-cover"
+                                                        />
+                                                    )}
+                                                    <div className="min-w-0 flex-1 overflow-hidden">
+                                                        <div className="truncate font-medium">{service.name}</div>
+                                                        <div className="truncate text-sm text-gray-500">{service.slug}</div>
+                                                    </div>
+                                                </div>
+                                            </TableCell>
+                                            <TableCell className="w-80 max-w-80">
+                                                <div className="min-w-0 overflow-hidden">
+                                                    <p className="text-sm leading-tight break-words hyphens-auto whitespace-normal">
+                                                        {truncateText(service.description, 80)}
+                                                    </p>
+                                                </div>
+                                            </TableCell>
                                             <TableCell>{getStatusBadge(service.is_active)}</TableCell>
                                             <TableCell className="text-sm text-gray-500">{formatDate(service.created_at)}</TableCell>
                                             <TableCell className="text-right">

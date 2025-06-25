@@ -15,51 +15,31 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
-import { Edit, Eye, FileText, MoreHorizontal, Plus, Search, Trash } from 'lucide-react';
+import { Edit, Eye, MoreHorizontal, Plus, Search, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Dashboard',
-        href: route('dashboard'),
-    },
-    {
-        title: 'Product Schemes',
-        href: route('product-schemes.index'),
-    },
+    { title: 'Dashboard', href: route('dashboard') },
+    { title: 'Top Navbar Messages', href: route('top-navbar-messages.index') },
 ];
 
-interface Product {
+interface TopNavbarMessage {
     id: number;
-    name: string;
-}
-
-interface ProductType {
-    id: number;
-    name: string;
-    product?: Product;
-}
-
-interface ProductTypeAccount {
-    id: number;
-    name: string;
-    product_type?: ProductType;
-}
-
-interface ProductScheme {
-    id: number;
-    product_type_account_id: number;
-    name: string;
-    description: string | null;
+    type: string;
+    priority: 'low' | 'medium' | 'high' | 'urgent';
+    icon: string;
+    text: string;
+    color: string;
+    bg_color: string;
     is_active: boolean;
+    sort_order: number;
     created_at: string;
     updated_at: string;
-    product_type_account?: ProductTypeAccount;
 }
 
 interface Props {
-    productSchemes: {
-        data: ProductScheme[];
+    messages: {
+        data: TopNavbarMessage[];
         current_page: number;
         last_page: number;
         per_page: number;
@@ -67,43 +47,40 @@ interface Props {
         from: number;
         to: number;
     };
-    accounts: ProductTypeAccount[];
-    filters: Record<string, string>;
+    filters: {
+        filter?: {
+            text?: string;
+            is_active?: string;
+            priority?: string;
+        };
+    };
 }
 
-export default function ProductSchemeIndex({ productSchemes, accounts, filters }: Props) {
-    const [search, setSearch] = useState(filters['filter[name]'] || '');
+export default function Index({ messages, filters }: Props) {
+    const [search, setSearch] = useState(filters?.filter?.text || '');
     const [statusFilter, setStatusFilter] = useState(() => {
-        const statusParam = filters['filter[is_active]'];
-        if (statusParam === '1') return 'active';
-        if (statusParam === '0') return 'inactive';
+        const param = filters?.filter?.is_active;
+        if (param === '1') return 'active';
+        if (param === '0') return 'inactive';
         return 'all';
     });
-    const [accountFilter, setAccountFilter] = useState(filters['filter[product_type_account_id]'] || 'all');
+    const [priorityFilter, setPriorityFilter] = useState(filters?.filter?.priority || 'all');
 
     const buildParams = () => {
         const params: Record<string, string> = {};
-
-        if (search.trim()) {
-            params['filter[name]'] = search;
-        }
-        if (statusFilter !== 'all') {
-            params['filter[is_active]'] = statusFilter === 'active' ? '1' : '0';
-        }
-        if (accountFilter !== 'all') {
-            params['filter[product_type_account_id]'] = accountFilter;
-        }
-
+        if (search.trim()) params['filter[text]'] = search;
+        if (statusFilter !== 'all') params['filter[is_active]'] = statusFilter === 'active' ? '1' : '0';
+        if (priorityFilter !== 'all') params['filter[priority]'] = priorityFilter;
         return params;
     };
 
     const handleSearch = (value: string) => {
         setSearch(value);
         router.get(
-            route('product-schemes.index'),
+            route('top-navbar-messages.index'),
             {
                 ...buildParams(),
-                'filter[name]': value.trim() ? value : undefined,
+                'filter[text]': value.trim() ? value : undefined,
             },
             { preserveState: true, replace: true },
         );
@@ -112,7 +89,7 @@ export default function ProductSchemeIndex({ productSchemes, accounts, filters }
     const handleStatusFilter = (value: string) => {
         setStatusFilter(value);
         router.get(
-            route('product-schemes.index'),
+            route('top-navbar-messages.index'),
             {
                 ...buildParams(),
                 'filter[is_active]': value !== 'all' ? (value === 'active' ? '1' : '0') : undefined,
@@ -121,33 +98,44 @@ export default function ProductSchemeIndex({ productSchemes, accounts, filters }
         );
     };
 
-    const handleAccountFilter = (value: string) => {
-        setAccountFilter(value);
+    const handlePriorityFilter = (value: string) => {
+        setPriorityFilter(value);
         router.get(
-            route('product-schemes.index'),
+            route('top-navbar-messages.index'),
             {
                 ...buildParams(),
-                'filter[product_type_account_id]': value !== 'all' ? value : undefined,
+                'filter[priority]': value !== 'all' ? value : undefined,
             },
             { preserveState: true, replace: true },
         );
     };
 
     const handlePagination = (page: number) => {
-        router.get(route('product-schemes.index'), {
-            ...buildParams(),
-            page,
-        });
+        router.get(route('top-navbar-messages.index'), { ...buildParams(), page });
     };
 
     const handleDelete = (id: number) => {
-        if (confirm('Are you sure you want to delete this scheme?')) {
-            router.delete(route('product-schemes.destroy', id));
+        if (confirm('Are you sure you want to delete this message?')) {
+            router.delete(route('top-navbar-messages.destroy', id));
         }
     };
 
+    const getPriorityColor = (priority: string) => {
+        const colors = {
+            low: 'bg-gray-100 text-gray-800',
+            medium: 'bg-blue-100 text-blue-800',
+            high: 'bg-orange-100 text-orange-800',
+            urgent: 'bg-red-100 text-red-800',
+        };
+        return colors[priority as keyof typeof colors] || colors.medium;
+    };
+
     const getStatusBadge = (isActive: boolean) => {
-        return isActive ? <Badge variant="default">Active</Badge> : <Badge variant="secondary">Inactive</Badge>;
+        return isActive ? (
+            <Badge variant="default">Active</Badge>
+        ) : (
+            <Badge variant="secondary">Inactive</Badge>
+        );
     };
 
     const formatDate = (dateString: string) => {
@@ -160,25 +148,21 @@ export default function ProductSchemeIndex({ productSchemes, accounts, filters }
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Product Schemes" />
-
+            <Head title="Top Navbar Messages" />
             <div className="px-10 py-6">
-                <Heading title="Product Schemes" description="Manage individual product schemes and offerings" />
-
+                <Heading title="Top Navbar Messages" description="Manage messages displayed in the top navigation bar" />
                 <div className="mt-8 space-y-6">
-                    {/* Search and Filters */}
                     <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                         <div className="flex flex-1 gap-4">
                             <div className="relative max-w-sm flex-1">
                                 <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
                                 <Input
-                                    placeholder="Search schemes..."
+                                    placeholder="Search messages..."
                                     value={search}
                                     onChange={(e) => handleSearch(e.target.value)}
                                     className="pl-10"
                                 />
                             </div>
-
                             <Select value={statusFilter} onValueChange={handleStatusFilter}>
                                 <SelectTrigger className="w-40">
                                     <SelectValue placeholder="All Status" />
@@ -189,82 +173,73 @@ export default function ProductSchemeIndex({ productSchemes, accounts, filters }
                                     <SelectItem value="inactive">Inactive</SelectItem>
                                 </SelectContent>
                             </Select>
-
-                            <Select value={accountFilter} onValueChange={handleAccountFilter}>
-                                <SelectTrigger className="w-48">
-                                    <SelectValue placeholder="All Accounts" />
+                            <Select value={priorityFilter} onValueChange={handlePriorityFilter}>
+                                <SelectTrigger className="w-40">
+                                    <SelectValue placeholder="All Priority" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="all">All Accounts</SelectItem>
-                                    {accounts.map((account) => (
-                                        <SelectItem key={account.id} value={account.id.toString()}>
-                                            {account.name}
-                                        </SelectItem>
-                                    ))}
+                                    <SelectItem value="all">All Priority</SelectItem>
+                                    <SelectItem value="low">Low</SelectItem>
+                                    <SelectItem value="medium">Medium</SelectItem>
+                                    <SelectItem value="high">High</SelectItem>
+                                    <SelectItem value="urgent">Urgent</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
-
                         <Button asChild>
-                            <Link href={route('product-schemes.create')}>
+                            <Link href={route('top-navbar-messages.create')}>
                                 <Plus className="mr-2 h-4 w-4" />
-                                Add Scheme
+                                Add Message
                             </Link>
                         </Button>
                     </div>
-
-                    {/* Table */}
                     <div className="rounded-md border">
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Scheme Name</TableHead>
-                                    <TableHead>Account</TableHead>
-                                    <TableHead>Type/Product</TableHead>
-                                    <TableHead>Description</TableHead>
+                                    <TableHead>Message</TableHead>
+                                    <TableHead>Type</TableHead>
+                                    <TableHead>Priority</TableHead>
                                     <TableHead>Status</TableHead>
+                                    <TableHead>Order</TableHead>
                                     <TableHead>Created</TableHead>
                                     <TableHead className="text-right">Actions</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {productSchemes.data.length === 0 ? (
+                                {messages.data.length === 0 ? (
                                     <TableRow>
                                         <TableCell colSpan={7} className="py-8 text-center text-gray-500">
-                                            No schemes found.
+                                            No messages found.
                                         </TableCell>
                                     </TableRow>
                                 ) : (
-                                    productSchemes.data.map((scheme) => (
-                                        <TableRow key={scheme.id}>
-                                            <TableCell className="w-64 max-w-64">
+                                    messages.data.map((message) => (
+                                        <TableRow key={message.id}>
+                                            <TableCell>
                                                 <div className="flex items-center gap-3">
-                                                    <FileText className="h-4 w-4 shrink-0 text-gray-500" />
-                                                    <div className="min-w-0 flex-1 overflow-hidden">
-                                                        <div className="truncate font-medium">{scheme.name}</div>
+                                                    <div className="text-lg">{message.icon}</div>
+                                                    <div>
+                                                        <div className="font-medium">{message.type}</div>
+                                                        <div className="max-w-xs truncate text-sm text-gray-500" title={message.text}>
+                                                            {message.text}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </TableCell>
                                             <TableCell>
-                                                <Badge variant="outline">{scheme.product_type_account?.name || 'N/A'}</Badge>
+                                                <span className="font-medium">{message.type}</span>
                                             </TableCell>
                                             <TableCell>
-                                                <div className="text-sm">
-                                                    <div>{scheme.product_type_account?.product_type?.name || 'N/A'}</div>
-                                                    <div className="text-gray-500">
-                                                        {scheme.product_type_account?.product_type?.product?.name || 'N/A'}
-                                                    </div>
-                                                </div>
+                                                <Badge className={getPriorityColor(message.priority)}>
+                                                    {message.priority.toUpperCase()}
+                                                </Badge>
                                             </TableCell>
-                                            <TableCell className="w-80 max-w-80">
-                                                <div className="min-w-0 overflow-hidden">
-                                                    <div className="line-clamp-2 text-sm break-words hyphens-auto whitespace-normal text-gray-600">
-                                                        {scheme.description || '-'}
-                                                    </div>
-                                                </div>
+                                            <TableCell>{getStatusBadge(message.is_active)}</TableCell>
+                                            <TableCell>
+                                                <span className="font-mono text-sm">{message.sort_order}</span>
                                             </TableCell>
-                                            <TableCell>{getStatusBadge(scheme.is_active)}</TableCell>
-                                            <TableCell className="text-sm text-gray-500">{formatDate(scheme.created_at)}</TableCell>
+                                            <TableCell className="text-sm text-gray-500">{formatDate(message.created_at)}</TableCell>
                                             <TableCell className="text-right">
                                                 <DropdownMenu>
                                                     <DropdownMenuTrigger asChild>
@@ -276,20 +251,20 @@ export default function ProductSchemeIndex({ productSchemes, accounts, filters }
                                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                         <DropdownMenuSeparator />
                                                         <DropdownMenuItem asChild>
-                                                            <Link href={route('product-schemes.show', scheme.id)}>
+                                                            <Link href={route('top-navbar-messages.show', message.id)}>
                                                                 <Eye className="mr-2 h-4 w-4" />
                                                                 View
                                                             </Link>
                                                         </DropdownMenuItem>
                                                         <DropdownMenuItem asChild>
-                                                            <Link href={route('product-schemes.edit', scheme.id)}>
+                                                            <Link href={route('top-navbar-messages.edit', message.id)}>
                                                                 <Edit className="mr-2 h-4 w-4" />
                                                                 Edit
                                                             </Link>
                                                         </DropdownMenuItem>
                                                         <DropdownMenuSeparator />
-                                                        <DropdownMenuItem onClick={() => handleDelete(scheme.id)} className="text-red-600">
-                                                            <Trash className="mr-2 h-4 w-4" />
+                                                        <DropdownMenuItem onClick={() => handleDelete(message.id)} className="text-red-600">
+                                                            <Trash2 className="mr-2 h-4 w-4" />
                                                             Delete
                                                         </DropdownMenuItem>
                                                     </DropdownMenuContent>
@@ -301,21 +276,19 @@ export default function ProductSchemeIndex({ productSchemes, accounts, filters }
                             </TableBody>
                         </Table>
                     </div>
-
-                    {/* Pagination Info */}
-                    {productSchemes.total > 0 && (
+                    {messages.total > 0 && (
                         <div className="flex items-center justify-between text-sm text-gray-500">
                             <div>
-                                Showing {productSchemes.from} to {productSchemes.to} of {productSchemes.total} results
+                                Showing {messages.from} to {messages.to} of {messages.total} results
                             </div>
                             <div className="flex gap-2">
-                                {productSchemes.current_page > 1 && (
-                                    <Button variant="outline" size="sm" onClick={() => handlePagination(productSchemes.current_page - 1)}>
+                                {messages.current_page > 1 && (
+                                    <Button variant="outline" size="sm" onClick={() => handlePagination(messages.current_page - 1)}>
                                         Previous
                                     </Button>
                                 )}
-                                {productSchemes.current_page < productSchemes.last_page && (
-                                    <Button variant="outline" size="sm" onClick={() => handlePagination(productSchemes.current_page + 1)}>
+                                {messages.current_page < messages.last_page && (
+                                    <Button variant="outline" size="sm" onClick={() => handlePagination(messages.current_page + 1)}>
                                         Next
                                     </Button>
                                 )}

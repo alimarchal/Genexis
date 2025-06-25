@@ -1,6 +1,22 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-const AddressMarqueeSection = () => {
+interface TopNavbarMessage {
+    id: number;
+    type: string;
+    priority: string;
+    icon: string;
+    text: string;
+    color: string;
+    bg_color: string;
+    is_active: boolean;
+    sort_order: number;
+}
+
+interface AddressMarqueeSectionProps {
+    messages?: TopNavbarMessage[];
+}
+
+const AddressMarqueeSection = ({ messages: propMessages }: AddressMarqueeSectionProps) => {
     const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
     const [isAnimating, setIsAnimating] = useState(false);
     const [isPaused, setIsPaused] = useState(false);
@@ -10,8 +26,8 @@ const AddressMarqueeSection = () => {
     const animationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-    // Array of messages with different types and priorities
-    const messages = [
+    // Default messages as fallback
+    const defaultMessages = [
         {
             id: 1,
             type: 'Achievement',
@@ -19,7 +35,9 @@ const AddressMarqueeSection = () => {
             icon: '🏆',
             text: "Bank of Azad Jammu and Kashmir achieved an operating profit of 2+ Billion Rupees in 2024 - Leading AJK's financial growth",
             color: 'from-emerald-500 to-green-600',
-            bgColor: 'from-emerald-50 to-green-50',
+            bg_color: 'from-emerald-50 to-green-50',
+            is_active: true,
+            sort_order: 1,
         },
         {
             id: 2,
@@ -28,7 +46,9 @@ const AddressMarqueeSection = () => {
             icon: '💰',
             text: 'Enhanced Loan Limits: Gold loans up to 2 Million & Advance salary loans up to 3 Million from designated BAJK branches',
             color: 'from-blue-500 to-cyan-600',
-            bgColor: 'from-blue-50 to-cyan-50',
+            bg_color: 'from-blue-50 to-cyan-50',
+            is_active: true,
+            sort_order: 2,
         },
         {
             id: 3,
@@ -37,7 +57,9 @@ const AddressMarqueeSection = () => {
             icon: '📞',
             text: "24/7 Customer Support Available - Call UAN +92.300.8169925 - We're here to help you anytime, anywhere",
             color: 'from-purple-500 to-pink-600',
-            bgColor: 'from-purple-50 to-pink-50',
+            bg_color: 'from-purple-50 to-pink-50',
+            is_active: true,
+            sort_order: 3,
         },
         {
             id: 4,
@@ -46,7 +68,9 @@ const AddressMarqueeSection = () => {
             icon: '📱',
             text: 'Experience Digital Banking - Download BAJK Mobile App for instant transactions, loan applications & account management',
             color: 'from-orange-500 to-red-600',
-            bgColor: 'from-orange-50 to-red-50',
+            bg_color: 'from-orange-50 to-red-50',
+            is_active: true,
+            sort_order: 4,
         },
         {
             id: 5,
@@ -55,9 +79,14 @@ const AddressMarqueeSection = () => {
             icon: '🏪',
             text: 'Serving Azad Kashmir with excellence - Visit our branches across the region for all your banking needs',
             color: 'from-teal-500 to-blue-600',
-            bgColor: 'from-teal-50 to-blue-50',
+            bg_color: 'from-teal-50 to-blue-50',
+            is_active: true,
+            sort_order: 5,
         },
     ];
+
+    // Use prop messages if available and active, otherwise fallback to default messages
+    const messages = propMessages?.filter((msg) => msg.is_active) || defaultMessages;
 
     // Calculate animation duration based on text length
     const calculateDuration = useCallback(() => {
@@ -458,4 +487,12 @@ const AddressMarqueeSection = () => {
     );
 };
 
-export default AddressMarqueeSection;
+interface TopNavbarProps {
+    messages?: TopNavbarMessage[];
+}
+
+const TopNavbar = ({ messages }: TopNavbarProps) => {
+    return <AddressMarqueeSection messages={messages} />;
+};
+
+export default TopNavbar;

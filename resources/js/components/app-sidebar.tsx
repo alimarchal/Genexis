@@ -36,6 +36,7 @@ import {
     MapIcon,
     MapPin,
     Menu,
+    MessageSquare,
     Newspaper,
     Package,
     Package2,
@@ -47,7 +48,7 @@ import {
     User,
     Users,
     UsersRound,
-    Wrench
+    Wrench,
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import AppLogo from './app-logo';
@@ -68,6 +69,11 @@ const sidebarGroups = [
         icon: Home,
         defaultExpanded: false,
         items: [
+            {
+                title: 'Top Navbar Messages',
+                href: '/top-navbar-messages',
+                icon: MessageSquare,
+            },
             {
                 title: 'Carousel',
                 href: '/carousels',

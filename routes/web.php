@@ -29,6 +29,7 @@ use App\Http\Controllers\RegionController;
 use App\Http\Controllers\ScheduleOfChargeController;
 use App\Http\Controllers\ServiceAttributeController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\TopNavbarMessageController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -81,6 +82,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('product', ProductController::class);
     Route::resource('service-attributes', ServiceAttributeController::class);
     Route::resource('careers', CareerController::class);
+    Route::resource('top-navbar-messages', TopNavbarMessageController::class);
 
 });
 

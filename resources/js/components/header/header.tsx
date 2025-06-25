@@ -42,14 +42,14 @@ const Header: React.FC<HeaderProps> = ({ menuItems = [] }) => {
             return (
                 <div
                     key={item.id}
-                    className={`relative ${isMobile ? 'mb-2' : 'text-[13px] max-lg:px-3 max-lg:py-2 lg:flex lg:items-center lg:flex-shrink-0'} ${item.cssClass || ''}`}
+                    className={`relative ${isMobile ? 'mb-2' : 'text-[13px] max-lg:px-3 max-lg:py-2 lg:flex lg:flex-shrink-0 lg:items-center'} ${item.cssClass || ''}`}
                 >
                     <div className={isMobile ? '' : 'group lg:inline-block'}>
                         <button
                             className={
                                 isMobile
                                     ? `flex w-full items-center justify-between rounded-lg bg-gray-50 px-4 py-3 text-left text-base font-medium text-gray-900 transition-colors hover:bg-gray-100 ${openMobileSubmenu === menuId ? 'bg-gray-100' : ''}`
-                                    : `relative flex w-full items-center justify-between text-left min-w-fit flex-shrink-0 font-medium text-slate-900 whitespace-nowrap after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-0 after:bg-[#F9B912] after:transition-all after:duration-300 after:content-[''] hover:text-[#F9B912] hover:after:w-full max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 lg:px-1.5 lg:py-1 lg:text-[14px] xl:px-2 xl:text-[15px] 2xl:px-3 2xl:text-[16px] ${item.isActive ? 'text-blue-700' : ''}`
+                                    : `relative flex w-full min-w-fit flex-shrink-0 items-center justify-between text-left font-medium whitespace-nowrap text-slate-900 after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-0 after:bg-[#F9B912] after:transition-all after:duration-300 after:content-[''] hover:text-[#F9B912] hover:after:w-full max-lg:border-b max-lg:border-gray-300 max-lg:pb-3 lg:px-1.5 lg:py-1 lg:text-[14px] xl:px-2 xl:text-[15px] 2xl:px-3 2xl:text-[16px] ${item.isActive ? 'text-blue-700' : ''}`
                             }
                             onClick={() => isMobile && handleSubmenuToggle(menuId)}
                             aria-expanded={openMobileSubmenu === menuId}
@@ -86,7 +86,7 @@ const Header: React.FC<HeaderProps> = ({ menuItems = [] }) => {
         }
 
         return (
-            <div key={item.id} className={isMobile ? 'mb-2' : 'max-lg:px-3 max-lg:py-2 lg:flex lg:items-center lg:flex-shrink-0 lg:min-w-fit'}>
+            <div key={item.id} className={isMobile ? 'mb-2' : 'max-lg:px-3 max-lg:py-2 lg:flex lg:min-w-fit lg:flex-shrink-0 lg:items-center'}>
                 <a
                     href={item.url}
                     target={item.target}

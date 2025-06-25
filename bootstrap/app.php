@@ -21,6 +21,7 @@ return Application::configure(basePath: dirname(__DIR__))
             HandleInertiaRequests::class,
             AddLinkHeadersForPreloadedAssets::class,
             \App\Http\Middleware\ShareMenuData::class, // Add this line
+            \App\Http\Middleware\ShareTopNavbarMessages::class, // Add TopNavbar messages
             \App\Http\Middleware\AutoBreadcrumbMiddleware::class, // Add auto breadcrumbs
 
         ]);

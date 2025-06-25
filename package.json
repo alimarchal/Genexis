@@ -14,6 +14,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.29.0",
+    "@types/bun": "latest",
     "@types/node": "^22.15.32",
     "eslint": "^9.29.0",
     "eslint-config-prettier": "^10.1.5",
@@ -22,8 +23,7 @@
     "prettier": "^3.6.0",
     "prettier-plugin-organize-imports": "^4.1.0",
     "prettier-plugin-tailwindcss": "^0.6.13",
-    "typescript-eslint": "^8.35.0",
-    "@types/bun": "latest"
+    "typescript-eslint": "^8.35.0"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.4",
@@ -43,6 +43,7 @@
     "@radix-ui/react-toggle-group": "^1.1.10",
     "@radix-ui/react-tooltip": "^1.2.7",
     "@tailwindcss/vite": "^4.1.10",
+    "@tanstack/react-table": "^8.21.3",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@vitejs/plugin-react": "^4.6.0",
@@ -60,7 +61,7 @@
     "tailwind-merge": "^3.3.1",
     "tailwindcss": "^4.1.10",
     "tailwindcss-animate": "^1.0.7",
-    "typescript": "^5.8.3",
+    "typescript": "^5",
     "vite": "^6.3.5"
   },
   "optionalDependencies": {
