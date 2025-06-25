@@ -2,10 +2,10 @@
 
 namespace App\Policies;
 
-use App\Models\Managment;
+use App\Models\Management;
 use App\Models\User;
 
-class ManagmentPolicy
+class ManagementPolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -18,7 +18,7 @@ class ManagmentPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Managment $managment): bool
+    public function view(User $user, Management $management): bool
     {
         return false;
     }
@@ -34,7 +34,7 @@ class ManagmentPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Managment $managment): bool
+    public function update(User $user, Management $management): bool
     {
         return false;
     }
@@ -42,7 +42,7 @@ class ManagmentPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Managment $managment): bool
+    public function delete(User $user, Management $management): bool
     {
         return false;
     }
@@ -50,7 +50,7 @@ class ManagmentPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Managment $managment): bool
+    public function restore(User $user, Management $management): bool
     {
         return false;
     }
@@ -58,7 +58,7 @@ class ManagmentPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Managment $managment): bool
+    public function forceDelete(User $user, Management $management): bool
     {
         return false;
     }

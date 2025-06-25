@@ -18,11 +18,11 @@ class StoreBodCommitteeRequest extends FormRequest
             'description' => 'nullable|string',
             'chairman_board_id' => 'nullable|exists:board_of_directors,id',
             'secretary_board_id' => 'nullable|exists:board_of_directors,id',
-            'secretary_management_id' => 'nullable|exists:managments,id',
+            'secretary_management_id' => 'nullable|exists:managements,id',
             'board_members' => 'nullable|array',
             'board_members.*' => 'exists:board_of_directors,id',
             'management_members' => 'nullable|array',
-            'management_members.*' => 'exists:managments,id',
+            'management_members.*' => 'exists:managements,id',
             'is_active' => 'boolean',
             'sort_order' => 'nullable|integer|min:0',
         ];

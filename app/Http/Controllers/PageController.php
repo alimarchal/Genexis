@@ -15,7 +15,7 @@ use App\Models\ContactSubmission;
 use App\Models\District;
 use App\Models\FinancialHighlight;
 use App\Models\FinancialReport;
-use App\Models\Managment;
+use App\Models\Management;
 use App\Models\NewsAnnouncement;
 use App\Models\Page;
 use App\Models\ProductTypeAccount;
@@ -149,10 +149,10 @@ class PageController extends Controller
 
     public function management()
     {
-        $managment = Managment::where('status', 'active')->orderBy('order')->get();
+        $management = Management::where('status', 'active')->orderBy('order')->get();
 
         return Inertia::render('About/Management', [
-            'managment' => $managment,
+            'management' => $management,
         ]);
     }
 

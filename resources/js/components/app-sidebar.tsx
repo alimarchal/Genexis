@@ -108,7 +108,7 @@ const sidebarGroups = [
             },
             {
                 title: 'Management',
-                href: '/managments',
+                href: '/managements',
                 icon: User,
             },
         ],

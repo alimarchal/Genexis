@@ -7,24 +7,25 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, Link, useForm } from '@inertiajs/react';
+import { Head, Link, router, useForm } from '@inertiajs/react';
 import { Save } from 'lucide-react';
 import { FormEventHandler } from 'react';
 
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Dashboard',
-        href: route('dashboard'),
-    },
-    {
-        title: 'Management',
-        href: route('managments.index'),
-    },
-    {
-        title: 'Create',
-        href: route('managments.create'),
-    },
-];
+interface Management {
+    id: number;
+    title: string | null;
+    full_name: string;
+    designation: string;
+    description: string | null;
+    attachment: string | null;
+    attachment_url: string | null;
+    order: number;
+    status: 'active' | 'inactive';
+}
+
+interface Props {
+    management: Management;
+}
 
 type ManagementForm = {
     title: string;
@@ -34,22 +35,42 @@ type ManagementForm = {
     attachment: File | null;
     order: number;
     status: 'active' | 'inactive';
+    _method?: string;
 };
 
-export default function CreateManagement() {
-    const { data, setData, post, processing, errors } = useForm<ManagementForm>({
-        title: 'none',
-        full_name: '',
-        designation: '',
-        description: '',
+export default function EditManagement({ management }: Props) {
+    const breadcrumbs: BreadcrumbItem[] = [
+        {
+            title: 'Dashboard',
+            href: route('dashboard'),
+        },
+        {
+            title: 'Management',
+            href: route('managements.index'),
+        },
+        {
+            title: 'Edit',
+            href: route('managements.edit', management.id),
+        },
+    ];
+
+    const { data, setData, processing, errors } = useForm<ManagementForm>({
+        title: management.title || 'none',
+        full_name: management.full_name,
+        designation: management.designation,
+        description: management.description || '',
         attachment: null,
-        order: 0,
-        status: 'active',
+        order: management.order,
+        status: management.status,
+        _method: 'PUT',
     });
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
-        post(route('managments.store'));
+        router.post(route('managements.update', management.id), {
+            ...data,
+            _method: 'PUT',
+        });
     };
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,10 +80,10 @@ export default function CreateManagement() {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Create Management" />
+            <Head title="Edit Management" />
 
             <div className="px-10 py-6">
-                <Heading title="Create Management Member" description="Add a new management member with their details and profile information" />
+                <Heading title="Edit Management Member" description="Update management member details and profile information" />
 
                 <div className="flex flex-col space-y-8 lg:flex-row lg:space-y-0 lg:space-x-12">
                     <form onSubmit={submit} className="w-full">
@@ -73,7 +94,10 @@ export default function CreateManagement() {
                                     <div>
                                         <div className="space-y-2">
                                             <Label htmlFor="title">Title</Label>
-                                            <Select value={data.title} onValueChange={(value) => setData('title', value === 'none' ? '' : value)}>
+                                            <Select
+                                                value={data.title || 'none'}
+                                                onValueChange={(value) => setData('title', value === 'none' ? '' : value)}
+                                            >
                                                 <SelectTrigger id="title" className={errors.title ? 'border-red-500' : ''}>
                                                     <SelectValue placeholder="Select title" />
                                                 </SelectTrigger>
@@ -164,7 +188,20 @@ export default function CreateManagement() {
                                                 accept=".jpg,.jpeg,.png,.pdf"
                                                 className={`cursor-pointer ${errors.attachment ? 'border-red-500' : ''}`}
                                             />
-                                            <p className="text-muted-foreground text-xs">Supported formats: JPG, JPEG, PNG, PDF (Max: 2MB)</p>
+                                            <p className="text-muted-foreground text-xs">Supported formats: JPG, JPEG, PNG, PDF (Max: 300MB)</p>
+                                            {management.attachment_url && !data.attachment && (
+                                                <p className="text-xs text-blue-600">
+                                                    Current file:{' '}
+                                                    <a
+                                                        href={management.attachment_url}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="underline"
+                                                    >
+                                                        View attachment
+                                                    </a>
+                                                </p>
+                                            )}
                                             {errors.attachment && <p className="text-sm text-red-500">{errors.attachment}</p>}
                                         </div>
                                     </div>
@@ -189,11 +226,11 @@ export default function CreateManagement() {
                                 {/* Action Buttons */}
                                 <div className="flex justify-end gap-2">
                                     <Button variant="outline" asChild>
-                                        <Link href={route('managments.index')}>Cancel</Link>
+                                        <Link href={route('managements.index')}>Cancel</Link>
                                     </Button>
                                     <Button type="submit" disabled={processing}>
                                         <Save className="mr-2 h-4 w-4" />
-                                        {processing ? 'Creating...' : 'Create Member'}
+                                        {processing ? 'Updating...' : 'Update Member'}
                                     </Button>
                                 </div>
                             </CardContent>

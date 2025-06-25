@@ -10,7 +10,7 @@ use App\Models\Branch;
 use App\Models\Download;
 use App\Models\FinancialHighlight;
 use App\Models\FinancialReport;
-use App\Models\Managment;
+use App\Models\Management;
 use App\Models\NewsAnnouncement;
 use App\Models\Page;
 use App\Models\Product;
@@ -265,7 +265,7 @@ class SearchController extends Controller
             });
 
         // Search Management (Medium Priority)
-        $management = Managment::where('status', 'active');
+        $management = Management::where('status', 'active');
         $management = $this->searchColumns($management, ['full_name', 'designation', 'description'], $query);
         $management = $management
             ->limit(2)

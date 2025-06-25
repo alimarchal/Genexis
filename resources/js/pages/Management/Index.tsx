@@ -25,7 +25,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
     {
         title: 'Management',
-        href: route('managments.index'),
+        href: route('managements.index'),
     },
 ];
 
@@ -44,7 +44,7 @@ interface Management {
 }
 
 interface Props {
-    managments: {
+    managements: {
         data: Management[];
         current_page: number;
         last_page: number;
@@ -56,7 +56,7 @@ interface Props {
     filters: Record<string, string>;
 }
 
-export default function ManagementIndex({ managments, filters }: Props) {
+export default function ManagementIndex({ managements, filters }: Props) {
     const [search, setSearch] = useState(filters['filter[full_name]'] || '');
     const [statusFilter, setStatusFilter] = useState(() => {
         const statusParam = filters['filter[status]'];
@@ -81,7 +81,7 @@ export default function ManagementIndex({ managments, filters }: Props) {
     const handleSearch = (value: string) => {
         setSearch(value);
         router.get(
-            route('managments.index'),
+            route('managements.index'),
             {
                 ...buildParams(),
                 'filter[full_name]': value.trim() ? value : undefined,
@@ -93,7 +93,7 @@ export default function ManagementIndex({ managments, filters }: Props) {
     const handleStatusFilter = (value: string) => {
         setStatusFilter(value);
         router.get(
-            route('managments.index'),
+            route('managements.index'),
             {
                 ...buildParams(),
                 'filter[status]': value !== 'all' ? value : undefined,
@@ -103,7 +103,7 @@ export default function ManagementIndex({ managments, filters }: Props) {
     };
 
     const handlePagination = (page: number) => {
-        router.get(route('managments.index'), {
+        router.get(route('managements.index'), {
             ...buildParams(),
             page,
         });
@@ -111,7 +111,7 @@ export default function ManagementIndex({ managments, filters }: Props) {
 
     const handleDelete = (id: number) => {
         if (confirm('Are you sure you want to delete this management member?')) {
-            router.delete(route('managments.destroy', id));
+            router.delete(route('managements.destroy', id));
         }
     };
 
@@ -161,7 +161,7 @@ export default function ManagementIndex({ managments, filters }: Props) {
                         </div>
 
                         <Button asChild>
-                            <Link href={route('managments.create')}>
+                            <Link href={route('managements.create')}>
                                 <Plus className="mr-2 h-4 w-4" />
                                 Add Member
                             </Link>
@@ -182,14 +182,14 @@ export default function ManagementIndex({ managments, filters }: Props) {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {managments.data.length === 0 ? (
+                                {managements.data.length === 0 ? (
                                     <TableRow>
                                         <TableCell colSpan={6} className="py-8 text-center text-gray-500">
                                             No management members found.
                                         </TableCell>
                                     </TableRow>
                                 ) : (
-                                    managments.data.map((member) => (
+                                    managements.data.map((member) => (
                                         <TableRow key={member.id}>
                                             <TableCell className="font-medium">{member.order}</TableCell>
                                             <TableCell>
@@ -226,13 +226,13 @@ export default function ManagementIndex({ managments, filters }: Props) {
                                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                         <DropdownMenuSeparator />
                                                         <DropdownMenuItem asChild>
-                                                            <Link href={route('managments.show', member.id)}>
+                                                            <Link href={route('managements.show', member.id)}>
                                                                 <Eye className="mr-2 h-4 w-4" />
                                                                 View
                                                             </Link>
                                                         </DropdownMenuItem>
                                                         <DropdownMenuItem asChild>
-                                                            <Link href={route('managments.edit', member.id)}>
+                                                            <Link href={route('managements.edit', member.id)}>
                                                                 <Edit className="mr-2 h-4 w-4" />
                                                                 Edit
                                                             </Link>
@@ -253,19 +253,19 @@ export default function ManagementIndex({ managments, filters }: Props) {
                     </div>
 
                     {/* Pagination Info */}
-                    {managments.total > 0 && (
+                    {managements.total > 0 && (
                         <div className="flex items-center justify-between text-sm text-gray-500">
                             <div>
-                                Showing {managments.from} to {managments.to} of {managments.total} results
+                                Showing {managements.from} to {managements.to} of {managements.total} results
                             </div>
                             <div className="flex gap-2">
-                                {managments.current_page > 1 && (
-                                    <Button variant="outline" size="sm" onClick={() => handlePagination(managments.current_page - 1)}>
+                                {managements.current_page > 1 && (
+                                    <Button variant="outline" size="sm" onClick={() => handlePagination(managements.current_page - 1)}>
                                         Previous
                                     </Button>
                                 )}
-                                {managments.current_page < managments.last_page && (
-                                    <Button variant="outline" size="sm" onClick={() => handlePagination(managments.current_page + 1)}>
+                                {managements.current_page < managements.last_page && (
+                                    <Button variant="outline" size="sm" onClick={() => handlePagination(managements.current_page + 1)}>
                                         Next
                                     </Button>
                                 )}

@@ -6,7 +6,7 @@ use App\Http\Requests\StoreBodCommitteeRequest;
 use App\Http\Requests\UpdateBodCommitteeRequest;
 use App\Models\BodCommittee;
 use App\Models\BoardOfDirector;
-use App\Models\Managment;
+use App\Models\Management;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -32,7 +32,7 @@ class BodCommitteeController extends Controller
     public function create()
     {
         $boardMembers = BoardOfDirector::active()->ordered()->get();
-        $managementMembers = Managment::where('status', 'active')->orderBy('order')->get();
+        $managementMembers = Management::where('status', 'active')->orderBy('order')->get();
 
         return Inertia::render('BodCommittees/Create', [
             'boardMembers' => $boardMembers,
@@ -72,7 +72,7 @@ class BodCommitteeController extends Controller
     {
         $bodCommittee->load(['chairmanBoard', 'secretaryBoard', 'secretaryManagement']);
         $boardMembers = BoardOfDirector::active()->ordered()->get();
-        $managementMembers = Managment::where('status', 'active')->orderBy('order')->get();
+        $managementMembers = Management::where('status', 'active')->orderBy('order')->get();
 
         return Inertia::render('BodCommittees/Edit', [
             'bodCommittee' => $bodCommittee,

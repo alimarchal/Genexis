@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\QueryBuilder\AllowedFilter;
+use App\Models\Management; // Import the Management model
 
 class BodCommittee extends Model
 {
@@ -47,7 +48,7 @@ class BodCommittee extends Model
 
     public function secretaryManagement(): BelongsTo
     {
-        return $this->belongsTo(Managment::class, 'secretary_management_id');
+        return $this->belongsTo(Management::class, 'secretary_management_id');
     }
 
     // Get board members
@@ -67,7 +68,7 @@ class BodCommittee extends Model
         if (!$this->management_members)
             return collect();
 
-        return Managment::whereIn('id', $this->management_members)
+        return Management::whereIn('id', $this->management_members)
             ->where('status', 'active')
             ->get();
     }

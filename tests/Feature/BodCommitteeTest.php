@@ -2,7 +2,7 @@
 
 use App\Models\BodCommittee;
 use App\Models\BoardOfDirector;
-use App\Models\Managment;
+use App\Models\Management;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -40,7 +40,7 @@ test('it can view create bod committee page', function () {
 
 test('it can create bod committee with valid data', function () {
     $boardMember = BoardOfDirector::factory()->create(['is_active' => true]);
-    $managementMember = Managment::factory()->create(['status' => 'active']);
+    $managementMember = Management::factory()->create(['status' => 'active']);
 
     $data = [
         'name' => 'Test Committee',
@@ -165,7 +165,7 @@ test('it can search bod committees by name', function () {
 test('it can view public bod committees page', function () {
     // Create committee with relations
     $boardMember = BoardOfDirector::factory()->create(['is_active' => true]);
-    $managementMember = Managment::factory()->create(['status' => 'active']);
+    $managementMember = Management::factory()->create(['status' => 'active']);
 
     $committee = BodCommittee::factory()->create([
         'is_active' => true,
@@ -207,7 +207,7 @@ test('it validates foreign key constraints', function () {
 test('seeded committees exist and are accessible', function () {
     // Run seeders
     $this->seed(\Database\Seeders\BoardOfDirectorSeeder::class);
-    $this->seed(\Database\Seeders\ManagmentSeeder::class);
+    $this->seed(\Database\Seeders\ManagementSeeder::class);
     $this->seed(\Database\Seeders\BodCommitteeSeeder::class);
 
     // Check that committees were seeded

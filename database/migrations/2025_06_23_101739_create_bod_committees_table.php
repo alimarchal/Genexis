@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->text('description')->nullable();                   // Committee description
             $table->unsignedBigInteger('chairman_board_id')->nullable(); // Chairman from board_of_directors
             $table->unsignedBigInteger('secretary_board_id')->nullable(); // Secretary from board_of_directors  
-            $table->unsignedBigInteger('secretary_management_id')->nullable(); // Secretary from managments
+            $table->unsignedBigInteger('secretary_management_id')->nullable(); // Secretary from managements
             $table->json('board_members')->nullable();                 // Array of board member IDs
             $table->json('management_members')->nullable();            // Array of management member IDs
             $table->boolean('is_active')->default(true);
@@ -27,7 +27,7 @@ return new class extends Migration {
             // Foreign keys
             $table->foreign('chairman_board_id')->references('id')->on('board_of_directors')->onDelete('set null');
             $table->foreign('secretary_board_id')->references('id')->on('board_of_directors')->onDelete('set null');
-            $table->foreign('secretary_management_id')->references('id')->on('managments')->onDelete('set null');
+            $table->foreign('secretary_management_id')->references('id')->on('managements')->onDelete('set null');
 
             // Indexes
             $table->index('is_active');

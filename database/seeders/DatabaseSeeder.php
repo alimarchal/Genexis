@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             MenuSeeder::class,
             TopNavbarMessageSeeder::class,
-            ManagmentSeeder::class,
+            ManagementSeeder::class,
             ProductSeeder::class,
             ProductTypeSeeder::class,
             ProductTypeAccountSeeder::class,

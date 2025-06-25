@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\BodCommittee;
 use App\Models\BoardOfDirector;
-use App\Models\Managment;
+use App\Models\Management;
 use Illuminate\Database\Seeder;
 
 class BodCommitteeSeeder extends Seeder
@@ -22,12 +22,12 @@ class BodCommitteeSeeder extends Seeder
         $bushraNaz = BoardOfDirector::where('full_name', 'Bushra Naz Malik')->first();
 
         // Get from management
-        $presidentCEOManag = Managment::where('full_name', 'Shahid Shahzad Mir')->first();
-        $hrDivHead = Managment::where('full_name', 'Rahila Javed')->first();
-        $riskHead = Managment::where('full_name', 'Amjad Mahmood Gilani')->first();
-        $itHead = Managment::where('full_name', 'Gulzar A. Rao')->first();
-        $complianceHead = Managment::where('full_name', 'Javed Iqbal')->first();
-        $operationsHead = Managment::where('full_name', 'Ahtasham Malik')->first();
+        $presidentCEOManag = Management::where('full_name', 'Shahid Shahzad Mir')->first();
+        $hrDivHead = Management::where('full_name', 'Rahila Javed')->first();
+        $riskHead = Management::where('full_name', 'Amjad Mahmood Gilani')->first();
+        $itHead = Management::where('full_name', 'Gulzar A. Rao')->first();
+        $complianceHead = Management::where('full_name', 'Javed Iqbal')->first();
+        $operationsHead = Management::where('full_name', 'Ahtasham Malik')->first();
 
         $committees = [
             [

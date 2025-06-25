@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Managment;
+use App\Models\Management;
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -12,25 +12,25 @@ beforeEach(function () {
 });
 
 test('it can view managements index page', function () {
-    Managment::factory()->count(3)->create();
+    Management::factory()->count(3)->create();
 
-    $response = $this->get(route('managments.index'));
+    $response = $this->get(route('managements.index'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('Managment/Index'));
+    $response->assertInertia(fn($page) => $page->component('Management/Index'));
 });
 
 test('it can view create management page', function () {
-    $response = $this->get(route('managments.create'));
+    $response = $this->get(route('managements.create'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('Managment/Create'));
+    $response->assertInertia(fn($page) => $page->component('Management/Create'));
 });
 
 test('it can create management with valid data', function () {
     $file = UploadedFile::fake()->image('management.jpg', 400, 400);
 
-    $response = $this->post(route('managments.store'), [
+    $response = $this->post(route('managements.store'), [
         'full_name' => 'John Doe',
         'designation' => 'Chief Executive Officer',
         'description' => 'Test biography',
@@ -39,8 +39,8 @@ test('it can create management with valid data', function () {
         'status' => 'active',
     ]);
 
-    $response->assertRedirect(route('managments.index'));
-    $this->assertDatabaseHas('managments', [
+    $response->assertRedirect(route('managements.index'));
+    $this->assertDatabaseHas('managements', [
         'full_name' => 'John Doe',
         'designation' => 'Chief Executive Officer',
         'description' => 'Test biography',
@@ -51,7 +51,7 @@ test('it can create management with valid data', function () {
 test('it cannot create management with invalid file type', function () {
     $file = UploadedFile::fake()->create('test.txt', 100, 'text/plain');
 
-    $response = $this->post(route('managments.store'), [
+    $response = $this->post(route('managements.store'), [
         'full_name' => 'John Doe',
         'designation' => 'Chief Executive Officer',
         'description' => 'Test biography',
@@ -64,27 +64,27 @@ test('it cannot create management with invalid file type', function () {
 });
 
 test('it can view management details', function () {
-    $management = Managment::factory()->create();
+    $management = Management::factory()->create();
 
-    $response = $this->get(route('managments.show', $management));
+    $response = $this->get(route('managements.show', $management));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('Managment/Show'));
+    $response->assertInertia(fn($page) => $page->component('Management/Show'));
 });
 
 test('it can view edit management page', function () {
-    $management = Managment::factory()->create();
+    $management = Management::factory()->create();
 
-    $response = $this->get(route('managments.edit', $management));
+    $response = $this->get(route('managements.edit', $management));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('Managment/Edit'));
+    $response->assertInertia(fn($page) => $page->component('Management/Edit'));
 });
 
 test('it can update management', function () {
-    $management = Managment::factory()->create();
+    $management = Management::factory()->create();
 
-    $response = $this->put(route('managments.update', $management), [
+    $response = $this->put(route('managements.update', $management), [
         'full_name' => 'Jane Smith',
         'designation' => 'Chief Financial Officer',
         'description' => 'Updated biography',
@@ -92,8 +92,8 @@ test('it can update management', function () {
         'status' => 'inactive',
     ]);
 
-    $response->assertRedirect(route('managments.index'));
-    $this->assertDatabaseHas('managments', [
+    $response->assertRedirect(route('managements.index'));
+    $this->assertDatabaseHas('managements', [
         'id' => $management->id,
         'full_name' => 'Jane Smith',
         'designation' => 'Chief Financial Officer',
@@ -103,16 +103,16 @@ test('it can update management', function () {
 });
 
 test('it can delete management', function () {
-    $management = Managment::factory()->create();
+    $management = Management::factory()->create();
 
-    $response = $this->delete(route('managments.destroy', $management));
+    $response = $this->delete(route('managements.destroy', $management));
 
-    $response->assertRedirect(route('managments.index'));
-    $this->assertDatabaseMissing('managments', ['id' => $management->id]);
+    $response->assertRedirect(route('managements.index'));
+    $this->assertDatabaseMissing('managements', ['id' => $management->id]);
 });
 
 test('it validates required fields when creating management', function () {
-    $response = $this->post(route('managments.store'), []);
+    $response = $this->post(route('managements.store'), []);
 
     $response->assertSessionHasErrors(['full_name', 'designation', 'status']);
 });

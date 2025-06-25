@@ -16,7 +16,7 @@ use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\FinancialHighlightController;
 use App\Http\Controllers\FinancialReportController;
-use App\Http\Controllers\ManagmentController;
+use App\Http\Controllers\ManagementController;
 use App\Http\Controllers\NewsAnnouncementController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductController;
@@ -42,7 +42,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('carousels', CarouselController::class);
     Route::resource('bank-services', BankServiceController::class);
     Route::resource('news-announcements', NewsAnnouncementController::class);
-    Route::resource('managments', ManagmentController::class);
+    Route::resource('managements', ManagementController::class);
     Route::resource('board-of-directors', controller: BoardOfDirectorController::class);
     Route::resource('bod-committees', BodCommitteeController::class);
     // Route::resource('product-types', ProductTypeController::class);

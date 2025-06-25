@@ -13,10 +13,10 @@ interface ManagementMember {
 }
 
 interface AboutUsProps {
-    managment: ManagementMember[];
+    management: ManagementMember[];
 }
 
-export default function AboutUs({ managment }: AboutUsProps) {
+export default function AboutUs({ management }: AboutUsProps) {
     return (
         <div className="mx-auto max-w-7xl px-6 py-8">
             <div className="mb-8">
@@ -30,7 +30,7 @@ export default function AboutUs({ managment }: AboutUsProps) {
                 <h2 className="mb-6 text-2xl font-semibold text-gray-800">Our Management Team</h2>
 
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                    {managment.map((member) => (
+                    {management.map((member) => (
                         <ExecutiveCard
                             key={member.id}
                             name={`${member.title} ${member.full_name}`}

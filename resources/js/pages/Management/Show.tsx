@@ -22,10 +22,10 @@ interface Management {
 }
 
 interface Props {
-    managment: Management;
+    management: Management;
 }
 
-export default function ShowManagement({ managment }: Props) {
+export default function ShowManagement({ management }: Props) {
     const breadcrumbs: BreadcrumbItem[] = [
         {
             title: 'Dashboard',
@@ -33,11 +33,11 @@ export default function ShowManagement({ managment }: Props) {
         },
         {
             title: 'Management',
-            href: route('managments.index'),
+            href: route('managements.index'),
         },
         {
-            title: managment.full_name,
-            href: route('managments.show', managment.id),
+            title: management.full_name,
+            href: route('managements.show', management.id),
         },
     ];
 
@@ -53,13 +53,13 @@ export default function ShowManagement({ managment }: Props) {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={`${managment.full_name} - Management`} />
+            <Head title={`${management.full_name} - Management`} />
 
             <div className="px-10 py-6">
                 <div className="flex items-center justify-between">
-                    <Heading title={managment.full_name} description="View management member details" />
+                    <Heading title={management.full_name} description="View management member details" />
                     <Button asChild>
-                        <Link href={route('managments.edit', managment.id)}>
+                        <Link href={route('managements.edit', management.id)}>
                             <Edit className="mr-2 h-4 w-4" />
                             Edit Member
                         </Link>
@@ -74,11 +74,11 @@ export default function ShowManagement({ managment }: Props) {
                                 <div className="flex items-start justify-between">
                                     <div className="space-y-2">
                                         <CardTitle className="text-2xl">
-                                            {managment.title && `${managment.title} `}
-                                            {managment.full_name}
+                                            {management.title && `${management.title} `}
+                                            {management.full_name}
                                         </CardTitle>
                                         <div className="flex items-center gap-2">
-                                            <Badge variant={managment.status === 'active' ? 'default' : 'secondary'}>{managment.status}</Badge>
+                                            <Badge variant={management.status === 'active' ? 'default' : 'secondary'}>{management.status}</Badge>
                                         </div>
                                     </div>
                                 </div>
@@ -90,20 +90,20 @@ export default function ShowManagement({ managment }: Props) {
                                     <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                                         <div>
                                             <label className="text-muted-foreground text-sm font-medium">Designation</label>
-                                            <p className="mt-1 font-medium">{managment.designation}</p>
+                                            <p className="mt-1 font-medium">{management.designation}</p>
                                         </div>
                                         <div>
                                             <label className="text-muted-foreground text-sm font-medium">Display Order</label>
-                                            <p className="mt-1 font-medium">#{managment.order}</p>
+                                            <p className="mt-1 font-medium">#{management.order}</p>
                                         </div>
                                     </div>
                                 </div>
 
                                 {/* Description */}
-                                {managment.description && (
+                                {management.description && (
                                     <div className="space-y-2">
                                         <h3 className="text-lg font-semibold">Description</h3>
-                                        <p className="text-muted-foreground whitespace-pre-wrap">{managment.description}</p>
+                                        <p className="text-muted-foreground whitespace-pre-wrap">{management.description}</p>
                                     </div>
                                 )}
 
@@ -113,11 +113,11 @@ export default function ShowManagement({ managment }: Props) {
                                     <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                                         <div>
                                             <label className="text-muted-foreground text-sm font-medium">Created</label>
-                                            <p className="mt-1">{formatDate(managment.created_at)}</p>
+                                            <p className="mt-1">{formatDate(management.created_at)}</p>
                                         </div>
                                         <div>
                                             <label className="text-muted-foreground text-sm font-medium">Last Updated</label>
-                                            <p className="mt-1">{formatDate(managment.updated_at)}</p>
+                                            <p className="mt-1">{formatDate(management.updated_at)}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -134,13 +134,13 @@ export default function ShowManagement({ managment }: Props) {
                             </CardHeader>
                             <CardContent className="space-y-2">
                                 <Button variant="outline" size="sm" className="w-full justify-start" asChild>
-                                    <Link href={route('managments.edit', managment.id)}>
+                                    <Link href={route('managements.edit', management.id)}>
                                         <Edit className="mr-2 h-4 w-4" />
                                         Edit Member
                                     </Link>
                                 </Button>
                                 <Button variant="outline" size="sm" className="w-full justify-start" asChild>
-                                    <Link href={route('managments.create')}>Create New Member</Link>
+                                    <Link href={route('managements.create')}>Create New Member</Link>
                                 </Button>
                             </CardContent>
                         </Card>
@@ -154,24 +154,24 @@ export default function ShowManagement({ managment }: Props) {
                                 <div>
                                     <label className="text-muted-foreground text-sm font-medium">Member ID</label>
                                     <p className="text-muted-foreground mt-1 font-mono text-xl font-bold">
-                                        #{managment.id.toString().padStart(4, '0')}
+                                        #{management.id.toString().padStart(4, '0')}
                                     </p>
                                 </div>
                                 <div>
                                     <label className="text-muted-foreground text-sm font-medium">Status</label>
                                     <div className="mt-1">
-                                        <Badge variant={managment.status === 'active' ? 'default' : 'secondary'}>{managment.status}</Badge>
+                                        <Badge variant={management.status === 'active' ? 'default' : 'secondary'}>{management.status}</Badge>
                                     </div>
                                 </div>
                                 <div>
                                     <label className="text-muted-foreground text-sm font-medium">Display Order</label>
-                                    <p className="mt-1 font-medium">{managment.order}</p>
+                                    <p className="mt-1 font-medium">{management.order}</p>
                                 </div>
                             </CardContent>
                         </Card>
 
                         {/* Attachment */}
-                        {managment.attachment_url && (
+                        {management.attachment_url && (
                             <Card>
                                 <CardHeader>
                                     <CardTitle>Attachment</CardTitle>
@@ -180,7 +180,7 @@ export default function ShowManagement({ managment }: Props) {
                                     <div className="space-y-3">
                                         <p className="text-muted-foreground text-sm">Document attached to this profile</p>
                                         <Button variant="outline" className="w-full" asChild>
-                                            <a href={managment.attachment_url} target="_blank" rel="noopener noreferrer">
+                                            <a href={management.attachment_url} target="_blank" rel="noopener noreferrer">
                                                 <FileText className="mr-2 h-4 w-4" />
                                                 View Attachment
                                             </a>

@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\BoardOfDirector;
-use App\Models\Managment;
+use App\Models\Management;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -74,7 +74,7 @@ class BodCommitteeFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'secretary_management_id' => Managment::factory()->create(['status' => 'active'])->id,
+                'secretary_management_id' => Management::factory()->create(['status' => 'active'])->id,
             ];
         });
     }

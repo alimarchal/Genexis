@@ -2,12 +2,12 @@
 
 namespace Database\Factories;
 
-use App\Models\Managment;
+use App\Models\Management;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class ManagmentFactory extends Factory
+class ManagementFactory extends Factory
 {
-    protected $model = Managment::class;
+    protected $model = Management::class;
 
     public function definition(): array
     {
