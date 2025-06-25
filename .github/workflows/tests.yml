@@ -60,5 +60,12 @@ jobs:
           echo "MARQUEE_CONTACT_TEXT=Test Contact" >> .env
           echo "MARQUEE_NETWORK_TEXT=Test Network" >> .env
 
+      - name: Clear Caches
+        run: |
+          php artisan config:clear
+          php artisan route:clear
+          php artisan view:clear
+          php artisan cache:clear
+
       - name: Tests
         run: ./vendor/bin/pest
