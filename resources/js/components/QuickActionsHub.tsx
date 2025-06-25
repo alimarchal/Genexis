@@ -19,7 +19,7 @@ const QuickActionsHub: React.FC = () => {
             title: 'Loan Calculator',
             description: 'Calculate EMI and eligibility',
             icon: Calculator,
-            link: '/calculator',
+            link: '/loan-calculator',
             color: 'from-green-600 to-green-700',
             popular: true,
         },

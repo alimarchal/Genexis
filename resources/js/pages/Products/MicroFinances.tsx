@@ -1,3 +1,4 @@
+import LoanCalculatorBanner from '@/components/LoanCalculatorBanner';
 import LoanSchemesComponent from '@/components/LoanSchemesComponent';
 import WebsiteLayout from '@/layouts/WebsiteLayout';
 
@@ -31,6 +32,14 @@ export default function MicroFinances({ schemes }: Props) {
                         dreams, and sustainable growth for communities.
                     </p>
                 </div>
+                
+                {/* Loan Calculator Banner */}
+                <LoanCalculatorBanner 
+                    title="Calculate Your Micro Loan"
+                    description="Plan your small business financing with our micro-loan calculator. Get instant EMI calculations for small business loans, startup funding, and community development financing."
+                    className="mb-8"
+                />
+                
                 <LoanSchemesComponent schemes={schemes} />
             </div>
         </div>
