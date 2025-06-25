@@ -13,7 +13,7 @@ class CarouselSeeder extends Seeder
             [
                 'title' => 'Digital Banking Solutions',
                 'description' => 'Experience seamless banking with our innovative digital platform designed for modern financial needs.',
-                'image' => 'carousel/digital_banking.jpg',
+                'image' => 'carousel-images/digital_banking.jpg',
                 'button_text' => 'Learn More',
                 'button_url' => '/digital-banking',
                 'order' => 1,
@@ -23,7 +23,7 @@ class CarouselSeeder extends Seeder
             [
                 'title' => 'Personal Loans Made Simple',
                 'description' => 'Quick approval and competitive rates for all your financial needs with hassle-free documentation.',
-                'image' => 'carousel/personal_loans.jpg',
+                'image' => 'carousel-images/personal_loans.jpg',
                 'button_text' => 'Apply Now',
                 'button_url' => '/personal-loans',
                 'order' => 2,
@@ -33,7 +33,7 @@ class CarouselSeeder extends Seeder
             [
                 'title' => 'Investment Opportunities',
                 'description' => 'Grow your wealth with our expert investment advisory services and diversified portfolio options.',
-                'image' => 'carousel/investments.jpg',
+                'image' => 'carousel-images/investments.jpg',
                 'button_text' => 'Explore',
                 'button_url' => '/investments',
                 'order' => 3,
@@ -43,7 +43,7 @@ class CarouselSeeder extends Seeder
             [
                 'title' => 'Business Banking Excellence',
                 'description' => 'Comprehensive financial solutions tailored for your business growth and operational efficiency.',
-                'image' => 'carousel/business_banking.jpg',
+                'image' => 'carousel-images/business_banking.jpg',
                 'button_text' => 'Get Started',
                 'button_url' => '/business-banking',
                 'order' => 4,
@@ -53,7 +53,7 @@ class CarouselSeeder extends Seeder
             [
                 'title' => 'Customer Support 24/7',
                 'description' => 'We\'re here to help you with all your banking needs anytime, anywhere with dedicated support.',
-                'image' => 'carousel/customer_support.jpg',
+                'image' => 'carousel-images/customer_support.jpg',
                 'button_text' => 'Contact Us',
                 'button_url' => '/contact',
                 'order' => 5,
