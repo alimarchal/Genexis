@@ -1,5 +1,5 @@
-import LoanSchemesComponent from '@/components/LoanSchemesComponent';
 import LoanCalculatorBanner from '@/components/LoanCalculatorBanner';
+import LoanSchemesComponent from '@/components/LoanSchemesComponent';
 import WebsiteLayout from '@/layouts/WebsiteLayout';
 
 interface ProductSchemeAttribute {

@@ -1,5 +1,5 @@
-import { Calculator, TrendingUp, ArrowRight } from 'lucide-react';
 import { Link } from '@inertiajs/react';
+import { ArrowRight, Calculator, TrendingUp } from 'lucide-react';
 
 interface LoanCalculatorBannerProps {
     title?: string;

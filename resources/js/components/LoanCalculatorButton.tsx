@@ -1,5 +1,5 @@
-import { Calculator, TrendingUp } from 'lucide-react';
 import { Link } from '@inertiajs/react';
+import { Calculator, TrendingUp } from 'lucide-react';
 
 interface LoanCalculatorButtonProps {
     className?: string;
