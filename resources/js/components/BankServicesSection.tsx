@@ -2,7 +2,6 @@ import { usePage } from '@inertiajs/react'; // Added usePage
 import {
     ArrowRight,
     Building2,
-    Calculator,
     CheckCircle,
     ChevronRight,
     CreditCard,
@@ -12,9 +11,10 @@ import {
     Shield,
     TrendingUp,
     Users,
-    Wheat,
+    Wheat
 } from 'lucide-react';
 import React, { useState } from 'react';
+import LoanCalculatorBanner from './LoanCalculatorBanner';
 
 interface ServiceCard {
     id: number;
@@ -330,16 +330,6 @@ const InteractiveBAJKServices: React.FC<Props> = ({ bankServices }) => {
                             </a>
 
                             <a
-                                href={route('loan-calculator')}
-                                className="group relative inline-flex transform items-center overflow-hidden rounded-xl bg-gradient-to-r from-[#4A7C59] to-[#5D8A6A] px-10 py-5 text-lg font-bold text-white shadow-xl transition-all duration-300 hover:scale-105 hover:from-[#F9B912] hover:to-[#E6A610] hover:shadow-2xl"
-                            >
-                                <div className="absolute inset-0 bg-gradient-to-r from-[#F9B912] to-[#E6A610] opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
-                                <Calculator className="relative z-10 mr-3 h-6 w-6 transition-transform duration-300 group-hover:rotate-12" />
-                                <span className="relative z-10">Loan Calculator</span>
-                                <div className="absolute -top-1 -right-1 h-3 w-3 animate-pulse rounded-full bg-[#F9B912] opacity-75"></div>
-                            </a>
-
-                            <a
                                 href={`tel:${contact_phone.replace(/\./g, '')}`}
                                 className="inline-flex transform items-center rounded-xl border-2 border-white/20 bg-gradient-to-r from-[#4A7C59] to-[#5D8A6A] px-10 py-5 text-lg font-bold text-white shadow-xl transition-all duration-300 hover:scale-105 hover:from-[#F9B912] hover:to-[#E6A610] hover:shadow-2xl"
                             >
@@ -347,8 +337,14 @@ const InteractiveBAJKServices: React.FC<Props> = ({ bankServices }) => {
                                 Call: {contact_phone}
                             </a>
                         </div>
+                        
                     </div>
                 </div>
+                <LoanCalculatorBanner
+                    title="Calculate Your Loan"
+                    description="Plan your consumer financing with our easy-to-use calculator. Get instant EMI calculations for home loans, personal loans, education loans, and more."
+                    className="mt-8"
+                />
             </div>
         </section>
     );
