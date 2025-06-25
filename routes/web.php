@@ -30,6 +30,7 @@ use App\Http\Controllers\ScheduleOfChargeController;
 use App\Http\Controllers\ServiceAttributeController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\TopNavbarMessageController;
+use App\Http\Controllers\LoanCalculatorController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -139,6 +140,9 @@ Route::get('/public-downloads/{download}/download', [DownloadController::class, 
 
 Route::get('/careers-at-bajk', [CareerController::class, 'publicIndex'])->name('public-careers');
 Route::get('/careers-at-bajk/{career}', [CareerController::class, 'publicShow'])->name('public-careers.show');
+
+// Loan Calculator
+Route::get('/loan-calculator', [LoanCalculatorController::class, 'index'])->name('loan-calculator');
 
 
 // Download routes

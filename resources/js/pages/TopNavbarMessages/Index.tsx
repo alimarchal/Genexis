@@ -131,11 +131,7 @@ export default function Index({ messages, filters }: Props) {
     };
 
     const getStatusBadge = (isActive: boolean) => {
-        return isActive ? (
-            <Badge variant="default">Active</Badge>
-        ) : (
-            <Badge variant="secondary">Inactive</Badge>
-        );
+        return isActive ? <Badge variant="default">Active</Badge> : <Badge variant="secondary">Inactive</Badge>;
     };
 
     const formatDate = (dateString: string) => {
@@ -231,9 +227,7 @@ export default function Index({ messages, filters }: Props) {
                                                 <span className="font-medium">{message.type}</span>
                                             </TableCell>
                                             <TableCell>
-                                                <Badge className={getPriorityColor(message.priority)}>
-                                                    {message.priority.toUpperCase()}
-                                                </Badge>
+                                                <Badge className={getPriorityColor(message.priority)}>{message.priority.toUpperCase()}</Badge>
                                             </TableCell>
                                             <TableCell>{getStatusBadge(message.is_active)}</TableCell>
                                             <TableCell>

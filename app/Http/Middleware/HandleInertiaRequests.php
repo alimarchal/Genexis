@@ -84,6 +84,30 @@ class HandleInertiaRequests extends Middleware
                     'fraud_prevention' => env('FRAUD_PREVENTION_URL', 'https://bankajk.com/fraud-prevention'),
                 ],
             ],
+            // Bank Rates - Available on all pages
+            'bankRates' => [
+                'loan' => [
+                    'house' => (float) env('LOAN_RATE_HOUSE', 11.5),
+                    'personal' => (float) env('LOAN_RATE_PERSONAL', 14.0),
+                    'motorcycle' => (float) env('LOAN_RATE_MOTORCYCLE', 13.5),
+                    'student' => (float) env('LOAN_RATE_STUDENT', 10.0),
+                    'gold' => (float) env('LOAN_RATE_GOLD', 12.0),
+                    'home_appliances' => (float) env('LOAN_RATE_HOME_APPLIANCES', 13.0),
+                    'car' => (float) env('LOAN_RATE_CAR', 12.5),
+                    'business' => (float) env('LOAN_RATE_BUSINESS', 13.5),
+                    'agriculture' => (float) env('LOAN_RATE_AGRICULTURE', 11.0),
+                    'salary' => (float) env('LOAN_RATE_SALARY', 15.0),
+                ],
+                'deposit' => [
+                    'savings' => (float) env('DEPOSIT_RATE_SAVINGS', 7.0),
+                    'current' => (float) env('DEPOSIT_RATE_CURRENT', 0.0),
+                    'term_1year' => (float) env('DEPOSIT_RATE_TERM_1YEAR', 8.5),
+                    'term_2year' => (float) env('DEPOSIT_RATE_TERM_2YEAR', 9.0),
+                    'term_3year' => (float) env('DEPOSIT_RATE_TERM_3YEAR', 9.5),
+                    'term_5year' => (float) env('DEPOSIT_RATE_TERM_5YEAR', 10.0),
+                    'special_savings' => (float) env('DEPOSIT_RATE_SPECIAL_SAVINGS', 8.0),
+                ],
+            ],
         ];
     }
 }
