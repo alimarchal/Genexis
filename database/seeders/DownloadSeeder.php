@@ -27,15 +27,7 @@ class DownloadSeeder extends Seeder
                 'updated_at' => Carbon::parse('2025-05-21 10:00:00'),
             ],
             [
-                'title' => 'Tender Of Goods',
-<<<<<<< HEAD
-=======
-                'created_at' => Carbon::parse('2025-05-21'),
-                'updated_at' => Carbon::parse('2025-05-21'),
-            ],
-            [
-                'title' => 'Tender Of Goods - 07-03-2025',
->>>>>>> 35dc250bdd3e1865f1fde4bb671b6bee9e9576bf
+                 'title' => 'Tender Of Goods',
                 'description' => 'Tender of goods document detailing bidding requirements
                  for the supply of specified items.',
                 'file_path' => 'public/downloads/TENDORS%20FOR%20GOODS.pdf',
@@ -45,6 +37,8 @@ class DownloadSeeder extends Seeder
                 'is_featured' => true,
                 'is_active' => true,
                 'download_count' => 1250,
+                  'created_at' => Carbon::parse('2025-05-21'),
+                'updated_at' => Carbon::parse('2025-05-21'),
                
             ],
             [
