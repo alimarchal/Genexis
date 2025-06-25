@@ -28,6 +28,14 @@ class DownloadSeeder extends Seeder
             ],
             [
                 'title' => 'Tender Of Goods',
+<<<<<<< HEAD
+=======
+                'created_at' => Carbon::parse('2025-05-21'),
+                'updated_at' => Carbon::parse('2025-05-21'),
+            ],
+            [
+                'title' => 'Tender Of Goods - 07-03-2025',
+>>>>>>> 35dc250bdd3e1865f1fde4bb671b6bee9e9576bf
                 'description' => 'Tender of goods document detailing bidding requirements
                  for the supply of specified items.',
                 'file_path' => 'public/downloads/TENDORS%20FOR%20GOODS.pdf',
@@ -76,8 +84,12 @@ class DownloadSeeder extends Seeder
                 'updated_at' => Carbon::parse('2024-06-05 10:00:00'),
             ],
             [
+<<<<<<< HEAD
                 'title' => 'Renovation of Chichian Branch Mirpur AJ&K (Single Stage Two Envelope Method). - 21-03-2024
 ',
+=======
+                'title' => 'Renovation of Chichian Branch Mirpur AJ&K (Single Stage Two Envelope Method).',
+>>>>>>> 35dc250bdd3e1865f1fde4bb671b6bee9e9576bf
                 'description' => 'Tender for renovation of Chichian Branch, Mirpur AJ&K, using Single Stage Two Envelope Method, dated 21-03-2024',
                 'file_path' => 'public/downloads/chichian.jpeg',
                 'file_type' => 'application/pic',
@@ -89,7 +101,11 @@ class DownloadSeeder extends Seeder
             ],
             [
                 'title' => 'Renovation of Main Branch Rawalakot & Main
+<<<<<<< HEAD
                  Branch Farword Kahota (Single stage Two Envelope Method). - 21-03-2024',
+=======
+                 Branch Farword Kahota AJK  (Single stage Two Envelope Method)',
+>>>>>>> 35dc250bdd3e1865f1fde4bb671b6bee9e9576bf
                 'description' => 'Tender for renovation of Main Branch Rawalakot and Main Branch Forward Kahota, 
                 using Single Stage Two Envelope Method.',
                 'file_path' => 'public/gp Rawalakot.jpeg',
@@ -130,6 +146,37 @@ class DownloadSeeder extends Seeder
                 'title' => 'CORRIGENDUM - Hiring of Consultants for Archaitectural Planning.',
                 'description' => 'Corrigendum regarding the hiring of consultants for architectural planning, dated 06-03-2024.',
                 'file_path' => 'downloads/CORRIGENDUM2.jpeg',
+<<<<<<< HEAD
+=======
+             ],
+
+            [
+                'title' => 'Tender for Services - 20-03-2024',
+                'description' => 'Tender for services inviting bids from qualified firms, issued on 20-03-2024',
+                'file_path' => 'public/downloads/gp%20insurance%20(1).pdf',
+                'file_type' => 'application/pdf',
+                'file_size' => 1572864, // ~1.5MB
+                'category' => 'Document',
+                'is_featured' => false,
+                'is_active' => true,
+                'download_count' => 423,
+            ],
+            [
+                'title' => 'Account Opening Form',
+                'description' => 'Form used to collect customer information for opening a new bank account',
+                'file_path' => 'public/downloads/gp%20insurance%20(1).pdf',
+                'file_type' => 'application/pdf',
+                'file_size' => 1572864, // ~1.5MB
+                'category' => 'form',
+                'is_featured' => false,
+                'is_active' => true,
+                'download_count' => 423,
+            ],
+            [
+                'title' => 'Mobile App User Manual',
+                'description' => 'Complete user manual for our mobile banking application',
+                'file_path' => 'downloads/mobile-app-manual.pdf',
+>>>>>>> 35dc250bdd3e1865f1fde4bb671b6bee9e9576bf
                 'file_type' => 'application/pdf',
                 'file_size' => 1572864, // ~1.5MB
                 'category' => 'picture',

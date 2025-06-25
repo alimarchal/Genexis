@@ -16,7 +16,10 @@ class ScheduleOfChargeSeeder extends Seeder
                 'from' => '2025-01-01',
                 'to' => '2025-6-30',
                 'description' => ' Bank Of Azad Jammu And Kashmir Schedule Of Charges from jan to june 2025',
+<<<<<<< HEAD
                 'description' => ' Bank Of  Azad Jammu And Kashmir Schedule Of Charges 2025 ',
+=======
+>>>>>>> 35dc250bdd3e1865f1fde4bb671b6bee9e9576bf
                 'is_active' => true,
                  'attachment' => 'schedule_of_charges/schedule_from_jan_to_jun_2025.pdf',
             ],
