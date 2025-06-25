@@ -20,12 +20,12 @@ const RegulatoryLinks: React.FC = () => {
     const { footerLinks } = usePage<SharedProps>().props;
 
     const regulatoryLinks = [
-        { label: 'Privacy Policy', href: footerLinks.regulatory.privacy_policy },
-        { label: 'Terms & Conditions', href: footerLinks.regulatory.terms },
-        { label: 'Cookie Policy', href: footerLinks.regulatory.cookie_policy },
-        { label: 'Accessibility', href: footerLinks.regulatory.accessibility },
-        { label: 'Regulatory Info', href: footerLinks.regulatory.regulatory_info },
-        { label: 'Security Tips', href: footerLinks.regulatory.security_tips },
+        { label: 'State Bank Pakistan', href: footerLinks.regulatory.privacy_policy },
+        { label: 'Banking Mohtasib', href: footerLinks.regulatory.terms },
+        { label: 'SECP', href: footerLinks.regulatory.cookie_policy },
+        { label: 'Govt. of AJK', href: footerLinks.regulatory.accessibility },
+        { label: 'Govt. of Pakistan', href: footerLinks.regulatory.regulatory_info },
+        { label: 'AJK Tourism', href: footerLinks.regulatory.security_tips },
         { label: 'Fraud Prevention', href: footerLinks.regulatory.fraud_prevention },
     ];
 
