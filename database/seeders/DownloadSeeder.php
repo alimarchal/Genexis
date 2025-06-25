@@ -5,8 +5,6 @@ namespace Database\Seeders;
 use App\Models\Download;
 use Illuminate\Database\Seeder;
 use Carbon\Carbon;
-
-
 class DownloadSeeder extends Seeder
 {
     public function run(): void
@@ -26,16 +24,9 @@ class DownloadSeeder extends Seeder
                 'created_at' => Carbon::parse('2025-05-21 10:00:00'),
                 'updated_at' => Carbon::parse('2025-05-21 10:00:00'),
             ],
-            [
-                'title' => 'Tender Of Goods',
-<<<<<<< HEAD
-=======
-                'created_at' => Carbon::parse('2025-05-21'),
-                'updated_at' => Carbon::parse('2025-05-21'),
-            ],
+           
             [
                 'title' => 'Tender Of Goods - 07-03-2025',
->>>>>>> 35dc250bdd3e1865f1fde4bb671b6bee9e9576bf
                 'description' => 'Tender of goods document detailing bidding requirements
                  for the supply of specified items.',
                 'file_path' => 'public/downloads/TENDORS%20FOR%20GOODS.pdf',
@@ -45,6 +36,9 @@ class DownloadSeeder extends Seeder
                 'is_featured' => true,
                 'is_active' => true,
                 'download_count' => 1250,
+                'created_at' => Carbon::parse('2025-03-07 10:00:00'),
+                'updated_at' => Carbon::parse('2025-03-07 10:00:00'),
+
                
             ],
             [
@@ -83,14 +77,14 @@ class DownloadSeeder extends Seeder
                  'created_at' => Carbon::parse('2024-06-05 10:00:00'),
                 'updated_at' => Carbon::parse('2024-06-05 10:00:00'),
             ],
+
+
+
             [
-<<<<<<< HEAD
-                'title' => 'Renovation of Chichian Branch Mirpur AJ&K (Single Stage Two Envelope Method). - 21-03-2024
-',
-=======
-                'title' => 'Renovation of Chichian Branch Mirpur AJ&K (Single Stage Two Envelope Method).',
->>>>>>> 35dc250bdd3e1865f1fde4bb671b6bee9e9576bf
-                'description' => 'Tender for renovation of Chichian Branch, Mirpur AJ&K, using Single Stage Two Envelope Method, dated 21-03-2024',
+
+
+            'title' => 'Renovation of Chichian Branch Mirpur AJ&K (Single Stage Two Envelope Method). - 21-03-2024.',
+             'description' => 'Tender for renovation of Chichian Branch, Mirpur AJ&K, using Single Stage Two Envelope Method, dated 21-03-2024',
                 'file_path' => 'public/downloads/chichian.jpeg',
                 'file_type' => 'application/pic',
                 'file_size' => 307200, // ~300KB
@@ -98,14 +92,12 @@ class DownloadSeeder extends Seeder
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 234,
+                'created_at' => Carbon::parse('2024-03-21 10:00:00'),
+                'updated_at' => Carbon::parse('2024-03-21 10:00:00'),
             ],
             [
                 'title' => 'Renovation of Main Branch Rawalakot & Main
-<<<<<<< HEAD
                  Branch Farword Kahota (Single stage Two Envelope Method). - 21-03-2024',
-=======
-                 Branch Farword Kahota AJK  (Single stage Two Envelope Method)',
->>>>>>> 35dc250bdd3e1865f1fde4bb671b6bee9e9576bf
                 'description' => 'Tender for renovation of Main Branch Rawalakot and Main Branch Forward Kahota, 
                 using Single Stage Two Envelope Method.',
                 'file_path' => 'public/gp Rawalakot.jpeg',
@@ -146,8 +138,12 @@ class DownloadSeeder extends Seeder
                 'title' => 'CORRIGENDUM - Hiring of Consultants for Archaitectural Planning.',
                 'description' => 'Corrigendum regarding the hiring of consultants for architectural planning, dated 06-03-2024.',
                 'file_path' => 'downloads/CORRIGENDUM2.jpeg',
-<<<<<<< HEAD
-=======
+                'file_type' => 'application/pic',
+                'file_size' => 1572864, // ~1.5MB
+                'category' => 'picture',
+                'is_featured' => false,
+                'is_active' => true,
+                'download_count' => 423,
              ],
 
             [
@@ -160,6 +156,8 @@ class DownloadSeeder extends Seeder
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 423,
+                 'created_at' => Carbon::parse('2024-03-20 10:00:00'),
+                 'updated_at' => Carbon::parse('2024-03-20 10:00:00'),
             ],
             [
                 'title' => 'Account Opening Form',
@@ -176,7 +174,6 @@ class DownloadSeeder extends Seeder
                 'title' => 'Mobile App User Manual',
                 'description' => 'Complete user manual for our mobile banking application',
                 'file_path' => 'downloads/mobile-app-manual.pdf',
->>>>>>> 35dc250bdd3e1865f1fde4bb671b6bee9e9576bf
                 'file_type' => 'application/pdf',
                 'file_size' => 1572864, // ~1.5MB
                 'category' => 'picture',
@@ -1599,8 +1596,6 @@ class DownloadSeeder extends Seeder
                    'updated_at' => Carbon::parse('019-08-27 10:00:00'),
             ],
 
-
-
  [
                 'title' => 'Evalutioan Report',
                 'description' => 'Official document summarizing the assessment and comparison of bids or proposals received.',
@@ -1612,8 +1607,6 @@ class DownloadSeeder extends Seeder
                 'is_active' => true,
                 'download_count' => 423,
             ],
-
-
  [
                 'title' => 'Hiring of Consultant for System Evaluation & vendor Selection- Core Banking System',
                 'description' => 'Advertisement for hiring a consultant to evaluate systems and assist in vendor selection for the Core Banking System.',
@@ -1677,7 +1670,7 @@ class DownloadSeeder extends Seeder
                 'is_active' => true,
                 'download_count' => 423,
                   'created_at' => Carbon::parse('2019-03-25 10:00:00'),
-  'updated_at' => Carbon::parse('2019-03-25 10:00:00'),
+                   'updated_at' => Carbon::parse('2019-03-25 10:00:00'),
             ],
             [
                 'title' => 'Invitation to BIDS as on 21-Mar-2019',
@@ -1718,17 +1711,6 @@ class DownloadSeeder extends Seeder
                   'created_at' => Carbon::parse('2019-02-15 10:00:00'),
                   'updated_at' => Carbon::parse('2019-02-15 10:00:00'),
             ],
-            
-
-
-
-
-
-
-            
-
-
-
 
         ];
 
