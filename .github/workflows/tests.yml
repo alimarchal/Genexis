@@ -51,6 +51,7 @@ jobs:
         run: |
           echo "DB_CONNECTION=sqlite" >> .env
           echo "DB_DATABASE=:memory:" >> .env
+          echo "CACHE_STORE=array" >> .env
           echo "BANK_BRANCHES_COUNT=87" >> .env
           echo "CONTACT_PHONE=\"+92-5816-123456\"" >> .env
           echo "CONTACT_EMAIL=\"info@bajk.com\"" >> .env
