@@ -22,7 +22,7 @@ export default function CreateProfitRate() {
         rate: '',
         valid_from: '',
         valid_to: '',
-        is_active: true,
+        is_active: true as boolean,
         sort_order: '',
     });
 

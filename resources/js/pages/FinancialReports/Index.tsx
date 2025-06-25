@@ -318,7 +318,7 @@ export default function FinancialReportIndex({ financialReports, filters }: Prop
                                                                 <DropdownMenuSeparator />
                                                                 {getAvailableReports(report).map((reportFile, index) => (
                                                                     <DropdownMenuItem key={index} asChild>
-                                                                        <a href={reportFile.url} target="_blank" rel="noopener noreferrer">
+                                                                        <a href={reportFile.url || '#'} target="_blank" rel="noopener noreferrer">
                                                                             <Download className="mr-2 h-4 w-4" />
                                                                             Download {reportFile.name}
                                                                         </a>

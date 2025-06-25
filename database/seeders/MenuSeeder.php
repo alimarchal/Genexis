@@ -153,6 +153,13 @@ class MenuSeeder extends Seeder
                         'route_name' => 'service-pages.services-for-ajk-psc',
                         'sort_order' => 5,
                     ],
+
+                     [
+                        'title' => 'Loan Calculator',
+                        'slug' => 'loan-calculator',
+                        'route_name' => 'loan-calculator',
+                        'sort_order' => 6,
+                    ],
                 ],
             ],
             [

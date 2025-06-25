@@ -361,14 +361,7 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
     };
 
     return (
-        <WebsiteLayout
-            title="Loan Calculator - Bank of Azad Jammu & Kashmir"
-            breadcrumbs={[
-                { label: 'Home', href: '/' },
-                { label: 'Services', href: '/services' },
-                { label: 'Loan Calculator', isActive: true },
-            ]}
-        >
+        <WebsiteLayout title="Loan Calculator - Bank of Azad Jammu & Kashmir">
             <style
                 dangerouslySetInnerHTML={{
                     __html: `

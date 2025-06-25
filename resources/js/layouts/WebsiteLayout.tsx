@@ -2,6 +2,7 @@ import BreadcrumbNav from '@/components/BreadcrumbNav';
 import Footer from '@/components/footer';
 import Header from '@/components/header/header';
 import TopNavbar from '@/components/topnavbar/top-nav-bar';
+import { TopNavbarMessage } from '@/types/global';
 import { Head, usePage } from '@inertiajs/react';
 import { PropsWithChildren, useEffect, useRef, useState } from 'react';
 
@@ -70,7 +71,7 @@ export default function WebsiteLayout({ children, title, breadcrumbs = [] }: Web
 
             {/* Fixed TopNavbar, Header, and Breadcrumb */}
             <div className="fixed top-0 right-0 left-0 z-50" ref={headerRef}>
-                <TopNavbar messages={topNavbarMessages} />
+                <TopNavbar messages={topNavbarMessages as TopNavbarMessage[]} />
                 <Header menuItems={menu as MenuItem[]} />
                 {finalBreadcrumbs.length > 0 && <BreadcrumbNav items={finalBreadcrumbs} />}
             </div>

@@ -82,6 +82,14 @@ class HandleInertiaRequests extends Middleware
                     'regulatory_info' => env('REGULATORY_INFO_URL', 'https://bankajk.com/regulatory-information'),
                     'security_tips' => env('SECURITY_TIPS_URL', 'https://bankajk.com/security-tips'),
                     'fraud_prevention' => env('FRAUD_PREVENTION_URL', 'https://bankajk.com/fraud-prevention'),
+
+                    'sbp' => env('SBP', 'https://bankajk.com/privacy-policy'),
+                    'banking_mohtasib' => env('BANKING_MOHTASIB', 'https://bankajk.com/terms-conditions'),
+                    'secp' => env('SECP', 'https://bankajk.com/cookie-policy'),
+                    'goajk' => env('GOAJK', 'https://bankajk.com/accessibility'),
+                    'gopak' => env('GOPAK', 'https://bankajk.com/regulatory-information'),
+                    'ajk_tourism' => env('AJK_TOURISM', 'https://bankajk.com/security-tips'),
+                    'loan_calculator' => env('LOAN_CALCULATOR', 'https://bankajk.com/fraud-prevention'),
                 ],
             ],
             // Bank Rates - Available on all pages

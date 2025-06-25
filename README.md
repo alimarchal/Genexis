@@ -106,6 +106,123 @@ cp .env.example .env
 php artisan key:generate
 ```
 
+#### Required Environment Variables
+
+The following environment variables must be configured in your `.env` file:
+
+**Basic Application Settings:**
+
+```env
+APP_NAME="Bank of AJK"
+APP_ENV=local
+APP_KEY=base64:your-generated-key
+APP_DEBUG=true
+APP_URL=http://localhost
+APP_TIMEZONE=Asia/Karachi
+APP_LOCALE=en
+```
+
+**Database Configuration:**
+
+```env
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_DATABASE=genexis_bank
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
+```
+
+**Bank Contact Information:**
+
+```env
+BANK_BRANCHES_COUNT=50
+CONTACT_PHONE="+92.5822.924244"
+CONTACT_EMAIL="info@bankajk.com"
+CONTACT_ADDRESS="Head Office, Bank Square, Chattar Domel, Muzaffarabad, AJK, Pakistan"
+```
+
+**Marquee Text Content:**
+
+```env
+MARQUEE_ACHIEVEMENT_TEXT="Celebrating 25+ years of banking excellence"
+MARQUEE_SERVICES_TEXT="Comprehensive banking solutions for everyone"
+MARQUEE_SUPPORT_TEXT="24/7 customer support available"
+MARQUEE_DIGITAL_TEXT="Digital banking made simple and secure"
+MARQUEE_CONTACT_TEXT="Connect with us anytime, anywhere"
+MARQUEE_NETWORK_TEXT="Nationwide branch network at your service"
+```
+
+**Social Media Links:**
+
+```env
+SOCIAL_FACEBOOK_URL="https://www.facebook.com/BAJKOfficial/"
+SOCIAL_TWITTER_URL="https://x.com/BAJKOfficial"
+SOCIAL_INSTAGRAM_URL="https://www.instagram.com/bajkofficial/"
+SOCIAL_LINKEDIN_URL="https://www.linkedin.com/company/bank-of-azad-kashmir/"
+SOCIAL_YOUTUBE_URL="https://www.youtube.com/channel/UCrHL1opwCxp_owjSivhA2iw"
+```
+
+**Mail Configuration:**
+
+```env
+MAIL_MAILER=smtp
+MAIL_HOST=your-smtp-host
+MAIL_PORT=587
+MAIL_USERNAME=your-email
+MAIL_PASSWORD=your-password
+MAIL_FROM_ADDRESS="noreply@bankajk.com"
+MAIL_FROM_NAME="${APP_NAME}"
+```
+
+**Optional: Loan Calculator Settings:**
+
+```env
+# Personal Loan
+LOAN_RATE_PERSONAL=14.0
+
+# Advance Salary Loan
+LOAN_MIN_ADVANCE_SALARY=10000
+LOAN_MAX_ADVANCE_SALARY=3000000
+LOAN_TENURE_MIN_ADVANCE_SALARY=1
+LOAN_TENURE_MAX_ADVANCE_SALARY=48
+LOAN_RATE_SALARY=15.0
+
+# Car Loan
+LOAN_MIN_CAR=100000
+LOAN_MAX_CAR=3000000
+LOAN_TENURE_MIN_CAR=12
+LOAN_TENURE_MAX_CAR=60
+LOAN_RATE_CAR=12.5
+
+# House Loan
+LOAN_MIN_HOUSE=500000
+LOAN_MAX_HOUSE=10000000
+LOAN_TENURE_MIN_HOUSE=12
+LOAN_TENURE_MAX_HOUSE=240
+LOAN_RATE_HOUSE=11.5
+```
+
+See the complete `.env.example` file for all available configuration options including cache, session, queue, and third-party service configurations.
+
+#### Environment Variable Categories
+
+The `.env.example` file includes over 100 environment variables organized into the following categories:
+
+- **Core Application**: Basic Laravel settings, debug mode, timezone, locale
+- **Database**: PostgreSQL, MySQL, SQLite configurations with connection pooling
+- **Authentication**: User model, password reset, session timeout settings
+- **Cache & Session**: Redis, Memcached, database-based caching and sessions
+- **Queue Management**: Database, Redis, Beanstalkd, SQS queue configurations
+- **Mail Services**: SMTP, Postmark, SES, Resend email providers
+- **File Storage**: Local, S3, public disk configurations
+- **Logging**: Stack, daily, Slack, Papertrail logging options
+- **Search Services**: Algolia, Meilisearch, Typesense configurations
+- **Bank-Specific**: Contact info, branch count, social media links, marquee text
+- **Loan Calculator**: Interest rates, loan limits, tenure settings for various loan types
+- **Third-Party Services**: AWS, Slack, social media integrations
+- **Performance**: Redis clustering, connection pooling, cache prefixes
+
 ### 5. Database Setup
 
 Configure your database in the `.env` file:
@@ -386,28 +503,68 @@ For new features:
 
 Key production environment variables:
 
+**Application Settings:**
+
 ```env
 APP_ENV=production
 APP_DEBUG=false
 APP_URL=https://your-domain.com
+APP_KEY=base64:your-production-key
+APP_TIMEZONE=Asia/Karachi
+```
 
-# Database
+**Database Configuration:**
+
+```env
 DB_CONNECTION=pgsql
 DB_HOST=your-db-host
 DB_DATABASE=production_db
 DB_USERNAME=production_user
 DB_PASSWORD=secure_password
+```
 
-# Mail Configuration
+**Mail Configuration:**
+
+```env
 MAIL_MAILER=smtp
 MAIL_HOST=your-smtp-host
 MAIL_PORT=587
 MAIL_USERNAME=your-email
 MAIL_PASSWORD=your-password
-
-# File Storage
-FILESYSTEM_DISK=public
+MAIL_FROM_ADDRESS="noreply@bankajk.com"
+MAIL_FROM_NAME="Bank of AJK"
 ```
+
+**Performance & Caching:**
+
+```env
+CACHE_STORE=redis
+SESSION_DRIVER=redis
+QUEUE_CONNECTION=redis
+REDIS_HOST=your-redis-host
+REDIS_PASSWORD=your-redis-password
+```
+
+**File Storage:**
+
+```env
+FILESYSTEM_DISK=s3
+AWS_ACCESS_KEY_ID=your-aws-key
+AWS_SECRET_ACCESS_KEY=your-aws-secret
+AWS_DEFAULT_REGION=us-east-1
+AWS_BUCKET=your-bucket-name
+```
+
+**Bank Configuration:**
+
+```env
+BANK_BRANCHES_COUNT=50
+CONTACT_PHONE="+92.5822.924244"
+CONTACT_EMAIL="info@bankajk.com"
+CONTACT_ADDRESS="Head Office, Bank Square, Chattar Domel, Muzaffarabad, AJK, Pakistan"
+```
+
+For a complete list of all environment variables, refer to the `.env.example` file which contains over 100 configuration options for various Laravel features, third-party services, and bank-specific settings.
 
 ## Security
 
@@ -448,6 +605,7 @@ This document provides an overview of key application pages based on the provide
 ![Contact Us Page](public/screenshots/contact_us_page.png)
 
 **Key Features:**
+
 - Multiple contact methods: Call Center, Email Support, Operations, HR/MD.
 - "Send us a Message" form with fields: Name, E-Mail, Phone, District, Tehsil, Place, Category, Subject, Message.
 - Head Office address and contact details.
@@ -459,6 +617,7 @@ This document provides an overview of key application pages based on the provide
 ![Banking Services Page](public/screenshots/banking_services_page.png)
 
 **Key Features:**
+
 - "Car Finance" banner.
 - Overview of Banking Services with statistics (Branches, Customers, Rs 50B+ Deposits, Employees).
 - Sections for Consumer Finance, Commercial / SME Finances, Agriculture Finances, Micro Finances, each with key benefits and available products.
@@ -470,10 +629,11 @@ This document provides an overview of key application pages based on the provide
 
 **Note:**
 To view these images, please ensure you have saved your snapshot images as:
+
 - `contact_us_page.png`
 - `banking_services_page.png`
-and placed them into the `/Users/alirazamarchal/Herd/Genexis/public/screenshots/` directory.
-The Markdown file references them using relative paths like `public/screenshots/contact_us_page.png`.
+  and placed them into the `/Users/alirazamarchal/Herd/Genexis/public/screenshots/` directory.
+  The Markdown file references them using relative paths like `public/screenshots/contact_us_page.png`.
 
 ---
 
