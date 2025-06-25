@@ -70,9 +70,52 @@ declare module '@inertiajs/core' {
             linkedin: string;
             youtube: string;
         };
+        footerLinks: {
+            regulatory: {
+                privacy_policy: string;
+                terms: string;
+                cookie_policy: string;
+                accessibility: string;
+                regulatory_info: string;
+                security_tips: string;
+                fraud_prevention: string;
+                sbp: string;
+                banking_mohtasib: string;
+                secp: string;
+                goajk: string;
+                gopak: string;
+                ajk_tourism: string;
+                loan_calculator: string;
+            };
+            banking: {
+                portal_login: string;
+                branch_locator: string;
+                atm_locator: string;
+                exchange_rates: string;
+                interest_rates: string;
+                forms: string;
+                tenders: string;
+            };
+            services: {
+                [key: string]: string;
+            };
+        };
+        topNavbarMessages?: TopNavbarMessage[];
 
         // Add any other globally shared props here as you define them
     }
+}
+
+export interface TopNavbarMessage {
+    id: number;
+    type: string;
+    priority: string;
+    icon: string;
+    text: string;
+    color: string;
+    bg_color: string;
+    is_active: boolean;
+    sort_order: number;
 }
 
 // Optional: If you want to define a global App namespace for models like Laravel does

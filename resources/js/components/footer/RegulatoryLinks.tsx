@@ -1,30 +1,10 @@
 // footer/RegulatoryLinks.tsx - Using Inertia shared data
+import { PageProps } from '@inertiajs/core';
 import { usePage } from '@inertiajs/react';
 import React from 'react';
 
-interface SharedProps {
-    footerLinks: {
-        regulatory: {
-            privacy_policy: string;
-            terms: string;
-            cookie_policy: string;
-            accessibility: string;
-            regulatory_info: string;
-            security_tips: string;
-            fraud_prevention: string;
-            sbp: string;
-            banking_mohtasib: string;
-            secp: string;
-            goajk: string;
-            gopak: string;
-            ajk_tourism: string;
-            loan_calculator: string;
-        };
-    };
-}
-
 const RegulatoryLinks: React.FC = () => {
-    const { footerLinks } = usePage<SharedProps>().props;
+    const { footerLinks } = usePage<PageProps>().props;
 
     const regulatoryLinks = [
         { label: 'State Bank Pakistan', href: footerLinks.regulatory.sbp },
