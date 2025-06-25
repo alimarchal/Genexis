@@ -102,7 +102,8 @@ const CommitteeCard: React.FC<CommitteeCardProps> = ({ committee }) => {
                             {/* Chairman */}
                             {chairman && (
                                 <div className="text-center">
-                                    <p className="text-sm font-semibold text-gray-600">Chairman: <span className="text-sm font-medium text-[#4A7C59]">{getMemberDisplayName(chairman)}</span>
+                                    <p className="text-sm font-semibold text-gray-600">
+                                        Chairman: <span className="text-sm font-medium text-[#4A7C59]">{getMemberDisplayName(chairman)}</span>
                                     </p>
                                 </div>
                             )}
