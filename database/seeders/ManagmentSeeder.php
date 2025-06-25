@@ -47,7 +47,7 @@ class ManagmentSeeder extends Seeder
             [
                 'title' => 'Mr.',
                 'full_name' => 'Ahtasham Malik',
-                'designation' => 'Divisional Head Operations',
+                'designation' => 'Divisional Head Operations Division',
                 'description' => null,
                 'attachment' => 'management/atm.jpg',
                 'order' => 4,
@@ -93,7 +93,7 @@ class ManagmentSeeder extends Seeder
              [
                 'title' => 'Syed',
                 'full_name' => 'Tashfeen Gilani',
-                'designation' => 'Divisional Head Treasury Division & CCO',
+                'designation' => 'Divisional Head Treasury Management Division',
                 'description' => null,
                 'attachment' => 'managment-attachments/tg.jpg',
                 'order' => 9,
