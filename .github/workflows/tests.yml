@@ -24,6 +24,7 @@ jobs:
           php-version: 8.4
           tools: composer:v2
           coverage: xdebug
+          extensions: pdo, pdo_sqlite, sqlite3, mbstring, zip, exif, pcntl, bcmath, gd
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -45,6 +46,19 @@ jobs:
 
       - name: Generate Application Key
         run: php artisan key:generate
+
+      - name: Set Required Environment Variables
+        run: |
+          echo "BANK_BRANCHES_COUNT=87" >> .env
+          echo "CONTACT_PHONE=+92-5816-123456" >> .env
+          echo "CONTACT_EMAIL=info@bajk.com" >> .env
+          echo "CONTACT_ADDRESS=Test Address" >> .env
+          echo "MARQUEE_ACHIEVEMENT_TEXT=Test Achievement" >> .env
+          echo "MARQUEE_SERVICES_TEXT=Test Services" >> .env
+          echo "MARQUEE_SUPPORT_TEXT=Test Support" >> .env
+          echo "MARQUEE_DIGITAL_TEXT=Test Digital" >> .env
+          echo "MARQUEE_CONTACT_TEXT=Test Contact" >> .env
+          echo "MARQUEE_NETWORK_TEXT=Test Network" >> .env
 
       - name: Tests
         run: ./vendor/bin/pest
