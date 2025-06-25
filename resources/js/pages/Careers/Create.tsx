@@ -25,8 +25,8 @@ export default function CreateCareer() {
         location: '',
         document: null as File | null,
         closing_date: '',
-        is_active: true,
-        is_featured: false,
+        is_active: true as boolean,
+        is_featured: false as boolean,
         benefits: '',
     });
 

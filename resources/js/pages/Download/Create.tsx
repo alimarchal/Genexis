@@ -24,8 +24,8 @@ export default function CreateDownload() {
         description: '',
         file: null as File | null,
         category: 'general',
-        is_featured: false,
-        is_active: true,
+        is_featured: false as boolean,
+        is_active: true as boolean,
     });
 
     const [fileName, setFileName] = useState('');

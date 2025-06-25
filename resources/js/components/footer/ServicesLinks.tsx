@@ -1,23 +1,10 @@
 // footer/ServicesLinks.tsx - Using Inertia shared data
+import { PageProps } from '@inertiajs/core';
 import { usePage } from '@inertiajs/react';
 import React from 'react';
 
-interface SharedProps {
-    footerLinks: {
-        banking: {
-            portal_login: string;
-            branch_locator: string;
-            atm_locator: string;
-            exchange_rates: string;
-            interest_rates: string;
-            forms: string;
-            tenders: string;
-        };
-    };
-}
-
 const ServicesLinks: React.FC = () => {
-    const { footerLinks } = usePage<SharedProps>().props;
+    const { footerLinks } = usePage<PageProps>().props;
 
     const services = [
         { label: 'Portal Login', href: footerLinks.banking.portal_login },

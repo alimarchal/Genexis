@@ -1,5 +1,19 @@
 import { usePage } from '@inertiajs/react'; // Added usePage
-import { ArrowRight, Building2, CheckCircle, ChevronRight, CreditCard, Home, MapPin, Phone, Shield, TrendingUp, Users, Wheat } from 'lucide-react';
+import {
+    ArrowRight,
+    Building2,
+    Calculator,
+    CheckCircle,
+    ChevronRight,
+    CreditCard,
+    Home,
+    MapPin,
+    Phone,
+    Shield,
+    TrendingUp,
+    Users,
+    Wheat,
+} from 'lucide-react';
 import React, { useState } from 'react';
 
 interface ServiceCard {
@@ -302,7 +316,7 @@ const InteractiveBAJKServices: React.FC<Props> = ({ bankServices }) => {
 
                         <h3 className="mb-6 text-4xl font-bold text-gray-900">Ready to Experience BAJK Banking Excellence?</h3>
                         <p className="mx-auto mb-10 max-w-3xl text-xl leading-relaxed text-gray-700">
-                            Join over 500,000 satisfied customers who trust Bank of Azad Jammu & Kashmir for their financial journey. Discover banking
+                            Join the satisfied customers who trust Bank of Azad Jammu & Kashmir for their financial journey. Discover banking
                             solutions crafted for Kashmir's prosperity.
                         </p>
 
@@ -314,9 +328,20 @@ const InteractiveBAJKServices: React.FC<Props> = ({ bankServices }) => {
                                 <MapPin className="mr-3 h-6 w-6" />
                                 Find Nearest Branch
                             </a>
+
                             <a
-                                href={`tel:${contact_phone.replace(/\\./g, '')}`}
-                                className="inline-flex transform items-center rounded-xl border-3 border-[#4A7C59] px-10 py-5 text-lg font-bold text-[#4A7C59] transition-all duration-300 hover:scale-105 hover:bg-[#4A7C59] hover:text-white"
+                                href={route('loan-calculator')}
+                                className="group relative inline-flex transform items-center overflow-hidden rounded-xl bg-gradient-to-r from-[#4A7C59] to-[#5D8A6A] px-10 py-5 text-lg font-bold text-white shadow-xl transition-all duration-300 hover:scale-105 hover:from-[#F9B912] hover:to-[#E6A610] hover:shadow-2xl"
+                            >
+                                <div className="absolute inset-0 bg-gradient-to-r from-[#F9B912] to-[#E6A610] opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+                                <Calculator className="relative z-10 mr-3 h-6 w-6 transition-transform duration-300 group-hover:rotate-12" />
+                                <span className="relative z-10">Loan Calculator</span>
+                                <div className="absolute -top-1 -right-1 h-3 w-3 animate-pulse rounded-full bg-[#F9B912] opacity-75"></div>
+                            </a>
+
+                            <a
+                                href={`tel:${contact_phone.replace(/\./g, '')}`}
+                                className="inline-flex transform items-center rounded-xl border-2 border-white/20 bg-gradient-to-r from-[#4A7C59] to-[#5D8A6A] px-10 py-5 text-lg font-bold text-white shadow-xl transition-all duration-300 hover:scale-105 hover:from-[#F9B912] hover:to-[#E6A610] hover:shadow-2xl"
                             >
                                 <Phone className="mr-3 h-6 w-6" />
                                 Call: {contact_phone}

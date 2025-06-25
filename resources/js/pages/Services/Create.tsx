@@ -37,10 +37,11 @@ export default function CreateService() {
         description: '',
         icon: '',
         image: null as File | null,
-        is_active: true,
+        is_active: true as boolean,
         sort_order: 0,
         meta_data: {},
-        attributes: [] as ServiceAttribute[],
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        attributes: [] as any[],
     });
 
     const [attributeItems, setAttributeItems] = useState<ServiceAttribute[]>([{ name: '', value: '' }]);
@@ -53,7 +54,8 @@ export default function CreateService() {
 
         router.post(route('services.store'), {
             ...data,
-            attributes: filteredAttributes,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            attributes: filteredAttributes as any,
         });
     };
 
@@ -100,7 +102,7 @@ export default function CreateService() {
                                         <Label htmlFor="name">Service Name *</Label>
                                         <Input
                                             id="name"
-                                            value={data.name}
+                                            value={data.name || ''}
                                             onChange={(e) => setData('name', e.target.value)}
                                             placeholder="Enter service name"
                                             className={errors.name ? 'border-red-500' : ''}
@@ -115,7 +117,7 @@ export default function CreateService() {
                                             id="sort_order"
                                             type="number"
                                             min="0"
-                                            value={data.sort_order}
+                                            value={data.sort_order || 0}
                                             onChange={(e) => setData('sort_order', parseInt(e.target.value) || 0)}
                                             placeholder="0"
                                             className={errors.sort_order ? 'border-red-500' : ''}
@@ -129,7 +131,7 @@ export default function CreateService() {
                                     <Label htmlFor="icon">Icon</Label>
                                     <Input
                                         id="icon"
-                                        value={data.icon}
+                                        value={data.icon || ''}
                                         onChange={(e) => setData('icon', e.target.value)}
                                         placeholder="Enter icon name or emoji (e.g., 🔒, CreditCard)"
                                         className={errors.icon ? 'border-red-500' : ''}
@@ -164,7 +166,7 @@ export default function CreateService() {
                                     <Label htmlFor="description">Description *</Label>
                                     <Textarea
                                         id="description"
-                                        value={data.description}
+                                        value={data.description || ''}
                                         onChange={(e) => setData('description', e.target.value)}
                                         placeholder="Detailed description of the service"
                                         rows={6}
@@ -239,7 +241,7 @@ export default function CreateService() {
                                         </Label>
                                         <p className="text-sm text-gray-500">Make this service visible on the website</p>
                                     </div>
-                                    <Switch id="is_active" checked={data.is_active} onCheckedChange={(checked) => setData('is_active', checked)} />
+                                    <Switch id="is_active" checked={!!data.is_active} onCheckedChange={(checked) => setData('is_active', checked)} />
                                 </div>
                             </CardContent>
                         </Card>

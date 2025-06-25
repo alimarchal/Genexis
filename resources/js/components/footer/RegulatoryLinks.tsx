@@ -1,32 +1,19 @@
 // footer/RegulatoryLinks.tsx - Using Inertia shared data
+import { PageProps } from '@inertiajs/core';
 import { usePage } from '@inertiajs/react';
 import React from 'react';
 
-interface SharedProps {
-    footerLinks: {
-        regulatory: {
-            privacy_policy: string;
-            terms: string;
-            cookie_policy: string;
-            accessibility: string;
-            regulatory_info: string;
-            security_tips: string;
-            fraud_prevention: string;
-        };
-    };
-}
-
 const RegulatoryLinks: React.FC = () => {
-    const { footerLinks } = usePage<SharedProps>().props;
+    const { footerLinks } = usePage<PageProps>().props;
 
     const regulatoryLinks = [
-        { label: 'Privacy Policy', href: footerLinks.regulatory.privacy_policy },
-        { label: 'Terms & Conditions', href: footerLinks.regulatory.terms },
-        { label: 'Cookie Policy', href: footerLinks.regulatory.cookie_policy },
-        { label: 'Accessibility', href: footerLinks.regulatory.accessibility },
-        { label: 'Regulatory Info', href: footerLinks.regulatory.regulatory_info },
-        { label: 'Security Tips', href: footerLinks.regulatory.security_tips },
-        { label: 'Fraud Prevention', href: footerLinks.regulatory.fraud_prevention },
+        { label: 'State Bank Pakistan', href: footerLinks.regulatory.sbp },
+        { label: 'Banking Mohtasib', href: footerLinks.regulatory.banking_mohtasib },
+        { label: 'SECP', href: footerLinks.regulatory.secp },
+        { label: 'Govt. of AJK', href: footerLinks.regulatory.goajk },
+        { label: 'Govt. of Pakistan', href: footerLinks.regulatory.gopak },
+        { label: 'AJK Tourism', href: footerLinks.regulatory.ajk_tourism },
+        { label: 'Loan Calculator', href: footerLinks.regulatory.loan_calculator },
     ];
 
     return (
