@@ -92,7 +92,7 @@ const BankHeroCarousel: React.FC<BankHeroCarouselProps> = ({ slides: propSlides 
         <div className="relative w-full bg-gradient-to-br from-[#e9f7ef] to-[#fff7e6]">
             {/* Main Carousel Container */}
             <div
-                className="relative h-64 overflow-hidden sm:h-80 md:h-96 lg:h-[500px] xl:h-[550px] 2xl:h-[700px]"
+                className="relative h-64 overflow-hidden sm:h-75 md:h-96 lg:h-[400px] xl:h-[400px] 2xl:h-[400px]"
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
             >

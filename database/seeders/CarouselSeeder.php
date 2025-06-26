@@ -11,13 +11,23 @@ class CarouselSeeder extends Seeder
     {
         $carouselData = [
             [
-                'title' => 'Digital Banking Solutions',
+                'title' => 'Gold Loan ',
                 'description' => 'Experience seamless banking with our innovative digital platform designed for modern financial needs.',
-                'image' => 'carousel-images/digital_banking.jpg',
+                'image' => 'carousel-images/gold_loan.jpg',
                 'button_text' => 'Learn More',
-                'button_url' => '/digital-banking',
+                'button_url' => '/gold-loan',
                 'order' => 1,
-                'status' => 'inactive',
+                'status' => 'active',
+                'created_by' => 1,
+            ],
+              [
+                'title' => 'Car Finance',
+                'description' => 'Enjoy the drive of your dreams with our simple and accessible car financing solutions across Azad Jammu & Kashmir.',
+                'image' => 'carousel-images/cardrive.png',
+                'button_text' => 'Explore',
+                'button_url' => '/products/consumer-finances',
+                'order' => 2,
+                'status' => 'active',
                 'created_by' => 1,
             ],
             [
@@ -26,20 +36,11 @@ class CarouselSeeder extends Seeder
                 'image' => 'carousel-images/personal_loans.jpg',
                 'button_text' => 'Apply Now',
                 'button_url' => '/personal-loans',
-                'order' => 2,
-                'status' => 'active',
-                'created_by' => 1,
-            ],
-            [
-                'title' => 'Investment Opportunities',
-                'description' => 'Grow your wealth with our expert investment advisory services and diversified portfolio options.',
-                'image' => 'carousel-images/investments.jpg',
-                'button_text' => 'Explore',
-                'button_url' => '/investments',
                 'order' => 3,
                 'status' => 'active',
                 'created_by' => 1,
             ],
+          
             [
                 'title' => 'Business Banking Excellence',
                 'description' => 'Comprehensive financial solutions tailored for your business growth and operational efficiency.',
