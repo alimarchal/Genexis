@@ -32,14 +32,14 @@ export default function AgricultureFinances({ schemes }: Props) {
                         development, we're here to help your agricultural ventures thrive.
                     </p>
                 </div>
-                
+
                 {/* Loan Calculator Banner */}
-                <LoanCalculatorBanner 
+                <LoanCalculatorBanner
                     title="Calculate Your Agricultural Loan"
                     description="Plan your agricultural investments with our specialized calculator. Get EMI calculations for crop financing, farm equipment, livestock, and agricultural development loans."
                     className="mb-8"
                 />
-                
+
                 <LoanSchemesComponent schemes={schemes} />
             </div>
         </div>

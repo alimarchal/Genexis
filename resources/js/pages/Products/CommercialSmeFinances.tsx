@@ -32,14 +32,14 @@ export default function CommercialSmeFinances({ schemes }: Props) {
                         financing, we support your business ambitions.
                     </p>
                 </div>
-                
+
                 {/* Loan Calculator Banner */}
-                <LoanCalculatorBanner 
+                <LoanCalculatorBanner
                     title="Calculate Your Business Loan"
                     description="Plan your commercial financing needs with precision. Calculate EMIs for working capital, equipment loans, business expansion, and SME financing solutions."
                     className="mb-8"
                 />
-                
+
                 <LoanSchemesComponent schemes={schemes} />
             </div>
         </div>

@@ -1,18 +1,5 @@
 import { usePage } from '@inertiajs/react'; // Added usePage
-import {
-    ArrowRight,
-    Building2,
-    CheckCircle,
-    ChevronRight,
-    CreditCard,
-    Home,
-    MapPin,
-    Phone,
-    Shield,
-    TrendingUp,
-    Users,
-    Wheat
-} from 'lucide-react';
+import { ArrowRight, Building2, CheckCircle, ChevronRight, CreditCard, Home, MapPin, Phone, Shield, TrendingUp, Users, Wheat } from 'lucide-react';
 import React, { useState } from 'react';
 import LoanCalculatorBanner from './LoanCalculatorBanner';
 
@@ -337,7 +324,6 @@ const InteractiveBAJKServices: React.FC<Props> = ({ bankServices }) => {
                                 Call: {contact_phone}
                             </a>
                         </div>
-                        
                     </div>
                 </div>
                 <LoanCalculatorBanner

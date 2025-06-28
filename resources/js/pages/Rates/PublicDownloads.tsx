@@ -131,10 +131,10 @@ const PublicDownloadsPublic = ({ downloads }: PublicDownloadsPublicProps) => {
                                     return (
                                         <tr key={download.id} className="hover:bg-gray-50">
                                             <td className="px-4 py-4">
-                                                <div className="text-sm font-medium text-gray-900 break-words leading-relaxed">{download.title}</div>
+                                                <div className="text-sm leading-relaxed font-medium break-words text-gray-900">{download.title}</div>
                                                 <div>
                                                     {download.description && (
-                                                        <div className="mt-1 text-xs text-gray-500 break-words leading-relaxed">
+                                                        <div className="mt-1 text-xs leading-relaxed break-words text-gray-500">
                                                             {download.description}
                                                         </div>
                                                     )}
@@ -149,24 +149,26 @@ const PublicDownloadsPublic = ({ downloads }: PublicDownloadsPublicProps) => {
                                                 <span
                                                     className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium ${type.color}`}
                                                 >
-                                                    <span className="break-words">{type.icon} {download.category.charAt(0).toUpperCase() + download.category.slice(1)}</span>
+                                                    <span className="break-words">
+                                                        {type.icon} {download.category.charAt(0).toUpperCase() + download.category.slice(1)}
+                                                    </span>
                                                 </span>
                                             </td>
                                             <td className="px-4 py-4">
                                                 <div className="text-xs text-gray-900">
                                                     <div className="font-medium break-words">{download.file_size_formatted}</div>
-                                                    <div className="text-gray-500 break-words">{download.file_type || 'Unknown'}</div>
+                                                    <div className="break-words text-gray-500">{download.file_type || 'Unknown'}</div>
                                                 </div>
                                             </td>
                                             <td className="px-4 py-4">
                                                 <div className="text-xs font-medium text-gray-900">{download.download_count}</div>
                                             </td>
                                             <td className="px-4 py-4">
-                                                <div className="text-xs text-gray-900 break-words">
+                                                <div className="text-xs break-words text-gray-900">
                                                     {new Date(download.created_at).toLocaleDateString('en-US', {
                                                         year: 'numeric',
                                                         month: 'short',
-                                                        day: 'numeric'
+                                                        day: 'numeric',
                                                     })}
                                                 </div>
                                             </td>

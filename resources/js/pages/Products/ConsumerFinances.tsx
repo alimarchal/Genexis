@@ -32,14 +32,14 @@ export default function ConsumerFinances({ schemes }: Props) {
                         education and everything in between.
                     </p>
                 </div>
-                
+
                 {/* Loan Calculator Banner */}
-                <LoanCalculatorBanner 
+                <LoanCalculatorBanner
                     title="Calculate Your Personal Loan"
                     description="Plan your consumer financing with our easy-to-use calculator. Get instant EMI calculations for home loans, personal loans, education loans, and more."
                     className="mb-8"
                 />
-                
+
                 <LoanSchemesComponent schemes={schemes} />
             </div>
         </div>

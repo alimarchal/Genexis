@@ -35,17 +35,8 @@ interface ContactPageProps {
 }
 
 export default function ContactPage() {
-    const { 
-        bankBranchesCount, 
-        contact_phone, 
-        contact_email, 
-        contact_address, 
-        call_center_phone,
-        email_support,
-        company_secretary_phone,
-        hrmd_phone,
-        flash 
-    } = usePage().props as ContactPageProps;
+    const { bankBranchesCount, contact_phone, contact_email, contact_address, company_secretary_phone, hrmd_phone, flash } = usePage()
+        .props as ContactPageProps;
 
     const [formData, setFormData] = useState({
         name: '',
@@ -75,25 +66,21 @@ export default function ContactPage() {
             id: 1,
             title: 'Call Center',
             description: '24/7 Customer Support',
-            phone: call_center_phone || contact_phone,
+            phone: contact_phone || contact_phone,
             color: 'text-blue-600',
             bgColor: 'bg-blue-50',
             hoverColor: 'hover:bg-blue-100',
-            icon: (
-                <Phone className="h-8 w-8" />
-            ),
+            icon: <Phone className="h-8 w-8" />,
         },
         {
             id: 2,
             title: 'Email Support',
             description: 'Quick Response Service',
-            phone: email_support || contact_email,
+            phone: contact_email || contact_email,
             color: 'text-green-600',
             bgColor: 'bg-green-50',
             hoverColor: 'hover:bg-green-100',
-            icon: (
-                <Mail className="h-8 w-8" />
-            ),
+            icon: <Mail className="h-8 w-8" />,
         },
         {
             id: 3,
@@ -103,9 +90,7 @@ export default function ContactPage() {
             color: 'text-yellow-600',
             bgColor: 'bg-yellow-50',
             hoverColor: 'hover:bg-yellow-100',
-            icon: (
-                <User className="h-8 w-8" />
-            ),
+            icon: <User className="h-8 w-8" />,
         },
         {
             id: 4,
@@ -115,9 +100,7 @@ export default function ContactPage() {
             color: 'text-purple-600',
             bgColor: 'bg-purple-50',
             hoverColor: 'hover:bg-purple-100',
-            icon: (
-                <Building2 className="h-8 w-8" />
-            ),
+            icon: <Building2 className="h-8 w-8" />,
         },
     ];
 
@@ -325,7 +308,7 @@ export default function ContactPage() {
                         {contactCards.map((card) => (
                             <div
                                 key={card.id}
-                                className={`group relative transform cursor-pointer transition-all duration-300  ${
+                                className={`group relative transform cursor-pointer transition-all duration-300 ${
                                     hoveredCard === card.id ? 'scale-105' : 'scale-100'
                                 }`}
                                 onMouseEnter={() => setHoveredCard(card.id)}
@@ -633,7 +616,7 @@ export default function ContactPage() {
                 </div>
 
                 {/* Branch Locator Section */}
-                <div className="relative mt-16 overflow-hidden bg-gradient-to-br from-[#4A7C59] via-[#5D9973] to-[#6CAF7E] rounded-2xl shadow-2xl mb-8">
+                <div className="relative mt-16 mb-8 overflow-hidden rounded-2xl bg-gradient-to-br from-[#4A7C59] via-[#5D9973] to-[#6CAF7E] shadow-2xl">
                     <div className="p-12 text-center text-white">
                         <div className="mx-auto max-w-4xl">
                             <div className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-full bg-white/20">
