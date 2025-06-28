@@ -22,8 +22,6 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductSchemeAttributeController;
 use App\Http\Controllers\ProductSchemeController;
-use App\Http\Controllers\ProductTypeAccountController;
-use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\ProfitRateController;
 use App\Http\Controllers\RegionController;
 use App\Http\Controllers\ScheduleOfChargeController;
@@ -86,6 +84,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('top-navbar-messages', TopNavbarMessageController::class);
 
 });
+
+
 
 // Public routes
 Route::get('/', [PageController::class, 'home'])->name('home');
