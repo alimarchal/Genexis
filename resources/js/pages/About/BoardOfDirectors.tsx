@@ -45,7 +45,7 @@ export default function BoardOfDirectors() {
                     </div>
 
                     <div className="flex justify-center">
-                        <div className="max-w-md">
+                        <div className="max-w-lg">
                             <BodCard boardMember={chairman} />
                         </div>
                     </div>

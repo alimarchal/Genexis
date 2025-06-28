@@ -63,7 +63,7 @@ const BodCard: React.FC<BodCardProps> = ({ boardMember }) => {
 
     return (
         <>
-            <div className="mx-auto w-full max-w-sm">
+            <div className="mx-auto w-full max-w-lg">
                 <div
                     className={`relative transform cursor-pointer overflow-hidden rounded-xl border border-gray-100 bg-white shadow-lg transition-all duration-500 ease-in-out hover:-translate-y-2 hover:scale-105 hover:shadow-2xl ${is_chairman ? 'ring-opacity-50 ring-2 ring-[#F9B912]' : ''} `}
                     onMouseEnter={() => setIsHovered(true)}
