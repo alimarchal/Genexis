@@ -453,6 +453,7 @@ class PageController extends Controller
             'branches' => $branches,
             'regions' => $regions,
             'districts' => $districts,
+            'contactPhone' => config('app.contact_phone'),
         ]);
     }
 

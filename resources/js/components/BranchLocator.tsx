@@ -42,9 +42,10 @@ interface Props {
     branches: Branch[];
     regions: Region[];
     districts: District[];
+    contactPhone: string;
 }
 
-const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts = [] }) => {
+const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts = [], contactPhone }) => {
     const [selectedRegion, setSelectedRegion] = useState('all');
     const [selectedDistrict, setSelectedDistrict] = useState('all');
     const [searchTerm, setSearchTerm] = useState('');
@@ -657,10 +658,10 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
                                     Contact Support
                                 </a>
                                 <a
-                                    href="tel:+92-5822-924244"
+                                    href={`tel:${contactPhone}`}
                                     className="inline-block rounded-xl bg-white px-4 py-2 text-center font-semibold text-[#4A7C59] transition-all duration-200 hover:bg-gray-100"
                                 >
-                                    Call Now: +92-5822-924244
+                                    Call Now: {contactPhone}
                                 </a>
                             </div>
                         </div>

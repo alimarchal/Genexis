@@ -42,12 +42,13 @@ interface Props {
     branches: Branch[];
     regions: Region[];
     districts: District[];
+    contactPhone: string;
 }
 
-export default function BranchNetwork({ branches, regions, districts }: Props) {
+export default function BranchNetwork({ branches, regions, districts, contactPhone }: Props) {
     return (
         <div className="w-full">
-            <BranchLocator branches={branches} regions={regions} districts={districts} />
+            <BranchLocator branches={branches} regions={regions} districts={districts} contactPhone={contactPhone} />
         </div>
     );
 }
