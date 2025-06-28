@@ -283,8 +283,6 @@ Your application will be available at `http://localhost:8000`
 After seeding, you can login with:
 
 - **Admin**: admin@example.com / password
-- **Manager**: manager@example.com / password
-- **User**: user@example.com / password
 
 ## Development Workflow
 
@@ -616,25 +614,14 @@ This document provides an overview of key application pages based on the provide
 
 ![Banking Services Page](public/screenshots/banking_services_page.png)
 
-**Key Features:**
-
-- "Car Finance" banner.
-- Overview of Banking Services with statistics (Branches, Customers, Rs 50B+ Deposits, Employees).
-- Sections for Consumer Finance, Commercial / SME Finances, Agriculture Finances, Micro Finances, each with key benefits and available products.
-- Additional Banking Solutions: Deposit Accounts, Term Deposits, Online Banking, Locker Facility.
-- Call to action to "Find Nearest Branch" and "Call".
-- "Latest News & Updates" section.
-
----
-
 **Note:**
 To view these images, please ensure you have saved your snapshot images as:
 
 - `contact_us_page.png`
 - `banking_services_page.png`
-  and placed them into the `/Users/alirazamarchal/Herd/Genexis/public/screenshots/` directory.
+  and placed them into the `public/screenshots/` directory.
   The Markdown file references them using relative paths like `public/screenshots/contact_us_page.png`.
 
 ---
 
-_This README was last updated on June 13, 2025._
+_This README was last updated on June 28, 2025._
