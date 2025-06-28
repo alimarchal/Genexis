@@ -1,8 +1,8 @@
 import WebsiteLayout from '@/layouts/WebsiteLayout';
 import { usePage } from '@inertiajs/react';
 import axios from 'axios';
-import { Building2, Check, Clock, Headphones, Loader2, Mail, MapPin, Phone, X } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
+import { Building2, Check, Clock, Headphones, Loader2, Mail, MapPin, Phone, User, X } from 'lucide-react';
+import React, { ReactElement, useEffect, useState } from 'react';
 
 interface PopupState {
     show: boolean;
@@ -10,11 +10,24 @@ interface PopupState {
     message: string;
 }
 
+interface ContactCard {
+    id: number;
+    title: string;
+    description: string;
+    phone: string;
+    icon: ReactElement;
+    color: string;
+    bgColor: string;
+    hoverColor: string;
+}
+
 interface ContactPageProps {
     bankBranchesCount: number;
     contact_phone: string;
     contact_email: string;
     contact_address: string;
+    company_secretary_phone?: string;
+    hrmd_phone?: string;
     flash?: {
         success?: string;
         error?: string;
@@ -22,7 +35,17 @@ interface ContactPageProps {
 }
 
 export default function ContactPage() {
-    const { bankBranchesCount, contact_phone, contact_email, contact_address, flash } = usePage().props as ContactPageProps;
+    const { 
+        bankBranchesCount, 
+        contact_phone, 
+        contact_email, 
+        contact_address, 
+        call_center_phone,
+        email_support,
+        company_secretary_phone,
+        hrmd_phone,
+        flash 
+    } = usePage().props as ContactPageProps;
 
     const [formData, setFormData] = useState({
         name: '',
@@ -45,6 +68,58 @@ export default function ContactPage() {
     const [rateLimited, setRateLimited] = useState(false);
     const [remainingTime, setRemainingTime] = useState(0);
     const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
+    const [hoveredCard, setHoveredCard] = useState<number | null>(null);
+
+    const contactCards: ContactCard[] = [
+        {
+            id: 1,
+            title: 'Call Center',
+            description: '24/7 Customer Support',
+            phone: call_center_phone || contact_phone,
+            color: 'text-blue-600',
+            bgColor: 'bg-blue-50',
+            hoverColor: 'hover:bg-blue-100',
+            icon: (
+                <Phone className="h-8 w-8" />
+            ),
+        },
+        {
+            id: 2,
+            title: 'Email Support',
+            description: 'Quick Response Service',
+            phone: email_support || contact_email,
+            color: 'text-green-600',
+            bgColor: 'bg-green-50',
+            hoverColor: 'hover:bg-green-100',
+            icon: (
+                <Mail className="h-8 w-8" />
+            ),
+        },
+        {
+            id: 3,
+            title: 'Corporate Affairs',
+            description: 'Company Secretary Office',
+            phone: company_secretary_phone || '+92-5822-920002',
+            color: 'text-yellow-600',
+            bgColor: 'bg-yellow-50',
+            hoverColor: 'hover:bg-yellow-100',
+            icon: (
+                <User className="h-8 w-8" />
+            ),
+        },
+        {
+            id: 4,
+            title: 'Human Resources',
+            description: 'HRMD Department',
+            phone: hrmd_phone || '+92-5822-923138',
+            color: 'text-purple-600',
+            bgColor: 'bg-purple-50',
+            hoverColor: 'hover:bg-purple-100',
+            icon: (
+                <Building2 className="h-8 w-8" />
+            ),
+        },
+    ];
 
     // Rate limiting countdown timer
     useEffect(() => {
@@ -243,42 +318,54 @@ export default function ContactPage() {
                     </p>
                 </div>
 
-                {/* Quick Contact Cards */}
-                <div className="mb-16 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-                    <div className="rounded-lg border border-green-100 bg-gradient-to-br from-[#4A7C59] to-[#6B9B7A] p-6 text-center text-white shadow-sm transition-shadow hover:shadow-md">
-                        <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-white/20">
-                            <Phone className="h-6 w-6" />
-                        </div>
-                        <h3 className="mb-2 text-lg font-semibold">Call Center</h3>
-                        <p className="mb-1 text-lg font-bold text-[#F9B912]">{contact_phone}</p>
-                        <p className="text-sm text-green-100">24/7 Support</p>
-                    </div>
+                {/* Contact Cards Section */}
+                <div className="mb-16">
+                    <h2 className="mb-12 text-center text-3xl font-bold text-gray-900">Contact Information</h2>
+                    <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+                        {contactCards.map((card) => (
+                            <div
+                                key={card.id}
+                                className={`group relative transform cursor-pointer transition-all duration-300  ${
+                                    hoveredCard === card.id ? 'scale-105' : 'scale-100'
+                                }`}
+                                onMouseEnter={() => setHoveredCard(card.id)}
+                                onMouseLeave={() => setHoveredCard(null)}
+                            >
+                                <div
+                                    className={`h-full rounded-xl border border-gray-200 p-6 ${card.bgColor} ${card.hoverColor} shadow-sm transition-all duration-300 hover:shadow-xl`}
+                                >
+                                    <div
+                                        className={`h-16 w-16 ${card.color} mx-auto mb-6 flex items-center justify-center rounded-full bg-white shadow-md transition-shadow duration-300 group-hover:shadow-lg`}
+                                    >
+                                        {card.icon}
+                                    </div>
+                                    <h3 className="mb-3 text-center text-lg font-semibold text-gray-900">{card.title}</h3>
+                                    <p className="mb-3 text-center text-lg font-bold text-[#4A7C59]">{card.phone}</p>
+                                    <p
+                                        className={`text-center text-sm leading-relaxed text-gray-600 transition-all duration-300 ${
+                                            hoveredCard === card.id ? 'text-gray-700' : ''
+                                        }`}
+                                    >
+                                        {card.description}
+                                    </p>
 
-                    <div className="rounded-lg border border-blue-100 bg-gradient-to-br from-[#1565c0] to-[#2196f3] p-6 text-center text-white shadow-sm transition-shadow hover:shadow-md">
-                        <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-white/20">
-                            <Mail className="h-6 w-6" />
-                        </div>
-                        <h3 className="mb-2 text-lg font-semibold">Email Support</h3>
-                        <p className="mb-1 text-lg font-bold text-[#F9B912]">{contact_email}</p>
-                        <p className="text-sm text-blue-100">Quick Response</p>
-                    </div>
-
-                    <div className="rounded-lg border border-orange-100 bg-gradient-to-br from-[#ef6c00] to-[#ff9800] p-6 text-center text-white shadow-sm transition-shadow hover:shadow-md">
-                        <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-white/20">
-                            <Building2 className="h-6 w-6" />
-                        </div>
-                        <h3 className="mb-2 text-lg font-semibold">Operations</h3>
-                        <p className="mb-1 text-lg font-bold text-[#F9B912]">+92-5822-920000</p>
-                        <p className="text-sm text-orange-100">Banking Operations</p>
-                    </div>
-
-                    <div className="rounded-lg border border-purple-100 bg-gradient-to-br from-[#7b1fa2] to-[#9c27b0] p-6 text-center text-white shadow-sm transition-shadow hover:shadow-md">
-                        <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-white/20">
-                            <Headphones className="h-6 w-6" />
-                        </div>
-                        <h3 className="mb-2 text-lg font-semibold">HRMD</h3>
-                        <p className="mb-1 text-lg font-bold text-[#F9B912]">+92-5822-923138</p>
-                        <p className="text-sm text-purple-100">General Inquiries HR</p>
+                                    {/* Animated border effect on hover */}
+                                    <div
+                                        className={`absolute inset-0 rounded-xl border-2 transition-all duration-300 ${
+                                            hoveredCard === card.id
+                                                ? card.id === 1
+                                                    ? 'border-blue-300 opacity-100'
+                                                    : card.id === 2
+                                                      ? 'border-green-300 opacity-100'
+                                                      : card.id === 3
+                                                        ? 'border-yellow-300 opacity-100'
+                                                        : 'border-purple-300 opacity-100'
+                                                : 'border-transparent opacity-0'
+                                        }`}
+                                    ></div>
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 </div>
 
@@ -546,7 +633,7 @@ export default function ContactPage() {
                 </div>
 
                 {/* Branch Locator Section */}
-                <div className="relative mt-16 overflow-hidden rounded-lg bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A] shadow-lg">
+                <div className="relative mt-16 overflow-hidden bg-gradient-to-br from-[#4A7C59] via-[#5D9973] to-[#6CAF7E] rounded-2xl shadow-2xl mb-8">
                     <div className="p-12 text-center text-white">
                         <div className="mx-auto max-w-4xl">
                             <div className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-full bg-white/20">

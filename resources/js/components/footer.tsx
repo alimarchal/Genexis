@@ -5,7 +5,6 @@ import ContactInfo from './footer/ContactInfo';
 import LogoSection from './footer/LogoSection';
 import QuickLinks from './footer/QuickLinks';
 import RegulatoryLinks from './footer/RegulatoryLinks';
-import ServicesLinks from './footer/ServicesLinks';
 
 interface FooterProps {
     bankBranchesCount: number;
@@ -21,10 +20,10 @@ interface FooterProps {
 const Footer: React.FC<FooterProps> = ({ bankBranchesCount, socialLinks }) => (
     <footer className="w-full bg-[#0d4a12] text-white">
         <div className="mx-auto max-w-7xl px-6 py-12">
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
                 <LogoSection bankBranchesCount={bankBranchesCount} socialLinks={socialLinks} />
                 <QuickLinks />
-                <ServicesLinks />
+                {/* <ServicesLinks /> */}
                 <ContactInfo />
             </div>
         </div>

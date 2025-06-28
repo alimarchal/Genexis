@@ -158,7 +158,14 @@ class PageController extends Controller
 
     public function contact()
     {
-        return inertia('Contact/Index');
+        return inertia('Contact/Index', [
+            'bankBranchesCount' => (int) env('BANK_BRANCHES_COUNT', 87),
+            'contact_phone' => env('CONTACT_PHONE', '+92-5822-920000'),
+            'contact_email' => env('CONTACT_EMAIL', 'info@bajk.com.pk'),
+            'contact_address' => env('CONTACT_ADDRESS', 'Bank of Azad Jammu & Kashmir'),
+            'company_secretary_phone' => env('COMPANY_SECRETARY_PHONE', '+92-5822-920002'),
+            'hrmd_phone' => env('HRMD_PHONE', '+92-5822-923138'),
+        ]);
     }
 
     public function contactSubmit(StoreContactSubmissionRequest $request)
