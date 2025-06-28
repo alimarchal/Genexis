@@ -84,6 +84,8 @@ export default function CreateManagement() {
                                                     <SelectItem value="Ms.">Ms.</SelectItem>
                                                     <SelectItem value="Dr.">Dr.</SelectItem>
                                                     <SelectItem value="Prof.">Prof.</SelectItem>
+                                                    <SelectItem value="Syed">Syed</SelectItem>
+                                                    <SelectItem value="Raja">Raja</SelectItem>
                                                 </SelectContent>
                                             </Select>
                                             {errors.title && <p className="text-sm text-red-500">{errors.title}</p>}

@@ -31,7 +31,8 @@ export default function ManagementPage() {
                     <ExecutiveCard
                         key={member.id}
                         name={member.full_name}
-                        title={member.designation}
+                        title={member.title}
+                        designation={member.designation}
                         image={member.attachment ? `/storage/${member.attachment}` : undefined}
                         description={member.description}
                     />

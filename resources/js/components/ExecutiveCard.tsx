@@ -3,13 +3,15 @@ import React, { useState } from 'react';
 interface ExecutiveCardProps {
     name?: string;
     title?: string;
+    designation?: string;
     image?: string;
     description?: string;
 }
 
 const ExecutiveCard: React.FC<ExecutiveCardProps> = ({
-    name = 'Mr. Shahid Shahzad Mir',
-    title = 'President/CEO and CFO',
+    title = 'Mr.',
+    name = 'Shahid Shahzad Mir',
+    designation = 'President/CEO and CFO',
     image,
     description = 'Leading the bank with over 20 years of experience in financial services and strategic management.',
 }) => {
@@ -17,7 +19,7 @@ const ExecutiveCard: React.FC<ExecutiveCardProps> = ({
     const [imageError, setImageError] = useState(false);
 
     // Check if this person is a President
-    const isPresident = title?.toLowerCase().includes('president') || false;
+    const isPresident = designation?.toLowerCase().includes('president') || false;
 
     // Generate initials from name
     const getInitials = (fullName: string) => {
@@ -45,7 +47,7 @@ const ExecutiveCard: React.FC<ExecutiveCardProps> = ({
     };
 
     return (
-        <div className={`mx-auto w-full ${isPresident ? 'col-span-full mb-12 max-w-lg' : 'max-w-sm'}`}>
+        <div className={`mx-auto w-full ${isPresident ? 'col-span-full mb-12 max-w-lg' : 'max-w-lg'}`}>
             {isPresident && (
                 <div className="mb-4 text-center">
                     <h2 className="mb-2 text-3xl font-bold text-[#4A7C59]">Leadership</h2>
@@ -117,13 +119,13 @@ const ExecutiveCard: React.FC<ExecutiveCardProps> = ({
                     <div className="space-y-4 text-center">
                         {/* Name */}
                         <h3 className="transform text-xl font-bold text-[#4A7C59] transition-all duration-300 hover:text-[#F9B912] sm:text-2xl">
-                            {name || 'Name not available'}
+                            {title || ''} {name || 'Name not available'}
                         </h3>
 
                         {/* Title */}
                         <div className="relative">
                             <p className="transform text-sm font-semibold text-gray-600 transition-all duration-300 sm:text-base">
-                                {title || 'Position not specified'}
+                                {designation || 'Position not specified'}
                             </p>
                             <div
                                 className={`absolute bottom-0 left-1/2 h-0.5 -translate-x-1/2 transform bg-gradient-to-r from-[#4A7C59] to-[#F9B912] transition-all duration-500 ${isHovered ? 'w-full' : 'w-0'} `}
