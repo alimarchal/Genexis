@@ -22,7 +22,7 @@ export default function AuthSimpleLayout({ children, title, description }: Props
             {/* Light transparent overlay for better readability */}
             <div className="absolute inset-0 bg-black/20"></div>
 
-            <div className="relative z-10 w-full max-w-md">
+            <div className="relative z-10 w-full max-w-sm">
                 <div className="rounded-lg border border-white/30 bg-white/90 p-8 shadow-xl">
                     <div className="flex flex-col gap-8">
                         <div className="flex flex-col items-center gap-6">
