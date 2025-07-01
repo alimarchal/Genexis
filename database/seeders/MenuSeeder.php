@@ -52,6 +52,12 @@ class MenuSeeder extends Seeder
                         'route_name' => 'about.management',
                         'sort_order' => 4,
                     ],
+                     [
+                        'title' => 'Organogram',
+                        'slug' => 'organogram',
+                        'route_name' => 'about.organogram',
+                        'sort_order' => 5,
+                    ],
                 ],
             ],
             [
