@@ -46,29 +46,29 @@ const StyledNode = ({
     const getNodeStyle = () => {
         switch (type) {
             case 'president':
-                return 'bg-gradient-to-r from-[#1e40af] to-[#1e3a8a] text-white shadow-lg max-w-48 mx-auto';
+                return 'bg-gradient-to-r from-[#1e40af] to-[#1e3a8a] text-white shadow-lg w-40 mx-auto';
             case 'assistant':
-                return 'bg-gradient-to-r from-[#059669] to-[#047857] text-white shadow-md max-w-xs mx-auto';
+                return 'bg-gradient-to-r from-[#059669] to-[#047857] text-white shadow-md w-32 mx-auto';
             case 'crbd':
-                return 'bg-gradient-to-r from-[#dc2626] to-[#b91c1c] text-white shadow-md max-w-xs mx-auto';
+                return 'bg-gradient-to-r from-[#dc2626] to-[#b91c1c] text-white shadow-md w-64 mx-auto';
             case 'division':
-                return 'bg-gradient-to-r from-[#6b7280] to-[#4b5563] text-white shadow-md max-w-xs mx-auto';
+                return 'bg-gradient-to-r from-[#6b7280] to-[#4b5563] text-white shadow-md w-28 mx-auto';
             case 'region':
-                return 'bg-gradient-to-r from-[#f59e0b] to-[#d97706] text-white shadow-md w-32 mx-auto';
+                return 'bg-gradient-to-r from-[#f59e0b] to-[#d97706] text-white shadow-md w-28 mx-auto';
             case 'branch':
                 return 'bg-gradient-to-r from-[#10b981] to-[#059669] text-white shadow-sm w-24 mx-auto';
             default:
-                return 'bg-white border-2 border-gray-300 text-gray-800 shadow-sm max-w-xs mx-auto';
+                return 'bg-white border-2 border-gray-300 text-gray-800 shadow-sm w-32 mx-auto';
         }
     };
 
     return (
         <div 
-            className={`relative group rounded-lg p-3 text-center transition-transform hover:scale-105 ${getNodeStyle()} ${className}`}
+            className={`relative group rounded-lg p-2 text-center transition-transform hover:scale-105 ${getNodeStyle()} ${className}`}
             title={tooltip}
         >
-            <h4 className="text-sm font-semibold">{title}</h4>
-            {subtitle && <p className="text-xs opacity-90">{subtitle}</p>}
+            <h4 className="text-xs font-semibold leading-tight">{title}</h4>
+            {subtitle && <p className="text-xs opacity-90 leading-tight">{subtitle}</p>}
             
             {/* Beautiful Tooltip */}
             {tooltip && (
@@ -103,9 +103,18 @@ export default function Organogram() {
     const leftDivisions = otherDivisions.slice(0, Math.ceil(otherDivisions.length / 2));
     const rightDivisions = otherDivisions.slice(Math.ceil(otherDivisions.length / 2));
 
+    // Center scroll position on mount
+    React.useEffect(() => {
+        const container = document.querySelector('.organogram-container');
+        if (container) {
+            const scrollLeft = (container.scrollWidth - container.clientWidth) / 2;
+            container.scrollLeft = scrollLeft;
+        }
+    }, []);
+
     return (
         <div className="min-h-screen bg-gradient-to-br from-[#e9f7ef] to-[#fff7e6]">
-            <div className="mx-auto max-w-full px-6 py-8">
+            <div className="mx-auto max-w-7xl px-4 py-8">....
                 {/* Page Header */}
                 <div className="mb-12 text-center">
                     <h1 className="mb-4 text-4xl font-bold text-gray-900">Organization Structure</h1>
@@ -122,8 +131,8 @@ export default function Organogram() {
                     </div>
 
                     {/* Organogram Container */}
-                    <div className="rounded-lg bg-white p-4 shadow-lg overflow-x-auto min-h-[400px]">
-                        <div className="w-full min-w-[1200px]">
+                    <div className="rounded-lg bg-white p-4 shadow-lg overflow-x-auto organogram-container">
+                        <div className="w-full min-w-[1400px]">
                             <Tree
                                 lineWidth={'2px'}
                                 lineColor={'#374151'}
@@ -157,7 +166,7 @@ export default function Organogram() {
                                     key={crbd_division.id}
                                     label={
                                         <StyledNode 
-                                            title={crbd_division.short_name}
+                                            title={crbd_division.name}
                                             type="crbd"
                                             tooltip={crbd_division.name}
                                         />
@@ -198,7 +207,7 @@ export default function Organogram() {
                                     key={division.id}
                                     label={
                                         <StyledNode 
-                                            title={division.short_name}
+                                            title={division.name}
                                             type="division"
                                             tooltip={division.name}
                                         />
