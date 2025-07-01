@@ -554,6 +554,19 @@ class PageController extends Controller
 
     public function organizationStructure(Request $request)
     {
+        $divisions = \App\Models\Division::with('regions.branches')->get();
+        $regions = \App\Models\Region::with('branches')->get();
+        
+        // Get branch counts by region
+        $regionBranchCounts = $regions->mapWithKeys(function ($region) {
+            return [$region->name => $region->branches->count()];
+        });
 
+        return Inertia::render('About/Organogram', [
+            'title' => 'Organization Structure - Organogram',
+            'divisions' => $divisions,
+            'regions' => $regions,
+            'regionBranchCounts' => $regionBranchCounts,
+        ]);
     }
 }
