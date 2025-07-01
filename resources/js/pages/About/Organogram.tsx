@@ -46,7 +46,7 @@ const StyledNode = ({
     const getNodeStyle = () => {
         switch (type) {
             case 'president':
-                return 'bg-gradient-to-r from-[#1e40af] to-[#1e3a8a] text-white shadow-lg max-w-xs mx-auto';
+                return 'bg-gradient-to-r from-[#1e40af] to-[#1e3a8a] text-white shadow-lg max-w-48 mx-auto';
             case 'assistant':
                 return 'bg-gradient-to-r from-[#059669] to-[#047857] text-white shadow-md max-w-xs mx-auto';
             case 'crbd':
@@ -131,6 +131,7 @@ export default function Organogram() {
                                 title="President & CEO"
                                 subtitle="Chief Executive Officer"
                                 type="president"
+                                className="text-xs"
                             />
                         }
                     >
