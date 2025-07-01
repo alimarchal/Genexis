@@ -54,9 +54,9 @@ const StyledNode = ({
             case 'division':
                 return 'bg-gradient-to-r from-[#6b7280] to-[#4b5563] text-white shadow-md max-w-xs mx-auto';
             case 'region':
-                return 'bg-gradient-to-r from-[#065F46] to-[#047857] text-white shadow-md w-48 mx-auto';
+                return 'bg-gradient-to-r from-[#f59e0b] to-[#d97706] text-white shadow-md w-32 mx-auto';
             case 'branch':
-                return 'bg-gradient-to-r from-[#047857] to-[#059669] text-white shadow-sm w-40 mx-auto';
+                return 'bg-gradient-to-r from-[#10b981] to-[#059669] text-white shadow-sm w-24 mx-auto';
             default:
                 return 'bg-white border-2 border-gray-300 text-gray-800 shadow-sm max-w-xs mx-auto';
         }
@@ -104,7 +104,7 @@ export default function Organogram() {
     const rightDivisions = otherDivisions.slice(Math.ceil(otherDivisions.length / 2));
 
     return (
-        <div className="mx-auto min-h-screen bg-gradient-to-br from-[#e9f7ef] to-[#fff7e6] px-2 py-8">
+        <div className="mx-auto min-h-screen bg-gradient-to-br from-[#e9f7ef] to-[#fff7e6] px-4 py-8">
             {/* Page Header */}
             <div className="mb-12 text-center">
                 <h1 className="mb-4 text-4xl font-bold text-gray-900">Organization Structure</h1>
@@ -114,16 +114,15 @@ export default function Organogram() {
             </div>
 
             {/* Organogram Content */}
-            <div className="mx-auto max-w-none w-full px-4">
+            <div className="mx-auto max-w-full">
                 <div className="mb-8 text-center">
                     <h2 className="mb-2 text-3xl font-bold text-[#4A7C59]">Organogram</h2>
                     <div className="mx-auto h-1 w-24 bg-gradient-to-r from-[#4A7C59] to-[#F9B912]"></div>
                 </div>
 
                 {/* Organogram Container */}
-                <div className="rounded-lg bg-white p-12 shadow-lg overflow-x-auto min-w-full">
-                    <div className="min-w-max mx-auto">
-                        <Tree
+                <div className="rounded-lg bg-white p-8 shadow-lg overflow-x-auto">
+                    <Tree
                         lineWidth={'2px'}
                         lineColor={'#374151'}
                         lineBorderRadius={'10px'}
@@ -204,7 +203,6 @@ export default function Organogram() {
                             />
                         ))}
                     </Tree>
-                    </div>
                 </div>
 
                 {/* Organization Statistics */}
