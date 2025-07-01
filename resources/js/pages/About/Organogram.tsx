@@ -88,13 +88,8 @@ const StyledNode = ({
 };
 
 export default function Organogram() {
-     
     const { props } = usePage();
-    const {
-        divisions,
-        regions,
-        regionBranchCounts,
-    } = props as unknown as OrganogramPageProps;
+    const { divisions, regions, regionBranchCounts } = props as unknown as OrganogramPageProps;
 
     // Separate divisions into assistant (special) and regular divisions
     const regularDivisions = divisions.filter((div: Division) => div.is_active);
