@@ -105,7 +105,7 @@ export default function Organogram() {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-[#e9f7ef] to-[#fff7e6]">
-            <div className="mx-auto max-w-7xl px-6 py-8">
+            <div className="mx-auto max-w-full px-6 py-8">
                 {/* Page Header */}
                 <div className="mb-12 text-center">
                     <h1 className="mb-4 text-4xl font-bold text-gray-900">Organization Structure</h1>
@@ -122,11 +122,12 @@ export default function Organogram() {
                     </div>
 
                     {/* Organogram Container */}
-                    <div className="rounded-lg bg-white p-8 shadow-lg overflow-x-auto">
-                        <Tree
-                            lineWidth={'2px'}
-                            lineColor={'#374151'}
-                            lineBorderRadius={'10px'}
+                    <div className="rounded-lg bg-white p-4 shadow-lg overflow-x-auto min-h-[400px]">
+                        <div className="w-full min-w-[1200px]">
+                            <Tree
+                                lineWidth={'2px'}
+                                lineColor={'#374151'}
+                                lineBorderRadius={'10px'}
                             label={
                                 <StyledNode 
                                     title="President & CEO"
@@ -142,7 +143,7 @@ export default function Organogram() {
                                     key={division.id}
                                     label={
                                         <StyledNode 
-                                            title={division.short_name}
+                                            title={division.name}
                                             type="division"
                                             tooltip={division.name}
                                         />
@@ -205,6 +206,7 @@ export default function Organogram() {
                                 />
                             ))}
                         </Tree>
+                        </div>
                     </div>
                 </div>
 
