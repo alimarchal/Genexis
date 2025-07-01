@@ -29,16 +29,22 @@ interface RegionBranchCounts {
     [key: string]: number;
 }
 
+interface OrganogramPageProps {
+    divisions: Division[];
+    regions: Region[];
+    regionBranchCounts: RegionBranchCounts;
+}
+
 // Custom styled component for organizational nodes
-const StyledNode = ({ 
-    title, 
-    subtitle, 
+const StyledNode = ({
+    title,
+    subtitle,
     type = 'default',
     className = '',
-    tooltip
-}: { 
-    title: string; 
-    subtitle?: string; 
+    tooltip,
+}: {
+    title: string;
+    subtitle?: string;
     type?: 'president' | 'assistant' | 'division' | 'crbd' | 'region' | 'branch' | 'default';
     className?: string;
     tooltip?: string;
@@ -63,18 +69,18 @@ const StyledNode = ({
     };
 
     return (
-        <div 
-            className={`relative group rounded-lg p-2 text-center transition-transform hover:scale-105 ${getNodeStyle()} ${className}`}
+        <div
+            className={`group relative rounded-lg p-2 text-center transition-transform hover:scale-105 ${getNodeStyle()} ${className}`}
             title={tooltip}
         >
-            <h4 className="text-xs font-semibold leading-tight">{title}</h4>
-            {subtitle && <p className="text-xs opacity-90 leading-tight">{subtitle}</p>}
-            
+            <h4 className="text-xs leading-tight font-semibold">{title}</h4>
+            {subtitle && <p className="text-xs leading-tight opacity-90">{subtitle}</p>}
+
             {/* Beautiful Tooltip */}
             {tooltip && (
-                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10 whitespace-nowrap">
+                <div className="pointer-events-none absolute bottom-full left-1/2 z-10 mb-2 -translate-x-1/2 transform rounded-lg bg-gray-900 px-3 py-2 text-xs whitespace-nowrap text-white opacity-0 shadow-lg transition-opacity duration-300 group-hover:opacity-100">
                     {tooltip}
-                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
+                    <div className="absolute top-full left-1/2 h-0 w-0 -translate-x-1/2 transform border-t-4 border-r-4 border-l-4 border-transparent border-t-gray-900"></div>
                 </div>
             )}
         </div>
@@ -82,23 +88,21 @@ const StyledNode = ({
 };
 
 export default function Organogram() {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { divisions, regions, regionBranchCounts }: { 
-        divisions: Division[], 
-        regions: Region[], 
-        regionBranchCounts: RegionBranchCounts 
-    } = usePage<any>().props;
+     
+    const { props } = usePage();
+    const {
+        divisions,
+        regions,
+        regionBranchCounts,
+    } = props as unknown as OrganogramPageProps;
 
-    // Find CRBD division for regions
-    const crbd = divisions.find((div: Division) => div.short_name === 'CRBD');
-    
     // Separate divisions into assistant (special) and regular divisions
     const regularDivisions = divisions.filter((div: Division) => div.is_active);
-    
+
     // Separate CRBD from other divisions to position it in center
     const crbd_division = regularDivisions.find((div: Division) => div.short_name === 'CRBD');
     const otherDivisions = regularDivisions.filter((div: Division) => div.short_name !== 'CRBD');
-    
+
     // Split other divisions into left and right groups
     const leftDivisions = otherDivisions.slice(0, Math.ceil(otherDivisions.length / 2));
     const rightDivisions = otherDivisions.slice(Math.ceil(otherDivisions.length / 2));
@@ -131,90 +135,65 @@ export default function Organogram() {
                     </div>
 
                     {/* Organogram Container */}
-                    <div className="rounded-lg bg-white p-4 shadow-lg overflow-x-auto organogram-container">
+                    <div className="organogram-container overflow-x-auto rounded-lg bg-white p-4 shadow-lg">
                         <div className="w-full min-w-[1400px]">
                             <Tree
                                 lineWidth={'2px'}
                                 lineColor={'#374151'}
                                 lineBorderRadius={'10px'}
-                            label={
-                                <StyledNode 
-                                    title="President & CEO"
-                                    subtitle="Chief Executive Officer"
-                                    type="president"
-                                    className="text-xs"
-                                />
-                            }
-                        >
-                            {/* Left Divisions */}
-                            {leftDivisions.map((division: Division) => (
-                                <TreeNode
-                                    key={division.id}
-                                    label={
-                                        <StyledNode 
-                                            title={division.name}
-                                            type="division"
-                                            tooltip={division.name}
-                                        />
-                                    }
-                                />
-                            ))}
+                                label={<StyledNode title="President & CEO" subtitle="Chief Executive Officer" type="president" className="text-xs" />}
+                            >
+                                {/* Left Divisions */}
+                                {leftDivisions.map((division: Division) => (
+                                    <TreeNode
+                                        key={division.id}
+                                        label={<StyledNode title={division.name} type="division" tooltip={division.name} />}
+                                    />
+                                ))}
 
-                            {/* CRBD in Center with Regions */}
-                            {crbd_division && (
-                                <TreeNode
-                                    key={crbd_division.id}
-                                    label={
-                                        <StyledNode 
-                                            title={crbd_division.name}
-                                            type="crbd"
-                                            tooltip={crbd_division.name}
-                                        />
-                                    }
-                                >
-                                    {/* Show regions under CRBD */}
-                                    {regions.map((region: Region) => (
-                                        <TreeNode
-                                            key={region.id}
-                                            label={
-                                                <StyledNode 
-                                                    title={region.name}
-                                                    subtitle="Region"
-                                                    type="region"
-                                                    tooltip={`Region ${region.name}`}
-                                                />
-                                            }
-                                        >
-                                            {/* Branch count for each region */}
+                                {/* CRBD in Center with Regions */}
+                                {crbd_division && (
+                                    <TreeNode
+                                        key={crbd_division.id}
+                                        label={<StyledNode title={crbd_division.name} type="crbd" tooltip={crbd_division.name} />}
+                                    >
+                                        {/* Show regions under CRBD */}
+                                        {regions.map((region: Region) => (
                                             <TreeNode
+                                                key={region.id}
                                                 label={
-                                                    <StyledNode 
-                                                        title="Branches"
-                                                        subtitle={`(${regionBranchCounts[region.name] || 0})`}
-                                                        type="branch"
-                                                        tooltip={`Total Branches in ${region.name}: ${regionBranchCounts[region.name] || 0}`}
+                                                    <StyledNode
+                                                        title={region.name}
+                                                        subtitle="Region"
+                                                        type="region"
+                                                        tooltip={`Region ${region.name}`}
                                                     />
                                                 }
-                                            />
-                                        </TreeNode>
-                                    ))}
-                                </TreeNode>
-                            )}
+                                            >
+                                                {/* Branch count for each region */}
+                                                <TreeNode
+                                                    label={
+                                                        <StyledNode
+                                                            title="Branches"
+                                                            subtitle={`(${regionBranchCounts[region.name] || 0})`}
+                                                            type="branch"
+                                                            tooltip={`Total Branches in ${region.name}: ${regionBranchCounts[region.name] || 0}`}
+                                                        />
+                                                    }
+                                                />
+                                            </TreeNode>
+                                        ))}
+                                    </TreeNode>
+                                )}
 
-                            {/* Right Divisions */}
-                            {rightDivisions.map((division: Division) => (
-                                <TreeNode
-                                    key={division.id}
-                                    label={
-                                        <StyledNode 
-                                            title={division.name}
-                                            type="division"
-                                            tooltip={division.name}
-                                        />
-                                    }
-                                />
-                            ))}
-                        </Tree>
+                                {/* Right Divisions */}
+                                {rightDivisions.map((division: Division) => (
+                                    <TreeNode
+                                        key={division.id}
+                                        label={<StyledNode title={division.name} type="division" tooltip={division.name} />}
+                                    />
+                                ))}
+                            </Tree>
                         </div>
                     </div>
                 </div>
@@ -230,7 +209,9 @@ export default function Organogram() {
                         <p className="text-sm opacity-90">Regional Operations</p>
                     </div>
                     <div className="rounded-lg bg-gradient-to-r from-[#06b6d4] to-[#0891b2] p-4 text-center text-white shadow-md">
-                        <h4 className="text-lg font-bold">{Object.values(regionBranchCounts || {}).reduce((a: number, b: any) => a + Number(b), 0)}</h4>
+                        <h4 className="text-lg font-bold">
+                            {Object.values(regionBranchCounts || {}).reduce((a: number, b: number) => a + Number(b), 0)}
+                        </h4>
                         <p className="text-sm opacity-90">Total Branches</p>
                     </div>
                 </div>
@@ -244,13 +225,13 @@ export default function Organogram() {
                             {regularDivisions
                                 .sort((a, b) => a.short_name.localeCompare(b.short_name))
                                 .map((division: Division) => (
-                                <div key={division.id} className="flex items-center justify-between border-b border-gray-200 pb-2">
-                                    <span className="text-sm font-medium text-gray-900">{division.name}</span>
-                                    <span className="rounded-full bg-[#4A7C59] px-2 py-1 text-xs font-medium text-white">
-                                        {division.short_name}
-                                    </span>
-                                </div>
-                            ))}
+                                    <div key={division.id} className="flex items-center justify-between border-b border-gray-200 pb-2">
+                                        <span className="text-sm font-medium text-gray-900">{division.name}</span>
+                                        <span className="rounded-full bg-[#4A7C59] px-2 py-1 text-xs font-medium text-white">
+                                            {division.short_name}
+                                        </span>
+                                    </div>
+                                ))}
                         </div>
                     </div>
 
