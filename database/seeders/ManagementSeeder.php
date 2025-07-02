@@ -132,7 +132,7 @@ class ManagementSeeder extends Seeder
                 'full_name' => 'Muhammad Aslam Awan',
                 'designation' => 'Divisional Head Islamic Banking Division (A)',
                 'description' => null,
-                'attachment' => null, // Using dummy image from HTML
+                'attachment' => 'managment-attachments/Aslam_sb.jpg',
                 'order' => 13,
                 'status' => 'active',
             ],
