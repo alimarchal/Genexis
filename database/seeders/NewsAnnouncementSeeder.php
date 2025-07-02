@@ -47,6 +47,7 @@ class NewsAnnouncementSeeder extends Seeder
         // ]);
 
 
+
   NewsAnnouncement::create([
             'title' => 'BAJK Celebrates Record-Breaking Rs. 46 Billion Deposit Milestone',
  'content' => 'Muzaffarabad, July 01, 2025 – The Bank of Azad Jammu & Kashmir (BAJK) has made history by crossing <strong>Rs. 46 billion in deposits</strong>, setting a new benchmark in its financial journey.<br><br>
@@ -85,7 +86,6 @@ The celebrations culminated in a <strong>traditional cake-cutting ceremony</stro
             'slug' => 'bajk-celebrates-record-breaking-rs-46-billion-deposit-milestone',
             'is_published' => true,
         ]);
-
 
   NewsAnnouncement::create([
             'title' => '90th Meeting of the Board of Directors of Bank of Azad Jammu & Kashmir (BAJK) Held Successfully',
