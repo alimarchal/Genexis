@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreRegionRequest;
 use App\Http\Requests\UpdateRegionRequest;
+use App\Models\Division;
 use App\Models\Region;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -28,7 +29,11 @@ class RegionController extends Controller
 
     public function create()
     {
-        return Inertia::render('Region/Create');
+        $divisions = Division::where('is_active', true)->orderBy('name')->get();
+        
+        return Inertia::render('Region/Create', [
+            'divisions' => $divisions,
+        ]);
     }
 
     public function store(StoreRegionRequest $request)
@@ -50,8 +55,12 @@ class RegionController extends Controller
 
     public function edit(Region $region)
     {
+        $divisions = Division::where('is_active', true)->orderBy('name')->get();
+        $region->load('division');
+        
         return Inertia::render('Region/Edit', [
             'region' => $region,
+            'divisions' => $divisions,
         ]);
     }
 

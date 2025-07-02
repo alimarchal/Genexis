@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\UserTracking;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\QueryBuilder\AllowedFilter;
 
@@ -31,6 +32,11 @@ class Region extends Model
     public function branches(): HasMany
     {
         return $this->hasMany(Branch::class);
+    }
+
+    public function division(): BelongsTo
+    {
+        return $this->belongsTo(Division::class);
     }
 
     public function scopeActive($query)

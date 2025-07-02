@@ -4,25 +4,32 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { Save } from 'lucide-react';
 
+interface Division {
+    id: number;
+    name: string;
+    short_name: string;
+}
+
 interface Region {
     id: number;
     name: string;
     status: 'active' | 'inactive';
+    division_id: number;
     created_at: string;
     updated_at: string;
 }
 
 interface Props {
     region: Region;
+    divisions: Division[];
 }
 
-export default function Edit({ region }: Props) {
+export default function Edit({ region, divisions }: Props) {
     const breadcrumbs: BreadcrumbItem[] = [
         {
             title: 'Dashboard',
@@ -45,7 +52,7 @@ export default function Edit({ region }: Props) {
     const { data, setData, put, processing, errors } = useForm({
         name: region.name,
         status: region.status,
-        description: '', // Add description field
+        division_id: region.division_id?.toString() || '',
     });
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -99,18 +106,22 @@ export default function Edit({ region }: Props) {
                                     </div>
                                 </div>
 
-                                {/* Description - Full width */}
+                                {/* Division - Full width */}
                                 <div className="space-y-2">
-                                    <Label htmlFor="description">Description</Label>
-                                    <Textarea
-                                        id="description"
-                                        value={data.description}
-                                        onChange={(e) => setData('description', e.target.value)}
-                                        rows={4}
-                                        placeholder="Enter region description..."
-                                        className={errors.description ? 'border-red-500' : ''}
-                                    />
-                                    {errors.description && <p className="text-sm text-red-500">{errors.description}</p>}
+                                    <Label htmlFor="division_id">Division</Label>
+                                    <Select value={data.division_id} onValueChange={(value) => setData('division_id', value)}>
+                                        <SelectTrigger id="division_id" className={errors.division_id ? 'border-red-500' : ''}>
+                                            <SelectValue placeholder="Select a division" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {divisions.map((division) => (
+                                                <SelectItem key={division.id} value={division.id.toString()}>
+                                                    {division.name} ({division.short_name})
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                    {errors.division_id && <p className="text-sm text-red-500">{errors.division_id}</p>}
                                 </div>
                             </CardContent>
                         </Card>

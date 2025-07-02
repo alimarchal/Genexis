@@ -25,4 +25,9 @@ class Division extends Model
     {
         return $this->hasMany(Region::class);
     }
+
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
 }

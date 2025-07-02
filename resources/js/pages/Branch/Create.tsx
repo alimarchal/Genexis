@@ -51,7 +51,7 @@ type BranchForm = {
     address: string;
     region_id: string;
     district_id: string;
-    type: 'main' | 'sub' | 'agent';
+    type: 'main_branch' | 'sub_branch' | 'atm' | 'service_center' | 'mobile_unit';
     status: 'active' | 'inactive';
 };
 
@@ -62,7 +62,7 @@ export default function CreateBranch({ regions, districts }: Props) {
         address: '',
         region_id: '',
         district_id: '',
-        type: 'sub',
+        type: 'sub_branch',
         status: 'active',
     });
 
@@ -131,14 +131,16 @@ export default function CreateBranch({ regions, districts }: Props) {
                                     {/* Type */}
                                     <div className="space-y-2">
                                         <Label htmlFor="type">Branch Type</Label>
-                                        <Select value={data.type} onValueChange={(value: 'main' | 'sub' | 'agent') => setData('type', value)}>
+                                        <Select value={data.type} onValueChange={(value: 'main_branch' | 'sub_branch' | 'atm' | 'service_center' | 'mobile_unit') => setData('type', value)}>
                                             <SelectTrigger className={errors.type ? 'border-red-500' : ''}>
                                                 <SelectValue placeholder="Select branch type" />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="main">Main Branch</SelectItem>
-                                                <SelectItem value="sub">Sub Branch</SelectItem>
-                                                <SelectItem value="agent">Agent</SelectItem>
+                                                <SelectItem value="main_branch">Main Branch</SelectItem>
+                                                <SelectItem value="sub_branch">Sub Branch</SelectItem>
+                                                <SelectItem value="atm">ATM</SelectItem>
+                                                <SelectItem value="service_center">Service Center</SelectItem>
+                                                <SelectItem value="mobile_unit">Mobile Unit</SelectItem>
                                             </SelectContent>
                                         </Select>
                                         {errors.type && <p className="text-sm text-red-500">{errors.type}</p>}
