@@ -45,6 +45,48 @@ class NewsAnnouncementSeeder extends Seeder
         //     'slug' => 'new-branch-opening-in-muzaffarabad',
         //     'is_published' => true,
         // ]);
+
+
+  NewsAnnouncement::create([
+            'title' => 'BAJK Celebrates Record-Breaking Rs. 46 Billion Deposit Milestone',
+ 'content' => 'Muzaffarabad, July 01, 2025 – The Bank of Azad Jammu & Kashmir (BAJK) has made history by crossing <strong>Rs. 46 billion in deposits</strong>, setting a new benchmark in its financial journey.<br><br>
+
+A ceremony was held at <strong>BAJK\'s Main Branch Muzaffarabad</strong> to commemorate this achievement. The event was presided over by <strong>Mr. Khan Abdul Majid Khan</strong>, Minister for Finance & Cooperative AJK and <strong>Chairman of BAJK</strong>, who lauded the efforts of <strong>President/CEO Mr. Shahid Shahzad Mir</strong>, the dedicated BAJK team, and all stakeholders.<br><br>
+
+Divisional heads, executives, and officials were also present on this momentous occasion.<br><br>
+
+In his address, Chairman Mr. Khan Abdul Majid Khan outlined the bank\'s ambitious roadmap, highlighting its imminent transition to a <strong>scheduled bank</strong>. He called upon employees to <strong>embrace upcoming challenges and opportunities</strong> with renewed vigor. Reiterating BAJK\'s customer-centric approach, he emphasized treating clients with the utmost <strong>respect, dignity, and care</strong>. The Chairman also reaffirmed the bank\'s commitment to <strong>employee growth and development</strong>, ensuring that staff progression keeps pace with institutional expansion.<br><br>
+
+Earlier, <strong>President/CEO Mr. Shahid Shahzad Mir</strong> revealed that BAJK had not only achieved unprecedented deposit growth but had also surpassed its <strong>December 2025 profit targets six months ahead of schedule in June 2025</strong>. He attributed this success to the <strong>collective hard work of the BAJK team, DH CRBD, all Regional Heads, managers, and the entire field team</strong>, unwavering stakeholder support, and the visionary leadership of the AJK Prime Minister, Chairman BAJK, and the Board of Directors.<br><br>
+
+The celebrations culminated in a <strong>traditional cake-cutting ceremony</strong>, marking this significant achievement and symbolizing BAJK\'s promising future.<br><br>
+
+<div dir="rtl" style="text-align: right;">
+<strong>مظفرآباد، 01 جولائی 2025</strong> – بینک آف آزاد جموں و کشمیر (BAJK) نے تاریخ رقم کرتے ہوئے <strong>46 ارب روپے کے ڈیپازٹس</strong> کا سنگِ میل عبور کر لیا، جو کہ اس کے مالی سفر میں ایک نئی کامیابی کی علامت ہے۔<br><br>
+
+اس اہم کامیابی کی یاد میں BAJK کی مرکزی شاخ مظفرآباد میں ایک پروقار تقریب منعقد ہوئی۔ اس موقع کی صدارت وزیر خزانہ و تعاون حکومت آزاد جموں و کشمیر اور چیئرمین BAJK، <strong>جناب خان عبدالمجید خان</strong> نے کی، جنہوں نے <strong>صدر/سی ای او جناب شاہد شہزاد میر</strong>، BAJK کی محنتی ٹیم اور تمام اسٹیک ہولڈرز کی کاوشوں کو سراہا۔<br><br>
+
+تقریب میں ڈویژنل سربراہان، اعلیٰ افسران، اور دیگر عملہ بھی شریک تھا۔<br><br>
+
+اپنے خطاب میں چیئرمین جناب خان عبدالمجید خان نے بینک کے مستقبل کے جامع منصوبے کا خاکہ پیش کیا، جس میں جلد <strong>شیڈیول بینک</strong> میں منتقلی کو نمایاں حیثیت دی گئی۔ انہوں نے ملازمین پر زور دیا کہ وہ آئندہ چیلنجز اور مواقع کو نئی توانائی اور جذبے کے ساتھ قبول کریں۔<br><br>
+
+انہوں نے BAJK کی <strong>کسٹمر سینٹرک اپروچ</strong> کو اجاگر کرتے ہوئے کہا کہ صارفین سے عزت، وقار اور خلوص کے ساتھ پیش آنا ہماری اولین ترجیح ہے۔ چیئرمین نے یہ بھی یقین دلایا کہ ادارے کی ترقی کے ساتھ ساتھ <strong>ملازمین کی پیشہ ورانہ ترقی</strong> بھی یقینی بنائی جائے گی۔<br><br>
+
+قبل ازیں، <strong>صدر/سی ای او جناب شاہد شہزاد میر</strong> نے انکشاف کیا کہ نہ صرف بینک نے ریکارڈ ڈیپازٹ گروتھ حاصل کی ہے بلکہ <strong>دسمبر 2025 کے منافع کے اہداف</strong> کو بھی چھ ماہ قبل <strong>جون 2025</strong> میں عبور کر لیا ہے۔<br><br>
+
+انہوں نے اس کامیابی کو <strong>BAJK ٹیم، DH CRBD، تمام ریجنل ہیڈز، منیجرز، فیلڈ ٹیم، اسٹیک ہولڈرز کے تعاون</strong> اور وزیر اعظم آزاد کشمیر، چیئرمین BAJK اور بورڈ آف ڈائریکٹرز کی وژنری قیادت کا نتیجہ قرار دیا۔<br><br>
+
+تقریب کا اختتام ایک <strong>روایتی کیک کاٹنے کی تقریب</strong> پر ہوا، جو اس اہم کامیابی کی خوشی اور BAJK کے روشن مستقبل کی علامت تھی۔
+</div>',
+            'image' => 'news-images/46 million.jpg',
+            'published_date' => '2025-07-01',
+            'is_featured' => true,
+            'category' => 'announcements',
+            'slug' => 'bajk-celebrates-record-breaking-rs-46-billion-deposit-milestone',
+            'is_published' => true,
+        ]);
+
+
   NewsAnnouncement::create([
             'title' => '90th Meeting of the Board of Directors of Bank of Azad Jammu & Kashmir (BAJK) Held Successfully',
            'content' => '<div dir="ltr">
