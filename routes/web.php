@@ -216,8 +216,8 @@ Route::get('/news/{slug}', [PageController::class, 'newsDetail'])->name('news.de
 // -------------------------------------------------------------------------
 // CAREER OPPORTUNITIES SECTION
 // -------------------------------------------------------------------------
-Route::get('/careers-at-bajk', [CareerController::class, 'publicIndex'])->name('public-careers');
-Route::get('/careers-at-bajk/{career}', [CareerController::class, 'publicShow'])->name('public-careers.show');
+Route::get('/join-the-bank', [CareerController::class, 'publicIndex'])->name('public-careers');
+Route::get('/join-the-bank/{career}', [CareerController::class, 'publicShow'])->name('public-careers.show');
 
 // -------------------------------------------------------------------------
 // CONTACT & COMMUNICATION
@@ -228,8 +228,8 @@ Route::post('/contact-us', [PageController::class, 'contactSubmit'])->name('cont
 // -------------------------------------------------------------------------
 // PUBLIC DOWNLOADS SECTION
 // -------------------------------------------------------------------------
-Route::get('/public-downloads', [DownloadController::class, 'publicIndex'])->name('public-downloads');
-Route::get('/public-downloads/{download}/download', [DownloadController::class, 'download'])->name('public-downloads.download');
+Route::get('/documents', [DownloadController::class, 'publicIndex'])->name('public-downloads');
+Route::get('/documents/{download}/download', [DownloadController::class, 'download'])->name('public-downloads.download');
 
 // -------------------------------------------------------------------------
 // UTILITY TOOLS
