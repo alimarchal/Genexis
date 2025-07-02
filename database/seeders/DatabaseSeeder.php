@@ -16,7 +16,6 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
 
         $this->call([
-            MenuSeeder::class,
             TopNavbarMessageSeeder::class,
             ManagementSeeder::class,
             ProductSeeder::class,
@@ -24,6 +23,7 @@ class DatabaseSeeder extends Seeder
             ProductTypeAccountSeeder::class,
             ProductSchemeAttributeSeeder::class,
             ServiceSeeder::class,
+            MenuSeeder::class, // Moved after ServiceSeeder
             BoardOfDirectorSeeder::class,
             CarouselSeeder::class,
             BankServiceSeeder::class,

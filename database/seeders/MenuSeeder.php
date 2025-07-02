@@ -9,7 +9,13 @@ class MenuSeeder extends Seeder
 {
     public function run(): void
     {
-        // Clear existing menus
+        // Clear existing menus but preserve any custom service menus
+        $servicesToPreserve = Menu::whereHas('parent', function ($query) {
+            $query->where('slug', 'services');
+        })
+        ->where('route_name', 'service-pages.show')
+        ->get();
+
         Menu::truncate();
 
         // Main menu items
@@ -265,7 +271,12 @@ class MenuSeeder extends Seeder
         $servicesParent = Menu::where('slug', 'services')->first();
 
         if ($servicesParent) {
-            // Get all services except the hardcoded ones
+            // Clear existing dynamic service menus for this parent
+            Menu::where('parent_id', $servicesParent->id)
+                ->where('route_name', 'service-pages.show')
+                ->delete();
+
+            // Get all active services except the hardcoded ones
             $services = \App\Models\Service::active()
                 ->whereNotIn('slug', ['lockers-facility', 'utility-bills-collection', 'services-for-ajk-psc', 'home-remittance'])
                 ->ordered()
@@ -282,6 +293,11 @@ class MenuSeeder extends Seeder
                     'is_active' => true,
                 ]);
             }
+        }
+
+        // Clear menu cache after seeding
+        if (app()->bound(\App\Services\MenuService::class)) {
+            app(\App\Services\MenuService::class)->clearMenuCache();
         }
     }
 

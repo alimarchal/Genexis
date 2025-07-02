@@ -10,7 +10,7 @@ class MenuService
 {
     public function getMainMenu(): Collection
     {
-        return Cache::remember('main_menu', now()->addHours(24), function () {
+        return Cache::remember('main_menu', now()->addMinutes(5), function () {
             return Menu::getMenuTree();
         });
     }

@@ -119,11 +119,12 @@ class Menu extends Model
     public static function getMenuTree(): \Illuminate\Support\Collection
     {
         return static::with(['children' => function ($query) {
-            $query->with(['children' => function ($subQuery) {
-                $subQuery->orderBy('sort_order');
-            }])->orderBy('sort_order');
+            $query->where('is_active', true)
+                  ->with(['children' => function ($subQuery) {
+                      $subQuery->where('is_active', true)->orderBy('sort_order');
+                  }])->orderBy('sort_order');
         }])
-            ->mainMenu()
+            ->mainMenu() // This already filters by is_active = true and parent_id = null
             ->get();
     }
 }

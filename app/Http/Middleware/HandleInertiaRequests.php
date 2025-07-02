@@ -6,6 +6,7 @@ use Illuminate\Foundation\Inspiring;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tighten\Ziggy\Ziggy;
+use App\Services\MenuService;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -51,6 +52,16 @@ class HandleInertiaRequests extends Middleware
                 'location' => $request->url(),
             ],
             'sidebarOpen' => !$request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
+            // Dynamic navigation menu - always fresh
+            'mainMenu' => function () {
+                try {
+                    $menuService = app(MenuService::class);
+                    return $menuService->formatMenuForFrontend($menuService->getMainMenu());
+                } catch (\Exception $e) {
+                    \Log::warning('Error loading main menu: ' . $e->getMessage());
+                    return [];
+                }
+            },
             // now every Inertia page has `bankBranchesCount` in props
             'bankBranchesCount' => config('app.bank_branches_count'),
             'contact_phone' => config('app.contact_phone'),

@@ -169,6 +169,11 @@ class ServiceController extends Controller
 
     public function showHomePage(Service $service)
     {
+        // Check if service is active
+        if (!$service->is_active) {
+            abort(404, 'Service not available.');
+        }
+
         $service->load('attributes');
 
         return Inertia::render('Services/ShowHomePage', [
@@ -178,7 +183,14 @@ class ServiceController extends Controller
 
     public function lockersFacility()
     {
-        $service = Service::where('slug', 'lockers-facility')->with('attributes')->first();
+        $service = Service::where('slug', 'lockers-facility')
+            ->where('is_active', true)
+            ->with('attributes')
+            ->first();
+
+        if (!$service) {
+            abort(404, 'Service not available.');
+        }
 
         return Inertia::render('Services/ShowHomePage', [
             'service' => $service,
@@ -187,7 +199,14 @@ class ServiceController extends Controller
 
     public function utilityBillsCollection()
     {
-        $service = Service::where('slug', 'utility-bills-collection')->with('attributes')->first();
+        $service = Service::where('slug', 'utility-bills-collection')
+            ->where('is_active', true)
+            ->with('attributes')
+            ->first();
+
+        if (!$service) {
+            abort(404, 'Service not available.');
+        }
 
         return Inertia::render('Services/ShowHomePage', [
             'service' => $service,
@@ -196,7 +215,14 @@ class ServiceController extends Controller
 
     public function servicesForAjkPsc()
     {
-        $service = Service::where('slug', 'services-for-ajk-psc')->with('attributes')->first();
+        $service = Service::where('slug', 'services-for-ajk-psc')
+            ->where('is_active', true)
+            ->with('attributes')
+            ->first();
+
+        if (!$service) {
+            abort(404, 'Service not available.');
+        }
 
         return Inertia::render('Services/ShowHomePage', [
             'service' => $service,
@@ -205,7 +231,14 @@ class ServiceController extends Controller
 
     public function homeRemittance()
     {
-        $service = Service::where('slug', 'home-remittance')->with('attributes')->first();
+        $service = Service::where('slug', 'home-remittance')
+            ->where('is_active', true)
+            ->with('attributes')
+            ->first();
+
+        if (!$service) {
+            abort(404, 'Service not available.');
+        }
 
         return Inertia::render('Services/ShowHomePage', [
             'service' => $service,
