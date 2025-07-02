@@ -13,13 +13,13 @@ class ProfitRateSeeder extends Seeder
      */
     public function run(): void
     {
-        // Seed provisional rates for Feb 01 to Jun 30, 2025
+        // Provisional Cum Declared Profit Rates For The Half Year Ended on June 30, 2025
         $now = Carbon::now();
         DB::table('profit_rates')->insert([
             [
                 'category' => 'PLS Saving Deposit',
-                'rate' => 10.50,
-                'valid_from' => '2025-02-01',
+                'rate' => 7.50,
+                'valid_from' => '2025-01-01',
                 'valid_to' => '2025-06-30',
                 'is_active' => true,
                 'sort_order' => 1,
@@ -29,17 +29,17 @@ class ProfitRateSeeder extends Seeder
             [
                 'category' => 'BMBA',
                 'rate' => 10.50,
-                'valid_from' => '2025-02-01',
+                'valid_from' => '2025-01-01',
                 'valid_to' => '2025-06-30',
-                'is_active' => true,
+                'is_active' => false,
                 'sort_order' => 2,
                 'created_at' => $now,
                 'updated_at' => $now,
             ],
             [
                 'category' => 'SDA(from 0.05M to Rs. 50M)',
-                'rate' => 10.50,
-                'valid_from' => '2025-02-01',
+                'rate' => 7.50,
+                'valid_from' => '2025-01-01',
                 'valid_to' => '2025-06-30',
                 'is_active' => true,
                 'sort_order' => 3,
@@ -48,8 +48,8 @@ class ProfitRateSeeder extends Seeder
             ],
             [
                 'category' => 'SDA(Above to Rs. 50M to Rs.100M)',
-                'rate' => 10.50,
-                'valid_from' => '2025-02-01',
+                'rate' => 7.50,
+                'valid_from' => '2025-01-01',
                 'valid_to' => '2025-06-30',
                 'is_active' => true,
                 'sort_order' => 4,
@@ -58,8 +58,8 @@ class ProfitRateSeeder extends Seeder
             ],
             [
                 'category' => 'SDA(Above to Rs.100M)',
-                'rate' => 10.50,
-                'valid_from' => '2025-02-01',
+                'rate' => 7.50,
+                'valid_from' => '2025-01-01',
                 'valid_to' => '2025-06-30',
                 'is_active' => true,
                 'sort_order' => 5,
@@ -68,8 +68,8 @@ class ProfitRateSeeder extends Seeder
             ],
             [
                 'category' => 'Premium Plus Remittance Saving Account',
-                'rate' => 10.50,
-                'valid_from' => '2025-02-01',
+                'rate' => 8.50,
+                'valid_from' => '2025-01-01',
                 'valid_to' => '2025-06-30',
                 'is_active' => true,
                 'sort_order' => 6,
@@ -79,7 +79,7 @@ class ProfitRateSeeder extends Seeder
             [
                 'category' => "7 Days' Notice Deposit",
                 'rate' => 4.00,
-                'valid_from' => '2025-02-01',
+                'valid_from' => '2025-01-01',
                 'valid_to' => '2025-06-30',
                 'is_active' => true,
                 'sort_order' => 7,
@@ -89,7 +89,7 @@ class ProfitRateSeeder extends Seeder
             [
                 'category' => '30 Days\' Deposit',
                 'rate' => 4.00,
-                'valid_from' => '2025-02-01',
+                'valid_from' => '2025-01-01',
                 'valid_to' => '2025-06-30',
                 'is_active' => true,
                 'sort_order' => 8,
@@ -99,7 +99,7 @@ class ProfitRateSeeder extends Seeder
             [
                 'category' => '3 Month TDR',
                 'rate' => 4.00,
-                'valid_from' => '2025-02-01',
+                'valid_from' => '2025-01-01',
                 'valid_to' => '2025-06-30',
                 'is_active' => true,
                 'sort_order' => 9,
@@ -109,7 +109,7 @@ class ProfitRateSeeder extends Seeder
             [
                 'category' => '6 Month TDR',
                 'rate' => 4.50,
-                'valid_from' => '2025-02-01',
+                'valid_from' => '2025-01-01',
                 'valid_to' => '2025-06-30',
                 'is_active' => true,
                 'sort_order' => 10,
@@ -118,8 +118,8 @@ class ProfitRateSeeder extends Seeder
             ],
             [
                 'category' => '1 Year TDR',
-                'rate' => 6.00,
-                'valid_from' => '2025-02-01',
+                'rate' => 5.00,
+                'valid_from' => '2025-01-01',
                 'valid_to' => '2025-06-30',
                 'is_active' => true,
                 'sort_order' => 11,
@@ -128,8 +128,8 @@ class ProfitRateSeeder extends Seeder
             ],
             [
                 'category' => '2 Year TDR',
-                'rate' => 6.50,
-                'valid_from' => '2025-02-01',
+                'rate' => 5.50,
+                'valid_from' => '2025-01-01',
                 'valid_to' => '2025-06-30',
                 'is_active' => true,
                 'sort_order' => 12,
@@ -138,8 +138,8 @@ class ProfitRateSeeder extends Seeder
             ],
             [
                 'category' => '3 Year TDR',
-                'rate' => 7.00,
-                'valid_from' => '2025-02-01',
+                'rate' => 6.00,
+                'valid_from' => '2025-01-01',
                 'valid_to' => '2025-06-30',
                 'is_active' => true,
                 'sort_order' => 13,
@@ -148,8 +148,8 @@ class ProfitRateSeeder extends Seeder
             ],
             [
                 'category' => '4 Year TDR',
-                'rate' => 7.50,
-                'valid_from' => '2025-02-01',
+                'rate' => 6.50,
+                'valid_from' => '2025-01-01',
                 'valid_to' => '2025-06-30',
                 'is_active' => true,
                 'sort_order' => 14,
@@ -158,14 +158,14 @@ class ProfitRateSeeder extends Seeder
             ],
             [
                 'category' => '5 Year TDR',
-                'rate' => 8.50,
-                'valid_from' => '2025-02-01',
+                'rate' => 7.50,
+                'valid_from' => '2025-01-01',
                 'valid_to' => '2025-06-30',
                 'is_active' => true,
                 'sort_order' => 15,
                 'created_at' => $now,
                 'updated_at' => $now,
-            ],
+            ],         
         ]);
     }
 }
