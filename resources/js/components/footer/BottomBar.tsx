@@ -9,7 +9,7 @@ const BottomBar: React.FC = () => {
     const links = [
         { label: 'Email Login', href: atob(encodedEmailUrl), isExternal: true },
         { label: 'Portal Login', href: '#', isExternal: false },
-        { label: 'Organogram', href: '#', isExternal: false },
+        { label: 'Organogram', href: 'https://genexis.test/about-us/organogram', isExternal: false },
     ];
 
     const getYearRange = () => {

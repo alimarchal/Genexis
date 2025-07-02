@@ -13,7 +13,7 @@ const RegulatoryLinks: React.FC = () => {
         { label: 'Govt. of AJK', href: footerLinks.regulatory.goajk },
         { label: 'Govt. of Pakistan', href: footerLinks.regulatory.gopak },
         { label: 'AJK Tourism', href: footerLinks.regulatory.ajk_tourism },
-        { label: 'Loan Calculator', href: footerLinks.regulatory.loan_calculator },
+        // { label: 'Loan Calculator', href: footerLinks.regulatory.loan_calculator },
     ];
 
     return (
