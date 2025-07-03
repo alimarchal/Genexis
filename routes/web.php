@@ -295,19 +295,6 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
 });
 
 // =============================================================================
-// UTILITY ROUTES
-// =============================================================================
-/**
- * Special utility routes for external integrations and proxies.
- */
-
-// Email System Proxy
-Route::get('/email-login-proxy', function () {
-    $emailUrl = 'https://www.bankajk.com:2096';
-    return redirect()->away($emailUrl);
-})->name('email.login.proxy');
-
-// =============================================================================
 // ROUTE INCLUDES
 // =============================================================================
 /**

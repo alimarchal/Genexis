@@ -10,7 +10,12 @@ class MenuService
 {
     public function getMainMenu(): Collection
     {
-        return Cache::remember('main_menu', now()->addMinutes(5), function () {
+        // For immediate updates, use very short cache in production
+        $cacheKey = 'main_menu_v2'; 
+        $cacheDuration = config('app.env') === 'production' ? now()->addSeconds(30) : now()->addMinutes(2);
+        
+        return Cache::remember($cacheKey, $cacheDuration, function () {
+            \Log::info('Loading fresh menu data from database');
             return Menu::getMenuTree();
         });
     }
@@ -18,10 +23,30 @@ class MenuService
     public function clearMenuCache(): void
     {
         Cache::forget('main_menu');
+        Cache::forget('main_menu_v2'); // Clear new cache key too
+        
+        // Clear any other menu-related cache keys
+        $cacheKeys = [
+            'formatted_menu',
+            'navigation_menu', 
+            'website_menu',
+            'public_menu'
+        ];
+        
+        foreach ($cacheKeys as $key) {
+            Cache::forget($key);
+        }
+        
+        \Log::info('All menu caches cleared');
     }
 
-    public function formatMenuForFrontend(Collection $menus): array
+    public function formatMenuForFrontend($menus): array
     {
+        // Convert to Collection if needed
+        if (!$menus instanceof Collection) {
+            $menus = collect($menus);
+        }
+        
         return $menus->map(function (Menu $menu) {
             return [
                 'id' => $menu->id,
@@ -33,7 +58,7 @@ class MenuService
                 'isActive' => $menu->isActive(),
                 'hasChildren' => $menu->hasChildren(),
                 'isMegaMenu' => $menu->is_mega_menu,
-                'children' => $menu->children->isNotEmpty()
+                'children' => $menu->children->count() > 0
                     ? $this->formatMenuForFrontend($menu->children)
                     : [],
             ];

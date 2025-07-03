@@ -6,6 +6,7 @@ use App\Http\Requests\StoreServiceRequest;
 use App\Http\Requests\UpdateServiceRequest;
 use App\Models\Service;
 use App\Models\ServiceAttribute;
+use App\Services\MenuService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -74,6 +75,13 @@ class ServiceController extends Controller
             }
         }
 
+        // Immediately clear menu cache for new services
+        try {
+            app(MenuService::class)->clearMenuCache();
+        } catch (\Exception $e) {
+            \Log::warning('Failed to clear menu cache after service creation: ' . $e->getMessage());
+        }
+
         return redirect()->route('services.index')
             ->with('success', 'Service created successfully.');
     }
@@ -122,6 +130,13 @@ class ServiceController extends Controller
 
         $service->update($validated);
 
+        // Immediately clear menu cache to ensure real-time updates
+        try {
+            app(MenuService::class)->clearMenuCache();
+        } catch (\Exception $e) {
+            \Log::warning('Failed to clear menu cache after service update: ' . $e->getMessage());
+        }
+
         // Update service attributes
         if (isset($validated['attributes'])) {
             // Delete existing attributes
@@ -152,6 +167,13 @@ class ServiceController extends Controller
         }
 
         $service->delete();
+
+        // Immediately clear menu cache after service deletion
+        try {
+            app(MenuService::class)->clearMenuCache();
+        } catch (\Exception $e) {
+            \Log::warning('Failed to clear menu cache after service deletion: ' . $e->getMessage());
+        }
 
         return redirect()->route('services.index')
             ->with('success', 'Service deleted successfully.');
