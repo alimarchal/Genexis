@@ -191,6 +191,7 @@ class ServiceController extends Controller
 
     public function showHomePage(Service $service)
     {
+
         // Check if service is active
         if (!$service->is_active) {
             abort(404, 'Service not available.');

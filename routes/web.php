@@ -217,7 +217,7 @@ Route::get('/news/{slug}', [PageController::class, 'newsDetail'])->name('news.de
 // CAREER OPPORTUNITIES SECTION
 // -------------------------------------------------------------------------
 Route::get('/join-the-bank', [CareerController::class, 'publicIndex'])->name('public-careers');
-Route::get('/join-the-bank/{career}', [CareerController::class, 'publicShow'])->name('public-careers.show');
+Route::get('/join-the-bank/{career}', [CareerController::class, 'publicShow'])->name('public-careers.detail');
 
 // -------------------------------------------------------------------------
 // CONTACT & COMMUNICATION
