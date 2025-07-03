@@ -131,7 +131,12 @@ export default function CreateBranch({ regions, districts }: Props) {
                                     {/* Type */}
                                     <div className="space-y-2">
                                         <Label htmlFor="type">Branch Type</Label>
-                                        <Select value={data.type} onValueChange={(value: 'main_branch' | 'sub_branch' | 'atm' | 'service_center' | 'mobile_unit') => setData('type', value)}>
+                                        <Select
+                                            value={data.type}
+                                            onValueChange={(value: 'main_branch' | 'sub_branch' | 'atm' | 'service_center' | 'mobile_unit') =>
+                                                setData('type', value)
+                                            }
+                                        >
                                             <SelectTrigger className={errors.type ? 'border-red-500' : ''}>
                                                 <SelectValue placeholder="Select branch type" />
                                             </SelectTrigger>
