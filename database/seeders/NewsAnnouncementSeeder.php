@@ -46,7 +46,50 @@ class NewsAnnouncementSeeder extends Seeder
         //     'is_published' => true,
         // ]);
 
+        NewsAnnouncement::create([
+            'title' => 'Inauguration of the 88th Branch of the Bank of Azad Jammu and Kashmir in Raheemkot',
+            'content' => 'Muzaffarabad<br>
+The Bank of Azad Jammu and Kashmir has inaugurated its <strong>88th branch</strong> in Raheemkot, an area of Chikar. The inauguration ceremony took place on Wednesday, with the <strong>Speaker of the AJK Legislative Assembly, Chaudhry Latif Akbar</strong>, and the <strong>Minister for Finance & Cooperative and Chairman of the Bank, Khan Abdul Majid Khan</strong>, as the chief guests. Both dignitaries formally inaugurated the branch by cutting the ribbon and unveiling the plaque. Chaudhry Latif Akbar also opened his personal account at the new branch.<br><br>
 
+Present at the occasion were <strong>President/CEO Mr. Shahid Shehzad Mir</strong>, <strong>Divisional Head CRBD Raja Ghulam Mustafa</strong>, <strong>Divisional Head Operations Ehtesham Malik</strong>, <strong>Divisional Head CMD Muhammad Imtiaz Shaheen</strong>, <strong>Divisional Head SAMD Masood Ilyas Khan</strong>, <strong>Regional Head Muzaffarabad Jamal Anwar Khan</strong>, senior bank officials, and a large number of local residents.<br><br>
+
+<strong>A Significant Step for the Region</strong><br>
+With the opening of the new branch, a large population in Raheemkot and surrounding areas has gained access to banking facilities. The branch will serve people from areas such as <em>Namet Phutoat, Nakar, Perot, Sarakarr, Siri, Panjili, Upper Phutoat, Kiyati, Prem Kot, Katikar, Kundiali, Haveli, Lower Kot, Mashtamba, Jhagda Gali, Riyat, Mera Saru, Basti Qureshiyan, Basuj Chachiyan, Mera Kalan, Makhiyala Gali, Manja Ker, and Taap</em>.<br><br>
+
+<strong>An Area Rich in Educational and Health Facilities</strong><br>
+Rahim Kot hosts a <em>girls’ college, a boys’ college, a rural health center, a veterinary hospital, an agriculture office, a police check post, a community hall</em>, and various other government offices. The new bank branch is expected to <strong>promote commercial activity</strong> and provide <strong>easier access to banking services</strong> for students, farmers, traders, and the general public.<br><br>
+
+<strong>Public Sentiment</strong><br>
+Local residents expressed gratitude to the bank and government, calling this a vital step toward the region’s development. They noted that they would no longer need to travel far for banking services, and all financial transactions could now be handled with ease.<br><br>
+
+<strong>Bank President Mr. Shahid Shehzad Mir</strong> stated that the bank’s mission is to deliver <strong>quality financial services</strong> to remote and underdeveloped areas. He pledged that the bank will continue to open branches in other parts of Azad Kashmir to provide <strong>modern banking facilities</strong> to the public. A special prayer was offered for the <strong>success and development</strong> of the bank, the state, and the country.<br><br>
+
+<div dir="rtl" style="text-align: right;">
+<strong>مظفر آباد</strong><br>
+بینک آف آزاد جموں وکشمیر نے اپنی <strong>88 ویں برانچ</strong> کا چکار کے علاقے رحیم کوٹ میں افتتاح کر دیا ہے۔ بدھ کے روز رحیم کوٹ برانچ کی افتتاحی تقریب کے مہمان خصوصی آزاد جموں و کشمیر قانون ساز اسمبلی کے اسپیکر <strong>چوہدری لطیف اکبر</strong> اور وزیر خزانہ و کواپریٹو اور چیئرمین بینک <strong>خان عبدالماجد خان</strong> تھے۔ دونوں مہمانوں نے بینک کا افتتاح ربن کاٹ کر کیا، تختی کی نقاب کشائی کی گئی اور چوہدری لطیف اکبر نے اپنا ذاتی اکاؤنٹ بھی نئی برانچ میں کھول دیا۔<br><br>
+
+اس موقع پر بینک آف آزاد جموں وکشمیر کے صدر/سی ای او <strong>شاہد شہزاد میر</strong>، ڈی ایچ سی آر بی ڈی <strong>راجہ غلام مصطفی</strong>، ڈی ایچ آپریشنز <strong>احتشام ملک</strong>، ڈی ایچ سی ایم ڈی <strong>محمد امتیاز شاہین</strong>، ڈی ایچ ایس اے ایم ڈی <strong>مسعود الیاس خان</strong>، ریجنل ہیڈ مظفرآباد <strong>جمال انور خان</strong>، بینک کے اعلیٰ عہدیداران اور مقامی لوگوں کی بڑی تعداد موجود تھی۔<br><br>
+
+<strong>علاقے کے لیے ایک اہم قدم</strong><br>
+نئی برانچ کے افتتاح سے <strong>رحیم کوٹ</strong> اور گردونواح کی ایک بڑی آبادی کو بینکنگ سہولیات میسر آئی ہیں۔ اس برانچ کے تحت <em>نامٹ فٹوٹ، نکر، پیروٹ، سراکڑ، سیری، پنجیلی، اپر فٹوٹ، کیاٹی، پریم کوٹ، کٹیکر، کنڈیالی، حویلی، لوئر کوٹ، مشٹمبا، جھگڑاگلی، ریاٹ، میرا سرو، بستی قریشیاں، بسوج چچیاں، میرا کلاں، مکھیالہ گلی، منجا کیر، ٹاپ</em> جیسے علاقوں کے لوگ مستفید ہوں گے۔<br><br>
+
+<strong>تعلیمی و صحت کی سہولیات سے مالامال علاقہ</strong><br>
+رحیم کوٹ میں <em>لڑکیوں کا کالج، لڑکوں کا کالج، رورل ہیلتھ سینٹر، ویٹرنری ہسپتال، زراعت کا دفتر، پولیس چوکی، کمیونٹی ہال</em> اور دیگر سرکاری دفاتر موجود ہیں۔ نئے بینک برانچ کے افتتاح سے نہ صرف <strong>تجارتی سرگرمیوں کو فروغ</strong> ملے گا بلکہ <strong>طلباء، کسانوں، تاجروں اور عام شہریوں کو بینکنگ خدمات تک آسان رسائی</strong> میسر آئے گی۔<br><br>
+
+<strong>عوام کے جذبات</strong><br>
+مقامی لوگوں نے بینک اور حکومت کا شکریہ ادا کرتے ہوئے اس اقدام کو <strong>علاقے کی ترقی کے لیے ایک اہم قدم</strong> قرار دیا۔ ان کا کہنا تھا کہ اب انہیں بینکنگ کے لیے دور دراز کا سفر نہیں کرنا پڑے گا اور تمام مالی لین دین آسانی سے ہو سکے گا۔<br><br>
+
+بینک کے صدر <strong>شاہد شہزاد میر</strong> نے کہا کہ بینک کا مقصد <strong>دور دراز اور پسماندہ علاقوں میں معیاری مالیاتی خدمات</strong> پہنچانا ہے۔ انہوں نے عہد کیا کہ بینک آنے والے دنوں میں بھی آزاد کشمیر کے دیگر علاقوں میں اپنی شاخیں کھول کر <strong>عوام کو جدید بینکنگ سہولیات</strong> فراہم کرتا رہے گا۔<br><br>
+
+اس موقع پر <strong>بینک، ریاست اور ملک کی ترقی، کامیابی</strong> کے لیے دعا کی گئی۔
+</div>',
+            'image' => 'news-images/88branch.jpg',
+            'published_date' => '2025-07-02',
+            'is_featured' => true,
+            'category' => 'banking',
+            'slug' => 'inauguration-88th-bajk-branch-rahim-kot',
+            'is_published' => true,
+        ]);
 
   NewsAnnouncement::create([
             'title' => 'BAJK Celebrates Record-Breaking Rs. 46 Billion Deposit Milestone',
