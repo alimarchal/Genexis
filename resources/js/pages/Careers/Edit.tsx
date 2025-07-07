@@ -64,14 +64,14 @@ export default function EditCareer({ career }: Props) {
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
-        
+
         // Transform boolean values to strings for proper handling
         const formData = {
             ...data,
             is_active: data.is_active ? '1' : '0',
             is_featured: data.is_featured ? '1' : '0',
         };
-        
+
         // Use the post method from useForm which handles errors properly
         post(route('careers.update', career.id), {
             data: formData,

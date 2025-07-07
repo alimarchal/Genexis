@@ -79,9 +79,9 @@ test('it can update career', function () {
         'description' => 'Updated description',
         'requirements' => 'Updated requirements',
         'location' => 'Updated Location',
-        'is_active' => false,
-        'is_featured' => true,
-        'application_deadline' => now()->addDays(60)->format('Y-m-d'),
+        'is_active' => '0',  // Changed from false to '0'
+        'is_featured' => '1', // Changed from true to '1'
+        'closing_date' => now()->addDays(60)->format('Y-m-d'), // Changed from application_deadline
     ]);
 
     $response->assertRedirect(route('careers.index'));
