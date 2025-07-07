@@ -65,6 +65,10 @@ class CareerController extends Controller
     public function update(UpdateCareerRequest $request, Career $career)
     {
         $data = $request->validated();
+        
+        // Convert string boolean values to actual booleans
+        $data['is_active'] = $request->input('is_active') === '1';
+        $data['is_featured'] = $request->input('is_featured') === '1';
 
         if ($request->hasFile('document')) {
             if ($career->document) {
