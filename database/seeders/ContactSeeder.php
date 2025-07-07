@@ -105,6 +105,7 @@ class ContactSeeder extends Seeder
             ['branch_id' => 85, 'phone' => '05822-923021'],
             ['branch_id' => 86, 'phone' => '05823-920834'],
             ['branch_id' => 87, 'phone' => '05827-922264'],
+            ['branch_id' => 88, 'phone' => '05827-922265'],
         ];
 
         foreach ($contacts as $contact) {
