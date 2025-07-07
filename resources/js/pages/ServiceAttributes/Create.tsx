@@ -117,9 +117,7 @@ export default function CreateServiceAttribute({ services }: Props) {
                                         className={errors.attribute_value ? 'border-red-500' : ''}
                                     />
                                     {errors.attribute_value && <p className="text-sm text-red-500">{errors.attribute_value}</p>}
-                                    <p className="text-sm text-gray-500">
-                                        You can use line breaks to separate multiple items or create lists
-                                    </p>
+                                    <p className="text-sm text-gray-500">You can use line breaks to separate multiple items or create lists</p>
                                 </div>
                             </CardContent>
                         </Card>
@@ -133,7 +131,7 @@ export default function CreateServiceAttribute({ services }: Props) {
                                     <div className="flex items-center justify-between text-sm">
                                         <span className="font-medium">Service:</span>
                                         <span className="text-gray-600">
-                                            {data.service_id ? services.find(s => s.id.toString() === data.service_id)?.name : 'Not selected'}
+                                            {data.service_id ? services.find((s) => s.id.toString() === data.service_id)?.name : 'Not selected'}
                                         </span>
                                     </div>
                                     <div className="flex items-center justify-between text-sm">

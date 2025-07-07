@@ -182,9 +182,7 @@ export default function ServiceAttributeIndex({ serviceAttributes, services, fil
                                                 <Badge variant="outline">{attribute.service.name}</Badge>
                                             </TableCell>
                                             <TableCell className="max-w-xs">
-                                                <div className="text-sm text-gray-600">
-                                                    {truncateText(attribute.attribute_value)}
-                                                </div>
+                                                <div className="text-sm text-gray-600">{truncateText(attribute.attribute_value)}</div>
                                             </TableCell>
                                             <TableCell>
                                                 <Badge variant="secondary">{attribute.sort_order}</Badge>

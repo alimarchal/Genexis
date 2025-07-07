@@ -47,7 +47,7 @@ export default function EditServiceAttribute({ serviceAttribute, services }: Pro
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
-        
+
         const formData = {
             ...data,
             service_id: parseInt(data.service_id),
@@ -138,9 +138,7 @@ export default function EditServiceAttribute({ serviceAttribute, services }: Pro
                                         className={errors.attribute_value ? 'border-red-500' : ''}
                                     />
                                     {errors.attribute_value && <p className="text-sm text-red-500">{errors.attribute_value}</p>}
-                                    <p className="text-sm text-gray-500">
-                                        You can use line breaks to separate multiple items or create lists
-                                    </p>
+                                    <p className="text-sm text-gray-500">You can use line breaks to separate multiple items or create lists</p>
                                 </div>
                             </CardContent>
                         </Card>
@@ -153,9 +151,7 @@ export default function EditServiceAttribute({ serviceAttribute, services }: Pro
                                 <div className="space-y-3">
                                     <div className="flex items-center justify-between text-sm">
                                         <span className="font-medium">Service:</span>
-                                        <span className="text-gray-600">
-                                            {services.find(s => s.id.toString() === data.service_id)?.name}
-                                        </span>
+                                        <span className="text-gray-600">{services.find((s) => s.id.toString() === data.service_id)?.name}</span>
                                     </div>
                                     <div className="flex items-center justify-between text-sm">
                                         <span className="font-medium">Attribute Name:</span>

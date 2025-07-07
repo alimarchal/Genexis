@@ -35,14 +35,6 @@ export default function ShowServiceAttribute({ serviceAttribute }: Props) {
         { title: serviceAttribute.attribute_name, href: route('service-attributes.show', serviceAttribute.id) },
     ];
 
-    const formatDate = (dateString: string) => {
-        return new Date(dateString).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-        });
-    };
-
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={`${serviceAttribute.attribute_name} - Service Attribute`} />
@@ -68,9 +60,7 @@ export default function ShowServiceAttribute({ serviceAttribute }: Props) {
                                     <div className="flex-1 space-y-4">
                                         <div>
                                             <CardTitle className="text-2xl">{serviceAttribute.attribute_name}</CardTitle>
-                                            <p className="mt-1 text-lg text-gray-600">
-                                                For: {serviceAttribute.service.name}
-                                            </p>
+                                            <p className="mt-1 text-lg text-gray-600">For: {serviceAttribute.service.name}</p>
                                         </div>
                                         <div className="flex items-center gap-2">
                                             <Badge variant="outline" className="gap-1">
@@ -91,9 +81,7 @@ export default function ShowServiceAttribute({ serviceAttribute }: Props) {
                             </CardHeader>
                             <CardContent>
                                 <div className="prose max-w-none">
-                                    <p className="leading-relaxed whitespace-pre-wrap text-gray-700">
-                                        {serviceAttribute.attribute_value}
-                                    </p>
+                                    <p className="leading-relaxed whitespace-pre-wrap text-gray-700">{serviceAttribute.attribute_value}</p>
                                 </div>
                             </CardContent>
                         </Card>
