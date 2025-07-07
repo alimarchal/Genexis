@@ -838,6 +838,16 @@ class BranchSeeder extends Seeder
                 'latitude' => 33.0791390,
                 'longitude' => 73.7530460,
             ],
+
+               [
+                'district_id' => District::without('branches', 'region')->where('name', 'Muzaffarabad')->first()->id,
+                'region_id' => District::without('branches', 'region')->where('name', 'Muzaffarabad')->first()->region_id,
+                'code' => '0089',
+                'name' => 'Rahim Kot Branch',
+                'address' => 'Rahim Kot (UC Katkair), Tehsil & District Muzaffarabad, Azad Kashmir',
+                'latitude' => 33.0791390,
+                'longitude' => 73.7530460,
+            ],
         ];
 
         // Standard operating hours for all branches
