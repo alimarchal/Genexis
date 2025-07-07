@@ -103,62 +103,62 @@ class ServiceSeeder extends Seeder
             ServiceAttribute::create(array_merge($attr, ['service_id' => $remittanceService->id]));
         }
 
-        // Additional dynamic services for testing menu integration
-        $creditCardService = Service::create([
-            'name' => 'Credit Card Services',
-            'slug' => 'credit-card-services',
-            'description' => 'Comprehensive credit card services offering various card types to meet your financial needs and spending requirements.',
-            'icon' => '💳',
-            'image' => null,
-            'sort_order' => 5,
-        ]);
+        // // Additional dynamic services for testing menu integration
+        // $creditCardService = Service::create([
+        //     'name' => 'Credit Card Services',
+        //     'slug' => 'credit-card-services',
+        //     'description' => 'Comprehensive credit card services offering various card types to meet your financial needs and spending requirements.',
+        //     'icon' => '💳',
+        //     'image' => null,
+        //     'sort_order' => 5,
+        // ]);
 
-        $creditCardAttributes = [
-            ['attribute_name' => 'Card Types', 'attribute_value' => 'Classic, Gold, Platinum cards available', 'sort_order' => 1],
-            ['attribute_name' => 'Features', 'attribute_value' => 'Cashback rewards, Online shopping, International acceptance', 'sort_order' => 2],
-            ['attribute_name' => 'Security', 'attribute_value' => 'EMV chip technology, SMS alerts, 24/7 fraud monitoring', 'sort_order' => 3],
-        ];
+        // $creditCardAttributes = [
+        //     ['attribute_name' => 'Card Types', 'attribute_value' => 'Classic, Gold, Platinum cards available', 'sort_order' => 1],
+        //     ['attribute_name' => 'Features', 'attribute_value' => 'Cashback rewards, Online shopping, International acceptance', 'sort_order' => 2],
+        //     ['attribute_name' => 'Security', 'attribute_value' => 'EMV chip technology, SMS alerts, 24/7 fraud monitoring', 'sort_order' => 3],
+        // ];
 
-        foreach ($creditCardAttributes as $attr) {
-            ServiceAttribute::create(array_merge($attr, ['service_id' => $creditCardService->id]));
-        }
+        // foreach ($creditCardAttributes as $attr) {
+        //     ServiceAttribute::create(array_merge($attr, ['service_id' => $creditCardService->id]));
+        // }
 
-        $mobileService = Service::create([
-            'name' => 'Mobile Banking',
-            'slug' => 'mobile-banking',
-            'description' => 'Access your bank account anytime, anywhere with our secure mobile banking application.',
-            'icon' => '📱',
-            'image' => null,
-            'sort_order' => 6,
-        ]);
+        // $mobileService = Service::create([
+        //     'name' => 'Mobile Banking',
+        //     'slug' => 'mobile-banking',
+        //     'description' => 'Access your bank account anytime, anywhere with our secure mobile banking application.',
+        //     'icon' => '📱',
+        //     'image' => null,
+        //     'sort_order' => 6,
+        // ]);
 
-        $mobileAttributes = [
-            ['attribute_name' => 'Available Platforms', 'attribute_value' => 'iOS and Android applications', 'sort_order' => 1],
-            ['attribute_name' => 'Features', 'attribute_value' => 'Balance inquiry, Fund transfer, Bill payment', 'sort_order' => 2],
-            ['attribute_name' => 'Security', 'attribute_value' => 'Biometric authentication, PIN security', 'sort_order' => 3],
-        ];
+        // $mobileAttributes = [
+        //     ['attribute_name' => 'Available Platforms', 'attribute_value' => 'iOS and Android applications', 'sort_order' => 1],
+        //     ['attribute_name' => 'Features', 'attribute_value' => 'Balance inquiry, Fund transfer, Bill payment', 'sort_order' => 2],
+        //     ['attribute_name' => 'Security', 'attribute_value' => 'Biometric authentication, PIN security', 'sort_order' => 3],
+        // ];
 
-        foreach ($mobileAttributes as $attr) {
-            ServiceAttribute::create(array_merge($attr, ['service_id' => $mobileService->id]));
-        }
+        // foreach ($mobileAttributes as $attr) {
+        //     ServiceAttribute::create(array_merge($attr, ['service_id' => $mobileService->id]));
+        // }
 
-        $atmService = Service::create([
-            'name' => 'ATM Services',
-            'slug' => 'atm-services',
-            'description' => 'Wide network of ATMs providing 24/7 banking services across AJK region.',
-            'icon' => '🏧',
-            'image' => null,
-            'sort_order' => 7,
-        ]);
+        // $atmService = Service::create([
+        //     'name' => 'ATM Services',
+        //     'slug' => 'atm-services',
+        //     'description' => 'Wide network of ATMs providing 24/7 banking services across AJK region.',
+        //     'icon' => '🏧',
+        //     'image' => null,
+        //     'sort_order' => 7,
+        // ]);
 
-        $atmAttributes = [
-            ['attribute_name' => 'Network Coverage', 'attribute_value' => '50+ ATMs across AJK', 'sort_order' => 1],
-            ['attribute_name' => 'Services', 'attribute_value' => 'Cash withdrawal, Balance inquiry, Mini statement', 'sort_order' => 2],
-            ['attribute_name' => 'Operating Hours', 'attribute_value' => '24/7 availability', 'sort_order' => 3],
-        ];
+        // $atmAttributes = [
+        //     ['attribute_name' => 'Network Coverage', 'attribute_value' => '50+ ATMs across AJK', 'sort_order' => 1],
+        //     ['attribute_name' => 'Services', 'attribute_value' => 'Cash withdrawal, Balance inquiry, Mini statement', 'sort_order' => 2],
+        //     ['attribute_name' => 'Operating Hours', 'attribute_value' => '24/7 availability', 'sort_order' => 3],
+        // ];
 
-        foreach ($atmAttributes as $attr) {
-            ServiceAttribute::create(array_merge($attr, ['service_id' => $atmService->id]));
-        }
+        // foreach ($atmAttributes as $attr) {
+        //     ServiceAttribute::create(array_merge($attr, ['service_id' => $atmService->id]));
+        // }
     }
 }
