@@ -200,14 +200,27 @@ class Service extends Model
     }
 
     /**
-     * Clear menu cache
+     * Clear menu cache immediately and thoroughly
      */
     protected function clearMenuCache(): void
     {
         try {
+            // Clear menu service cache
             if (app()->bound(\App\Services\MenuService::class)) {
                 app(\App\Services\MenuService::class)->clearMenuCache();
             }
+
+            // Also clear general Laravel cache that might contain menu data
+            \Illuminate\Support\Facades\Cache::forget('main_menu');
+            \Illuminate\Support\Facades\Cache::forget('main_menu_v2');
+            
+            // Clear any cache tags related to menus
+            if (method_exists(\Illuminate\Support\Facades\Cache::class, 'tags')) {
+                \Illuminate\Support\Facades\Cache::tags(['menu', 'navigation'])->flush();
+            }
+
+            \Log::info('Menu cache cleared due to service change: ' . $this->name);
+            
         } catch (\Exception $e) {
             \Log::warning('Failed to clear menu cache: ' . $e->getMessage());
         }

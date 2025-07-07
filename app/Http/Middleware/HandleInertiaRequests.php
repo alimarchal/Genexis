@@ -52,10 +52,16 @@ class HandleInertiaRequests extends Middleware
                 'location' => $request->url(),
             ],
             'sidebarOpen' => !$request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
-            // Dynamic navigation menu - always fresh
-            'mainMenu' => function () {
+            // Dynamic navigation menu - always fresh with aggressive cache busting
+            'menu' => function () {
                 try {
                     $menuService = app(MenuService::class);
+                    
+                    // Add timestamp to force fresh data in development
+                    if (config('app.env') === 'local') {
+                        \Illuminate\Support\Facades\Cache::forget('main_menu_v2');
+                    }
+                    
                     return $menuService->formatMenuForFrontend($menuService->getMainMenu());
                 } catch (\Exception $e) {
                     \Log::warning('Error loading main menu: ' . $e->getMessage());
