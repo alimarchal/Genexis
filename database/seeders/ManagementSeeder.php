@@ -136,7 +136,15 @@ class ManagementSeeder extends Seeder
                 'order' => 13,
                 'status' => 'active',
             ],
-
+         [
+                'title' => 'Mr.',
+                'full_name' => 'Tariq Khan',
+                'designation' => 'Divisional Head Audit',
+                'description' => null,
+                'attachment' => null,
+                'order' => 14,
+                'status' => 'active',
+            ],
 
         ];
 

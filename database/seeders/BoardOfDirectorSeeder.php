@@ -178,7 +178,7 @@ class BoardOfDirectorSeeder extends Seeder
                 'image' => 'bod/zulfiqar_abbasi.jpg',
                 'sort_order' => 7,
                 'is_chairman' => false,
-                'is_active' => true,
+                'is_active' => false,
             ],
             [
                 'title' => 'Ms.',
