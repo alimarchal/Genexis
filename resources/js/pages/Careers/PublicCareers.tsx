@@ -159,7 +159,7 @@ export default function PublicCareersIndex({ careers }: Props) {
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="flex items-center gap-2">
                                                 <a
-                                                    href={route('public-careers.show', career.id)}
+                                                    href={route('public-careers.detail', career.id)}
                                                     className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A] px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:from-[#3d6b4a] hover:to-[#5a8a69] hover:shadow-lg"
                                                 >
                                                     <Eye className="h-4 w-4" />

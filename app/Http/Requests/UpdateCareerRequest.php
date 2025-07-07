@@ -11,20 +11,20 @@ class UpdateCareerRequest extends FormRequest
         return true;
     }
 
-    public function rules(): array
-    {
-        return [
-            'title' => 'required|string|max:255',
-            'description' => 'required|string|max:5000',
-            'requirements' => 'required|string|max:5000',
-            'location' => 'required|string|max:255',
-            'document' => 'nullable|file|mimes:pdf,doc,docx|max:307200',
-            'closing_date' => 'nullable|date|after_or_equal:today',
-            'is_active' => 'boolean',
-            'is_featured' => 'boolean',
-            'benefits' => 'nullable|string|max:3000',
-        ];
-    }
+public function rules(): array
+{
+    return [
+        'title' => 'required|string|max:255',
+        'description' => 'required|string|max:5000',
+        'requirements' => 'required|string|max:5000',
+        'location' => 'required|string|max:255',
+        'document' => 'nullable|file|mimes:pdf,doc,docx|max:307200',
+        'closing_date' => 'nullable|date|after_or_equal:today',
+        'is_active' => 'required|in:0,1', // Accept string values
+        'is_featured' => 'required|in:0,1', // Accept string values
+        'benefits' => 'nullable|string|max:3000',
+    ];
+}
 
     public function messages(): array
     {

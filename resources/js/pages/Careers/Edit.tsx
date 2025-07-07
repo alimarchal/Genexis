@@ -7,7 +7,7 @@ import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, Link, router, useForm } from '@inertiajs/react';
+import { Head, Link, useForm } from '@inertiajs/react';
 import { Download, FileText, Save, Upload } from 'lucide-react';
 import { FormEventHandler, useState } from 'react';
 
@@ -36,13 +36,24 @@ export default function EditCareer({ career }: Props) {
         { title: 'Edit', href: route('careers.edit', career.id) },
     ];
 
-    const { data, setData, processing, errors } = useForm({
+    // Format date for HTML date input (YYYY-MM-DD)
+    const formatDateForInput = (dateString: string | null): string => {
+        if (!dateString) return '';
+        try {
+            const date = new Date(dateString);
+            return date.toISOString().split('T')[0];
+        } catch {
+            return '';
+        }
+    };
+
+    const { data, setData, post, processing, errors } = useForm({
         title: career.title,
         description: career.description,
         requirements: career.requirements,
         location: career.location,
         document: null as File | null,
-        closing_date: career.closing_date || '',
+        closing_date: formatDateForInput(career.closing_date),
         is_active: career.is_active,
         is_featured: career.is_featured,
         benefits: career.benefits || '',
@@ -53,9 +64,20 @@ export default function EditCareer({ career }: Props) {
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
-        router.post(route('careers.update', career.id), {
+        
+        // Transform boolean values to strings for proper handling
+        const formData = {
             ...data,
-            _method: 'PUT',
+            is_active: data.is_active ? '1' : '0',
+            is_featured: data.is_featured ? '1' : '0',
+        };
+        
+        // Use the post method from useForm which handles errors properly
+        post(route('careers.update', career.id), {
+            data: formData,
+            forceFormData: true,
+            preserveState: true,
+            preserveScroll: true,
         });
     };
 
