@@ -18,7 +18,6 @@ class BodCommitteeSeeder extends Seeder
         $secretaryLaw = BoardOfDirector::where('full_name', 'Muhammad Sajjad')->first();
         $secretaryIndustries = BoardOfDirector::where('full_name', 'Khalid Mehmood Mirza')->first();
         $mubasharNabi = BoardOfDirector::where('full_name', 'Mubashar Nabi')->first();
-        $zulfiqarAbbasi = BoardOfDirector::where('full_name', 'Zulfiqar Abbasi')->first();
         $bushraNaz = BoardOfDirector::where('full_name', 'Bushra Naz Malik')->first();
 
         // Get from management
@@ -27,15 +26,15 @@ class BodCommitteeSeeder extends Seeder
         $riskHead = Management::where('full_name', 'Amjad Mahmood Gilani')->first();
         $itHead = Management::where('full_name', 'Gulzar A. Rao')->first();
         $complianceHead = Management::where('full_name', 'Javed Iqbal')->first();
-        $operationsHead = Management::where('full_name', 'Ahtasham Malik')->first();
-
+        // $operationsHead = Management::where('full_name', 'Ahtasham Malik')->first();
+        $auditHead = Management::where('full_name', 'Tariq Khan')->first();
         $committees = [
             [
                 'name' => 'Human Resource Committee of BoD',
                 'description' => 'Committee responsible for human resource policies and management oversight.',
-                'chairman_board_id' => $chairmanBAJK?->id,
+                'chairman_board_id' => $secretaryFinance?->id,
                 'secretary_management_id' => $hrDivHead?->id,
-                'board_members' => array_filter([$mubasharNabi?->id, $bushraNaz?->id]),
+                'board_members' => array_filter([$mubasharNabi?->id]),
                 'management_members' => array_filter([$presidentCEOManag?->id]),
                 'is_active' => true,
                 'sort_order' => 1,
@@ -44,13 +43,14 @@ class BodCommitteeSeeder extends Seeder
                 'name' => 'Audit Committee of BoD',
                 'description' => 'Committee responsible for audit oversight and financial compliance.',
                 'chairman_board_id' => $bushraNaz?->id,
-                'secretary_management_id' => $complianceHead?->id,
+                'secretary_management_id' => $auditHead?->id,
                 'board_members' => array_filter([
                     $secretaryFinance?->id,
                     $secretaryLaw?->id,
-                    $zulfiqarAbbasi?->id,
+                    $secretaryIndustries?->id,
+                   
                 ]),
-                'management_members' => array_filter([$operationsHead?->id]),
+                // 'management_members' => array_filter([$auditHead?->id]),
                 'is_active' => true,
                 'sort_order' => 2,
             ],
@@ -62,7 +62,7 @@ class BodCommitteeSeeder extends Seeder
                 'board_members' => array_filter([
                     $secretaryFinance?->id,
                     $secretaryLaw?->id,
-                    $secretaryIndustries?->id,
+                    $bushraNaz?->id,
                 ]),
                 'management_members' => array_filter([$presidentCEOManag?->id]),
                 'is_active' => true,
@@ -71,11 +71,11 @@ class BodCommitteeSeeder extends Seeder
             [
                 'name' => 'I.T Committee of BoD',
                 'description' => 'Committee responsible for information technology governance and strategy.',
-                'chairman_board_id' => $secretaryIndustries?->id,
+                'chairman_board_id' => $secretaryFinance?->id,
                 'secretary_management_id' => $itHead?->id,
                 'board_members' => array_filter([
                     $secretaryLaw?->id,
-                    $presidentCEO?->id,
+                    $mubasharNabi?->id,
                 ]),
                 'management_members' => array_filter([$presidentCEOManag?->id]),
                 'is_active' => true,
