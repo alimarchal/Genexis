@@ -189,8 +189,9 @@ class ServiceController extends Controller
         ]);
     }
 
-    public function showHomePage(Service $service)
-    {
+public function showHomePage($slug)
+{
+        $service = Service::where('slug', $slug)->firstOrFail();
 
         // Check if service is active
         if (!$service->is_active) {
