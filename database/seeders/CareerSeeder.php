@@ -11,6 +11,35 @@ class CareerSeeder extends Seeder
     {
         // Create specific career opportunities
         $careers = [
+               [
+                'title' => 'DATE EXTENSION (Advertisement No. AJK-102D/03/2025)',
+                'description' => 'This notice refers to a job advertisement published on March 15, 2025, in Daily Dawn and Daily Jang Islamabad, with the deadline for submitting online applications further extended up to July 15, 2025, while all other terms and conditions remain the same.',
+                'requirements' => '',
+                'location' => '',
+                'document' => 'careers/dateextension102.jpeg',
+                'closing_date' => '2025-07-04',
+                'benefits' => '',
+                'is_featured' => true,
+                'is_active' => true,
+                // 'views_count' => 85,
+                'created_by' => 1,
+                'updated_by' => 1,
+            ],
+
+               [
+                'title' => 'Date Extension – Career Opportunities (Advertisement No. AJK-136-D/05/2025)',
+                'description' => 'This notice, regarding a job advertisement published on March 15, 2025, in Daily Dawn and Daily Jang Islamabad, states that the deadline for submitting online applications has been further extended to July 15, 2025, with all other terms and conditions remaining the same.',
+                'requirements' => '',
+                'location' => '',
+                'document' => 'careers/dateextension136.jpeg',
+                'closing_date' => '2025-07-04',
+                'benefits' => '',
+                'is_featured' => true,
+                'is_active' => true,
+                // 'views_count' => 85,
+                'created_by' => 1,
+                'updated_by' => 1,
+            ],
              [
                 'title' => 'Date Extension',
                 'description' => 'We are looking for an experienced Senior Software Engineer to join our technology team. You will be responsible for developing and maintaining our core banking applications using modern technologies.',
