@@ -97,18 +97,16 @@ class CareerController extends Controller
             ->with('success', 'Career deleted successfully.');
     }
 
-    public function download(Career $career)
-    {
-        if (!$career->document || !Storage::disk('public')->exists($career->document)) {
-            abort(404, 'File not found');
-        }
+  public function download(Career $career)
+{
+    $path = $career->document; // e.g. careers/career11.jpeg
 
-        $extension = pathinfo($career->document, PATHINFO_EXTENSION);
-        $fileName = "Career-{$career->title}.{$extension}";
-
-        return Storage::disk('public')->download($career->document, $fileName);
+    if (!Storage::disk('public')->exists($path)) {
+        abort(404, 'File not found.');
     }
 
+    return Storage::disk('public')->download($path, basename($path));
+}
     // Public method for website careers
     public function publicIndex(Request $request)
     {
