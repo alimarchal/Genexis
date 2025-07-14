@@ -46,6 +46,99 @@ class NewsAnnouncementSeeder extends Seeder
         //     'is_published' => true,
         // ]);
 
+ NewsAnnouncement::create([
+            'title' => 'BAJK Signs Historic Agreement with Silverlake to Implement Core Banking System, Ushering in a New Era of Digital Banking',
+          'content' => 'Muzaffarabad<br>  The Bank of Azad Jammu and Kashmir (BAJK) has taken a monumental leap toward digital transformation by signing a landmark agreement with Malaysia-based global technology consortium Silverlake to implement a state-of-the-art <strong>Core Banking System (CBS)</strong>. The contract signing ceremony, held at the prestigious Islamabad Serena Hotel, was graced by esteemed dignitaries, marking a pivotal moment in the financial modernization of the region.<br><br>
+
+<strong>Distinguished Guests and Key Attendees</strong><br>
+The event was attended by senior officials from BAJK, consortium partners, government representatives, and key stakeholders from the financial and technology sectors. The <strong>Honorable Prime Minister of AJK, Chaudhry Anwarul Haq</strong>, presided as the <strong>Chief Guest</strong>.<br>
+Other notable attendees included:<br>
+- <strong>Mr. Shahid Shahzad Mir</strong>, President & CEO of BAJK<br>
+- <strong>Khan Abdul Majid Khan</strong>, Chairman of BAJK’s Board of Directors<br>
+- <strong>Chaudhry Latif Akbar</strong>, Speaker of the AJK Legislative Assembly<br>
+- <strong>Mr. Khushal Khan</strong>, Chief Secretary of AJK<br>
+- Former Chief Secretaries <strong>Mr. Usman Chacharr</strong> and <strong>Mr. Dawood Bareech</strong><br>
+- BAJK Directors, Divisional Heads, and members of the business community<br><br>
+
+<strong>A Transformational Step for BAJK</strong><br>
+The new <strong>Core Banking System (CBS)</strong> will replace BAJK’s legacy infrastructure with a <strong>modern, centralized, and real-time banking platform</strong>, integrating all operations to enhance efficiency, improve customer experience, and enable innovative digital services.<br><br>
+
+<strong>Key Statements from the Ceremony</strong><br>
+<strong>1. Mr. Shahid Shahzad Mir – President & CEO, BAJK</strong><br>
+<em>"Today marks a historic step forward for BAJK, particularly under the dynamic leadership of Chairman Khan Abdul Majid Khan and the Board IT Committee. This CBS will strengthen our operational backbone and allow us to serve customers with speed, security, and innovation. It is a crucial part of our vision to become a fully digital, customer-centric bank across Azad Jammu & Kashmir."</em><br><br>
+
+<strong>2. Mr. David Lim – Co-CEO, Silverlake</strong><br>
+<em>"This partnership signifies a major digital transformation. Silverlake is committed to delivering a <strong>robust, scalable, and secure</strong> banking solution tailored to BAJK’s needs, ensuring compliance with global standards while empowering customers with real-time, 24/7 banking services."</em><br><br>
+
+<strong>3. Khan Abdul Majid Khan – Chairman, BAJK</strong><br>
+<em>"Forewarning and digital readiness are the backbone of modern banking. This initiative lays the foundation for BAJK’s <strong>scheduled bank status</strong>, economic empowerment, and AJK’s digital development. The dedication of BAJK’s management has been instrumental in reaching this milestone."</em><br><br>
+
+<strong>4. Chaudhry Latif Akbar – Speaker, AJK Legislative Assembly</strong><br>
+<em>"With this transformation, BAJK is on its way to becoming a <strong>scheduled bank</strong>—a milestone that will elevate financial services in the region. I commend Chairman Majid Khan and the entire BAJK team for their relentless efforts."</em><br><br>
+
+<strong>Prime Minister Chaudhry Anwarul Haq’s Keynote Address</strong><br>
+<em>"Today is a momentous occasion for Azad Jammu & Kashmir as we witness a strategic leap in our financial infrastructure. The agreement between BAJK and Silverlake is not merely a technological upgrade—it is a <strong>game-changer</strong> for our economy and a testament to our government’s commitment to digital progress.<br>
+I commend BAJK’s Board of Directors and management for their foresight in embracing this transformation. The implementation of the Core Banking System will revolutionize service delivery, bringing AJK in line with global banking standards. This aligns perfectly with our vision to make BAJK a <strong>scheduled bank</strong>, a priority for my government.<br>
+To the people of AJK, I assure you: this government stands firmly behind BAJK’s growth. We have high expectations from this partnership and are confident it will unlock new opportunities for economic empowerment, especially for our youth and entrepreneurs. I congratulate all stakeholders, particularly the Finance Secretary, for turning this vision into reality."</em><br><br>
+
+<strong>Implementation Timeline</strong><br>
+The CBS will be rolled out in phases and is expected to be <strong>fully operational across all BAJK branches within 24 months</strong>, revolutionizing banking services in AJK.<br><br>
+
+<strong>About BAJK</strong><br>
+The <strong>Bank of Azad Jammu & Kashmir (BAJK)</strong> is a state-owned financial institution committed to inclusive banking and socio-economic development in the region. With an expanding branch network and a vision for digital excellence, BAJK continues to play a vital role in AJK’s financial growth.<br><br>
+
+<div dir="rtl" style="text-align: right;">
+<strong>بینک آف آزاد جموں و کشمیر (BAJK) نے سلورلیک کے ساتھ تاریخی معاہدہ پر دستخط کرتے ہوئے جدید ترین کور بینکنگ سسٹم متعارف کرانے کا اعلان کیا</strong><br>
+<strong>مظفرآباد،</strong><br>
+بینک آف آزاد جموں و کشمیر (BAJK) نے جمعہ کے روز ملائیشیا کی عالمی ٹیکنالوجی کنسورشیم سلورلیک کے ساتھ ایک تاریخی معاہدے پر دستخط کر کے خطے میں ڈیجیٹل بینکنگ کے نئے دور کا آغاز کر دیا ہے۔ اس معاہدے کے تحت BAJK میں جدید ترین <strong>کور بینکنگ سسٹم (CBS)</strong> متعارف کرایا جائے گا۔ اسلام آباد کے شاندار ہوٹل سیرینا میں منعقدہ دستخطی تقریب میں معزز شخصیات نے شرکت کی، جو خطے میں مالیاتی جدید کاری کا ایک اہم سنگ میل ثابت ہو گی۔<br><br>
+
+<strong>تقریب میں شریک معزز شخصیات</strong><br>
+تقریب میں BAJK کے اعلیٰ عہدیداران، کنسورشیم کے شراکت داروں، حکومتی نمائندوں اور مالیاتی و ٹیکنالوجی شعبوں کے اہم اسٹیک ہولڈرز نے شرکت کی۔ <strong>آزاد جموں و کشمیر کے وزیراعظم محترم چوہدری انور الحق</strong> اس موقع پر <strong>مہمان خصوصی</strong> کی حیثیت سے موجود تھے۔<br>
+دیگر ممتاز شخصیات میں شامل تھے:<br>
+- <strong>شاہد شہزاد میر</strong>، صدر و سی ای او BAJK<br>
+- <strong>خان عبدالماجد خان</strong>، چیئرمین بورڈ آف ڈائریکٹرز BAJK<br>
+- <strong>چوہدری لطیف اکبر</strong>، اسپیکر قانون ساز اسمبلی آزاد جموں و کشمیر<br>
+- <strong>جناب خوشحال خان</strong>، چیف سیکرٹری آزاد جموں و کشمیر<br>
+- سابق چیف سیکرٹریز <strong>جناب عثمان چھچھر</strong> اور <strong>جناب داؤد بریچ</strong><br>
+- BAJK کے ڈائریکٹرز، ڈویژنل ہیڈز اور کاروباری برادری کے اراکین<br><br>
+
+<strong>BAJK کے لیے ایک انقلابی قدم</strong><br>
+نیا <strong>کور بینکنگ سسٹم (CBS)</strong> BAJK کے پرانے نظام کی جگہ لے گا اور ایک <strong>جدید، مرکزی اور رئیل ٹائم بینکنگ پلیٹ فارم</strong> فراہم کرے گا، جو تمام بینکنگ آپریشنز کو یکجا کرے گا، کارکردگی کو بہتر بنائے گا، صارفین کے تجربے کو بڑھائے گا اور جدید ڈیجیٹل خدمات کی راہ ہموار کرے گا۔<br><br>
+
+<strong>تقریب سے کلیدی اقتباسات</strong><br>
+<strong>1. شاہد شہزاد میر – صدر و سی ای او، BAJK</strong><br>
+<em>"آج BAJK کے لیے ایک تاریخی لمحہ ہے، خاص طور پر چیئرمین خان عبدالماجد خان اور بورڈ آئی ٹی کمیٹی کی متحرک قیادت میں۔ یہ سسٹم ہمارے آپریشنل ڈھانچے کو مستحکم کرے گا اور ہمیں تیز، محفوظ اور جدید بینکنگ خدمات فراہم کرنے کے قابل بنائے گا۔"</em><br><br>
+
+<strong>2. ڈیوڈ لِم – کو-سی ای او، سلورلیک</strong><br>
+<em>"یہ شراکت داری ڈیجیٹل بینکنگ کی ایک بڑی تبدیلی کی نمائندہ ہے۔ سلورلیک BAJK کو <strong>مضبوط، محفوظ اور توسیع پذیر</strong> حل فراہم کرنے کے لیے پرعزم ہے جو عالمی معیار کے مطابق ہوگا۔"</em><br><br>
+
+<strong>3. خان عبدالماجد خان – چیئرمین، BAJK</strong><br>
+<em>"پیشگی تیاری اور ڈیجیٹل اپنانا جدید بینکنگ کی بنیاد ہیں۔ یہ اقدام نہ صرف BAJK کے <strong>شیڈولڈ بینک</strong> بننے کی راہ ہموار کرے گا بلکہ خطے کی ڈیجیٹل ترقی اور معاشی خودمختاری میں مددگار ہو گا۔"</em><br><br>
+
+<strong>4. چوہدری لطیف اکبر – اسپیکر، قانون ساز اسمبلی</strong><br>
+<em>"یہ اقدام BAJK کو <strong>شیڈولڈ بینک</strong> بننے کی طرف گامزن کرتا ہے، جو علاقے کی مالیاتی ترقی کے لیے ایک اہم پیش رفت ہے۔ میں چیئرمین اور ان کی ٹیم کو خراج تحسین پیش کرتا ہوں۔"</em><br><br>
+
+<strong>وزیراعظم چوہدری انور الحق کا کلیدی خطاب</strong><br>
+<em>"آج کا دن آزاد جموں و کشمیر کے لیے ایک سنگ میل ہے۔ یہ معاہدہ صرف ٹیکنالوجی کی اپ گریڈ نہیں بلکہ ایک <strong>انقلابی قدم</strong> ہے جو ہماری معیشت اور ڈیجیٹل وژن کی عکاسی کرتا ہے۔<br>
+BAJK کی انتظامیہ اور بورڈ کی دوراندیشی لائق تحسین ہے۔ یہ نظام خدمات کی فراہمی میں انقلاب لائے گا اور عالمی معیارات سے ہم آہنگ کرے گا۔<br>
+میری حکومت کا وژن ہے کہ BAJK کو <strong>شیڈولڈ بینک</strong> بنایا جائے اور ہم اس ترقی کے پیچھے پوری طرح کھڑے ہیں۔ یہ شراکت نئے معاشی مواقع پیدا کرے گی، خصوصاً نوجوانوں اور کاروباری افراد کے لیے۔ میں تمام اسٹیک ہولڈرز، خاص طور پر فنانس سیکرٹری کو مبارکباد پیش کرتا ہوں۔"</em><br><br>
+
+<strong>نفاذ کا وقت کار</strong><br>
+یہ سسٹم مرحلہ وار نافذ کیا جائے گا اور <strong>اگلے 24 ماہ کے اندر تمام برانچز میں مکمل طور پر فعال</strong> ہو جائے گا، جس سے بینکنگ سروسز میں انقلابی تبدیلی آئے گی۔<br><br>
+
+<strong>BAJK کے بارے میں</strong><br>
+<strong>بینک آف آزاد جموں و کشمیر (BAJK)</strong> ایک سرکاری مالیاتی ادارہ ہے جو جامع بینکاری اور معاشی ترقی کے لیے وقف ہے۔ اپنی وسیع ہوتی برانچ نیٹ ورک اور ڈیجیٹل وژن کے تحت، BAJK خطے کی مالی ترقی میں اہم کردار ادا کر رہا ہے۔
+</div>',
+            'image' => 'news-images/ceremony.jpg',
+            'published_date' => '2025-07-11',
+            'is_featured' => true,
+            'category' => 'announcements',
+            'slug' => 'bajk-silverlake-core-banking-agreement-digital-banking-era',
+            'is_published' => true,
+        ]);
+
+
+
         NewsAnnouncement::create([
             'title' => 'Inauguration of the 88th Branch of the Bank of Azad Jammu and Kashmir in Raheemkot',
             'content' => 'Muzaffarabad<br>
