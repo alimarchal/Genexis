@@ -36,6 +36,7 @@ class LoanCalculatorController extends Controller
                 'minTenure' => $limits['minTenure'],
                 'maxTenure' => $limits['maxTenure'],
                 'suggestedRate' => $limits['rate'],
+                'hasInsurance' => true, // All loan types support insurance
             ];
         })->values(); // Reset array keys
 
@@ -46,9 +47,23 @@ class LoanCalculatorController extends Controller
             ->select('category', 'rate')
             ->get();
 
+        // Define insurance options
+        $insuranceOptions = [
+            'types' => [
+                'fixed' => 'Fixed Premium',
+                'percentage' => 'Percentage of Loan Amount'
+            ],
+            'defaults' => [
+                'fixed' => 0,
+                'percentage' => 0.00,
+                'maxPercentage' => 100.00
+            ]
+        ];
+
         return Inertia::render('LoanCalculator/Index', [
             'loanTypes' => $loanTypes,
             'currentRates' => $currentRates,
+            'insuranceOptions' => $insuranceOptions,
         ]);
     }
 

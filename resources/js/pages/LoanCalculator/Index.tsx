@@ -11,6 +11,7 @@ import {
     PieChart,
     Printer,
     RotateCcw,
+    Shield,
     TrendingUp,
 } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
@@ -27,6 +28,7 @@ interface LoanType {
     minTenure: number;
     maxTenure: number;
     suggestedRate: number;
+    hasInsurance: boolean;
 }
 
 interface ProfitRate {
@@ -34,11 +36,24 @@ interface ProfitRate {
     rate: number;
 }
 
+interface InsuranceOptions {
+    types: {
+        fixed: string;
+        percentage: string;
+    };
+    defaults: {
+        fixed: number;
+        percentage: number;
+        maxPercentage: number;
+    };
+}
+
 interface EMISchedule {
     month: number;
     emi: number;
     principal: number;
     markup: number;
+    insurance: number;
     balance: number;
 }
 
@@ -70,13 +85,16 @@ interface LoanCalculatorProps {
     loanTypes: LoanType[];
     currentRates: ProfitRate[];
     bankRates: BankRates;
+    insuranceOptions: InsuranceOptions;
 }
 
-export default function LoanCalculator({ loanTypes, currentRates, bankRates }: LoanCalculatorProps) {
+export default function LoanCalculator({ loanTypes, currentRates, bankRates, insuranceOptions }: LoanCalculatorProps) {
     const [selectedLoanType, setSelectedLoanType] = useState<LoanType | null>(null);
     const [loanAmount, setLoanAmount] = useState<number>(0);
     const [securityDeposit, setSecurityDeposit] = useState<number>(0);
     const [tenure, setTenure] = useState<number>(12);
+    const [insuranceType, setInsuranceType] = useState<'fixed' | 'percentage'>('fixed');
+    const [insuranceAmount, setInsuranceAmount] = useState<number>(0);
     const [showResults, setShowResults] = useState<boolean>(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
 
@@ -95,6 +113,7 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
             // Reset security deposit to 0, especially for loans that don't support it
             setSecurityDeposit(0);
             setTenure(selectedLoanType.minTenure);
+            setInsuranceAmount(0);
             setShowResults(false);
         }
     }, [selectedLoanType]);
@@ -113,13 +132,6 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
-
-    // Remove the validation as security deposit is independent
-    // useEffect(() => {
-    //     if (securityDeposit > loanAmount) {
-    //         setSecurityDeposit(loanAmount);
-    //     }
-    // }, [loanAmount, securityDeposit]);
 
     // Helper function to map loan type names to bankRates keys
     const getLoanRateKey = (loanTypeName: string): keyof BankRates['loan'] | null => {
@@ -147,6 +159,17 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
         return !noSecurityDepositTypes.some((type) => name.includes(type.replace(' ', '')));
     };
 
+    // Calculate monthly insurance amount
+    const calculateMonthlyInsurance = useMemo(() => {
+        if (!selectedLoanType || !tenure) return 0;
+        
+        if (insuranceType === 'fixed') {
+            return insuranceAmount / tenure;
+        } else {
+            return (insuranceAmount / 100) * loanAmount / tenure;
+        }
+    }, [insuranceType, insuranceAmount, loanAmount, tenure, selectedLoanType]);
+
     const handleCalculate = () => {
         setShowResults(true);
     };
@@ -156,6 +179,8 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
         setLoanAmount(0);
         setSecurityDeposit(0);
         setTenure(12);
+        setInsuranceType('fixed');
+        setInsuranceAmount(0);
         setShowResults(false);
         setIsDropdownOpen(false);
     };
@@ -167,6 +192,8 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
                 emi: 0,
                 totalAmount: 0,
                 totalMarkup: 0,
+                totalInsurance: 0,
+                monthlyInsurance: 0,
                 schedule: [],
                 financingAmount: 0,
                 totalPrice: 0,
@@ -177,14 +204,20 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
         const financingAmount = loanAmount;
         const totalPrice = loanAmount + securityDeposit;
 
+        // Calculate monthly insurance
+        const monthlyInsurance = calculateMonthlyInsurance;
+        const totalInsurance = monthlyInsurance * tenure;
+
         if (financingAmount <= 0) {
             return {
-                emi: 0,
-                totalAmount: securityDeposit,
+                emi: monthlyInsurance,
+                totalAmount: securityDeposit + totalInsurance,
                 totalMarkup: 0,
+                totalInsurance,
+                monthlyInsurance,
                 schedule: [],
                 financingAmount: 0,
-                totalPrice: securityDeposit,
+                totalPrice: securityDeposit + totalInsurance,
             };
         }
 
@@ -195,11 +228,14 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
         const monthlyRate = markupRate / 100 / 12;
         const numberOfPayments = tenure;
 
-        // EMI calculation using the standard formula on financing amount (loan amount)
-        const emi = (financingAmount * monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments)) / (Math.pow(1 + monthlyRate, numberOfPayments) - 1);
+        // EMI calculation using the standard formula on financing amount (loan amount) - without insurance
+        const baseEmi = (financingAmount * monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments)) / (Math.pow(1 + monthlyRate, numberOfPayments) - 1);
 
-        const totalAmount = emi * numberOfPayments + securityDeposit;
-        const totalMarkup = emi * numberOfPayments - financingAmount;
+        // Total EMI includes insurance
+        const totalEmi = baseEmi + monthlyInsurance;
+
+        const totalAmount = totalEmi * numberOfPayments + securityDeposit;
+        const totalMarkup = baseEmi * numberOfPayments - financingAmount;
 
         // Generate amortization schedule
         let balance = financingAmount;
@@ -207,27 +243,30 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
 
         for (let month = 1; month <= numberOfPayments; month++) {
             const interestPayment = balance * monthlyRate;
-            const principalPayment = emi - interestPayment;
+            const principalPayment = baseEmi - interestPayment;
             balance = balance - principalPayment;
 
             schedule.push({
                 month,
-                emi: Math.round(emi),
+                emi: Math.round(totalEmi),
                 principal: Math.round(principalPayment),
                 markup: Math.round(interestPayment),
+                insurance: Math.round(monthlyInsurance),
                 balance: Math.round(Math.max(0, balance)),
             });
         }
 
         return {
-            emi: Math.round(emi),
+            emi: Math.round(totalEmi),
             totalAmount: Math.round(totalAmount),
             totalMarkup: Math.round(totalMarkup),
+            totalInsurance: Math.round(totalInsurance),
+            monthlyInsurance: Math.round(monthlyInsurance),
             schedule,
             financingAmount: Math.round(financingAmount),
             totalPrice: Math.round(totalPrice),
         };
-    }, [loanAmount, securityDeposit, tenure, selectedLoanType, bankRates, showResults]);
+    }, [loanAmount, securityDeposit, tenure, selectedLoanType, bankRates, showResults, calculateMonthlyInsurance]);
 
     const formatCurrency = (amount: number) => {
         return new Intl.NumberFormat('en-PK', {
@@ -261,7 +300,7 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
                 <style>
                     body { font-family: Arial, sans-serif; margin: 20px; }
                     .header { text-align: center; margin-bottom: 30px; }
-                    .summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin: 20px 0; }
+                    .summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0; }
                     .summary-card { border: 1px solid #ddd; padding: 15px; border-radius: 8px; }
                     table { width: 100%; border-collapse: collapse; margin-top: 20px; }
                     th, td { border: 1px solid #ddd; padding: 8px; text-align: right; }
@@ -286,9 +325,12 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
                     ${selectedLoanType && shouldShowSecurityDeposit(selectedLoanType.name) ? `<p><strong>Total Price:</strong> ${formatCurrency(calculations.totalPrice)}</p>` : ''}
                     <p><strong>Markup Rate:</strong> ${markupRate}% per annum</p>
                     <p><strong>Tenure:</strong> ${tenure} months</p>
+                    <p><strong>Insurance Type:</strong> ${insuranceType === 'fixed' ? 'Fixed Premium' : 'Percentage'}</p>
+                    <p><strong>Insurance Amount:</strong> ${insuranceType === 'fixed' ? formatCurrency(insuranceAmount) : `${insuranceAmount}%`}</p>
+                    <p><strong>Monthly Insurance:</strong> ${formatCurrency(calculations.monthlyInsurance)}</p>
                 </div>
 
-                <div class="summary" style="grid-template-columns: repeat(${selectedLoanType && shouldShowSecurityDeposit(selectedLoanType.name) ? '4' : '3'}, 1fr);">
+                <div class="summary">
                     <div class="summary-card">
                         <h4>Monthly Installment</h4>
                         <p><strong>${formatCurrency(calculations.emi)}</strong></p>
@@ -310,6 +352,10 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
                         <h4>Total Markup</h4>
                         <p><strong>${formatCurrency(calculations.totalMarkup)}</strong></p>
                     </div>
+                    <div class="summary-card">
+                        <h4>Total Insurance</h4>
+                        <p><strong>${formatCurrency(calculations.totalInsurance)}</strong></p>
+                    </div>
                 </div>
 
                 <h3>Payment Schedule</h3>
@@ -319,6 +365,7 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
                             <th style="text-align: left;">Month</th>
                             <th>Principal</th>
                             <th>Markup</th>
+                            <th>Insurance</th>
                             <th>Balance</th>
                             <th>Monthly Installment</th>
                         </tr>
@@ -331,6 +378,7 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
                                 <td style="text-align: left;">${payment.month}</td>
                                 <td>${formatNumber(payment.principal)}</td>
                                 <td>${formatNumber(payment.markup)}</td>
+                                <td>${formatNumber(payment.insurance)}</td>
                                 <td>${formatNumber(payment.balance)}</td>
                                 <td>${formatNumber(payment.emi)}</td>
                             </tr>
@@ -342,7 +390,7 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
 
                 <div class="disclaimer">
                     <h4>Important Note</h4>
-                    <p>This calculator provides estimates based on the inputs provided. Actual Islamic financing terms, markup rates, and monthly installment amounts may vary based on your creditworthiness, bank policies, and market conditions. All financing products are Shariah-compliant. Please consult with our Islamic banking officers for accurate information and personalized financing offers.</p>
+                    <p>This calculator provides estimates based on the inputs provided. Actual Islamic financing terms, markup rates, insurance premiums, and monthly installment amounts may vary based on your creditworthiness, bank policies, and market conditions. All financing products are Shariah-compliant. Please consult with our Islamic banking officers for accurate information and personalized financing offers.</p>
                 </div>
 
                 <div class="no-print" style="margin-top: 20px; text-align: center;">
@@ -400,7 +448,7 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
                         <h1 className="mb-4 text-4xl font-bold text-gray-900">Loan Calculator</h1>
                         <p className="mx-auto mb-8 max-w-3xl text-xl text-gray-600">
                             Calculate your monthly installments, view payment schedule, and visualize your financing breakdown with our comprehensive
-                            Islamic financing calculator.
+                            Islamic financing calculator including insurance coverage.
                         </p>
                     </div>
 
@@ -512,6 +560,78 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
                                     </div>
                                 )}
 
+                                {/* Insurance Section */}
+                                {selectedLoanType && selectedLoanType.hasInsurance && (
+                                    <div className="mb-6">
+                                        <label className="mb-3 block text-sm font-semibold text-gray-700">
+                                            <Shield className="mr-2 inline h-4 w-4" />
+                                            Insurance Coverage
+                                        </label>
+                                        
+                                        {/* Insurance Type Toggle */}
+                                        <div className="mb-4">
+                                            <div className="flex rounded-lg bg-gray-100 p-1">
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setInsuranceType('fixed')}
+                                                    className={`flex-1 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+                                                        insuranceType === 'fixed'
+                                                            ? 'bg-white text-[#4A7C59] shadow-sm'
+                                                            : 'text-gray-500 hover:text-gray-700'
+                                                    }`}
+                                                >
+                                                    Fixed Premium
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setInsuranceType('percentage')}
+                                                    className={`flex-1 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+                                                        insuranceType === 'percentage'
+                                                            ? 'bg-white text-[#4A7C59] shadow-sm'
+                                                            : 'text-gray-500 hover:text-gray-700'
+                                                    }`}
+                                                >
+                                                    Percentage
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        {/* Insurance Amount Input */}
+                                        <div className="relative">
+                                            <input
+                                                type="number"
+                                                value={insuranceAmount}
+                                                onChange={(e) => setInsuranceAmount(Math.max(0, Number(e.target.value)))}
+                                                min="0"
+                                                max={insuranceType === 'percentage' ? 100 : undefined}
+                                                step={insuranceType === 'percentage' ? 0.01 : 1}
+                                                className="w-full rounded-lg border border-gray-300 bg-white p-3 pr-8 focus:border-[#4A7C59] focus:ring-2 focus:ring-[#4A7C59]/20 focus:outline-none"
+                                                placeholder={insuranceType === 'fixed' ? 'Enter fixed amount' : 'Enter percentage'}
+                                            />
+                                            {insuranceType === 'percentage' && (
+                                                <Percent className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
+                                            )}
+                                        </div>
+
+                                        {/* Insurance Summary */}
+                                        <div className="mt-3 rounded-lg bg-blue-50 p-3">
+                                            <div className="text-sm text-blue-700">
+                                                <p>
+                                                    <strong>Monthly Insurance:</strong> {formatCurrency(calculateMonthlyInsurance)}
+                                                </p>
+                                                <p>
+                                                    <strong>Total Insurance:</strong> {formatCurrency(calculateMonthlyInsurance * tenure)}
+                                                </p>
+                                                {insuranceType === 'percentage' && (
+                                                    <p className="text-xs text-blue-600 mt-1">
+                                                        {insuranceAmount}% of {formatCurrency(loanAmount)} = {formatCurrency((insuranceAmount / 100) * loanAmount)}
+                                                    </p>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
                                 {/* Current Markup Rate Display */}
                                 <div className="mb-6">
                                     <label className="mb-3 block text-sm font-semibold text-gray-700">
@@ -615,7 +735,11 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
                         <div className="lg:col-span-2">
                             {/* EMI Results */}
                             <div
-                                className={`mb-8 grid gap-4 sm:grid-cols-2 ${selectedLoanType && shouldShowSecurityDeposit(selectedLoanType.name) ? 'lg:grid-cols-4' : 'lg:grid-cols-3'}`}
+                                className={`mb-8 grid gap-4 sm:grid-cols-2 ${
+                                    selectedLoanType && shouldShowSecurityDeposit(selectedLoanType.name) 
+                                        ? 'lg:grid-cols-5' 
+                                        : 'lg:grid-cols-4'
+                                }`}
                             >
                                 <div className="rounded-xl bg-white p-4 shadow-lg">
                                     <div className="mb-2 flex min-h-[1.5rem] items-center">
@@ -663,6 +787,18 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
                                         {formatCurrency(calculations.totalMarkup)}
                                     </p>
                                 </div>
+
+                                <div className="rounded-xl bg-white p-4 shadow-lg">
+                                    <div className="mb-2 flex min-h-[1.5rem] items-center">
+                                        <Shield className="mr-1 h-4 w-4 flex-shrink-0 text-purple-600" />
+                                        <h3 className="text-xs font-semibold whitespace-nowrap text-gray-900">Total Insurance</h3>
+                                    </div>
+                                    <p
+                                        className={`font-bold text-purple-600 ${calculations.totalInsurance.toString().length > 8 ? 'text-lg' : 'text-xl'}`}
+                                    >
+                                        {formatCurrency(calculations.totalInsurance)}
+                                    </p>
+                                </div>
                             </div>
 
                             {/* Loan Breakdown Visual - Show when results are calculated */}
@@ -678,12 +814,12 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
                                             <div className="h-64 w-64">
                                                 <Pie
                                                     data={{
-                                                        labels: ['Financing Amount', 'Markup Amount'],
+                                                        labels: ['Financing Amount', 'Markup Amount', 'Insurance Amount'],
                                                         datasets: [
                                                             {
-                                                                data: [calculations.financingAmount, calculations.totalMarkup],
-                                                                backgroundColor: ['#4A7C59', '#fb923c'],
-                                                                borderColor: ['#4A7C59', '#fb923c'],
+                                                                data: [calculations.financingAmount, calculations.totalMarkup, calculations.totalInsurance],
+                                                                backgroundColor: ['#4A7C59', '#fb923c', '#8b5cf6'],
+                                                                borderColor: ['#4A7C59', '#fb923c', '#8b5cf6'],
                                                                 borderWidth: 2,
                                                             },
                                                         ],
@@ -699,8 +835,8 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
                                                                 callbacks: {
                                                                     label: function (context) {
                                                                         const value = context.parsed;
-                                                                        const total = calculations.financingAmount + calculations.totalMarkup;
-                                                                        const percentage = ((value / total) * 100).toFixed(1);
+                                                                        const total = calculations.financingAmount + calculations.totalMarkup + calculations.totalInsurance;
+                                                                        const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : '0';
                                                                         return `${context.label}: ${formatCurrency(value)} (${percentage}%)`;
                                                                     },
                                                                 },
@@ -725,7 +861,12 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
                                                     <div
                                                         className="h-4 rounded-full bg-[#4A7C59]"
                                                         style={{
-                                                            width: `${calculations.totalMarkup > 0 ? (calculations.financingAmount / (calculations.financingAmount + calculations.totalMarkup)) * 100 : 100}%`,
+                                                            width: `${
+                                                                calculations.totalMarkup + calculations.totalInsurance > 0
+                                                                    ? (calculations.financingAmount / 
+                                                                        (calculations.financingAmount + calculations.totalMarkup + calculations.totalInsurance)) * 100
+                                                                    : 100
+                                                            }%`,
                                                         }}
                                                     ></div>
                                                 </div>
@@ -743,7 +884,35 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
                                                     <div
                                                         className="h-4 rounded-full bg-orange-600"
                                                         style={{
-                                                            width: `${calculations.financingAmount > 0 ? (calculations.totalMarkup / (calculations.financingAmount + calculations.totalMarkup)) * 100 : 0}%`,
+                                                            width: `${
+                                                                calculations.financingAmount + calculations.totalInsurance > 0
+                                                                    ? (calculations.totalMarkup / 
+                                                                        (calculations.financingAmount + calculations.totalMarkup + calculations.totalInsurance)) * 100
+                                                                    : 0
+                                                            }%`,
+                                                        }}
+                                                    ></div>
+                                                </div>
+                                            </div>
+
+                                            {/* Insurance Bar */}
+                                            <div>
+                                                <div className="mb-2 flex justify-between">
+                                                    <span className="text-sm font-medium text-gray-700">Insurance Amount</span>
+                                                    <span className="text-sm font-semibold text-purple-600">
+                                                        {formatCurrency(calculations.totalInsurance)}
+                                                    </span>
+                                                </div>
+                                                <div className="h-4 w-full rounded-full bg-gray-200">
+                                                    <div
+                                                        className="h-4 rounded-full bg-purple-600"
+                                                        style={{
+                                                            width: `${
+                                                                calculations.financingAmount + calculations.totalMarkup > 0
+                                                                    ? (calculations.totalInsurance / 
+                                                                        (calculations.financingAmount + calculations.totalMarkup + calculations.totalInsurance)) * 100
+                                                                    : 0
+                                                            }%`,
                                                         }}
                                                     ></div>
                                                 </div>
@@ -751,14 +920,14 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
 
                                             {/* Summary */}
                                             <div className="mt-6 rounded-lg bg-gray-50 p-4">
-                                                <div className="grid grid-cols-2 gap-4 text-sm">
+                                                <div className="grid grid-cols-3 gap-4 text-sm">
                                                     <div>
                                                         <span className="text-gray-600">Financing:</span>
                                                         <span className="ml-2 font-semibold text-[#4A7C59]">
                                                             {calculations.financingAmount > 0
                                                                 ? (
                                                                       (calculations.financingAmount /
-                                                                          (calculations.financingAmount + calculations.totalMarkup)) *
+                                                                          (calculations.financingAmount + calculations.totalMarkup + calculations.totalInsurance)) *
                                                                       100
                                                                   ).toFixed(1)
                                                                 : 0}
@@ -771,7 +940,20 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
                                                             {calculations.financingAmount > 0
                                                                 ? (
                                                                       (calculations.totalMarkup /
-                                                                          (calculations.financingAmount + calculations.totalMarkup)) *
+                                                                          (calculations.financingAmount + calculations.totalMarkup + calculations.totalInsurance)) *
+                                                                      100
+                                                                  ).toFixed(1)
+                                                                : 0}
+                                                            %
+                                                        </span>
+                                                    </div>
+                                                    <div>
+                                                        <span className="text-gray-600">Insurance:</span>
+                                                        <span className="ml-2 font-semibold text-purple-600">
+                                                            {calculations.financingAmount > 0
+                                                                ? (
+                                                                      (calculations.totalInsurance /
+                                                                          (calculations.financingAmount + calculations.totalMarkup + calculations.totalInsurance)) *
                                                                       100
                                                                   ).toFixed(1)
                                                                 : 0}
@@ -810,6 +992,10 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
                                                                     className="bg-orange-600"
                                                                     style={{ width: `${(payment.markup / payment.emi) * 100}%` }}
                                                                 ></div>
+                                                                <div
+                                                                    className="bg-purple-600"
+                                                                    style={{ width: `${(payment.insurance / payment.emi) * 100}%` }}
+                                                                ></div>
                                                             </div>
                                                         </div>
                                                         <span className="w-16 text-xs text-gray-600">{formatNumber(payment.emi)}</span>
@@ -825,6 +1011,7 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
                                                 <div className="mt-2 text-sm text-green-700">
                                                     <p>Principal: {formatCurrency(calculations.schedule[0]?.principal || 0)}</p>
                                                     <p>Markup: {formatCurrency(calculations.schedule[0]?.markup || 0)}</p>
+                                                    <p>Insurance: {formatCurrency(calculations.schedule[0]?.insurance || 0)}</p>
                                                 </div>
                                             </div>
 
@@ -838,6 +1025,9 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
                                                     <p>
                                                         Markup: {formatCurrency(calculations.schedule[calculations.schedule.length - 1]?.markup || 0)}
                                                     </p>
+                                                    <p>
+                                                        Insurance: {formatCurrency(calculations.schedule[calculations.schedule.length - 1]?.insurance || 0)}
+                                                    </p>
                                                 </div>
                                             </div>
 
@@ -846,6 +1036,7 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
                                                 <div className="mt-2 text-sm text-purple-700">
                                                     <p>Principal: {formatCurrency(calculations.financingAmount / tenure)}</p>
                                                     <p>Markup: {formatCurrency(calculations.totalMarkup / tenure)}</p>
+                                                    <p>Insurance: {formatCurrency(calculations.totalInsurance / tenure)}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -874,6 +1065,9 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
                                                         Markup
                                                     </th>
                                                     <th className="border-r border-[#6B9B7A] p-4 text-right font-semibold text-white last:border-r-0">
+                                                        Insurance
+                                                    </th>
+                                                    <th className="border-r border-[#6B9B7A] p-4 text-right font-semibold text-white last:border-r-0">
                                                         Balance
                                                     </th>
                                                     <th className="p-4 text-right font-semibold text-white">Monthly Installment</th>
@@ -894,6 +1088,9 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
                                                         <td className="p-4 text-right font-semibold text-orange-600">
                                                             {formatNumber(payment.markup)}
                                                         </td>
+                                                        <td className="p-4 text-right font-semibold text-purple-600">
+                                                            {formatNumber(payment.insurance)}
+                                                        </td>
                                                         <td className="p-4 text-right text-gray-700">{formatNumber(payment.balance)}</td>
                                                         <td className="bg-blue-50 p-4 text-right font-bold text-blue-600">
                                                             {formatNumber(payment.emi)}
@@ -907,7 +1104,11 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
                                     {/* Summary row at bottom */}
                                     <div className="mt-4 rounded-lg bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A] p-4">
                                         <div
-                                            className={`grid gap-4 text-center text-white ${selectedLoanType && shouldShowSecurityDeposit(selectedLoanType.name) ? 'grid-cols-2 md:grid-cols-4' : 'grid-cols-2 md:grid-cols-3'}`}
+                                            className={`grid gap-4 text-center text-white ${
+                                                selectedLoanType && shouldShowSecurityDeposit(selectedLoanType.name) 
+                                                    ? 'grid-cols-2 md:grid-cols-5' 
+                                                    : 'grid-cols-2 md:grid-cols-4'
+                                            }`}
                                         >
                                             <div>
                                                 <div className="text-sm opacity-90">Total Financing</div>
@@ -916,6 +1117,10 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
                                             <div>
                                                 <div className="text-sm opacity-90">Total Markup</div>
                                                 <div className="text-lg font-bold">{formatCurrency(calculations.totalMarkup)}</div>
+                                            </div>
+                                            <div>
+                                                <div className="text-sm opacity-90">Total Insurance</div>
+                                                <div className="text-lg font-bold">{formatCurrency(calculations.totalInsurance)}</div>
                                             </div>
                                             {selectedLoanType && shouldShowSecurityDeposit(selectedLoanType.name) && (
                                                 <div>
@@ -942,7 +1147,7 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
                                 <div className="mt-2 text-sm text-yellow-700">
                                     <p>
                                         This calculator provides estimates based on the inputs provided. Actual Islamic financing terms, markup rates,
-                                        and monthly installment amounts may vary based on your creditworthiness, bank policies, and market conditions.
+                                        insurance premiums, and monthly installment amounts may vary based on your creditworthiness, bank policies, and market conditions.
                                         All financing products are Shariah-compliant. Please consult with our Islamic banking officers for accurate
                                         information and personalized financing offers.
                                     </p>
