@@ -46,7 +46,8 @@ class ProductSchemeAttributeSeeder extends Seeder
             ['Repayment', 'Monthly Installments', 6],
             ['DSR', '40%', 7],
             ['Primary Security', 'Hypothecation of House Hold Items up to loan amount.', 8],
-            ['Secondary Security', '• 01 Personal Guarantee of Government Officer of BPS-11 or above. Guarantor should be in equivalent or above grade of the borrower but not less than Grade 11.\n\n• 06 Postdated Cheques.', 9],
+            ['Secondary Security', '01 Personal Guarantee of Government Officer of BPS-11 or above. Guarantor should be in equivalent or above grade of the borrower but not less than Grade 11.
+                                    06 Postdated Cheques.', 9],
             ['Insurance', 'Life Insurance of the borrower.', 10],
         ]);
 
@@ -60,7 +61,9 @@ class ProductSchemeAttributeSeeder extends Seeder
 
         $this->createAttributes($scheme->id, [
             ['Purpose', 'Enjoy a comfortable traveling with your family. Facilitate pick and drop of your kids. BAJK offers purchase of brand new cars for domestic and personal use.', 1],
-            ['Eligibility', '• Must be AJK/Pakistani National.\n• Permanent Employee of Government/Semi Government Departments and Autonomous Corporations with at least 03 years of service.\n• Professional/Self Employed/Businessmen having established business for last three years.', 2],
+            ['Eligibility', 'Must be AJK/Pakistani National.
+                             Permanent Employee of Government/Semi Government Departments and Autonomous Corporations with at least 03 years of service.
+                             Professional/Self Employed/Businessmen having established business for last three years.', 2],
             ['Age limit', '18-60 years', 3],
             ['Loan Limit', 'Maximum up Rs 3.0 million', 4],
             ['Tenure', 'Up to 60 months.', 5],
@@ -68,7 +71,8 @@ class ProductSchemeAttributeSeeder extends Seeder
             ['DSR', '40% (including insurance premium)', 7],
             ['Down Payment/Equity', 'Minimum 30%', 8],
             ['Primary Security', 'Joint Registration of the vehicle in the name of BAJK & borrower under HPA.', 9],
-            ['Secondary Security', '• 01 Personal Guarantee of Government Officer Grade-17 and above\nOR\n• Postdated Cheques equivalent to the number of Installments.', 10],
+            ['Secondary Security', '01 Personal Guarantee of Government Officer Grade-17 and above OR 
+             Postdated Cheques equivalent to the number of Installments.', 10],
             ['Insurance', 'Comprehensive Insurance of the vehicle.', 11],
         ]);
 
@@ -82,7 +86,10 @@ class ProductSchemeAttributeSeeder extends Seeder
 
         $this->createAttributes($scheme->id, [
             ['Purpose', 'For quick fulfillment of family needs with economical mode of traveling. Easy and quick approach to your destination. Purchase of Motorcycle for domestic and personal use on affordable monthly installments.', 1],
-            ['Eligibility', '• AJK/Pakistani National residing in AJK.\n• Permanent Employees of Government/Semi Government and Autonomous Corporations with at least 03 years of service.\n• Account Holder of BAJK.\n• Professionals/Self-employed/Businessmen having 03 months statement of A/c with BAJK or any other bank.', 2],
+            ['Eligibility', 'AJK/Pakistani National residing in AJK.
+             Permanent Employees of Government/Semi Government and Autonomous Corporations with at least 03 years of service.
+             Account Holder of BAJK.
+              Professionals/Self-employed/Businessmen having 03 months statement of A/c with BAJK or any other bank.', 2],
             ['Age limit', '18-60 Years', 3],
             ['Loan Limit', 'As per actual cost of Motor Cycle', 4],
             ['Tenure', 'Maximum up to 36 months.', 5],
@@ -104,10 +111,15 @@ class ProductSchemeAttributeSeeder extends Seeder
 
         $this->createAttributes($scheme->id, [
             ['Purpose', 'BAJK offers loan facility for Construction/Renovation/Purchase of residential house/apartments in AJK at reasonable/affordable easy terms', 1],
-            ['Eligibility', '• All Kashmiris / Pakistani having valid CNIC\n• All salaried employee of AJK Government, semi Government, Autonomous bodies National/Multinational Companies (Blue Chip)\n• Business and self-employed professionals of AJK domicile\n• Co-applicant allowed for blood relation husband/wife, father/son', 2],
+            ['Eligibility', 'All Kashmiris / Pakistani having valid CNIC.
+            All salaried employee of AJK Government, semi Government, Autonomous bodies National/Multinational Companies (Blue Chip).
+             Business and self-employed professionals of AJK domicile.
+             Co-applicant allowed for blood relation husband/wife, father/son', 2],
             ['Length of service', 'Length of service Salaried; minimum 03 years in Permanent Cadre\nBusiness/Self-Employed; at least 03 years in current Business/Profession', 3],
-            ['Minimum income/Debt Burden', '• For Salaried Person: Minimum Rs. 30,000/- monthly take home salary (At-least double of monthly installment)\n• For Business/Self-Employed: Average monthly income should be 03 times of monthly installment.', 4],
-            ['Age limit', 'For Salaried Person: – 18-60 Years (the loan be matured 06 months before retirement)\nFor Businessmen: – 18-60 Years', 5],
+            ['Minimum income/Debt Burden', 'For Salaried Person: Minimum Rs. 30,000/- monthly take home salary (At-least double of monthly installment).
+             For Business/Self-Employed: Average monthly income should be 03 times of monthly installment.', 4],
+            ['Age limit', 'For Salaried Person: – 18-60 Years (the loan be matured 06 months before retirement).
+            For Businessmen: – 18-60 Years', 5],
             ['Loan Limit', 'Upto Rs. 10 Million', 6],
             ['Tenure', 'Upto 20 year', 7],
             ['DER', 'Debt Equity Ratio 60:40', 8],
@@ -187,13 +199,16 @@ class ProductSchemeAttributeSeeder extends Seeder
 
         $this->createAttributes($scheme->id, [
             ['Purpose', 'Purchase of modern electronic appliances/gadgets of your choice and provide comfort to your life.', 1],
-            ['Eligibility', '• Employee of Government/Semi Government and Autonomous Corporations and Government Organizations.\n• Employees of all Banks/DFIs including BAJK.\n• BAJK Account Holder.', 2],
+            ['Eligibility', 'Employee of Government/Semi Government and Autonomous Corporations and Government Organizations.
+             Employees of all Banks/DFIs including BAJK.
+              BAJK Account Holder.', 2],
             ['Loan Limit', 'Loan Limit Maximum up to Rs. 200,000/-', 3],
             ['Tenure', 'Upto 36 Months.', 4],
             ['Repayment', 'Repayment Monthly Installments.', 5],
             ['Down Payment/Equity', 'Minimum 20%', 6],
             ['Primary Security', 'Hypothecation of purchased goods.', 7],
-            ['Secondary Security', '• 01 PG of Government Officer BPS-11 or above and for Bank Employees, a Personal Guarantee of Bank Employee.\n• Cheques for the predetermined Installments.', 8],
+            ['Secondary Security', '01 PG of Government Officer BPS-11 or above and for Bank Employees, a Personal Guarantee of Bank Employee.
+             Cheques for the predetermined Installments.', 8],
             ['Insurance', 'Insurance of Purchased goods.', 9],
         ]);
   
@@ -232,7 +247,9 @@ class ProductSchemeAttributeSeeder extends Seeder
 
         $this->createAttributes($scheme->id, [
             ['Purpose', 'Purchase of stock and fulfilling of operational expenses of your business. Financial limits are available for your existing business/planned expansion.', 1],
-            ['Eligibility', '• Account holder of the bank.\n• Reasonable turnover to justify the limit requested.\n• Existing business/planed expansion.', 2],
+            ['Eligibility', 'Account holder of the bank.
+             Reasonable turnover to justify the limit requested.
+              Existing business/planed expansion.', 2],
             ['Loan Limit', 'According to business worth subject to per party exposure as per SBP Prudential Regulations.', 3],
             ['Tenure', 'Maximum 12 months (Renewable on Satisfactory repayment status).', 4],
             ['Repayment', 'Principal lump sum and markup monthly/quarterly basis.', 5],
@@ -269,7 +286,9 @@ class ProductSchemeAttributeSeeder extends Seeder
 
         $this->createAttributes($scheme->id, [
             ['Purpose', 'For purchase of Machinery/Equipment/Assets for your existing business/planned expansion. Choose BAJK as your business partner and enjoy financial support at easy terms and conditions.', 1],
-            ['Eligibility', '• Account holder of the bank.\n• Reasonable turnover to justify the limit requested.\n• Existing business/planned expansion.', 2],
+            ['Eligibility', ' Account holder of the bank.
+            Reasonable turnover to justify the limit requested.
+             Existing business/planned expansion.', 2],
             ['Loan Limit', 'According to business worth and equity ratio subject to per party exposure as per SBP Prudential Regulations.', 3],
             ['Tenure', 'Maximum 5 years', 4],
             ['Repayment', 'Monthly Installments', 5],
@@ -289,7 +308,9 @@ class ProductSchemeAttributeSeeder extends Seeder
 
         $this->createAttributes($scheme->id, [
             ['Purpose', 'BAJK offers loan facility for construction/renovation/purchase of commercial buildings/plazas/shops etc. on easy terms.', 1],
-            ['Eligibility', '• Account holder of the bank.\n• Reasonable income/equity proof to justify the limit requested.\n• Approved Commercial building plan.', 2],
+            ['Eligibility', 'Account holder of the bank.
+            Reasonable income/equity proof to justify the limit requested.
+            Approved Commercial building plan.', 2],
             ['Loan Limit', 'Correlates with the total cost of the project and equity contribution of the client.', 3],
             ['Tenure', 'Maximum up to 05 years.', 4],
             ['Repayment', 'Monthly Installments', 5],
@@ -308,8 +329,9 @@ class ProductSchemeAttributeSeeder extends Seeder
 
         $this->createAttributes($scheme->id, [
             ['Purpose', 'Purpose of this loan scheme is to finance the infrastructure facilities to promote/facilitate tourists activities and movements in tourist attractions in AJK. The tourists infrastructural facilities include establishment of tourist Huts, refurbishment/renovation of existing guest houses, erecting additional accommodation within existing residential houses of the locals in AJK.', 1],
-            ['Eligibility', '• House should be suitably located having a motor able approach.\n• Permission of concerned Government organization for conversion/ Renovation /Refurbishment of House into Hotel/Guest House.\n• Hotel/Guest House should be preferably managed by the owner himself.', 2],
-            ['Loan Limit', '• Up to Rs. 5.0 Millions', 3],
+            ['Eligibility', 'House should be suitably located having a motor able approach.
+             Permission of concerned Government organization for conversion/ Renovation /Refurbishment of House into Hotel/Guest House.\n• Hotel/Guest House should be preferably managed by the owner himself.', 2],
+            ['Loan Limit', 'Up to Rs. 5.0 Millions', 3],
             ['Tenure', 'Maximum up to 05 years', 4],
             ['Repayment', 'Grace period is applicable only in construction-related cases.', 5],
             ['Equity Contribution', '20%', 6],
@@ -328,7 +350,10 @@ class ProductSchemeAttributeSeeder extends Seeder
 
         $this->createAttributes($scheme->id, [
             ['Purpose', 'To ensure easy access of businessmen/trader\'s community for their working capital requirement on soft terms.', 1],
-            ['Eligibility', '• The minimum age of the business should two years.\n• Applicant must be Account holder of BAJK.\n• Applicant must be resident of AJK with business within the area of respective branch in the main city/business hub of respective district.\n• Applicant should not be defaulter of any financial intuition/Bank.', 2],
+            ['Eligibility', 'The minimum age of the business should two years.
+             Applicant must be Account holder of BAJK.
+             Applicant must be resident of AJK with business within the area of respective branch in the main city/business hub of respective district.
+             Applicant should not be defaulter of any financial intuition/Bank.', 2],
             ['Loan Limit', 'Maximum loan amount up to Rs. 500,000/-', 3],
             ['Tenure', 'As Running Finance (RF): 12 months.
                         As Demand Finance (DF): 36 months.', 4],
@@ -353,8 +378,14 @@ class ProductSchemeAttributeSeeder extends Seeder
         $this->createAttributes($scheme->id, [
             ['Purpose', 'BAJK offers financial facility to setup/expansion/renovation/modernization of medical/health facilities in AJK.', 1],
             ['Eligibility', 'All Qualified registered medical practitioners registered with PMDC with minimum 03 years of experience in Pakistan/AJK.', 2],
-            ['Loan Limit', 'For Rural Areas:\n• Up to Rs. 5.00 Million for purchase of equipment (DF).\n• Up to Rs. 1.00 Million for working capital requirement (RF).\nFor Urban Areas:\n• Up to Rs. 10.00 Million for purchase of equipment (DF).\n• Up to Rs. 2.00 Million for working capital requirement (RF).', 3],
-            ['Tenure', '• 01 year on rollover bases for RF limit.\n• 05 years for DF limit.', 4],
+            ['Loan Limit', 'For Rural Areas:
+             Up to Rs. 5.00 Million for purchase of equipment (DF).
+             Up to Rs. 1.00 Million for working capital requirement (RF).
+             For Urban Areas:
+              Up to Rs. 10.00 Million for purchase of equipment (DF).
+               Up to Rs. 2.00 Million for working capital requirement (RF).', 3],
+            ['Tenure', '01 year on rollover bases for RF limit.
+             05 years for DF limit.', 4],
             ['Borrower\'s Equity', 'For DF – 25% of required amount.', 5],
             // ['DSR', '50%', 6],
             ['Primary Security', 'Hypothecation of existing or to be purchased stock with 25% margin.', 7],
@@ -376,8 +407,8 @@ class ProductSchemeAttributeSeeder extends Seeder
         ]);
 
         $this->createAttributes($scheme->id, [
-            ['Purpose', 'For provision of Agri inputs and working capital i.e. short term loans for purchase of seeds, pesticides, fertilizers, etc. to boost agriculture growth and employment generation in the State of AJK', 1],
-            ['Eligibility', 'Progressive and willing farmers in the category of individuals, joint ventures, and group initiatives can avail facility in the area of crops, vegetables, orchards, fruit gardening, etc and allied production activities. Those farmers having own or leased land for farming/agricultural activities in the jurisdiction of AJK', 2],
+            ['Purpose', 'For provision of Agri inputs and working capital i.e. short term loans for purchase of seeds, pesticides, fertilizers, etc. to boost agriculture growth and employment generation in the State of AJK.', 1],
+            ['Eligibility', 'Progressive and willing farmers in the category of individuals, joint ventures, and group initiatives can avail facility in the area of crops, vegetables, orchards, fruit gardening, etc and allied production activities. Those farmers having own or leased land for farming/agricultural activities in the jurisdiction of AJK.', 2],
             ['Age limit', '18-60 years', 3],
             ['Loan Limit', 'Upto Rs. 200,000/-', 4],
             ['Tenure', 'One year', 5],
@@ -397,8 +428,8 @@ class ProductSchemeAttributeSeeder extends Seeder
         ]);
 
         $this->createAttributes($scheme->id, [
-            ['Purpose', 'For purchase of assets (farm equipment/machinery), dairy, poultry, goat-sheep and fish farms development as well as other agricultural development activities', 1],
-            ['Eligibility', 'Progressive and willing farmers in the category of individuals, joint ventures and group initiatives having own or leased land for farming/agricultural activities in the jurisdiction of AJK', 2],
+            ['Purpose', 'For purchase of assets (farm equipment/machinery), dairy, poultry, goat-sheep and fish farms development as well as other agricultural development activities.', 1],
+            ['Eligibility', 'Progressive and willing farmers in the category of individuals, joint ventures and group initiatives having own or leased land for farming/agricultural activities in the jurisdiction of AJK.', 2],
             ['Age limit', '18-60 years', 3],
             ['Loan Limit', 'Maximum Rs. 1,000,000/-', 4],
             ['Tenure', 'Upto 5 years', 5],
@@ -423,8 +454,8 @@ class ProductSchemeAttributeSeeder extends Seeder
         ]);
 
         $this->createAttributes($scheme->id, [
-            ['Purpose', 'To encourage small scale enterprises, create self-employment opportunities, generate economic activities and reduce poverty', 1],
-            ['Eligibility', 'AJK Nationals, especially low income groups and skilled persons', 2],
+            ['Purpose', 'To encourage small scale enterprises, create self-employment opportunities, generate economic activities and reduce poverty.', 1],
+            ['Eligibility', 'AJK Nationals, especially low income groups and skilled persons.', 2],
             ['Age limit', '18-60 Years', 3],
             ['Loan Limit', 'Maximum Rs. 100,000/-', 4],
             ['Tenure', 'Maximum 36 months', 5],
@@ -443,8 +474,8 @@ class ProductSchemeAttributeSeeder extends Seeder
         ]);
 
         $this->createAttributes($scheme->id, [
-            ['Purpose', 'Promotion of Desi Murghbani/Poultry by establishing small units of minimum 10 poultry birds at cottage level (for economic empowerment of rural women). The production units will comprise of grown up Desi layer stock purchased from local suppliers/villagers Promoting organic chicken and eggs production, creating self-employment, generating income activities, reducing poverty and growing production', 1],
-            ['Eligibility', 'AJK Nationals, Only Women', 2],
+            ['Purpose', 'Promotion of Desi Murghbani/Poultry by establishing small units of minimum 10 poultry birds at cottage level (for economic empowerment of rural women). The production units will comprise of grown up Desi layer stock purchased from local suppliers/villagers Promoting organic chicken and eggs production, creating self-employment, generating income activities, reducing poverty and growing production.', 1],
+            ['Eligibility', 'AJK Nationals, Only Women.', 2],
             ['Age limit', '18-60 years', 3],
             ['Loan Limit', 'Rs. 15,000/- to Rs. 50,000/- per production unit', 4],
             ['Tenure', 'Maximum 18 months', 5],
