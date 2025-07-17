@@ -311,8 +311,7 @@ class ProductSchemeAttributeSeeder extends Seeder
             ['Eligibility', '• House should be suitably located having a motor able approach.\n• Permission of concerned Government organization for conversion/ Renovation /Refurbishment of House into Hotel/Guest House.\n• Hotel/Guest House should be preferably managed by the owner himself.', 2],
             ['Loan Limit', '• Up to Rs. 5.0 Millions', 3],
             ['Tenure', 'Maximum up to 05 years', 4],
-            ['Repayment', '  Monthly installments with a grace period of up to 3 months.
-            Grace period is applicable only in construction-related cases.', 5],
+            ['Repayment', 'Grace period is applicable only in construction-related cases.', 5],
             ['Equity Contribution', '20%', 6],
             ['Primary Security', 'Hypothecation of all Moveable Assets', 7],
             ['Secondary Security', 'Mortgage of property or lien on Deposits or pledge of Gold', 8],
