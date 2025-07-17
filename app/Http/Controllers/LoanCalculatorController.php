@@ -10,35 +10,35 @@ class LoanCalculatorController extends Controller
 {
     public function index()
     {
-        // Get loan types from ProductSchemes (only loan/finance schemes, not deposit accounts)
-        $loanTypes = ProductScheme::whereHas('productTypeAccount', function ($query) {
-            $query->whereIn('name', [
-                'Consumer Finances',
-                'Commercial / SME Finances', 
-                'Agriculture Finances',
-                'Micro Finances'
-            ]);
-        })->with('productTypeAccount')
-        ->select('id', 'name', 'description', 'product_type_account_id')
-        ->get()
-        ->unique('name') // Remove duplicates
-        ->map(function ($scheme) {
-            // Extract loan limits and tenure from .env based on scheme name
-            $limits = $this->extractLoanLimits($scheme->name);
-            
-            return [
-                'id' => $scheme->id,
-                'name' => $scheme->name,
-                'description' => $scheme->description,
-                'category' => $scheme->productTypeAccount->name,
-                'minAmount' => $limits['min'],
-                'maxAmount' => $limits['max'],
-                'minTenure' => $limits['minTenure'],
-                'maxTenure' => $limits['maxTenure'],
-                'suggestedRate' => $limits['rate'],
-                'hasInsurance' => true, // All loan types support insurance
-            ];
-        })->values(); // Reset array keys
+        // Get ALL active loan types from ProductSchemes (dynamically)
+        $loanTypes = ProductScheme::where('is_active', true)
+            ->whereHas('productTypeAccount', function ($query) {
+                $query->where('is_active', true)
+                    ->whereHas('productType', function ($subQuery) {
+                        $subQuery->where('is_active', true)
+                            ->where('name', 'Asset'); // Only Asset products (loans), not Liability (deposits)
+                    });
+            })
+            ->with('productTypeAccount.productType')
+            ->select('id', 'name', 'description', 'product_type_account_id')
+            ->get()
+            ->unique('name')
+            ->map(function ($scheme) {
+                $limits = $this->extractLoanLimits($scheme->name);
+                
+                return [
+                    'id' => $scheme->id,
+                    'name' => $scheme->name,
+                    'description' => $scheme->description,
+                    'category' => $scheme->productTypeAccount->name,
+                    'minAmount' => $limits['min'],
+                    'maxAmount' => $limits['max'],
+                    'minTenure' => $limits['minTenure'],
+                    'maxTenure' => $limits['maxTenure'],
+                    'suggestedRate' => $limits['rate'],
+                    'hasInsurance' => true,
+                ];
+            })->values();
 
         // Get current active profit rates from database  
         $currentRates = ProfitRate::active()
@@ -166,6 +166,16 @@ class LoanCalculatorController extends Controller
             ];
         }
         
+        if (str_contains($name, 'pension')) {
+            return [
+                'min' => (int) env('LOAN_MIN_PENSION', 10000),
+                'max' => (int) env('LOAN_MAX_PENSION', 500000),
+                'minTenure' => (int) env('LOAN_TENURE_MIN_PENSION', 6),
+                'maxTenure' => (int) env('LOAN_TENURE_MAX_PENSION', 24),
+                'rate' => (float) env('LOAN_RATE_PENSION', 13.0),
+            ];
+        }
+        
         // Commercial/SME Finances
         if (str_contains($name, 'running finance')) {
             return [
@@ -197,7 +207,7 @@ class LoanCalculatorController extends Controller
             ];
         }
         
-        if (str_contains($name, 'construction finance')) {
+        if (str_contains($name, 'house finance') || str_contains($name, 'construction finance')) {
             return [
                 'min' => (int) env('LOAN_MIN_CONSTRUCTION_FINANCE', 500000),
                 'max' => (int) env('LOAN_MAX_CONSTRUCTION_FINANCE', 20000000),

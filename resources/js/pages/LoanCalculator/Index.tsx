@@ -97,6 +97,7 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
     const [loanAmount, setLoanAmount] = useState<number>(0);
     const [securityDeposit, setSecurityDeposit] = useState<number>(0);
     const [tenure, setTenure] = useState<number>(12);
+    const [interestRate, setInterestRate] = useState<number>(14.0); // New state for dynamic rate
     
     // Insurance (Single Input)
     const [insuranceType, setInsuranceType] = useState<'fixed' | 'percentage'>('fixed');
@@ -118,8 +119,13 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
             setTenure(selectedLoanType.minTenure);
             setInsuranceAmount(0);
             setShowResults(false);
+            
+            // Set default interest rate from bank rates or suggested rate
+            const loanTypeKey = getLoanRateKey(selectedLoanType.name);
+            const defaultRate = loanTypeKey ? bankRates.loan[loanTypeKey] : selectedLoanType.suggestedRate;
+            setInterestRate(defaultRate);
         }
-    }, [selectedLoanType]);
+    }, [selectedLoanType, bankRates]);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -173,9 +179,7 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
         if (!selectedLoanType || tenure <= 12) return { total: 0, outstandingBalance: 0 };
         
         // Calculate outstanding balance after first year (12 months)
-        const loanTypeKey = getLoanRateKey(selectedLoanType.name);
-        const markupRate = loanTypeKey ? bankRates.loan[loanTypeKey] : selectedLoanType.suggestedRate;
-        const monthlyRate = markupRate / 100 / 12;
+        const monthlyRate = interestRate / 100 / 12; // Use dynamic rate
         
         let balance = loanAmount;
         // Simulate first 12 months to get outstanding balance
@@ -200,7 +204,7 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
             total: regularInsurance,
             outstandingBalance: outstandingBalance
         };
-    }, [insuranceType, insuranceAmount, loanAmount, tenure, selectedLoanType, bankRates]);
+    }, [insuranceType, insuranceAmount, loanAmount, tenure, selectedLoanType, interestRate]);
 
     // Calculate total insurance (advance + regular) and monthly distribution
     const calculateTotalInsurance = useMemo(() => {
@@ -229,6 +233,7 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
         setLoanAmount(0);
         setSecurityDeposit(0);
         setTenure(12);
+        setInterestRate(14.0);
         setInsuranceType('fixed');
         setInsuranceAmount(0);
         setShowResults(false);
@@ -272,10 +277,8 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
             };
         }
 
-        // Get markup rate
-        const loanTypeKey = getLoanRateKey(selectedLoanType.name);
-        const markupRate = loanTypeKey ? bankRates.loan[loanTypeKey] : selectedLoanType.suggestedRate;
-        const monthlyRate = markupRate / 100 / 12;
+        // Use dynamic interest rate
+        const monthlyRate = interestRate / 100 / 12;
         const numberOfPayments = tenure;
 
         // Base EMI calculation (without insurance)
@@ -327,7 +330,7 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
             financingAmount: Math.round(financingAmount),
             totalPrice: Math.round(totalPrice),
         };
-    }, [loanAmount, securityDeposit, tenure, selectedLoanType, bankRates, showResults, calculateAdvanceInsurance, calculateTotalInsurance]);
+    }, [loanAmount, securityDeposit, tenure, selectedLoanType, interestRate, showResults, calculateAdvanceInsurance, calculateTotalInsurance]);
 
     const formatCurrency = (amount: number) => {
         return new Intl.NumberFormat('en-PK', {
@@ -345,12 +348,6 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
     const generatePDF = () => {
         const printWindow = window.open('', '_blank');
         if (!printWindow) return;
-
-        const markupRate = selectedLoanType
-            ? getLoanRateKey(selectedLoanType.name)
-                ? bankRates.loan[getLoanRateKey(selectedLoanType.name)!]
-                : selectedLoanType.suggestedRate
-            : 0;
 
         printWindow.document.write(`
             <!DOCTYPE html>
@@ -382,7 +379,7 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
                     <p><strong>Loan Type:</strong> ${selectedLoanType?.name || 'N/A'}</p>
                     <p><strong>Financing Amount:</strong> ${formatCurrency(loanAmount)}</p>
                     ${selectedLoanType && shouldShowSecurityDeposit(selectedLoanType.name) ? `<p><strong>Security Deposit:</strong> ${formatCurrency(securityDeposit)}</p>` : ''}
-                    <p><strong>Markup Rate:</strong> ${markupRate}% per annum</p>
+                    <p><strong>Markup Rate:</strong> ${interestRate.toFixed(2)}% per annum</p>
                     <p><strong>Tenure:</strong> ${tenure} months</p>
                     <p><strong>Advance Insurance:</strong> ${formatCurrency(calculations.advanceInsurance)}</p>
                     <p><strong>Regular Insurance:</strong> ${formatCurrency(calculations.regularInsurance)}</p>
@@ -580,6 +577,23 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
                                     </div>
                                 )}
 
+                                {/* Interest Rate Slider */}
+                                <div className="mb-6">
+                                    <label className="mb-3 block text-sm font-semibold text-gray-700">
+                                        <Percent className="mr-2 inline h-4 w-4" />
+                                        Markup Rate: {interestRate.toFixed(2)}% per annum
+                                    </label>
+                                    <input
+                                        type="range"
+                                        value={interestRate}
+                                        onChange={(e) => setInterestRate(Number(e.target.value))}
+                                        min="0.00"
+                                        max="100.00"
+                                        step="0.01"
+                                        className="slider h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200"
+                                    />
+                                </div>
+
                                 {/* Insurance Section */}
                                 {selectedLoanType && selectedLoanType.hasInsurance && (
                                     <div className="mb-6">
@@ -655,24 +669,6 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
                                         </div>
                                     </div>
                                 )}
-
-                                {/* Current Markup Rate */}
-                                <div className="mb-6">
-                                    <label className="mb-3 block text-sm font-semibold text-gray-700">
-                                        <Percent className="mr-2 inline h-4 w-4" />
-                                        Current Markup Rate
-                                    </label>
-                                    <div className="w-full rounded-lg border border-gray-300 bg-gray-50 p-3">
-                                        <span className="text-lg font-semibold text-[#4A7C59]">
-                                            {selectedLoanType
-                                                ? getLoanRateKey(selectedLoanType.name)
-                                                    ? bankRates.loan[getLoanRateKey(selectedLoanType.name)!]
-                                                    : selectedLoanType.suggestedRate
-                                                : 0}
-                                            % per annum
-                                        </span>
-                                    </div>
-                                </div>
 
                                 {/* Tenure Slider */}
                                 <div className="mb-8">

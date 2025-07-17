@@ -18,10 +18,11 @@ class DatabaseSeeder extends Seeder
         $this->call([
             TopNavbarMessageSeeder::class,
             ManagementSeeder::class,
-            ProductSeeder::class,
-            ProductTypeSeeder::class,
-            ProductTypeAccountSeeder::class,
-            ProductSchemeAttributeSeeder::class,
+            ProductSeeder::class,           // Creates base products
+            ProductTypeSeeder::class,       // Creates Asset/Liability types
+            ProductTypeAccountSeeder::class, // Creates account categories
+            ProfitRateSeeder::class,        // Creates profit rates
+            ProductSchemeAttributeSeeder::class, // Creates schemes and attributes
             ServiceSeeder::class,
             MenuSeeder::class, // Moved after ServiceSeeder
             BoardOfDirectorSeeder::class,
@@ -37,7 +38,6 @@ class DatabaseSeeder extends Seeder
             FinancialReportSeeder::class,
             AnnualReportSeeder::class,
             FinancialHighlightSeeder::class,
-            ProfitRateSeeder::class,
             ScheduleOfChargeSeeder::class,
             DownloadSeeder::class,
             CareerSeeder::class,
