@@ -16,7 +16,7 @@ class ServiceSeeder extends Seeder
             'slug' => 'lockers-facility',
             'description' => "Lockers' facility is available in Main Branch Muzaffarabad, Main Branch Mirpur, Ladies Branch Mirpur, and CMH Road Branch Rawalakot in three different sizes Small, Medium and Large on annually fee with one time Security Deposit respectively to the size of locker. Locker holders need to have an account in the Bank.",
             'icon' => '🔒',
-            'image' => 'https://demo.bankajk.com/wp-content/uploads/2023/10/locker.jpg',
+            'image' => 'https://demo.bankajk.com/storage/services/lockers.png',
             'sort_order' => 1,
         ]);
 
@@ -40,7 +40,7 @@ class ServiceSeeder extends Seeder
             'slug' => 'utility-bills-collection',
             'description' => "Our bank's extensive network of branches is fully authorized to provide the convenient service of collecting electricity bills for our customers. You can easily pay your electricity bills at any of our bank branches, making it a hassle-free experience for your bill payment needs.",
             'icon' => '💡',
-            'image' => 'https://demo.bankajk.com/wp-content/uploads/2023/10/utility-bill.png',
+            'image' => 'https://demo.bankajk.com/storage/services/utility-bill.png',
             'sort_order' => 2,
         ]);
 
@@ -63,7 +63,7 @@ class ServiceSeeder extends Seeder
             'slug' => 'services-for-ajk-psc',
             'description' => 'At all our branches, we proudly offer the service of collecting the application fees for the AJK Public Service Commission from candidates. In addition to this, we also provide application forms, ensuring a seamless and efficient process for individuals applying for various positions. Trust us to assist you in your application process.',
             'icon' => '🏛️',
-            'image' => 'https://demo.bankajk.com/wp-content/uploads/2023/10/psc.jpg',
+            'image' => 'https://demo.bankajk.com/storage/services/psc.jpg',
             'sort_order' => 3,
         ]);
 
@@ -86,7 +86,7 @@ class ServiceSeeder extends Seeder
             'slug' => 'home-remittance',
             'description' => 'The bank has made adequate arrangements with major scheduled banks for the purpose of inter bank settlements and outward remittances. Under an arrangement with HBL all Banker Cheques issued by BAJK branches are payable on all branches of HBL.',
             'icon' => '💸',
-            'image' => 'https://demo.bankajk.com/wp-content/uploads/2023/10/remittance.jpg',
+            'image' => 'https://demo.bankajk.com/storage/services/home-remittances.png',
             'sort_order' => 4,
         ]);
 
