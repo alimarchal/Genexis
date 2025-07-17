@@ -110,12 +110,12 @@ class ProductSchemeAttributeSeeder extends Seeder
             ['Age limit', 'For Salaried Person: – 18-60 Years (the loan be matured 06 months before retirement)\nFor Businessmen: – 18-60 Years', 5],
             ['Loan Limit', 'Upto Rs. 10 Million', 6],
             ['Tenure', 'Upto 20 year', 7],
-            ['DSR', 'Debt Equity Ratio 60:40', 8],
+            ['DER', 'Debt Equity Ratio 60:40', 8],
             ['Repayment', 'Monthly Installments', 9],
             ['Insurance', 'Life and mortgaged Property as per Bank\'s policy', 10],
             ['Security', 'Mortgage of land and building thereon', 11],
             ['Premature payment', 'Premature adjustment allowed', 12],
-            ['Partial Adjustment', 'Allowed after 01 year of disbursement', 13],
+            ['Partial Prepayment', 'Allowed after 01 year of disbursement', 13],
         ]);
 
         // Personal Loan
@@ -129,11 +129,12 @@ class ProductSchemeAttributeSeeder extends Seeder
         $this->createAttributes($scheme->id, [
             ['Purpose', 'To facilitate your urgent domestic and personal needs, BAJK makes it possible by providing financial facility in shape of Personal Loan so that you could easily take care of your children\'s education, marriages, house renovation etc. Just avail this facility and enjoy tension -free life.', 1],
             ['Eligibility', 'AJK /Pakistani National', 2],
-            ['Loan Limit', '• 95% against Government Securities\n• 95% (First party) and 90% (Third party) against bank\'s own deposits\n• 90% against deposits of others banks', 3],
+            ['Loan Limit', '95% against BAJK TDRs & Deposits and Government Securities.
+                            90% against Third-Party Deposits/TDRs.', 3],
             ['Tenure', 'Maximum 36 months', 4],
             ['Repayment', 'Lump Sum /Installments', 5],
             ['Primary Security', 'Hypothecation of House Hold Items (in case of 3rd party security)', 6],
-            ['Secondary Security', 'Lien on Deposits', 7],
+            ['Secondary Security', 'Pledge/Lien on the respective securities.', 7],
             ['Insurance', 'Life insurance of Borrower (Optional)', 8],
         ]);
 
@@ -142,7 +143,7 @@ class ProductSchemeAttributeSeeder extends Seeder
             'product_type_account_id' => $consumerFinances->id,
             'name' => 'Student Loan',
             'description' => 'Finance for higher studies abroad',
-            'is_active' => true,
+            'is_active' => false,
         ]);
 
         $this->createAttributes($scheme->id, [
@@ -169,10 +170,11 @@ class ProductSchemeAttributeSeeder extends Seeder
             ['Eligibility', 'Eligibility All account holders of BAJK.', 2],
             ['Age limit', 'N/A', 3],
             ['Loan Limit', 'Rs 2.0 Million', 4],
-            ['Tenure', 'Tenure Maximum 24 months (Renewable).', 5],
-            ['Repayment', 'Repayment Principal lump sum at maturity, markup quarterly.', 6],
+            ['Tenure', '1 year: Lump sum adjustment.
+            2 years: Equal Monthly Installments (EMI).', 5],
+            ['Repayment', '2 years through Equal Monthly Installments.', 6],
             ['Insurance', 'For full market value of Gold Ornaments.', 7],
-            ['Margin', '15%', 8],
+            ['Margin', '20%', 8],
         ]);
 
         // Home Appliances Finance
@@ -194,6 +196,26 @@ class ProductSchemeAttributeSeeder extends Seeder
             ['Secondary Security', '• 01 PG of Government Officer BPS-11 or above and for Bank Employees, a Personal Guarantee of Bank Employee.\n• Cheques for the predetermined Installments.', 8],
             ['Insurance', 'Insurance of Purchased goods.', 9],
         ]);
+  
+            // Pension Loan
+        $scheme = ProductScheme::create([
+            'product_type_account_id' => $consumerFinances->id,
+            'name' => 'Pension Loan',
+            'description' => '',
+            'is_active' => true,
+        ]);
+
+        // $this->createAttributes($scheme->id, [
+        //     ['Purpose', 'Purchase of modern electronic appliances/gadgets of your choice and provide comfort to your life.', 1],
+        //     ['Eligibility', '• Employee of Government/Semi Government and Autonomous Corporations and Government Organizations.\n• Employees of all Banks/DFIs including BAJK.\n• BAJK Account Holder.', 2],
+        //     ['Loan Limit', 'Loan Limit Maximum up to Rs. 200,000/-', 3],
+        //     ['Tenure', 'Upto 36 Months.', 4],
+        //     ['Repayment', 'Repayment Monthly Installments.', 5],
+        //     ['Down Payment/Equity', 'Minimum 20%', 6],
+        //     ['Primary Security', 'Hypothecation of purchased goods.', 7],
+        //     ['Secondary Security', '• 01 PG of Government Officer BPS-11 or above and for Bank Employees, a Personal Guarantee of Bank Employee.\n• Cheques for the predetermined Installments.', 8],
+        //     ['Insurance', 'Insurance of Purchased goods.', 9],
+        // ]);
     }
 
     private function seedCommercialSMESchemes()
@@ -251,16 +273,16 @@ class ProductSchemeAttributeSeeder extends Seeder
             ['Loan Limit', 'According to business worth and equity ratio subject to per party exposure as per SBP Prudential Regulations.', 3],
             ['Tenure', 'Maximum 5 years', 4],
             ['Repayment', 'Monthly Installments', 5],
-            ['DSR', 'Debt Security Ratio = 60:40', 6],
+            // ['DSR', 'Debt Security Ratio = 60:40', 6],
             ['Primary Security', 'Hypothecation of stock/machinery and equipment.', 7],
             ['Secondary Security', 'Mortgage of property or lien on Deposits or pledge of Gold.', 8],
             ['Insurance', 'Insurance cover of stock and mortgaged property, as per Bank\'s policy', 9],
         ]);
 
-        // Construction Finance for Commercial Building / Shopping Malls
+        // House Finance Commercial
         $scheme = ProductScheme::create([
             'product_type_account_id' => $commercialSME->id,
-            'name' => 'Construction Finance for Commercial Building / Shopping Malls',
+            'name' => 'House Finance Commercial',
             'description' => 'Finance for commercial construction projects',
             'is_active' => true,
         ]);
@@ -289,7 +311,7 @@ class ProductSchemeAttributeSeeder extends Seeder
             ['Eligibility', '• House should be suitably located having a motor able approach.\n• Permission of concerned Government organization for conversion/ Renovation /Refurbishment of House into Hotel/Guest House.\n• Hotel/Guest House should be preferably managed by the owner himself.', 2],
             ['Loan Limit', '• Up to Rs. 5.0 Millions', 3],
             ['Tenure', 'Maximum up to 05 years', 4],
-            ['Repayment', 'Monthly installments with 03 months grace period', 5],
+            ['Repayment', 'Grace period is applicable only in construction-related cases.', 5],
             ['Equity Contribution', '20%', 6],
             ['Primary Security', 'Hypothecation of all Moveable Assets', 7],
             ['Secondary Security', 'Mortgage of property or lien on Deposits or pledge of Gold', 8],
@@ -308,11 +330,16 @@ class ProductSchemeAttributeSeeder extends Seeder
             ['Purpose', 'To ensure easy access of businessmen/trader\'s community for their working capital requirement on soft terms.', 1],
             ['Eligibility', '• The minimum age of the business should two years.\n• Applicant must be Account holder of BAJK.\n• Applicant must be resident of AJK with business within the area of respective branch in the main city/business hub of respective district.\n• Applicant should not be defaulter of any financial intuition/Bank.', 2],
             ['Loan Limit', 'Maximum loan amount up to Rs. 500,000/-', 3],
-            ['Tenure', '12 months renewable', 4],
-            ['Repayment', 'Principal lump sum and markup monthly/quarterly basis.', 5],
+            ['Tenure', 'As Running Finance (RF): 12 months.
+                        As Demand Finance (DF): 36 months.', 4],
+            ['Repayment', 'RF: Lump sum adjustment on or before expiry; markup payable quarterly.
+                           DF: Equal Monthly Installments.', 5],
             ['Primary Security', 'Hypothecation of Stock.', 6],
             ['Secondary Security', 'Two personal Guarantees of\ni. Govt officials of BPS-09 or above\nii. Businessmen maintaining running account with BAJK or any other bank having annual average balance of the amount equivalent to the loan amount requeste.\niii. Any other security acceptable by the bank.', 7],
-            ['Insurance', 'As per Bank\'s policy', 8],
+            [' Guarantee', 'One government employee of BPS-11 or above.
+                            One businessman maintaining a satisfactory average monthly balance.',8],
+            ['Insurance', 'Stock: Mandatory.
+                           Life: Optional.', 9],
         ]);
 
         // Health Care Services Finance
@@ -329,7 +356,7 @@ class ProductSchemeAttributeSeeder extends Seeder
             ['Loan Limit', 'For Rural Areas:\n• Up to Rs. 5.00 Million for purchase of equipment (DF).\n• Up to Rs. 1.00 Million for working capital requirement (RF).\nFor Urban Areas:\n• Up to Rs. 10.00 Million for purchase of equipment (DF).\n• Up to Rs. 2.00 Million for working capital requirement (RF).', 3],
             ['Tenure', '• 01 year on rollover bases for RF limit.\n• 05 years for DF limit.', 4],
             ['Borrower\'s Equity', 'For DF – 25% of required amount.', 5],
-            ['DSR', '50%', 6],
+            // ['DSR', '50%', 6],
             ['Primary Security', 'Hypothecation of existing or to be purchased stock with 25% margin.', 7],
             ['Secondary Security', 'Mortgage of Land and superstructure of the project or lien on Deposits or Pledge of Gold.', 8],
             ['Insurance', 'Insurance of all Movable/Immovable Assets Building/Machinery/Equipment and other stock as per Bank Policy', 9],
