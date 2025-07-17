@@ -92,7 +92,7 @@ interface LoanCalculatorProps {
     insuranceOptions: InsuranceOptions;
 }
 
-export default function LoanCalculator({ loanTypes, currentRates, bankRates, insuranceOptions }: LoanCalculatorProps) {
+export default function LoanCalculator({ loanTypes, currentRates, bankRates }: LoanCalculatorProps) {
     const [selectedLoanType, setSelectedLoanType] = useState<LoanType | null>(null);
     const [loanAmount, setLoanAmount] = useState<number>(0);
     const [securityDeposit, setSecurityDeposit] = useState<number>(0);
@@ -439,7 +439,7 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates, ins
 
                 <div class="disclaimer">
                     <h4>Important Note</h4>
-                    <p>Advance insurance is paid upfront. Total insurance (advance + regular) is distributed over months 1-${tenure - 12}. This calculator provides estimates / tentative based on inputs provided. Please consult with our Islamic banking officers for accurate information.</p>
+                    <p>Advance insurance is paid upfront. Total insurance (advance + regular) is distributed over months 1-${tenure - 12}. This calculator provides estimates based on inputs provided. Please consult with our Islamic banking officers for accurate information.</p>
                 </div>
 
                 <div class="no-print" style="margin-top: 20px; text-align: center;">
@@ -1015,7 +1015,7 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates, ins
                         <div className="mt-2 text-sm text-yellow-700">
                             <p>
                                 Advance insurance is paid upfront. Total insurance (advance + regular) is distributed over months 1-{tenure - 12}. 
-                                This calculator provides estimates / tentative based on inputs provided. Actual terms may vary based on creditworthiness and bank policies. 
+                                This calculator provides estimates based on inputs provided. Actual terms may vary based on creditworthiness and bank policies. 
                                 Please consult with our Islamic banking officers for accurate information.
                             </p>
                         </div>
