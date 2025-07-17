@@ -57,6 +57,11 @@ class LoanCalculatorController extends Controller
                 'fixed' => 0,
                 'percentage' => 0.00,
                 'maxPercentage' => 100.00
+            ],
+            'advance' => [
+                'fixed' => 0,
+                'percentage' => 0.00,
+                'maxPercentage' => 100.00
             ]
         ];
 
