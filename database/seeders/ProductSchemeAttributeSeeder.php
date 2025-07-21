@@ -333,11 +333,12 @@ class ProductSchemeAttributeSeeder extends Seeder
              Permission of concerned Government organization for conversion/ Renovation /Refurbishment of House into Hotel/Guest House.\n• Hotel/Guest House should be preferably managed by the owner himself.', 2],
             ['Loan Limit', 'Up to Rs. 5.0 Millions', 3],
             ['Tenure', 'Maximum up to 05 years', 4],
-            ['Repayment', 'Grace period is applicable only in construction-related cases.', 5],
-            ['Equity Contribution', '20%', 6],
-            ['Primary Security', 'Hypothecation of all Moveable Assets', 7],
-            ['Secondary Security', 'Mortgage of property or lien on Deposits or pledge of Gold', 8],
-            ['Insurance', 'As per Bank\'s Policy', 9],
+            ['Grace Period ', 'Grace period is applicable only for construction-related cases.', 5],
+            ['Repayment', 'Equal Monthly Installments (EMIs).', 6],
+            ['Equity Contribution', '20%', 7],
+            ['Primary Security', 'Hypothecation of all Moveable Assets', 8],
+            ['Secondary Security', 'Mortgage of property or lien on Deposits or pledge of Gold', 9],
+            ['Insurance', 'As per Bank\'s Policy', 10],
         ]);
 
         // Small Business Trade Finance
@@ -360,7 +361,10 @@ class ProductSchemeAttributeSeeder extends Seeder
             ['Repayment', 'RF: Lump sum adjustment on or before expiry; markup payable quarterly.
                            DF: Equal Monthly Installments.', 5],
             ['Primary Security', 'Hypothecation of Stock.', 6],
-            ['Secondary Security', 'Two personal Guarantees of\ni. Govt officials of BPS-09 or above\nii. Businessmen maintaining running account with BAJK or any other bank having annual average balance of the amount equivalent to the loan amount requeste.\niii. Any other security acceptable by the bank.', 7],
+            ['Secondary Security', 'Two personal Guarantees of.
+            (i) Govt officials of BPS-09 or above.
+            (ii) Businessmen maintaining running account with BAJK or any other bank having annual average balance of the amount equivalent to the loan amount requeste.
+            (iii) Any other security acceptable by the bank.', 7],
             [' Guarantee', 'One government employee of BPS-11 or above.
                             One businessman maintaining a satisfactory average monthly balance.',8],
             ['Insurance', 'Stock: Mandatory.
@@ -384,7 +388,7 @@ class ProductSchemeAttributeSeeder extends Seeder
              For Urban Areas:
               Up to Rs. 10.00 Million for purchase of equipment (DF).
                Up to Rs. 2.00 Million for working capital requirement (RF).', 3],
-            ['Tenure', '01 year on rollover bases for RF limit.
+            ['Tenure', ' 01 year on a rollover basis for RF Limit.
              05 years for DF limit.', 4],
             ['Borrower\'s Equity', 'For DF – 25% of required amount.', 5],
             // ['DSR', '50%', 6],
@@ -412,7 +416,7 @@ class ProductSchemeAttributeSeeder extends Seeder
             ['Age limit', '18-60 years', 3],
             ['Loan Limit', 'Upto Rs. 200,000/-', 4],
             ['Tenure', 'One year', 5],
-            ['Repayment', 'Lump sum/borrowers discretion', 6],
+            ['Repayment', "(Lump sum/borrower\'s discretion) should be replaced with (Equal Monthly Installments (EMIs) / Quarterly / Half-Yearly Installments)." ,6],
             ['Primary Security', 'Hypothecation of stock', 7],
             ['Secondary Security', 'One P.G of BPS-11 or above or Lien of Deposits or Pledge of Gold', 8],
             ['Insurance', 'As per Bank\'s policy', 9],
@@ -433,7 +437,7 @@ class ProductSchemeAttributeSeeder extends Seeder
             ['Age limit', '18-60 years', 3],
             ['Loan Limit', 'Maximum Rs. 1,000,000/-', 4],
             ['Tenure', 'Upto 5 years', 5],
-            ['Repayment', 'Monthly/Quarterly/Half Yearly Installments', 6],
+            ['Repayment', '(Monthly/Quarterly/ Half-Yearly Installments) should be replaced with (Equal Monthly Installments (EMIs) / Quarterly Installments).', 6],
             ['Down Payment/Equity', '20% in case of Machinery / Tractor', 7],
             ['Primary Security', 'Hypothecation of stock', 8],
             ['Secondary Security', 'Upto Rs. 200,000/- 01 PG of BPS-11 or above\nAbove Rs. 200,000/-\nMortgage of property / Lien on deposits / Anyother liquid security', 9],
