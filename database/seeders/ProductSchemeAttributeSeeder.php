@@ -334,11 +334,11 @@ class ProductSchemeAttributeSeeder extends Seeder
             ['Loan Limit', 'Up to Rs. 5.0 Millions', 3],
             ['Tenure', 'Maximum up to 05 years', 4],
             ['Grace Period ', 'Grace period is applicable only for construction-related cases.', 5],
-            ['Repayment', 'Equal Monthly Installments (EMIs).', 5],
-            ['Equity Contribution', '20%', 6],
-            ['Primary Security', 'Hypothecation of all Moveable Assets', 7],
-            ['Secondary Security', 'Mortgage of property or lien on Deposits or pledge of Gold', 8],
-            ['Insurance', 'As per Bank\'s Policy', 9],
+            ['Repayment', 'Equal Monthly Installments (EMIs).', 6],
+            ['Equity Contribution', '20%', 7],
+            ['Primary Security', 'Hypothecation of all Moveable Assets', 8],
+            ['Secondary Security', 'Mortgage of property or lien on Deposits or pledge of Gold', 9],
+            ['Insurance', 'As per Bank\'s Policy', 10],
         ]);
 
         // Small Business Trade Finance
@@ -416,7 +416,7 @@ class ProductSchemeAttributeSeeder extends Seeder
             ['Age limit', '18-60 years', 3],
             ['Loan Limit', 'Upto Rs. 200,000/-', 4],
             ['Tenure', 'One year', 5],
-          ['Repayment', "(Lump sum/borrower\'s discretion) should be replaced with (Equal Monthly Installments (EMIs) / Quarterly / Half-Yearly Installments)." ,],
+            ['Repayment', "(Lump sum/borrower\'s discretion) should be replaced with (Equal Monthly Installments (EMIs) / Quarterly / Half-Yearly Installments)." ,6],
             ['Primary Security', 'Hypothecation of stock', 7],
             ['Secondary Security', 'One P.G of BPS-11 or above or Lien of Deposits or Pledge of Gold', 8],
             ['Insurance', 'As per Bank\'s policy', 9],
