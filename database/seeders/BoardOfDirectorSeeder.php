@@ -224,7 +224,7 @@ class BoardOfDirectorSeeder extends Seeder
                     'Appointed as Company Secretary of the Bank of Azad Jammu & Kashmir, reflecting institutional confidence in his leadership and governance expertise',
                     'Played a key role in strengthening governance and compliance frameworks at the Pakistan Security Printing Corporation, a subsidiary of the State Bank of Pakistan',
                 ],
-                'image' => '',
+                   'image' => 'bod/company.png',
                 'sort_order' => 9,
                 'is_chairman' => false,
                 'is_active' => true,
