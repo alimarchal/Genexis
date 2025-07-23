@@ -37,10 +37,7 @@ class BodCommitteeSeeder extends Seeder
                 'description' => 'Committee responsible for human resource policies and management oversight.',
                 'chairman_board_id' => $secretaryFinance?->id,
                 'secretary_management_id' => $hrDivHead?->id,
-               'board_members' => array_filter([
-    $mubasharNabi?->id,
-    $bushraNaz?->id,
-]),
+                'board_members' => array_filter([$mubasharNabi?->id]),
                 
                 'management_members' => array_filter([$presidentCEOManag?->id]),
                 'is_active' => true,
@@ -53,8 +50,8 @@ class BodCommitteeSeeder extends Seeder
                 'secretary_management_id' => $auditHead?->id,
                 'board_members' => array_filter([
                     $secretaryFinance?->id,
-                    $secretaryIndustries?->id,
-                     $mubasharNabi?->id,
+                    $secretaryLaw?->id,
+                    $mubasharNabi?->id,
                    
                 ]),
                 // 'management_members' => array_filter([$auditHead?->id]),

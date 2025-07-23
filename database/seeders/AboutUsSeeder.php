@@ -26,10 +26,14 @@ The Bank also offers conventional banking services such as safe custody and safe
 
 A lot has changed since the BAJK started its operations in 2006 through its 1st Branch in Muzaffarabad. The Bank has expanded its outreach to 87 locations in all districts of state, some in far off places where other banks are not present. From customized product offering to the technology being acquired to support our service delivery channels, one thing has never changed which is its focus to change the socio economic conditions of the people of the State. Ever since its inception, we have remained committed to serve the people with enthusiasm, dedication and highest sense of responsibility. During this period we have been able to earn the trust of our valued customers, who have by choice established their relationship with us. Today we have a franchise of enormous customers being served by a dedicated team of professionals.
 
-The bank has a dedicated team of professionals fully capable to provide services with energy, zeal and commitment. The bank attaches top priority to service delivery, therefore investing considerably in IT and Human Capital to evolve a powerful brand, which is competitive, sustainable and trusted by its customers.',
+The bank has a dedicated team of professionals fully capable to provide services with energy, zeal and commitment. The bank attaches top priority to service delivery, therefore investing considerably in IT and Human Capital to evolve a powerful brand, which is competitive, sustainable and trusted by its customers.
+
+Core Values:  
+Quality, Team Work, Responsibility, Achievement, Innovation, Ideas, Trust, People.',
             'vision' => 'To act as a premier financial institution, fostering socio- economic development of the people of AJK.',
-            'mission' => null,
-            'is_active' => true,
+            'mission' => 'To acquire market leadership through quality banking services as a customer-focused and socially responsible institution. Promote products, best business practices, and customized solutions for participation in development processes of the state for the well-being of its people.',
+           
+             'is_active' => true,
             'sort_order' => 1,
         ]);
     }

@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->longText('content');
             $table->text('vision')->nullable();
             $table->text('mission')->nullable();
+          
             $table->boolean('is_active')->default(true);
             $table->integer('sort_order')->default(0);
             $table->timestamps();

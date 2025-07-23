@@ -33,6 +33,7 @@ class BodCommitteeFactory extends Factory
             'description' => fake()->sentence(10),
             'chairman_board_id' => null, // Will be set in specific tests
             'secretary_board_id' => null,
+           
             'secretary_management_id' => null,
             'board_members' => [],
             'management_members' => [],
