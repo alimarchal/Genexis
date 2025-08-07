@@ -46,6 +46,77 @@ class NewsAnnouncementSeeder extends Seeder
         //     'is_published' => true,
         // ]);
 
+  NewsAnnouncement::create([
+            'title' => '92nd Meeting of the Board of Directors of BAJK Held in Islamabad',
+           'content' => 'Islamabad <br>
+            The <strong>92nd meeting</strong> of the Board of Directors (BoD) of <strong>Bank of Azad Jammu & Kashmir (BAJK)</strong> was held on <strong>Monday in Islamabad</strong>, chaired by <strong>Mr. Khan Abdul Majid Khan</strong>, Honorable Minister for Finance & Cooperatives, Government of Azad Jammu & Kashmir, and Chairman of BAJK.<br><br>
+
+<strong>Board Members in Attendance:</strong><br>
+- <strong>Mr. Khan Abdul Majid Khan</strong> (Chairman)<br>
+- <strong>Mr. Shahid Shahzad Mir</strong> (President & CEO, BAJK)<br>
+- <strong>Mr. Islam Zaib</strong> (Secretary Finance, AJK)<br>
+- <strong>Mr. Khalid Mahmood Mirza</strong> (Secretary Industries & Commerce, AJK)<br>
+- <strong>Mr. Muhammad Sajjad</strong> (Secretary Law & Justice, AJK)<br>
+- <strong>Mr. Mubashar Nabi</strong><br>
+- <strong>Ms. Bushra Naz Malik</strong> (Board Member)<br>
+- <strong>Dr. Adnanullah Khan</strong> (Company Secretary)<br><br>
+
+<strong>Key Highlights:</strong><br>
+1. <strong>Core Banking System Contract Ceremony:</strong><br>
+&nbsp;&nbsp;- The Board expressed satisfaction over the recent <strong>Core Banking System contract signing ceremony</strong>, held in the presence of the <strong>Prime Minister of AJK</strong> and senior government officials.<br>
+&nbsp;&nbsp;- Emphasis was placed on the <strong>speedy implementation</strong> of the new system to enhance digital banking services and operational efficiency.<br><br>
+
+2. <strong>Approval of New ESG Committee:</strong><br>
+&nbsp;&nbsp;- The Board approved the <strong>Terms of Reference (ToRs)</strong> for the newly established <strong>Environmental, Social, and Governance (ESG) Committee</strong>, reinforcing BAJK’s commitment to sustainable and responsible banking practices.<br><br>
+
+3. <strong>Strategic Discussions:</strong><br>
+&nbsp;&nbsp;- Progress on ongoing initiatives was reviewed, focusing on <strong>financial growth, technological advancements, and customer service improvements</strong>.<br><br>
+
+<strong>Chairman’s Remarks:</strong><br>
+Mr. Khan Abdul Majid Khan commended the efforts of BAJK’s leadership, Board members, and stakeholders in driving the Bank’s progress. He reiterated BAJK’s vision to become a <strong>leading financial institution</strong> through innovation, digital transformation, and sustainable development.<br><br>
+
+<strong>Way Forward:</strong><br>
+The Board reaffirmed its focus on <strong>accelerating digital transformation, expanding services, and adopting best governance practices</strong> to better serve customers and stakeholders.<br><br>
+
+<div dir="rtl" style="text-align: right;">
+<strong>اسلام آباد –</strong> بینک آف آزاد جموں و کشمیر (BAJK) کے <strong>بورڈ آف ڈائریکٹرز</strong> کا <strong>92 واں اجلاس</strong> <strong>پیر کے روز اسلام آباد</strong> میں منعقد ہوا، جس کی صدارت <strong>محترم خان عبدالمجید خان</strong>، وزیرِ خزانہ و کوآپریٹیوز، حکومت آزاد جموں و کشمیر و چیئرمین BAJK نے کی۔<br><br>
+
+<strong>شرکاء بورڈ اجلاس:</strong><br>
+- <strong>محترم خان عبدالمجید خان</strong> (چیئرمین)<br>
+- <strong>جناب شاہد شہزاد میر</strong> (صدر و سی ای او، BAJK)<br>
+- <strong>جناب اسلام زیب</strong> (سیکرٹری خزانہ، آزاد کشمیر)<br>
+- <strong>جناب خالد محمود مرزا</strong> (سیکرٹری صنعت و تجارت، آزاد کشمیر)<br>
+- <strong>جناب محمد سجاد</strong> (سیکرٹری قانون و انصاف، آزاد کشمیر)<br>
+- <strong>جناب مبشر نبی</strong><br>
+- <strong>محترمہ بشریٰ ناز ملک</strong> (بورڈ ممبر)<br>
+- <strong>ڈاکٹر عدنان اللہ خان</strong> (کمپنی سیکرٹری)<br><br>
+
+<strong>اہم نکات:</strong><br>
+1. <strong>کور بینکنگ سسٹم معاہدے کی تقریب:</strong><br>
+&nbsp;&nbsp;- بورڈ نے حال ہی میں منعقدہ <strong>کور بینکنگ سسٹم معاہدے کی دستخطی تقریب</strong> پر اطمینان کا اظہار کیا، جو <strong>وزیراعظم آزاد کشمیر</strong> اور اعلیٰ حکومتی افسران کی موجودگی میں منعقد ہوئی۔<br>
+&nbsp;&nbsp;- اس موقع پر نئے نظام کے <strong>فوری نفاذ</strong> پر زور دیا گیا تاکہ ڈیجیٹل بینکنگ خدمات اور آپریشنز میں بہتری لائی جا سکے۔<br><br>
+
+2. <strong>نئی ESG کمیٹی کی منظوری:</strong><br>
+&nbsp;&nbsp;- بورڈ نے نئی تشکیل شدہ <strong>ماحولیاتی، سماجی و طرزِ حکمرانی (ESG) کمیٹی</strong> کے <strong>کارِ منصبی حدود (ToRs)</strong> کی منظوری دی، جو پائیدار اور ذمہ دار بینکاری کے عزم کی عکاسی کرتا ہے۔<br><br>
+
+3. <strong>اسٹریٹجک امور پر گفتگو:</strong><br>
+&nbsp;&nbsp;- جاری اقدامات کی پیش رفت کا جائزہ لیا گیا، جس میں <strong>مالی ترقی، ٹیکنالوجی میں بہتری، اور کسٹمر سروس میں بہتری</strong> پر توجہ دی گئی۔<br><br>
+
+<strong>چیئرمین کے تاثرات:</strong><br>
+محترم خان عبدالمجید خان نے بینک کی قیادت، بورڈ ممبران اور تمام اسٹیک ہولڈرز کی کاوشوں کو سراہا جنہوں نے بینک کو ترقی کی راہ پر گامزن کیا۔ انہوں نے اس عزم کا اعادہ کیا کہ BAJK کا وژن <strong>ایک معروف مالیاتی ادارہ</strong> بننا ہے جو جدت، ڈیجیٹل ٹرانسفارمیشن اور پائیدار ترقی کے ذریعے ممکن ہو گا۔<br><br>
+
+<strong>آئندہ کا لائحہ عمل:</strong><br>
+بورڈ نے <strong>ڈیجیٹل تبدیلی کو تیز کرنے، سروسز میں توسیع، اور بہترین گورننس اصولوں کو اپنانے</strong> پر توجہ مرکوز رکھنے کا اعادہ کیا تاکہ صارفین اور شراکت داروں کو بہتر سہولیات فراہم کی جا سکیں۔<br><br>
+</div>',
+
+            'image' => 'news-images/92meting.jpg',
+            'published_date' => '2025-07-28',
+            'is_featured' => true,
+            'category' => 'banking',
+            'slug' => '92nd-meeting-board-of-directors-bajk-held-in-islamabad',
+            'is_published' => true,
+        ]);
+
  NewsAnnouncement::create([
             'title' => 'BAJK Signs Historic Agreement with Silverlake to Implement Core Banking System, Ushering in a New Era of Digital Banking',
           'content' => 'Muzaffarabad<br>  The Bank of Azad Jammu and Kashmir (BAJK) has taken a monumental leap toward digital transformation by signing a landmark agreement with Malaysia-based global technology consortium Silverlake to implement a state-of-the-art <strong>Core Banking System (CBS)</strong>. The contract signing ceremony, held at the prestigious Islamabad Serena Hotel, was graced by esteemed dignitaries, marking a pivotal moment in the financial modernization of the region.<br><br>
