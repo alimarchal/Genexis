@@ -46,6 +46,74 @@ class NewsAnnouncementSeeder extends Seeder
         //     'is_published' => true,
         // ]);
 
+
+
+        
+        NewsAnnouncement::create([
+            'title' => 'Tribute on the 78th Independence Day by the President & CEO, BAJK',
+'content' => 'Independence Day Message<br>
+As we celebrate the <strong>78th Independence Day</strong> of our beloved homeland, I extend my heartfelt greetings to the people of Pakistan and Azad Jammu & Kashmir. This day reminds us of the countless sacrifices made by our forefathers for the priceless gift of freedom, and now it is our duty to honor that legacy with unity, dedication, and purpose.<br><br>
+
+On this occasion, I pay the highest tribute to the valiant <strong>Pakistan Armed Forces</strong>, who continue to guard our homeland with unwavering courage, unmatched dedication, and unshakable resolve. Their sacrifices—past and present—are the backbone of our sovereignty and the pride of every Pakistani and Kashmiri.<br><br>
+
+As <strong>President & CEO</strong> of the Bank of Azad Jammu & Kashmir, I reaffirm our commitment to serving the people of AJK and Pakistan with integrity, innovation, and purpose. Let this Independence Day be a moment of renewal—of our unity, our resolve, and our shared vision for a stronger, more prosperous Pakistan.<br><br>
+
+May our flag always fly with pride and may our beloved homeland continue to thrive as a beacon of peace, progress, and justice.<br><br>
+
+<strong>Pakistan Zindabad</strong><br>
+<strong>Salute to the Pakistan Army</strong><br><br>
+
+— <strong>Shahid Mir</strong><br>
+<strong>President/CEO</strong><br>
+<strong>Bank of Azad Jammu & Kashmir</strong><br><br>
+
+<div dir="rtl" style="text-align: right;">
+<strong>یومِ آزادی کا پیغام</strong><br>
+جیسے ہی ہم اپنی پیاری سرزمین کا <strong>78واں یومِ آزادی</strong> منا رہے ہیں، میں پاکستان اور آزاد جموں و کشمیر کے عوام کو دلی مبارکباد پیش کرتا ہوں۔ یہ دن ہمیں اُن بے شمار قربانیوں کی یاد دلاتا ہے جو ہمارے بزرگوں نے ہمیں آزادی کی انمول نعمت دینے کے لیے دی تھیں۔ اب یہ ہماری ذمہ داری ہے کہ ہم اس ورثے کو اتحاد، لگن اور مقصد کے ساتھ آگے بڑھائیں۔<br><br>
+
+اس موقع پر میں <strong>پاک افواج</strong> کے بہادر جوانوں کو خراجِ تحسین پیش کرتا ہوں جو جرات، غیر متزلزل عزم اور بے مثال قربانیوں کے ساتھ ہمارے وطن کی حفاظت کر رہے ہیں۔ اُن کی قربانیاں، چاہے وہ ماضی کی ہوں یا حال کی، ہماری خودمختاری کی بنیاد اور ہر پاکستانی و کشمیری کا فخر ہیں۔<br><br>
+
+بطور <strong>صدر و چیف ایگزیکٹو</strong> بینک آف آزاد جموں و کشمیر، میں اپنے عزم کی تجدید کرتا ہوں کہ ہم اے جے کے اور پاکستان کے عوام کی خدمت دیانتداری، جدت اور عزم کے ساتھ جاری رکھیں گے۔ آئیے اس یومِ آزادی کو تجدید کا لمحہ بنائیں — ہمارے اتحاد، ہمارے عزم اور ایک مضبوط اور خوشحال پاکستان کے ہمارے مشترکہ وژن کی تجدید۔<br><br>
+
+اللہ کرے ہمارا پرچم ہمیشہ سربلند رہے اور ہمارا پیارا وطن امن، ترقی اور انصاف کی علامت بن کر ہمیشہ پروان چڑھتا رہے۔<br><br>
+
+<strong>پاکستان زندہ باد</strong><br>
+<strong>پاک فوج کو سلام</strong><br><br>
+
+— <strong>شاہد میر</strong><br>
+<strong>صدر / چیف ایگزیکٹو</strong><br>
+<strong>بینک آف آزاد جموں و کشمیر</strong>
+</div>',
+
+            'image' => 'news-images/DH14aug.jpg',
+            'published_date' => '2025-08-14',
+            'is_featured' => true,
+            'category' => 'general',
+            'slug' => 'tribute-78th-independence-day-president-ceo-bajk',
+            'is_published' => true,
+        ]);
+
+   NewsAnnouncement::create([
+            'title' => 'Spirit of Unity and Patriotism Highlighted at BAJK Rawalakot Independence Day Celebration',
+           'content' => 'Rawalakot<br>
+On the occasion of <strong>Independence Day</strong>, a cake cutting ceremony was held at the <strong>BAJK-Regional Office Rawalakot</strong>. The event was graced by the <strong>Regional Head Rawalakot</strong>, accompanied by Regional Managers and staff from various branches. The ceremony reflected a <strong>spirit of patriotism and unity</strong>, bringing together team members to celebrate the national day with enthusiasm and pride.<br><br>
+
+<div dir="rtl" style="text-align: right;">
+<strong>یومِ آزادی کے موقع پر تقریب</strong><br>
+<strong>راولا کوٹ،</strong><br>
+یومِ آزادی کے موقع پر <strong>بینک آف آزاد جموں و کشمیر کے ریجنل آفس راولا کوٹ</strong> میں کیک کاٹنے کی تقریب منعقد ہوئی۔ اس تقریب میں <strong>ریجنل ہیڈ راولا کوٹ</strong> نے شرکت کی، جبکہ مختلف شاخوں کے ریجنل منیجرز اور عملہ بھی موجود تھا۔<br><br>
+
+یہ تقریب <strong>حب الوطنی اور اتحاد</strong> کے جذبے کی عکاسی کرتی ہے، جس میں ٹیم کے اراکین نے قومی دن کو جوش و خروش اور فخر کے ساتھ منایا۔<br>
+</div>',
+            'image' => 'news-images/14 august.jpg',
+            'published_date' => '2025-08-14',
+            'is_featured' => true,
+            'category' => 'general',
+            'slug' => 'spirit-unity-patriotism-bajk-rawalakot-independence-day-celebration',
+            'is_published' => true,
+        ]);
+
+
   NewsAnnouncement::create([
             'title' => '92nd Meeting of the Board of Directors of BAJK Held in Islamabad',
            'content' => 'Islamabad <br>
