@@ -47,6 +47,196 @@ class NewsAnnouncementSeeder extends Seeder
         // ]);
 
 
+        NewsAnnouncement::create([
+            'title' => 'President & CEO BAJK Mr. Shahid Shahzad Mir Undertakes Landmark Visit to Rawalakot Region',
+            'content' => 'Rawalakot, Azad Jammu & Kashmir<br>
+The <strong>President & Chief Executive Officer of Bank of Azad Jammu & Kashmir (BAJK), Mr. Shahid Shahzad Mir</strong>, undertook a significant visit to the Rawalakot region, where he was warmly welcomed by bank officials, local dignitaries, and the community.<br><br>
+
+During his visit, the CEO chaired high-level meetings to review the bank’s operational performance, customer service standards, and the progress of digital initiatives in the region. He reiterated the bank’s unwavering commitment to enhancing financial inclusion and delivering innovative, accessible banking solutions to the people of Azad Jammu & Kashmir.<br><br>
+
+Mr. Mir was accompanied by the <strong>Divisional Head of Commercial & Retail Banking Division (CRBD), the Divisional Head of Credit Management Division (CMD), and the Regional Head of Rawalakot</strong>. The officials provided comprehensive insights into the bank’s regional growth, portfolio performance, and community outreach strategies.<br><br>
+
+As a highlight of the visit, the CEO distributed certificates and awards among high-performing employees, recognizing their exceptional dedication and significant contribution to the bank’s success. He commended the entire Rawalakot team for their efforts in upholding BAJK’s core values and vigorously driving its mission forward.<br><br>
+
+The visit underscored BAJK’s strategic focus on strengthening its regional presence, empowering local communities, and understanding the unique financial needs of the people it serves.<br><br>
+
+<div dir="rtl" style="text-align: right;">
+<strong>راولاکوٹ، آزاد جموں و کشمیر</strong><br>
+<strong>بینک آف آزاد جموں و کشمیر (BAJK) کے صدر و چیف ایگزیکٹو آفیسر، جناب شاہد شہزاد میر</strong> نے راولاکوٹ ریجن کا ایک اہم دورہ کیا، جہاں بینک افسران، مقامی معززین اور عوام نے ان کا پُرتپاک استقبال کیا۔<br><br>
+
+اپنے دورے کے دوران، سی ای او نے اعلیٰ سطحی اجلاسوں کی صدارت کی جن میں بینک کی عملی کارکردگی، صارفین کو فراہم کی جانے والی خدمات کے معیار اور ریجن میں جاری ڈیجیٹل اقدامات کی پیش رفت کا تفصیلی جائزہ لیا گیا۔ انہوں نے اس عزم کا اعادہ کیا کہ بینک مالی شمولیت کو فروغ دینے اور آزاد جموں و کشمیر کے عوام کو جدید، قابلِ رسائی اور جدت پر مبنی بینکاری سہولیات فراہم کرنے کے لیے پُرعزم ہے۔<br><br>
+
+اس موقع پر <strong>کمرشل و ریٹیل بینکنگ ڈویژن (CRBD) کے ڈویژنل ہیڈ، کریڈٹ مینجمنٹ ڈویژن (CMD) کے ڈویژنل ہیڈ اور ریجنل ہیڈ راولاکوٹ</strong> بھی ان کے ہمراہ تھے۔ ان افسران نے بینک کی ریجنل ترقی، پورٹ فولیو کارکردگی اور کمیونٹی سے روابط کی حکمت عملیوں پر جامع بریفنگ دی۔<br><br>
+
+دورے کی نمایاں جھلک میں، سی ای او نے شاندار کارکردگی دکھانے والے ملازمین میں اسناد اور ایوارڈز تقسیم کیے اور ان کی غیرمعمولی لگن اور بینک کی کامیابی میں نمایاں خدمات کو سراہا۔ انہوں نے پوری راولاکوٹ ٹیم کو خراجِ تحسین پیش کیا کہ انہوں نے BAJK کے بنیادی اقدار کو برقرار رکھتے ہوئے اس کے مشن کو بھرپور انداز میں آگے بڑھایا۔<br><br>
+
+یہ دورہ اس بات کی عکاسی کرتا ہے کہ BAJK اپنی ریجنل موجودگی کو مضبوط بنانے، مقامی کمیونٹیز کو بااختیار کرنے اور عوام کی منفرد مالی ضروریات کو سمجھنے پر اسٹریٹیجک توجہ دے رہا ہے۔<br>
+</div>',
+           'image' => 'news-images/white.jpg',
+             'published_date' => '2025-09-01',
+            'is_featured' => true,
+            'category' => 'banking',
+            'slug' => 'president-ceo-bajk-shahid-shahzad-mir-landmark-visit-rawalakot-region',
+            'is_published' => true,
+        ]);
+
+   NewsAnnouncement::create([
+            'title' => 'BAJK President & CEO Mr. Shahid Shahzad Mir Undertakes Landmark Visit to Kotli Region',
+         'content' => 'Kotli, Azad Jammu & Kashmir<br>
+The <strong>President & Chief Executive Officer of Bank of Azad Jammu & Kashmir (BAJK), Mr. Shahid Shahzad Mir</strong>, undertook a landmark visit to the Kotli region, where he was warmly welcomed by bank officials, local dignitaries, and the community.<br><br>
+
+During the visit, the CEO chaired high-level meetings aimed at reviewing the bank’s operational performance, customer service standards, and the implementation of digital initiatives in the region. He emphasized the bank’s commitment to enhancing financial inclusion and delivering innovative banking solutions to the people of Azad Jammu & Kashmir.<br><br>
+
+Mr. Mir was accompanied by the <strong>DH Commercial & Retail Banking Division (CRBD), Regional Head, and other senior officials</strong>, who provided insights into the bank’s regional growth and outreach strategies.<br><br>
+
+As a highlight of the visit, the CEO distributed certificates and awards among high-performing employees, recognizing their dedication and contribution to the bank’s success. He commended the team’s efforts in upholding BAJK’s values and driving its mission forward.<br><br>
+
+The visit underscored BAJK’s focus on strengthening its regional presence and fostering deeper connections with local communities.<br><br>
+
+<div dir="rtl" style="text-align: right;">
+<strong>کوٹلی، آزاد جموں و کشمیر</strong><br>
+<strong>بینک آف آزاد جموں و کشمیر (BAJK) کے صدر و چیف ایگزیکٹو آفیسر، مسٹر شاہد شہزاد میر</strong> نے کوٹلی ریجن کا ایک تاریخی دورہ کیا، جہاں ان کا پُرتپاک استقبال بینک افسران، مقامی معززین اور عوام نے کیا۔<br><br>
+
+اپنے دورے کے دوران، سی ای او نے اعلیٰ سطحی اجلاسوں کی صدارت کی جن میں بینک کی کارکردگی، صارفین کو فراہم کی جانے والی خدمات کے معیار اور ریجن میں ڈیجیٹل اقدامات کے نفاذ کا جائزہ لیا گیا۔ انہوں نے اس عزم کا اعادہ کیا کہ بینک مالی شمولیت کو فروغ دینے اور عوام کو جدید، ٹیکنالوجی پر مبنی بینکاری سہولیات فراہم کرنے کے لیے پرعزم ہے۔<br><br>
+
+اس موقع پر <strong>ڈی ایچ کمرشل اینڈ ریٹیل بینکنگ ڈویژن (CRBD)، ریجنل ہیڈ اور دیگر سینئر افسران</strong> بھی ان کے ہمراہ تھے، جنہوں نے ریجنل ترقی اور outreach منصوبوں پر تفصیلی بریفنگ دی۔<br><br>
+
+دورے کی نمایاں جھلک میں، سی ای او نے بہترین کارکردگی دکھانے والے ملازمین کو سرٹیفکیٹس اور ایوارڈز سے نوازا اور ان کی خدمات کو سراہا۔ انہوں نے کہا کہ ٹیم کی یہ کاوشیں BAJK کے اقدار کو برقرار رکھنے اور اس کے مشن کو آگے بڑھانے میں کلیدی کردار ادا کر رہی ہیں۔<br><br>
+
+یہ دورہ BAJK کے اس عزم کی عکاسی کرتا ہے کہ ادارہ اپنی ریجنل موجودگی کو مزید مستحکم بنائے گا، عوامی خدمات میں بہتری لائے گا اور مقامی کمیونٹی کے ساتھ مضبوط تعلقات استوار کرے گا۔<br>
+</div>',
+            'image' => 'news-images/landmark.jpg',
+             'published_date' => '2025-08-30',
+            'is_featured' => true,
+            'category' => 'general',
+            'slug' => 'bajk-president-ceo-shahid-shahzad-mir-landmark-visit-kotli-region',
+            'is_published' => true,
+        ]);
+
+
+   
+        NewsAnnouncement::create([
+            'title' => 'BAJK Board of Directors Holds 93rd Meeting to Accelerate Digital Transformation and Strategic Growth',
+               'content' => 'Islamabad<br>
+The 93rd meeting of the <strong>Board of Directors of Bank of Azad Jammu & Kashmir (BAJK)</strong> was convened at <strong>Kashmir House, Islamabad</strong> on Thursday. The meeting was chaired by <strong>Mr. Khan Abdul Majid Khan, Honorable Minister for Finance & Cooperatives, Government of Azad Jammu & Kashmir, and Chairman of BAJK</strong>.<br><br>
+
+The Board members reviewed the Bank\'s strategic progress and charted the course for its future initiatives.<br><br>
+
+The meeting saw participation from key members including:<br>
+- <strong>President & CEO, Mr. Shahid Shahzad Mir</strong><br>
+- <strong>Secretary Finance, AJK, Mr. Islam Zaib</strong><br>
+- <strong>Secretary Industries & Commerce, AJK, Ch. Abdul Rehman</strong><br>
+- <strong>Secretary Law & Justice, Mr. Muhammad Sajjad</strong><br>
+- <strong>Company Secretary, Dr. Adnanullah Khan</strong><br>
+Other directors, <strong>Mr. Mubashar Nabi</strong> and <strong>Ms. Bushra Naz Malik</strong>, joined the meeting via Zoom.<br><br>
+
+<strong>Key Discussions & Decisions:</strong><br>
+1. <strong>Expedited Core Banking System Implementation:</strong><br>
+The Board received a comprehensive update on the ongoing project with Silverlake. Directives were issued to accelerate the implementation process and complete it at the earliest. The Board emphasized that this modernization is vital for enhancing digital banking services, operational efficiency, and superior customer experience.<br><br>
+
+2. <strong>Acquisition of Schedule Bank Status:</strong><br>
+A key strategic priority was the process of obtaining Schedule Bank status from the State Bank of Pakistan (SBP). The Board directed the management to complete the required steps and secure SBP approval as early as possible.<br><br>
+
+3. <strong>Strategic Roadmap Review:</strong><br>
+The Board deliberated on ongoing initiatives aimed at strengthening the Bank\'s financial performance, expanding its service network, and adopting cutting-edge banking technologies.<br><br>
+
+<strong>Chairman\'s Direction:</strong><br>
+Chairman <strong>Mr. Khan Abdul Majid Khan</strong> commended the management\'s efforts and reiterated the Board\'s full support for the Bank\'s transformational journey. He emphasized the collective commitment to innovation and sustainable growth, which is fundamental to realizing BAJK\'s vision of becoming a leading financial institution in the region.<br><br>
+
+<strong>Way Forward:</strong><br>
+The Board remains focused on driving sustainable growth, expanding services, and leveraging advanced technology to deliver exceptional value to its customers and stakeholders.<br><br>
+
+<div dir="rtl" style="text-align: right;">
+<strong>اسلام آباد</strong><br>
+<strong>بینک آف آزاد جموں و کشمیر (بی اے جے کے)</strong> کے بورڈ آف ڈائریکٹرز کا 93واں اجلاس جمعرات کے روز <strong>کشمیر ہاؤس اسلام آباد</strong> میں منعقد ہوا۔ اجلاس کی صدارت <strong>وزیر خزانہ و کواپریٹوز حکومت آزاد جموں و کشمیر اور چیئرمین بی اے جے کے، جناب خان عبدالمجید خان</strong> نے کی۔<br><br>
+
+بورڈ کے اراکین نے بینک کی اسٹریٹیجک پیشرفت کا جائزہ لیا اور مستقبل کے اقدامات کے لیے رہنما اصول مرتب کیے۔<br><br>
+
+اجلاس میں اہم اراکین نے شرکت کی، جن میں شامل ہیں:<br>
+<strong>صدر و سی ای او جناب شاہد شہزاد میر</strong><br>
+<strong>سیکرٹری فنانس جناب اسلام زیب</strong><br>
+<strong>سیکرٹری انڈسٹریز و کامرس چوہدری عبدالرحمٰن</strong><br>
+<strong>سیکرٹری لاء اینڈ جسٹس جناب محمد سجاد</strong><br>
+<strong>کمپنی سیکرٹری ڈاکٹر عدنان اللہ خان</strong><br>
+دیگر ڈائریکٹرز <strong>جناب مبشر نبی</strong> اور <strong>محترمہ بشریٰ ناز ملک</strong> نے زوم کے ذریعے اجلاس میں شرکت کی۔<br><br>
+
+<strong>اہم امور اور فیصلے:</strong><br>
+1. <strong>بنیادی بینکاری نظام کے نفاذ میں تیزی:</strong><br>
+بورڈ کو سلورلیک کے ساتھ جاری منصوبے پر تفصیلی بریفنگ دی گئی۔ ہدایت دی گئی کہ اس کے نفاذ کے عمل کو تیز کیا جائے اور جلد از جلد مکمل کیا جائے۔ بورڈ نے اس بات پر زور دیا کہ یہ جدیدیت ڈیجیٹل بینکاری خدمات، آپریشنل کارکردگی اور اعلیٰ معیار کے صارفین کے تجربے کو بہتر بنانے کے لیے نہایت اہم ہے۔<br><br>
+
+2. <strong>شیڈول بینک کا درجہ حاصل کرنا:</strong><br>
+بورڈ نے ایک اہم اسٹریٹیجک ترجیح کے طور پر غور کیا کہ اسٹیٹ بینک آف پاکستان (ایس بی پی) سے شیڈول بینک کا درجہ حاصل کرنے کے لیے ضروری اقدامات مکمل کیے جائیں اور فوری منظوری لی جائے۔<br><br>
+
+3. <strong>اسٹریٹیجک روڈ میپ کا جائزہ:</strong><br>
+بورڈ نے مختلف جاری اقدامات پر غور کیا جن کا مقصد بینک کی مالی کارکردگی کو بہتر بنانا، سروس نیٹ ورک کو وسعت دینا اور جدید بینکاری ٹیکنالوجیز اپنانا ہے۔<br><br>
+
+<strong>چیئرمین کی ہدایت:</strong><br>
+چیئرمین <strong>جناب خان عبدالمجید خان</strong> نے مینجمنٹ کی کاوشوں کو سراہا اور بینک کے انقلابی سفر کے لیے بورڈ کی مکمل حمایت کا اعادہ کیا۔ انہوں نے جدت اور پائیدار ترقی کے اجتماعی عزم پر زور دیا، جو بی اے جے کے کے وژن کو ایک نمایاں مالیاتی ادارہ بنانے کے لیے بنیادی حیثیت رکھتا ہے۔<br><br>
+
+<strong>آئندہ کا لائحہ عمل:</strong><br>
+بورڈ پائیدار ترقی، خدمات کے دائرہ کار کو وسعت دینے اور جدید ٹیکنالوجی سے فائدہ اٹھا کر صارفین اور اسٹیک ہولڈرز کو شاندار قدر فراہم کرنے پر توجہ مرکوز رکھے گا۔<br>
+</div>',
+             'image' => 'news-images/93 meeting.jpg',
+            'published_date' => '2025-08-29',
+            'is_featured' => true,
+            'category' => 'banking',
+            'slug' => 'bajk-board-directors-93rd-meeting-digital-transformation-strategic-growth',
+            'is_published' => true,
+        ]);
+
+
+
+
+        NewsAnnouncement::create([
+            'title' => 'Prime Minister’s Youth Loan Program Launched to Support Startups Across Azad Kashmir',
+           'content' => 'Islamabad<br>
+Under the vision of the <strong>Prime Minister of Azad Jammu & Kashmir, Chaudhry Anwar Haq</strong>, for <strong>Youth Empowerment</strong>, the <strong>Bank of Azad Jammu & Kashmir (BAJK)</strong> and the <strong>Azad Kashmir Small Industries Corporation (AKSIC)</strong> have signed a <strong>Memorandum of Understanding (MoU)</strong> for the implementation of the <strong>Prime Minister’s Youth Loan Program</strong>.<br><br>
+
+The signing ceremony was held on Thursday at the <strong>BAJK Camp Office</strong>. It was attended by <strong>Minister for Finance & Cooperatives and Chairman of the Bank, Mr. Khan Abdul Majid Khan</strong>; <strong>Minister for Small Industries & TATA, Prof. Taqdees Gilani</strong>; <strong>Secretary Finance, Mr. Islam Zeb</strong>; <strong>Secretary Industries, Mr. Chaudhry Abdul Rehman</strong>; <strong>President/CEO BAJK, Mr. Shahid Shahzad Mir</strong>; <strong>Managing Director Small Industries, Mr. Muhammad Zeeshan</strong>; <strong>Director Small Industries, Mr. Abdul Khaliq Abbasi</strong>; <strong>DH CMD, Mr. Muhammad Imtiaz Shaheen</strong>; along with other distinguished personalities.<br><br>
+
+Under this scheme, young people will be provided <strong>interest-free loans (zero markup)</strong> ranging from <strong>PKR 100,000 to PKR 2,000,000</strong>. These loans will be given for <strong>new and startup businesses</strong>.<br><br>
+
+The primary objective of the scheme is to provide interest-free loans to the youth of the region, enabling them to <strong>develop entrepreneurial skills</strong>, <strong>create new employment opportunities</strong>, <strong>reduce poverty</strong>, and <strong>promote economic activities in the private sector</strong>.<br><br>
+
+As per the agreement, both institutions will assist young people across <strong>all ten districts of Azad Kashmir</strong> in establishing and promoting small businesses.<br><br>
+
+After the formal signing of the MoU, the scheme will become fully operational.<br><br>
+
+The <strong>Secretary Industries of AKSIC</strong> stated: “This step is a significant milestone towards turning the dreams of young people into reality.”<br><br>
+
+The <strong>President of the Bank</strong> said: “The entire team of the Bank is determined to make this scheme a success. We will provide not only financial but also technical support to young entrepreneurs.”<br><br>
+
+Through this scheme, a new ray of hope is expected to shine for <strong>thousands of young people in Azad Kashmir</strong>, paving the way for a brighter future.<br><br>
+
+<div dir="rtl" style="text-align: right;">
+<strong>اسلام آباد</strong><br>
+<strong>وزیراعظم آزاد جموں و کشمیر چوہدری انور الحق</strong> کے ویژن <strong>یوتھ ایمپاورمنٹ</strong> کے تحت، <strong>بینک آف آزاد جموں و کشمیر (BAJK)</strong> اور <strong>آزاد کشمیر اسمال انڈسٹریز کارپوریشن (AKSIC)</strong> نے <strong>وزیراعظم یوتھ لون پروگرام</strong> کے نفاذ کے لیے ایک <strong>مفاہمتی یادداشت (MoU)</strong> پر دستخط کر دیے ہیں۔<br><br>
+
+جمعرات کو <strong>بینک آف آزاد جموں و کشمیر کے کیمپ آفس</strong> میں منعقدہ دستخطی تقریب میں <strong>وزیر خزانہ و کواپریٹوز و چئیرمین بینک خان عبدالماجد خان</strong>، <strong>وزیر سمال انڈسٹریز و ٹاٹا پروفیسر تقدیس گیلانی</strong>، <strong>سیکرٹری خزانہ جناب اسلام زیب</strong>، <strong>سیکرٹری انڈسٹریز جناب چوہدری عبدالرحمان</strong>، <strong>صدر/سی ای او بینک جناب شاہد شہزاد میر</strong>، <strong>منیجنگ ڈائریکٹر اسمال انڈسٹریز جناب محمد زیشان</strong>، <strong>ڈائریکٹر اسمال انڈسٹریز جناب عبدالخالق عباسی</strong>، <strong>ڈی ایچ سی ایم ڈی جناب محمد امتیاز شاہین</strong> اور دیگر معزز شخصیات نے شرکت کی۔<br><br>
+
+اس سکیم کے تحت نوجوانوں کو <strong>ایک لاکھ روپے سے لے کر بیس لاکھ روپے تک بلا سود (زیرو مارک اپ) قرضے</strong> فراہم کیے جائیں گے جو <strong>نئے اور اسٹارٹ اپ کاروبار</strong> کے لیے دیے جائیں گے۔<br><br>
+
+اس سکیم کا بنیادی مقصد نوجوانوں کو بلاسود قرضے فراہم کر کے ان میں <strong>کاروباری صلاحیتیں اجاگر کرنا</strong>، <strong>روزگار کے نئے مواقع پیدا کرنا</strong>، <strong>غربت میں کمی لانا</strong>، اور <strong>نجی شعبے میں معاشی سرگرمیوں کو فروغ دینا</strong> ہے۔<br><br>
+
+یہ معاہدہ دونوں اداروں کے درمیان آزاد کشمیر کے <strong>تمام دس اضلاع</strong> میں نوجوانوں کو چھوٹے کاروبار قائم کرنے اور ان کی ترقی میں معاونت فراہم کرے گا۔<br><br>
+
+ایم او یو پر دستخط کے بعد یہ سکیم باقاعدہ طور پر نافذ العمل ہو جائے گی۔<br><br>
+
+<strong>سیکرٹری انڈسٹریز، اے کے ایس آئی سی</strong> نے کہا: "یہ قدم نوجوانوں کے خوابوں کو حقیقت بنانے کی سمت ایک اہم پیش رفت ہے۔"<br><br>
+
+<strong>صدر بینک</strong> نے کہا: "بینک کی پوری ٹیم اس سکیم کو کامیاب بنانے کے لیے پرعزم ہے۔ ہم نوجوان کاروباریوں کو نہ صرف مالی بلکہ تکنیکی معاونت بھی فراہم کریں گے۔"<br><br>
+
+اس سکیم سے آزاد کشمیر کے <strong>ہزاروں نوجوانوں</strong> کے لیے مستقبل میں روشنی کی نئی کرن دیکھی جا رہی ہے۔<br>
+</div>',
+             'image' => 'news-images/smallindustries.jpg',
+             'published_date' => '2025-08-28',
+            'is_featured' => true,
+            'category' => 'announcements',
+            'slug' => 'prime-ministers-youth-loan-program-startups-azad-kashmir',
+            'is_published' => true,
+        ]);
+
+
 
         
         NewsAnnouncement::create([
@@ -472,7 +662,7 @@ The Board reaffirmed its resolve to sustain progress, expand services, and adopt
 </div>',
             'image' => 'news-images/89meeting.jpg',
             'published_date' => '2025-06-04',
-            'is_featured' => false,
+            'is_featured' => true,
             'category' => 'general',
             'slug' => '89th-board-meeting-bajk-muzaffarabad',
             'is_published' => true,
@@ -495,7 +685,7 @@ Speaking at the event, Chairman Khan Abdul Majid Khan stated that this MoU is no
 </div>',
             'image' => 'news-images/silverlink.jpg',
             'published_date' => '2025-05-29',
-            'is_featured' => false,
+            'is_featured' => true,
             'category' => 'general',
             'slug' => 'bajk-signs-mou-with-silverlake-digital-banking',
             'is_published' => true,
@@ -520,7 +710,7 @@ On this occasion, the Chairman stated that every effort is being made to positio
 </div>',
             'image' => 'news-images/meeting2.jpg',
             'published_date' => '2025-04-28',
-            'is_featured' => false,
+            'is_featured' => true,
             'category' => 'general',
             'slug' => 'bank-of-ajk-88th-board-meeting-chaired-by-finance-minister-khan-abdul-majid',
             'is_published' => true,
@@ -591,7 +781,7 @@ BAJK مستقبل میں اپنی ترقی، جدت، اور سماجی اثرا
 </div>',
             'image' => 'news-images/106meeting.jpg',
             'published_date' => '2025-04-11',
-            'is_featured' => false,
+            'is_featured' => true,
             'category' => 'general',
             'slug' => 'bajk-106th-management-committee-meeting-strategic-growth-innovation',
             'is_published' => true,
@@ -756,7 +946,7 @@ BAJK کا HR ڈویژن مسلسل پیشہ ورانہ تربیت کے مواق�
 </div>',
             'image' => 'news-images/Hr.jpg',
             'published_date' => '2025-01-23',
-            'is_featured' => false,
+            'is_featured' => true,
             'category' => 'general',
             'slug' => 'bajk-hr-organizes-islamic-banking-training',
             'is_published' => true,
@@ -895,7 +1085,7 @@ The guests expressed their heartfelt appreciation for the bank’s services and 
 </div>',
             'image' => 'news-images/birthday.jpg',
             'published_date' => '2024-11-10',
-            'is_featured' => false,
+            'is_featured' => true,
             'category' => 'general',
             'slug' => 'bajk-sharda-branch-18th-anniversary-celebration-with-community-leaders',
             'is_published' => true,
@@ -950,7 +1140,7 @@ Divisional Head of CMD, Mr. Imtiaz Shaheen, was also present and delivered an in
 </div>',
             'image' => 'news-images/rawlakot.jpg',
             'published_date' => '2024-11-09',
-            'is_featured' => false,
+            'is_featured' => true,
             'category' => 'general',
             'slug' => 'bajk-celebrates-18th-anniversary-cake-cutting-rawalakot',
             'is_published' => true,
@@ -1007,7 +1197,7 @@ While interacting with customers, he described them as the bank’s most valuabl
 </div>',
             'image' => 'news-images/visit.jpg',
             'published_date' => '2024-10-30',
-            'is_featured' => false,
+            'is_featured' => true,
             'category' => 'general',
             'slug' => 'ajk-finance-minister-khan-abdul-majid-khan-visits-bajk-focus-on-service-and-customer-relations',
             'is_published' => true,
@@ -1038,7 +1228,7 @@ The efforts of District Football Association President Mehtab Ahmed Mir, Aamir H
 </div>',
             'image' => 'news-images/jammu.jpg',
             'published_date' => '2024-10-03',
-            'is_featured' => false,
+            'is_featured' => true,
             'category' => 'general',
             'slug' => 'bajk-sponsors-shahidae-jammu-football-tournament-muzaffarabad',
             'is_published' => true,
@@ -1091,7 +1281,7 @@ The Governor attentively listened to the bank team’s briefing and expressed pr
 </div>',
             'image' => 'news-images/schedule.jpg',
             'published_date' => '2024-09-19',
-            'is_featured' => false,
+            'is_featured' => true,
             'category' => 'general',
             'slug' => 'state-bank-governor-endorses-bajk-growth-schedule-bank-license-path',
             'is_published' => true,
@@ -1121,7 +1311,7 @@ The Board appreciated the excellent performance and acknowledged the contributio
 </div>',
             'image' => 'news-images/79meeting.jpg',
             'published_date' => '2024-09-02',
-            'is_featured' => false,
+            'is_featured' => true,
             'category' => 'general',
             'slug' => 'bajk-79th-board-meeting-approves-financials-highlights-growth',
             'is_published' => true,

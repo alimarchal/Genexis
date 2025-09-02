@@ -17,7 +17,8 @@ class BodCommitteeSeeder extends Seeder
         $presidentCEO = BoardOfDirector::where('full_name', 'Shahid Shahzad Mir')->first();
         $secretaryFinance = BoardOfDirector::where('full_name', 'Islam Zaib')->first();
         $secretaryLaw = BoardOfDirector::where('full_name', 'Muhammad Sajjad')->first();
-        $secretaryIndustries = BoardOfDirector::where('full_name', 'Khalid Mehmood Mirza')->first();
+        // $secretaryIndustries = BoardOfDirector::where('full_name', 'Khalid Mehmood Mirza')->first();
+         $secretaryIndustries = BoardOfDirector::where('full_name', 'Ch. Abdul Rehman')->first();
         $mubasharNabi = BoardOfDirector::where('full_name', 'Mubashar Nabi')->first();
         $bushraNaz = BoardOfDirector::where('full_name', 'Bushra Naz Malik')->first();
        $companySecretary = BoardOfDirector::where('full_name', 'Dr. Adnan U. Khan')->first();
@@ -95,7 +96,7 @@ class BodCommitteeSeeder extends Seeder
         $mubasharNabi?->id,
        $bushraNaz?->id,
     ]),
-    'management_members' => [],
+       'management_members' => array_filter([$presidentCEOManag?->id]),
     'is_active' => true,
     'sort_order' => 5,
 ],

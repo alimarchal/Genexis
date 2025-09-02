@@ -108,6 +108,29 @@ class BoardOfDirectorSeeder extends Seeder
                 'is_chairman' => false,
                 'is_active' => true,
             ],
+              [
+                'title' => '',
+                'full_name' => 'Ch. Abdul Rehman',
+                'designation' => 'Secretary Industries, Commerce, Labour Welfare',
+                'short_description' => 'Ch. Abdul Rehman, Secretary Industries & Commerce (GoAJK), combines strong academic credentials with decades of administrative experience to advance governance and institutional growth.',
+                'full_biography' => 'Ch. Abdul Rehman brings with him extensive experience across diverse sectors of public service. He is currently serving as Secretary Industries & Commerce, Government of Azad Jammu & Kashmir. Previously, he has held key positions as Secretary Tourism & Archaeology, GoAJK and Director General Civil Defense Department, GoAJK. With strong academic credentials, including an M.A. in Economics, M.A. in History and an LL.B., Ch. Abdul Rehman combines his multidisciplinary knowledge with decades of administrative expertise. His leadership and vision continue to contribute significantly to institutional growth and governance.',
+                     'experience' => [
+                   'Secretary Industries & Commerce, GoAJK (Current)',
+                    'Previously served as Secretary Tourism & Archaeology, Government of Azad Jammu & Kashmir.',
+                    'Served as Director General, Civil Defense Department, Government of Azad Jammu & Kashmir.',
+
+                ],
+                'achievements' => [
+                    'Strengthened institutional frameworks through effective leadership and governance. Contributed to the promotion and development of industries, commerce, and tourism in AJK.',
+                    'Enhanced organizational efficiency and public service delivery across multiple departments.',
+                    'Applied multidisciplinary academic background (Economics, History, Law) to policymaking and administration.',
+                
+                ],
+                'image' => 'bod/rehmansir.jpg',
+                'sort_order' => 5,
+                'is_chairman' => false,
+                'is_active' => true,
+            ],
             [
                 'title' => 'Mr.',
                 'full_name' => 'Khalid Mehmood Mirza',
@@ -130,7 +153,7 @@ class BoardOfDirectorSeeder extends Seeder
                 'image' => 'bod/m.khalid.png',
                 'sort_order' => 5,
                 'is_chairman' => false,
-                'is_active' => true,
+                'is_active' => false,
             ],
             [
                 'title' => 'Mr.',
