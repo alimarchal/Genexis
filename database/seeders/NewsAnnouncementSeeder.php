@@ -47,6 +47,43 @@ class NewsAnnouncementSeeder extends Seeder
         // ]);
 
 
+
+
+
+
+          NewsAnnouncement::create([
+            'title' => 'President & CEO BAJK Mr. Shahid Shahzad Mir Undertakes Landmark Visit to Mirpur Region',
+            'content' => 'Mirpur, Azad Jammu & Kashmir<br>
+The <strong>President & Chief Executive Officer of Bank of Azad Jammu & Kashmir (BAJK), Mr. Shahid Shahzad Mir</strong>, undertook a significant visit to the Mirpur region, where he was warmly welcomed by bank officials, local dignitaries, and the community.<br><br>
+
+During his visit, the CEO chaired high-level meetings to review the bank’s operational performance, customer service standards, and the progress of digital initiatives in the region. He reiterated the bank’s unwavering commitment to enhancing financial inclusion and delivering innovative, accessible banking solutions to the people of Azad Jammu & Kashmir.<br><br>
+
+Mr. Mir was accompanied by the <strong>Divisional Head of Commercial & Retail Banking Division (CRBD) and the Regional Head of Mirpur</strong>. The officials provided comprehensive insights into the bank’s regional growth, portfolio performance, and community outreach strategies.<br><br>
+
+As a highlight of the visit, the CEO distributed certificates and awards among high-performing employees, recognizing their exceptional dedication and significant contribution to the bank’s success. He commended the entire Mirpur team for their efforts in upholding BAJK’s core values and vigorously driving its mission forward.<br><br>
+
+The visit underscored BAJK’s strategic focus on strengthening its regional presence, empowering local communities, and understanding the unique financial needs of the people it serves.<br><br>
+
+<div dir="rtl" style="text-align: right;">
+<strong>میرپور، آزاد جموں و کشمیر</strong><br>
+<strong>بینک آف آزاد جموں و کشمیر (BAJK) کے صدر و چیف ایگزیکٹو آفیسر، جناب شاہد شہزاد میر</strong> نے میرپور ریجن کا ایک اہم دورہ کیا، جہاں ان کا پُرتپاک استقبال بینک افسران، مقامی معززین اور عوام نے کیا۔<br><br>
+
+اپنے دورے کے دوران، سی ای او نے اعلیٰ سطحی اجلاسوں کی صدارت کی جن میں بینک کی عملی کارکردگی، صارفین کو فراہم کی جانے والی خدمات کے معیار اور ریجن میں جاری ڈیجیٹل اقدامات کی پیش رفت کا تفصیلی جائزہ لیا گیا۔ انہوں نے اس عزم کا اعادہ کیا کہ بینک مالی شمولیت کے فروغ اور آزاد جموں و کشمیر کے عوام کو جدید، قابلِ رسائی اور جدت پر مبنی بینکاری سہولیات فراہم کرنے کے لیے پُرعزم ہے۔<br><br>
+
+<strong>کمرشل و ریٹیل بینکنگ ڈویژن (CRBD) کے ڈویژنل ہیڈ اور ریجنل ہیڈ میرپور</strong> بھی ان کے ہمراہ تھے۔ ان افسران نے بینک کی ریجنل ترقی، پورٹ فولیو کارکردگی اور کمیونٹی سے روابط کی حکمت عملیوں پر جامع بریفنگ دی۔<br><br>
+
+دورے کی نمایاں جھلک میں، سی ای او نے شاندار کارکردگی دکھانے والے ملازمین میں اسناد اور ایوارڈز تقسیم کیے اور ان کی غیرمعمولی لگن اور بینک کی کامیابی میں نمایاں خدمات کو سراہا۔ انہوں نے پوری میرپور ٹیم کو خراجِ تحسین پیش کیا کہ انہوں نے BAJK کے بنیادی اقدار کو برقرار رکھتے ہوئے اس کے مشن کو بھرپور انداز میں آگے بڑھایا۔<br><br>
+
+یہ دورہ اس بات کی عکاسی کرتا ہے کہ BAJK اپنی ریجنل موجودگی کو مضبوط بنانے، مقامی کمیونٹیز کو بااختیار کرنے اور عوام کی منفرد مالی ضروریات کو سمجھنے پر اسٹریٹیجک توجہ دے رہا ہے۔<br>
+</div>',
+            'image' => 'news-images/mirpur.jpg',
+             'published_date' => '2025-09-02',
+            'is_featured' => true,
+            'category' => 'banking',
+            'slug' => 'president-ceo-bajk-shahid-shahzad-mir-visit-mirpur-region',
+            'is_published' => true,
+        ]);
+
         NewsAnnouncement::create([
             'title' => 'President & CEO BAJK Mr. Shahid Shahzad Mir Undertakes Landmark Visit to Rawalakot Region',
             'content' => 'Rawalakot, Azad Jammu & Kashmir<br>
