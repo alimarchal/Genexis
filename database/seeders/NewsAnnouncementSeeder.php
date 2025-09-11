@@ -47,7 +47,81 @@ class NewsAnnouncementSeeder extends Seeder
         // ]);
 
 
+  NewsAnnouncement::create([
+            'title' => '94th Meeting of the Board of Directors of Bank of Azad Jammu & Kashmir (BAJK)',
+             'content' => 'Islamabad – The 94th meeting of the Board of Directors of Bank of Azad Jammu & Kashmir (BAJK) was convened at Kashmir House, Islamabad on Wednesday. The session was chaired by Mr. Khan Abdul Majid Khan, Honorable Minister for Finance & Cooperatives, Government of Azad Jammu & Kashmir, and Chairman of BAJK.<br><br>
 
+The meeting was attended by Board members including:<br>
+• President & CEO, Mr. Shahid Shahzad Mir<br>
+• Secretary Finance, AJK, Mr. Islam Zaib<br>
+• Mr. Mubashar Nabi<br>
+• Secretary Industries & Commerce, AJK, Ch. Abdul Rehman<br>
+• Secretary Law & Justice, Mr. Muhammad Sajjad<br>
+• Company Secretary, Dr. Adnanullah Khan<br>
+• Ms. Bushra Naz Malik (joined via Zoom)<br><br>
+
+<hr>
+<strong>Key Discussions & Decisions:</strong><br>
+1. Review & Approval of Half-Year Financial Statements:<br>
+• The Board reviewed and approved the Bank’s financial statements for the half-year, expressing satisfaction over the robust financial performance and operational growth achieved during the period.<br><br>
+
+2. Five-Year Strategic Plan for Early Scheduling & Progress:<br>
+• The President & CEO presented a comprehensive five-year strategic roadmap focusing on early scheduling, sustainable growth, technological advancement, and expansion of services.<br>
+• The Board thoroughly discussed the plan and expressed full satisfaction, appreciating the management’s vision and commitment towards strengthening the Bank’s future.<br><br>
+
+3. Continued Focus on Schedule Bank Status:<br>
+• The Board reaffirmed its commitment to expedite the process of obtaining Scheduled Bank status from the State Bank of Pakistan (SBP), emphasizing its importance for BAJK’s regional and national growth.<br><br>
+
+<hr>
+<strong>Chairman’s Remarks:</strong><br>
+Chairman Mr. Khan Abdul Majid Khan lauded the management for its dedicated efforts and assured the Board’s full support in executing the strategic roadmap. He stressed that BAJK’s transformation journey, rooted in innovation and sustainable practices, will further solidify its standing as a leading financial institution.<br><br>
+
+<hr>
+<strong>Way Forward:</strong><br>
+• Driving sustainable growth<br>
+• Expanding services across AJK and beyond<br>
+• Leveraging digital transformation for customer convenience<br>
+• Achieving Schedule Bank status at the earliest<br><br>
+
+<div dir="rtl" style="text-align: right;">
+<strong>اسلام آباد</strong> – بینک آف آزاد جموں و کشمیر (BAJK) کے بورڈ آف ڈائریکٹرز کا 94واں اجلاس بدھ کے روز کشمیر ہاؤس، اسلام آباد میں منعقد ہوا۔ اجلاس کی صدارت جناب خان عبدالمجید خان، معزز وزیرِ خزانہ و کوآپریٹوز، حکومتِ آزاد جموں و کشمیر اور چیئرمین BAJK نے کی۔<br><br>
+
+<strong>اجلاس میں شریک اراکین:</strong><br>
+• صدر و چیف ایگزیکٹو آفیسر، جناب شاہد شہزاد میر<br>
+• سیکریٹری فنانس، اے جے کے، جناب اسلام زیب<br>
+• جناب مبشر نبی<br>
+• سیکریٹری انڈسٹریز اینڈ کامرس، اے جے کے، چوہدری عبدالرحمن<br>
+• سیکریٹری لاء اینڈ جسٹس، جناب محمد سجاد<br>
+• کمپنی سیکریٹری، ڈاکٹر عدنان اللہ خان<br>
+• محترمہ بشریٰ ناز ملک (آن لائن شرکت بذریعہ زوم)<br><br>
+
+<strong>اہم امور اور فیصلے:</strong><br>
+1. نصف سالہ مالیاتی بیانات کا جائزہ اور منظوری:<br>
+• بورڈ نے بینک کے نصف سالہ مالیاتی بیانات کا جائزہ لے کر انہیں منظور کیا اور اس مدت کے دوران حاصل کی گئی مضبوط مالیاتی کارکردگی اور عملی ترقی پر اطمینان کا اظہار کیا۔<br><br>
+
+2. پانچ سالہ اسٹریٹجک پلان برائے بروقت شیڈولنگ اور پیش رفت:<br>
+• صدر و سی ای او نے ایک جامع پانچ سالہ اسٹریٹجک روڈ میپ پیش کیا جس میں بروقت منصوبہ بندی، پائیدار ترقی، تکنیکی جدت، اور سروسز کی توسیع پر توجہ دی گئی۔<br>
+• بورڈ نے اس منصوبے پر تفصیلی بحث کی، مکمل اطمینان کا اظہار کیا اور انتظامیہ کے وژن اور بینک کے مستقبل کو مضبوط کرنے کے عزم کو سراہا۔<br><br>
+
+3. شیڈول بینک کا درجہ حاصل کرنے پر مسلسل توجہ:<br>
+• بورڈ نے اس عزم کو دہرایا کہ اسٹیٹ بینک آف پاکستان (SBP) سے شیڈول بینک کا درجہ حاصل کرنے کے عمل کو تیز کیا جائے، اور اس کی اہمیت پر زور دیا جو BAJK کی علاقائی اور قومی ترقی کے لیے ضروری ہے۔<br><br>
+
+<strong>چیئرمین کے ریمارکس:</strong><br>
+چیئرمین خان عبدالمجید خان نے انتظامیہ کی انتھک کوششوں کو سراہا اور اسٹریٹجک روڈ میپ پر عملدرآمد کے لیے بورڈ کی مکمل حمایت کی یقین دہانی کرائی۔ انہوں نے زور دیا کہ BAJK کا تبدیلی کا سفر، جو جدت اور پائیدار حکمتِ عملیوں پر مبنی ہے، ادارے کو ایک سرکردہ مالیاتی ادارے کے طور پر مزید مستحکم کرے گا۔<br><br>
+
+<strong>آئندہ کا لائحہ عمل:</strong><br>
+• پائیدار ترقی کو فروغ دینا<br>
+• آزاد جموں و کشمیر اور اس سے باہر خدمات کی توسیع<br>
+• صارفین کی سہولت کے لیے ڈیجیٹل ٹرانسفارمیشن سے فائدہ اٹھانا<br>
+• جلد از جلد شیڈول بینک کا درجہ حاصل کرنا<br>
+</div>',
+               'image' => 'news-images/94meeting.jpg',
+             'published_date' => '2025-09-10',
+            'is_featured' => true,
+            'category' => 'banking',
+            'slug' => '94th-meeting-board-of-directors-bank-of-azad-jammu-kashmir-bajk',
+            'is_published' => true,
+        ]);
 
 
 
