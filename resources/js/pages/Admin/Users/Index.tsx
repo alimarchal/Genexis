@@ -12,8 +12,8 @@ import {
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem } from '@/types';
-import { Head, Link, router } from '@inertiajs/react';
+import { type BreadcrumbItem, type SharedData } from '@/types';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Edit, MoreHorizontal, Plus, Search, Trash, User } from 'lucide-react';
 import { useState } from 'react';
 
@@ -57,6 +57,7 @@ interface Props {
 }
 
 export default function UserIndex({ users, filters }: Props) {
+    const { auth } = usePage<SharedData>().props;
     const [searchTerm, setSearchTerm] = useState(filters.search || '');
 
     const handleSearch = (e: React.FormEvent) => {
@@ -160,16 +161,20 @@ export default function UserIndex({ users, filters }: Props) {
                                                 <DropdownMenuContent align="end">
                                                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                     <DropdownMenuSeparator />
-                                                    <DropdownMenuItem asChild>
-                                                        <Link href={route('admin.users.edit', user.id)}>
-                                                            <Edit className="mr-2 h-4 w-4" />
-                                                            Edit
-                                                        </Link>
-                                                    </DropdownMenuItem>
-                                                    <DropdownMenuItem onClick={() => handleDelete(user.id)} className="text-red-600">
-                                                        <Trash className="mr-2 h-4 w-4" />
-                                                        Delete
-                                                    </DropdownMenuItem>
+                                                    {(auth.permissions.includes('edit users') || auth.roles.includes('super-admin')) && (
+                                                        <DropdownMenuItem asChild>
+                                                            <Link href={route('admin.users.edit', user.id)}>
+                                                                <Edit className="mr-2 h-4 w-4" />
+                                                                Edit
+                                                            </Link>
+                                                        </DropdownMenuItem>
+                                                    )}
+                                                    {(auth.permissions.includes('delete users') || auth.roles.includes('super-admin')) && (
+                                                        <DropdownMenuItem onClick={() => handleDelete(user.id)} className="text-red-600">
+                                                            <Trash className="mr-2 h-4 w-4" />
+                                                            Delete
+                                                        </DropdownMenuItem>
+                                                    )}
                                                 </DropdownMenuContent>
                                             </DropdownMenu>
                                         </TableCell>

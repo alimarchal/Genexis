@@ -25,6 +25,25 @@ export interface NavItem {
     permission?: string;
 }
 
+export interface MenuItem {
+    id: number;
+    title: string;
+    url: string;
+    target: string;
+    icon?: string;
+    cssClass?: string;
+    isActive: boolean;
+    hasChildren: boolean;
+    isMegaMenu: boolean;
+    children: MenuItem[];
+}
+
+export interface AutoBreadcrumbItem {
+    label: string;
+    href?: string;
+    isActive?: boolean;
+}
+
 export interface SharedData {
     name: string;
     quote: { message: string; author: string };
@@ -35,11 +54,11 @@ export interface SharedData {
     contact_phone: string;
     contact_email: string;
     contact_address: string;
-    menu?: unknown;
-    autoBreadcrumbs?: unknown;
-    socialLinks?: unknown;
-    footerLinks?: unknown;
-    bankRates?: unknown;
+    menu: MenuItem[];
+    autoBreadcrumbs: AutoBreadcrumbItem[];
+    socialLinks: unknown;
+    footerLinks: unknown;
+    bankRates: unknown;
     [key: string]: unknown;
 }
 

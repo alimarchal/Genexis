@@ -13,8 +13,8 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem } from '@/types';
-import { Head, Link, router } from '@inertiajs/react';
+import { type BreadcrumbItem, type SharedData } from '@/types';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Edit, Eye, MoreHorizontal, Plus, Search, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -57,6 +57,7 @@ interface Props {
 }
 
 export default function Index({ messages, filters }: Props) {
+    const { auth } = usePage<SharedData>().props;
     const [search, setSearch] = useState(filters?.filter?.text || '');
     const [statusFilter, setStatusFilter] = useState(() => {
         const param = filters?.filter?.is_active;
