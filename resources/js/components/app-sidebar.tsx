@@ -15,7 +15,7 @@ import {
     SidebarMenuSubButton,
     SidebarMenuSubItem,
 } from '@/components/ui/sidebar';
-import { type NavItem } from '@/types';
+import { type NavItem, type SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
 import {
     Briefcase,
@@ -73,16 +73,19 @@ const sidebarGroups = [
                 title: 'Top Navbar Messages',
                 href: '/top-navbar-messages',
                 icon: MessageSquare,
+                permission: 'view top navbar messages',
             },
             {
                 title: 'Carousel',
                 href: '/carousels',
                 icon: Images,
+                permission: 'view carousels',
             },
             {
                 title: 'Bank Services',
                 href: '/bank-services',
                 icon: Building,
+                permission: 'view bank services',
             },
         ],
     },
@@ -95,21 +98,25 @@ const sidebarGroups = [
                 title: 'About Us',
                 href: '/admin-about-us',
                 icon: FileEdit,
+                permission: 'view about us',
             },
             {
                 title: 'Board of Directors',
                 href: '/board-of-directors',
                 icon: Users,
+                permission: 'view board of directors',
             },
             {
                 title: 'BOD Committees',
                 href: '/bod-committees',
                 icon: UsersRound,
+                permission: 'view bod committees',
             },
             {
                 title: 'Management',
                 href: '/managements',
                 icon: User,
+                permission: 'view managements',
             },
         ],
     },
@@ -122,11 +129,13 @@ const sidebarGroups = [
                 title: 'Product Schemes',
                 href: '/product-schemes',
                 icon: Package,
+                permission: 'view product schemes',
             },
             {
                 title: 'Scheme Attributes',
                 href: '/product-scheme-attributes',
                 icon: Settings,
+                permission: 'view product scheme attributes',
             },
         ],
     },
@@ -139,6 +148,7 @@ const sidebarGroups = [
                 title: 'Services',
                 href: '/services',
                 icon: Settings,
+                permission: 'view services',
             },
         ],
     },
@@ -151,16 +161,19 @@ const sidebarGroups = [
                 title: 'Financial Statements',
                 href: '/financial-reports',
                 icon: FileText,
+                permission: 'view financial reports',
             },
             {
                 title: 'Annual Reports',
                 href: '/annual-reports',
                 icon: PieChart,
+                permission: 'view annual reports',
             },
             {
                 title: 'Financial Highlights',
                 href: '/financial-highlights',
                 icon: TrendingUp,
+                permission: 'view financial highlights',
             },
         ],
     },
@@ -173,11 +186,13 @@ const sidebarGroups = [
                 title: 'Schedule of Charges',
                 href: '/schedule-of-charges',
                 icon: Calculator,
+                permission: 'view schedule of charges',
             },
             {
                 title: 'Profit Rates',
                 href: '/profit-rates',
                 icon: PercentCircle,
+                permission: 'view profit rates',
             },
         ],
     },
@@ -190,16 +205,19 @@ const sidebarGroups = [
                 title: 'News Updates',
                 href: '/news-announcements',
                 icon: Newspaper,
+                permission: 'view news announcements',
             },
             {
                 title: 'Careers',
                 href: '/careers',
                 icon: Briefcase,
+                permission: 'view careers',
             },
             {
                 title: 'Downloads',
                 href: '/downloads',
                 icon: Download,
+                permission: 'view downloads',
             },
         ],
     },
@@ -212,11 +230,13 @@ const sidebarGroups = [
                 title: 'Branch Services',
                 href: '/branch-services',
                 icon: Building,
+                permission: 'view branch services',
             },
             {
                 title: 'Service Attributes',
                 href: '/service-attributes',
                 icon: Settings,
+                permission: 'view service attributes',
             },
         ],
     },
@@ -229,21 +249,25 @@ const sidebarGroups = [
                 title: 'Regions',
                 href: '/regions',
                 icon: MapPin,
+                permission: 'view regions',
             },
             {
                 title: 'Districts',
                 href: '/districts',
                 icon: MapPin,
+                permission: 'view districts',
             },
             {
                 title: 'Branches',
                 href: '/branches',
                 icon: Building,
+                permission: 'view branches',
             },
             {
                 title: 'Contacts',
                 href: '/contacts',
                 icon: Contact,
+                permission: 'view contacts',
             },
         ],
     },
@@ -256,6 +280,32 @@ const sidebarGroups = [
                 title: 'Admin Menus',
                 href: '/admin/menus',
                 icon: Menu,
+                permission: 'view menus',
+            },
+        ],
+    },
+    {
+        title: 'User Management',
+        icon: Users,
+        defaultExpanded: false,
+        items: [
+            {
+                title: 'Users',
+                href: '/admin/users',
+                icon: Users,
+                permission: 'view users',
+            },
+            {
+                title: 'Roles',
+                href: '/admin/roles',
+                icon: Handshake,
+                permission: 'view roles',
+            },
+            {
+                title: 'Permissions',
+                href: '/admin/permissions',
+                icon: Settings2,
+                permission: 'view permissions',
             },
         ],
     },
@@ -351,6 +401,23 @@ function NavGroup({ title, items }: { title: string; items: NavItem[] }) {
 }
 
 export function AppSidebar() {
+    const { auth } = usePage<SharedData>().props;
+    const permissions = auth.permissions || [];
+    const roles = auth.roles || [];
+
+    const hasPermission = (item: NavItem) => {
+        if (!item.permission) return true; // Public item
+        if (roles.includes('super-admin')) return true; // Super admin sees all
+        return permissions.includes(item.permission);
+    };
+
+    const visibleGroups = sidebarGroups
+        .map((group) => ({
+            ...group,
+            items: group.items.filter(hasPermission),
+        }))
+        .filter((group) => group.items.length > 0);
+
     return (
         <Sidebar collapsible="icon" variant="inset">
             <SidebarHeader>
@@ -369,7 +436,7 @@ export function AppSidebar() {
                 <NavGroup title="Dashboard" items={coreNavItems} />
 
                 <SidebarMenu>
-                    {sidebarGroups.map((group) => (
+                    {visibleGroups.map((group) => (
                         <CollapsibleNavGroup
                             key={group.title}
                             title={group.title}

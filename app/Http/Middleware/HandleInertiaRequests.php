@@ -46,6 +46,8 @@ class HandleInertiaRequests extends Middleware
             'quote' => ['message' => trim($message), 'author' => trim($author)],
             'auth' => [
                 'user' => $request->user(),
+                'permissions' => $request->user()?->getAllPermissions()->pluck('name') ?? [],
+                'roles' => $request->user()?->getRoleNames() ?? [],
             ],
             'ziggy' => fn(): array => [
                 ...(new Ziggy)->toArray(),
@@ -56,12 +58,12 @@ class HandleInertiaRequests extends Middleware
             'menu' => function () {
                 try {
                     $menuService = app(MenuService::class);
-                    
+
                     // Add timestamp to force fresh data in development
                     if (config('app.env') === 'local') {
                         \Illuminate\Support\Facades\Cache::forget('main_menu_v2');
                     }
-                    
+
                     return $menuService->formatMenuForFrontend($menuService->getMainMenu());
                 } catch (\Exception $e) {
                     \Log::warning('Error loading main menu: ' . $e->getMessage());

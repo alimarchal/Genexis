@@ -123,7 +123,7 @@ class PageController extends Controller
                 ];
             });
 
-        return Inertia::render('welcome', [
+        return Inertia::render('Welcome', [
             'carousels' => $carousels,
             'bankServices' => $bankServices,
             'newsAnnouncements' => $newsAnnouncements,
@@ -556,7 +556,7 @@ class PageController extends Controller
     {
         $divisions = \App\Models\Division::with('regions.branches')->get();
         $regions = \App\Models\Region::with('branches')->get();
-        
+
         // Get branch counts by region
         $regionBranchCounts = $regions->mapWithKeys(function ($region) {
             return [$region->name => $region->branches->count()];

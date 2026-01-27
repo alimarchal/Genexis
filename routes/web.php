@@ -67,61 +67,61 @@ use App\Http\Controllers\Api\SearchController;
  * content management system.
  */
 Route::middleware(['auth', 'verified'])->group(function () {
-    
+
     // -------------------------------------------------------------------------
     // DASHBOARD
     // -------------------------------------------------------------------------
     Route::get('dashboard', function () {
-        return Inertia::render('dashboard');
+        return Inertia::render('Dashboard');
     })->name('dashboard');
 
     // -------------------------------------------------------------------------
     // HOMEPAGE CONTENT MANAGEMENT
     // -------------------------------------------------------------------------
-    Route::resource('carousels', CarouselController::class);
-    Route::resource('bank-services', BankServiceController::class);
-    Route::resource('news-announcements', NewsAnnouncementController::class);
-    Route::resource('top-navbar-messages', TopNavbarMessageController::class);
+    Route::resource('carousels', CarouselController::class)->middleware('can:view carousels');
+    Route::resource('bank-services', BankServiceController::class)->middleware('can:view bank services');
+    Route::resource('news-announcements', NewsAnnouncementController::class)->middleware('can:view news announcements');
+    Route::resource('top-navbar-messages', TopNavbarMessageController::class)->middleware('can:view top navbar messages');
 
     // -------------------------------------------------------------------------
     // ORGANIZATIONAL STRUCTURE MANAGEMENT
     // -------------------------------------------------------------------------
-    Route::resource('managements', ManagementController::class);
-    Route::resource('board-of-directors', BoardOfDirectorController::class);
-    Route::resource('bod-committees', BodCommitteeController::class);
+    Route::resource('managements', ManagementController::class)->middleware('can:view managements');
+    Route::resource('board-of-directors', BoardOfDirectorController::class)->middleware('can:view board of directors');
+    Route::resource('bod-committees', BodCommitteeController::class)->middleware('can:view bod committees');
 
     // -------------------------------------------------------------------------
     // PRODUCT & SERVICE MANAGEMENT
     // -------------------------------------------------------------------------
-    Route::resource('product', ProductController::class); // Singular route for product
-    Route::resource('product-schemes', ProductSchemeController::class);
-    Route::resource('product-scheme-attributes', ProductSchemeAttributeController::class);
-    Route::resource('services', ServiceController::class);
-    Route::resource('service-attributes', ServiceAttributeController::class);
+    Route::resource('product', ProductController::class)->middleware('can:view products'); // Singular route for product
+    Route::resource('product-schemes', ProductSchemeController::class)->middleware('can:view product schemes');
+    Route::resource('product-scheme-attributes', ProductSchemeAttributeController::class)->middleware('can:view product scheme attributes');
+    Route::resource('services', ServiceController::class)->middleware('can:view services');
+    Route::resource('service-attributes', ServiceAttributeController::class)->middleware('can:view service attributes');
 
     // -------------------------------------------------------------------------
     // FINANCIAL REPORTS & DOCUMENTS
     // -------------------------------------------------------------------------
-    Route::resource('financial-reports', FinancialReportController::class);
-    Route::resource('annual-reports', AnnualReportController::class);
-    Route::resource('financial-highlights', FinancialHighlightController::class);
-    Route::resource('profit-rates', ProfitRateController::class);
-    Route::resource('schedule-of-charges', ScheduleOfChargeController::class);
-    Route::resource('downloads', DownloadController::class);
+    Route::resource('financial-reports', FinancialReportController::class)->middleware('can:view financial reports');
+    Route::resource('annual-reports', AnnualReportController::class)->middleware('can:view annual reports');
+    Route::resource('financial-highlights', FinancialHighlightController::class)->middleware('can:view financial highlights');
+    Route::resource('profit-rates', ProfitRateController::class)->middleware('can:view profit rates');
+    Route::resource('schedule-of-charges', ScheduleOfChargeController::class)->middleware('can:view schedule of charges');
+    Route::resource('downloads', DownloadController::class)->middleware('can:view downloads');
 
     // -------------------------------------------------------------------------
     // GEOGRAPHIC & BRANCH MANAGEMENT
     // -------------------------------------------------------------------------
-    Route::resource('regions', RegionController::class);
-    Route::resource('districts', DistrictController::class);
-    Route::resource('branches', BranchController::class);
-    Route::resource('branch-services', BranchServiceController::class);
+    Route::resource('regions', RegionController::class)->middleware('can:view regions');
+    Route::resource('districts', DistrictController::class)->middleware('can:view districts');
+    Route::resource('branches', BranchController::class)->middleware('can:view branches');
+    Route::resource('branch-services', BranchServiceController::class)->middleware('can:view branch services');
 
     // -------------------------------------------------------------------------
     // COMMUNICATION & CONTACT MANAGEMENT
     // -------------------------------------------------------------------------
-    Route::resource('contacts', ContactController::class);
-    Route::resource('careers', CareerController::class);
+    Route::resource('contacts', ContactController::class)->middleware('can:view contacts');
+    Route::resource('careers', CareerController::class)->middleware('can:view careers');
 
     // -------------------------------------------------------------------------
     // ABOUT US MANAGEMENT (Special naming to avoid conflicts)
@@ -134,7 +134,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         'edit' => 'about-us.edit',
         'update' => 'about-us.update',
         'destroy' => 'about-us.destroy',
-    ])->parameters(['admin-about-us' => 'aboutUs']);
+    ])->parameters(['admin-about-us' => 'aboutUs'])->middleware('can:view about us');
 
 });
 
@@ -184,7 +184,7 @@ Route::prefix('services-page')->name('service-pages.')->group(function () {
     Route::get('/utility-bills-collection', [ServiceController::class, 'utilityBillsCollection'])->name('utility-bills-collection');
     Route::get('/services-for-ajk-psc', [ServiceController::class, 'servicesForAjkPsc'])->name('services-for-ajk-psc');
     Route::get('/home-remittance', [ServiceController::class, 'homeRemittance'])->name('home-remittance');
-    
+
     // Dynamic service pages (must be last to avoid conflicts)
     Route::get('/{slug}', [ServiceController::class, 'showHomePage'])->name('show');
 });
@@ -288,6 +288,13 @@ Route::prefix('api')->group(function () {
  * These routes are protected by authentication and verification middleware.
  */
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(function () {
+    // -------------------------------------------------------------------------
+    // USER MANAGEMENT SYSTEM
+    // -------------------------------------------------------------------------
+    Route::resource('users', \App\Http\Controllers\UserController::class);
+    Route::resource('roles', \App\Http\Controllers\RoleController::class);
+    Route::resource('permissions', \App\Http\Controllers\PermissionController::class);
+
     // Menu Management System
     Route::resource('menus', MenuController::class);
     Route::post('menus/reorder', [MenuController::class, 'reorder'])->name('menus.reorder');

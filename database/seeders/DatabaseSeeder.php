@@ -43,6 +43,7 @@ class DatabaseSeeder extends Seeder
             CareerSeeder::class,
             BodCommitteeSeeder::class,
             AboutUsSeeder::class,
+            RoleAndPermissionSeeder::class,
         ]);
     }
 }
