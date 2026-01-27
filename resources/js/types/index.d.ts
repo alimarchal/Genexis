@@ -35,11 +35,11 @@ export interface SharedData {
     contact_phone: string;
     contact_email: string;
     contact_address: string;
-    menu?: any;
-    autoBreadcrumbs?: any;
-    socialLinks?: any;
-    footerLinks?: any;
-    bankRates?: any;
+    menu?: unknown;
+    autoBreadcrumbs?: unknown;
+    socialLinks?: unknown;
+    footerLinks?: unknown;
+    bankRates?: unknown;
     [key: string]: unknown;
 }
 
