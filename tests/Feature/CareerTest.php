@@ -6,7 +6,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
 beforeEach(function () {
-    $this->user = User::factory()->create();
+    $this->user = $this->createAdminUser();
     $this->actingAs($this->user);
     Storage::fake('public');
 });
@@ -135,7 +135,7 @@ test('it can search careers by title', function () {
 
 test('guests can view public careers page', function () {
     auth()->logout();
-    
+
     Career::factory()->count(3)->create(['is_active' => true]);
 
     $response = $this->get(route('public-careers'));
@@ -146,7 +146,7 @@ test('guests can view public careers page', function () {
 
 test('guests can view public career detail page', function () {
     auth()->logout();
-    
+
     $career = Career::factory()->create([
         'is_active' => true,
         'title' => 'Public Career Position',
@@ -160,16 +160,17 @@ test('guests can view public career detail page', function () {
 
 test('public careers page only shows active careers', function () {
     auth()->logout();
-    
+
     Career::factory()->count(2)->create(['is_active' => true]);
     Career::factory()->count(1)->create(['is_active' => false]);
 
     $response = $this->get(route('public-careers'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page
-        ->component('Careers/PublicCareers')
-        ->where('careers.data', fn($careers) => count($careers) >= 2) // At least 2 active careers
+    $response->assertInertia(
+        fn($page) => $page
+            ->component('Careers/PublicCareers')
+            ->where('careers.data', fn($careers) => count($careers) >= 2) // At least 2 active careers
     );
 });
 
@@ -183,9 +184,9 @@ test('it returns 404 for inactive career on public page', function () {
 
 test('guests cannot access career admin routes', function () {
     auth()->logout();
-    
+
     $career = Career::factory()->create();
-    
+
     $this->get(route('careers.index'))->assertRedirect(route('login'));
     $this->get(route('careers.create'))->assertRedirect(route('login'));
     $this->get(route('careers.show', $career))->assertRedirect(route('login'));

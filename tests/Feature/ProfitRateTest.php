@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 uses(RefreshDatabase::class);
 
 beforeEach(function () {
-    $this->user = User::factory()->create();
+    $this->user = $this->createAdminUser();
     $this->actingAs($this->user);
 });
 
@@ -271,7 +271,7 @@ test('it tracks user information when creating profit rate', function () {
 
 test('it tracks user information when updating profit rate', function () {
     $profitRate = ProfitRate::factory()->create();
-    $newUser = User::factory()->create();
+    $newUser = $this->createAdminUser();
     $this->actingAs($newUser);
 
     $data = [
@@ -352,8 +352,11 @@ test('it can paginate profit rates', function () {
 
 test('it includes creator and updater relationships', function () {
     // Create users with specific names
-    $creator = User::factory()->create(['name' => 'Creator User']);
-    $updater = User::factory()->create(['name' => 'Updater User']);
+    $creator = $this->createAdminUser();
+    $creator->update(['name' => 'Creator User']);
+
+    $updater = $this->createAdminUser();
+    $updater->update(['name' => 'Updater User']);
 
     // Authenticate as creator and create the profit rate
     $this->actingAs($creator);

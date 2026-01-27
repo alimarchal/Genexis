@@ -10,7 +10,7 @@ uses(RefreshDatabase::class);
 
 beforeEach(function () {
     Storage::fake('public');
-    $this->user = User::factory()->create();
+    $this->user = $this->createAdminUser();
 });
 
 test('authenticated user can view schedule of charges index', function () {

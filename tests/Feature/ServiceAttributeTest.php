@@ -5,9 +5,9 @@ use App\Models\ServiceAttribute;
 use App\Models\User;
 
 beforeEach(function () {
-    $this->user = User::factory()->create();
+    $this->user = $this->createAdminUser();
     $this->actingAs($this->user);
-    
+
     $this->service1 = Service::factory()->create(['name' => 'Test Service 1']);
     $this->service2 = Service::factory()->create(['name' => 'Test Service 2']);
 });
@@ -18,7 +18,8 @@ test('it can view service attributes index page', function () {
     $response = $this->get(route('service-attributes.index'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => 
+    $response->assertInertia(
+        fn($page) =>
         $page->component('ServiceAttributes/Index')
             ->has('serviceAttributes.data', 3)
             ->has('services')
@@ -32,7 +33,8 @@ test('it can filter by attribute name', function () {
     $response = $this->get(route('service-attributes.index', ['filter[attribute_name]' => 'Coverage']));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => 
+    $response->assertInertia(
+        fn($page) =>
         $page->has('serviceAttributes.data', 1)
             ->where('serviceAttributes.data.0.attribute_name', 'Coverage Area')
     );
@@ -52,7 +54,8 @@ test('it can view create service attribute page', function () {
     $response = $this->get(route('service-attributes.create'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => 
+    $response->assertInertia(
+        fn($page) =>
         $page->component('ServiceAttributes/Create')
             ->has('services')
     );
@@ -128,7 +131,8 @@ test('it can view service attribute details', function () {
     $response = $this->get(route('service-attributes.show', $attribute));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => 
+    $response->assertInertia(
+        fn($page) =>
         $page->component('ServiceAttributes/Show')
             ->where('serviceAttribute.id', $attribute->id)
             ->has('serviceAttribute.service')
@@ -141,7 +145,8 @@ test('it can view edit service attribute page', function () {
     $response = $this->get(route('service-attributes.edit', $attribute));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => 
+    $response->assertInertia(
+        fn($page) =>
         $page->component('ServiceAttributes/Edit')
             ->where('serviceAttribute.id', $attribute->id)
             ->has('services')
@@ -198,7 +203,8 @@ test('it orders by sort order by default', function () {
     $response = $this->get(route('service-attributes.index'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => 
+    $response->assertInertia(
+        fn($page) =>
         $page->where('serviceAttributes.data.0.sort_order', 5)
             ->where('serviceAttributes.data.1.sort_order', 15)
             ->where('serviceAttributes.data.2.sort_order', 20)
@@ -212,7 +218,8 @@ test('it can sort by attribute name', function () {
     $response = $this->get(route('service-attributes.index', ['sort' => 'attribute_name']));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => 
+    $response->assertInertia(
+        fn($page) =>
         $page->where('serviceAttributes.data.0.attribute_name', 'A Attribute')
             ->where('serviceAttributes.data.1.attribute_name', 'Z Attribute')
     );
@@ -224,7 +231,8 @@ test('it paginates results', function () {
     $response = $this->get(route('service-attributes.index', ['per_page' => 5]));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => 
+    $response->assertInertia(
+        fn($page) =>
         $page->has('serviceAttributes.data', 5)
             ->where('serviceAttributes.total', 15)
             ->where('serviceAttributes.per_page', 5)
@@ -237,7 +245,8 @@ test('service relationship is loaded', function () {
     $response = $this->get(route('service-attributes.index'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => 
+    $response->assertInertia(
+        fn($page) =>
         $page->where('serviceAttributes.data.0.service.id', $this->service1->id)
             ->where('serviceAttributes.data.0.service.name', $this->service1->name)
     );

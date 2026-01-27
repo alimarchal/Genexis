@@ -4,7 +4,7 @@ use App\Models\AboutUs;
 use App\Models\User;
 
 beforeEach(function () {
-    $this->user = User::factory()->create();
+    $this->user = $this->createAdminUser();
     $this->actingAs($this->user);
 });
 

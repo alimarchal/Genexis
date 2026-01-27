@@ -5,7 +5,7 @@ use App\Models\Region;
 use App\Models\User;
 
 beforeEach(function () {
-    $this->user = User::factory()->create();
+    $this->user = $this->createAdminUser();
     $this->actingAs($this->user);
 
     // Seed the required data for district tests

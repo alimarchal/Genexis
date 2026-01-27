@@ -5,7 +5,7 @@ use App\Models\District;
 use App\Models\User;
 
 beforeEach(function () {
-    $this->user = User::factory()->create();
+    $this->user = $this->createAdminUser();
     $this->actingAs($this->user);
 
     // Seed the required data for branch tests

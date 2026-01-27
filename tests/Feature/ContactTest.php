@@ -4,7 +4,7 @@ use App\Models\Contact;
 use App\Models\User;
 
 beforeEach(function () {
-    $this->user = User::factory()->create();
+    $this->user = $this->createAdminUser();
     $this->actingAs($this->user);
 
     // Seed the required data for contact tests

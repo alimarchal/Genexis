@@ -6,7 +6,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
 beforeEach(function () {
-    $this->user = User::factory()->create();
+    $this->user = $this->createAdminUser();
     $this->actingAs($this->user);
     Storage::fake('public');
 });
@@ -253,9 +253,10 @@ test('public services page only shows active services', function () {
     $response = $this->get(route('service-pages.all'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page
-        ->component('Services/IndexHomePage')
-        ->has('services', 2) // Only active services should be shown
+    $response->assertInertia(
+        fn($page) => $page
+            ->component('Services/IndexHomePage')
+            ->has('services', 2) // Only active services should be shown
     );
 });
 
@@ -295,16 +296,16 @@ test('it can update service image', function () {
     ]);
 
     $response->assertRedirect(route('services.index'));
-    
+
     $service->refresh();
     $this->assertNotNull($service->image);
 });
 
 test('guests cannot access service admin routes', function () {
     auth()->logout();
-    
+
     $service = Service::factory()->create();
-    
+
     $this->get(route('services.index'))->assertRedirect(route('login'));
     $this->get(route('services.create'))->assertRedirect(route('login'));
     $this->get(route('services.show', $service))->assertRedirect(route('login'));
@@ -313,9 +314,9 @@ test('guests cannot access service admin routes', function () {
 
 test('guests can access public service pages', function () {
     auth()->logout();
-    
+
     $this->get(route('service-pages.all'))->assertStatus(200);
-    
+
     // Skip the individual service page test due to route model binding conflicts
     $this->assertTrue(true);
 });
