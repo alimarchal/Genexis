@@ -13,8 +13,8 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem } from '@/types';
-import { Head, Link, router } from '@inertiajs/react';
+import { type BreadcrumbItem, type SharedData } from '@/types';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Edit, Eye, MoreHorizontal, Plus, Search, Trash } from 'lucide-react';
 import { useState } from 'react';
 
@@ -51,6 +51,7 @@ interface Props {
 }
 
 export default function RegionIndex({ regions, filters }: Props) {
+    const { auth } = usePage<SharedData>().props;
     const [search, setSearch] = useState(filters['filter[name]'] || '');
     const [statusFilter, setStatusFilter] = useState(() => {
         const statusParam = filters['filter[status]'];
@@ -154,12 +155,14 @@ export default function RegionIndex({ regions, filters }: Props) {
                             </Select>
                         </div>
 
-                        <Button asChild>
-                            <Link href={route('regions.create')}>
-                                <Plus className="mr-2 h-4 w-4" />
-                                Add Region
-                            </Link>
-                        </Button>
+                        {(auth.permissions.includes('create regions') || auth.roles.includes('super-admin')) && (
+                            <Button asChild>
+                                <Link href={route('regions.create')}>
+                                    <Plus className="mr-2 h-4 w-4" />
+                                    Add Region
+                                </Link>
+                            </Button>
+                        )}
                     </div>
 
                     {/* Table */}
@@ -196,23 +199,29 @@ export default function RegionIndex({ regions, filters }: Props) {
                                                     </DropdownMenuTrigger>
                                                     <DropdownMenuContent align="end">
                                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                                        <DropdownMenuItem asChild>
-                                                            <Link href={route('regions.show', region.id)}>
-                                                                <Eye className="mr-2 h-4 w-4" />
-                                                                View
-                                                            </Link>
-                                                        </DropdownMenuItem>
-                                                        <DropdownMenuItem asChild>
-                                                            <Link href={route('regions.edit', region.id)}>
-                                                                <Edit className="mr-2 h-4 w-4" />
-                                                                Edit
-                                                            </Link>
-                                                        </DropdownMenuItem>
+                                                        {(auth.permissions.includes('view regions') || auth.roles.includes('super-admin')) && (
+                                                            <DropdownMenuItem asChild>
+                                                                <Link href={route('regions.show', region.id)}>
+                                                                    <Eye className="mr-2 h-4 w-4" />
+                                                                    View
+                                                                </Link>
+                                                            </DropdownMenuItem>
+                                                        )}
+                                                        {(auth.permissions.includes('edit regions') || auth.roles.includes('super-admin')) && (
+                                                            <DropdownMenuItem asChild>
+                                                                <Link href={route('regions.edit', region.id)}>
+                                                                    <Edit className="mr-2 h-4 w-4" />
+                                                                    Edit
+                                                                </Link>
+                                                            </DropdownMenuItem>
+                                                        )}
                                                         <DropdownMenuSeparator />
-                                                        <DropdownMenuItem className="text-red-600" onClick={() => handleDelete(region.id)}>
-                                                            <Trash className="mr-2 h-4 w-4" />
-                                                            Delete
-                                                        </DropdownMenuItem>
+                                                        {(auth.permissions.includes('delete regions') || auth.roles.includes('super-admin')) && (
+                                                            <DropdownMenuItem className="text-red-600" onClick={() => handleDelete(region.id)}>
+                                                                <Trash className="mr-2 h-4 w-4" />
+                                                                Delete
+                                                            </DropdownMenuItem>
+                                                        )}
                                                     </DropdownMenuContent>
                                                 </DropdownMenu>
                                             </TableCell>

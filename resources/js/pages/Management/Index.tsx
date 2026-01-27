@@ -13,8 +13,8 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem } from '@/types';
-import { Head, Link, router } from '@inertiajs/react';
+import { type BreadcrumbItem, type SharedData } from '@/types';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Edit, Eye, MoreHorizontal, Plus, Search, Trash } from 'lucide-react';
 import { useState } from 'react';
 
@@ -57,6 +57,7 @@ interface Props {
 }
 
 export default function ManagementIndex({ managements, filters }: Props) {
+    const { auth } = usePage<SharedData>().props;
     const [search, setSearch] = useState(filters['filter[full_name]'] || '');
     const [statusFilter, setStatusFilter] = useState(() => {
         const statusParam = filters['filter[status]'];
@@ -160,12 +161,14 @@ export default function ManagementIndex({ managements, filters }: Props) {
                             </Select>
                         </div>
 
-                        <Button asChild>
-                            <Link href={route('managements.create')}>
-                                <Plus className="mr-2 h-4 w-4" />
-                                Add Member
-                            </Link>
-                        </Button>
+                        {(auth.permissions.includes('create managements') || auth.roles.includes('super-admin')) && (
+                            <Button asChild>
+                                <Link href={route('managements.create')}>
+                                    <Plus className="mr-2 h-4 w-4" />
+                                    Add Member
+                                </Link>
+                            </Button>
+                        )}
                     </div>
 
                     {/* Table */}
@@ -225,23 +228,29 @@ export default function ManagementIndex({ managements, filters }: Props) {
                                                     <DropdownMenuContent align="end">
                                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                         <DropdownMenuSeparator />
-                                                        <DropdownMenuItem asChild>
-                                                            <Link href={route('managements.show', member.id)}>
-                                                                <Eye className="mr-2 h-4 w-4" />
-                                                                View
-                                                            </Link>
-                                                        </DropdownMenuItem>
-                                                        <DropdownMenuItem asChild>
-                                                            <Link href={route('managements.edit', member.id)}>
-                                                                <Edit className="mr-2 h-4 w-4" />
-                                                                Edit
-                                                            </Link>
-                                                        </DropdownMenuItem>
+                                                        {(auth.permissions.includes('view managements') || auth.roles.includes('super-admin')) && (
+                                                            <DropdownMenuItem asChild>
+                                                                <Link href={route('managements.show', member.id)}>
+                                                                    <Eye className="mr-2 h-4 w-4" />
+                                                                    View
+                                                                </Link>
+                                                            </DropdownMenuItem>
+                                                        )}
+                                                        {(auth.permissions.includes('edit managements') || auth.roles.includes('super-admin')) && (
+                                                            <DropdownMenuItem asChild>
+                                                                <Link href={route('managements.edit', member.id)}>
+                                                                    <Edit className="mr-2 h-4 w-4" />
+                                                                    Edit
+                                                                </Link>
+                                                            </DropdownMenuItem>
+                                                        )}
                                                         <DropdownMenuSeparator />
-                                                        <DropdownMenuItem onClick={() => handleDelete(member.id)} className="text-red-600">
-                                                            <Trash className="mr-2 h-4 w-4" />
-                                                            Delete
-                                                        </DropdownMenuItem>
+                                                        {(auth.permissions.includes('delete managements') || auth.roles.includes('super-admin')) && (
+                                                            <DropdownMenuItem onClick={() => handleDelete(member.id)} className="text-red-600">
+                                                                <Trash className="mr-2 h-4 w-4" />
+                                                                Delete
+                                                            </DropdownMenuItem>
+                                                        )}
                                                     </DropdownMenuContent>
                                                 </DropdownMenu>
                                             </TableCell>

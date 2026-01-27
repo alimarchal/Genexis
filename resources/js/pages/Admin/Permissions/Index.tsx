@@ -11,8 +11,8 @@ import {
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem } from '@/types';
-import { Head, Link, router } from '@inertiajs/react';
+import { type BreadcrumbItem, type SharedData } from '@/types';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Edit, Key, MoreHorizontal, Plus, Search, Trash } from 'lucide-react';
 import { useState } from 'react';
 
@@ -50,6 +50,7 @@ interface Props {
 }
 
 export default function PermissionIndex({ permissions, filters }: Props) {
+    const { auth } = usePage<SharedData>().props;
     const [searchTerm, setSearchTerm] = useState(filters.search || '');
 
     const handleSearch = (e: React.FormEvent) => {
@@ -77,12 +78,14 @@ export default function PermissionIndex({ permissions, filters }: Props) {
             <div className="px-4 py-6">
                 <div className="mb-6 flex items-center justify-between">
                     <Heading title="Permission Management" description="Manage system permissions (advanced)" />
-                    <Button asChild>
-                        <Link href={route('admin.permissions.create')}>
-                            <Plus className="mr-2 h-4 w-4" />
-                            Add New Permission
-                        </Link>
-                    </Button>
+                    {(auth.permissions.includes('create permissions') || auth.roles.includes('super-admin')) && (
+                        <Button asChild>
+                            <Link href={route('admin.permissions.create')}>
+                                <Plus className="mr-2 h-4 w-4" />
+                                Add New Permission
+                            </Link>
+                        </Button>
+                    )}
                 </div>
 
                 {/* Filters */}
@@ -142,16 +145,20 @@ export default function PermissionIndex({ permissions, filters }: Props) {
                                                 <DropdownMenuContent align="end">
                                                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                     <DropdownMenuSeparator />
-                                                    <DropdownMenuItem asChild>
-                                                        <Link href={route('admin.permissions.edit', permission.id)}>
-                                                            <Edit className="mr-2 h-4 w-4" />
-                                                            Edit
-                                                        </Link>
-                                                    </DropdownMenuItem>
-                                                    <DropdownMenuItem onClick={() => handleDelete(permission.id)} className="text-red-600">
-                                                        <Trash className="mr-2 h-4 w-4" />
-                                                        Delete
-                                                    </DropdownMenuItem>
+                                                    {(auth.permissions.includes('edit permissions') || auth.roles.includes('super-admin')) && (
+                                                        <DropdownMenuItem asChild>
+                                                            <Link href={route('admin.permissions.edit', permission.id)}>
+                                                                <Edit className="mr-2 h-4 w-4" />
+                                                                Edit
+                                                            </Link>
+                                                        </DropdownMenuItem>
+                                                    )}
+                                                    {(auth.permissions.includes('delete permissions') || auth.roles.includes('super-admin')) && (
+                                                        <DropdownMenuItem onClick={() => handleDelete(permission.id)} className="text-red-600">
+                                                            <Trash className="mr-2 h-4 w-4" />
+                                                            Delete
+                                                        </DropdownMenuItem>
+                                                    )}
                                                 </DropdownMenuContent>
                                             </DropdownMenu>
                                         </TableCell>

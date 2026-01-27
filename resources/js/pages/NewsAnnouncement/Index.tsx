@@ -191,12 +191,14 @@ export default function NewsAnnouncementIndex({ newsAnnouncements, filters }: Pr
                             </Select>
                         </div>
 
-                        <Button asChild>
-                            <Link href={route('news-announcements.create')}>
-                                <Plus className="mr-2 h-4 w-4" />
-                                Add News
-                            </Link>
-                        </Button>
+                        {(auth.permissions.includes('create news announcements') || auth.roles.includes('super-admin')) && (
+                            <Button asChild>
+                                <Link href={route('news-announcements.create')}>
+                                    <Plus className="mr-2 h-4 w-4" />
+                                    Add News
+                                </Link>
+                            </Button>
+                        )}
                     </div>
 
                     {/* Table */}

@@ -38,10 +38,12 @@ export interface MenuItem {
     children: MenuItem[];
 }
 
-export interface AutoBreadcrumbItem {
-    label: string;
-    href?: string;
-    isActive?: boolean;
+export interface SocialLinks {
+    facebook: string;
+    twitter: string;
+    instagram: string;
+    linkedin: string;
+    youtube: string;
 }
 
 export interface SharedData {
@@ -54,11 +56,21 @@ export interface SharedData {
     contact_phone: string;
     contact_email: string;
     contact_address: string;
+export interface SharedData {
+    name: string;
+    quote: { message: string; author: string };
+    auth: Auth;
+    ziggy: Config & { location: string } & Record<string, unknown>;
+    sidebarOpen: boolean;
+    bankBranchesCount: number;
+    contact_phone: string;
+    contact_email: string;
+    contact_address: string;
     menu: MenuItem[];
     autoBreadcrumbs: AutoBreadcrumbItem[];
-    socialLinks: unknown;
-    footerLinks: unknown;
-    bankRates: unknown;
+    socialLinks: SocialLinks;
+    footerLinks: any;
+    bankRates: any;
     [key: string]: unknown;
 }
 

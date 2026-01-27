@@ -79,13 +79,15 @@ export default function RoleIndex({ roles, filters }: Props) {
 
             <div className="px-4 py-6">
                 <div className="mb-6 flex items-center justify-between">
-                    <Heading title="Role Management" description="Manage user roles and their associated permissions" />
-                    <Button asChild>
-                        <Link href={route('admin.roles.create')}>
-                            <Plus className="mr-2 h-4 w-4" />
-                            Add New Role
-                        </Link>
-                    </Button>
+                    <Heading title="Role Management" description="Manage system roles and permissions" />
+                    {(auth.permissions.includes('create roles') || auth.roles.includes('super-admin')) && (
+                        <Button asChild>
+                            <Link href={route('admin.roles.create')}>
+                                <Plus className="mr-2 h-4 w-4" />
+                                Add New Role
+                            </Link>
+                        </Button>
+                    )}
                 </div>
 
                 {/* Filters */}

@@ -13,8 +13,8 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem } from '@/types';
-import { Head, Link, router } from '@inertiajs/react';
+import { type BreadcrumbItem, type SharedData } from '@/types';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 import { CreditCard, Edit, Eye, MoreHorizontal, Plus, Search, Trash } from 'lucide-react';
 import { useState } from 'react';
 
@@ -65,6 +65,7 @@ interface Props {
 }
 
 export default function ProductTypeAccountIndex({ productTypeAccounts, productTypes, filters }: Props) {
+    const { auth } = usePage<SharedData>().props;
     const [search, setSearch] = useState(filters['filter[name]'] || '');
     const [statusFilter, setStatusFilter] = useState(() => {
         const statusParam = filters['filter[is_active]'];
@@ -198,12 +199,14 @@ export default function ProductTypeAccountIndex({ productTypeAccounts, productTy
                             </Select>
                         </div>
 
-                        <Button asChild>
-                            <Link href={route('product-type-accounts.create')}>
-                                <Plus className="mr-2 h-4 w-4" />
-                                Add Account
-                            </Link>
-                        </Button>
+                        {(auth.permissions.includes('create product type accounts') || auth.roles.includes('super-admin')) && (
+                            <Button asChild>
+                                <Link href={route('product-type-accounts.create')}>
+                                    <Plus className="mr-2 h-4 w-4" />
+                                    Add Account
+                                </Link>
+                            </Button>
+                        )}
                     </div>
 
                     {/* Table */}
@@ -255,23 +258,32 @@ export default function ProductTypeAccountIndex({ productTypeAccounts, productTy
                                                     <DropdownMenuContent align="end">
                                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                         <DropdownMenuSeparator />
-                                                        <DropdownMenuItem asChild>
-                                                            <Link href={route('product-type-accounts.show', account.id)}>
-                                                                <Eye className="mr-2 h-4 w-4" />
-                                                                View
-                                                            </Link>
-                                                        </DropdownMenuItem>
-                                                        <DropdownMenuItem asChild>
-                                                            <Link href={route('product-type-accounts.edit', account.id)}>
-                                                                <Edit className="mr-2 h-4 w-4" />
-                                                                Edit
-                                                            </Link>
-                                                        </DropdownMenuItem>
+                                                        {(auth.permissions.includes('view product type accounts') ||
+                                                            auth.roles.includes('super-admin')) && (
+                                                                <DropdownMenuItem asChild>
+                                                                    <Link href={route('product-type-accounts.show', account.id)}>
+                                                                        <Eye className="mr-2 h-4 w-4" />
+                                                                        View
+                                                                    </Link>
+                                                                </DropdownMenuItem>
+                                                            )}
+                                                        {(auth.permissions.includes('edit product type accounts') ||
+                                                            auth.roles.includes('super-admin')) && (
+                                                                <DropdownMenuItem asChild>
+                                                                    <Link href={route('product-type-accounts.edit', account.id)}>
+                                                                        <Edit className="mr-2 h-4 w-4" />
+                                                                        Edit
+                                                                    </Link>
+                                                                </DropdownMenuItem>
+                                                            )}
                                                         <DropdownMenuSeparator />
-                                                        <DropdownMenuItem onClick={() => handleDelete(account.id)} className="text-red-600">
-                                                            <Trash className="mr-2 h-4 w-4" />
-                                                            Delete
-                                                        </DropdownMenuItem>
+                                                        {(auth.permissions.includes('delete product type accounts') ||
+                                                            auth.roles.includes('super-admin')) && (
+                                                                <DropdownMenuItem onClick={() => handleDelete(account.id)} className="text-red-600">
+                                                                    <Trash className="mr-2 h-4 w-4" />
+                                                                    Delete
+                                                                </DropdownMenuItem>
+                                                            )}
                                                     </DropdownMenuContent>
                                                 </DropdownMenu>
                                             </TableCell>

@@ -14,8 +14,8 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem } from '@/types';
-import { Head, Link, router } from '@inertiajs/react';
+import { type BreadcrumbItem, type SharedData } from '@/types';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Edit, Eye, MoreHorizontal, Plus, Search, Trash } from 'lucide-react';
 import { useState } from 'react';
 
@@ -77,6 +77,7 @@ interface Props {
 }
 
 export default function Index({ branchServices, branches, filters }: Props) {
+    const { auth } = usePage<SharedData>().props;
     const [searchTerm, setSearchTerm] = useState(filters.filter?.service_name || '');
     const [statusFilter, setStatusFilter] = useState(filters.filter?.status || 'all');
     const [branchFilter, setBranchFilter] = useState(filters.filter?.branch_id || 'all');
@@ -125,12 +126,14 @@ export default function Index({ branchServices, branches, filters }: Props) {
             <div className="px-10 py-6">
                 <div className="flex items-center justify-between">
                     <Heading title="Branch Services" description="Manage services available at branches" />
-                    <Link href={route('branch-services.create')}>
-                        <Button>
-                            <Plus className="mr-2 h-4 w-4" />
-                            Add Branch Service
-                        </Button>
-                    </Link>
+                    {(auth.permissions.includes('create branch services') || auth.roles.includes('super-admin')) && (
+                        <Link href={route('branch-services.create')}>
+                            <Button>
+                                <Plus className="mr-2 h-4 w-4" />
+                                Add Branch Service
+                            </Button>
+                        </Link>
+                    )}
                 </div>
 
                 <form onSubmit={handleSearch} className="my-4">
@@ -243,22 +246,28 @@ export default function Index({ branchServices, branches, filters }: Props) {
                                                         <DropdownMenuContent align="end">
                                                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                             <DropdownMenuSeparator />
-                                                            <DropdownMenuItem asChild>
-                                                                <Link href={route('branch-services.show', branchService.id)}>
-                                                                    <Eye className="mr-2 h-4 w-4" />
-                                                                    View
-                                                                </Link>
-                                                            </DropdownMenuItem>
-                                                            <DropdownMenuItem asChild>
-                                                                <Link href={route('branch-services.edit', branchService.id)}>
-                                                                    <Edit className="mr-2 h-4 w-4" />
-                                                                    Edit
-                                                                </Link>
-                                                            </DropdownMenuItem>
-                                                            <DropdownMenuItem onClick={() => handleDelete(branchService)} className="text-red-600">
-                                                                <Trash className="mr-2 h-4 w-4" />
-                                                                Delete
-                                                            </DropdownMenuItem>
+                                                            {(auth.permissions.includes('view branch services') || auth.roles.includes('super-admin')) && (
+                                                                <DropdownMenuItem asChild>
+                                                                    <Link href={route('branch-services.show', branchService.id)}>
+                                                                        <Eye className="mr-2 h-4 w-4" />
+                                                                        View
+                                                                    </Link>
+                                                                </DropdownMenuItem>
+                                                            )}
+                                                            {(auth.permissions.includes('edit branch services') || auth.roles.includes('super-admin')) && (
+                                                                <DropdownMenuItem asChild>
+                                                                    <Link href={route('branch-services.edit', branchService.id)}>
+                                                                        <Edit className="mr-2 h-4 w-4" />
+                                                                        Edit
+                                                                    </Link>
+                                                                </DropdownMenuItem>
+                                                            )}
+                                                            {(auth.permissions.includes('delete branch services') || auth.roles.includes('super-admin')) && (
+                                                                <DropdownMenuItem onClick={() => handleDelete(branchService)} className="text-red-600">
+                                                                    <Trash className="mr-2 h-4 w-4" />
+                                                                    Delete
+                                                                </DropdownMenuItem>
+                                                            )}
                                                         </DropdownMenuContent>
                                                     </DropdownMenu>
                                                 </TableCell>

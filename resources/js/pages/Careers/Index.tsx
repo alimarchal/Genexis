@@ -13,8 +13,8 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem } from '@/types';
-import { Head, Link, router } from '@inertiajs/react';
+import { type BreadcrumbItem, type SharedData } from '@/types';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Briefcase, Download, Edit, Eye, MapPin, MoreHorizontal, Plus, Search, Star, Trash } from 'lucide-react';
 import { useState } from 'react';
 
@@ -54,6 +54,7 @@ interface Props {
 }
 
 export default function CareerIndex({ careers, filters }: Props) {
+    const { auth } = usePage<SharedData>().props;
     const [search, setSearch] = useState(filters['filter[title]'] || '');
     const [locationFilter, setLocationFilter] = useState(filters['filter[location]'] || '');
     const [statusFilter, setStatusFilter] = useState(() => {
@@ -227,12 +228,14 @@ export default function CareerIndex({ careers, filters }: Props) {
                                 </SelectContent>
                             </Select>
                         </div>
-                        <Button asChild>
-                            <Link href={route('careers.create')}>
-                                <Plus className="mr-2 h-4 w-4" />
-                                Add Career
-                            </Link>
-                        </Button>
+                        {(auth.permissions.includes('create careers') || auth.roles.includes('super-admin')) && (
+                            <Button asChild>
+                                <Link href={route('careers.create')}>
+                                    <Plus className="mr-2 h-4 w-4" />
+                                    Add Career
+                                </Link>
+                            </Button>
+                        )}
                     </div>
                     <div className="rounded-md border">
                         <Table>
@@ -293,18 +296,22 @@ export default function CareerIndex({ careers, filters }: Props) {
                                                     <DropdownMenuContent align="end">
                                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                         <DropdownMenuSeparator />
-                                                        <DropdownMenuItem asChild>
-                                                            <Link href={route('careers.show', career.id)}>
-                                                                <Eye className="mr-2 h-4 w-4" />
-                                                                View
-                                                            </Link>
-                                                        </DropdownMenuItem>
-                                                        <DropdownMenuItem asChild>
-                                                            <Link href={route('careers.edit', career.id)}>
-                                                                <Edit className="mr-2 h-4 w-4" />
-                                                                Edit
-                                                            </Link>
-                                                        </DropdownMenuItem>
+                                                        {(auth.permissions.includes('view careers') || auth.roles.includes('super-admin')) && (
+                                                            <DropdownMenuItem asChild>
+                                                                <Link href={route('careers.show', career.id)}>
+                                                                    <Eye className="mr-2 h-4 w-4" />
+                                                                    View
+                                                                </Link>
+                                                            </DropdownMenuItem>
+                                                        )}
+                                                        {(auth.permissions.includes('edit careers') || auth.roles.includes('super-admin')) && (
+                                                            <DropdownMenuItem asChild>
+                                                                <Link href={route('careers.edit', career.id)}>
+                                                                    <Edit className="mr-2 h-4 w-4" />
+                                                                    Edit
+                                                                </Link>
+                                                            </DropdownMenuItem>
+                                                        )}
                                                         {career.document_url && (
                                                             <>
                                                                 <DropdownMenuSeparator />
@@ -317,10 +324,12 @@ export default function CareerIndex({ careers, filters }: Props) {
                                                             </>
                                                         )}
                                                         <DropdownMenuSeparator />
-                                                        <DropdownMenuItem onClick={() => handleDelete(career.id)} className="text-red-600">
-                                                            <Trash className="mr-2 h-4 w-4" />
-                                                            Delete
-                                                        </DropdownMenuItem>
+                                                        {(auth.permissions.includes('delete careers') || auth.roles.includes('super-admin')) && (
+                                                            <DropdownMenuItem onClick={() => handleDelete(career.id)} className="text-red-600">
+                                                                <Trash className="mr-2 h-4 w-4" />
+                                                                Delete
+                                                            </DropdownMenuItem>
+                                                        )}
                                                     </DropdownMenuContent>
                                                 </DropdownMenu>
                                             </TableCell>

@@ -13,8 +13,8 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem } from '@/types';
-import { Head, Link, router } from '@inertiajs/react';
+import { type BreadcrumbItem, type SharedData } from '@/types';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Download, Edit, Eye, FileText, MoreHorizontal, Plus, Search, Trash } from 'lucide-react';
 import { useState } from 'react';
 
@@ -52,6 +52,7 @@ interface Props {
 }
 
 export default function FinancialHighlightIndex({ financialHighlights, filters }: Props) {
+    const { auth } = usePage<SharedData>().props;
     const [search, setSearch] = useState(filters['filter[fiscal_year]'] || '');
     const [highlightsFilter, setHighlightsFilter] = useState(() => {
         const param = filters['filter[has_highlights]'];
@@ -181,12 +182,14 @@ export default function FinancialHighlightIndex({ financialHighlights, filters }
                                 </SelectContent>
                             </Select>
                         </div>
-                        <Button asChild>
-                            <Link href={route('financial-highlights.create')}>
-                                <Plus className="mr-2 h-4 w-4" />
-                                Add Highlights
-                            </Link>
-                        </Button>
+                        {(auth.permissions.includes('create financial highlights') || auth.roles.includes('super-admin')) && (
+                            <Button asChild>
+                                <Link href={route('financial-highlights.create')}>
+                                    <Plus className="mr-2 h-4 w-4" />
+                                    Add Highlights
+                                </Link>
+                            </Button>
+                        )}
                     </div>
                     <div className="rounded-md border">
                         <Table>
@@ -233,18 +236,22 @@ export default function FinancialHighlightIndex({ financialHighlights, filters }
                                                     <DropdownMenuContent align="end">
                                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                         <DropdownMenuSeparator />
-                                                        <DropdownMenuItem asChild>
-                                                            <Link href={route('financial-highlights.show', highlight.id)}>
-                                                                <Eye className="mr-2 h-4 w-4" />
-                                                                View
-                                                            </Link>
-                                                        </DropdownMenuItem>
-                                                        <DropdownMenuItem asChild>
-                                                            <Link href={route('financial-highlights.edit', highlight.id)}>
-                                                                <Edit className="mr-2 h-4 w-4" />
-                                                                Edit
-                                                            </Link>
-                                                        </DropdownMenuItem>
+                                                        {(auth.permissions.includes('view financial highlights') || auth.roles.includes('super-admin')) && (
+                                                            <DropdownMenuItem asChild>
+                                                                <Link href={route('financial-highlights.show', highlight.id)}>
+                                                                    <Eye className="mr-2 h-4 w-4" />
+                                                                    View
+                                                                </Link>
+                                                            </DropdownMenuItem>
+                                                        )}
+                                                        {(auth.permissions.includes('edit financial highlights') || auth.roles.includes('super-admin')) && (
+                                                            <DropdownMenuItem asChild>
+                                                                <Link href={route('financial-highlights.edit', highlight.id)}>
+                                                                    <Edit className="mr-2 h-4 w-4" />
+                                                                    Edit
+                                                                </Link>
+                                                            </DropdownMenuItem>
+                                                        )}
                                                         {highlight.financial_highlights_url && (
                                                             <>
                                                                 <DropdownMenuSeparator />
@@ -261,10 +268,12 @@ export default function FinancialHighlightIndex({ financialHighlights, filters }
                                                             </>
                                                         )}
                                                         <DropdownMenuSeparator />
-                                                        <DropdownMenuItem onClick={() => handleDelete(highlight.id)} className="text-red-600">
-                                                            <Trash className="mr-2 h-4 w-4" />
-                                                            Delete
-                                                        </DropdownMenuItem>
+                                                        {(auth.permissions.includes('delete financial highlights') || auth.roles.includes('super-admin')) && (
+                                                            <DropdownMenuItem onClick={() => handleDelete(highlight.id)} className="text-red-600">
+                                                                <Trash className="mr-2 h-4 w-4" />
+                                                                Delete
+                                                            </DropdownMenuItem>
+                                                        )}
                                                     </DropdownMenuContent>
                                                 </DropdownMenu>
                                             </TableCell>

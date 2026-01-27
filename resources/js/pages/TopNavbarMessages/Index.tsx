@@ -183,12 +183,14 @@ export default function Index({ messages, filters }: Props) {
                                 </SelectContent>
                             </Select>
                         </div>
-                        <Button asChild>
-                            <Link href={route('top-navbar-messages.create')}>
-                                <Plus className="mr-2 h-4 w-4" />
-                                Add Message
-                            </Link>
-                        </Button>
+                        {(auth.permissions.includes('create top navbar messages') || auth.roles.includes('super-admin')) && (
+                            <Button asChild>
+                                <Link href={route('top-navbar-messages.create')}>
+                                    <Plus className="mr-2 h-4 w-4" />
+                                    Add Message
+                                </Link>
+                            </Button>
+                        )}
                     </div>
                     <div className="rounded-md border">
                         <Table>
@@ -245,23 +247,29 @@ export default function Index({ messages, filters }: Props) {
                                                     <DropdownMenuContent align="end">
                                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                         <DropdownMenuSeparator />
-                                                        <DropdownMenuItem asChild>
-                                                            <Link href={route('top-navbar-messages.show', message.id)}>
-                                                                <Eye className="mr-2 h-4 w-4" />
-                                                                View
-                                                            </Link>
-                                                        </DropdownMenuItem>
-                                                        <DropdownMenuItem asChild>
-                                                            <Link href={route('top-navbar-messages.edit', message.id)}>
-                                                                <Edit className="mr-2 h-4 w-4" />
-                                                                Edit
-                                                            </Link>
-                                                        </DropdownMenuItem>
+                                                        {(auth.permissions.includes('view top navbar messages') || auth.roles.includes('super-admin')) && (
+                                                            <DropdownMenuItem asChild>
+                                                                <Link href={route('top-navbar-messages.show', message.id)}>
+                                                                    <Eye className="mr-2 h-4 w-4" />
+                                                                    View
+                                                                </Link>
+                                                            </DropdownMenuItem>
+                                                        )}
+                                                        {(auth.permissions.includes('edit top navbar messages') || auth.roles.includes('super-admin')) && (
+                                                            <DropdownMenuItem asChild>
+                                                                <Link href={route('top-navbar-messages.edit', message.id)}>
+                                                                    <Edit className="mr-2 h-4 w-4" />
+                                                                    Edit
+                                                                </Link>
+                                                            </DropdownMenuItem>
+                                                        )}
                                                         <DropdownMenuSeparator />
-                                                        <DropdownMenuItem onClick={() => handleDelete(message.id)} className="text-red-600">
-                                                            <Trash2 className="mr-2 h-4 w-4" />
-                                                            Delete
-                                                        </DropdownMenuItem>
+                                                        {(auth.permissions.includes('delete top navbar messages') || auth.roles.includes('super-admin')) && (
+                                                            <DropdownMenuItem onClick={() => handleDelete(message.id)} className="text-red-600">
+                                                                <Trash2 className="mr-2 h-4 w-4" />
+                                                                Delete
+                                                            </DropdownMenuItem>
+                                                        )}
                                                     </DropdownMenuContent>
                                                 </DropdownMenu>
                                             </TableCell>

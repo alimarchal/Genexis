@@ -85,12 +85,14 @@ export default function UserIndex({ users, filters }: Props) {
             <div className="px-4 py-6">
                 <div className="mb-6 flex items-center justify-between">
                     <Heading title="User Management" description="Manage system users and their access" />
-                    <Button asChild>
-                        <Link href={route('admin.users.create')}>
-                            <Plus className="mr-2 h-4 w-4" />
-                            Add New User
-                        </Link>
-                    </Button>
+                    {(auth.permissions.includes('create users') || auth.roles.includes('super-admin')) && (
+                        <Button asChild>
+                            <Link href={route('admin.users.create')}>
+                                <Plus className="mr-2 h-4 w-4" />
+                                Add New User
+                            </Link>
+                        </Button>
+                    )}
                 </div>
 
                 {/* Filters */}

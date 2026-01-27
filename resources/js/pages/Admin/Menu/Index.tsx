@@ -13,8 +13,8 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem } from '@/types';
-import { Head, Link, router } from '@inertiajs/react';
+import { type BreadcrumbItem, type SharedData } from '@/types';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Edit, ExternalLink, Eye, Menu as MenuIcon, MoreHorizontal, Plus, Search, Trash } from 'lucide-react';
 import { useState } from 'react';
 
@@ -70,6 +70,7 @@ interface Props {
 }
 
 export default function MenuIndex({ menus, filters }: Props) {
+    const { auth } = usePage<SharedData>().props;
     const [searchTerm, setSearchTerm] = useState(filters.filter?.title || '');
     const [statusFilter, setStatusFilter] = useState(filters.filter?.is_active || 'all');
 
@@ -121,12 +122,14 @@ export default function MenuIndex({ menus, filters }: Props) {
                         <Button variant="outline" onClick={clearMenuCache}>
                             Clear Cache
                         </Button>
-                        <Button asChild>
-                            <Link href={route('admin.menus.create')}>
-                                <Plus className="mr-2 h-4 w-4" />
-                                Add Menu Item
-                            </Link>
-                        </Button>
+                        {(auth.permissions.includes('create menus') || auth.roles.includes('super-admin')) && (
+                            <Button asChild>
+                                <Link href={route('admin.menus.create')}>
+                                    <Plus className="mr-2 h-4 w-4" />
+                                    Add Menu
+                                </Link>
+                            </Button>
+                        )}
                     </div>
                 </div>
 
@@ -240,22 +243,28 @@ export default function MenuIndex({ menus, filters }: Props) {
                                                 <DropdownMenuContent align="end">
                                                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                     <DropdownMenuSeparator />
-                                                    <DropdownMenuItem asChild>
-                                                        <Link href={route('admin.menus.show', menu.id)}>
-                                                            <Eye className="mr-2 h-4 w-4" />
-                                                            View
-                                                        </Link>
-                                                    </DropdownMenuItem>
-                                                    <DropdownMenuItem asChild>
-                                                        <Link href={route('admin.menus.edit', menu.id)}>
-                                                            <Edit className="mr-2 h-4 w-4" />
-                                                            Edit
-                                                        </Link>
-                                                    </DropdownMenuItem>
-                                                    <DropdownMenuItem onClick={() => handleDelete(menu.id)} className="text-red-600">
-                                                        <Trash className="mr-2 h-4 w-4" />
-                                                        Delete
-                                                    </DropdownMenuItem>
+                                                    {(auth.permissions.includes('view menus') || auth.roles.includes('super-admin')) && (
+                                                        <DropdownMenuItem asChild>
+                                                            <Link href={route('admin.menus.show', menu.id)}>
+                                                                <Eye className="mr-2 h-4 w-4" />
+                                                                View
+                                                            </Link>
+                                                        </DropdownMenuItem>
+                                                    )}
+                                                    {(auth.permissions.includes('edit menus') || auth.roles.includes('super-admin')) && (
+                                                        <DropdownMenuItem asChild>
+                                                            <Link href={route('admin.menus.edit', menu.id)}>
+                                                                <Edit className="mr-2 h-4 w-4" />
+                                                                Edit
+                                                            </Link>
+                                                        </DropdownMenuItem>
+                                                    )}
+                                                    {(auth.permissions.includes('delete menus') || auth.roles.includes('super-admin')) && (
+                                                        <DropdownMenuItem onClick={() => handleDelete(menu.id)} className="text-red-600">
+                                                            <Trash className="mr-2 h-4 w-4" />
+                                                            Delete
+                                                        </DropdownMenuItem>
+                                                    )}
                                                 </DropdownMenuContent>
                                             </DropdownMenu>
                                         </TableCell>

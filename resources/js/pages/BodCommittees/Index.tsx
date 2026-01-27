@@ -13,8 +13,8 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem } from '@/types';
-import { Head, Link, router } from '@inertiajs/react';
+import { type BreadcrumbItem, type SharedData } from '@/types';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Edit, Eye, MoreHorizontal, Plus, Search, Trash } from 'lucide-react';
 import { useState } from 'react';
 
@@ -64,6 +64,7 @@ interface Props {
 }
 
 export default function BodCommitteeIndex({ bodCommittees, filters }: Props) {
+    const { auth } = usePage<SharedData>().props;
     // Initialize hooks first
     const [search, setSearch] = useState(filters?.['filter[name]'] || '');
     const [statusFilter, setStatusFilter] = useState(() => {
@@ -253,12 +254,14 @@ export default function BodCommitteeIndex({ bodCommittees, filters }: Props) {
                             </Select>
                         </div>
 
-                        <Button asChild>
-                            <Link href={route('bod-committees.create')}>
-                                <Plus className="mr-2 h-4 w-4" />
-                                Add Committee
-                            </Link>
-                        </Button>
+                        {(auth.permissions.includes('create bod committees') || auth.roles.includes('super-admin')) && (
+                            <Button asChild>
+                                <Link href={route('bod-committees.create')}>
+                                    <Plus className="mr-2 h-4 w-4" />
+                                    Add Committee
+                                </Link>
+                            </Button>
+                        )}
                     </div>
 
                     {/* Table */}
@@ -321,23 +324,29 @@ export default function BodCommitteeIndex({ bodCommittees, filters }: Props) {
                                                     <DropdownMenuContent align="end">
                                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                         <DropdownMenuSeparator />
-                                                        <DropdownMenuItem asChild>
-                                                            <Link href={route('bod-committees.show', committee.id)}>
-                                                                <Eye className="mr-2 h-4 w-4" />
-                                                                View
-                                                            </Link>
-                                                        </DropdownMenuItem>
-                                                        <DropdownMenuItem asChild>
-                                                            <Link href={route('bod-committees.edit', committee.id)}>
-                                                                <Edit className="mr-2 h-4 w-4" />
-                                                                Edit
-                                                            </Link>
-                                                        </DropdownMenuItem>
+                                                        {(auth.permissions.includes('view bod committees') || auth.roles.includes('super-admin')) && (
+                                                            <DropdownMenuItem asChild>
+                                                                <Link href={route('bod-committees.show', committee.id)}>
+                                                                    <Eye className="mr-2 h-4 w-4" />
+                                                                    View
+                                                                </Link>
+                                                            </DropdownMenuItem>
+                                                        )}
+                                                        {(auth.permissions.includes('edit bod committees') || auth.roles.includes('super-admin')) && (
+                                                            <DropdownMenuItem asChild>
+                                                                <Link href={route('bod-committees.edit', committee.id)}>
+                                                                    <Edit className="mr-2 h-4 w-4" />
+                                                                    Edit
+                                                                </Link>
+                                                            </DropdownMenuItem>
+                                                        )}
                                                         <DropdownMenuSeparator />
-                                                        <DropdownMenuItem onClick={() => handleDelete(committee.id)} className="text-red-600">
-                                                            <Trash className="mr-2 h-4 w-4" />
-                                                            Delete
-                                                        </DropdownMenuItem>
+                                                        {(auth.permissions.includes('delete bod committees') || auth.roles.includes('super-admin')) && (
+                                                            <DropdownMenuItem onClick={() => handleDelete(committee.id)} className="text-red-600">
+                                                                <Trash className="mr-2 h-4 w-4" />
+                                                                Delete
+                                                            </DropdownMenuItem>
+                                                        )}
                                                     </DropdownMenuContent>
                                                 </DropdownMenu>
                                             </TableCell>
