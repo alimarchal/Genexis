@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
 
         $this->call([
+            CreatePlaceholderFilesSeeder::class, // Create all placeholder files first
             TopNavbarMessageSeeder::class,
             ManagementSeeder::class,
             ProductSeeder::class,           // Creates base products
