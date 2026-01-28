@@ -47,10 +47,10 @@ export default function PublicDownloadsIndex({ downloads }: Props) {
             <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
                 {/* Hero Section */}
                 <div className="bg-gradient-to-r from-blue-900 via-blue-800 to-indigo-900 text-white">
-                    <div className="mx-auto max-w-7xl px-6 py-16">
+                    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16">
                         <div className="text-center">
-                            <h1 className="mb-4 text-4xl font-bold tracking-tight sm:text-5xl">Downloads</h1>
-                            <p className="mx-auto max-w-2xl text-xl text-blue-100">
+                            <h1 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">Downloads</h1>
+                            <p className="mx-auto max-w-2xl text-base text-blue-100 sm:text-lg md:text-xl">
                                 Access important documents, forms, and resources from Bank of Azad Jammu & Kashmir
                             </p>
                         </div>
@@ -58,7 +58,7 @@ export default function PublicDownloadsIndex({ downloads }: Props) {
                 </div>
 
                 {/* Downloads Table */}
-                <div className="mx-auto max-w-7xl px-6 py-12">
+                <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
                     {downloads.data.length > 0 ? (
                         <>
                             <div className="mb-8">
@@ -71,26 +71,35 @@ export default function PublicDownloadsIndex({ downloads }: Props) {
                                 <Thead>
                                     <Tr>
                                         <Th>Title</Th>
-                                        <Th>Category</Th>
-                                        <Th>File Type</Th>
-                                        <Th>File Size</Th>
+                                        <Th className="hidden sm:table-cell">Category</Th>
+                                        <Th className="hidden md:table-cell">File Type</Th>
+                                        <Th className="hidden lg:table-cell">File Size</Th>
                                         <Th>Actions</Th>
                                     </Tr>
                                 </Thead>
                                 <Tbody>
                                     {downloads.data.map((download) => (
                                         <Tr key={download.id}>
-                                            <Td>{download.title}</Td>
-                                            <Td>{download.category}</Td>
-                                            <Td>{download.file_type || 'N/A'}</Td>
-                                            <Td>{download.file_size_formatted}</Td>
+                                            <Td>
+                                                <div className="min-w-[150px]">
+                                                    <div className="font-medium text-gray-900">{download.title}</div>
+                                                    <div className="mt-1 text-xs text-gray-500 sm:hidden">
+                                                        {download.category}
+                                                        {download.file_type && ` • ${download.file_type}`}
+                                                        {download.file_size_formatted && ` • ${download.file_size_formatted}`}
+                                                    </div>
+                                                </div>
+                                            </Td>
+                                            <Td className="hidden sm:table-cell">{download.category}</Td>
+                                            <Td className="hidden md:table-cell">{download.file_type || 'N/A'}</Td>
+                                            <Td className="hidden lg:table-cell">{download.file_size_formatted}</Td>
                                             <Td>
                                                 <a
                                                     href={route('public-downloads.download', download.id)}
-                                                    className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:from-blue-700 hover:to-indigo-700 hover:shadow-lg"
+                                                    className="inline-flex items-center gap-1 rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 px-3 py-2 text-xs font-medium text-white transition-all duration-200 hover:from-blue-700 hover:to-indigo-700 hover:shadow-lg sm:gap-2 sm:px-4 sm:text-sm"
                                                 >
-                                                    <Download className="h-4 w-4" />
-                                                    Download
+                                                    <Download className="h-3 w-3 sm:h-4 sm:w-4" />
+                                                    <span className="hidden sm:inline">Download</span>
                                                 </a>
                                             </Td>
                                         </Tr>
@@ -100,14 +109,14 @@ export default function PublicDownloadsIndex({ downloads }: Props) {
 
                             {/* Pagination */}
                             {downloads.links && downloads.links.length > 3 && (
-                                <div className="mt-12 flex justify-center">
-                                    <nav className="flex items-center space-x-2">
+                                <div className="mt-8 flex justify-center sm:mt-12">
+                                    <nav className="flex flex-wrap items-center justify-center gap-2">
                                         {downloads.links.map((link, index) => (
                                             <span key={index}>
                                                 {link.url ? (
                                                     <Link
                                                         href={link.url}
-                                                        className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors duration-200 ${
+                                                        className={`rounded-lg px-3 py-2 text-xs font-medium transition-colors duration-200 sm:px-4 sm:text-sm ${
                                                             link.active
                                                                 ? 'bg-blue-600 text-white'
                                                                 : 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
@@ -116,7 +125,7 @@ export default function PublicDownloadsIndex({ downloads }: Props) {
                                                     />
                                                 ) : (
                                                     <span
-                                                        className="cursor-not-allowed rounded-lg px-4 py-2 text-sm font-medium text-gray-400"
+                                                        className="cursor-not-allowed rounded-lg px-3 py-2 text-xs font-medium text-gray-400 sm:px-4 sm:text-sm"
                                                         dangerouslySetInnerHTML={{ __html: link.label }}
                                                     />
                                                 )}

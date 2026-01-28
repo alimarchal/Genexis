@@ -62,16 +62,16 @@ export default function NewsIndex({ newsAnnouncements }: Props) {
             <Head title="News & Announcements" />
 
             <div className="min-h-screen bg-gradient-to-br from-[#e9f7ef] to-[#fff7e6]">
-                <div className="mx-auto max-w-7xl px-6 py-8">
+                <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8">
                     {/* Hero Section */}
-                    <div className="mb-12 text-center">
-                        <div className="mb-6 flex justify-center">
-                            <div className="rounded-full bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A] p-4">
-                                <Newspaper className="h-12 w-12 text-white" />
+                    <div className="mb-8 text-center sm:mb-12">
+                        <div className="mb-4 flex justify-center sm:mb-6">
+                            <div className="rounded-full bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A] p-3 sm:p-4">
+                                <Newspaper className="h-10 w-10 text-white sm:h-12 sm:w-12" />
                             </div>
                         </div>
-                        <h1 className="mb-4 text-4xl font-bold text-gray-900">News & Announcements</h1>
-                        <p className="mx-auto mb-8 max-w-3xl text-xl text-gray-600">
+                        <h1 className="mb-3 text-3xl font-bold text-gray-900 sm:mb-4 sm:text-4xl">News & Announcements</h1>
+                        <p className="mx-auto mb-6 max-w-3xl px-4 text-base text-gray-600 sm:mb-8 sm:text-lg md:text-xl">
                             Stay updated with the latest news, announcements, and updates from Bank of Azad Jammu & Kashmir
                         </p>
                     </div>
@@ -84,7 +84,7 @@ export default function NewsIndex({ newsAnnouncements }: Props) {
                                 </p>
                             </div>
 
-                            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                                 {newsAnnouncements.data.map((news) => (
                                     <div
                                         key={news.id}
@@ -92,7 +92,7 @@ export default function NewsIndex({ newsAnnouncements }: Props) {
                                     >
                                         {/* Featured Badge */}
                                         {news.is_featured && (
-                                            <div className="absolute top-4 right-4 z-10">
+                                            <div className="absolute top-3 right-3 z-10 sm:top-4 sm:right-4">
                                                 <div className="flex items-center gap-1 rounded-full bg-yellow-100 px-2 py-1 text-xs font-medium text-yellow-800">
                                                     <Star className="h-3 w-3 fill-current" />
                                                     Featured
@@ -101,7 +101,7 @@ export default function NewsIndex({ newsAnnouncements }: Props) {
                                         )}
 
                                         {/* Image */}
-                                        <div className="relative h-48 overflow-hidden bg-gradient-to-br from-[#e9f7ef] to-[#f0f9f3]">
+                                        <div className="relative h-40 overflow-hidden bg-gradient-to-br from-[#e9f7ef] to-[#f0f9f3] sm:h-48">
                                             {news.image_url ? (
                                                 <img
                                                     src={news.image_url}
@@ -111,7 +111,7 @@ export default function NewsIndex({ newsAnnouncements }: Props) {
                                             ) : (
                                                 <div className="flex h-full items-center justify-center">
                                                     <div className="text-center text-gray-400">
-                                                        <Eye className="mx-auto mb-2 h-12 w-12" />
+                                                        <Eye className="mx-auto mb-2 h-10 w-10 sm:h-12 sm:w-12" />
                                                         <span className="text-sm">No Image</span>
                                                     </div>
                                                 </div>
@@ -120,11 +120,11 @@ export default function NewsIndex({ newsAnnouncements }: Props) {
                                         </div>
 
                                         {/* Content */}
-                                        <div className="p-6">
+                                        <div className="p-4 sm:p-6">
                                             {/* Category and Date */}
-                                            <div className="mb-3 flex items-center justify-between">
+                                            <div className="mb-2 flex flex-wrap items-center gap-2 sm:mb-3">
                                                 <span
-                                                    className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-xs font-medium ${getCategoryColor(news.category)}`}
+                                                    className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs font-medium ${getCategoryColor(news.category)}`}
                                                 >
                                                     <Tag className="h-3 w-3" />
                                                     {news.category.charAt(0).toUpperCase() + news.category.slice(1)}
@@ -136,19 +136,19 @@ export default function NewsIndex({ newsAnnouncements }: Props) {
                                             </div>
 
                                             {/* Title */}
-                                            <h3 className="mb-3 text-lg font-semibold text-gray-900 transition-colors duration-200 group-hover:text-[#4A7C59]">
+                                            <h3 className="mb-2 text-base font-semibold text-gray-900 transition-colors duration-200 group-hover:text-[#4A7C59] sm:mb-3 sm:text-lg">
                                                 <Link href={`/news/${news.slug}`} className="hover:underline">
                                                     {news.title}
                                                 </Link>
                                             </h3>
 
                                             {/* Excerpt */}
-                                            <p className="mb-4 text-sm leading-relaxed text-gray-600">{news.excerpt}</p>
+                                            <p className="mb-3 text-sm leading-relaxed text-gray-600 sm:mb-4">{news.excerpt}</p>
 
                                             {/* Read More Link */}
                                             <Link
                                                 href={`/news/${news.slug}`}
-                                                className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A] px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:from-[#3d6b4a] hover:to-[#5a8a69] hover:shadow-lg"
+                                                className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A] px-3 py-2 text-xs font-medium text-white transition-all duration-200 hover:from-[#3d6b4a] hover:to-[#5a8a69] hover:shadow-lg sm:px-4 sm:text-sm"
                                             >
                                                 Read More
                                                 <svg
@@ -167,14 +167,14 @@ export default function NewsIndex({ newsAnnouncements }: Props) {
 
                             {/* Pagination */}
                             {newsAnnouncements.links && newsAnnouncements.links.length > 3 && (
-                                <div className="mt-12 flex justify-center">
-                                    <nav className="flex items-center space-x-2">
+                                <div className="mt-8 flex justify-center sm:mt-12">
+                                    <nav className="flex flex-wrap items-center justify-center gap-2">
                                         {newsAnnouncements.links.map((link, index) => (
                                             <span key={index}>
                                                 {link.url ? (
                                                     <Link
                                                         href={link.url}
-                                                        className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors duration-200 ${
+                                                        className={`rounded-lg px-3 py-2 text-xs font-medium transition-colors duration-200 sm:px-4 sm:text-sm ${
                                                             link.active
                                                                 ? 'bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A] text-white'
                                                                 : 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
@@ -183,7 +183,7 @@ export default function NewsIndex({ newsAnnouncements }: Props) {
                                                     />
                                                 ) : (
                                                     <span
-                                                        className="cursor-not-allowed rounded-lg px-4 py-2 text-sm font-medium text-gray-400"
+                                                        className="cursor-not-allowed rounded-lg px-3 py-2 text-xs font-medium text-gray-400 sm:px-4 sm:text-sm"
                                                         dangerouslySetInnerHTML={{ __html: link.label }}
                                                     />
                                                 )}
@@ -204,12 +204,12 @@ export default function NewsIndex({ newsAnnouncements }: Props) {
                     )}
 
                     {/* Information Section */}
-                    <div className="mt-12 rounded-xl border border-gray-100 bg-white p-8 shadow-lg">
-                        <h3 className="mb-4 text-xl font-semibold text-[#4A7C59]">About News & Announcements</h3>
-                        <div className="grid gap-6 md:grid-cols-2">
+                    <div className="mt-8 rounded-xl border border-gray-100 bg-white p-6 shadow-lg sm:mt-12 sm:p-8">
+                        <h3 className="mb-4 text-lg font-semibold text-[#4A7C59] sm:text-xl">About News & Announcements</h3>
+                        <div className="grid gap-4 sm:gap-6 md:grid-cols-2">
                             <div>
-                                <h4 className="mb-2 font-medium text-gray-900">Stay Informed</h4>
-                                <ul className="space-y-1 text-sm text-gray-600">
+                                <h4 className="mb-2 text-sm font-medium text-gray-900 sm:text-base">Stay Informed</h4>
+                                <ul className="space-y-1 text-xs text-gray-600 sm:text-sm">
                                     <li>• Latest banking updates and policies</li>
                                     <li>• Important announcements and alerts</li>
                                     <li>• New services and product launches</li>
@@ -218,8 +218,8 @@ export default function NewsIndex({ newsAnnouncements }: Props) {
                                 </ul>
                             </div>
                             <div>
-                                <h4 className="mb-2 font-medium text-gray-900">Categories</h4>
-                                <ul className="space-y-1 text-sm text-gray-600">
+                                <h4 className="mb-2 text-sm font-medium text-gray-900 sm:text-base">Categories</h4>
+                                <ul className="space-y-1 text-xs text-gray-600 sm:text-sm">
                                     <li>• Banking - Core banking services</li>
                                     <li>• Announcements - Official statements</li>
                                     <li>• Updates - System and service updates</li>

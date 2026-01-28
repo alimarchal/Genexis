@@ -54,11 +54,11 @@ const BankingAccountComponent: React.FC<BankingAccountComponentProps> = ({ schem
     const features = getFeatures();
 
     return (
-        <div className="px-4 py-8">
+        <div className="px-4 py-6 sm:py-8">
             <div className="mx-auto max-w-7xl">
                 {/* Navigation Tabs - Responsive with icons */}
-                <div className="mb-8">
-                    <div className="flex flex-wrap justify-center gap-3 p-4">
+                <div className="mb-6 sm:mb-8">
+                    <div className="flex flex-wrap justify-center gap-2 p-2 sm:gap-3 sm:p-4">
                         {schemes.map((scheme, index) => {
                             // Get appropriate icon for each scheme
                             const getIcon = (name: string) => {
@@ -75,15 +75,15 @@ const BankingAccountComponent: React.FC<BankingAccountComponentProps> = ({ schem
                                 <button
                                     key={scheme.id}
                                     onClick={() => setActiveSchemeIndex(index)}
-                                    className={`flex flex-shrink-0 items-center gap-2 rounded-lg border bg-white px-4 py-3 shadow-md transition-all duration-300 hover:scale-105 hover:shadow-lg ${
+                                    className={`flex flex-shrink-0 items-center gap-1.5 rounded-lg border bg-white px-3 py-2 shadow-md transition-all duration-300 hover:scale-105 hover:shadow-lg sm:gap-2 sm:px-4 sm:py-3 ${
                                         activeSchemeIndex === index
                                             ? 'scale-105 border-[#4A7C59] shadow-lg'
                                             : 'border-gray-200 hover:border-[#4A7C59]/30'
                                     }`}
                                 >
-                                    <span className="text-lg">{getIcon(scheme.name)}</span>
+                                    <span className="text-base sm:text-lg">{getIcon(scheme.name)}</span>
                                     <span
-                                        className={`text-sm font-medium sm:text-base ${
+                                        className={`text-xs font-medium sm:text-sm md:text-base ${
                                             activeSchemeIndex === index ? 'text-[#4A7C59]' : 'text-gray-700'
                                         }`}
                                     >
@@ -102,46 +102,48 @@ const BankingAccountComponent: React.FC<BankingAccountComponentProps> = ({ schem
                     onMouseLeave={() => setIsHovered(false)}
                 >
                     {/* Header */}
-                    <div className="relative overflow-hidden bg-gradient-to-r from-[#4A7C59] via-[#5D8A6A] to-[#6B9B7A] px-8 py-6">
+                    <div className="relative overflow-hidden bg-gradient-to-r from-[#4A7C59] via-[#5D8A6A] to-[#6B9B7A] px-4 py-4 sm:px-6 sm:py-5 md:px-8 md:py-6">
                         <div
                             className={`absolute inset-0 bg-gradient-to-t from-[#F9B912]/10 via-transparent to-transparent transition-opacity duration-500 ${
                                 isHovered ? 'opacity-100' : 'opacity-0'
                             }`}
                         />
-                        <h1 className="relative z-10 text-3xl font-bold text-white">{activeScheme.name}</h1>
-                        {activeScheme.description && <p className="relative z-10 mt-2 text-white/90">{activeScheme.description}</p>}
-                        <div className="absolute top-0 right-0 h-32 w-32 translate-x-16 -translate-y-16 transform rounded-full bg-gradient-to-bl from-[#F9B912]/20 to-transparent" />
+                        <h1 className="relative z-10 text-xl font-bold text-white sm:text-2xl md:text-3xl">{activeScheme.name}</h1>
+                        {activeScheme.description && (
+                            <p className="relative z-10 mt-2 text-sm text-white/90 sm:text-base">{activeScheme.description}</p>
+                        )}
+                        <div className="absolute top-0 right-0 h-24 w-24 translate-x-12 -translate-y-12 transform rounded-full bg-gradient-to-bl from-[#F9B912]/20 to-transparent sm:h-32 sm:w-32 sm:translate-x-16 sm:-translate-y-16" />
                     </div>
 
-                    <div className="p-8">
+                    <div className="p-4 sm:p-6 md:p-8">
                         {/* Eligibility Section */}
                         {eligibility && (
-                            <div className="mb-10">
-                                <h2 className="mb-4 flex items-center text-xl font-semibold text-[#4A7C59]">
-                                    <div className="mr-3 h-6 w-1 rounded-full bg-gradient-to-b from-[#4A7C59] to-[#F9B912]"></div>
+                            <div className="mb-6 sm:mb-8 md:mb-10">
+                                <h2 className="mb-3 flex items-center text-lg font-semibold text-[#4A7C59] sm:mb-4 sm:text-xl">
+                                    <div className="mr-2 h-5 w-1 rounded-full bg-gradient-to-b from-[#4A7C59] to-[#F9B912] sm:mr-3 sm:h-6"></div>
                                     Eligibility
                                 </h2>
-                                <div className="rounded-xl border border-[#4A7C59]/20 bg-gradient-to-r from-white via-[#4A7C59]/5 to-[#6B9B7A]/10 p-6 shadow-sm">
-                                    <p className="leading-relaxed text-gray-700">{eligibility}</p>
+                                <div className="rounded-xl border border-[#4A7C59]/20 bg-gradient-to-r from-white via-[#4A7C59]/5 to-[#6B9B7A]/10 p-4 shadow-sm sm:p-6">
+                                    <p className="text-sm leading-relaxed text-gray-700 sm:text-base">{eligibility}</p>
                                 </div>
                             </div>
                         )}
 
                         {/* Features Section */}
                         {features.length > 0 && (
-                            <div className="mb-10">
-                                <h2 className="mb-6 flex items-center text-xl font-semibold text-[#4A7C59]">
-                                    <div className="mr-3 h-6 w-1 rounded-full bg-gradient-to-b from-[#F9B912] to-[#4A7C59]"></div>
+                            <div className="mb-6 sm:mb-8 md:mb-10">
+                                <h2 className="mb-4 flex items-center text-lg font-semibold text-[#4A7C59] sm:mb-6 sm:text-xl">
+                                    <div className="mr-2 h-5 w-1 rounded-full bg-gradient-to-b from-[#F9B912] to-[#4A7C59] sm:mr-3 sm:h-6"></div>
                                     Features
                                 </h2>
-                                <div className="grid gap-4">
+                                <div className="grid gap-3 sm:gap-4">
                                     {features.map((feature, index) => (
                                         <div
                                             key={index}
-                                            className="flex items-start rounded-xl border border-[#F9B912]/20 bg-gradient-to-r from-white via-[#4A7C59]/5 to-[#F9B912]/10 p-4 transition-all duration-300 hover:scale-[1.02] hover:border-[#F9B912]/40 hover:shadow-lg"
+                                            className="flex items-start rounded-xl border border-[#F9B912]/20 bg-gradient-to-r from-white via-[#4A7C59]/5 to-[#F9B912]/10 p-3 transition-all duration-300 hover:scale-[1.02] hover:border-[#F9B912]/40 hover:shadow-lg sm:p-4"
                                         >
-                                            <div className="mt-2 mr-4 h-2 w-2 flex-shrink-0 rounded-full bg-[#F9B912]"></div>
-                                            <p className="leading-relaxed font-medium text-gray-700">{feature}</p>
+                                            <div className="mr-3 mt-1.5 h-2 w-2 flex-shrink-0 rounded-full bg-[#F9B912] sm:mr-4 sm:mt-2"></div>
+                                            <p className="text-sm font-medium leading-relaxed text-gray-700 sm:text-base">{feature}</p>
                                         </div>
                                     ))}
                                 </div>
@@ -149,7 +151,7 @@ const BankingAccountComponent: React.FC<BankingAccountComponentProps> = ({ schem
                         )}
 
                         {/* All Other Attributes */}
-                        <div className="grid gap-6 md:grid-cols-2">
+                        <div className="grid gap-4 sm:gap-6 md:grid-cols-2">
                             {activeScheme.attributes
                                 .filter(
                                     (attr) =>
@@ -161,18 +163,18 @@ const BankingAccountComponent: React.FC<BankingAccountComponentProps> = ({ schem
                                 .map((attr) => (
                                     <div
                                         key={attr.id}
-                                        className="rounded-xl border border-gray-200 bg-gradient-to-br from-[#4A7C59]/5 to-[#F9B912]/5 p-4"
+                                        className="rounded-xl border border-gray-200 bg-gradient-to-br from-[#4A7C59]/5 to-[#F9B912]/5 p-3 sm:p-4"
                                     >
-                                        <h3 className="mb-2 font-semibold text-[#4A7C59]">{attr.attribute_name}</h3>
-                                        <p className="text-sm leading-relaxed whitespace-pre-line text-gray-700">{attr.attribute_value}</p>
+                                        <h3 className="mb-2 text-sm font-semibold text-[#4A7C59] sm:text-base">{attr.attribute_name}</h3>
+                                        <p className="whitespace-pre-line text-xs leading-relaxed text-gray-700 sm:text-sm">{attr.attribute_value}</p>
                                     </div>
                                 ))}
                         </div>
                     </div>
 
                     {/* Corner Accents */}
-                    <div className="absolute top-0 right-0 h-20 w-20 translate-x-8 -translate-y-8 transform rounded-full bg-gradient-to-bl from-[#F9B912]/30 via-[#F9B912]/10 to-transparent transition-all duration-500 hover:scale-125 hover:opacity-60" />
-                    <div className="absolute bottom-0 left-0 h-16 w-16 -translate-x-6 translate-y-6 transform rounded-full bg-gradient-to-tr from-[#4A7C59]/20 via-[#4A7C59]/5 to-transparent transition-all duration-500 hover:scale-125 hover:opacity-60" />
+                    <div className="absolute top-0 right-0 h-16 w-16 translate-x-6 -translate-y-6 transform rounded-full bg-gradient-to-bl from-[#F9B912]/30 via-[#F9B912]/10 to-transparent transition-all duration-500 hover:scale-125 hover:opacity-60 sm:h-20 sm:w-20 sm:translate-x-8 sm:-translate-y-8" />
+                    <div className="absolute bottom-0 left-0 h-12 w-12 -translate-x-4 translate-y-4 transform rounded-full bg-gradient-to-tr from-[#4A7C59]/20 via-[#4A7C59]/5 to-transparent transition-all duration-500 hover:scale-125 hover:opacity-60 sm:h-16 sm:w-16 sm:-translate-x-6 sm:translate-y-6" />
                 </div>
             </div>
         </div>
