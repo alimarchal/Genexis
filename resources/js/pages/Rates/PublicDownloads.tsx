@@ -97,7 +97,7 @@ const PublicDownloadsPublic = ({ downloads }: PublicDownloadsPublicProps) => {
                         <p className="text-gray-600">Downloads will be updated here as they become available.</p>
                     </div>
                 ) : (
-                    <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-lg">
+                    <div className="w-full overflow-x-auto rounded-lg border border-gray-200 shadow-lg">
                         <table className="min-w-[900px] w-full table-fixed divide-y divide-gray-200 bg-white text-sm">
                             <colgroup>
                                 <col className="w-[30%]" />
@@ -214,8 +214,8 @@ const PublicDownloadsPublic = ({ downloads }: PublicDownloadsPublicProps) => {
                                             onClick={() => link.url && router.get(link.url)}
                                             disabled={!link.url}
                                             className={`rounded-md border px-3 py-2 text-sm ${link.active
-                                                    ? 'border-[#4A7C59] bg-[#4A7C59] text-white'
-                                                    : 'border-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50'
+                                                ? 'border-[#4A7C59] bg-[#4A7C59] text-white'
+                                                : 'border-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50'
                                                 }`}
                                             dangerouslySetInnerHTML={{ __html: link.label }}
                                         />
