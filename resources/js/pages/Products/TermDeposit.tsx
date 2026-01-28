@@ -23,7 +23,7 @@ interface Props {
 export default function TermDeposit({ schemes }: Props) {
     return (
         <div className="min-h-screen bg-gradient-to-br from-[#e9f7ef] to-[#fff7e6]">
-            <div className="mx-auto max-w-7xl px-6 py-8">
+            <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
                 {/* Hero Section */}
                 <div className="mb-3 text-center">
                     <div className="mb-6 flex justify-center">
@@ -31,8 +31,8 @@ export default function TermDeposit({ schemes }: Props) {
                             <TrendingUp className="h-12 w-12 text-white" />
                         </div>
                     </div>
-                    <h1 className="mb-4 text-4xl font-bold text-gray-900">Term Deposits</h1>
-                    <p className="mx-auto mb-3 max-w-3xl text-xl text-gray-600">
+                    <h1 className="mb-4 text-3xl font-bold text-gray-900 sm:text-4xl">Term Deposits</h1>
+                    <p className="mx-auto mb-3 max-w-3xl text-lg text-gray-600 sm:text-xl">
                         Maximize your returns with our competitive term deposit options. Lock in attractive rates and watch your investments grow with
                         guaranteed returns over your chosen investment period.
                     </p>
