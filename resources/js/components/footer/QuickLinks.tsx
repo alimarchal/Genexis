@@ -1,4 +1,4 @@
-// footer/QuickLinks.tsx - Updated with existing structure + Organogram
+// footer/QuickLinks.tsx - Updated with existing structure
 import { Link } from '@inertiajs/react';
 import React from 'react';
 
