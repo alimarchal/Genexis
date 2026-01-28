@@ -26,16 +26,18 @@ chmod +x create-placeholder-files.sh
 ```
 
 This will create:
-- 48 financial report PDFs (2013-2024: Q1, Q2, Q3, Annual for each year)
-- 7 financial report XLS files for older years
+- 48 financial report PDFs (2013-2024: Q1, Half-Yearly, Q3, Annual for each year)
+- 7 financial report XLS files (for select older years: 2013, 2015, 2016)
 - 8 annual report PDFs (2016-2023)
-- 1 financial highlights PPTX file
-- 6 download PDFs (tenders, internship, corrigendum)
-- 1 download image (JPEG)
+- 1 financial highlights PPTX file (minimal/placeholder format)
+- 5 download PDFs (tenders, internship, corrigendum)
+- 1 download JPEG image (chichian branch photo)
 - 4 service images (PNG/JPG)
 - 1 schedule of charges PDF
 
 **Total: 75 files**
+
+**Note:** XLS and PPTX files are minimal placeholder formats and may not open properly in all applications. Replace with actual Excel/PowerPoint files for production use.
 
 ### Method 2: Laravel Seeder
 
@@ -62,7 +64,7 @@ storage/app/public/
 ├── financial-highlights/
 │   └── Financial-Highlight-2022.pptx
 ├── downloads/
-│   ├── tendor1.pdf
+│   ├── tendor1.pdf (note: spelling from original seeder)
 │   ├── tender2.pdf
 │   ├── internship1.pdf
 │   ├── corrigendum 11-06-2024.pdf

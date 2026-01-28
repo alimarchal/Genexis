@@ -165,6 +165,8 @@ class CreatePlaceholderFilesSeeder extends Seeder
 
     /**
      * Create a placeholder XLS file
+     * Note: Creates tab-separated text file, not true Excel binary format
+     * Excel can open these files, but they are not genuine .xls files
      */
     private function createPlaceholderXLS(string $path, string $title): void
     {
@@ -185,6 +187,8 @@ class CreatePlaceholderFilesSeeder extends Seeder
 
     /**
      * Create a placeholder PPTX file (actually a minimal Office Open XML structure)
+     * Note: This creates an incomplete ZIP structure that may not open in PowerPoint
+     * Replace with actual PPTX file for production use
      */
     private function createPlaceholderPPTX(string $path, string $title): void
     {
@@ -218,6 +222,13 @@ class CreatePlaceholderFilesSeeder extends Seeder
 
         File::ensureDirectoryExists(dirname($fullPath));
 
+        // Check if GD library is available
+        if (!function_exists('imagecreatetruecolor')) {
+            $this->command->warn("GD library not available. Creating minimal binary image for: {$path}");
+            $this->createMinimalBinaryImage($fullPath, $format);
+            return;
+        }
+
         // Create a simple colored image
         $image = imagecreatetruecolor($width, $height);
 
@@ -245,5 +256,22 @@ class CreatePlaceholderFilesSeeder extends Seeder
 
         imagedestroy($image);
         $this->command->comment("Created: {$path}");
+    }
+
+    /**
+     * Create a minimal binary image when GD is not available
+     */
+    private function createMinimalBinaryImage(string $fullPath, string $format): void
+    {
+        if ($format === 'png') {
+            // Minimal 1x1 transparent PNG
+            $content = base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==');
+        } else {
+            // Minimal JPEG
+            $content = base64_decode('/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAIBAQIBAQICAgICAgICAwUDAwMDAwYEBAMFBwYHBwcGBwcICQsJCAgKCAcHCg0KCgsMDAwMBwkODw0MDgsMDAz/2wBDAQICAgMDAwYDAwYMCAcIDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAz/wAARCAABAAEDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlbaWmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD9/KKKKAP/2Q==');
+        }
+
+        File::put($fullPath, $content);
+        $this->command->comment("Created minimal binary image: " . basename($fullPath));
     }
 }

@@ -119,7 +119,7 @@ php artisan db:seed --class=CreatePlaceholderFilesSeeder
 
 ## Notes
 
-1. **Placeholder Files**: All created files are minimal valid files (PDFs, images) for testing. They should be replaced with actual content in production.
+1. **Placeholder Files**: All created files are minimal valid files (PDFs, images) for testing. XLS files are tab-separated text (not true Excel binary), and PPTX is an incomplete ZIP structure. Replace with actual content in production.
 
 2. **Git Ignore**: The `.gitignore` file in `storage/app/public/` excludes all files except itself. This is intentional to keep the repository clean.
 
@@ -129,6 +129,12 @@ php artisan db:seed --class=CreatePlaceholderFilesSeeder
    - Fresh git clone
    - Database migrations/seeding
    - Deployment to new environment
+
+5. **File Format Limitations**: 
+   - XLS files are tab-separated text, not Excel binary format
+   - PPTX file is minimal ZIP header only, not valid PowerPoint
+   - Both will download but may not open properly in Office applications
+   - PDF and image files are proper minimal valid files
 
 ## Future Improvements
 

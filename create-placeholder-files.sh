@@ -95,6 +95,8 @@ create_image() {
 }
 
 # Function to create XLS (actually a CSV that Excel can open)
+# Note: These are tab-separated text files, not true Excel binary format
+# They will open in Excel but are not genuine .xls files
 create_xls() {
     local filepath="$1"
     
@@ -139,11 +141,13 @@ done
 # Create Financial Highlights
 echo ""
 echo "Creating financial highlight files..."
-# Create a minimal PPTX (actually just a placeholder file)
+# Create a minimal PPTX (actually just a ZIP header placeholder)
+# Note: This is NOT a valid PPTX and may not open in PowerPoint
+# Replace with actual PPTX file for production use
 if [ ! -f "$BASE_DIR/financial-highlights/Financial-Highlight-2022.pptx" ]; then
     printf 'PK\x03\x04' > "$BASE_DIR/financial-highlights/Financial-Highlight-2022.pptx"
     echo "000000" >> "$BASE_DIR/financial-highlights/Financial-Highlight-2022.pptx"
-    echo "Created: $BASE_DIR/financial-highlights/Financial-Highlight-2022.pptx"
+    echo "Created: $BASE_DIR/financial-highlights/Financial-Highlight-2022.pptx (placeholder only - replace for production)"
 fi
 
 # Create Download Files
