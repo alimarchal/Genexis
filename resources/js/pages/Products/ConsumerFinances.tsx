@@ -23,11 +23,11 @@ interface Props {
 export default function ConsumerFinances({ schemes }: Props) {
     return (
         <div className="min-h-screen bg-gradient-to-br from-[#e9f7ef] to-[#fff7e6]">
-            <div className="mx-auto max-w-7xl px-6 py-8">
+            <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
                 {/* Hero Section */}
                 <div className="mb-3 text-center">
-                    <h1 className="mb-4 text-4xl font-bold text-gray-900">Consumer Finances</h1>
-                    <p className="mx-auto max-w-3xl text-xl text-gray-600">
+                    <h1 className="mb-4 text-3xl font-bold text-gray-900 sm:text-4xl">Consumer Finances</h1>
+                    <p className="mx-auto max-w-3xl text-lg text-gray-600 sm:text-xl">
                         Discover our comprehensive range of personal financing solutions designed to meet your everyday needs, from home purchases to
                         education and everything in between.
                     </p>
