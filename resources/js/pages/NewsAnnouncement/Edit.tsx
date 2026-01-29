@@ -16,7 +16,7 @@ interface NewsAnnouncement {
     id: number;
     title: string;
     content: string;
-    excerpt?: string;
+    excerpt: string;
     image: string | null;
     image_url: string | null;
     published_date: string;

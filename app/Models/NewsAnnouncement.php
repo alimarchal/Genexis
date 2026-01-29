@@ -37,11 +37,21 @@ class NewsAnnouncement extends Model
             if (empty($newsAnnouncement->slug)) {
                 $newsAnnouncement->slug = Str::slug($newsAnnouncement->title);
             }
+            
+            // Auto-generate excerpt if not provided
+            if (empty($newsAnnouncement->excerpt) && !empty($newsAnnouncement->content)) {
+                $newsAnnouncement->excerpt = $newsAnnouncement->generateExcerpt();
+            }
         });
 
         static::updating(function ($newsAnnouncement) {
             if ($newsAnnouncement->isDirty('title')) {
                 $newsAnnouncement->slug = Str::slug($newsAnnouncement->title);
+            }
+            
+            // Auto-generate excerpt if not provided
+            if (empty($newsAnnouncement->excerpt) && !empty($newsAnnouncement->content)) {
+                $newsAnnouncement->excerpt = $newsAnnouncement->generateExcerpt();
             }
         });
     }
@@ -66,16 +76,24 @@ class NewsAnnouncement extends Model
         return $query->where('category', $category);
     }
 
-    public function getExcerptAttribute($value)
+    /**
+     * Generate excerpt from content.
+     * 
+     * @param int $length Maximum length of excerpt
+     * @return string
+     */
+    public function generateExcerpt(int $length = 200): string
     {
-        if (!empty($value)) {
-            return $value;
+        if (empty($this->content)) {
+            return '';
         }
 
-        if (!empty($this->attributes['content'])) {
-            return substr(strip_tags($this->attributes['content']), 0, 200) . '...';
+        $excerpt = substr(strip_tags($this->content), 0, $length);
+        
+        if (strlen(strip_tags($this->content)) > $length) {
+            $excerpt .= '...';
         }
 
-        return '';
+        return $excerpt;
     }
 }
