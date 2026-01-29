@@ -1,4 +1,5 @@
 import Heading from '@/components/heading';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -9,9 +10,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, useForm } from '@inertiajs/react';
-import { Save, AlertTriangle } from 'lucide-react';
+import { AlertTriangle, Save } from 'lucide-react';
 import { FormEventHandler } from 'react';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 interface Role {
     id: number;
@@ -143,7 +143,7 @@ export default function EditUser({ user, roles, permissions, userRoles, userPerm
                                     <Separator />
 
                                     <Tabs defaultValue="roles" className="w-full">
-                                        <TabsList className="w-full grid w-full grid-cols-2">
+                                        <TabsList className="grid w-full grid-cols-2">
                                             <TabsTrigger value="roles">Roles</TabsTrigger>
                                             <TabsTrigger value="permissions">Permissions</TabsTrigger>
                                         </TabsList>
@@ -151,23 +151,25 @@ export default function EditUser({ user, roles, permissions, userRoles, userPerm
                                         <TabsContent value="roles" className="mt-4 space-y-4">
                                             <div className="flex flex-col gap-2">
                                                 <h3 className="text-lg font-medium">Assign Roles</h3>
-                                                <p className="text-muted-foreground text-sm">
-                                                    Roles granting permissions to this user.
-                                                </p>
+                                                <p className="text-muted-foreground text-sm">Roles granting permissions to this user.</p>
                                             </div>
 
-                                            {userRoles.some(rId => {
-                                                const r = roles.find(role => role.id === rId);
+                                            {userRoles.some((rId) => {
+                                                const r = roles.find((role) => role.id === rId);
                                                 return r?.name === 'super-admin';
                                             }) && (
-                                                    <Alert variant="default" className="bg-yellow-50 border-yellow-200 text-yellow-800 dark:bg-yellow-900/20 dark:border-yellow-900/50 dark:text-yellow-200">
-                                                        <AlertTriangle className="h-4 w-4" />
-                                                        <AlertTitle>Super Admin User</AlertTitle>
-                                                        <AlertDescription>
-                                                            This user has the Super Admin role. Be careful when modifying roles to ensure you don't accidentally lock out the main admin.
-                                                        </AlertDescription>
-                                                    </Alert>
-                                                )}
+                                                <Alert
+                                                    variant="default"
+                                                    className="border-yellow-200 bg-yellow-50 text-yellow-800 dark:border-yellow-900/50 dark:bg-yellow-900/20 dark:text-yellow-200"
+                                                >
+                                                    <AlertTriangle className="h-4 w-4" />
+                                                    <AlertTitle>Super Admin User</AlertTitle>
+                                                    <AlertDescription>
+                                                        This user has the Super Admin role. Be careful when modifying roles to ensure you don't
+                                                        accidentally lock out the main admin.
+                                                    </AlertDescription>
+                                                </Alert>
+                                            )}
 
                                             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                                                 {roles.map((role) => (
@@ -177,7 +179,7 @@ export default function EditUser({ user, roles, permissions, userRoles, userPerm
                                                             checked={data.roles.includes(role.id)}
                                                             onCheckedChange={() => toggleRole(role.id)}
                                                         />
-                                                        <Label htmlFor={`role-${role.id}`} className="font-normal capitalize cursor-pointer">
+                                                        <Label htmlFor={`role-${role.id}`} className="cursor-pointer font-normal capitalize">
                                                             {role.name.replace(/-/g, ' ')}
                                                         </Label>
                                                     </div>
@@ -190,7 +192,9 @@ export default function EditUser({ user, roles, permissions, userRoles, userPerm
                                                 <h3 className="text-lg font-medium">Direct Permissions</h3>
                                                 <p className="text-muted-foreground text-sm">
                                                     Grant specific additional permissions. <br />
-                                                    <span className="italic">Note: Permissions inherited from roles are disabled (already granted).</span>
+                                                    <span className="italic">
+                                                        Note: Permissions inherited from roles are disabled (already granted).
+                                                    </span>
                                                 </p>
                                             </div>
 
@@ -208,7 +212,7 @@ export default function EditUser({ user, roles, permissions, userRoles, userPerm
                                                                 />
                                                                 <Label
                                                                     htmlFor={`perm-${permission.id}`}
-                                                                    className={`font-normal capitalize cursor-pointer ${isInherited ? 'text-muted-foreground italic' : ''}`}
+                                                                    className={`cursor-pointer font-normal capitalize ${isInherited ? 'text-muted-foreground italic' : ''}`}
                                                                 >
                                                                     {permission.name.replace(/-/g, ' ')}
                                                                     {isInherited && ' (Inherited)'}

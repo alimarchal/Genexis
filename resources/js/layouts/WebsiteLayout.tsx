@@ -78,9 +78,7 @@ export default function WebsiteLayout({ children, title, breadcrumbs = [] }: Web
 
             {/* Main Content with dynamic padding */}
             <div className="w-full max-w-[100vw] overflow-x-hidden" style={{ paddingTop: `${headerHeight}px` }}>
-                <div className="min-h-screen">
-                    {children}
-                </div>
+                <div className="min-h-screen">{children}</div>
             </div>
 
             {/* Footer */}

@@ -66,7 +66,11 @@ export default function PermissionIndex({ permissions, filters }: Props) {
     };
 
     const handleDelete = (id: number) => {
-        if (confirm('Are you sure you want to delete this permission? This may break application functionality if the permission is required by code.')) {
+        if (
+            confirm(
+                'Are you sure you want to delete this permission? This may break application functionality if the permission is required by code.',
+            )
+        ) {
             router.delete(route('admin.permissions.destroy', id));
         }
     };

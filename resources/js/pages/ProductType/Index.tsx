@@ -265,11 +265,9 @@ export default function ProductTypeIndex({ productTypes, products, filters }: Pr
                                                             </DropdownMenuItem>
                                                         )}
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('delete product types') || auth.roles.includes('super-admin')) && (
-                                                            <DropdownMenuItem
-                                                                onClick={() => handleDelete(productType.id)}
-                                                                className="text-red-600"
-                                                            >
+                                                        {(auth.permissions.includes('delete product types') ||
+                                                            auth.roles.includes('super-admin')) && (
+                                                            <DropdownMenuItem onClick={() => handleDelete(productType.id)} className="text-red-600">
                                                                 <Trash className="mr-2 h-4 w-4" />
                                                                 Delete
                                                             </DropdownMenuItem>

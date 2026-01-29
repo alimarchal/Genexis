@@ -98,7 +98,7 @@ const PublicDownloadsPublic = ({ downloads }: PublicDownloadsPublicProps) => {
                     </div>
                 ) : (
                     <div className="w-full overflow-x-auto rounded-lg border border-gray-200 shadow-lg">
-                        <table className="min-w-[900px] w-full table-fixed divide-y divide-gray-200 bg-white text-sm">
+                        <table className="w-full min-w-[900px] table-fixed divide-y divide-gray-200 bg-white text-sm">
                             <colgroup>
                                 <col className="w-[30%]" />
                                 <col className="w-[15%]" />
@@ -199,7 +199,11 @@ const PublicDownloadsPublic = ({ downloads }: PublicDownloadsPublicProps) => {
                             <button
                                 onClick={() => router.get(route('public-downloads'), { page: downloads.current_page - 1 })}
                                 disabled={downloads.current_page === 1}
-                                className="flex items-center gap-1 rounded-md border border-gray-300 px-3 py-2 text-sm hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
+                                className={`flex items-center gap-1 rounded-md border px-3 py-2 text-sm ${
+                                    downloads.current_page === 1
+                                        ? 'cursor-not-allowed border-gray-300 bg-gray-100 text-gray-500'
+                                        : 'border-gray-300 bg-white hover:bg-gray-50'
+                                }`}
                             >
                                 <ChevronLeft className="h-4 w-4" />
                                 Previous
@@ -213,10 +217,13 @@ const PublicDownloadsPublic = ({ downloads }: PublicDownloadsPublicProps) => {
                                             key={index}
                                             onClick={() => link.url && router.get(link.url)}
                                             disabled={!link.url}
-                                            className={`rounded-md border px-3 py-2 text-sm ${link.active
-                                                ? 'border-[#4A7C59] bg-[#4A7C59] text-white'
-                                                : 'border-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50'
-                                                }`}
+                                            className={`rounded-md border px-3 py-2 text-sm ${
+                                                link.active
+                                                    ? 'border-[#4A7C59] bg-[#4A7C59] text-white'
+                                                    : link.url
+                                                      ? 'border-gray-300 bg-white hover:bg-gray-50'
+                                                      : 'cursor-not-allowed border-gray-300 bg-gray-100 text-gray-500'
+                                            }`}
                                             dangerouslySetInnerHTML={{ __html: link.label }}
                                         />
                                     ))}
@@ -225,7 +232,11 @@ const PublicDownloadsPublic = ({ downloads }: PublicDownloadsPublicProps) => {
                             <button
                                 onClick={() => router.get(route('public-downloads'), { page: downloads.current_page + 1 })}
                                 disabled={downloads.current_page === downloads.last_page}
-                                className="flex items-center gap-1 rounded-md border border-gray-300 px-3 py-2 text-sm hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
+                                className={`flex items-center gap-1 rounded-md border px-3 py-2 text-sm ${
+                                    downloads.current_page === downloads.last_page
+                                        ? 'cursor-not-allowed border-gray-300 bg-gray-100 text-gray-500'
+                                        : 'border-gray-300 bg-white hover:bg-gray-50'
+                                }`}
                             >
                                 Next
                                 <ChevronRight className="h-4 w-4" />

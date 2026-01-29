@@ -57,12 +57,7 @@ export default function EditPermission({ permission }: Props) {
                                 <div className="space-y-6">
                                     <div className="space-y-2">
                                         <Label htmlFor="name">Permission Name</Label>
-                                        <Input
-                                            id="name"
-                                            value={data.name}
-                                            onChange={(e) => setData('name', e.target.value)}
-                                            required
-                                        />
+                                        <Input id="name" value={data.name} onChange={(e) => setData('name', e.target.value)} required />
                                         {errors.name && <p className="text-destructive text-sm">{errors.name}</p>}
                                     </div>
 

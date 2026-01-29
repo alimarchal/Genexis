@@ -1,18 +1,6 @@
 import WebsiteLayout from '@/layouts/WebsiteLayout';
 import { ArcElement, CategoryScale, Chart as ChartJS, Legend, LinearScale, LineElement, PointElement, Title, Tooltip } from 'chart.js';
-import {
-    Banknote,
-    Calculator,
-    Calendar,
-    ChevronDown,
-    Download,
-    FileSpreadsheet,
-    Percent,
-    PieChart,
-    Printer,
-    RotateCcw,
-    Shield
-} from 'lucide-react';
+import { Banknote, Calculator, Calendar, ChevronDown, Download, FileSpreadsheet, Percent, PieChart, Printer, RotateCcw, Shield } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { Pie } from 'react-chartjs-2';
 
@@ -98,11 +86,11 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
     const [securityDeposit, setSecurityDeposit] = useState<number>(0);
     const [tenure, setTenure] = useState<number>(12);
     const [interestRate, setInterestRate] = useState<number>(14.0); // New state for dynamic rate
-    
+
     // Insurance (Single Input)
     const [insuranceType, setInsuranceType] = useState<'fixed' | 'percentage'>('fixed');
     const [insuranceAmount, setInsuranceAmount] = useState<number>(0);
-    
+
     const [showResults, setShowResults] = useState<boolean>(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
 
@@ -119,7 +107,7 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
             setTenure(selectedLoanType.minTenure);
             setInsuranceAmount(0);
             setShowResults(false);
-            
+
             // Set default interest rate from bank rates or suggested rate
             const loanTypeKey = getLoanRateKey(selectedLoanType.name);
             const defaultRate = loanTypeKey ? bankRates.loan[loanTypeKey] : selectedLoanType.suggestedRate;
@@ -166,7 +154,7 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
     // Calculate advance insurance amount
     const calculateAdvanceInsurance = useMemo(() => {
         if (!selectedLoanType) return 0;
-        
+
         if (insuranceType === 'fixed') {
             return insuranceAmount;
         } else {
@@ -177,10 +165,10 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
     // Calculate regular insurance using same input as advance insurance
     const calculateRegularInsurance = useMemo(() => {
         if (!selectedLoanType || tenure <= 12) return { total: 0, outstandingBalance: 0 };
-        
+
         // Calculate outstanding balance after first year (12 months)
         const monthlyRate = interestRate / 100 / 12; // Use dynamic rate
-        
+
         let balance = loanAmount;
         // Simulate first 12 months to get outstanding balance
         for (let month = 1; month <= 12; month++) {
@@ -189,9 +177,9 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
             const principalPayment = baseEmi - interestPayment;
             balance = balance - principalPayment;
         }
-        
+
         const outstandingBalance = balance;
-        
+
         // Use same input as advance insurance but apply to outstanding balance
         let regularInsurance = 0;
         if (insuranceType === 'fixed') {
@@ -199,28 +187,28 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
         } else {
             regularInsurance = (insuranceAmount / 100) * outstandingBalance;
         }
-        
+
         return {
             total: regularInsurance,
-            outstandingBalance: outstandingBalance
+            outstandingBalance: outstandingBalance,
         };
     }, [insuranceType, insuranceAmount, loanAmount, tenure, selectedLoanType, interestRate]);
 
     // Calculate total insurance (advance + regular) and monthly distribution
     const calculateTotalInsurance = useMemo(() => {
         if (!selectedLoanType || tenure <= 12) return { monthly: 0, total: 0, advance: 0, regular: 0 };
-        
+
         const advance = calculateAdvanceInsurance;
         const regular = calculateRegularInsurance.total;
         const total = advance + regular;
         const insuranceMonths = tenure - 12; // Exclude final year
         const monthlyInsurance = total / insuranceMonths;
-        
+
         return {
             monthly: monthlyInsurance,
             total: total,
             advance: advance,
-            regular: regular
+            regular: regular,
         };
     }, [calculateAdvanceInsurance, calculateRegularInsurance, tenure, selectedLoanType]);
 
@@ -282,7 +270,8 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
         const numberOfPayments = tenure;
 
         // Base EMI calculation (without insurance)
-        const baseEmi = (financingAmount * monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments)) / (Math.pow(1 + monthlyRate, numberOfPayments) - 1);
+        const baseEmi =
+            (financingAmount * monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments)) / (Math.pow(1 + monthlyRate, numberOfPayments) - 1);
 
         const totalMarkup = baseEmi * numberOfPayments - financingAmount;
         const totalAmount = baseEmi * numberOfPayments + securityDeposit + totalInsurance;
@@ -601,7 +590,7 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
                                             <Shield className="mr-2 inline h-4 w-4" />
                                             Insurance Coverage
                                         </label>
-                                        
+
                                         {/* Insurance Type Toggle */}
                                         <div className="mb-4">
                                             <div className="flex rounded-lg bg-gray-100 p-1">
@@ -643,7 +632,7 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
                                                 placeholder={insuranceType === 'fixed' ? 'Enter fixed amount' : 'Enter percentage'}
                                             />
                                             {insuranceType === 'percentage' && (
-                                                <Percent className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
+                                                <Percent className="absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 text-gray-500" />
                                             )}
                                         </div>
 
@@ -662,9 +651,7 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
                                                 <p>
                                                     <strong>Monthly in EMI:</strong> {formatCurrency(calculateTotalInsurance.monthly)}
                                                 </p>
-                                                <p className="text-xs text-blue-600 mt-1">
-                                                    Same rate applied to loan amount and outstanding balance
-                                                </p>
+                                                <p className="mt-1 text-xs text-blue-600">Same rate applied to loan amount and outstanding balance</p>
                                             </div>
                                         </div>
                                     </div>
@@ -750,9 +737,7 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
                                         <Calculator className="mr-1 h-4 w-4 flex-shrink-0 text-[#4A7C59]" />
                                         <h3 className="text-xs font-semibold whitespace-nowrap text-gray-900">Avg Monthly EMI</h3>
                                     </div>
-                                    <p className="font-bold text-[#4A7C59] text-lg">
-                                        {formatCurrency(calculations.emi)}
-                                    </p>
+                                    <p className="text-lg font-bold text-[#4A7C59]">{formatCurrency(calculations.emi)}</p>
                                 </div>
 
                                 <div className="rounded-xl bg-white p-4 shadow-lg">
@@ -760,9 +745,7 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
                                         <Banknote className="mr-1 h-4 w-4 flex-shrink-0 text-green-600" />
                                         <h3 className="text-xs font-semibold whitespace-nowrap text-gray-900">Finance Amount</h3>
                                     </div>
-                                    <p className="font-bold text-green-600 text-lg">
-                                        {formatCurrency(calculations.financingAmount)}
-                                    </p>
+                                    <p className="text-lg font-bold text-green-600">{formatCurrency(calculations.financingAmount)}</p>
                                 </div>
 
                                 <div className="rounded-xl bg-white p-4 shadow-lg">
@@ -770,9 +753,7 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
                                         <Percent className="mr-1 h-4 w-4 flex-shrink-0 text-orange-600" />
                                         <h3 className="text-xs font-semibold whitespace-nowrap text-gray-900">Total Markup</h3>
                                     </div>
-                                    <p className="font-bold text-orange-600 text-lg">
-                                        {formatCurrency(calculations.totalMarkup)}
-                                    </p>
+                                    <p className="text-lg font-bold text-orange-600">{formatCurrency(calculations.totalMarkup)}</p>
                                 </div>
 
                                 <div className="rounded-xl bg-white p-4 shadow-lg">
@@ -780,9 +761,7 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
                                         <Shield className="mr-1 h-4 w-4 flex-shrink-0 text-purple-600" />
                                         <h3 className="text-xs font-semibold whitespace-nowrap text-gray-900">Total Insurance</h3>
                                     </div>
-                                    <p className="font-bold text-purple-600 text-lg">
-                                        {formatCurrency(calculations.totalInsurance)}
-                                    </p>
+                                    <p className="text-lg font-bold text-purple-600">{formatCurrency(calculations.totalInsurance)}</p>
                                 </div>
                             </div>
 
@@ -825,7 +804,11 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
                                                         labels: ['Financing Amount', 'Markup Amount', 'Insurance Amount'],
                                                         datasets: [
                                                             {
-                                                                data: [calculations.financingAmount, calculations.totalMarkup, calculations.totalInsurance],
+                                                                data: [
+                                                                    calculations.financingAmount,
+                                                                    calculations.totalMarkup,
+                                                                    calculations.totalInsurance,
+                                                                ],
                                                                 backgroundColor: ['#4A7C59', '#fb923c', '#8b5cf6'],
                                                                 borderColor: ['#4A7C59', '#fb923c', '#8b5cf6'],
                                                                 borderWidth: 2,
@@ -843,7 +826,10 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
                                                                 callbacks: {
                                                                     label: function (context) {
                                                                         const value = context.parsed;
-                                                                        const total = calculations.financingAmount + calculations.totalMarkup + calculations.totalInsurance;
+                                                                        const total =
+                                                                            calculations.financingAmount +
+                                                                            calculations.totalMarkup +
+                                                                            calculations.totalInsurance;
                                                                         const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : '0';
                                                                         return `${context.label}: ${formatCurrency(value)} (${percentage}%)`;
                                                                     },
@@ -868,8 +854,11 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
                                                         style={{
                                                             width: `${
                                                                 calculations.totalMarkup + calculations.totalInsurance > 0
-                                                                    ? (calculations.financingAmount / 
-                                                                        (calculations.financingAmount + calculations.totalMarkup + calculations.totalInsurance)) * 100
+                                                                    ? (calculations.financingAmount /
+                                                                          (calculations.financingAmount +
+                                                                              calculations.totalMarkup +
+                                                                              calculations.totalInsurance)) *
+                                                                      100
                                                                     : 100
                                                             }%`,
                                                         }}
@@ -889,8 +878,11 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
                                                         style={{
                                                             width: `${
                                                                 calculations.financingAmount + calculations.totalInsurance > 0
-                                                                    ? (calculations.totalMarkup / 
-                                                                        (calculations.financingAmount + calculations.totalMarkup + calculations.totalInsurance)) * 100
+                                                                    ? (calculations.totalMarkup /
+                                                                          (calculations.financingAmount +
+                                                                              calculations.totalMarkup +
+                                                                              calculations.totalInsurance)) *
+                                                                      100
                                                                     : 0
                                                             }%`,
                                                         }}
@@ -910,8 +902,11 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
                                                         style={{
                                                             width: `${
                                                                 calculations.financingAmount + calculations.totalMarkup > 0
-                                                                    ? (calculations.totalInsurance / 
-                                                                        (calculations.financingAmount + calculations.totalMarkup + calculations.totalInsurance)) * 100
+                                                                    ? (calculations.totalInsurance /
+                                                                          (calculations.financingAmount +
+                                                                              calculations.totalMarkup +
+                                                                              calculations.totalInsurance)) *
+                                                                      100
                                                                     : 0
                                                             }%`,
                                                         }}
@@ -930,11 +925,11 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
                                         <FileSpreadsheet className="mr-2 inline h-5 w-5" />
                                         Payment Schedule
                                     </h3>
-                                    
+
                                     {/* Insurance Note */}
                                     <div className="mb-4 rounded-lg bg-yellow-50 p-4">
                                         <p className="text-sm text-yellow-800">
-                                            <strong>Note:</strong> Advance insurance ({formatCurrency(calculations.advanceInsurance)}) paid upfront. 
+                                            <strong>Note:</strong> Advance insurance ({formatCurrency(calculations.advanceInsurance)}) paid upfront.
                                             Total insurance ({formatCurrency(calculations.totalInsurance)}) distributed over months 1-{tenure - 12}.
                                         </p>
                                     </div>
@@ -981,7 +976,7 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
 
                                     {/* Summary */}
                                     <div className="mt-4 rounded-lg bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A] p-4">
-                                        <div className="grid gap-4 text-center text-white grid-cols-2 md:grid-cols-4">
+                                        <div className="grid grid-cols-2 gap-4 text-center text-white md:grid-cols-4">
                                             <div>
                                                 <div className="text-sm opacity-90">Total Financing</div>
                                                 <div className="text-lg font-bold">{formatCurrency(calculations.financingAmount)}</div>
@@ -1010,9 +1005,9 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
                         <h3 className="text-lg font-medium text-yellow-800">Important Note</h3>
                         <div className="mt-2 text-sm text-yellow-700">
                             <p>
-                                Advance insurance is paid upfront. Total insurance (advance + regular) is distributed over months 1-{tenure - 12}. 
-                                This calculator provides estimates based on inputs provided. Actual terms may vary based on creditworthiness and bank policies. 
-                                Please consult with our Islamic banking officers for accurate information.
+                                Advance insurance is paid upfront. Total insurance (advance + regular) is distributed over months 1-{tenure - 12}.
+                                This calculator provides estimates based on inputs provided. Actual terms may vary based on creditworthiness and bank
+                                policies. Please consult with our Islamic banking officers for accurate information.
                             </p>
                         </div>
                     </div>

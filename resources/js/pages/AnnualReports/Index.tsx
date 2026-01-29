@@ -291,7 +291,8 @@ export default function AnnualReportIndex({ annualReports, filters }: Props) {
                                                             </>
                                                         )}
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('delete annual reports') || auth.roles.includes('super-admin')) && (
+                                                        {(auth.permissions.includes('delete annual reports') ||
+                                                            auth.roles.includes('super-admin')) && (
                                                             <DropdownMenuItem onClick={() => handleDelete(report.id)} className="text-red-600">
                                                                 <Trash className="mr-2 h-4 w-4" />
                                                                 Delete
