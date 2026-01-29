@@ -46,6 +46,61 @@ export interface SocialLinks {
     youtube: string;
 }
 
+export interface FooterLinks {
+    regulatory: {
+        privacy_policy: string;
+        terms: string;
+        cookie_policy: string;
+        accessibility: string;
+        regulatory_info: string;
+        security_tips: string;
+        fraud_prevention: string;
+        sbp: string;
+        banking_mohtasib: string;
+        secp: string;
+        goajk: string;
+        gopak: string;
+        ajk_tourism: string;
+        loan_calculator: string;
+    };
+    banking: {
+        portal_login: string;
+        branch_locator: string;
+        atm_locator: string;
+        exchange_rates: string;
+        interest_rates: string;
+        forms: string;
+        tenders: string;
+    };
+    services?: {
+        [key: string]: string;
+    };
+}
+
+export interface BankRates {
+    loan: {
+        house: number;
+        personal: number;
+        motorcycle: number;
+        student: number;
+        gold: number;
+        home_appliances: number;
+        car: number;
+        business: number;
+        agriculture: number;
+        salary: number;
+    };
+    deposit: {
+        savings: number;
+        current: number;
+        term_1year: number;
+        term_2year: number;
+        term_3year: number;
+        term_5year: number;
+        special_savings: number;
+    };
+}
+
 export interface SharedData {
     name: string;
     quote: { message: string; author: string };
@@ -59,8 +114,8 @@ export interface SharedData {
     menu: MenuItem[];
     autoBreadcrumbs: AutoBreadcrumbItem[];
     socialLinks: SocialLinks;
-    footerLinks: any;
-    bankRates: any;
+    footerLinks: FooterLinks;
+    bankRates: BankRates;
     [key: string]: unknown;
 }
 
