@@ -194,8 +194,10 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
     };
 
     const downloadPDF = () => {
-        // Create a printable version of the data
-        const printContent = `
+        setIsDownloading(true);
+        try {
+            // Create a printable version of the data
+            const printContent = `
             <!DOCTYPE html>
             <html>
             <head>
@@ -285,16 +287,24 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
             </html>
         `;
 
-        const printWindow = window.open('', '_blank');
-        if (printWindow) {
-            printWindow.document.write(printContent);
-            printWindow.document.close();
+            const printWindow = window.open('', '_blank');
+            if (printWindow) {
+                printWindow.document.write(printContent);
+                printWindow.document.close();
 
-            // Wait for content to load then trigger print
-            setTimeout(() => {
-                printWindow.print();
-                // printWindow.close();
-            }, 250);
+                // Wait for content to load then trigger print
+                setTimeout(() => {
+                    printWindow.print();
+                    // printWindow.close();
+                    setIsDownloading(false);
+                }, 250);
+            } else {
+                setIsDownloading(false);
+            }
+        } catch (error) {
+            console.error('Error generating PDF:', error);
+            alert('Failed to open print dialog. Please try again.');
+            setIsDownloading(false);
         }
     };
 
