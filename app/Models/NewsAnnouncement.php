@@ -23,7 +23,7 @@ class NewsAnnouncement extends Model
     ];
 
     protected $casts = [
-        'published_date' => 'date',
+        'published_date' => 'date:Y-m-d',
         'is_featured' => 'boolean',
         'is_published' => 'boolean',
     ];
