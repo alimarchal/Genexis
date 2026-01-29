@@ -1,14 +1,17 @@
 // BottomBar.tsx - Clean Final Version with RegulatoryLinks Pattern
-import { Link } from '@inertiajs/react';
+import { PageProps } from '@inertiajs/core';
+import { Link, usePage } from '@inertiajs/react';
 import React from 'react';
 
 const BottomBar: React.FC = () => {
+    const { footerLinks } = usePage<PageProps>().props;
+
     // Base64 encoded email URL for security obfuscation
     const encodedEmailUrl = 'aHR0cHM6Ly93d3cuYmFua2Fqay5jb206MjA5Ng=='; // https://www.bankajk.com:2096
 
     const links = [
         { label: 'Email Login', href: atob(encodedEmailUrl), isExternal: true },
-        { label: 'Portal Login', href: '#', isExternal: false },
+        { label: 'Portal Login', href: footerLinks.banking.portal_login, isExternal: true },
     ];
 
     const getYearRange = () => {
