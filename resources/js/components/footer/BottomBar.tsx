@@ -10,8 +10,8 @@ const BottomBar: React.FC = () => {
     const encodedEmailUrl = 'aHR0cHM6Ly93d3cuYmFua2Fqay5jb206MjA5Ng=='; // https://www.bankajk.com:2096
 
     const links = [
-        { label: 'Email Login', href: atob(encodedEmailUrl), isExternal: true },
-        { label: 'Portal Login', href: footerLinks.banking.portal_login, isExternal: true },
+        { label: 'Email Login', href: atob(encodedEmailUrl), isExternal: true, windowName: 'EmailLogin' },
+        { label: 'Portal Login', href: footerLinks.banking.portal_login, isExternal: true, windowName: 'PortalLogin' },
     ];
 
     const getYearRange = () => {
@@ -23,13 +23,13 @@ const BottomBar: React.FC = () => {
         }
     };
 
-    const handleExternalLink = (e: React.MouseEvent, url: string) => {
+    const handleExternalLink = (e: React.MouseEvent, url: string, windowName: string = 'LoginPopup') => {
         e.preventDefault();
         try {
             // Enhanced popup with hidden address bar
             const popup = window.open(
                 url,
-                'EmailLogin',
+                windowName,
                 'width=1200,height=800,scrollbars=yes,resizable=yes,toolbar=no,menubar=no,location=no,status=no,addressbar=no,titlebar=no,directories=no',
             );
 
@@ -54,7 +54,7 @@ const BottomBar: React.FC = () => {
                             <React.Fragment key={i}>
                                 {link.isExternal ? (
                                     <button
-                                        onClick={(e) => handleExternalLink(e, link.href)}
+                                        onClick={(e) => handleExternalLink(e, link.href, link.windowName)}
                                         className="cursor-pointer border-none bg-transparent p-0 text-xs text-gray-400 transition-colors duration-200 hover:text-[#F9B912] sm:text-sm"
                                     >
                                         {link.label}
