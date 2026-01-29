@@ -438,7 +438,8 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
                             </button>
                             <button
                                 onClick={downloadPDF}
-                                className="flex items-center gap-2 rounded-lg bg-red-600 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-red-700 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-none sm:px-4"
+                                disabled={isDownloading}
+                                className="flex items-center gap-2 rounded-lg bg-red-600 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-red-700 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-none disabled:opacity-50 sm:px-4"
                                 title="Download as PDF"
                             >
                                 <FileText className="h-4 w-4" />
