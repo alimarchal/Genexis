@@ -175,7 +175,8 @@ export default function EditNewsAnnouncement({ newsAnnouncement }: Props) {
                                     />
                                     {errors.excerpt && <p className="text-sm text-red-500">{errors.excerpt}</p>}
                                     <p className="text-sm text-gray-500">
-                                        Leave empty to auto-generate 200 characters from content. You can manually enter up to 500 characters for a custom summary.
+                                        Leave empty to auto-generate 200 characters from content. You can manually enter up to 500 characters for a
+                                        custom summary.
                                     </p>
                                 </div>
 
