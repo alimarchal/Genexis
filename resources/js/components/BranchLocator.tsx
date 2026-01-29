@@ -1,4 +1,4 @@
-import { CheckCircle, Clock, FileSpreadsheet, FileText, Globe, Mail, MapPin, Navigation, Phone, Search, XCircle } from 'lucide-react';
+import { CheckCircle, ChevronDown, Clock, FileSpreadsheet, FileText, Globe, Mail, MapPin, Navigation, Phone, Search, XCircle } from 'lucide-react';
 import React, { useMemo, useState } from 'react';
 
 interface Branch {
@@ -362,7 +362,7 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
                         {/* Region Filter */}
                         <div className="relative">
                             <select
-                                className="w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 py-3 transition-all duration-200 outline-none focus:border-[#4A7C59] focus:ring-2 focus:ring-[#4A7C59]/20"
+                                className="w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 py-3 pr-10 transition-all duration-200 outline-none focus:border-[#4A7C59] focus:ring-2 focus:ring-[#4A7C59]/20"
                                 value={selectedRegion}
                                 onChange={(e) => {
                                     setSelectedRegion(e.target.value);
@@ -376,12 +376,13 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
                                     </option>
                                 ))}
                             </select>
+                            <ChevronDown className="pointer-events-none absolute top-1/2 right-3 h-5 w-5 -translate-y-1/2 transform text-gray-400" />
                         </div>
 
                         {/* District Filter */}
                         <div className="relative">
                             <select
-                                className="w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 py-3 transition-all duration-200 outline-none focus:border-[#4A7C59] focus:ring-2 focus:ring-[#4A7C59]/20"
+                                className="w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 py-3 pr-10 transition-all duration-200 outline-none focus:border-[#4A7C59] focus:ring-2 focus:ring-[#4A7C59]/20"
                                 value={selectedDistrict}
                                 onChange={(e) => setSelectedDistrict(e.target.value)}
                                 disabled={selectedRegion === 'all'}
@@ -393,12 +394,13 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
                                     </option>
                                 ))}
                             </select>
+                            <ChevronDown className={`pointer-events-none absolute top-1/2 right-3 h-5 w-5 -translate-y-1/2 transform ${selectedRegion === 'all' ? 'text-gray-300' : 'text-gray-400'}`} />
                         </div>
 
                         {/* Branch Type Filter */}
                         <div className="relative">
                             <select
-                                className="w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 py-3 transition-all duration-200 outline-none focus:border-[#4A7C59] focus:ring-2 focus:ring-[#4A7C59]/20"
+                                className="w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 py-3 pr-10 transition-all duration-200 outline-none focus:border-[#4A7C59] focus:ring-2 focus:ring-[#4A7C59]/20"
                                 value={branchTypeFilter}
                                 onChange={(e) => setBranchTypeFilter(e.target.value)}
                             >
@@ -409,6 +411,7 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
                                     </option>
                                 ))}
                             </select>
+                            <ChevronDown className="pointer-events-none absolute top-1/2 right-3 h-5 w-5 -translate-y-1/2 transform text-gray-400" />
                         </div>
                     </div>
 
