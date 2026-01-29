@@ -199,7 +199,11 @@ const PublicDownloadsPublic = ({ downloads }: PublicDownloadsPublicProps) => {
                             <button
                                 onClick={() => router.get(route('public-downloads'), { page: downloads.current_page - 1 })}
                                 disabled={downloads.current_page === 1}
-                                className="flex items-center gap-1 rounded-md border border-gray-300 px-3 py-2 text-sm hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
+                                className={`flex items-center gap-1 rounded-md border px-3 py-2 text-sm ${
+                                    downloads.current_page === 1
+                                        ? 'cursor-not-allowed border-gray-300 bg-gray-100 text-gray-500'
+                                        : 'border-gray-300 bg-white hover:bg-gray-50'
+                                }`}
                             >
                                 <ChevronLeft className="h-4 w-4" />
                                 Previous
@@ -228,7 +232,11 @@ const PublicDownloadsPublic = ({ downloads }: PublicDownloadsPublicProps) => {
                             <button
                                 onClick={() => router.get(route('public-downloads'), { page: downloads.current_page + 1 })}
                                 disabled={downloads.current_page === downloads.last_page}
-                                className="flex items-center gap-1 rounded-md border border-gray-300 px-3 py-2 text-sm hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
+                                className={`flex items-center gap-1 rounded-md border px-3 py-2 text-sm ${
+                                    downloads.current_page === downloads.last_page
+                                        ? 'cursor-not-allowed border-gray-300 bg-gray-100 text-gray-500'
+                                        : 'border-gray-300 bg-white hover:bg-gray-50'
+                                }`}
                             >
                                 Next
                                 <ChevronRight className="h-4 w-4" />
