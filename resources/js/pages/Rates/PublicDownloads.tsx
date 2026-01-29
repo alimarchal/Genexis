@@ -216,7 +216,9 @@ const PublicDownloadsPublic = ({ downloads }: PublicDownloadsPublicProps) => {
                                             className={`rounded-md border px-3 py-2 text-sm ${
                                                 link.active
                                                     ? 'border-[#4A7C59] bg-[#4A7C59] text-white'
-                                                    : 'border-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50'
+                                                    : link.url
+                                                      ? 'border-gray-300 bg-white hover:bg-gray-50'
+                                                      : 'cursor-not-allowed border-gray-300 bg-gray-100 text-gray-500'
                                             }`}
                                             dangerouslySetInnerHTML={{ __html: link.label }}
                                         />
