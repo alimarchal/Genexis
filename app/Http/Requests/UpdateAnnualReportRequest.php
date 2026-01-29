@@ -26,7 +26,7 @@ class UpdateAnnualReportRequest extends FormRequest
                 'nullable',
                 'file',
                 'mimes:pdf,doc,docx,xls,xlsx',
-                'max:307200',
+                'max:1048576', // 1GB
             ],
         ];
     }
@@ -40,7 +40,7 @@ class UpdateAnnualReportRequest extends FormRequest
             'annual_report_fiscal_year.max' => 'The fiscal year cannot be more than 5 years in the future.',
             'annual_report.file' => 'The file must be a valid file.',
             'annual_report.mimes' => 'The file must be a PDF, Word document, or Excel file.',
-            'annual_report.max' => 'The file size cannot exceed 300MB.',
+            'annual_report.max' => 'The file size cannot exceed 1GB.',
         ];
     }
 
