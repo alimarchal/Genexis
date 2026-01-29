@@ -49,9 +49,11 @@ class NewsAnnouncement extends Model
                 $newsAnnouncement->slug = Str::slug($newsAnnouncement->title);
             }
             
-            // Auto-generate excerpt if not provided
+            // Auto-generate excerpt if it's empty and content is being updated or excerpt is being cleared
             if (empty($newsAnnouncement->excerpt) && !empty($newsAnnouncement->content)) {
-                $newsAnnouncement->excerpt = $newsAnnouncement->generateExcerpt();
+                if ($newsAnnouncement->isDirty('content') || $newsAnnouncement->isDirty('excerpt')) {
+                    $newsAnnouncement->excerpt = $newsAnnouncement->generateExcerpt();
+                }
             }
         });
     }
@@ -88,9 +90,10 @@ class NewsAnnouncement extends Model
             return '';
         }
 
-        $excerpt = substr(strip_tags($this->content), 0, $length);
+        $strippedContent = strip_tags($this->content);
+        $excerpt = substr($strippedContent, 0, $length);
         
-        if (strlen(strip_tags($this->content)) > $length) {
+        if (strlen($strippedContent) > $length) {
             $excerpt .= '...';
         }
 

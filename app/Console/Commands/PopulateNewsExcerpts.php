@@ -49,17 +49,13 @@ class PopulateNewsExcerpts extends Command
 
         $updated = 0;
         foreach ($news as $item) {
-            // Check the raw database value, not the accessor
-            $rawExcerpt = $item->getRawOriginal('excerpt');
+            // Use the model's method to generate excerpt
+            $excerpt = $item->generateExcerpt();
             
-            if (empty($rawExcerpt) || $this->option('force')) {
-                // Use the model's method to generate excerpt
-                $excerpt = $item->generateExcerpt();
-                
-                // Update directly to bypass the accessor
-                $item->update(['excerpt' => $excerpt]);
-                $updated++;
-            }
+            // Update directly
+            $item->update(['excerpt' => $excerpt]);
+            $updated++;
+            
             $bar->advance();
         }
 
