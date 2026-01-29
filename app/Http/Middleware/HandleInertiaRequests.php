@@ -108,7 +108,7 @@ class HandleInertiaRequests extends Middleware
                     'goajk' => env('GOAJK_URL', 'https://www.ajk.gov.pk'),
                     'gopak' => env('GOPAK_URL', 'https://www.pakistan.gov.pk'),
                     'ajk_tourism' => env('AJK_TOURISM_URL', 'https://tourism.ajk.gov.pk'),
-                    'loan_calculator' => env('LOAN_CALCULATOR_URL', 'https://bankajk.com/fraud-prevention'),
+                    'loan_calculator' => env('LOAN_CALCULATOR_URL', 'https://bankajk.com/loan-calculator'),
                 ],
             ],
             // Bank Rates - Available on all pages
