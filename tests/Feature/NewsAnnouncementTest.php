@@ -143,7 +143,7 @@ test('it validates required fields when creating news announcement', function ()
 });
 
 test('it preserves the exact date when updating news announcement', function () {
-    $specificDate = '2025-12-18';
+    $specificDate = '2026-06-15';
     $news = NewsAnnouncement::factory()->create([
         'published_date' => $specificDate,
     ]);
@@ -165,7 +165,7 @@ test('it preserves the exact date when updating news announcement', function () 
 });
 
 test('it stores exact date without timezone conversion when creating', function () {
-    $specificDate = '2025-12-18';
+    $specificDate = '2026-06-15';
 
     $response = $this->post(route('news-announcements.store'), [
         'title' => 'Test News',
