@@ -117,10 +117,16 @@ export default function NewsDetail({ news, relatedNews }: Props) {
                             <h1 className="mb-6 text-3xl leading-tight font-bold text-gray-900 md:text-4xl">{news.title}</h1>
 
                             {/* Content */}
-                            <div
-                                className="prose prose-lg prose-headings:text-gray-900 prose-p:text-gray-700 prose-p:leading-relaxed prose-a:text-[#4A7C59] prose-a:no-underline hover:prose-a:underline max-w-none"
-                                dangerouslySetInnerHTML={{ __html: news.content }}
-                            />
+                            {news.content && news.content.trim() ? (
+                                <div
+                                    className="prose prose-lg prose-headings:text-gray-900 prose-p:text-gray-700 prose-p:leading-relaxed prose-a:text-[#4A7C59] prose-a:no-underline hover:prose-a:underline max-w-none"
+                                    dangerouslySetInnerHTML={{ __html: news.content }}
+                                />
+                            ) : (
+                                <div className="my-8 rounded-lg border border-gray-200 bg-gray-50 p-6 text-center">
+                                    <p className="text-gray-600">Content is not available for this news item.</p>
+                                </div>
+                            )}
 
                             {/* Share Section */}
                             <div className="mt-8 border-t border-gray-200 pt-6">
