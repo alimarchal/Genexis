@@ -14,6 +14,7 @@ class NewsAnnouncement extends Model
     protected $fillable = [
         'title',
         'content',
+        'excerpt',
         'image',
         'published_date',
         'is_featured',
@@ -63,5 +64,18 @@ class NewsAnnouncement extends Model
     public function scopeByCategory($query, $category)
     {
         return $query->where('category', $category);
+    }
+
+    public function getExcerptAttribute($value)
+    {
+        if (!empty($value)) {
+            return $value;
+        }
+
+        if (!empty($this->attributes['content'])) {
+            return substr(strip_tags($this->attributes['content']), 0, 200) . '...';
+        }
+
+        return '';
     }
 }

@@ -17,10 +17,12 @@ class NewsAnnouncementFactory extends Factory
     public function definition(): array
     {
         $title = fake()->sentence(6, true);
+        $content = fake()->paragraphs(5, true);
 
         return [
             'title' => $title,
-            'content' => fake()->paragraphs(5, true),
+            'content' => $content,
+            'excerpt' => fake()->text(200),
             'image' => fake()->imageUrl(800, 600, 'business'),
             'published_date' => fake()->dateTimeBetween('-6 months', 'now')->format('Y-m-d'),
             'is_featured' => fake()->boolean(20), // 20% chance of being featured

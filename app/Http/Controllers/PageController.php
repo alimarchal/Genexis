@@ -119,7 +119,7 @@ class PageController extends Controller
                     'slug' => $news->slug,
                     'is_published' => $news->is_published,
                     'created_at' => $news->created_at->toISOString(),
-                    'excerpt' => substr(strip_tags($news->content), 0, 150) . '...',
+                    'excerpt' => $news->excerpt,
                 ];
             });
 
@@ -251,7 +251,7 @@ class PageController extends Controller
                     'slug' => $news->slug,
                     'is_published' => $news->is_published,
                     'created_at' => $news->created_at->toISOString(),
-                    'excerpt' => substr(strip_tags($news->content), 0, 150) . '...',
+                    'excerpt' => $news->excerpt,
                 ];
             });
 
@@ -282,7 +282,7 @@ class PageController extends Controller
                     'slug' => $news->slug,
                     'category' => $news->category,
                     'published_date' => $news->published_date,
-                    'excerpt' => substr(strip_tags($news->content), 0, 100) . '...',
+                    'excerpt' => $news->excerpt,
                 ];
             });
 
