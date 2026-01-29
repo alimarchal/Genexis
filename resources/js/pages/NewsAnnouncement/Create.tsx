@@ -31,6 +31,7 @@ export default function CreateNewsAnnouncement() {
     const { data, setData, processing, errors } = useForm({
         title: '',
         content: '',
+        excerpt: '',
         image: null as File | null,
         published_date: new Date().toISOString().split('T')[0],
         is_featured: false as boolean,
@@ -116,11 +117,29 @@ export default function CreateNewsAnnouncement() {
                                         id="content"
                                         value={data.content}
                                         onChange={(e) => setData('content', e.target.value)}
-                                        placeholder="Enter news content"
+                                        placeholder="Enter news content (HTML allowed)"
                                         rows={8}
                                         className={errors.content ? 'border-red-500' : ''}
                                     />
                                     {errors.content && <p className="text-sm text-red-500">{errors.content}</p>}
+                                    <p className="text-sm text-gray-500">You can use HTML tags for formatting</p>
+                                </div>
+
+                                {/* Excerpt */}
+                                <div className="space-y-2">
+                                    <Label htmlFor="excerpt">Excerpt (Optional)</Label>
+                                    <Textarea
+                                        id="excerpt"
+                                        value={data.excerpt}
+                                        onChange={(e) => setData('excerpt', e.target.value)}
+                                        placeholder="Enter a brief summary (auto-generated from content if left empty)"
+                                        rows={3}
+                                        className={errors.excerpt ? 'border-red-500' : ''}
+                                    />
+                                    {errors.excerpt && <p className="text-sm text-red-500">{errors.excerpt}</p>}
+                                    <p className="text-sm text-gray-500">
+                                        Leave empty to auto-generate 200 characters from content. You can manually enter up to 500 characters for a custom summary.
+                                    </p>
                                 </div>
 
                                 {/* Image Upload */}

@@ -14,6 +14,7 @@ class NewsAnnouncement extends Model
     protected $fillable = [
         'title',
         'content',
+        'excerpt',
         'image',
         'published_date',
         'is_featured',
@@ -36,11 +37,23 @@ class NewsAnnouncement extends Model
             if (empty($newsAnnouncement->slug)) {
                 $newsAnnouncement->slug = Str::slug($newsAnnouncement->title);
             }
+            
+            // Auto-generate excerpt if not provided
+            if (empty($newsAnnouncement->excerpt) && !empty($newsAnnouncement->content)) {
+                $newsAnnouncement->excerpt = $newsAnnouncement->generateExcerpt();
+            }
         });
 
         static::updating(function ($newsAnnouncement) {
             if ($newsAnnouncement->isDirty('title')) {
                 $newsAnnouncement->slug = Str::slug($newsAnnouncement->title);
+            }
+            
+            // Auto-generate excerpt if it's empty and content is being updated or excerpt is being cleared
+            if (empty($newsAnnouncement->excerpt) && !empty($newsAnnouncement->content)) {
+                if ($newsAnnouncement->isDirty('content') || $newsAnnouncement->isDirty('excerpt')) {
+                    $newsAnnouncement->excerpt = $newsAnnouncement->generateExcerpt();
+                }
             }
         });
     }
@@ -63,5 +76,27 @@ class NewsAnnouncement extends Model
     public function scopeByCategory($query, $category)
     {
         return $query->where('category', $category);
+    }
+
+    /**
+     * Generate excerpt from content.
+     * 
+     * @param int $length Maximum length of excerpt
+     * @return string
+     */
+    public function generateExcerpt(int $length = 200): string
+    {
+        if (empty($this->content)) {
+            return '';
+        }
+
+        $strippedContent = strip_tags($this->content);
+        $excerpt = substr($strippedContent, 0, $length);
+        
+        if (strlen($strippedContent) > $length) {
+            $excerpt .= '...';
+        }
+
+        return $excerpt;
     }
 }
