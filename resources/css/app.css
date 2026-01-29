@@ -68,7 +68,6 @@
   color utility to any element that depends on these defaults.
 */
 @layer base {
-
     *,
     ::after,
     ::before,
@@ -150,7 +149,6 @@
 }
 
 @layer base {
-
     html,
     body {
         @apply overflow-x-hidden;

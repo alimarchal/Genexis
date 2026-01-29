@@ -260,30 +260,30 @@ export default function ProductTypeAccountIndex({ productTypeAccounts, productTy
                                                         <DropdownMenuSeparator />
                                                         {(auth.permissions.includes('view product type accounts') ||
                                                             auth.roles.includes('super-admin')) && (
-                                                                <DropdownMenuItem asChild>
-                                                                    <Link href={route('product-type-accounts.show', account.id)}>
-                                                                        <Eye className="mr-2 h-4 w-4" />
-                                                                        View
-                                                                    </Link>
-                                                                </DropdownMenuItem>
-                                                            )}
+                                                            <DropdownMenuItem asChild>
+                                                                <Link href={route('product-type-accounts.show', account.id)}>
+                                                                    <Eye className="mr-2 h-4 w-4" />
+                                                                    View
+                                                                </Link>
+                                                            </DropdownMenuItem>
+                                                        )}
                                                         {(auth.permissions.includes('edit product type accounts') ||
                                                             auth.roles.includes('super-admin')) && (
-                                                                <DropdownMenuItem asChild>
-                                                                    <Link href={route('product-type-accounts.edit', account.id)}>
-                                                                        <Edit className="mr-2 h-4 w-4" />
-                                                                        Edit
-                                                                    </Link>
-                                                                </DropdownMenuItem>
-                                                            )}
+                                                            <DropdownMenuItem asChild>
+                                                                <Link href={route('product-type-accounts.edit', account.id)}>
+                                                                    <Edit className="mr-2 h-4 w-4" />
+                                                                    Edit
+                                                                </Link>
+                                                            </DropdownMenuItem>
+                                                        )}
                                                         <DropdownMenuSeparator />
                                                         {(auth.permissions.includes('delete product type accounts') ||
                                                             auth.roles.includes('super-admin')) && (
-                                                                <DropdownMenuItem onClick={() => handleDelete(account.id)} className="text-red-600">
-                                                                    <Trash className="mr-2 h-4 w-4" />
-                                                                    Delete
-                                                                </DropdownMenuItem>
-                                                            )}
+                                                            <DropdownMenuItem onClick={() => handleDelete(account.id)} className="text-red-600">
+                                                                <Trash className="mr-2 h-4 w-4" />
+                                                                Delete
+                                                            </DropdownMenuItem>
+                                                        )}
                                                     </DropdownMenuContent>
                                                 </DropdownMenu>
                                             </TableCell>

@@ -178,7 +178,7 @@ const ServicesPage = () => {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-[#e9f7ef] to-[#fff7e6]">
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
+            <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
                 {/* Hero Section */}
                 <div className="mb-12 text-center">
                     <div className="mb-6 flex justify-center">
@@ -236,17 +236,17 @@ const ServicesPage = () => {
                 >
                     {/* Header with Image */}
                     <div className="relative">
-                        <div className="relative overflow-hidden bg-gradient-to-r from-[#4A7C59] via-[#5D8A6A] to-[#6B9B7A] px-4 sm:px-6 md:px-8 py-6">
+                        <div className="relative overflow-hidden bg-gradient-to-r from-[#4A7C59] via-[#5D8A6A] to-[#6B9B7A] px-4 py-6 sm:px-6 md:px-8">
                             <div
                                 className={`absolute inset-0 bg-gradient-to-t from-[#F9B912]/10 via-transparent to-transparent transition-opacity duration-500 ${
                                     isHovered ? 'opacity-100' : 'opacity-0'
                                 }`}
                             />
-                            <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
-                                <div className="text-white shrink-0">{activeService.icon}</div>
+                            <div className="relative z-10 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-6">
+                                <div className="shrink-0 text-white">{activeService.icon}</div>
                                 <div className="min-w-0 flex-1">
-                                    <h1 className="text-2xl sm:text-3xl font-bold text-white break-words">{activeService.name}</h1>
-                                    <p className="mt-2 text-white/90 break-words">{activeService.description}</p>
+                                    <h1 className="text-2xl font-bold break-words text-white sm:text-3xl">{activeService.name}</h1>
+                                    <p className="mt-2 break-words text-white/90">{activeService.description}</p>
                                 </div>
                             </div>
                             <div className="absolute top-0 right-0 h-32 w-32 translate-x-16 -translate-y-16 transform rounded-full bg-gradient-to-bl from-[#F9B912]/20 to-transparent" />
@@ -288,12 +288,14 @@ const ServicesPage = () => {
                                     {features.map((feature) => (
                                         <div
                                             key={feature.id}
-                                            className="flex items-start rounded-xl border border-[#F9B912]/20 bg-gradient-to-r from-white via-[#4A7C59]/5 to-[#F9B912]/10 p-4 sm:p-6 transition-all duration-300 hover:scale-[1.02] hover:border-[#F9B912]/40 hover:shadow-lg overflow-hidden"
+                                            className="flex items-start overflow-hidden rounded-xl border border-[#F9B912]/20 bg-gradient-to-r from-white via-[#4A7C59]/5 to-[#F9B912]/10 p-4 transition-all duration-300 hover:scale-[1.02] hover:border-[#F9B912]/40 hover:shadow-lg sm:p-6"
                                         >
                                             <div className="mt-2 mr-4 h-2 w-2 flex-shrink-0 rounded-full bg-[#F9B912]"></div>
-                                            <div className="flex-1 min-w-0">
+                                            <div className="min-w-0 flex-1">
                                                 <h4 className="mb-1 font-semibold text-[#4A7C59]">{feature.attribute_name}</h4>
-                                                <p className="leading-relaxed whitespace-pre-line break-words text-gray-700">{feature.attribute_value}</p>
+                                                <p className="leading-relaxed break-words whitespace-pre-line text-gray-700">
+                                                    {feature.attribute_value}
+                                                </p>
                                             </div>
                                         </div>
                                     ))}
@@ -311,13 +313,13 @@ const ServicesPage = () => {
                                 .map((attr) => (
                                     <div
                                         key={attr.id}
-                                        className="rounded-xl border border-gray-200 bg-gradient-to-br from-[#4A7C59]/5 to-[#F9B912]/5 p-4 sm:p-6 overflow-hidden"
+                                        className="overflow-hidden rounded-xl border border-gray-200 bg-gradient-to-br from-[#4A7C59]/5 to-[#F9B912]/5 p-4 sm:p-6"
                                     >
                                         <h3 className="mb-3 flex items-center font-semibold text-[#4A7C59]">
                                             <div className="mr-2 h-2 w-2 rounded-full bg-[#F9B912]"></div>
                                             {attr.attribute_name}
                                         </h3>
-                                        <p className="leading-relaxed whitespace-pre-line break-words text-gray-700">{attr.attribute_value}</p>
+                                        <p className="leading-relaxed break-words whitespace-pre-line text-gray-700">{attr.attribute_value}</p>
                                     </div>
                                 ))}
                         </div>

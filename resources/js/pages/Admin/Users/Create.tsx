@@ -142,7 +142,7 @@ export default function CreateUser({ roles, permissions }: Props) {
                                                         checked={data.roles.includes(role.id)}
                                                         onCheckedChange={() => toggleRole(role.id)}
                                                     />
-                                                    <Label htmlFor={`role-${role.id}`} className="font-normal capitalize cursor-pointer">
+                                                    <Label htmlFor={`role-${role.id}`} className="cursor-pointer font-normal capitalize">
                                                         {role.name.replace(/-/g, ' ')}
                                                     </Label>
                                                 </div>
@@ -170,7 +170,7 @@ export default function CreateUser({ roles, permissions }: Props) {
                                                             checked={data.permissions.includes(permission.id)}
                                                             onCheckedChange={() => togglePermission(permission.id)}
                                                         />
-                                                        <Label htmlFor={`perm-${permission.id}`} className="font-normal capitalize cursor-pointer">
+                                                        <Label htmlFor={`perm-${permission.id}`} className="cursor-pointer font-normal capitalize">
                                                             {permission.name.replace(/-/g, ' ')}
                                                         </Label>
                                                     </div>

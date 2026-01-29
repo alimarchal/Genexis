@@ -149,20 +149,20 @@ const InteractiveBAJKServices: React.FC<Props> = ({ bankServices }) => {
                             onMouseLeave={() => setHoveredCard(null)}
                         >
                             <div
-                                className={`transform rounded-2xl bg-white p-4 sm:p-6 md:p-8 shadow-lg transition-all duration-500 ${
+                                className={`transform rounded-2xl bg-white p-4 shadow-lg transition-all duration-500 sm:p-6 md:p-8 ${
                                     hoveredCard === 100 + index ? '-translate-y-4 scale-105 shadow-2xl' : 'hover:-translate-y-2 hover:shadow-xl'
                                 }`}
                             >
                                 <div
-                                    className={`mx-auto mb-4 sm:mb-6 flex h-12 w-12 sm:h-14 sm:w-14 md:h-16 md:w-16 items-center justify-center rounded-full bg-gradient-to-r from-[#4A7C59] to-[#5D8A6A] transition-all duration-300 ${
+                                    className={`mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-r from-[#4A7C59] to-[#5D8A6A] transition-all duration-300 sm:mb-6 sm:h-14 sm:w-14 md:h-16 md:w-16 ${
                                         hoveredCard === 100 + index ? 'scale-110' : ''
                                     }`}
                                 >
-                                    <stat.icon className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 text-white" />
+                                    <stat.icon className="h-6 w-6 text-white sm:h-7 sm:w-7 md:h-8 md:w-8" />
                                 </div>
-                                <div className="mb-2 text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 break-words">{stat.number}</div>
-                                <div className="text-sm sm:text-base md:text-lg font-semibold text-gray-600 break-words">{stat.label}</div>
-                                <div className="mt-1 text-xs sm:text-sm text-gray-500 break-words">{stat.description}</div>
+                                <div className="mb-2 text-2xl font-bold break-words text-gray-900 sm:text-3xl md:text-4xl">{stat.number}</div>
+                                <div className="text-sm font-semibold break-words text-gray-600 sm:text-base md:text-lg">{stat.label}</div>
+                                <div className="mt-1 text-xs break-words text-gray-500 sm:text-sm">{stat.description}</div>
                             </div>
                         </div>
                     ))}

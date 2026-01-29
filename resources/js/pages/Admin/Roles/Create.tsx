@@ -58,7 +58,10 @@ export default function CreateRole({ permissions }: Props) {
 
     const toggleSelectAll = (checked: boolean) => {
         if (checked) {
-            setData('permissions', permissions.map((p) => p.id));
+            setData(
+                'permissions',
+                permissions.map((p) => p.id),
+            );
         } else {
             setData('permissions', []);
         }
@@ -108,7 +111,7 @@ export default function CreateRole({ permissions }: Props) {
                                                         checked={data.permissions.includes(permission.id)}
                                                         onCheckedChange={() => togglePermission(permission.id)}
                                                     />
-                                                    <Label htmlFor={`permission-${permission.id}`} className="font-normal capitalize cursor-pointer">
+                                                    <Label htmlFor={`permission-${permission.id}`} className="cursor-pointer font-normal capitalize">
                                                         {permission.name.replace(/-/g, ' ')}
                                                     </Label>
                                                 </div>

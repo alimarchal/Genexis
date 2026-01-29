@@ -246,7 +246,8 @@ export default function Index({ branchServices, branches, filters }: Props) {
                                                         <DropdownMenuContent align="end">
                                                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                             <DropdownMenuSeparator />
-                                                            {(auth.permissions.includes('view branch services') || auth.roles.includes('super-admin')) && (
+                                                            {(auth.permissions.includes('view branch services') ||
+                                                                auth.roles.includes('super-admin')) && (
                                                                 <DropdownMenuItem asChild>
                                                                     <Link href={route('branch-services.show', branchService.id)}>
                                                                         <Eye className="mr-2 h-4 w-4" />
@@ -254,7 +255,8 @@ export default function Index({ branchServices, branches, filters }: Props) {
                                                                     </Link>
                                                                 </DropdownMenuItem>
                                                             )}
-                                                            {(auth.permissions.includes('edit branch services') || auth.roles.includes('super-admin')) && (
+                                                            {(auth.permissions.includes('edit branch services') ||
+                                                                auth.roles.includes('super-admin')) && (
                                                                 <DropdownMenuItem asChild>
                                                                     <Link href={route('branch-services.edit', branchService.id)}>
                                                                         <Edit className="mr-2 h-4 w-4" />
@@ -262,8 +264,12 @@ export default function Index({ branchServices, branches, filters }: Props) {
                                                                     </Link>
                                                                 </DropdownMenuItem>
                                                             )}
-                                                            {(auth.permissions.includes('delete branch services') || auth.roles.includes('super-admin')) && (
-                                                                <DropdownMenuItem onClick={() => handleDelete(branchService)} className="text-red-600">
+                                                            {(auth.permissions.includes('delete branch services') ||
+                                                                auth.roles.includes('super-admin')) && (
+                                                                <DropdownMenuItem
+                                                                    onClick={() => handleDelete(branchService)}
+                                                                    className="text-red-600"
+                                                                >
                                                                     <Trash className="mr-2 h-4 w-4" />
                                                                     Delete
                                                                 </DropdownMenuItem>

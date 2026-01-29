@@ -75,15 +75,17 @@ const BankingAccountComponent: React.FC<BankingAccountComponentProps> = ({ schem
                                 <button
                                     key={scheme.id}
                                     onClick={() => setActiveSchemeIndex(index)}
-                                    className={`flex flex-shrink-0 items-center gap-2 rounded-lg border bg-white px-3 py-2 shadow-md transition-all duration-300 hover:scale-105 hover:shadow-lg sm:px-4 sm:py-3 ${activeSchemeIndex === index
-                                        ? 'scale-105 border-[#4A7C59] shadow-lg'
-                                        : 'border-gray-200 hover:border-[#4A7C59]/30'
-                                        }`}
+                                    className={`flex flex-shrink-0 items-center gap-2 rounded-lg border bg-white px-3 py-2 shadow-md transition-all duration-300 hover:scale-105 hover:shadow-lg sm:px-4 sm:py-3 ${
+                                        activeSchemeIndex === index
+                                            ? 'scale-105 border-[#4A7C59] shadow-lg'
+                                            : 'border-gray-200 hover:border-[#4A7C59]/30'
+                                    }`}
                                 >
                                     <span className="text-base sm:text-lg">{getIcon(scheme.name)}</span>
                                     <span
-                                        className={`text-xs font-medium sm:text-sm md:text-base ${activeSchemeIndex === index ? 'text-[#4A7C59]' : 'text-gray-700'
-                                            }`}
+                                        className={`text-xs font-medium sm:text-sm md:text-base ${
+                                            activeSchemeIndex === index ? 'text-[#4A7C59]' : 'text-gray-700'
+                                        }`}
                                     >
                                         {scheme.name}
                                     </span>
@@ -102,8 +104,9 @@ const BankingAccountComponent: React.FC<BankingAccountComponentProps> = ({ schem
                     {/* Header */}
                     <div className="relative overflow-hidden bg-gradient-to-r from-[#4A7C59] via-[#5D8A6A] to-[#6B9B7A] px-4 py-4 sm:px-6 sm:py-5 md:px-8 md:py-6">
                         <div
-                            className={`absolute inset-0 bg-gradient-to-t from-[#F9B912]/10 via-transparent to-transparent transition-opacity duration-500 ${isHovered ? 'opacity-100' : 'opacity-0'
-                                }`}
+                            className={`absolute inset-0 bg-gradient-to-t from-[#F9B912]/10 via-transparent to-transparent transition-opacity duration-500 ${
+                                isHovered ? 'opacity-100' : 'opacity-0'
+                            }`}
                         />
                         <h1 className="relative z-10 text-2xl font-bold text-white sm:text-3xl">{activeScheme.name}</h1>
                         {activeScheme.description && <p className="relative z-10 mt-2 text-white/90">{activeScheme.description}</p>}
@@ -138,7 +141,7 @@ const BankingAccountComponent: React.FC<BankingAccountComponentProps> = ({ schem
                                             className="flex items-start rounded-xl border border-[#F9B912]/20 bg-gradient-to-r from-white via-[#4A7C59]/5 to-[#F9B912]/10 p-3 transition-all duration-300 hover:scale-[1.02] hover:border-[#F9B912]/40 hover:shadow-lg sm:p-4"
                                         >
                                             <div className="mt-2 mr-3 h-2 w-2 flex-shrink-0 rounded-full bg-[#F9B912] sm:mr-4"></div>
-                                            <p className="text-sm font-medium leading-relaxed text-gray-700 sm:text-base">{feature}</p>
+                                            <p className="text-sm leading-relaxed font-medium text-gray-700 sm:text-base">{feature}</p>
                                         </div>
                                     ))}
                                 </div>
@@ -161,7 +164,7 @@ const BankingAccountComponent: React.FC<BankingAccountComponentProps> = ({ schem
                                         className="rounded-xl border border-gray-200 bg-gradient-to-br from-[#4A7C59]/5 to-[#F9B912]/5 p-3 sm:p-4"
                                     >
                                         <h3 className="mb-2 text-sm font-semibold text-[#4A7C59] sm:text-base">{attr.attribute_name}</h3>
-                                        <p className="whitespace-pre-line text-xs leading-relaxed text-gray-700 sm:text-sm">{attr.attribute_value}</p>
+                                        <p className="text-xs leading-relaxed whitespace-pre-line text-gray-700 sm:text-sm">{attr.attribute_value}</p>
                                     </div>
                                 ))}
                         </div>

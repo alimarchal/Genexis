@@ -313,33 +313,30 @@ export default function ProductSchemeAttributeIndex({ attributes, schemes, filte
                                                         <DropdownMenuSeparator />
                                                         {(auth.permissions.includes('view product scheme attributes') ||
                                                             auth.roles.includes('super-admin')) && (
-                                                                <DropdownMenuItem asChild>
-                                                                    <Link href={route('product-scheme-attributes.show', attribute.id)}>
-                                                                        <Eye className="mr-2 h-4 w-4" />
-                                                                        View
-                                                                    </Link>
-                                                                </DropdownMenuItem>
-                                                            )}
+                                                            <DropdownMenuItem asChild>
+                                                                <Link href={route('product-scheme-attributes.show', attribute.id)}>
+                                                                    <Eye className="mr-2 h-4 w-4" />
+                                                                    View
+                                                                </Link>
+                                                            </DropdownMenuItem>
+                                                        )}
                                                         {(auth.permissions.includes('edit product scheme attributes') ||
                                                             auth.roles.includes('super-admin')) && (
-                                                                <DropdownMenuItem asChild>
-                                                                    <Link href={route('product-scheme-attributes.edit', attribute.id)}>
-                                                                        <Edit className="mr-2 h-4 w-4" />
-                                                                        Edit
-                                                                    </Link>
-                                                                </DropdownMenuItem>
-                                                            )}
+                                                            <DropdownMenuItem asChild>
+                                                                <Link href={route('product-scheme-attributes.edit', attribute.id)}>
+                                                                    <Edit className="mr-2 h-4 w-4" />
+                                                                    Edit
+                                                                </Link>
+                                                            </DropdownMenuItem>
+                                                        )}
                                                         <DropdownMenuSeparator />
                                                         {(auth.permissions.includes('delete product scheme attributes') ||
                                                             auth.roles.includes('super-admin')) && (
-                                                                <DropdownMenuItem
-                                                                    onClick={() => handleDelete(attribute.id)}
-                                                                    className="text-red-600"
-                                                                >
-                                                                    <Trash className="mr-2 h-4 w-4" />
-                                                                    Delete
-                                                                </DropdownMenuItem>
-                                                            )}
+                                                            <DropdownMenuItem onClick={() => handleDelete(attribute.id)} className="text-red-600">
+                                                                <Trash className="mr-2 h-4 w-4" />
+                                                                Delete
+                                                            </DropdownMenuItem>
+                                                        )}
                                                     </DropdownMenuContent>
                                                 </DropdownMenu>
                                             </TableCell>

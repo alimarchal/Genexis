@@ -159,12 +159,13 @@ export default function RoleIndex({ roles, filters }: Props) {
                                                             </Link>
                                                         </DropdownMenuItem>
                                                     )}
-                                                    {(auth.permissions.includes('delete roles') || auth.roles.includes('super-admin')) && role.name !== 'super-admin' && (
-                                                        <DropdownMenuItem onClick={() => handleDelete(role.id)} className="text-red-600">
-                                                            <Trash className="mr-2 h-4 w-4" />
-                                                            Delete
-                                                        </DropdownMenuItem>
-                                                    )}
+                                                    {(auth.permissions.includes('delete roles') || auth.roles.includes('super-admin')) &&
+                                                        role.name !== 'super-admin' && (
+                                                            <DropdownMenuItem onClick={() => handleDelete(role.id)} className="text-red-600">
+                                                                <Trash className="mr-2 h-4 w-4" />
+                                                                Delete
+                                                            </DropdownMenuItem>
+                                                        )}
                                                 </DropdownMenuContent>
                                             </DropdownMenu>
                                         </TableCell>

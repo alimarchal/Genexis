@@ -145,7 +145,11 @@ export default function UserIndex({ users, filters }: Props) {
                                         <TableCell>
                                             <div className="flex flex-wrap gap-1">
                                                 {user.roles.map((role) => (
-                                                    <Badge key={role.id} variant={role.name === 'super-admin' ? 'default' : 'secondary'} className="capitalize">
+                                                    <Badge
+                                                        key={role.id}
+                                                        variant={role.name === 'super-admin' ? 'default' : 'secondary'}
+                                                        className="capitalize"
+                                                    >
                                                         {role.name.replace(/-/g, ' ')}
                                                     </Badge>
                                                 ))}

@@ -341,7 +341,8 @@ export default function BodCommitteeIndex({ bodCommittees, filters }: Props) {
                                                             </DropdownMenuItem>
                                                         )}
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('delete bod committees') || auth.roles.includes('super-admin')) && (
+                                                        {(auth.permissions.includes('delete bod committees') ||
+                                                            auth.roles.includes('super-admin')) && (
                                                             <DropdownMenuItem onClick={() => handleDelete(committee.id)} className="text-red-600">
                                                                 <Trash className="mr-2 h-4 w-4" />
                                                                 Delete

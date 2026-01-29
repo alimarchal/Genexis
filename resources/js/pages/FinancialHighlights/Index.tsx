@@ -236,7 +236,8 @@ export default function FinancialHighlightIndex({ financialHighlights, filters }
                                                     <DropdownMenuContent align="end">
                                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('view financial highlights') || auth.roles.includes('super-admin')) && (
+                                                        {(auth.permissions.includes('view financial highlights') ||
+                                                            auth.roles.includes('super-admin')) && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('financial-highlights.show', highlight.id)}>
                                                                     <Eye className="mr-2 h-4 w-4" />
@@ -244,7 +245,8 @@ export default function FinancialHighlightIndex({ financialHighlights, filters }
                                                                 </Link>
                                                             </DropdownMenuItem>
                                                         )}
-                                                        {(auth.permissions.includes('edit financial highlights') || auth.roles.includes('super-admin')) && (
+                                                        {(auth.permissions.includes('edit financial highlights') ||
+                                                            auth.roles.includes('super-admin')) && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('financial-highlights.edit', highlight.id)}>
                                                                     <Edit className="mr-2 h-4 w-4" />
@@ -268,7 +270,8 @@ export default function FinancialHighlightIndex({ financialHighlights, filters }
                                                             </>
                                                         )}
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('delete financial highlights') || auth.roles.includes('super-admin')) && (
+                                                        {(auth.permissions.includes('delete financial highlights') ||
+                                                            auth.roles.includes('super-admin')) && (
                                                             <DropdownMenuItem onClick={() => handleDelete(highlight.id)} className="text-red-600">
                                                                 <Trash className="mr-2 h-4 w-4" />
                                                                 Delete
