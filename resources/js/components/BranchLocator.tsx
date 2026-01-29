@@ -394,7 +394,7 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
                                     </option>
                                 ))}
                             </select>
-                            <ChevronDown className="pointer-events-none absolute top-1/2 right-3 h-5 w-5 -translate-y-1/2 transform text-gray-400" />
+                            <ChevronDown className={`pointer-events-none absolute top-1/2 right-3 h-5 w-5 -translate-y-1/2 transform ${selectedRegion === 'all' ? 'text-gray-300' : 'text-gray-400'}`} />
                         </div>
 
                         {/* Branch Type Filter */}
