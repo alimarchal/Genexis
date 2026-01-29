@@ -141,3 +141,44 @@ test('it validates required fields when creating news announcement', function ()
 
     $response->assertSessionHasErrors(['title', 'content', 'published_date', 'category']);
 });
+
+test('it preserves the exact date when updating news announcement', function () {
+    $specificDate = '2025-12-18';
+    $news = NewsAnnouncement::factory()->create([
+        'published_date' => $specificDate,
+    ]);
+
+    $response = $this->put(route('news-announcements.update', $news), [
+        'title' => 'Updated News',
+        'slug' => 'updated-news',
+        'content' => 'Updated content',
+        'published_date' => $specificDate,
+        'is_featured' => false,
+        'category' => 'announcements',
+        'is_published' => false,
+    ]);
+
+    $response->assertRedirect(route('news-announcements.index'));
+    
+    $news->refresh();
+    expect($news->published_date->format('Y-m-d'))->toBe($specificDate);
+});
+
+test('it stores exact date without timezone conversion when creating', function () {
+    $specificDate = '2025-12-18';
+
+    $response = $this->post(route('news-announcements.store'), [
+        'title' => 'Test News',
+        'slug' => 'test-news',
+        'content' => 'Test content',
+        'published_date' => $specificDate,
+        'is_featured' => true,
+        'category' => 'general',
+        'is_published' => true,
+    ]);
+
+    $response->assertRedirect(route('news-announcements.index'));
+    
+    $news = NewsAnnouncement::where('slug', 'test-news')->first();
+    expect($news->published_date->format('Y-m-d'))->toBe($specificDate);
+});
