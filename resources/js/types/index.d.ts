@@ -59,8 +59,8 @@ export interface SharedData {
     menu: MenuItem[];
     autoBreadcrumbs: AutoBreadcrumbItem[];
     socialLinks: SocialLinks;
-    footerLinks: any;
-    bankRates: any;
+    footerLinks: unknown;
+    bankRates: unknown;
     [key: string]: unknown;
 }
 
