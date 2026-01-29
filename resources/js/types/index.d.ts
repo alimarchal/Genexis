@@ -56,16 +56,6 @@ export interface SharedData {
     contact_phone: string;
     contact_email: string;
     contact_address: string;
-export interface SharedData {
-    name: string;
-    quote: { message: string; author: string };
-    auth: Auth;
-    ziggy: Config & { location: string } & Record<string, unknown>;
-    sidebarOpen: boolean;
-    bankBranchesCount: number;
-    contact_phone: string;
-    contact_email: string;
-    contact_address: string;
     menu: MenuItem[];
     autoBreadcrumbs: AutoBreadcrumbItem[];
     socialLinks: SocialLinks;
