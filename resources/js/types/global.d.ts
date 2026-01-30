@@ -96,7 +96,7 @@ declare module '@inertiajs/core' {
                 forms: string;
                 tenders: string;
             };
-            services: {
+            services?: {
                 [key: string]: string;
             };
         };
