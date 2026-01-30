@@ -135,3 +135,25 @@ test('it can delete financial report', function () {
     Storage::disk('public')->assertMissing($report->first_quarter_report);
     Storage::disk('public')->assertMissing($report->annual_report);
 });
+
+test('it cannot create financial report with file too large', function () {
+    $file = UploadedFile::fake()->create('large-file.pdf', 1100000, 'application/pdf'); // 1.1GB (larger than 1GB limit)
+
+    $response = $this->post(route('financial-reports.store'), [
+        'fiscal_year' => 2025,
+        'first_quarter_report' => $file,
+    ]);
+
+    $response->assertSessionHasErrors('first_quarter_report');
+});
+
+test('it cannot create financial report with invalid file type', function () {
+    $file = UploadedFile::fake()->create('document.txt', 1000, 'text/plain');
+
+    $response = $this->post(route('financial-reports.store'), [
+        'fiscal_year' => 2025,
+        'annual_report' => $file,
+    ]);
+
+    $response->assertSessionHasErrors('annual_report');
+});

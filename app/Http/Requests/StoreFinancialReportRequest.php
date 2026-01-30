@@ -26,25 +26,25 @@ class StoreFinancialReportRequest extends FormRequest
                 'nullable',
                 'file',
                 'mimes:pdf,doc,docx,xls,xlsx',
-                'max:307200', // 300MB
+                'max:1048576', // 1GB
             ],
             'half_yearly_report' => [
                 'nullable',
                 'file',
                 'mimes:pdf,doc,docx,xls,xlsx',
-                'max:307200',
+                'max:1048576', // 1GB
             ],
             'third_quarter_report' => [
                 'nullable',
                 'file',
                 'mimes:pdf,doc,docx,xls,xlsx',
-                'max:307200',
+                'max:1048576', // 1GB
             ],
             'annual_report' => [
                 'nullable',
                 'file',
                 'mimes:pdf,doc,docx,xls,xlsx',
-                'max:307200',
+                'max:1048576', // 1GB
             ],
         ];
     }
@@ -58,7 +58,7 @@ class StoreFinancialReportRequest extends FormRequest
             'fiscal_year.max' => 'The fiscal year cannot be more than 5 years in the future.',
             '*.file' => 'The file must be a valid file.',
             '*.mimes' => 'The file must be a PDF, Word document, or Excel file.',
-            '*.max' => 'The file size cannot exceed 300MB.',
+            '*.max' => 'The file size cannot exceed 1GB.',
         ];
     }
 

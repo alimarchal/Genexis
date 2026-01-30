@@ -194,8 +194,10 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
     };
 
     const downloadPDF = () => {
-        // Create a printable version of the data
-        const printContent = `
+        setIsDownloading(true);
+        try {
+            // Create a printable version of the data
+            const printContent = `
             <!DOCTYPE html>
             <html>
             <head>
@@ -285,16 +287,24 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
             </html>
         `;
 
-        const printWindow = window.open('', '_blank');
-        if (printWindow) {
-            printWindow.document.write(printContent);
-            printWindow.document.close();
+            const printWindow = window.open('', '_blank');
+            if (printWindow) {
+                printWindow.document.write(printContent);
+                printWindow.document.close();
 
-            // Wait for content to load then trigger print
-            setTimeout(() => {
-                printWindow.print();
-                // printWindow.close();
-            }, 250);
+                // Wait for content to load then trigger print
+                setTimeout(() => {
+                    printWindow.print();
+                    // printWindow.close();
+                    setIsDownloading(false);
+                }, 250);
+            } else {
+                setIsDownloading(false);
+            }
+        } catch (error) {
+            console.error('Error generating PDF:', error);
+            alert('Failed to open print dialog. Please try again.');
+            setIsDownloading(false);
         }
     };
 
@@ -418,19 +428,19 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
                     </div>
 
                     {/* Results Count and Download Options */}
-                    <div className="mt-4 flex items-center justify-between">
+                    <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                         <div className="text-sm text-gray-600">
                             Showing {displayBranches.length} of {branches.length || 87} branches
                             {searchTerm && <span className="ml-2 font-medium text-[#4A7C59]">for "{searchTerm}"</span>}
                         </div>
 
                         {/* Download Buttons */}
-                        <div className="flex items-center gap-3">
+                        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                             <span className="text-sm text-gray-600">Download:</span>
                             <button
                                 onClick={downloadExcel}
                                 disabled={isDownloading}
-                                className="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-green-700 focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:outline-none disabled:opacity-50"
+                                className="flex items-center gap-2 rounded-lg bg-green-600 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-green-700 focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:outline-none disabled:opacity-50 sm:px-4"
                                 title="Download as Excel"
                             >
                                 <FileSpreadsheet className="h-4 w-4" />
@@ -438,7 +448,8 @@ const BranchLocator: React.FC<Props> = ({ branches = [], regions = [], districts
                             </button>
                             <button
                                 onClick={downloadPDF}
-                                className="flex items-center gap-2 rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-700 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-none"
+                                disabled={isDownloading}
+                                className="flex items-center gap-2 rounded-lg bg-red-600 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-red-700 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-none disabled:opacity-50 sm:px-4"
                                 title="Download as PDF"
                             >
                                 <FileText className="h-4 w-4" />
