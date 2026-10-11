@@ -101,7 +101,7 @@ GitHub میں: **Settings ← Secrets and variables ← Actions ← New reposito
 - **شیڈیولر (صفائی کے لیے ضروری):** cron میں یہ لائن لگائیں:
   `* * * * * cd /var/www/bajk && php artisan schedule:run >> /dev/null 2>&1`
   اس سے ادھوری یا استعمال نہ ہونے والی اپلوڈ فائلیں 24 گھنٹے بعد خود حذف ہوتی ہیں۔
-- حدیں `.env` میں: `UPLOAD_MAX_BYTES` (سپر ایڈمن، ڈیفالٹ 10 GB)، `UPLOAD_STAFF_MAX_BYTES` (باقی عملہ، ڈیفالٹ 100 MB)۔
+- حدیں `.env` میں: `UPLOAD_LARGE_MAX_BYTES` (مالی رپورٹس، سالانہ رپورٹس، ہائی لائٹس، ڈاؤن لوڈز؛ ڈیفالٹ 10 GB)، `UPLOAD_DOCUMENT_MAX_BYTES` (شیڈول اور نوکریاں؛ ڈیفالٹ 500 MB)، `UPLOAD_MAX_BYTES` (سپر ایڈمن کی بالائی حد)۔
 
 ## 5. پچھلے ورژن پر واپسی (Rollback)
 

@@ -75,9 +75,8 @@ class HandleInertiaRequests extends Middleware
             },
             // now every Inertia page has `bankBranchesCount` in props
             'uploadLimits' => fn () => $request->user() ? [
-                'maxBytes' => app(ChunkedUploadService::class)->maxBytesFor($request->user()),
+                'contexts' => app(ChunkedUploadService::class)->limitsFor($request->user()),
                 'isSuperAdmin' => $request->user()->hasRole('super-admin'),
-                'staffMaxBytes' => (int) config('bank.uploads.staff_max_bytes'),
             ] : null,
             'bankBranchesCount' => config('bank.stats.branches_count'),
             'contact_phone' => config('bank.contact.contact_phone'),

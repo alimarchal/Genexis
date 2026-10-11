@@ -155,21 +155,21 @@ return [
     'uploads' => [
         // Size of every chunk the browser sends (bytes). Keep it below the web server's body limit.
         'chunk_size' => (int) env('UPLOAD_CHUNK_BYTES', 4 * 1024 * 1024),
-        // Largest file a super-admin may upload; everyone else is limited to staff_max_bytes.
+        // Anyone with the module's create/edit permission may upload up to that module's max_bytes below;
+        // a super-admin may always upload up to super_admin_max_bytes (or the module limit if that is higher).
         'super_admin_max_bytes' => (int) env('UPLOAD_MAX_BYTES', 10 * 1024 * 1024 * 1024),
-        'staff_max_bytes' => (int) env('UPLOAD_STAFF_MAX_BYTES', 100 * 1024 * 1024),
         'max_active_per_user' => (int) env('UPLOAD_MAX_ACTIVE', 3),
         // Abandoned uploads (and finished-but-unused files) are removed after this many hours.
         'stale_hours' => (int) env('UPLOAD_STALE_HOURS', 24),
         // Free space that must remain on the disk after the upload (bytes).
         'reserve_bytes' => (int) env('UPLOAD_RESERVE_BYTES', 1024 * 1024 * 1024),
         'contexts' => [
-            'financial-reports' => ['label' => 'Financial reports', 'permission' => 'financial reports', 'extensions' => ['pdf', 'doc', 'docx', 'xls', 'xlsx']],
-            'annual-reports' => ['label' => 'Annual reports', 'permission' => 'annual reports', 'extensions' => ['pdf', 'doc', 'docx', 'xls', 'xlsx']],
-            'financial-highlights' => ['label' => 'Financial highlights', 'permission' => 'financial highlights', 'extensions' => ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx']],
-            'downloads' => ['label' => 'Downloads', 'permission' => 'downloads', 'extensions' => ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'jpg', 'jpeg', 'png', 'gif', 'zip', 'rar']],
-            'schedule-of-charges' => ['label' => 'Schedule of charges', 'permission' => 'schedule of charges', 'extensions' => ['pdf', 'doc', 'docx', 'xls', 'xlsx']],
-            'careers' => ['label' => 'Career documents', 'permission' => 'careers', 'extensions' => ['pdf', 'doc', 'docx']],
+            'financial-reports' => ['max_bytes' => (int) env('UPLOAD_LARGE_MAX_BYTES', 10 * 1024 * 1024 * 1024), 'label' => 'Financial reports', 'permission' => 'financial reports', 'extensions' => ['pdf', 'doc', 'docx', 'xls', 'xlsx']],
+            'annual-reports' => ['max_bytes' => (int) env('UPLOAD_LARGE_MAX_BYTES', 10 * 1024 * 1024 * 1024), 'label' => 'Annual reports', 'permission' => 'annual reports', 'extensions' => ['pdf', 'doc', 'docx', 'xls', 'xlsx']],
+            'financial-highlights' => ['max_bytes' => (int) env('UPLOAD_LARGE_MAX_BYTES', 10 * 1024 * 1024 * 1024), 'label' => 'Financial highlights', 'permission' => 'financial highlights', 'extensions' => ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx']],
+            'downloads' => ['max_bytes' => (int) env('UPLOAD_LARGE_MAX_BYTES', 10 * 1024 * 1024 * 1024), 'label' => 'Downloads', 'permission' => 'downloads', 'extensions' => ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'jpg', 'jpeg', 'png', 'gif', 'zip', 'rar']],
+            'schedule-of-charges' => ['max_bytes' => (int) env('UPLOAD_DOCUMENT_MAX_BYTES', 500 * 1024 * 1024), 'label' => 'Schedule of charges', 'permission' => 'schedule of charges', 'extensions' => ['pdf', 'doc', 'docx', 'xls', 'xlsx']],
+            'careers' => ['max_bytes' => (int) env('UPLOAD_DOCUMENT_MAX_BYTES', 500 * 1024 * 1024), 'label' => 'Career documents', 'permission' => 'careers', 'extensions' => ['pdf', 'doc', 'docx']],
         ],
         // What the file's real content may look like for each extension (checked with finfo, not the browser's claim).
         'mimes' => [

@@ -16,7 +16,6 @@ beforeEach(function () {
     $this->seed(RoleAndPermissionSeeder::class);
     Storage::fake('local');
     Storage::fake('public');
-    config(['bank.uploads.staff_max_bytes' => 1000]);
 
     $this->root = User::factory()->create();
     $this->root->assignRole('super-admin');
@@ -133,6 +132,19 @@ describe('financial reports', function () {
         ])->assertRedirect();
 
         expect(Storage::disk('public')->exists(FinancialReport::first()->annual_report))->toBeTrue();
+    });
+});
+
+describe('non super-admin users', function () {
+    it('can upload and attach a large report when they have the module permission', function () {
+        $accountant = User::factory()->create();
+        $accountant->givePermissionTo(['view financial reports', 'create financial reports']);
+
+        $id = chunkedUpload($accountant, 'financial-reports', 'annual.pdf', pdf(95));
+        $this->actingAs($accountant)->post(route('financial-reports.store'), ['fiscal_year' => 2012, 'annual_report_upload_id' => $id])
+            ->assertRedirect(route('financial-reports.index'));
+
+        expect(Storage::disk('public')->get(FinancialReport::where('fiscal_year', 2012)->value('annual_report')))->toBe(pdf(95));
     });
 });
 

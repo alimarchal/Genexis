@@ -61,7 +61,7 @@ export interface SharedData {
     socialLinks: SocialLinks;
     footerLinks: import('@inertiajs/core').PageProps['footerLinks'];
     bankRates: import('@inertiajs/core').PageProps['bankRates'];
-    uploadLimits?: { maxBytes: number; isSuperAdmin: boolean; staffMaxBytes: number } | null;
+    uploadLimits?: { contexts: Record<string, number>; isSuperAdmin: boolean } | null;
     [key: string]: unknown;
 }
 

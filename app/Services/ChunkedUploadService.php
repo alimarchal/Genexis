@@ -27,7 +27,7 @@ class ChunkedUploadService
     private const TEMP_DISK = 'local';
 
     /**
-     * @return array{label: string, permission: string, extensions: list<string>}
+     * @return array{max_bytes: int, label: string, permission: string, extensions: list<string>}
      */
     public function context(string $context): array
     {
@@ -38,18 +38,48 @@ class ChunkedUploadService
         return $definition;
     }
 
-    public function maxBytesFor(User $user): int
+    /**
+     * Largest file this user may upload for an upload type. Anyone allowed to manage the module gets the
+     * module's own limit; a super-admin may additionally always go up to the global super-admin ceiling.
+     */
+    public function maxBytesFor(User $user, string $context): int
     {
+        $moduleLimit = (int) ($this->context($context)['max_bytes'] ?? 0);
+
         return $user->hasRole('super-admin')
-            ? (int) config('bank.uploads.super_admin_max_bytes')
-            : (int) config('bank.uploads.staff_max_bytes');
+            ? max($moduleLimit, (int) config('bank.uploads.super_admin_max_bytes'))
+            : $moduleLimit;
+    }
+
+    public function mayUpload(User $user, string $context): bool
+    {
+        if ($user->hasRole('super-admin')) {
+            return true;
+        }
+
+        $permission = $this->context($context)['permission'];
+
+        return $user->can("create {$permission}") || $user->can("edit {$permission}");
+    }
+
+    /**
+     * Upload limits (bytes) for every upload type the user may use.
+     *
+     * @return array<string, int>
+     */
+    public function limitsFor(User $user): array
+    {
+        return collect(array_keys(config('bank.uploads.contexts')))
+            ->filter(fn (string $context) => $this->mayUpload($user, $context))
+            ->mapWithKeys(fn (string $context) => [$context => $this->maxBytesFor($user, $context)])
+            ->all();
     }
 
     public function start(User $user, string $context, string $filename, int $size, Request $request): UploadSession
     {
         $definition = $this->context($context);
 
-        $this->authorizeStart($user, $definition, $size);
+        $this->authorizeStart($user, $context, $definition, $size);
 
         $extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
 
@@ -89,30 +119,24 @@ class ChunkedUploadService
     }
 
     /**
-     * Large files are a privilege of super-admins; everybody else needs the module permission and a small file.
+     * Anyone who may manage the module can upload up to the module's limit; nobody else can upload at all.
      *
-     * @param  array{label: string, permission: string, extensions: list<string>}  $definition
+     * @param  array{max_bytes: int, label: string, permission: string, extensions: list<string>}  $definition
      */
-    private function authorizeStart(User $user, array $definition, int $size): void
+    private function authorizeStart(User $user, string $context, array $definition, int $size): void
     {
         if ($size < 1) {
             throw ValidationException::withMessages(['size' => 'The file is empty.']);
         }
 
-        if (! $user->hasRole('super-admin')) {
-            $allowed = $user->can("create {$definition['permission']}") || $user->can("edit {$definition['permission']}");
+        abort_unless($this->mayUpload($user, $context), 403, 'You are not allowed to upload files here.');
 
-            abort_unless($allowed, 403, 'You are not allowed to upload files here.');
-        }
-
-        $limit = $this->maxBytesFor($user);
+        $limit = $this->maxBytesFor($user, $context);
 
         if ($size > $limit) {
-            $message = $user->hasRole('super-admin')
-                ? 'The file is larger than the maximum of '.$this->format($limit).'.'
-                : 'Files larger than '.$this->format($limit).' can only be uploaded by a super-admin.';
-
-            throw ValidationException::withMessages(['size' => $message]);
+            throw ValidationException::withMessages([
+                'size' => "The file is larger than the maximum of {$this->format($limit)} for {$definition['label']}.",
+            ]);
         }
     }
 

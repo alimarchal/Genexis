@@ -51,6 +51,8 @@ const recall = (key: string): string | null => {
 
 export default function UploadField({ context, label = 'File', accept, onChange, onBusyChange, currentFileName, error, disabled }: UploadFieldProps) {
     const { uploadLimits } = usePage<SharedData>().props;
+    const limit = uploadLimits?.contexts[context];
+    const notAllowed = uploadLimits != null && limit === undefined;
     const [phase, setPhase] = useState<Phase>('idle');
     const [file, setFile] = useState<File | null>(null);
     const [progress, setProgress] = useState<UploadProgress | null>(null);
@@ -117,12 +119,8 @@ export default function UploadField({ context, label = 'File', accept, onChange,
     const choose = (selected: File | null) => {
         if (!selected) return;
 
-        if (uploadLimits && selected.size > uploadLimits.maxBytes) {
-            setMessage(
-                uploadLimits.isSuperAdmin
-                    ? `This file is larger than the maximum of ${formatBytes(uploadLimits.maxBytes)}.`
-                    : `Files larger than ${formatBytes(uploadLimits.staffMaxBytes)} can only be uploaded by a super-admin.`,
-            );
+        if (limit !== undefined && selected.size > limit) {
+            setMessage(`This file is larger than the maximum of ${formatBytes(limit)} for this type of document.`);
             setPhase('error');
             setFile(selected);
             return;
@@ -151,7 +149,7 @@ export default function UploadField({ context, label = 'File', accept, onChange,
         <div className="space-y-2">
             <div className="flex items-center justify-between gap-2">
                 <span className="text-sm font-medium">{label}</span>
-                {uploadLimits && <span className="text-muted-foreground text-xs">Up to {formatBytes(uploadLimits.maxBytes)}</span>}
+                {limit !== undefined && <span className="text-muted-foreground text-xs">Up to {formatBytes(limit)}</span>}
             </div>
 
             {phase === 'idle' && (
@@ -161,17 +159,23 @@ export default function UploadField({ context, label = 'File', accept, onChange,
                         onDragOver={(event) => event.preventDefault()}
                         onDrop={(event) => {
                             event.preventDefault();
-                            if (!disabled) choose(event.dataTransfer.files?.[0] ?? null);
+                            if (!disabled && !notAllowed) choose(event.dataTransfer.files?.[0] ?? null);
                         }}
                     >
                         <Upload className="text-muted-foreground h-6 w-6" />
-                        <span>{currentFileName ? 'Choose a new file to replace the current one' : 'Click to choose a file or drop it here'}</span>
+                        <span>
+                            {notAllowed
+                                ? 'You do not have permission to upload files here'
+                                : currentFileName
+                                  ? 'Choose a new file to replace the current one'
+                                  : 'Click to choose a file or drop it here'}
+                        </span>
                         {accept && <span className="text-muted-foreground text-xs">{accept.map((ext) => ext.toUpperCase()).join(', ')}</span>}
                         <input
                             ref={inputRef}
                             type="file"
                             className="sr-only"
-                            disabled={disabled}
+                            disabled={disabled || notAllowed}
                             accept={accept?.map((ext) => `.${ext}`).join(',')}
                             onChange={(event) => choose(event.target.files?.[0] ?? null)}
                         />
@@ -260,7 +264,7 @@ export default function UploadField({ context, label = 'File', accept, onChange,
                     {phase === 'error' && (
                         <div className="space-y-2">
                             <p className="text-sm text-red-600">{message}</p>
-                            {file && !message?.includes('super-admin') && !message?.includes('maximum') && (
+                            {file && !message?.includes('maximum') && (
                                 <Button type="button" variant="outline" size="sm" onClick={() => choose(file)}>
                                     <RotateCcw className="mr-1 h-3.5 w-3.5" /> Try again
                                 </Button>

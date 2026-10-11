@@ -36,7 +36,9 @@ class UploadController extends Controller
             'limits' => [
                 'chunk_size' => (int) config('bank.uploads.chunk_size'),
                 'super_admin_max_bytes' => (int) config('bank.uploads.super_admin_max_bytes'),
-                'staff_max_bytes' => (int) config('bank.uploads.staff_max_bytes'),
+                'contexts' => collect(config('bank.uploads.contexts'))
+                    ->map(fn (array $definition) => ['label' => $definition['label'], 'max_bytes' => (int) $definition['max_bytes']])
+                    ->all(),
             ],
         ]);
     }

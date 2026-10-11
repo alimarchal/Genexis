@@ -12,7 +12,8 @@ beforeEach(function () {
     Storage::fake('public');
     config([
         'bank.uploads.chunk_size' => 10,
-        'bank.uploads.staff_max_bytes' => 50,
+        'bank.uploads.contexts.downloads.max_bytes' => 50,
+        'bank.uploads.contexts.careers.max_bytes' => 30,
         'bank.uploads.super_admin_max_bytes' => 10_000_000_000,
         'bank.uploads.reserve_bytes' => 0,
         'bank.uploads.max_active_per_user' => 3,
@@ -43,12 +44,46 @@ describe('starting an upload', function () {
         startUpload($this->staff, ['context' => 'financial-reports'])->assertForbidden();
     });
 
-    it('keeps large files for super-admins only', function () {
-        startUpload($this->staff, ['size' => 51])
+    it('lets anyone with the module permission upload large files up to that module limit', function () {
+        config(['bank.uploads.contexts.financial-reports.max_bytes' => 5 * 1024 * 1024 * 1024]);
+        $accountant = User::factory()->create();
+        $accountant->givePermissionTo('create financial reports');
+
+        startUpload($accountant, ['context' => 'financial-reports', 'filename' => 'q1.pdf', 'size' => 4 * 1024 * 1024 * 1024])->assertCreated();
+        startUpload($accountant, ['context' => 'financial-reports', 'filename' => 'q3.pdf', 'size' => 5 * 1024 * 1024 * 1024 + 1])
             ->assertUnprocessable()
             ->assertJsonValidationErrors('size');
+    });
 
-        startUpload($this->root, ['size' => 5 * 1024 * 1024 * 1024])->assertCreated();
+    it('applies the limit of each module separately', function () {
+        $both = User::factory()->create();
+        $both->givePermissionTo(['create downloads', 'create careers', 'edit annual reports']);
+
+        startUpload($both, ['size' => 51])->assertUnprocessable()->assertJsonValidationErrors('size');
+        startUpload($both, ['context' => 'careers', 'filename' => 'job.pdf', 'size' => 31])->assertUnprocessable();
+        startUpload($both, ['context' => 'annual-reports', 'filename' => 'ar.pdf', 'size' => 3 * 1024 * 1024 * 1024])->assertCreated();
+    });
+
+    it('does not let a user upload for a module they have no permission for, however small the file', function () {
+        $viewer = User::factory()->create();
+        $viewer->givePermissionTo('view financial reports');
+
+        startUpload($viewer, ['context' => 'financial-reports', 'filename' => 'q1.pdf', 'size' => 10])->assertForbidden();
+    });
+
+    it('lets a super-admin go beyond a module limit, up to the global ceiling', function () {
+        startUpload($this->root, ['size' => 5000])->assertCreated();
+    });
+
+    it('tells every user which upload types they may use and how large', function () {
+        $this->actingAs($this->staff)->get(route('dashboard'))->assertInertia(fn ($page) => $page
+            ->where('uploadLimits.isSuperAdmin', false)
+            ->where('uploadLimits.contexts.downloads', 50)
+            ->missing('uploadLimits.contexts.financial-reports'));
+
+        $this->actingAs($this->root)->get(route('dashboard'))->assertInertia(fn ($page) => $page
+            ->where('uploadLimits.isSuperAdmin', true)
+            ->has('uploadLimits.contexts.financial-reports'));
     });
 
     it('enforces the super-admin ceiling too', function () {

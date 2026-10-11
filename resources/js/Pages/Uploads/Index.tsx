@@ -36,7 +36,7 @@ interface Props {
     sessions: { data: Session[]; current_page: number; last_page: number; total: number; from: number | null; to: number | null };
     filters: { status: string | null };
     statuses: string[];
-    limits: { chunk_size: number; super_admin_max_bytes: number; staff_max_bytes: number };
+    limits: { chunk_size: number; super_admin_max_bytes: number; contexts: Record<string, { label: string; max_bytes: number }> };
 }
 
 const badgeVariant = (status: Session['status']) =>
@@ -60,10 +60,16 @@ export default function Index({ sessions, filters, statuses, limits }: Props) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Upload Log" />
             <div className="px-4 py-6 md:px-10">
-                <Heading
-                    title="Upload Log"
-                    description={`Every large-file upload and how far it got. Super-admins may upload up to ${formatBytes(limits.super_admin_max_bytes)}; other staff up to ${formatBytes(limits.staff_max_bytes)}.`}
-                />
+                <Heading title="Upload Log" description="Every large-file upload and how far it got. Limits per document type are shown below." />
+
+                <ul className="text-muted-foreground mt-4 flex flex-wrap gap-x-6 gap-y-1 text-xs">
+                    {Object.entries(limits.contexts).map(([key, definition]) => (
+                        <li key={key}>
+                            {definition.label}: up to {formatBytes(definition.max_bytes)}
+                        </li>
+                    ))}
+                    <li>Super-admins: up to {formatBytes(limits.super_admin_max_bytes)}</li>
+                </ul>
 
                 <div className="mt-6 flex flex-wrap gap-2">
                     <Button variant={filters.status ? 'outline' : 'default'} size="sm" onClick={() => go({ status: null })}>
