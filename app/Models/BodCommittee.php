@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\QueryBuilder\AllowedFilter;
 
- // Import the Management model
+// Import the Management model
 
 class BodCommittee extends Model
 {
