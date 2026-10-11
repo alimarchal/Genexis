@@ -58,6 +58,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      # ziggy-js is installed from vendor/, so the TypeScript check needs Composer packages too
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+      - run: composer install --prefer-dist --no-interaction --no-progress --no-scripts
       - uses: actions/setup-node@v4
         with:
           node-version: 22
