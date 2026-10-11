@@ -75,7 +75,7 @@ jobs:
         with:
           php-version: '8.3'
           coverage: none
-      - run: composer audit --no-interaction
+      - run: composer audit --locked --no-interaction
       - uses: actions/setup-node@v4
         with:
           node-version: 22
