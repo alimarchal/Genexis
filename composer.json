@@ -12,7 +12,7 @@
         "php": "^8.3",
         "inertiajs/inertia-laravel": "^2.0",
         "laravel/framework": "^13.0",
-        "laravel/scout": "^10.15",
+        "laravel/scout": "^11.9",
         "laravel/tinker": "^3.0",
         "spatie/laravel-permission": "^6.18",
         "spatie/laravel-query-builder": "^6.3",
