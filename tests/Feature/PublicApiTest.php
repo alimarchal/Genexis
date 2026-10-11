@@ -121,14 +121,15 @@ describe('nearby branches', function () {
 describe('regions and districts', function () {
     it('lists active regions with their active branch count', function () {
         $region = Region::factory()->create(['status' => 'active', 'name' => 'Muzaffarabad']);
-        Region::factory()->create(['status' => 'inactive']);
-        makeBranch(['region_id' => $region->id]);
-        makeBranch(['region_id' => $region->id, 'status' => 'inactive']);
+        $retired = Region::factory()->create(['status' => 'inactive', 'name' => 'Retired Region']);
+        $district = District::factory()->create(['region_id' => $region->id]);
+        makeBranch(['region_id' => $region->id, 'district_id' => $district->id]);
+        makeBranch(['region_id' => $region->id, 'district_id' => $district->id, 'status' => 'inactive']);
 
-        $response = $this->getJson('/api/v1/regions')->assertOk();
+        $regions = collect($this->getJson('/api/v1/regions')->assertOk()->json('data'))->keyBy('name');
 
-        expect($response->json('data'))->toHaveCount(1);
-        expect($response->json('data.0.branches_count'))->toBe(1);
+        expect($regions->has('Retired Region'))->toBeFalse()
+            ->and($regions['Muzaffarabad']['branches_count'])->toBe(1);
     });
 
     it('narrows districts by region', function () {

@@ -19,7 +19,7 @@ class ContactController extends Controller
             ->allowedFilters(Contact::getAllowedFilters())
             ->allowedSorts(Contact::getAllowedSorts())
             ->defaultSort('-created_at')
-            ->paginate(request('per_page', 15))
+            ->paginate($this->perPage(15))
             ->withQueryString();
 
         $branches = Branch::active()->orderBy('name')->get();

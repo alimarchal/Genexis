@@ -20,7 +20,7 @@ class BranchController extends Controller
             ->allowedFilters(Branch::getAllowedFilters())
             ->allowedSorts(Branch::getAllowedSorts())
             ->defaultSort('-created_at')
-            ->paginate(request('per_page', 15))
+            ->paginate($this->perPage(15))
             ->withQueryString();
 
         $regions = Region::active()->orderBy('name')->get();

@@ -18,7 +18,7 @@ class DownloadController extends Controller
             ->allowedFilters(Download::getAllowedFilters())
             ->allowedSorts(Download::getAllowedSorts())
             ->defaultSort('-created_at')
-            ->paginate(request('per_page', 15))
+            ->paginate($this->perPage(15))
             ->withQueryString();
 
         return Inertia::render('Download/Index', [
@@ -100,11 +100,13 @@ class DownloadController extends Controller
 
     public function download(Download $download)
     {
-        if (!$download->file_path) {
+        abort_unless($download->is_active || auth()->user()?->can('view downloads'), 404, 'File not found.');
+
+        if (! $download->file_path) {
             abort(404, 'File not found.');
         }
 
-        if (!Storage::disk('public')->exists($download->file_path)) {
+        if (! Storage::disk('public')->exists($download->file_path)) {
             abort(404, 'File not found.');
         }
 
@@ -112,7 +114,7 @@ class DownloadController extends Controller
         $download->incrementDownloadCount();
 
         $originalExtension = pathinfo($download->file_path, PATHINFO_EXTENSION);
-        $filename = $download->title . '.' . $originalExtension;
+        $filename = $download->title.'.'.$originalExtension;
 
         return Storage::disk('public')->download($download->file_path, $filename);
     }
@@ -123,7 +125,7 @@ class DownloadController extends Controller
         $downloads = Download::where('is_active', true)
             ->orderBy('is_featured', 'desc')
             ->orderBy('created_at', 'desc')
-            ->paginate(request('per_page', 12))
+            ->paginate($this->perPage(12))
             ->withQueryString()
             ->through(function ($download) {
                 return [

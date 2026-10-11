@@ -18,7 +18,7 @@ class ScheduleOfChargeController extends Controller
             ->allowedFilters(ScheduleOfCharge::getAllowedFilters())
             ->allowedSorts(ScheduleOfCharge::getAllowedSorts())
             ->defaultSort('-created_at')
-            ->paginate(request('per_page', 15))
+            ->paginate($this->perPage(15))
             ->withQueryString();
 
         return Inertia::render('ScheduleOfCharges/Index', [
@@ -93,7 +93,9 @@ class ScheduleOfChargeController extends Controller
 
     public function download(ScheduleOfCharge $scheduleOfCharge)
     {
-        if (!$scheduleOfCharge->attachment || !Storage::disk('public')->exists($scheduleOfCharge->attachment)) {
+        abort_unless($scheduleOfCharge->is_active || auth()->user()?->can('view schedule of charges'), 404, 'File not found.');
+
+        if (! $scheduleOfCharge->attachment || ! Storage::disk('public')->exists($scheduleOfCharge->attachment)) {
             abort(404, 'File not found');
         }
 
@@ -108,7 +110,7 @@ class ScheduleOfChargeController extends Controller
      */
     public function publicIndex(Request $request)
     {
-        $perPage = $request->input('per_page', 10);
+        $perPage = $this->perPage(10);
 
         $scheduleOfCharges = ScheduleOfCharge::where('is_active', true)
             ->orderBy('created_at', 'desc') // Latest records first
@@ -136,7 +138,6 @@ class ScheduleOfChargeController extends Controller
             'scheduleOfCharges' => $scheduleOfCharges,
         ]);
     }
-
 
     /**
      * Format file size in human readable format

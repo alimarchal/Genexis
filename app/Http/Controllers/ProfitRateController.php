@@ -17,7 +17,7 @@ class ProfitRateController extends Controller
             ->allowedFilters(ProfitRate::getAllowedFilters())
             ->allowedSorts(ProfitRate::getAllowedSorts())
             ->defaultSort('sort_order', '-created_at')
-            ->paginate(request('per_page', 15))
+            ->paginate($this->perPage(15))
             ->withQueryString();
 
         return Inertia::render('ProfitRates/Index', [

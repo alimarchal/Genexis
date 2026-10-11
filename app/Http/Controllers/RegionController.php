@@ -18,7 +18,7 @@ class RegionController extends Controller
             ->allowedFilters(Region::getAllowedFilters())
             ->allowedSorts(Region::getAllowedSorts())
             ->defaultSort('-created_at')
-            ->paginate(request('per_page', 15))
+            ->paginate($this->perPage(15))
             ->withQueryString();
 
         return Inertia::render('Region/Index', [
@@ -30,7 +30,7 @@ class RegionController extends Controller
     public function create()
     {
         $divisions = Division::where('is_active', true)->orderBy('name')->get();
-        
+
         return Inertia::render('Region/Create', [
             'divisions' => $divisions,
         ]);
@@ -57,7 +57,7 @@ class RegionController extends Controller
     {
         $divisions = Division::where('is_active', true)->orderBy('name')->get();
         $region->load('division');
-        
+
         return Inertia::render('Region/Edit', [
             'region' => $region,
             'divisions' => $divisions,

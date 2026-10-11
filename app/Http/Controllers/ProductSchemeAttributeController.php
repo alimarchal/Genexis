@@ -19,7 +19,7 @@ class ProductSchemeAttributeController extends Controller
             ->allowedFilters(ProductSchemeAttribute::getAllowedFilters())
             ->allowedSorts(ProductSchemeAttribute::getAllowedSorts())
             ->defaultSort('sort_order')
-            ->paginate(request('per_page', 15))
+            ->paginate($this->perPage(15))
             ->withQueryString();
 
         $schemes = ProductScheme::with('productTypeAccount')->active()->get();

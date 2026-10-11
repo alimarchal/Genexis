@@ -18,7 +18,7 @@ class AnnualReportController extends Controller
             ->allowedFilters(AnnualReport::getAllowedFilters())
             ->allowedSorts(AnnualReport::getAllowedSorts())
             ->defaultSort('-annual_report_fiscal_year', '-created_at')
-            ->paginate(request('per_page', 15))
+            ->paginate($this->perPage(15))
             ->withQueryString();
 
         return Inertia::render('AnnualReports/Index', [
@@ -96,7 +96,7 @@ class AnnualReportController extends Controller
 
     public function download(AnnualReport $annualReport)
     {
-        if (!$annualReport->annual_report || !Storage::disk('public')->exists($annualReport->annual_report)) {
+        if (! $annualReport->annual_report || ! Storage::disk('public')->exists($annualReport->annual_report)) {
             abort(404, 'File not found');
         }
 

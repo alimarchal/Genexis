@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreBodCommitteeRequest;
 use App\Http\Requests\UpdateBodCommitteeRequest;
-use App\Models\BodCommittee;
 use App\Models\BoardOfDirector;
+use App\Models\BodCommittee;
 use App\Models\Management;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -20,7 +20,7 @@ class BodCommitteeController extends Controller
             ->allowedFilters(BodCommittee::getAllowedFilters())
             ->allowedSorts(BodCommittee::getAllowedSorts())
             ->defaultSort('sort_order', '-created_at')
-            ->paginate(request('per_page', 15))
+            ->paginate($this->perPage(15))
             ->withQueryString();
 
         return Inertia::render('BodCommittees/Index', [
@@ -139,7 +139,7 @@ class BodCommitteeController extends Controller
                         return [
                             'name' => $member->full_name,
                             'designation' => $member->designation,
-                            'attachment' => $member->attachment ? asset('storage/' . $member->attachment) : null,
+                            'attachment' => $member->attachment ? asset('storage/'.$member->attachment) : null,
                         ];
                     }),
                 ];

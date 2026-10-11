@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Inertia\Inertia;
-use App\Models\Service;
-use Illuminate\Http\Request;
-use App\Models\ServiceAttribute;
-use Spatie\QueryBuilder\QueryBuilder;
-use Spatie\QueryBuilder\AllowedFilter;
 use App\Http\Requests\StoreServiceAttributeRequest;
 use App\Http\Requests\UpdateServiceAttributeRequest;
-
+use App\Models\Service;
+use App\Models\ServiceAttribute;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class ServiceAttributeController extends Controller
 {
@@ -19,12 +18,12 @@ class ServiceAttributeController extends Controller
         $serviceAttributes = QueryBuilder::for(ServiceAttribute::class)
             ->allowedFilters([
                 AllowedFilter::partial('attribute_name'),
-                AllowedFilter::exact('service_id')
+                AllowedFilter::exact('service_id'),
             ])
             ->allowedSorts(['id', 'attribute_name', 'sort_order', 'created_at'])
             ->with('service:id,name')
             ->defaultSort('sort_order')
-            ->paginate($request->get('per_page', 10))
+            ->paginate($this->perPage(10))
             ->withQueryString();
 
         $services = Service::select('id', 'name')->orderBy('name')->get();
