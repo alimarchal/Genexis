@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     {{-- Inline script to detect system dark mode preference and apply it immediately --}}
-    <script>
+    <script nonce="{{ Vite::cspNonce() }}">
         (function () {
             const appearance = '{{ $appearance ?? "system" }}';
 
@@ -40,7 +40,7 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
 
-    @routes
+    @routes(null, Vite::cspNonce())
     @viteReactRefresh
     @vite(['resources/js/app.tsx', "resources/js/Pages/{$page['component']}.tsx"])
     @inertiaHead
