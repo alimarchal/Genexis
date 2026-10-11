@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Traits\GuardsPrivilegeEscalation;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
@@ -15,6 +16,8 @@ use Spatie\Permission\Models\Role;
 
 class UserController extends Controller implements HasMiddleware
 {
+    use GuardsPrivilegeEscalation;
+
     public static function middleware(): array
     {
         return [
@@ -30,8 +33,8 @@ class UserController extends Controller implements HasMiddleware
         $query = User::with(['roles', 'permissions']);
 
         if ($request->has('search')) {
-            $query->where('name', 'like', '%' . $request->search . '%')
-                ->orWhere('email', 'like', '%' . $request->search . '%');
+            $query->where('name', 'like', '%'.$request->search.'%')
+                ->orWhere('email', 'like', '%'.$request->search.'%');
         }
 
         $users = $query->paginate(10)->withQueryString();
@@ -62,6 +65,8 @@ class UserController extends Controller implements HasMiddleware
             'permissions.*' => 'exists:permissions,id',
         ]);
 
+        $this->authorizeGrant($request->input('roles', []), $request->input('permissions', []));
+
         DB::transaction(function () use ($request) {
             $user = User::create([
                 'name' => $request->name,
@@ -87,6 +92,8 @@ class UserController extends Controller implements HasMiddleware
 
     public function edit(User $user)
     {
+        $this->authorizeTouchingUser($user);
+
         return Inertia::render('Admin/Users/Edit', [
             'user' => $user->load(['roles', 'permissions']),
             'roles' => Role::all(),
@@ -100,6 +107,8 @@ class UserController extends Controller implements HasMiddleware
 
     public function update(Request $request, User $user)
     {
+        $this->authorizeTouchingUser($user);
+
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => ['required', 'email', Rule::unique('users')->ignore($user->id)],
@@ -110,6 +119,8 @@ class UserController extends Controller implements HasMiddleware
             'permissions.*' => 'exists:permissions,id',
         ]);
 
+        $this->authorizeGrant($request->input('roles', []), $request->input('permissions', []));
+
         // Prevent removing super-admin role from the last super-admin
         if ($user->hasRole('super-admin')) {
             // Check if the user is trying to remove the super-admin role
@@ -118,7 +129,7 @@ class UserController extends Controller implements HasMiddleware
             $superAdminRole = Role::where('name', 'super-admin')->first();
             $submittedRoleIds = $request->input('roles', []);
 
-            if ($superAdminRole && !in_array($superAdminRole->id, $submittedRoleIds)) {
+            if ($superAdminRole && ! in_array($superAdminRole->id, $submittedRoleIds)) {
                 // Trying to remove super-admin role
                 // Check if this is the user themselves (usually prevented) or check count.
                 // Ideally, enforce that at least one SA exists.
@@ -162,6 +173,8 @@ class UserController extends Controller implements HasMiddleware
 
     public function destroy(User $user)
     {
+        $this->authorizeTouchingUser($user);
+
         if ($user->id === auth()->id()) {
             return back()->withErrors(['error' => 'Cannot delete your own account.']);
         }
