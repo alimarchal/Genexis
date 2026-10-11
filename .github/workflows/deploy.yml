@@ -39,7 +39,7 @@ jobs:
             echo "ready=true" >> "$GITHUB_OUTPUT"
           fi
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         if: steps.config.outputs.ready == 'true'
 
       - uses: actions/setup-node@v4
