@@ -23,7 +23,7 @@ class BankServiceController extends Controller
             ])
             ->allowedSorts(['id', 'title', 'service_type', 'order', 'created_at'])
             ->defaultSort('-created_at')
-            ->paginate(request('per_page', 15))
+            ->paginate($this->perPage(15))
             ->withQueryString();
 
         return Inertia::render('BankService/Index', [

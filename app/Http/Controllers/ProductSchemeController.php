@@ -19,7 +19,7 @@ class ProductSchemeController extends Controller
             ->allowedFilters(ProductScheme::getAllowedFilters())
             ->allowedSorts(ProductScheme::getAllowedSorts())
             ->defaultSort('-created_at')
-            ->paginate(request('per_page', 15))
+            ->paginate($this->perPage(15))
             ->withQueryString();
 
         $accounts = ProductTypeAccount::with('productType.product')->active()->get();

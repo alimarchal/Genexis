@@ -18,7 +18,7 @@ class CareerController extends Controller
             ->allowedFilters(Career::getAllowedFilters())
             ->allowedSorts(Career::getAllowedSorts())
             ->defaultSort('-is_featured', '-created_at')
-            ->paginate(request('per_page', 15))
+            ->paginate($this->perPage(15))
             ->withQueryString();
 
         return Inertia::render('Careers/Index', [
@@ -65,7 +65,7 @@ class CareerController extends Controller
     public function update(UpdateCareerRequest $request, Career $career)
     {
         $data = $request->validated();
-        
+
         // Convert string boolean values to actual booleans
         $data['is_active'] = $request->input('is_active') === '1';
         $data['is_featured'] = $request->input('is_featured') === '1';
@@ -97,26 +97,25 @@ class CareerController extends Controller
             ->with('success', 'Career deleted successfully.');
     }
 
-  public function download(Career $career)
-{
-    $path = $career->document; // e.g. careers/career11.jpeg
+    public function download(Career $career)
+    {
+        $path = $career->document; // e.g. careers/career11.jpeg
 
-    if (!Storage::disk('public')->exists($path)) {
-        abort(404, 'File not found.');
+        abort_unless(Career::active()->open()->whereKey($career->id)->exists() || auth()->user()?->can('view careers'), 404, 'File not found.');
+
+        if (! $path || ! Storage::disk('public')->exists($path)) {
+            abort(404, 'File not found.');
+        }
+
+        return Storage::disk('public')->download($path, basename($path));
     }
 
-    return Storage::disk('public')->download($path, basename($path));
-}
     // Public method for website careers
     public function publicIndex(Request $request)
     {
-        $perPage = $request->input('per_page', 10);
+        $perPage = $this->perPage(10);
 
-        $careers = Career::where('is_active', true)
-            ->where(function ($query) {
-                $query->whereNull('closing_date')
-                    ->orWhere('closing_date', '>=', now());
-            })
+        $careers = Career::active()->open()
             ->orderBy('is_featured', 'desc')
             ->orderBy('created_at', 'desc')
             ->paginate($perPage)
@@ -144,13 +143,12 @@ class CareerController extends Controller
 
     public function publicShow(Career $career)
     {
-        if (!$career->is_active || ($career->closing_date && $career->closing_date->isPast())) {
+        if (! Career::active()->open()->whereKey($career->id)->exists()) {
             abort(404, 'Career not available.');
         }
 
         // Increment views count
         $career->incrementViews();
-
 
         return Inertia::render('Careers/PublicCareerDetail', [
             'career' => [

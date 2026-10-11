@@ -19,7 +19,7 @@ class BranchServiceController extends Controller
             ->allowedFilters(BranchService::getAllowedFilters())
             ->allowedSorts(BranchService::getAllowedSorts())
             ->defaultSort('-created_at')
-            ->paginate(request('per_page', 15))
+            ->paginate($this->perPage(15))
             ->withQueryString();
 
         $branches = Branch::active()->orderBy('name')->get();

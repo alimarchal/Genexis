@@ -18,7 +18,7 @@ class BoardOfDirectorController extends Controller
             ->allowedFilters(BoardOfDirector::getAllowedFilters())
             ->allowedSorts(BoardOfDirector::getAllowedSorts())
             ->defaultSort('-sort_order')
-            ->paginate(request('per_page', 15))
+            ->paginate($this->perPage(15))
             ->withQueryString();
 
         return Inertia::render('BoardOfDirector/Index', [

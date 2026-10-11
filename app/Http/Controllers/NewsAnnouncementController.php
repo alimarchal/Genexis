@@ -23,7 +23,7 @@ class NewsAnnouncementController extends Controller
             ])
             ->allowedSorts(['id', 'title', 'published_date', 'category', 'created_at'])
             ->defaultSort('-created_at')
-            ->paginate(request('per_page', 15))
+            ->paginate($this->perPage(15))
             ->withQueryString();
 
         return Inertia::render('NewsAnnouncement/Index', [

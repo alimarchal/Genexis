@@ -17,7 +17,7 @@ class ProductController extends Controller
             ->allowedFilters(Product::getAllowedFilters())
             ->allowedSorts(Product::getAllowedSorts())
             ->defaultSort('-created_at')
-            ->paginate(request('per_page', 15))
+            ->paginate($this->perPage(15))
             ->withQueryString();
 
         return Inertia::render('Products/Index', [

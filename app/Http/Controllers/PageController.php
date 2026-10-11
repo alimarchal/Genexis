@@ -16,10 +16,12 @@ use App\Models\FinancialHighlight;
 use App\Models\FinancialReport;
 use App\Models\Management;
 use App\Models\NewsAnnouncement;
+use App\Models\ProductScheme;
 use App\Models\ProductTypeAccount;
 use App\Models\ProfitRate;
 use App\Models\Region;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\RateLimiter;
@@ -56,6 +58,26 @@ class PageController extends Controller
 
         // Otherwise, treat as a storage file path
         return asset('storage/'.$image);
+    }
+
+    /**
+     * Active schemes (with active attributes) of a product account type.
+     * An unknown or renamed account type yields an empty list instead of a 500.
+     *
+     * @return Collection<int, ProductScheme>
+     */
+    private function activeSchemesFor(string $accountName): Collection
+    {
+        $account = ProductTypeAccount::where('name', $accountName)->first();
+
+        if (! $account) {
+            return collect();
+        }
+
+        return $account->productSchemes()
+            ->with(['attributes' => fn ($query) => $query->where('is_active', true)->orderBy('sort_order')])
+            ->where('is_active', true)
+            ->get();
     }
 
     public function home()
@@ -223,6 +245,7 @@ class PageController extends Controller
     public function news()
     {
         $newsAnnouncements = NewsAnnouncement::published()
+            ->recent()
             ->orderBy('published_date', 'desc')
             ->paginate(12)
             ->through(function ($news) {
@@ -254,10 +277,12 @@ class PageController extends Controller
     public function newsDetail($slug)
     {
         $news = NewsAnnouncement::published()
+            ->recent()
             ->where('slug', $slug)
             ->firstOrFail();
 
         $relatedNews = NewsAnnouncement::published()
+            ->recent()
             ->where('id', '!=', $news->id)
             ->where('category', $news->category)
             ->limit(3)
@@ -297,106 +322,32 @@ class PageController extends Controller
 
     public function depositAccounts()
     {
-
-        $depositAccount = ProductTypeAccount::where('name', 'Deposit Accounts')->first();
-
-        $schemes = $depositAccount->productSchemes()
-            ->with([
-                'attributes' => function ($query) {
-                    $query->where('is_active', true)
-                        ->orderBy('sort_order');
-                },
-            ])
-            ->where('is_active', true)
-            ->get();
-
-        return inertia('Products/DepositAccounts', [
-            'schemes' => $schemes,
-        ]);
+        return inertia('Products/DepositAccounts', ['schemes' => $this->activeSchemesFor('Deposit Accounts')]);
     }
 
     public function termDeposit()
     {
-
-        $termDeposit = ProductTypeAccount::where('name', 'Term Deposit')->first();
-
-        $schemes = $termDeposit->productSchemes()
-            ->with([
-                'attributes' => function ($query) {
-                    $query->where('is_active', true)
-                        ->orderBy('sort_order');
-                },
-            ])
-            ->where('is_active', true)
-            ->get();
-
-        return inertia('Products/TermDeposit', [
-            'schemes' => $schemes,
-        ]);
+        return inertia('Products/TermDeposit', ['schemes' => $this->activeSchemesFor('Term Deposit')]);
     }
 
     public function consumerFinances()
     {
-        $consumerFinance = ProductTypeAccount::where('name', 'Consumer Finances')->first();
-
-        $schemes = $consumerFinance?->productSchemes()
-            ->with([
-                'attributes' => function ($query) {
-                    $query->where('is_active', true)->orderBy('sort_order');
-                },
-            ])
-            ->where('is_active', true)
-            ->get();
-
-        return inertia('Products/ConsumerFinances', ['schemes' => $schemes]);
+        return inertia('Products/ConsumerFinances', ['schemes' => $this->activeSchemesFor('Consumer Finances')]);
     }
 
     public function commercialSME()
     {
-        $commercialSME = ProductTypeAccount::where('name', 'Commercial / SME Finances')->first();
-
-        $schemes = $commercialSME->productSchemes()
-            ->with([
-                'attributes' => function ($query) {
-                    $query->where('is_active', true)->orderBy('sort_order');
-                },
-            ])
-            ->where('is_active', true)
-            ->get();
-
-        return inertia('Products/CommercialSmeFinances', ['schemes' => $schemes]);
+        return inertia('Products/CommercialSmeFinances', ['schemes' => $this->activeSchemesFor('Commercial / SME Finances')]);
     }
 
     public function agriculture()
     {
-        $agriculture = ProductTypeAccount::where('name', 'Agriculture Finances')->first();
-
-        $schemes = $agriculture->productSchemes()
-            ->with([
-                'attributes' => function ($query) {
-                    $query->where('is_active', true)->orderBy('sort_order');
-                },
-            ])
-            ->where('is_active', true)
-            ->get();
-
-        return inertia('Products/AgricultureFinances', ['schemes' => $schemes]);
+        return inertia('Products/AgricultureFinances', ['schemes' => $this->activeSchemesFor('Agriculture Finances')]);
     }
 
     public function microFinance()
     {
-        $microFinance = ProductTypeAccount::where('name', 'Micro Finances')->first();
-
-        $schemes = $microFinance->productSchemes()
-            ->with([
-                'attributes' => function ($query) {
-                    $query->where('is_active', true)->orderBy('sort_order');
-                },
-            ])
-            ->where('is_active', true)
-            ->get();
-
-        return inertia('Products/MicroFinances', ['schemes' => $schemes]);
+        return inertia('Products/MicroFinances', ['schemes' => $this->activeSchemesFor('Micro Finances')]);
     }
 
     public function branchNetwork()

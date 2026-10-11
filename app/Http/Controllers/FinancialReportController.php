@@ -18,7 +18,7 @@ class FinancialReportController extends Controller
             ->allowedFilters(FinancialReport::getAllowedFilters())
             ->allowedSorts(FinancialReport::getAllowedSorts())
             ->defaultSort('-fiscal_year', '-created_at')
-            ->paginate(request('per_page', 15))
+            ->paginate($this->perPage(15))
             ->withQueryString();
 
         return Inertia::render('FinancialReports/Index', [
@@ -111,13 +111,13 @@ class FinancialReportController extends Controller
     {
         $allowedTypes = ['first_quarter_report', 'half_yearly_report', 'third_quarter_report', 'annual_report'];
 
-        if (!in_array($type, $allowedTypes)) {
+        if (! in_array($type, $allowedTypes)) {
             abort(404, 'Invalid report type');
         }
 
         $filePath = $financialReport->$type;
 
-        if (!$filePath || !Storage::disk('public')->exists($filePath)) {
+        if (! $filePath || ! Storage::disk('public')->exists($filePath)) {
             abort(404, 'File not found');
         }
 
@@ -126,7 +126,7 @@ class FinancialReportController extends Controller
             'first_quarter_report' => 'Q1',
             'half_yearly_report' => 'Half-Yearly',
             'third_quarter_report' => 'Q3',
-            'annual_report' => 'Annual'
+            'annual_report' => 'Annual',
         ];
 
         $typeName = $typeNames[$type];

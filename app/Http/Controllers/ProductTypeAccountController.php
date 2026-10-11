@@ -19,7 +19,7 @@ class ProductTypeAccountController extends Controller
             ->allowedFilters(ProductTypeAccount::getAllowedFilters())
             ->allowedSorts(ProductTypeAccount::getAllowedSorts())
             ->defaultSort('-created_at')
-            ->paginate(request('per_page', 15))
+            ->paginate($this->perPage(15))
             ->withQueryString();
 
         $productTypes = ProductType::with('product')->active()->get();

@@ -18,7 +18,7 @@ class FinancialHighlightController extends Controller
             ->allowedFilters(FinancialHighlight::getAllowedFilters())
             ->allowedSorts(FinancialHighlight::getAllowedSorts())
             ->defaultSort('-fiscal_year', '-created_at')
-            ->paginate(request('per_page', 15))
+            ->paginate($this->perPage(15))
             ->withQueryString();
 
         return Inertia::render('FinancialHighlights/Index', [
@@ -94,7 +94,7 @@ class FinancialHighlightController extends Controller
 
     public function download(FinancialHighlight $financialHighlight)
     {
-        if (!$financialHighlight->financial_highlights || !Storage::disk('public')->exists($financialHighlight->financial_highlights)) {
+        if (! $financialHighlight->financial_highlights || ! Storage::disk('public')->exists($financialHighlight->financial_highlights)) {
             abort(404, 'File not found');
         }
 
