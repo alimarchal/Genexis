@@ -2,11 +2,12 @@
 
 namespace App\Http\Middleware;
 
+use App\Services\MenuService;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Inertia\Middleware;
 use Tighten\Ziggy\Ziggy;
-use App\Services\MenuService;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -49,11 +50,11 @@ class HandleInertiaRequests extends Middleware
                 'permissions' => $request->user()?->getAllPermissions()->pluck('name') ?? [],
                 'roles' => $request->user()?->getRoleNames() ?? [],
             ],
-            'ziggy' => fn(): array => [
+            'ziggy' => fn (): array => [
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),
             ],
-            'sidebarOpen' => !$request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
+            'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
             // Dynamic navigation menu - always fresh with aggressive cache busting
             'menu' => function () {
                 try {
@@ -61,78 +62,79 @@ class HandleInertiaRequests extends Middleware
 
                     // Add timestamp to force fresh data in development
                     if (config('app.env') === 'local') {
-                        \Illuminate\Support\Facades\Cache::forget('main_menu_v2');
+                        Cache::forget('main_menu_v2');
                     }
 
                     return $menuService->formatMenuForFrontend($menuService->getMainMenu());
                 } catch (\Exception $e) {
-                    \Log::warning('Error loading main menu: ' . $e->getMessage());
+                    \Log::warning('Error loading main menu: '.$e->getMessage());
+
                     return [];
                 }
             },
             // now every Inertia page has `bankBranchesCount` in props
-            'bankBranchesCount' => config('app.bank_branches_count'),
-            'contact_phone' => config('app.contact_phone'),
-            'contact_email' => config('app.contact_email'),
-            'contact_address' => config('app.contact_address'),
+            'bankBranchesCount' => config('bank.stats.branches_count'),
+            'contact_phone' => config('bank.contact.contact_phone'),
+            'contact_email' => config('bank.contact.contact_email'),
+            'contact_address' => config('bank.contact.contact_address'),
             'socialLinks' => [
-                'facebook' => env('SOCIAL_FACEBOOK_URL', '#'),
-                'twitter' => env('SOCIAL_TWITTER_URL', '#'),
-                'instagram' => env('SOCIAL_INSTAGRAM_URL', '#'),
-                'linkedin' => env('SOCIAL_LINKEDIN_URL', '#'),
-                'youtube' => env('SOCIAL_YOUTUBE_URL', '#'),
+                'facebook' => config('bank.social.facebook'),
+                'twitter' => config('bank.social.twitter'),
+                'instagram' => config('bank.social.instagram'),
+                'linkedin' => config('bank.social.linkedin'),
+                'youtube' => config('bank.social.youtube'),
             ],
             // Footer Links - Available on all pages
             'footerLinks' => [
                 'banking' => [
-                    'portal_login' => env('PORTAL_LOGIN_URL', 'https://bankajk.com/portal-login'),
-                    'branch_locator' => env('BRANCH_LOCATOR_URL', 'https://bankajk.com/branch-locator'),
-                    'atm_locator' => env('ATM_LOCATOR_URL', 'https://bankajk.com/atm-locator'),
-                    'exchange_rates' => env('EXCHANGE_RATES_URL', 'https://bankajk.com/exchange-rates'),
-                    'interest_rates' => env('INTEREST_RATES_URL', 'https://bankajk.com/interest-rates'),
-                    'forms' => env('FORMS_URL', 'https://bankajk.com/forms-applications'),
-                    'tenders' => env('TENDERS_URL', 'https://bankajk.com/tenders-notices'),
+                    'portal_login' => config('bank.footer.banking.portal_login'),
+                    'branch_locator' => config('bank.footer.banking.branch_locator'),
+                    'atm_locator' => config('bank.footer.banking.atm_locator'),
+                    'exchange_rates' => config('bank.footer.banking.exchange_rates'),
+                    'interest_rates' => config('bank.footer.banking.interest_rates'),
+                    'forms' => config('bank.footer.banking.forms'),
+                    'tenders' => config('bank.footer.banking.tenders'),
                 ],
                 'regulatory' => [
-                    'privacy_policy' => env('PRIVACY_POLICY_URL', 'https://bankajk.com/privacy-policy'),
-                    'terms' => env('TERMS_URL', 'https://bankajk.com/terms-conditions'),
-                    'cookie_policy' => env('COOKIE_POLICY_URL', 'https://bankajk.com/cookie-policy'),
-                    'accessibility' => env('ACCESSIBILITY_URL', 'https://bankajk.com/accessibility'),
-                    'regulatory_info' => env('REGULATORY_INFO_URL', 'https://bankajk.com/regulatory-information'),
-                    'security_tips' => env('SECURITY_TIPS_URL', 'https://bankajk.com/security-tips'),
-                    'fraud_prevention' => env('FRAUD_PREVENTION_URL', 'https://bankajk.com/fraud-prevention'),
+                    'privacy_policy' => config('bank.footer.regulatory.privacy_policy'),
+                    'terms' => config('bank.footer.regulatory.terms'),
+                    'cookie_policy' => config('bank.footer.regulatory.cookie_policy'),
+                    'accessibility' => config('bank.footer.regulatory.accessibility'),
+                    'regulatory_info' => config('bank.footer.regulatory.regulatory_info'),
+                    'security_tips' => config('bank.footer.regulatory.security_tips'),
+                    'fraud_prevention' => config('bank.footer.regulatory.fraud_prevention'),
 
-                    'sbp' => env('SBP_URL', 'https://www.sbp.org.pk'),
-                    'banking_mohtasib' => env('BANKING_MOHTASIB_URL', 'https://www.bankingmohtasib.gov.pk'),
-                    'secp' => env('SECP_URL', 'https://www.secp.gov.pk'),
-                    'goajk' => env('GOAJK_URL', 'https://www.ajk.gov.pk'),
-                    'gopak' => env('GOPAK_URL', 'https://www.pakistan.gov.pk'),
-                    'ajk_tourism' => env('AJK_TOURISM_URL', 'https://tourism.ajk.gov.pk'),
-                    'loan_calculator' => env('LOAN_CALCULATOR_URL', 'https://bankajk.com/loan-calculator'),
+                    'sbp' => config('bank.footer.regulatory.sbp'),
+                    'banking_mohtasib' => config('bank.footer.regulatory.banking_mohtasib'),
+                    'secp' => config('bank.footer.regulatory.secp'),
+                    'goajk' => config('bank.footer.regulatory.goajk'),
+                    'gopak' => config('bank.footer.regulatory.gopak'),
+                    'ajk_tourism' => config('bank.footer.regulatory.ajk_tourism'),
+                    'loan_calculator' => config('bank.loan_limits.calculator_url'),
                 ],
             ],
             // Bank Rates - Available on all pages
             'bankRates' => [
                 'loan' => [
-                    'house' => (float) env('LOAN_RATE_HOUSE', 11.5),
-                    'personal' => (float) env('LOAN_RATE_PERSONAL', 14.0),
-                    'motorcycle' => (float) env('LOAN_RATE_MOTORCYCLE', 13.5),
-                    'student' => (float) env('LOAN_RATE_STUDENT', 10.0),
-                    'gold' => (float) env('LOAN_RATE_GOLD', 12.0),
-                    'home_appliances' => (float) env('LOAN_RATE_HOME_APPLIANCES', 13.0),
-                    'car' => (float) env('LOAN_RATE_CAR', 12.5),
-                    'business' => (float) env('LOAN_RATE_BUSINESS', 13.5),
-                    'agriculture' => (float) env('LOAN_RATE_AGRICULTURE', 11.0),
-                    'salary' => (float) env('LOAN_RATE_SALARY', 15.0),
+                    'house' => config('bank.loan_rates.house'),
+                    'personal' => config('bank.loan_rates.personal'),
+                    'motorcycle' => config('bank.loan_rates.motorcycle'),
+                    'student' => config('bank.loan_rates.student'),
+                    'gold' => config('bank.loan_rates.gold'),
+                    'home_appliances' => config('bank.loan_rates.home_appliances'),
+                    'car' => config('bank.loan_rates.car'),
+                    'business' => config('bank.loan_rates.business'),
+                    'agriculture' => config('bank.loan_rates.agriculture'),
+                    'salary' => config('bank.loan_rates.salary'),
                 ],
                 'deposit' => [
-                    'savings' => (float) env('DEPOSIT_RATE_SAVINGS', 7.0),
-                    'current' => (float) env('DEPOSIT_RATE_CURRENT', 0.0),
-                    'term_1year' => (float) env('DEPOSIT_RATE_TERM_1YEAR', 8.5),
-                    'term_2year' => (float) env('DEPOSIT_RATE_TERM_2YEAR', 9.0),
-                    'term_3year' => (float) env('DEPOSIT_RATE_TERM_3YEAR', 9.5),
-                    'term_5year' => (float) env('DEPOSIT_RATE_TERM_5YEAR', 10.0),
-                    'special_savings' => (float) env('DEPOSIT_RATE_SPECIAL_SAVINGS', 8.0),
+                    'savings' => config('bank.deposit_rates.savings'),
+                    'current' => config('bank.deposit_rates.current'),
+                    'term_1year' => config('bank.deposit_rates.term_1year'),
+                    'term_2year' => config('bank.deposit_rates.term_2year'),
+                    'term_3year' => config('bank.deposit_rates.term_3year'),
+                    'term_5year' => config('bank.deposit_rates.term_5year'),
+                    'special_savings' => config('bank.deposit_rates.special_savings'),
                 ],
             ],
         ];

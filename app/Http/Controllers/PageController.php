@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreContactSubmissionRequest;
-use App\Http\Requests\StorePageRequest;
-use App\Http\Requests\UpdatePageRequest;
 use App\Mail\ContactSubmissionMail;
 use App\Models\AnnualReport;
 use App\Models\BankService;
@@ -13,11 +11,11 @@ use App\Models\Branch;
 use App\Models\Carousel;
 use App\Models\ContactSubmission;
 use App\Models\District;
+use App\Models\Division;
 use App\Models\FinancialHighlight;
 use App\Models\FinancialReport;
 use App\Models\Management;
 use App\Models\NewsAnnouncement;
-use App\Models\Page;
 use App\Models\ProductTypeAccount;
 use App\Models\ProfitRate;
 use App\Models\Region;
@@ -32,7 +30,7 @@ class PageController extends Controller
 {
     private function getImageUrl($image)
     {
-        if (!$image) {
+        if (! $image) {
             return null;
         }
 
@@ -58,7 +56,7 @@ class PageController extends Controller
         }
 
         // Otherwise, treat as a storage file path
-        return asset('storage/' . $image);
+        return asset('storage/'.$image);
     }
 
     public function home()
@@ -150,6 +148,7 @@ class PageController extends Controller
     public function management()
     {
         $management = Management::where('status', 'active')->orderBy('order')->get();
+
         return Inertia::render('About/Management', [
             'management' => $management,
         ]);
@@ -158,19 +157,19 @@ class PageController extends Controller
     public function contact()
     {
         return inertia('Contact/Index', [
-            'bankBranchesCount' => (int) env('BANK_BRANCHES_COUNT', 87),
-            'contact_phone' => env('CONTACT_PHONE', '+92-5822-920000'),
-            'contact_email' => env('CONTACT_EMAIL', 'info@bajk.com.pk'),
-            'contact_address' => env('CONTACT_ADDRESS', 'Bank of Azad Jammu & Kashmir'),
-            'company_secretary_phone' => env('COMPANY_SECRETARY_PHONE', '+92-5822-920002'),
-            'hrmd_phone' => env('HRMD_PHONE', '+92-5822-923138'),
+            'bankBranchesCount' => config('bank.stats.branches_count'),
+            'contact_phone' => config('bank.contact.contact_phone'),
+            'contact_email' => config('bank.contact.contact_email'),
+            'contact_address' => config('bank.contact.contact_address'),
+            'company_secretary_phone' => config('bank.contact.company_secretary_phone'),
+            'hrmd_phone' => config('bank.contact.hrmd_phone'),
         ]);
     }
 
     public function contactSubmit(StoreContactSubmissionRequest $request)
     {
         // Rate limiting: 1 submission per 30 seconds per IP
-        $key = 'contact-form:' . $request->getClientIp();
+        $key = 'contact-form:'.$request->getClientIp();
 
         if (RateLimiter::tooManyAttempts($key, 1)) {
             $seconds = RateLimiter::availableIn($key);
@@ -203,10 +202,10 @@ class PageController extends Controller
                     'submitted_at' => now(),
                 ]);
 
-                Log::info('Contact submission created with ID: ' . $submission->id);
+                Log::info('Contact submission created with ID: '.$submission->id);
 
                 // Send email to CONTACT_EMAIL
-                Mail::to(env('CONTACT_EMAIL', 'contact@bankajk.com'))->send(new ContactSubmissionMail($submission));
+                Mail::to(config('bank.contact.form_recipient'))->send(new ContactSubmissionMail($submission));
 
                 Log::info('Contact submission email sent successfully');
 
@@ -223,8 +222,8 @@ class PageController extends Controller
             ]);
 
         } catch (\Exception $e) {
-            Log::error('Failed to process contact submission: ' . $e->getMessage());
-            Log::error('Stack trace: ' . $e->getTraceAsString());
+            Log::error('Failed to process contact submission: '.$e->getMessage());
+            Log::error('Stack trace: '.$e->getTraceAsString());
 
             return response()->json([
                 'success' => false,
@@ -453,7 +452,7 @@ class PageController extends Controller
             'branches' => $branches,
             'regions' => $regions,
             'districts' => $districts,
-            'contactPhone' => config('app.contact_phone'),
+            'contactPhone' => config('bank.contact.contact_phone'),
         ]);
     }
 
@@ -496,7 +495,7 @@ class PageController extends Controller
                     'id' => $report->id,
                     'fiscal_year' => $report->annual_report_fiscal_year,
                     'file_name' => $report->annual_report ? basename($report->annual_report) : null,
-                    'file_size' => $report->annual_report ? (file_exists(storage_path('app/public/' . $report->annual_report)) ? filesize(storage_path('app/public/' . $report->annual_report)) : 0) : 0,
+                    'file_size' => $report->annual_report ? (file_exists(storage_path('app/public/'.$report->annual_report)) ? filesize(storage_path('app/public/'.$report->annual_report)) : 0) : 0,
                     'download_url' => $report->annual_report ? route('annual-reports.download', $report) : null,
                     'created_at' => $report->created_at->format('M d, Y'),
                 ];
@@ -516,7 +515,7 @@ class PageController extends Controller
                     'id' => $highlight->id,
                     'fiscal_year' => $highlight->fiscal_year,
                     'file_name' => $highlight->financial_highlights ? basename($highlight->financial_highlights) : null,
-                    'file_size' => $highlight->financial_highlights ? (file_exists(storage_path('app/public/' . $highlight->financial_highlights)) ? filesize(storage_path('app/public/' . $highlight->financial_highlights)) : 0) : 0,
+                    'file_size' => $highlight->financial_highlights ? (file_exists(storage_path('app/public/'.$highlight->financial_highlights)) ? filesize(storage_path('app/public/'.$highlight->financial_highlights)) : 0) : 0,
                     'download_url' => $highlight->financial_highlights ? route('financial-highlights.download', $highlight) : null,
                     'created_at' => $highlight->created_at->format('M d, Y'),
                 ];
@@ -550,12 +549,10 @@ class PageController extends Controller
         ]);
     }
 
-
-
     public function organizationStructure(Request $request)
     {
-        $divisions = \App\Models\Division::with('regions.branches')->get();
-        $regions = \App\Models\Region::with('branches')->get();
+        $divisions = Division::with('regions.branches')->get();
+        $regions = Region::with('branches')->get();
 
         // Get branch counts by region
         $regionBranchCounts = $regions->mapWithKeys(function ($region) {
