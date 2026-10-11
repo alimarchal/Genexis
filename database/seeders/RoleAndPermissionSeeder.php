@@ -152,6 +152,8 @@ class RoleAndPermissionSeeder extends Seeder
             'edit contacts',
             'delete contacts',
             'view careers',
+            'view contact submissions',
+            'delete contact submissions',
             'create careers',
             'edit careers',
             'delete careers',
