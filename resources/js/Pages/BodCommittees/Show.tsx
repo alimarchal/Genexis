@@ -7,6 +7,7 @@ import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 import { Crown, Edit, Hash, Shield, User, Users } from 'lucide-react';
+import SafeImage from '@/components/safe-image';
 
 interface BoardMember {
     id: number;
@@ -147,7 +148,7 @@ export default function ShowBodCommittee({ bodCommittee }: Props) {
                                         <h4 className="mb-3 font-medium text-gray-900">Chairman</h4>
                                         <div className="flex items-center gap-4 rounded-lg bg-gray-50 p-4">
                                             {bodCommittee.chairman_board.image_url && (
-                                                <img
+                                                <SafeImage kind="person"
                                                     src={bodCommittee.chairman_board.image_url}
                                                     alt={bodCommittee.chairman_board.full_name}
                                                     className="h-12 w-12 rounded-full object-cover"
@@ -171,7 +172,7 @@ export default function ShowBodCommittee({ bodCommittee }: Props) {
                                         <h4 className="mb-3 font-medium text-gray-900">Secretary</h4>
                                         <div className="flex items-center gap-4 rounded-lg bg-gray-50 p-4">
                                             {bodCommittee.secretary_board?.image_url && (
-                                                <img
+                                                <SafeImage kind="person"
                                                     src={bodCommittee.secretary_board.image_url}
                                                     alt={bodCommittee.secretary_board.full_name}
                                                     className="h-12 w-12 rounded-full object-cover"
@@ -214,7 +215,7 @@ export default function ShowBodCommittee({ bodCommittee }: Props) {
                                         {bodCommittee.board_members_list.map((member) => (
                                             <div key={member.id} className="flex items-center gap-4 rounded-lg border p-3">
                                                 {member.image_url && (
-                                                    <img
+                                                    <SafeImage kind="person"
                                                         src={member.image_url}
                                                         alt={member.full_name}
                                                         className="h-10 w-10 rounded-full object-cover"

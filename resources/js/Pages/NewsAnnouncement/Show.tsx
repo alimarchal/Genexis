@@ -7,6 +7,7 @@ import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 import { Calendar, Edit, Eye, Star, Tag } from 'lucide-react';
+import SafeImage from '@/components/safe-image';
 
 interface NewsAnnouncement {
     id: number;
@@ -98,7 +99,7 @@ export default function ShowNewsAnnouncement({ newsAnnouncement }: Props) {
                                 {/* Featured Image */}
                                 {newsAnnouncement.image_url && (
                                     <div className="space-y-2">
-                                        <img
+                                        <SafeImage kind="news"
                                             src={newsAnnouncement.image_url}
                                             alt={newsAnnouncement.title}
                                             className="h-64 w-full rounded-lg border object-cover"

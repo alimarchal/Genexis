@@ -42,6 +42,8 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductSchemeAttributeController;
 use App\Http\Controllers\ProductSchemeController;
+use App\Http\Controllers\ProductTypeAccountController;
+use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\ProfitRateController;
 // Geographic & Branch Controllers
 use App\Http\Controllers\RegionController;
@@ -92,6 +94,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // PRODUCT & SERVICE MANAGEMENT
     // -------------------------------------------------------------------------
     Route::resource('product', ProductController::class)->guardedBy('products'); // Singular route for product
+    Route::resource('product-types', ProductTypeController::class)->guardedBy('product types');
+    Route::resource('product-type-accounts', ProductTypeAccountController::class)->guardedBy('product type accounts');
     Route::resource('product-schemes', ProductSchemeController::class)->guardedBy('product schemes');
     Route::resource('product-scheme-attributes', ProductSchemeAttributeController::class)->guardedBy('product scheme attributes');
     Route::resource('services', ServiceController::class)->guardedBy('services');
@@ -172,6 +176,10 @@ Route::prefix('products')->name('products.')->group(function () {
     Route::get('/agriculture-finances', [PageController::class, 'agriculture'])->name('agriculture-finances');
     Route::get('/micro-finances', [PageController::class, 'microFinance'])->name('micro-finances');
 });
+
+// Section landing URLs used by breadcrumbs: send visitors to the section's first page
+Route::permanentRedirect('/financials', '/financials/statements');
+Route::permanentRedirect('/rates', '/rates/profit-rates');
 
 // -------------------------------------------------------------------------
 // SERVICES SECTION

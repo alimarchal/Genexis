@@ -7,6 +7,7 @@ import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 import { Edit, Hash, Info, List, Settings } from 'lucide-react';
+import SafeImage from '@/components/safe-image';
 
 interface ServiceAttribute {
     id: number;
@@ -79,7 +80,7 @@ export default function ShowService({ service }: Props) {
                                 <div className="flex items-start gap-6">
                                     {/* Service Image */}
                                     {service.image_url && (
-                                        <img src={service.image_url} alt={service.name} className="h-32 w-32 rounded border object-cover" />
+                                        <SafeImage kind="service" src={service.image_url} alt={service.name} className="h-32 w-32 rounded border object-cover" />
                                     )}
                                     <div className="flex-1 space-y-4">
                                         <div>

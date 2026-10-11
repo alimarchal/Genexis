@@ -126,6 +126,24 @@ const sidebarGroups = [
         defaultExpanded: false,
         items: [
             {
+                title: 'Products',
+                href: '/product',
+                icon: Package2,
+                permission: 'view products',
+            },
+            {
+                title: 'Product Types',
+                href: '/product-types',
+                icon: FolderOpen,
+                permission: 'view product types',
+            },
+            {
+                title: 'Account Types',
+                href: '/product-type-accounts',
+                icon: FileText,
+                permission: 'view product type accounts',
+            },
+            {
                 title: 'Product Schemes',
                 href: '/product-schemes',
                 icon: Package,

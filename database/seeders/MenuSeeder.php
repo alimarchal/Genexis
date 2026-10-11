@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Menu;
+use App\Models\Service;
+use App\Services\MenuService;
 use Illuminate\Database\Seeder;
 
 class MenuSeeder extends Seeder
@@ -13,8 +15,8 @@ class MenuSeeder extends Seeder
         $servicesToPreserve = Menu::whereHas('parent', function ($query) {
             $query->where('slug', 'services');
         })
-        ->where('route_name', 'service-pages.show')
-        ->get();
+            ->where('route_name', 'service-pages.show')
+            ->get();
 
         Menu::truncate();
 
@@ -30,7 +32,7 @@ class MenuSeeder extends Seeder
             [
                 'title' => 'About',
                 'slug' => 'about-us',
-                'route_name' => 'about.index',
+                'url' => '#',
                 'sort_order' => 2,
                 'is_active' => true,
                 'children' => [
@@ -46,7 +48,7 @@ class MenuSeeder extends Seeder
                         'route_name' => 'about.board-directors',
                         'sort_order' => 2,
                     ],
-                      [
+                    [
                         'title' => 'BOD Committees',
                         'slug' => 'bod-committees',
                         'route_name' => 'about.bod-committees',
@@ -58,7 +60,7 @@ class MenuSeeder extends Seeder
                         'route_name' => 'about.management',
                         'sort_order' => 4,
                     ],
-                     [
+                    [
                         'title' => 'Organogram',
                         'slug' => 'organogram',
                         'route_name' => 'about.organogram',
@@ -166,7 +168,7 @@ class MenuSeeder extends Seeder
                         'sort_order' => 5,
                     ],
 
-                     [
+                    [
                         'title' => 'Loan Calculator',
                         'slug' => 'loan-calculator',
                         'route_name' => 'loan-calculator',
@@ -277,7 +279,7 @@ class MenuSeeder extends Seeder
                 ->delete();
 
             // Get all active services except the hardcoded ones
-            $services = \App\Models\Service::active()
+            $services = Service::active()
                 ->whereNotIn('slug', ['lockers-facility', 'utility-bills-collection', 'services-for-ajk-psc', 'home-remittance'])
                 ->ordered()
                 ->get();
@@ -296,8 +298,8 @@ class MenuSeeder extends Seeder
         }
 
         // Clear menu cache after seeding
-        if (app()->bound(\App\Services\MenuService::class)) {
-            app(\App\Services\MenuService::class)->clearMenuCache();
+        if (app()->bound(MenuService::class)) {
+            app(MenuService::class)->clearMenuCache();
         }
     }
 
@@ -312,7 +314,7 @@ class MenuSeeder extends Seeder
 
             $menu = Menu::create($menuData);
 
-            if (!empty($children)) {
+            if (! empty($children)) {
                 $this->createMenuItems($children, $menu->id);
             }
         }

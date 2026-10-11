@@ -207,7 +207,7 @@ PublicCareerDetail.layout = (page: React.ReactNode) => (
     <WebsiteLayout
         title="Career Opportunity"
         breadcrumbs={[
-            { label: 'Careers', href: '/careers' },
+            { label: 'Careers', href: '/join-the-bank' },
             { label: 'Job Details', isActive: true },
         ]}
     >

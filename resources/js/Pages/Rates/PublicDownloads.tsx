@@ -277,7 +277,7 @@ const PublicDownloadsPublic = ({ downloads }: PublicDownloadsPublicProps) => {
 };
 
 PublicDownloadsPublic.layout = (page: React.ReactNode) => (
-    <WebsiteLayout title="Public Downloads" breadcrumbs={[{ label: 'Resources', href: '/downloads' }]}>
+    <WebsiteLayout title="Public Downloads" breadcrumbs={[{ label: 'Resources', href: '/documents' }]}>
         {page}
     </WebsiteLayout>
 );

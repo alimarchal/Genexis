@@ -11,6 +11,7 @@ import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router, useForm } from '@inertiajs/react';
 import { Minus, Plus, Save } from 'lucide-react';
 import { FormEventHandler, useState } from 'react';
+import SafeImage from '@/components/safe-image';
 
 interface BoardOfDirector {
     id: number;
@@ -144,7 +145,7 @@ export default function EditBoardOfDirector({ boardOfDirector }: Props) {
                                     <div className="space-y-2">
                                         <Label>Current Image</Label>
                                         <div className="flex items-center gap-4">
-                                            <img
+                                            <SafeImage kind="person"
                                                 src={boardOfDirector.image_url}
                                                 alt={boardOfDirector.full_name}
                                                 className="h-20 w-20 rounded-full object-cover"
@@ -221,7 +222,7 @@ export default function EditBoardOfDirector({ boardOfDirector }: Props) {
                                     <Label htmlFor="image">Profile Image</Label>
                                     {boardOfDirector.image_url && (
                                         <div className="mb-3">
-                                            <img
+                                            <SafeImage kind="person"
                                                 src={boardOfDirector.image_url}
                                                 alt="Current profile"
                                                 className="h-24 w-24 rounded-lg border object-cover"

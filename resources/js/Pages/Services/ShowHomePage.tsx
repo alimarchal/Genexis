@@ -1,5 +1,6 @@
 import WebsiteLayout from '@/layouts/WebsiteLayout';
 import { Shield } from 'lucide-react';
+import SafeImage from '@/components/safe-image';
 
 interface ServiceAttribute {
     id: number;
@@ -78,7 +79,7 @@ const ServiceShow = ({ service }: ServiceShowProps) => {
                         {/* Service Image */}
                         {service.image && (
                             <div className="relative h-64 overflow-hidden">
-                                <img
+                                <SafeImage kind="service"
                                     src={service.image}
                                     alt={service.name}
                                     className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"

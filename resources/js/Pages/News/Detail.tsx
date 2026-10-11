@@ -2,6 +2,7 @@ import WebsiteLayout from '@/layouts/WebsiteLayout';
 import { Head, Link } from '@inertiajs/react';
 import { Calendar, Share2, Star, Tag } from 'lucide-react';
 import React from 'react';
+import SafeImage from '@/components/safe-image';
 
 interface NewsAnnouncement {
     id: number;
@@ -84,7 +85,7 @@ export default function NewsDetail({ news, relatedNews }: Props) {
                         {/* Featured Image */}
                         {news.image_url && (
                             <div className="relative h-80 overflow-hidden md:h-96 lg:h-[750px]">
-                                <img src={news.image_url} alt={news.title} className="h-full w-full object-cover" />
+                                <SafeImage kind="news" src={news.image_url} alt={news.title} className="h-full w-full object-cover" />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                             </div>
                         )}

@@ -17,6 +17,7 @@ import { type BreadcrumbItem, type SharedData } from '@/types';
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Edit, Eye, MoreHorizontal, Newspaper, Plus, Search, Star, Trash } from 'lucide-react';
 import { useState } from 'react';
+import SafeImage from '@/components/safe-image';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -228,7 +229,7 @@ export default function NewsAnnouncementIndex({ newsAnnouncements, filters }: Pr
                                                 <div className="flex items-start gap-3">
                                                     <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-blue-100">
                                                         {announcement.image_url ? (
-                                                            <img
+                                                            <SafeImage kind="news"
                                                                 src={announcement.image_url}
                                                                 alt={announcement.title}
                                                                 className="h-10 w-10 rounded-lg object-cover"

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\PublicFile;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -60,10 +61,6 @@ class Carousel extends Model
 
     public function getImageUrlAttribute(): ?string
     {
-        if ($this->image) {
-            return asset('storage/'.$this->image);
-        }
-
-        return null;
+        return PublicFile::url($this->image);
     }
 }

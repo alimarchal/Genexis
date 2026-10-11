@@ -50,7 +50,7 @@ AboutUs.layout = (page: React.ReactNode) => (
     <WebsiteLayout
         title="About Us"
         breadcrumbs={[
-            { label: 'About Us', href: route('about') },
+            { label: 'About Us', href: route('about.about-us') },
             { label: 'Management', isActive: true },
         ]}
     >

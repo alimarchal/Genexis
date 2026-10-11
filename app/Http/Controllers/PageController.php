@@ -20,6 +20,7 @@ use App\Models\ProductScheme;
 use App\Models\ProductTypeAccount;
 use App\Models\ProfitRate;
 use App\Models\Region;
+use App\Support\PublicFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
@@ -29,35 +30,14 @@ use Inertia\Inertia;
 
 class PageController extends Controller
 {
-    private function getImageUrl($image)
+    private function getImageUrl($image): ?string
     {
-        if (! $image) {
+        // Old seed data used via.placeholder.com, which is no longer served.
+        if ($image && str_contains($image, 'via.placeholder.com')) {
             return null;
         }
 
-        // If it's already a full URL, check if it's a via.placeholder.com URL that might not work
-        if (filter_var($image, FILTER_VALIDATE_URL)) {
-            // If it's a via.placeholder.com URL, replace with a more reliable service
-            if (str_contains($image, 'via.placeholder.com')) {
-                // Extract dimensions and text from the URL
-                preg_match('/(\d+)x(\d+)/', $image, $dimensions);
-                preg_match('/text=([^&]+)/', $image, $text);
-
-                $width = $dimensions[1] ?? '800';
-                $height = $dimensions[2] ?? '600';
-                $textContent = $text[1] ?? 'News';
-
-                // Use picsum.photos with a seed for consistent images
-                $seed = crc32($textContent); // Generate a consistent seed from text
-
-                return "https://picsum.photos/seed/{$seed}/{$width}/{$height}";
-            }
-
-            return $image;
-        }
-
-        // Otherwise, treat as a storage file path
-        return asset('storage/'.$image);
+        return PublicFile::url($image);
     }
 
     /**

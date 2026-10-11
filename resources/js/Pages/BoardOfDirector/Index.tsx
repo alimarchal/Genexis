@@ -17,6 +17,7 @@ import { type BreadcrumbItem, type SharedData } from '@/types';
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Crown, Edit, Eye, MoreHorizontal, Plus, Search, Trash, User } from 'lucide-react';
 import { useState } from 'react';
+import SafeImage from '@/components/safe-image';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -249,7 +250,7 @@ export default function BoardOfDirectorIndex({ boardOfDirectors, filters }: Prop
                                             <TableCell>
                                                 <div className="flex items-center gap-3">
                                                     {member.image_url && (
-                                                        <img
+                                                        <SafeImage kind="person"
                                                             src={member.image_url}
                                                             alt={member.full_name}
                                                             className="h-10 w-10 rounded-full object-cover"

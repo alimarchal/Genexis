@@ -11,6 +11,7 @@ import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router, useForm } from '@inertiajs/react';
 import { Save } from 'lucide-react';
 import { FormEventHandler } from 'react';
+import SafeImage from '@/components/safe-image';
 
 interface NewsAnnouncement {
     id: number;
@@ -105,7 +106,7 @@ export default function EditNewsAnnouncement({ newsAnnouncement }: Props) {
                                     <div className="space-y-2">
                                         <Label>Current Image</Label>
                                         <div className="flex items-center gap-4">
-                                            <img
+                                            <SafeImage kind="news"
                                                 src={newsAnnouncement.image_url}
                                                 alt={newsAnnouncement.title}
                                                 className="h-20 w-20 rounded-md object-cover"

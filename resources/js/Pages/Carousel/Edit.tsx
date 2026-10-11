@@ -9,6 +9,7 @@ import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
 import { Head, Link, router, useForm } from '@inertiajs/react';
 import { FormEventHandler, useState } from 'react';
+import SafeImage from '@/components/safe-image';
 
 interface Carousel {
     id: number;
@@ -178,7 +179,7 @@ export default function EditCarousel({ carousel }: Props) {
                                     {carousel.image_url && (
                                         <div className="mb-4">
                                             <p className="text-muted-foreground mb-2 text-sm">Current Image:</p>
-                                            <img src={carousel.image_url} alt={carousel.title} className="h-32 w-48 rounded border object-cover" />
+                                            <SafeImage kind="carousel" src={carousel.image_url} alt={carousel.title} className="h-32 w-48 rounded border object-cover" />
                                         </div>
                                     )}
                                     <Input
