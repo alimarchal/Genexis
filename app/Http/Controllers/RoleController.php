@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Traits\GuardsPrivilegeEscalation;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
@@ -12,6 +13,8 @@ use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller implements HasMiddleware
 {
+    use GuardsPrivilegeEscalation;
+
     public static function middleware(): array
     {
         return [
@@ -27,7 +30,7 @@ class RoleController extends Controller implements HasMiddleware
         $query = Role::with('permissions');
 
         if ($request->has('search')) {
-            $query->where('name', 'like', '%' . $request->search . '%');
+            $query->where('name', 'like', '%'.$request->search.'%');
         }
 
         $roles = $query->paginate(10)->withQueryString();
@@ -53,6 +56,8 @@ class RoleController extends Controller implements HasMiddleware
             'permissions.*' => 'exists:permissions,id',
         ]);
 
+        $this->authorizeGrant([], $request->input('permissions', []));
+
         DB::transaction(function () use ($request) {
             $role = Role::create(['name' => $request->name, 'guard_name' => 'web']);
 
@@ -66,6 +71,8 @@ class RoleController extends Controller implements HasMiddleware
 
     public function edit(Role $role)
     {
+        abort_if($role->name === 'super-admin' && ! $this->actingUserIsSuperAdmin(), 403);
+
         return Inertia::render('Admin/Roles/Edit', [
             'role' => $role->load('permissions'),
             'permissions' => Permission::all(),
@@ -74,11 +81,19 @@ class RoleController extends Controller implements HasMiddleware
 
     public function update(Request $request, Role $role)
     {
+        abort_if($role->name === 'super-admin' && ! $this->actingUserIsSuperAdmin(), 403);
+
         $request->validate([
-            'name' => 'required|string|max:255|unique:roles,name,' . $role->id,
+            'name' => 'required|string|max:255|unique:roles,name,'.$role->id,
             'permissions' => 'array',
             'permissions.*' => 'exists:permissions,id',
         ]);
+
+        if ($role->name === 'super-admin' && $request->name !== 'super-admin') {
+            return back()->withErrors(['name' => 'The super-admin role cannot be renamed.']);
+        }
+
+        $this->authorizeGrant([], $request->input('permissions', []));
 
         DB::transaction(function () use ($request, $role) {
             $role->update(['name' => $request->name]);
