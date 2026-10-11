@@ -10,7 +10,8 @@
     "lint": "eslint . --fix",
     "lint:check": "eslint .",
     "types": "tsc --noEmit",
-    "ci": "npm run format:check && npm run lint:check && npm run types"
+    "ci": "npm run format:check && npm run lint:check && npm run types && npm run test:js",
+    "test:js": "node --experimental-strip-types --test \"tests/js/**/*.test.mjs\""
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",
