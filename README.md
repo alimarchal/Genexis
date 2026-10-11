@@ -1,627 +1,304 @@
-# Project Title: Bank of Azad Jammu & Kashmir - Next Generation Website
-
-## Overview
-
-This project is the development of a new, modern website for the Bank of Azad Jammu & Kashmir. The primary goal is to create a user-friendly, secure, and technologically advanced online presence for the bank.
-
-## Key Features & Technologies
-
-- **Framework:** Laravel 12 (PHP `^8.2`)
-- **Frontend:** React (`^2.0.11` via `@inertiajs/react`), TypeScript
-- **UI Library:** Inertia.js (`^2.0` for Laravel, `^2.0.11` for React)
-- **Styling:** Tailwind CSS (default with Laravel 11+), Mobile Responsive Design
-- **Authentication:** Native Laravel authentication
-- **Permissions:** `spatie/laravel-permission` (`^6.18`)
-- **Query Building:** `spatie/laravel-query-builder` (`^6.3`)
-- **Routing in JS:** Tighten/Ziggy (`^2.4`)
-- **Database:** Postgresql
-- **Deployment:** (Specify your deployment environment, e.g., Docker, AWS, etc.)
-
-## Project Goals
-
-- Enhance customer experience with a modern and intuitive interface.
-- Provide comprehensive information about banking products and services.
-- Ensure high levels of security and data protection.
-- Improve operational efficiency through streamlined online processes.
-- Leverage the latest web technologies for a robust and scalable platform.
-
-## Development Environment
-
-- **PHP:** `^8.2`
-- **Node.js:** `^22.15.21` (or latest LTS)
-- **Package Managers:** Composer, Bun
-- **Build Tool:** Vite
-- **Linting:** ESLint
-- **Code Formatting:** Prettier
-- **Dev Tools:** Laravel Tinker, Larastan, PHP CS Fixer, Pail, Pint, Sail
-
-## Project Features
-
-This comprehensive banking website includes the following key modules:
-
-### Core Banking Features
-
-- **Product Management**: Complete product catalog with schemes and attributes
-- **Service Management**: Banking services with detailed descriptions and attributes
-- **Branch Network**: Branch locations with services offered
-- **Financial Reports**: Annual reports, financial highlights, and downloadable documents
-- **Board & Management**: Information about directors and management team
-- **News & Announcements**: Latest updates and bank announcements
-- **Career Portal**: Job opportunities and career information
-- **Customer Support**: Contact forms and customer service information
-
-### Technical Features
-
-- **Multi-role Authentication**: Admin, Manager, and User roles with permissions
-- **Search Functionality**: Advanced search across all content
-- **File Management**: Upload and manage documents, images, and reports
-- **Regional Management**: Districts, divisions, and regional organization
-- **Content Management**: Dynamic pages and menu management
-- **Mobile Responsive**: Optimized for all device sizes
-- **SEO Optimized**: Search engine friendly URLs and meta tags
-
-## Prerequisites
-
-Before you begin, ensure you have the following installed on your system:
-
-- **PHP**: `^8.2` with extensions (mbstring, xml, curl, bcmath, intl, gd, zip)
-- **Node.js**: `^22.15.21` (LTS recommended)
-- **Composer**: Latest version
-- **Bun**: Package manager (alternative to npm/yarn)
-- **PostgreSQL**: Database server
-- **Git**: Version control
-
-## Getting Started
-
-Follow these steps to set up the project locally:
-
-### 1. Clone the Repository
-
-```bash
-git clone <repository-url>
-cd Genexis
-```
-
-### 2. Install PHP Dependencies
-
-```bash
-composer install
-```
-
-### 3. Install JavaScript Dependencies
-
-```bash
-bun install
-# or alternatively
-npm install
-```
-
-### 4. Environment Configuration
-
-```bash
-# Copy the environment file
-cp .env.example .env
-
-# Generate application key
-php artisan key:generate
-```
-
-#### Required Environment Variables
-
-The following environment variables must be configured in your `.env` file:
-
-**Basic Application Settings:**
-
-```env
-APP_NAME="Bank of AJK"
-APP_ENV=local
-APP_KEY=base64:your-generated-key
-APP_DEBUG=true
-APP_URL=http://localhost
-APP_TIMEZONE=Asia/Karachi
-APP_LOCALE=en
-```
-
-**Database Configuration:**
-
-```env
-DB_CONNECTION=pgsql
-DB_HOST=127.0.0.1
-DB_PORT=5432
-DB_DATABASE=genexis_bank
-DB_USERNAME=your_username
-DB_PASSWORD=your_password
-```
-
-**Bank Contact Information:**
-
-```env
-BANK_BRANCHES_COUNT=50
-CONTACT_PHONE="+92.5822.924244"
-CONTACT_EMAIL="info@bankajk.com"
-CONTACT_ADDRESS="Head Office, Bank Square, Chattar Domel, Muzaffarabad, AJK, Pakistan"
-```
-
-**Marquee Text Content:**
-
-```env
-MARQUEE_ACHIEVEMENT_TEXT="Celebrating 25+ years of banking excellence"
-MARQUEE_SERVICES_TEXT="Comprehensive banking solutions for everyone"
-MARQUEE_SUPPORT_TEXT="24/7 customer support available"
-MARQUEE_DIGITAL_TEXT="Digital banking made simple and secure"
-MARQUEE_CONTACT_TEXT="Connect with us anytime, anywhere"
-MARQUEE_NETWORK_TEXT="Nationwide branch network at your service"
-```
-
-**Social Media Links:**
-
-```env
-SOCIAL_FACEBOOK_URL="https://www.facebook.com/BAJKOfficial/"
-SOCIAL_TWITTER_URL="https://x.com/BAJKOfficial"
-SOCIAL_INSTAGRAM_URL="https://www.instagram.com/bajkofficial/"
-SOCIAL_LINKEDIN_URL="https://www.linkedin.com/company/bank-of-azad-kashmir/"
-SOCIAL_YOUTUBE_URL="https://www.youtube.com/channel/UCrHL1opwCxp_owjSivhA2iw"
-```
-
-**Mail Configuration:**
-
-```env
-MAIL_MAILER=smtp
-MAIL_HOST=your-smtp-host
-MAIL_PORT=587
-MAIL_USERNAME=your-email
-MAIL_PASSWORD=your-password
-MAIL_FROM_ADDRESS="noreply@bankajk.com"
-MAIL_FROM_NAME="${APP_NAME}"
-```
-
-**Optional: Loan Calculator Settings:**
-
-```env
-# Personal Loan
-LOAN_RATE_PERSONAL=14.0
-
-# Advance Salary Loan
-LOAN_MIN_ADVANCE_SALARY=10000
-LOAN_MAX_ADVANCE_SALARY=3000000
-LOAN_TENURE_MIN_ADVANCE_SALARY=1
-LOAN_TENURE_MAX_ADVANCE_SALARY=48
-LOAN_RATE_SALARY=15.0
-
-# Car Loan
-LOAN_MIN_CAR=100000
-LOAN_MAX_CAR=3000000
-LOAN_TENURE_MIN_CAR=12
-LOAN_TENURE_MAX_CAR=60
-LOAN_RATE_CAR=12.5
-
-# House Loan
-LOAN_MIN_HOUSE=500000
-LOAN_MAX_HOUSE=10000000
-LOAN_TENURE_MIN_HOUSE=12
-LOAN_TENURE_MAX_HOUSE=240
-LOAN_RATE_HOUSE=11.5
-```
-
-See the complete `.env.example` file for all available configuration options including cache, session, queue, and third-party service configurations.
-
-#### Environment Variable Categories
-
-The `.env.example` file includes over 100 environment variables organized into the following categories:
-
-- **Core Application**: Basic Laravel settings, debug mode, timezone, locale
-- **Database**: PostgreSQL, MySQL, SQLite configurations with connection pooling
-- **Authentication**: User model, password reset, session timeout settings
-- **Cache & Session**: Redis, Memcached, database-based caching and sessions
-- **Queue Management**: Database, Redis, Beanstalkd, SQS queue configurations
-- **Mail Services**: SMTP, Postmark, SES, Resend email providers
-- **File Storage**: Local, S3, public disk configurations
-- **Logging**: Stack, daily, Slack, Papertrail logging options
-- **Search Services**: Algolia, Meilisearch, Typesense configurations
-- **Bank-Specific**: Contact info, branch count, social media links, marquee text
-- **Loan Calculator**: Interest rates, loan limits, tenure settings for various loan types
-- **Third-Party Services**: AWS, Slack, social media integrations
-- **Performance**: Redis clustering, connection pooling, cache prefixes
-
-### 5. Database Setup
-
-Configure your database in the `.env` file:
-
-```env
-DB_CONNECTION=pgsql
-DB_HOST=127.0.0.1
-DB_PORT=5432
-DB_DATABASE=genexis_bank
-DB_USERNAME=your_username
-DB_PASSWORD=your_password
-```
-
-Run migrations and seeders:
-
-```bash
-# Run database migrations
-php artisan migrate
-
-# Seed the database with sample data
-php artisan db:seed
-
-# Create storage link for file uploads
-php artisan storage:link
-```
-
-### 6. Build Assets
-
-For development:
-
-```bash
-# Start the development server with hot reload
-bun run dev
-# or
-npm run dev
-```
-
-For production:
-
-```bash
-# Build optimized assets
-bun run build
-# or
-npm run build
-```
-
-### 7. Start the Application
-
-```bash
-# Start Laravel development server
-php artisan serve
-```
-
-Your application will be available at `http://localhost:8000`
-
-### 8. Default Credentials
-
-After seeding, you can login with:
-
-- **Admin**: admin@example.com / password
-
-## Development Workflow
-
-### Code Quality Tools
-
-This project includes several tools to maintain code quality:
-
-```bash
-# PHP Code Style (Laravel Pint)
-./vendor/bin/pint
-
-# PHP Static Analysis (Larastan)
-./vendor/bin/phpstan analyse
-
-# PHP Code Sniffer
-./vendor/bin/phpcs
-
-# JavaScript/TypeScript Linting
-bun run lint
-# or fix automatically
-bun run lint:fix
-
-# Format code with Prettier
-bun run format
-
-# Type checking
-bun run types
-
-# Run all checks
-bun run ci
-```
-
-### Testing
-
-```bash
-# Run PHP tests with Pest
-php artisan test
-
-# Run specific test file
-php artisan test tests/Feature/UserTest.php
-
-# Run tests with coverage
-php artisan test --coverage
-```
-
-### Database Management
-
-```bash
-# Create a new migration
-php artisan make:migration create_table_name
-
-# Create a new model with migration
-php artisan make:model ModelName -m
-
-# Create a factory
-php artisan make:factory ModelNameFactory
-
-# Create a seeder
-php artisan make:seeder TableNameSeeder
-
-# Fresh migration with seeding
-php artisan migrate:fresh --seed
-```
-
-### File Generation Commands
-
-```bash
-# Create a controller
-php artisan make:controller ControllerName
-
-# Create a request class
-php artisan make:request RequestName
-
-# Create a resource
-php artisan make:resource ResourceName
-
-# Create a policy
-php artisan make:policy PolicyName
-
-# Create a service class
-php artisan make:service ServiceName
-
-# Create a view
-php artisan make:view view-name
-```
-
-## Project Structure
-
-```
-app/
-├── Http/
-│   ├── Controllers/     # Application controllers
-│   ├── Middleware/      # Custom middleware
-│   └── Requests/        # Form request validation
-├── Models/              # Eloquent models
-├── Policies/            # Authorization policies
-├── Services/            # Business logic services
-└── Traits/              # Reusable traits
-
-resources/
-├── js/                  # React components and TypeScript
-├── css/                 # Stylesheets
-└── views/               # Blade templates
-
-routes/
-├── web.php             # Web routes
-├── auth.php            # Authentication routes
-├── settings.php        # Settings routes
-└── console.php         # Console commands
-```
-
-## Contribution Guidelines
-
-We welcome contributions to this project! Please follow these guidelines:
-
-### Getting Started
-
-1. **Fork the repository** and create your feature branch from `main`
-2. **Follow the coding standards** outlined below
-3. **Write tests** for any new functionality
-4. **Update documentation** as needed
-
-### Coding Standards
-
-#### PHP/Laravel Standards
-
-- Follow **PSR-12** coding standards
-- Use **Laravel's naming conventions**:
-    - Models: `PascalCase` (e.g., `BankService`)
-    - Controllers: `PascalCase` + `Controller` (e.g., `BankServiceController`)
-    - Methods: `camelCase` (e.g., `getUserData`)
-    - Variables: `camelCase` (e.g., `$userData`)
-- Use **type hints** and **return types** where possible
-- Write **meaningful commit messages**
-- Use **Laravel's built-in features** (Eloquent, Collections, etc.)
-
-#### Frontend Standards
-
-- Follow **React** and **TypeScript** best practices
-- Use **functional components** with hooks
-- Implement **proper TypeScript typing**
-- Follow **Tailwind CSS** utility-first approach
-- Use **Radix UI** components when available
-- Maintain **responsive design** principles
-
-#### Database Standards
-
-- Use **descriptive migration names**
-- Follow **alphabetical order** for pivot tables (e.g., `project_role` not `role_project`)
-- Include **proper indexes** and **foreign key constraints**
-- Use **meaningful column names**
-
-### Code Review Process
-
-1. **Create a Pull Request** with a clear title and description
-2. **Link any related issues** in the PR description
-3. **Ensure all tests pass** and code quality checks are green
-4. **Request review** from at least one maintainer
-5. **Address feedback** promptly and professionally
-
-### Bug Reports
-
-When reporting bugs, please include:
-
-- **Steps to reproduce** the issue
-- **Expected behavior** vs **actual behavior**
-- **Environment details** (OS, PHP version, browser, etc.)
-- **Screenshots** or error messages if applicable
-
-### Feature Requests
-
-For new features:
-
-- **Describe the problem** you're trying to solve
-- **Propose a solution** with implementation details
-- **Consider backward compatibility**
-- **Discuss performance implications**
-
-### Development Setup for Contributors
-
-1. Follow the standard **Getting Started** guide above
-2. Set up **pre-commit hooks**:
-    ```bash
-    # Install pre-commit hooks
-    composer install --dev
-    ```
-3. **Run tests** before submitting:
-    ```bash
-    php artisan test
-    bun run ci
-    ```
-
-## Deployment
-
-### Production Environment
-
-1. **Optimize for production**:
-
-    ```bash
-    composer install --optimize-autoloader --no-dev
-    php artisan config:cache
-    php artisan route:cache
-    php artisan view:cache
-    bun run build
-    ```
-
-2. **Set proper permissions**:
-
-    ```bash
-    chmod -R 755 storage bootstrap/cache
-    ```
-
-3. **Configure web server** (Nginx/Apache) to point to the `public` directory
-
-### Environment Variables
-
-Key production environment variables:
-
-**Application Settings:**
-
-```env
-APP_ENV=production
-APP_DEBUG=false
-APP_URL=https://your-domain.com
-APP_KEY=base64:your-production-key
-APP_TIMEZONE=Asia/Karachi
-```
-
-**Database Configuration:**
-
-```env
-DB_CONNECTION=pgsql
-DB_HOST=your-db-host
-DB_DATABASE=production_db
-DB_USERNAME=production_user
-DB_PASSWORD=secure_password
-```
-
-**Mail Configuration:**
-
-```env
-MAIL_MAILER=smtp
-MAIL_HOST=your-smtp-host
-MAIL_PORT=587
-MAIL_USERNAME=your-email
-MAIL_PASSWORD=your-password
-MAIL_FROM_ADDRESS="noreply@bankajk.com"
-MAIL_FROM_NAME="Bank of AJK"
-```
-
-**Performance & Caching:**
-
-```env
-CACHE_STORE=redis
-SESSION_DRIVER=redis
-QUEUE_CONNECTION=redis
-REDIS_HOST=your-redis-host
-REDIS_PASSWORD=your-redis-password
-```
-
-**File Storage:**
-
-```env
-FILESYSTEM_DISK=s3
-AWS_ACCESS_KEY_ID=your-aws-key
-AWS_SECRET_ACCESS_KEY=your-aws-secret
-AWS_DEFAULT_REGION=us-east-1
-AWS_BUCKET=your-bucket-name
-```
-
-**Bank Configuration:**
-
-```env
-BANK_BRANCHES_COUNT=50
-CONTACT_PHONE="+92.5822.924244"
-CONTACT_EMAIL="info@bankajk.com"
-CONTACT_ADDRESS="Head Office, Bank Square, Chattar Domel, Muzaffarabad, AJK, Pakistan"
-```
-
-For a complete list of all environment variables, refer to the `.env.example` file which contains over 100 configuration options for various Laravel features, third-party services, and bank-specific settings.
-
-## Security
-
-- **Keep dependencies updated** regularly
-- **Use environment variables** for sensitive configuration
-- **Implement proper validation** on all user inputs
-- **Follow Laravel security best practices**
-- **Regular security audits** with `composer audit`
-
-## Support
-
-For support and questions:
-
-- **Documentation**: Check this README and Laravel documentation
-- **Issues**: Create a GitHub issue for bugs or feature requests
-- **Email**: [your-support-email@domain.com]
-
-## License
-
-This project is proprietary software developed for the Bank of Azad Jammu & Kashmir. All rights reserved.
-
-## Changelog
-
-### Version 1.0.0 (Current)
-
-- Initial release with core banking features
-- React + TypeScript frontend
-- Laravel 12 backend
-- PostgreSQL database
-- Spatie packages integration
-
-## Application Snapshots
-
-This document provides an overview of key application pages based on the provided snapshots.
-
-### Contact Us Page
-
-![Contact Us Page](public/screenshots/contact_us_page.png)
-
-**Key Features:**
-
-- Multiple contact methods: Call Center, Email Support, Operations, HR/MD.
-- "Send us a Message" form with fields: Name, E-Mail, Phone, District, Tehsil, Place, Category, Subject, Message.
-- Head Office address and contact details.
-- Business Hours information.
-- Link to Branch Locator.
-
-### Banking Services / Homepage Snippet
-
-![Banking Services Page](public/screenshots/banking_services_page.png)
-
-**Note:**
-To view these images, please ensure you have saved your snapshot images as:
-
-- `contact_us_page.png`
-- `banking_services_page.png`
-  and placed them into the `public/screenshots/` directory.
-  The Markdown file references them using relative paths like `public/screenshots/contact_us_page.png`.
+# Bank of Azad Jammu & Kashmir (BAJK) - Website & Content Management System
+
+Public website and administration panel for the Bank of Azad Jammu & Kashmir.
+
+- **Public site:** products, services, rates, financial reports, branch network, news, careers, downloads, loan calculator, contact form
+- **Admin panel:** role-based content management, dashboard, contact-message inbox, menu builder, user/role management
+- **Public JSON API (v1):** branches (with "nearest branch"), regions, districts, contact details, rates, news, careers
+- **Urdu documentation (right-to-left):** [docs/ur/README.md](docs/ur/README.md)
+
+| | |
+|---|---|
+| Backend | Laravel 13, PHP 8.3+ (production runs 8.4) |
+| Frontend | React 19 + TypeScript, Inertia.js v2, Tailwind CSS v4, Vite |
+| Database | MariaDB/MySQL (production), SQLite for tests |
+| Auth / permissions | Laravel auth + `spatie/laravel-permission` |
+| Tests | Pest 4 (about 440 tests) |
 
 ---
 
-_This README was last updated on June 28, 2025._
+## Contents
+
+1. [Quick start (local development)](#quick-start-local-development)
+2. [Configuration (`.env`)](#configuration-env)
+3. [Creating the first administrator](#creating-the-first-administrator)
+4. [Everyday commands](#everyday-commands)
+5. [Project structure](#project-structure)
+6. [Roles and permissions](#roles-and-permissions)
+7. [Public API v1](#public-api-v1)
+8. [Security](#security)
+9. [Testing and quality](#testing-and-quality)
+10. [Deployment to production](#deployment-to-production)
+11. [Upgrading Laravel](#upgrading-laravel)
+12. [Troubleshooting](#troubleshooting)
+
+---
+
+## Quick start (local development)
+
+Requirements: PHP 8.3 or newer with `mbstring`, `intl`, `gd`, `zip` and a database driver (`pdo_mysql` or `pdo_sqlite`), Composer 2, Node.js 22+ and npm.
+
+```bash
+git clone https://github.com/alimarchal/Genexis.git
+cd Genexis
+
+composer install
+npm ci
+
+cp .env.example .env
+php artisan key:generate
+```
+
+Pick a database in `.env`.
+
+*SQLite (simplest for development):*
+
+```dotenv
+DB_CONNECTION=sqlite
+DB_DATABASE=/absolute/path/to/Genexis/database/database.sqlite
+```
+
+```bash
+touch database/database.sqlite
+```
+
+*MariaDB / MySQL:*
+
+```dotenv
+DB_CONNECTION=mariadb
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=bajk
+DB_USERNAME=bajk
+DB_PASSWORD=choose-a-strong-password
+```
+
+Then create the tables, load the starter content and start everything:
+
+```bash
+php artisan migrate --seed        # tables + menus, branches, news, products, roles, permissions ...
+php artisan storage:link          # makes uploaded files reachable under /storage
+php artisan bank:create-admin you@example.com --name="Your Name"   # first administrator (asks for a password)
+
+composer run dev                  # PHP server + queue worker + log viewer + Vite (hot reload)
+```
+
+Open <http://localhost:8000> for the website and <http://localhost:8000/login> for the admin panel.
+
+> If you see "Unable to locate file in Vite manifest", run `npm run build` once, or keep `composer run dev` running.
+
+## Configuration (`.env`)
+
+`.env.example` documents every key. The important groups:
+
+| Group | Keys | Notes |
+|---|---|---|
+| Application | `APP_ENV`, `APP_DEBUG`, `APP_URL`, `APP_KEY` | **Production must use `APP_ENV=production`, `APP_DEBUG=false`, an `https://` `APP_URL`.** |
+| Database | `DB_*` | MariaDB in production. |
+| Sessions | `SESSION_SECURE_COOKIE`, `SESSION_ENCRYPT` | Set `SESSION_SECURE_COOKIE=true` on https. |
+| Mail | `MAIL_*`, `CONTACT_EMAIL`, `CONTACT_FORM_RECIPIENT` | Notification e-mail for the contact form. Messages are always saved in the admin inbox even if mail fails. |
+| Bank details | `CONTACT_PHONE`, `CONTACT_ADDRESS`, `BANK_BRANCHES_COUNT`, `SOCIAL_*`, `*_URL` | Shown in header, footer and contact page. |
+| Rates | `LOAN_RATE_*`, `DEPOSIT_RATE_*`, `LOAN_MIN_*`, `LOAN_MAX_*`, `LOAN_TENURE_*` | Loan calculator and rate widgets. |
+| Security | `TRUSTED_PROXIES`, `FORCE_HTTPS`, `CSP_ENABLED`, `*_RATE_LIMIT` | See [Security](#security). |
+
+All bank-specific values are read through `config/bank.php`. **Never call `env()` outside the `config/` folder**: after `php artisan config:cache` it returns `null`. A test enforces this.
+
+## Creating the first administrator
+
+Public registration is disabled. Create administrators from the command line:
+
+```bash
+php artisan bank:create-admin name@bankajk.com --name="Full Name"
+```
+
+The password must be at least 12 characters with letters and numbers. Running the command again for the same e-mail resets the password. Other staff accounts are created in the panel under **User Management -> Users**.
+
+## Everyday commands
+
+| Command | What it does |
+|---|---|
+| `composer run dev` | Full development stack with hot reload |
+| `php artisan test` | Run the whole test suite |
+| `php artisan test --filter=Name` | Run matching tests |
+| `vendor/bin/pint` | Fix PHP code style |
+| `npm run ci` | Prettier check + ESLint + TypeScript |
+| `npm run format` / `npm run lint` | Auto-fix JS/TS style |
+| `npm run build` | Production build of the front end |
+| `php artisan bank:check` | Verify that the environment is safe for production |
+| `php artisan bank:create-admin <email>` | Create or reset a super-admin |
+| `php artisan news:populate-excerpts` | Generate missing news excerpts |
+
+## Project structure
+
+```
+app/
+  Console/Commands/        bank:check, bank:create-admin, ...
+  Http/Controllers/        public pages, admin CRUD, Admin/ (dashboard, menus, inbox), Api/V1/
+  Http/Middleware/         SecurityHeaders, Inertia shared data, menus, breadcrumbs
+  Http/Resources/V1/       JSON shapes of the public API
+  Models/  Policies/  Services/MenuService.php  Support/PublicFile.php
+config/bank.php            every bank-specific setting (contacts, rates, links, security limits)
+routes/
+  web.php                  public pages + admin panel
+  api.php                  /api/v1 public API
+resources/js/
+  Pages/                   one folder per screen (public and admin)
+  components/              shared UI (SafeImage, header, footer, sidebar ...)
+public/images/defaults/    built-in fallback illustrations (shown when an image is missing)
+scripts/deploy.sh          server-side deployment script
+tests/Feature/             Pest tests
+docs/                      documentation (Urdu admin guide, API reference)
+```
+
+Where to change things:
+
+- **Website text and lists** (news, careers, carousel, branches...): admin panel, no code needed.
+- **Navigation menu:** admin panel -> System Management -> Admin Menus.
+- **Contact details, rates, social/footer links:** `.env` (see above), then `php artisan config:cache` on the server.
+- **A new admin module:** controller + Form Requests + React pages + `Route::resource(...)->guardedBy('x')` in `routes/web.php` + permissions in `RoleAndPermissionSeeder` (and a migration that creates them on existing installs, see `database/migrations/*contact_submission_permissions.php`).
+
+## Roles and permissions
+
+- `super-admin` can do everything (`Gate::before`).
+- Every other role is a set of permissions named `view|create|edit|delete <module>` (for example `edit carousels`).
+- Admin routes use `->guardedBy('module')`, which maps index/show -> view, create/store -> create, edit/update -> edit, destroy -> delete. A user with only `view carousels` can look but not change anything.
+- Staff can only hand out permissions they hold themselves; only a super-admin can create or modify another super-admin, and the `super-admin` role cannot be renamed.
+- Dashboard widgets and sidebar entries appear only for permissions the user has.
+
+## Public API v1
+
+Read-only, no authentication, JSON, cacheable (`Cache-Control: public, max-age=300` + `ETag`), rate limited per IP (default 60 requests/minute; HTTP 429 with `Retry-After`).
+
+Base URL: `https://<your-domain>/api/v1`
+
+| Endpoint | Description |
+|---|---|
+| `GET /branches` | Active branches. Filters: `filter[region_id]`, `filter[district_id]`, `filter[type]`, `filter[is_24_hours]`, `filter[name]`, `filter[address]`. Sort: `sort=name` or `sort=-code`. `per_page` (max 100). |
+| `GET /branches/{code}` | One branch by branch code, with phones and e-mails. |
+| `GET /branches/nearby?lat=&lng=&radius_km=&limit=` | Branches around a point, nearest first, with `distance_km` (default radius 25 km, max 200). |
+| `GET /regions`, `GET /districts?region_id=` | Geography with active branch counts. |
+| `GET /contact` | Head-office phone, e-mail, address, social links. |
+| `GET /rates` | Loan and deposit rates (% p.a.). |
+| `GET /news`, `GET /news/{slug}` | Published news (full content on the detail endpoint). |
+| `GET /careers`, `GET /careers/{id}` | Open vacancies. |
+
+Example:
+
+```bash
+curl "https://example.bank/api/v1/branches/nearby?lat=34.37&lng=73.47&radius_km=10&limit=3"
+```
+
+```json
+{ "data": [ { "code": "0001", "name": "Main Branch Muzaffarabad", "distance_km": 3.1,
+              "phones": ["05822-921181"], "facilities": ["Safe Deposit Boxes"], "...": "..." } ] }
+```
+
+Full reference: [docs/api.md](docs/api.md). The older `GET /api/search?q=` endpoint (site search) is unchanged.
+
+## Security
+
+Built in:
+
+- **Authorization:** per-action permissions, privilege-escalation guards, no public registration.
+- **Browser protections:** nonce-based Content-Security-Policy, `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`, HSTS on https (`app/Http/Middleware/SecurityHeaders.php`). Set `CSP_ENABLED=false` only for debugging.
+- **Rate limits per IP:** pages 600/min, API 60/min, downloads 30/min, contact form 5 per 10 min (`WEB_RATE_LIMIT`, `API_RATE_LIMIT`, `DOWNLOAD_RATE_LIMIT`, `CONTACT_RATE_LIMIT`). Behind a reverse proxy (Cloudflare, nginx, cPanel) set `TRUSTED_PROXIES` (`*` or a comma-separated list of proxy IPs); otherwise every visitor looks like the proxy and shares one limit.
+- **Input safety:** Form Requests everywhere, menu links reject `javascript:`/`data:` URLs, file downloads only serve active records and never accept paths from the visitor.
+- **Privacy:** contact-form details are not written to log files.
+- **Deployment guard:** `php artisan bank:check` stops a deployment if `APP_DEBUG=true` in production.
+
+Operational checklist for the server:
+
+1. `APP_ENV=production`, `APP_DEBUG=false`, `APP_URL=https://...`, `SESSION_SECURE_COOKIE=true`, `LOG_LEVEL=error`
+2. A real mail server in `MAIL_*` (not `mailpit`)
+3. Database user with access only to the application database
+4. The web server's document root is the `public/` folder (never the project root); `.env` is not web-accessible
+5. Regular database and `storage/app/public` backups
+6. Keep dependencies current (Dependabot pull requests, `composer audit`)
+
+Report security problems privately to the repository owner.
+
+## Testing and quality
+
+```bash
+php artisan test                 # PHP tests (SQLite in memory)
+vendor/bin/pint --test           # style check
+npm run ci                       # prettier + eslint + tsc
+```
+
+The tests are behavioural: for example they verify that a view-only user cannot delete, that inactive documents cannot be downloaded, that hidden news is not shown, that distances in the nearby-branches API are correct and that every `route('...')` used by the React code exists on the server. GitHub Actions runs everything on PHP 8.3 and 8.4 for every pull request (`.github/workflows/ci.yml`).
+
+## Deployment to production
+
+Production assumptions: Linux, PHP 8.3+ (8.4 recommended), MariaDB 10.6+/11, a web server whose document root is `public/`, Composer on the server, SSH access.
+
+### One-time setup on the server
+
+```bash
+git clone https://github.com/alimarchal/Genexis.git /var/www/bajk
+cd /var/www/bajk
+cp .env.example .env            # then edit: APP_ENV, APP_DEBUG=false, APP_URL, DB_*, MAIL_*, TRUSTED_PROXIES ...
+composer install --no-dev --optimize-autoloader
+php artisan key:generate
+php artisan migrate --force --seed
+php artisan storage:link
+php artisan bank:create-admin you@bankajk.com
+php artisan bank:check          # must report no errors
+php artisan config:cache && php artisan route:cache && php artisan view:cache && php artisan event:cache
+```
+
+Make `storage/` and `bootstrap/cache/` writable by the web-server user. Build assets once (`npm ci && npm run build`) or upload `public/build/` from CI.
+
+An existing production database that already matches the migrations needs only `php artisan migrate --force` (new migrations add permissions only).
+
+### Automatic deployment (GitHub Actions)
+
+`.github/workflows/deploy.yml` runs after CI passes on `main`. Add these repository secrets (Settings -> Secrets and variables -> Actions); without them the workflow skips itself:
+
+| Secret | Example |
+|---|---|
+| `DEPLOY_HOST` | `server.example.com` |
+| `DEPLOY_USER` | `deploy` |
+| `DEPLOY_PATH` | `/var/www/bajk` |
+| `DEPLOY_SSH_KEY` | private key of a deploy-only user |
+| `DEPLOY_PORT` | `22` (optional) |
+
+On each push to `main` the workflow builds the assets, uploads `public/build`, then runs `scripts/deploy.sh` on the server: pull (fast-forward only), `composer install --no-dev`, `php artisan bank:check`, maintenance mode, `migrate --force`, caches, queue restart, back online. If `bank:check` finds an error nothing on the live site is touched.
+
+Manual deployment is the same command on the server: `bash scripts/deploy.sh`.
+
+### Rollback
+
+```bash
+git log --oneline -5                     # choose the previous good commit
+git checkout <commit> && composer install --no-dev -o
+php artisan config:cache && php artisan route:cache && php artisan view:cache
+```
+
+Migrations are additive; restore the database backup only if a migration itself is at fault.
+
+## Upgrading Laravel
+
+The code follows framework conventions (no framework-internal hacks, `bootstrap/app.php` configuration, Form Requests, resources, config-only `env()`), so major upgrades should be small:
+
+1. Create a branch and read the official upgrade guide for the target version.
+2. Raise `laravel/framework` in `composer.json`, then `composer update -W`. Dependabot already proposes minor updates weekly.
+3. Packages that usually need a matching bump: `inertiajs/inertia-laravel`, `spatie/*`, `pestphp/*`, `laravel/boost`, `laravel/tinker`.
+4. Run `php artisan test`, `npm run ci` and open the main pages (CI does the first two automatically).
+5. `composer.json` pins `config.platform.php` to `8.3.0` so the lock file installs on 8.3 and 8.4; raise it when you drop 8.3.
+
+## Troubleshooting
+
+| Symptom | Cause / fix |
+|---|---|
+| White page / "Unable to locate file in Vite manifest" | Assets not built: `npm run build` |
+| Images missing (default illustration shown) | File not uploaded or `php artisan storage:link` not run |
+| Values from `.env` ignored after editing | Config is cached: `php artisan config:cache` (or `config:clear` in development) |
+| Contact form works but no e-mail arrives | Check `MAIL_*`; messages are still in Admin -> Contact Messages |
+| Everyone gets "Too many requests" | Behind a proxy without `TRUSTED_PROXIES`; set it |
+| 403 in the admin panel | The user's role lacks that module's permission (User Management -> Roles) |
+| `bank:check` fails with APP_DEBUG | Set `APP_DEBUG=false` in the production `.env` |
+| Session cookie error "name cannot be empty" | Remove an empty `SESSION_COOKIE=` line from `.env` |
+
+## License
+
+Proprietary - Bank of Azad Jammu & Kashmir. All rights reserved.
