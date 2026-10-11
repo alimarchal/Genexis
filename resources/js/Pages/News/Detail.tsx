@@ -1,8 +1,8 @@
+import SafeImage from '@/components/safe-image';
 import WebsiteLayout from '@/layouts/WebsiteLayout';
 import { Head, Link } from '@inertiajs/react';
 import { Calendar, Share2, Star, Tag } from 'lucide-react';
 import React from 'react';
-import SafeImage from '@/components/safe-image';
 
 interface NewsAnnouncement {
     id: number;

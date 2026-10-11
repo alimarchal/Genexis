@@ -45,7 +45,11 @@ function MessagesChart({ series }: { series: Messages['series'] }) {
     return (
         <div role="img" aria-label="Contact messages received per day, last 14 days" className="flex h-40 items-end gap-1.5">
             {series.map((point) => (
-                <div key={point.date} className="group flex h-full flex-1 flex-col items-center justify-end gap-1" title={`${point.label}: ${point.count}`}>
+                <div
+                    key={point.date}
+                    className="group flex h-full flex-1 flex-col items-center justify-end gap-1"
+                    title={`${point.label}: ${point.count}`}
+                >
                     <span className="text-muted-foreground text-[10px] opacity-0 transition-opacity group-hover:opacity-100">{point.count}</span>
                     <div
                         className="bg-primary/80 group-hover:bg-primary w-full rounded-t transition-colors"
@@ -84,7 +88,11 @@ export default function Dashboard({ stats, attention, messages }: Props) {
                 {stats.length > 0 && (
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-5">
                         {stats.map((stat) => (
-                            <Link key={stat.key} href={stat.href} className="group focus-visible:ring-ring rounded-xl outline-none focus-visible:ring-2">
+                            <Link
+                                key={stat.key}
+                                href={stat.href}
+                                className="group focus-visible:ring-ring rounded-xl outline-none focus-visible:ring-2"
+                            >
                                 <Card className="group-hover:border-primary/50 h-full transition-colors">
                                     <CardHeader className="pb-2">
                                         <CardDescription>{stat.label}</CardDescription>
@@ -105,7 +113,10 @@ export default function Dashboard({ stats, attention, messages }: Props) {
                                     <CardTitle>Contact form messages</CardTitle>
                                     <CardDescription>Last 14 days</CardDescription>
                                 </div>
-                                <Link href={route('admin.contact-submissions.index')} className="text-primary inline-flex items-center gap-1 text-sm hover:underline">
+                                <Link
+                                    href={route('admin.contact-submissions.index')}
+                                    className="text-primary inline-flex items-center gap-1 text-sm hover:underline"
+                                >
                                     Open inbox <ArrowRight className="h-4 w-4" />
                                 </Link>
                             </CardHeader>
@@ -137,14 +148,21 @@ export default function Dashboard({ stats, attention, messages }: Props) {
                                         <ul className="divide-y">
                                             {messages.recent.map((message) => (
                                                 <li key={message.id}>
-                                                    <Link href={message.href} className="hover:bg-muted/50 flex items-center justify-between gap-3 rounded px-1 py-2.5">
+                                                    <Link
+                                                        href={message.href}
+                                                        className="hover:bg-muted/50 flex items-center justify-between gap-3 rounded px-1 py-2.5"
+                                                    >
                                                         <span className="min-w-0">
                                                             <span className="block truncate text-sm font-medium">{message.subject}</span>
                                                             <span className="text-muted-foreground block truncate text-xs">{message.name}</span>
                                                         </span>
                                                         <span className="flex shrink-0 items-center gap-2">
-                                                            {message.category && <Badge variant="outline">{message.category.replace(/_/g, ' ')}</Badge>}
-                                                            <span className="text-muted-foreground text-xs">{formatDateTime(message.submitted_at)}</span>
+                                                            {message.category && (
+                                                                <Badge variant="outline">{message.category.replace(/_/g, ' ')}</Badge>
+                                                            )}
+                                                            <span className="text-muted-foreground text-xs">
+                                                                {formatDateTime(message.submitted_at)}
+                                                            </span>
                                                         </span>
                                                     </Link>
                                                 </li>
@@ -162,13 +180,18 @@ export default function Dashboard({ stats, attention, messages }: Props) {
                                 <CardTitle className="flex items-center gap-2">
                                     <AlertTriangle className="h-5 w-5 text-amber-500" /> Needs attention
                                 </CardTitle>
-                                <CardDescription>{pending.length === 0 ? 'Everything looks good.' : `${pending.length} item(s) to review`}</CardDescription>
+                                <CardDescription>
+                                    {pending.length === 0 ? 'Everything looks good.' : `${pending.length} item(s) to review`}
+                                </CardDescription>
                             </CardHeader>
                             <CardContent>
                                 <ul className="divide-y">
                                     {attention.map((item) => (
                                         <li key={item.key}>
-                                            <Link href={item.href} className="hover:bg-muted/50 flex items-center justify-between gap-3 rounded px-1 py-2.5 text-sm">
+                                            <Link
+                                                href={item.href}
+                                                className="hover:bg-muted/50 flex items-center justify-between gap-3 rounded px-1 py-2.5 text-sm"
+                                            >
                                                 <span>{item.label}</span>
                                                 <Badge variant={item.count > 0 ? 'default' : 'outline'} className="tabular-nums">
                                                     {item.count}

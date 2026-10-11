@@ -1,4 +1,5 @@
 import Heading from '@/components/heading';
+import SafeImage from '@/components/safe-image';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -17,7 +18,6 @@ import { type BreadcrumbItem, type SharedData } from '@/types';
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Edit, Eye, MoreHorizontal, Plus, Search, Trash } from 'lucide-react';
 import { useState } from 'react';
-import SafeImage from '@/components/safe-image';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -200,7 +200,8 @@ export default function CarouselIndex({ carousels, filters }: Props) {
                                             <TableCell>
                                                 <div className="flex items-center gap-3">
                                                     {carousel.image_url && (
-                                                        <SafeImage kind="carousel"
+                                                        <SafeImage
+                                                            kind="carousel"
                                                             src={carousel.image_url}
                                                             alt={carousel.title}
                                                             className="h-10 w-16 rounded-md object-cover"

@@ -1,0 +1,75 @@
+name: Deploy
+
+# Runs after CI succeeds on main. Does nothing until the DEPLOY_* secrets exist
+# (Settings -> Secrets and variables -> Actions), so merging is always safe.
+on:
+  workflow_run:
+    workflows: [CI]
+    branches: [main]
+    types: [completed]
+  workflow_dispatch:
+
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Deploy to production
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+      DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+      DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+      DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
+      DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+    steps:
+      - name: Check configuration
+        id: config
+        run: |
+          if [ -z "$DEPLOY_HOST" ] || [ -z "$DEPLOY_USER" ] || [ -z "$DEPLOY_PATH" ] || [ -z "$DEPLOY_SSH_KEY" ]; then
+            echo "Deployment secrets are not configured; skipping."
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v4
+        if: steps.config.outputs.ready == 'true'
+
+      - uses: actions/setup-node@v4
+        if: steps.config.outputs.ready == 'true'
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Build front-end assets
+        if: steps.config.outputs.ready == 'true'
+        run: |
+          npm ci
+          npm run build
+
+      - name: Configure SSH
+        if: steps.config.outputs.ready == 'true'
+        run: |
+          install -m 700 -d ~/.ssh
+          echo "$DEPLOY_SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -p "${DEPLOY_PORT:-22}" "$DEPLOY_HOST" >> ~/.ssh/known_hosts
+
+      - name: Upload built assets
+        if: steps.config.outputs.ready == 'true'
+        run: |
+          rsync -az -e "ssh -i ~/.ssh/deploy_key -p ${DEPLOY_PORT:-22}" \
+            public/build/ "$DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH/public/build/"
+
+      - name: Run deploy script on the server
+        if: steps.config.outputs.ready == 'true'
+        run: |
+          ssh -i ~/.ssh/deploy_key -p "${DEPLOY_PORT:-22}" "$DEPLOY_USER@$DEPLOY_HOST" \
+            "cd '$DEPLOY_PATH' && bash scripts/deploy.sh"

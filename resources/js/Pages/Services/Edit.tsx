@@ -1,4 +1,5 @@
 import Heading from '@/components/heading';
+import SafeImage from '@/components/safe-image';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -10,7 +11,6 @@ import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router, useForm } from '@inertiajs/react';
 import { Minus, Plus, Save } from 'lucide-react';
 import { FormEventHandler, useState } from 'react';
-import SafeImage from '@/components/safe-image';
 
 interface ServiceAttribute {
     id?: number;
@@ -131,7 +131,12 @@ export default function EditService({ service }: Props) {
                                     <div className="space-y-2">
                                         <Label>Current Image</Label>
                                         <div className="flex items-center gap-4">
-                                            <SafeImage kind="service" src={service.image_url} alt={service.name} className="h-20 w-20 rounded object-cover" />
+                                            <SafeImage
+                                                kind="service"
+                                                src={service.image_url}
+                                                alt={service.name}
+                                                className="h-20 w-20 rounded object-cover"
+                                            />
                                             <p className="text-sm text-gray-500">Upload a new image to replace the current one</p>
                                         </div>
                                     </div>
