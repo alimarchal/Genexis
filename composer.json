@@ -14,7 +14,7 @@
         "laravel/framework": "^13.0",
         "laravel/scout": "^10.15",
         "laravel/tinker": "^3.0",
-        "spatie/laravel-permission": "^6.18",
+        "spatie/laravel-permission": "^8.3",
         "spatie/laravel-query-builder": "^6.3",
         "tightenco/ziggy": "^2.4"
     },
