@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Management;
-use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
@@ -17,14 +16,14 @@ test('it can view managements index page', function () {
     $response = $this->get(route('managements.index'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('Management/Index'));
+    $response->assertInertia(fn ($page) => $page->component('Management/Index'));
 });
 
 test('it can view create management page', function () {
     $response = $this->get(route('managements.create'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('Management/Create'));
+    $response->assertInertia(fn ($page) => $page->component('Management/Create'));
 });
 
 test('it can create management with valid data', function () {
@@ -69,7 +68,7 @@ test('it can view management details', function () {
     $response = $this->get(route('managements.show', $management));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('Management/Show'));
+    $response->assertInertia(fn ($page) => $page->component('Management/Show'));
 });
 
 test('it can view edit management page', function () {
@@ -78,7 +77,7 @@ test('it can view edit management page', function () {
     $response = $this->get(route('managements.edit', $management));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('Management/Edit'));
+    $response->assertInertia(fn ($page) => $page->component('Management/Edit'));
 });
 
 test('it can update management', function () {

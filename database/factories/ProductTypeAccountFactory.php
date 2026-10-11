@@ -2,10 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\ProductTypeAccount;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ProductTypeAccount>
+ * @extends Factory<ProductTypeAccount>
  */
 class ProductTypeAccountFactory extends Factory
 {

@@ -19,7 +19,7 @@ class StoreFinancialHighlightRequest extends FormRequest
                 'required',
                 'integer',
                 'min:1900',
-                'max:' . (date('Y') + 5),
+                'max:'.(date('Y') + 5),
                 Rule::unique('financial_highlights', 'fiscal_year'),
             ],
             'financial_highlights' => [

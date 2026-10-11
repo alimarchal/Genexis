@@ -6,8 +6,8 @@ use App\Http\Requests\StoreTopNavbarMessageRequest;
 use App\Http\Requests\UpdateTopNavbarMessageRequest;
 use App\Models\TopNavbarMessage;
 use Inertia\Inertia;
-use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class TopNavbarMessageController extends Controller
 {
@@ -46,14 +46,14 @@ class TopNavbarMessageController extends Controller
     public function show(TopNavbarMessage $topNavbarMessage)
     {
         return Inertia::render('TopNavbarMessages/Show', [
-            'message' => $topNavbarMessage
+            'message' => $topNavbarMessage,
         ]);
     }
 
     public function edit(TopNavbarMessage $topNavbarMessage)
     {
         return Inertia::render('TopNavbarMessages/Edit', [
-            'message' => $topNavbarMessage
+            'message' => $topNavbarMessage,
         ]);
     }
 

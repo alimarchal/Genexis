@@ -101,7 +101,7 @@ class UserPermissionTest extends TestCase
         $response = $this->actingAs($user)->get('/dashboard');
 
         $response->assertInertia(
-            fn($page) => $page
+            fn ($page) => $page
                 ->has('auth.permissions')
                 ->where('auth.permissions', function ($permissions) {
                     return in_array('view products', $permissions->toArray());

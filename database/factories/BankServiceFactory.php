@@ -2,10 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\BankService;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\BankService>
+ * @extends Factory<BankService>
  */
 class BankServiceFactory extends Factory
 {
@@ -61,13 +62,13 @@ class BankServiceFactory extends Factory
             'icon' => fake()->randomElement($icons),
             'products' => fake()->randomElements($products, fake()->numberBetween(2, 5)),
             'cta_text' => fake()->randomElement(['Learn More', 'Open Account', 'Get Started', 'Apply Now', 'Contact Us']),
-            'cta_link' => '/' . fake()->slug(2),
+            'cta_link' => '/'.fake()->slug(2),
             'color' => fake()->randomElement($colors),
             'benefits' => fake()->randomElements($benefits, fake()->numberBetween(3, 6)),
             'order' => fake()->numberBetween(1, 10),
             'status' => fake()->boolean(80),
             'service_type' => $serviceType,
-            'stat_number' => $serviceType === 'stat' ? fake()->numberBetween(10, 999) . '+' : null,
+            'stat_number' => $serviceType === 'stat' ? fake()->numberBetween(10, 999).'+' : null,
             'stat_label' => $serviceType === 'stat' ? fake()->randomElement(['Branches', 'Customers', 'Years', 'Services']) : null,
             'stat_description' => $serviceType === 'stat' ? fake()->sentence(4) : null,
         ];

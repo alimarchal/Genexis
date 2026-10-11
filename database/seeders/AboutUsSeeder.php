@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\AboutUs;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class AboutUsSeeder extends Seeder
@@ -32,8 +31,8 @@ Core Values:
 Quality, Team Work, Responsibility, Achievement, Innovation, Ideas, Trust, People.',
             'vision' => 'To act as a premier financial institution, fostering socio- economic development of the people of AJK.',
             'mission' => 'To acquire market leadership through quality banking services as a customer-focused and socially responsible institution. Promote products, best business practices, and customized solutions for participation in development processes of the state for the well-being of its people.',
-           
-             'is_active' => true,
+
+            'is_active' => true,
             'sort_order' => 1,
         ]);
     }

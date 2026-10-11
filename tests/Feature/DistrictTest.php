@@ -2,7 +2,9 @@
 
 use App\Models\District;
 use App\Models\Region;
-use App\Models\User;
+use Database\Seeders\DistrictSeeder;
+use Database\Seeders\DivisionSeeder;
+use Database\Seeders\RegionSeeder;
 
 beforeEach(function () {
     $this->user = $this->createAdminUser();
@@ -10,9 +12,9 @@ beforeEach(function () {
 
     // Seed the required data for district tests
     $this->seed([
-        \Database\Seeders\DivisionSeeder::class,
-        \Database\Seeders\RegionSeeder::class,
-        \Database\Seeders\DistrictSeeder::class,
+        DivisionSeeder::class,
+        RegionSeeder::class,
+        DistrictSeeder::class,
     ]);
 });
 
@@ -20,18 +22,18 @@ test('it can view districts index page', function () {
     $response = $this->get(route('districts.index'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('District/Index'));
+    $response->assertInertia(fn ($page) => $page->component('District/Index'));
 });
 
 test('it can view create district page', function () {
     $response = $this->get(route('districts.create'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('District/Create'));
+    $response->assertInertia(fn ($page) => $page->component('District/Create'));
 });
 
 test('it can create district with valid data', function () {
-    $region = \App\Models\Region::where('name', 'Muzaffarabad')->first();
+    $region = Region::where('name', 'Muzaffarabad')->first();
 
     $response = $this->post(route('districts.store'), [
         'name' => 'Test District',
@@ -48,25 +50,25 @@ test('it can create district with valid data', function () {
 });
 
 test('it can view district details', function () {
-    $district = \App\Models\District::where('name', 'Muzaffarabad')->first();
+    $district = District::where('name', 'Muzaffarabad')->first();
 
     $response = $this->get(route('districts.show', $district));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('District/Show'));
+    $response->assertInertia(fn ($page) => $page->component('District/Show'));
 });
 
 test('it can view edit district page', function () {
-    $district = \App\Models\District::where('name', 'Muzaffarabad')->first();
+    $district = District::where('name', 'Muzaffarabad')->first();
 
     $response = $this->get(route('districts.edit', $district));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('District/Edit'));
+    $response->assertInertia(fn ($page) => $page->component('District/Edit'));
 });
 
 test('it can update district', function () {
-    $district = \App\Models\District::where('name', 'Muzaffarabad')->first();
+    $district = District::where('name', 'Muzaffarabad')->first();
 
     $response = $this->put(route('districts.update', $district), [
         'name' => 'Updated District',
@@ -85,8 +87,8 @@ test('it can update district', function () {
 
 test('it can delete district', function () {
     // Create a test district that's safe to delete
-    $region = \App\Models\Region::where('name', 'Muzaffarabad')->first();
-    $district = \App\Models\District::create([
+    $region = Region::where('name', 'Muzaffarabad')->first();
+    $district = District::create([
         'name' => 'Deletable Test District',
         'region_id' => $region->id,
         'status' => 'active',

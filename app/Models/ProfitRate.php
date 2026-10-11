@@ -47,10 +47,13 @@ class ProfitRate extends Model
                 }
             }),
             AllowedFilter::callback('is_active', function ($query, $value) {
-                if ($value === '1')
+                if ($value === '1') {
                     return $query->where('is_active', true);
-                if ($value === '0')
+                }
+                if ($value === '0') {
                     return $query->where('is_active', false);
+                }
+
                 return $query;
             }),
             AllowedFilter::callback('validity_status', function ($query, $value) {
@@ -89,24 +92,31 @@ class ProfitRate extends Model
 
     public function getStatusAttribute(): string
     {
-        if (!$this->is_active)
+        if (! $this->is_active) {
             return 'inactive';
+        }
 
         $currentDate = now()->toDateString();
 
-        if ($this->valid_from > $currentDate)
+        if ($this->valid_from > $currentDate) {
             return 'upcoming';
-        if ($this->valid_to && $this->valid_to < $currentDate)
+        }
+        if ($this->valid_to && $this->valid_to < $currentDate) {
             return 'expired';
+        }
+
         return 'current';
     }
 
     public function getRateRangeAttribute(): string
     {
-        if ($this->rate < 5)
+        if ($this->rate < 5) {
             return 'low';
-        if ($this->rate <= 10)
+        }
+        if ($this->rate <= 10) {
             return 'medium';
+        }
+
         return 'high';
     }
 
@@ -118,6 +128,7 @@ class ProfitRate extends Model
     public function scopeCurrent($query)
     {
         $currentDate = now()->toDateString();
+
         return $query->where('valid_from', '<=', $currentDate)
             ->where(function ($q) use ($currentDate) {
                 $q->whereNull('valid_to')->orWhere('valid_to', '>=', $currentDate);

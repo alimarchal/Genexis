@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\UserTracking;
+use Database\Factories\ContactFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,7 +11,7 @@ use Spatie\QueryBuilder\AllowedFilter;
 
 class Contact extends Model
 {
-    /** @use HasFactory<\Database\Factories\ContactFactory> */
+    /** @use HasFactory<ContactFactory> */
     use HasFactory, UserTracking;
 
     protected $fillable = [

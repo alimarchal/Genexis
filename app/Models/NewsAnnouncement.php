@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use Database\Factories\NewsAnnouncementFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 class NewsAnnouncement extends Model
 {
-    /** @use HasFactory<\Database\Factories\NewsAnnouncementFactory> */
+    /** @use HasFactory<NewsAnnouncementFactory> */
     use HasFactory;
 
     protected $fillable = [
@@ -37,9 +38,9 @@ class NewsAnnouncement extends Model
             if (empty($newsAnnouncement->slug)) {
                 $newsAnnouncement->slug = Str::slug($newsAnnouncement->title);
             }
-            
+
             // Auto-generate excerpt if not provided
-            if (empty($newsAnnouncement->excerpt) && !empty($newsAnnouncement->content)) {
+            if (empty($newsAnnouncement->excerpt) && ! empty($newsAnnouncement->content)) {
                 $newsAnnouncement->excerpt = $newsAnnouncement->generateExcerpt();
             }
         });
@@ -48,9 +49,9 @@ class NewsAnnouncement extends Model
             if ($newsAnnouncement->isDirty('title')) {
                 $newsAnnouncement->slug = Str::slug($newsAnnouncement->title);
             }
-            
+
             // Auto-generate excerpt if it's empty and content is being updated or excerpt is being cleared
-            if (empty($newsAnnouncement->excerpt) && !empty($newsAnnouncement->content)) {
+            if (empty($newsAnnouncement->excerpt) && ! empty($newsAnnouncement->content)) {
                 if ($newsAnnouncement->isDirty('content') || $newsAnnouncement->isDirty('excerpt')) {
                     $newsAnnouncement->excerpt = $newsAnnouncement->generateExcerpt();
                 }
@@ -80,9 +81,8 @@ class NewsAnnouncement extends Model
 
     /**
      * Generate excerpt from content.
-     * 
-     * @param int $length Maximum length of excerpt
-     * @return string
+     *
+     * @param  int  $length  Maximum length of excerpt
      */
     public function generateExcerpt(int $length = 200): string
     {
@@ -92,7 +92,7 @@ class NewsAnnouncement extends Model
 
         $strippedContent = strip_tags($this->content);
         $excerpt = substr($strippedContent, 0, $length);
-        
+
         if (strlen($strippedContent) > $length) {
             $excerpt .= '...';
         }

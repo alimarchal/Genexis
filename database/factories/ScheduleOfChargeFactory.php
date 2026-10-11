@@ -2,10 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\ScheduleOfCharge;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ScheduleOfCharge>
+ * @extends Factory<ScheduleOfCharge>
  */
 class ScheduleOfChargeFactory extends Factory
 {

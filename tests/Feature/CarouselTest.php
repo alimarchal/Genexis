@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Carousel;
-use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
@@ -17,14 +16,14 @@ test('it can view carousels index page', function () {
     $response = $this->get(route('carousels.index'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('Carousel/Index'));
+    $response->assertInertia(fn ($page) => $page->component('Carousel/Index'));
 });
 
 test('it can view create carousel page', function () {
     $response = $this->get(route('carousels.create'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('Carousel/Create'));
+    $response->assertInertia(fn ($page) => $page->component('Carousel/Create'));
 });
 
 test('it can create carousel with valid data', function () {
@@ -86,7 +85,7 @@ test('it can view carousel details', function () {
     $response = $this->get(route('carousels.show', $carousel));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('Carousel/Show'));
+    $response->assertInertia(fn ($page) => $page->component('Carousel/Show'));
 });
 
 test('it can view edit carousel page', function () {
@@ -95,7 +94,7 @@ test('it can view edit carousel page', function () {
     $response = $this->get(route('carousels.edit', $carousel));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('Carousel/Edit'));
+    $response->assertInertia(fn ($page) => $page->component('Carousel/Edit'));
 });
 
 test('it can update carousel', function () {

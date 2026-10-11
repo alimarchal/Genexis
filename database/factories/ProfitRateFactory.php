@@ -2,10 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\ProfitRate;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ProfitRate>
+ * @extends Factory<ProfitRate>
  */
 class ProfitRateFactory extends Factory
 {

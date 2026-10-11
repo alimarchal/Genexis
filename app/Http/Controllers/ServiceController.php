@@ -79,7 +79,7 @@ class ServiceController extends Controller
         try {
             app(MenuService::class)->clearMenuCache();
         } catch (\Exception $e) {
-            \Log::warning('Failed to clear menu cache after service creation: ' . $e->getMessage());
+            \Log::warning('Failed to clear menu cache after service creation: '.$e->getMessage());
         }
 
         return redirect()->route('services.index')
@@ -134,7 +134,7 @@ class ServiceController extends Controller
         try {
             app(MenuService::class)->clearMenuCache();
         } catch (\Exception $e) {
-            \Log::warning('Failed to clear menu cache after service update: ' . $e->getMessage());
+            \Log::warning('Failed to clear menu cache after service update: '.$e->getMessage());
         }
 
         // Update service attributes
@@ -172,7 +172,7 @@ class ServiceController extends Controller
         try {
             app(MenuService::class)->clearMenuCache();
         } catch (\Exception $e) {
-            \Log::warning('Failed to clear menu cache after service deletion: ' . $e->getMessage());
+            \Log::warning('Failed to clear menu cache after service deletion: '.$e->getMessage());
         }
 
         return redirect()->route('services.index')
@@ -189,12 +189,12 @@ class ServiceController extends Controller
         ]);
     }
 
-public function showHomePage($slug)
-{
+    public function showHomePage($slug)
+    {
         $service = Service::where('slug', $slug)->firstOrFail();
 
         // Check if service is active
-        if (!$service->is_active) {
+        if (! $service->is_active) {
             abort(404, 'Service not available.');
         }
 
@@ -212,7 +212,7 @@ public function showHomePage($slug)
             ->with('attributes')
             ->first();
 
-        if (!$service) {
+        if (! $service) {
             abort(404, 'Service not available.');
         }
 
@@ -228,7 +228,7 @@ public function showHomePage($slug)
             ->with('attributes')
             ->first();
 
-        if (!$service) {
+        if (! $service) {
             abort(404, 'Service not available.');
         }
 
@@ -244,7 +244,7 @@ public function showHomePage($slug)
             ->with('attributes')
             ->first();
 
-        if (!$service) {
+        if (! $service) {
             abort(404, 'Service not available.');
         }
 
@@ -260,7 +260,7 @@ public function showHomePage($slug)
             ->with('attributes')
             ->first();
 
-        if (!$service) {
+        if (! $service) {
             abort(404, 'Service not available.');
         }
 

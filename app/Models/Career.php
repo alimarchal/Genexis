@@ -44,24 +44,33 @@ class Career extends Model
             AllowedFilter::partial('title'),
             AllowedFilter::partial('location'),
             AllowedFilter::callback('is_active', function ($query, $value) {
-                if ($value === '1')
+                if ($value === '1') {
                     return $query->where('is_active', true);
-                if ($value === '0')
+                }
+                if ($value === '0') {
                     return $query->where('is_active', false);
+                }
+
                 return $query;
             }),
             AllowedFilter::callback('is_featured', function ($query, $value) {
-                if ($value === '1')
+                if ($value === '1') {
                     return $query->where('is_featured', true);
-                if ($value === '0')
+                }
+                if ($value === '0') {
                     return $query->where('is_featured', false);
+                }
+
                 return $query;
             }),
             AllowedFilter::callback('has_document', function ($query, $value) {
-                if ($value === 'yes')
+                if ($value === 'yes') {
                     return $query->whereNotNull('document');
-                if ($value === 'no')
+                }
+                if ($value === 'no') {
                     return $query->whereNull('document');
+                }
+
                 return $query;
             }),
             AllowedFilter::callback('closing_status', function ($query, $value) {
@@ -100,24 +109,28 @@ class Career extends Model
         if ($this->document && Storage::disk('public')->exists($this->document)) {
             return route('public-careers.download', $this->id);
         }
+
         return null;
     }
 
     public function getStatusAttribute(): string
     {
-        if (!$this->is_active)
+        if (! $this->is_active) {
             return 'inactive';
+        }
 
         $currentDate = now()->toDateString();
 
-        if ($this->closing_date && $this->closing_date < $currentDate)
+        if ($this->closing_date && $this->closing_date < $currentDate) {
             return 'closed';
+        }
+
         return 'open';
     }
 
     public function getHasDocumentAttribute(): bool
     {
-        return !is_null($this->document);
+        return ! is_null($this->document);
     }
 
     public function scopeActive($query)
@@ -133,6 +146,7 @@ class Career extends Model
     public function scopeOpen($query)
     {
         $currentDate = now()->toDateString();
+
         return $query->where(function ($q) use ($currentDate) {
             $q->whereNull('closing_date')->orWhere('closing_date', '>=', $currentDate);
         });
@@ -147,7 +161,6 @@ class Career extends Model
     {
         $this->increment('views_count');
     }
-
 
     public function getIsExpiredAttribute()
     {

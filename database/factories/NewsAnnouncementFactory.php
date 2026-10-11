@@ -2,10 +2,12 @@
 
 namespace Database\Factories;
 
+use App\Models\NewsAnnouncement;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\NewsAnnouncement>
+ * @extends Factory<NewsAnnouncement>
  */
 class NewsAnnouncementFactory extends Factory
 {
@@ -27,7 +29,7 @@ class NewsAnnouncementFactory extends Factory
             'published_date' => fake()->dateTimeBetween('-6 months', 'now')->format('Y-m-d'),
             'is_featured' => fake()->boolean(20), // 20% chance of being featured
             'category' => fake()->randomElement(['general', 'banking', 'services', 'announcements', 'updates']),
-            'slug' => \Illuminate\Support\Str::slug($title),
+            'slug' => Str::slug($title),
             'is_published' => fake()->boolean(90), // 90% chance of being published
         ];
     }

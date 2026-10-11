@@ -1,9 +1,11 @@
 <?php
 
-use App\Models\BodCommittee;
 use App\Models\BoardOfDirector;
+use App\Models\BodCommittee;
 use App\Models\Management;
-use App\Models\User;
+use Database\Seeders\BoardOfDirectorSeeder;
+use Database\Seeders\BodCommitteeSeeder;
+use Database\Seeders\ManagementSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
@@ -20,7 +22,7 @@ test('it can view bod committees index page', function () {
 
     $response->assertOk()
         ->assertInertia(
-            fn($page) => $page
+            fn ($page) => $page
                 ->component('BodCommittees/Index')
                 ->has('bodCommittees.data', 3)
         );
@@ -31,7 +33,7 @@ test('it can view create bod committee page', function () {
 
     $response->assertOk()
         ->assertInertia(
-            fn($page) => $page
+            fn ($page) => $page
                 ->component('BodCommittees/Create')
                 ->has('boardMembers')
                 ->has('managementMembers')
@@ -74,7 +76,7 @@ test('it can view bod committee details', function () {
 
     $response->assertOk()
         ->assertInertia(
-            fn($page) => $page
+            fn ($page) => $page
                 ->component('BodCommittees/Show')
                 ->where('bodCommittee.id', $committee->id)
         );
@@ -87,7 +89,7 @@ test('it can view edit bod committee page', function () {
 
     $response->assertOk()
         ->assertInertia(
-            fn($page) => $page
+            fn ($page) => $page
                 ->component('BodCommittees/Edit')
                 ->where('bodCommittee.id', $committee->id)
                 ->has('boardMembers')
@@ -142,7 +144,7 @@ test('it can filter bod committees by status', function () {
 
     $response->assertOk()
         ->assertInertia(
-            fn($page) => $page
+            fn ($page) => $page
                 ->has('bodCommittees.data', 1)
                 ->where('bodCommittees.data.0.is_active', true)
         );
@@ -156,7 +158,7 @@ test('it can search bod committees by name', function () {
 
     $response->assertOk()
         ->assertInertia(
-            fn($page) => $page
+            fn ($page) => $page
                 ->has('bodCommittees.data', 1)
                 ->where('bodCommittees.data.0.name', 'Unique Committee Name')
         );
@@ -179,7 +181,7 @@ test('it can view public bod committees page', function () {
 
     $response->assertOk()
         ->assertInertia(
-            fn($page) => $page
+            fn ($page) => $page
                 ->component('About/BodCommittees')
                 ->has('committees', 1)
                 ->where('committees.0.name', $committee->name)
@@ -206,9 +208,9 @@ test('it validates foreign key constraints', function () {
 
 test('seeded committees exist and are accessible', function () {
     // Run seeders
-    $this->seed(\Database\Seeders\BoardOfDirectorSeeder::class);
-    $this->seed(\Database\Seeders\ManagementSeeder::class);
-    $this->seed(\Database\Seeders\BodCommitteeSeeder::class);
+    $this->seed(BoardOfDirectorSeeder::class);
+    $this->seed(ManagementSeeder::class);
+    $this->seed(BodCommitteeSeeder::class);
 
     // Check that committees were seeded
     $committees = BodCommittee::all();
@@ -218,7 +220,7 @@ test('seeded committees exist and are accessible', function () {
     $response = $this->get(route('about.bod-committees'));
     $response->assertOk()
         ->assertInertia(
-            fn($page) => $page
+            fn ($page) => $page
                 ->component('About/BodCommittees')
                 ->has('committees')
         );

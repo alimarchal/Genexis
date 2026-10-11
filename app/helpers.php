@@ -21,7 +21,7 @@ if (! function_exists('auto_breadcrumbs')) {
             if ($routeName) {
                 return $menuService->getBreadcrumbs($routeName, $routeParams);
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // Log error but don't break the application
             \Log::warning('Error generating auto breadcrumbs: '.$e->getMessage());
         }
@@ -34,17 +34,17 @@ if (! function_exists('get_active_menu_item')) {
     /**
      * Get the currently active menu item
      */
-    function get_active_menu_item(): ?\App\Models\Menu
+    function get_active_menu_item(): ?Menu
     {
         try {
             $routeName = Route::currentRouteName();
 
             if ($routeName) {
-                return \App\Models\Menu::where('route_name', $routeName)
+                return Menu::where('route_name', $routeName)
                     ->where('is_active', true)
                     ->first();
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             \Log::warning('Error getting active menu item: '.$e->getMessage());
         }
 
@@ -60,7 +60,7 @@ if (! function_exists('clear_menu_cache')) {
     {
         try {
             app(MenuService::class)->clearMenuCache();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             \Log::warning('Error clearing menu cache: '.$e->getMessage());
         }
     }
@@ -78,7 +78,7 @@ if (! function_exists('get_menu_tree')) {
             return $menuService->formatMenuForFrontend(
                 $menuService->getMainMenu()
             );
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             \Log::warning('Error getting menu tree: '.$e->getMessage());
 
             return [];

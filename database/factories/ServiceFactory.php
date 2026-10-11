@@ -2,10 +2,12 @@
 
 namespace Database\Factories;
 
+use App\Models\Service;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Service>
+ * @extends Factory<Service>
  */
 class ServiceFactory extends Factory
 {
@@ -32,20 +34,20 @@ class ServiceFactory extends Factory
             'Financial Planning',
             'Insurance Services',
             'Trade Finance',
-            'Remittance Services'
+            'Remittance Services',
         ]);
 
         return [
             'name' => $name,
-            'slug' => \Illuminate\Support\Str::slug($name),
+            'slug' => Str::slug($name),
             'description' => fake()->paragraph(2),
             'icon' => fake()->randomElement(['CreditCard', 'Smartphone', 'Globe', 'Building', 'TrendingUp']),
-            'image' => 'services/' . fake()->slug(2) . '.jpg',
+            'image' => 'services/'.fake()->slug(2).'.jpg',
             'is_active' => fake()->boolean(80),
             'sort_order' => fake()->numberBetween(1, 10),
             'meta_data' => json_encode([
                 'features' => fake()->randomElements(['24/7 Access', 'Secure', 'Fast', 'Reliable'], 2),
-                'benefits' => fake()->randomElements(['Convenient', 'Cost Effective', 'Time Saving'], 2)
+                'benefits' => fake()->randomElements(['Convenient', 'Cost Effective', 'Time Saving'], 2),
             ]),
         ];
     }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\UserTracking;
+use Database\Factories\DownloadFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -10,7 +11,7 @@ use Spatie\QueryBuilder\AllowedSort;
 
 class Download extends Model
 {
-    /** @use HasFactory<\Database\Factories\DownloadFactory> */
+    /** @use HasFactory<DownloadFactory> */
     use HasFactory, UserTracking;
 
     protected $fillable = [
@@ -46,17 +47,23 @@ class Download extends Model
             AllowedFilter::partial('title'),
             AllowedFilter::partial('description'),
             AllowedFilter::callback('is_featured', function ($query, $value) {
-                if ($value === '1')
+                if ($value === '1') {
                     return $query->where('is_featured', true);
-                if ($value === '0')
+                }
+                if ($value === '0') {
                     return $query->where('is_featured', false);
+                }
+
                 return $query;
             }),
             AllowedFilter::callback('is_active', function ($query, $value) {
-                if ($value === '1')
+                if ($value === '1') {
                     return $query->where('is_active', true);
-                if ($value === '0')
+                }
+                if ($value === '0') {
                     return $query->where('is_active', false);
+                }
+
                 return $query;
             }),
             AllowedFilter::scope('file_size_min'),
@@ -83,12 +90,12 @@ class Download extends Model
 
     public function getFileUrlAttribute()
     {
-        return $this->file_path ? asset('storage/' . $this->file_path) : null;
+        return $this->file_path ? asset('storage/'.$this->file_path) : null;
     }
 
     public function getFileSizeFormattedAttribute()
     {
-        if (!$this->file_size) {
+        if (! $this->file_size) {
             return 'Unknown';
         }
 
@@ -101,7 +108,7 @@ class Download extends Model
             $i++;
         }
 
-        return round($bytes, 2) . ' ' . $units[$i];
+        return round($bytes, 2).' '.$units[$i];
     }
 
     public function getStatusAttribute()

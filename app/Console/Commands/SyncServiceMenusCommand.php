@@ -38,8 +38,9 @@ class SyncServiceMenusCommand extends Command
         // Find the Services parent menu
         $servicesParent = Menu::where('slug', 'services')->first();
 
-        if (!$servicesParent) {
+        if (! $servicesParent) {
             $this->error('Services parent menu not found. Please run the MenuSeeder first.');
+
             return 1;
         }
 
@@ -68,8 +69,8 @@ class SyncServiceMenusCommand extends Command
 
             if ($existingMenu) {
                 // Update existing menu
-                if ($existingMenu->title !== $service->name || !$existingMenu->is_active) {
-                    if (!$isDryRun) {
+                if ($existingMenu->title !== $service->name || ! $existingMenu->is_active) {
+                    if (! $isDryRun) {
                         $existingMenu->update([
                             'title' => $service->name,
                             'slug' => $service->slug,
@@ -81,7 +82,7 @@ class SyncServiceMenusCommand extends Command
                 }
             } else {
                 // Create new menu item
-                if (!$isDryRun) {
+                if (! $isDryRun) {
                     $maxOrder = Menu::where('parent_id', $servicesParent->id)
                         ->where('route_name', 'service-pages.show')
                         ->max('sort_order') ?? 9;
@@ -104,11 +105,11 @@ class SyncServiceMenusCommand extends Command
         // Remove menu items for services that no longer exist or are inactive
         $activeServiceSlugs = $services->pluck('slug')->toArray();
         $menusToDelete = $existingMenus->filter(function ($menu) use ($activeServiceSlugs) {
-            return !in_array($menu->route_params['slug'] ?? '', $activeServiceSlugs);
+            return ! in_array($menu->route_params['slug'] ?? '', $activeServiceSlugs);
         });
 
         foreach ($menusToDelete as $menu) {
-            if (!$isDryRun) {
+            if (! $isDryRun) {
                 $menu->delete();
             }
             $deleted++;
@@ -116,7 +117,7 @@ class SyncServiceMenusCommand extends Command
         }
 
         // Clear menu cache
-        if (!$isDryRun && ($created > 0 || $updated > 0 || $deleted > 0)) {
+        if (! $isDryRun && ($created > 0 || $updated > 0 || $deleted > 0)) {
             app(MenuService::class)->clearMenuCache();
             $this->info('Menu cache cleared.');
         }
@@ -125,7 +126,7 @@ class SyncServiceMenusCommand extends Command
             $this->warn('DRY RUN - No changes were made.');
         }
 
-        $this->info("Synchronization complete!");
+        $this->info('Synchronization complete!');
         $this->table(['Action', 'Count'], [
             ['Created', $created],
             ['Updated', $updated],

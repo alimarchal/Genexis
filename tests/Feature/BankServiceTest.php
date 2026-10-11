@@ -1,8 +1,6 @@
 <?php
 
 use App\Models\BankService;
-use App\Models\User;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
 beforeEach(function () {
@@ -17,14 +15,14 @@ test('it can view bank services index page', function () {
     $response = $this->get(route('bank-services.index'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('BankService/Index'));
+    $response->assertInertia(fn ($page) => $page->component('BankService/Index'));
 });
 
 test('it can view create bank service page', function () {
     $response = $this->get(route('bank-services.create'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('BankService/Create'));
+    $response->assertInertia(fn ($page) => $page->component('BankService/Create'));
 });
 
 test('it can create bank service with valid data', function () {
@@ -57,7 +55,7 @@ test('it can view bank service details', function () {
     $response = $this->get(route('bank-services.show', $bankService));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('BankService/Show'));
+    $response->assertInertia(fn ($page) => $page->component('BankService/Show'));
 });
 
 test('it can view edit bank service page', function () {
@@ -66,7 +64,7 @@ test('it can view edit bank service page', function () {
     $response = $this->get(route('bank-services.edit', $bankService));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('BankService/Edit'));
+    $response->assertInertia(fn ($page) => $page->component('BankService/Edit'));
 });
 
 test('it can update bank service', function () {

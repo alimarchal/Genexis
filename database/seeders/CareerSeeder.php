@@ -11,8 +11,8 @@ class CareerSeeder extends Seeder
     {
         // Create specific career opportunities
         $careers = [
-             
-             [
+
+            [
                 'title' => 'Date Extension',
                 'description' => 'We are looking for an experienced Senior Software Engineer to join our technology team. You will be responsible for developing and maintaining our core banking applications using modern technologies.',
                 'requirements' => '',
@@ -26,7 +26,7 @@ class CareerSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => 1,
             ],
-             [
+            [
                 'title' => 'CAREER OPPORTUNITIES',
                 'description' => ' We are looking for dedicated resources having relevant experience and are willing to work in Project
                              Management Office, Information Technology Division of the bank for execution and implementation of Core Banking Solution and Digital
@@ -48,7 +48,7 @@ class CareerSeeder extends Seeder
                 'title' => 'Corrigendum',
                 'description' => 'This corrigendum notice contains updates or modifications to the original advertisement. Please refer to the attached document for detailed information.',
                 'requirements' => 'Refer to the corrigendum document for revised criteria or changes.',
-                 'location' => 'Muzaffarabad, AJ&K',
+                'location' => 'Muzaffarabad, AJ&K',
                 'document' => 'careers/career3.pdf',
                 'closing_date' => '2025-06-15',
                 'benefits' => '',
@@ -58,10 +58,10 @@ class CareerSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => 1,
             ],
-             [
-                 'title' => 'Corrigendum – Date Extension',
-                 'description' => 'The Bank of Azad Jammu and Kashmir has issued a corrigendum regarding the previously advertised Internship Opportunities 2024 (Ref: AJK 123-D/02/2024) published on February 15, 2024 in Daily Dawn and Daily Jang. The deadline for submission of online applications has been extended up to March 10, 2024. All other terms and conditions remain unchanged.',
-                 'requirements' => 'All eligibility criteria and requirements remain the same as stated in the original advertisement. Please refer to the original notice for details.',
+            [
+                'title' => 'Corrigendum – Date Extension',
+                'description' => 'The Bank of Azad Jammu and Kashmir has issued a corrigendum regarding the previously advertised Internship Opportunities 2024 (Ref: AJK 123-D/02/2024) published on February 15, 2024 in Daily Dawn and Daily Jang. The deadline for submission of online applications has been extended up to March 10, 2024. All other terms and conditions remain unchanged.',
+                'requirements' => 'All eligibility criteria and requirements remain the same as stated in the original advertisement. Please refer to the original notice for details.',
                 'location' => 'Bank of Azad Jammu and Kashmir, Head Office, Sardar Nazir Plaza, Muzaffarabad',
                 'document' => 'careers/career4.pdf',
                 'closing_date' => '2025-06-15',
@@ -72,10 +72,10 @@ class CareerSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => 1,
             ],
-             [
-                 'title' => 'Internship Opportunities 2024 ',
-                 'description' => 'The Bank of Azad Jammu and Kashmir (BAJK) is offering a one-year paid internship program for graduate and postgraduate students. The internship provides hands-on work experience in various functional areas across different branches.',
-                 'requirements' => 'Kindly consult the detailed advertisement for complete eligibility requirements.',
+            [
+                'title' => 'Internship Opportunities 2024 ',
+                'description' => 'The Bank of Azad Jammu and Kashmir (BAJK) is offering a one-year paid internship program for graduate and postgraduate students. The internship provides hands-on work experience in various functional areas across different branches.',
+                'requirements' => 'Kindly consult the detailed advertisement for complete eligibility requirements.',
                 'location' => 'All over AJK',
                 'document' => 'careers/career5.pdf',
                 'closing_date' => '2024-03-10',
@@ -86,10 +86,10 @@ class CareerSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => 1,
             ],
-                  [
-                    'title' => 'CAREER OPPORTUNITIES',
-                 'description' => 'The Bank of Azad Jammu and Kashmir (BAJK) is an emerging and rapidly growing Financial Institution wholly owned by the Azad Government of the State of Azad Jammu and Kashmir. The BAJK focuses on strengthening its institutionalcapacity through continugus upgradation in terms of Human Resource at the Bank. Currently, BAJK is going to hire a batch of General Banking Officers (GBOs) in Grade-IV to meet the shortfall of staff at branches at Mirpur, Kotli & Rawalakot Regions through competitive test to be conducted by third party testing firm. For the purpose, BAJK is looking for services of young individuals who are team players, energetic, result oriented and willing to work in a challenging environment with a lot of growth opportunities. ',
-                 'requirements' => 'Kindly consult the detailed advertisement for complete eligibility requirements.',
+            [
+                'title' => 'CAREER OPPORTUNITIES',
+                'description' => 'The Bank of Azad Jammu and Kashmir (BAJK) is an emerging and rapidly growing Financial Institution wholly owned by the Azad Government of the State of Azad Jammu and Kashmir. The BAJK focuses on strengthening its institutionalcapacity through continugus upgradation in terms of Human Resource at the Bank. Currently, BAJK is going to hire a batch of General Banking Officers (GBOs) in Grade-IV to meet the shortfall of staff at branches at Mirpur, Kotli & Rawalakot Regions through competitive test to be conducted by third party testing firm. For the purpose, BAJK is looking for services of young individuals who are team players, energetic, result oriented and willing to work in a challenging environment with a lot of growth opportunities. ',
+                'requirements' => 'Kindly consult the detailed advertisement for complete eligibility requirements.',
                 'location' => 'Mirpur, Rawalakot,Kotli Regions',
                 'document' => 'careers/career6.pdf',
                 'closing_date' => '2024-03-02',
@@ -99,11 +99,11 @@ class CareerSeeder extends Seeder
                 // 'views_count' => 85,
                 'created_by' => 1,
                 'updated_by' => 1,
-                 ],
-                   [
-                    'title' => 'Corrigendum  ',
-                 'description' => 'Corrigendum notice from Bank of Azad Jammu and Kashmir updating the number of positions for Assistant/Cash Sorter roles across branches, with regional quotas and disability reservations.',
-                 'requirements' => 'Kindly consult the detailed advertisement for complete eligibility requirements.',
+            ],
+            [
+                'title' => 'Corrigendum  ',
+                'description' => 'Corrigendum notice from Bank of Azad Jammu and Kashmir updating the number of positions for Assistant/Cash Sorter roles across branches, with regional quotas and disability reservations.',
+                'requirements' => 'Kindly consult the detailed advertisement for complete eligibility requirements.',
                 'location' => 'All over AJK',
                 'document' => 'careers/career7.jpeg',
                 'closing_date' => '2024-02-15',
@@ -113,26 +113,26 @@ class CareerSeeder extends Seeder
                 // 'views_count' => 85,
                 'created_by' => 1,
                 'updated_by' => 1,
-                 ],
-                   [
+            ],
+            [
 
                 'title' => 'Assistant / Cash Sorter Positions',
                 'description' => 'Contract-based opportunities at Bank of Azad Jammu and Kashmir for young, energetic individuals seeking career growth in banking operations.',
                 'requirements' => 'Intermediate minimum (graduation preferred), age 18-42, computer literacy, communication skills. AJK State Subjects preferred.',
-                 'location' => 'Various branches across Muzaffarabad, Rawalakot, Mirpur, and Kotli regions',
+                'location' => 'Various branches across Muzaffarabad, Rawalakot, Mirpur, and Kotli regions',
                 'document' => 'careers/career8.pdf',
                 'closing_date' => '204-02-3',
-                 'benefits' => '2-year contract with potential absorption into regular cadre, competitive compensation package per bank policy',
+                'benefits' => '2-year contract with potential absorption into regular cadre, competitive compensation package per bank policy',
                 'is_featured' => true,
                 'is_active' => true,
                 // 'views_count' => 85,
                 'created_by' => 1,
                 'updated_by' => 1,
-                 ],
-                   [
+            ],
+            [
                 'title' => 'Enployement Form ',
-                 'description' => 'Standard employment application form for all career opportunities at Bank of Azad Jammu & Kashmir. This universal document collects essential candidate information required for consideration across various positions, roles, and departments within the banking institution.',
-                 'requirements' => '',
+                'description' => 'Standard employment application form for all career opportunities at Bank of Azad Jammu & Kashmir. This universal document collects essential candidate information required for consideration across various positions, roles, and departments within the banking institution.',
+                'requirements' => '',
                 'location' => '',
                 'document' => 'careers/career9.pdf',
                 'closing_date' => '2025-06-15',
@@ -142,9 +142,9 @@ class CareerSeeder extends Seeder
                 // 'views_count' => 85,
                 'created_by' => 1,
                 'updated_by' => 1,
-                 ],
+            ],
 
-  [
+            [
                 'title' => 'DATE EXTENSION (Advertisement No. AJK-102D/03/2025)',
                 'description' => 'This notice refers to a job advertisement published on March 15, 2025, in Daily Dawn and Daily Jang Islamabad, with the deadline for submitting online applications further extended up to July 15, 2025, while all other terms and conditions remain the same.',
                 'requirements' => '',
@@ -159,7 +159,7 @@ class CareerSeeder extends Seeder
                 'updated_by' => 1,
             ],
 
-               [
+            [
                 'title' => 'DATE EXTENSION (Advertisement No. AJK-136-D/05/2025)',
                 'description' => 'This notice, regarding a job advertisement published on March 15, 2025, in Daily Dawn and Daily Jang Islamabad, states that the deadline for submitting online applications has been further extended to July 15, 2025, with all other terms and conditions remaining the same.',
                 'requirements' => '',
@@ -173,9 +173,6 @@ class CareerSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => 1,
             ],
-
-
-
 
             // [
             //     'title' => 'Senior Software Engineer',

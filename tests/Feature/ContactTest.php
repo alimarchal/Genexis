@@ -1,7 +1,12 @@
 <?php
 
+use App\Models\Branch;
 use App\Models\Contact;
-use App\Models\User;
+use Database\Seeders\BranchSeeder;
+use Database\Seeders\ContactSeeder;
+use Database\Seeders\DistrictSeeder;
+use Database\Seeders\DivisionSeeder;
+use Database\Seeders\RegionSeeder;
 
 beforeEach(function () {
     $this->user = $this->createAdminUser();
@@ -9,11 +14,11 @@ beforeEach(function () {
 
     // Seed the required data for contact tests
     $this->seed([
-        \Database\Seeders\DivisionSeeder::class,
-        \Database\Seeders\RegionSeeder::class,
-        \Database\Seeders\DistrictSeeder::class,
-        \Database\Seeders\BranchSeeder::class,
-        \Database\Seeders\ContactSeeder::class,
+        DivisionSeeder::class,
+        RegionSeeder::class,
+        DistrictSeeder::class,
+        BranchSeeder::class,
+        ContactSeeder::class,
     ]);
 });
 
@@ -21,18 +26,18 @@ test('it can view contacts index page', function () {
     $response = $this->get(route('contacts.index'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('ContactManagement/Index'));
+    $response->assertInertia(fn ($page) => $page->component('ContactManagement/Index'));
 });
 
 test('it can view create contact page', function () {
     $response = $this->get(route('contacts.create'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('ContactManagement/Create'));
+    $response->assertInertia(fn ($page) => $page->component('ContactManagement/Create'));
 });
 
 test('it can create contact with valid data', function () {
-    $branch = \App\Models\Branch::where('code', '0001')->first();
+    $branch = Branch::where('code', '0001')->first();
 
     $response = $this->post(route('contacts.store'), [
         'name' => 'John Doe',
@@ -57,25 +62,25 @@ test('it can create contact with valid data', function () {
 });
 
 test('it can view contact details', function () {
-    $contact = \App\Models\Contact::first();
+    $contact = Contact::first();
 
     $response = $this->get(route('contacts.show', $contact));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('ContactManagement/Show'));
+    $response->assertInertia(fn ($page) => $page->component('ContactManagement/Show'));
 });
 
 test('it can view edit contact page', function () {
-    $contact = \App\Models\Contact::first();
+    $contact = Contact::first();
 
     $response = $this->get(route('contacts.edit', $contact));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('ContactManagement/Edit'));
+    $response->assertInertia(fn ($page) => $page->component('ContactManagement/Edit'));
 });
 
 test('it can update contact', function () {
-    $contact = \App\Models\Contact::first();
+    $contact = Contact::first();
 
     $response = $this->put(route('contacts.update', $contact), [
         'name' => 'Jane Smith',
@@ -101,8 +106,8 @@ test('it can update contact', function () {
 
 test('it can delete contact', function () {
     // Create a test contact that's safe to delete
-    $branch = \App\Models\Branch::where('code', '0001')->first();
-    $contact = \App\Models\Contact::create([
+    $branch = Branch::where('code', '0001')->first();
+    $contact = Contact::create([
         'name' => 'Deletable Contact',
         'email' => 'delete@example.com',
         'phone' => '111-222-3333',

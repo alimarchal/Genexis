@@ -46,9 +46,9 @@ class NewsAnnouncementSeeder extends Seeder
         //     'is_published' => true,
         // ]);
 
-  NewsAnnouncement::create([
+        NewsAnnouncement::create([
             'title' => '92nd Meeting of the Board of Directors of BAJK Held in Islamabad',
-           'content' => 'Islamabad <br>
+            'content' => 'Islamabad <br>
             The <strong>92nd meeting</strong> of the Board of Directors (BoD) of <strong>Bank of Azad Jammu & Kashmir (BAJK)</strong> was held on <strong>Monday in Islamabad</strong>, chaired by <strong>Mr. Khan Abdul Majid Khan</strong>, Honorable Minister for Finance & Cooperatives, Government of Azad Jammu & Kashmir, and Chairman of BAJK.<br><br>
 
 <strong>Board Members in Attendance:</strong><br>
@@ -117,9 +117,9 @@ The Board reaffirmed its focus on <strong>accelerating digital transformation, e
             'is_published' => true,
         ]);
 
- NewsAnnouncement::create([
+        NewsAnnouncement::create([
             'title' => 'BAJK Signs Historic Agreement with Silverlake to Implement Core Banking System, Ushering in a New Era of Digital Banking',
-          'content' => 'Muzaffarabad<br>  The Bank of Azad Jammu and Kashmir (BAJK) has taken a monumental leap toward digital transformation by signing a landmark agreement with Malaysia-based global technology consortium Silverlake to implement a state-of-the-art <strong>Core Banking System (CBS)</strong>. The contract signing ceremony, held at the prestigious Islamabad Serena Hotel, was graced by esteemed dignitaries, marking a pivotal moment in the financial modernization of the region.<br><br>
+            'content' => 'Muzaffarabad<br>  The Bank of Azad Jammu and Kashmir (BAJK) has taken a monumental leap toward digital transformation by signing a landmark agreement with Malaysia-based global technology consortium Silverlake to implement a state-of-the-art <strong>Core Banking System (CBS)</strong>. The contract signing ceremony, held at the prestigious Islamabad Serena Hotel, was graced by esteemed dignitaries, marking a pivotal moment in the financial modernization of the region.<br><br>
 
 <strong>Distinguished Guests and Key Attendees</strong><br>
 The event was attended by senior officials from BAJK, consortium partners, government representatives, and key stakeholders from the financial and technology sectors. The <strong>Honorable Prime Minister of AJK, Chaudhry Anwarul Haq</strong>, presided as the <strong>Chief Guest</strong>.<br>
@@ -208,8 +208,6 @@ BAJK کی انتظامیہ اور بورڈ کی دوراندیشی لائق تح
             'is_published' => true,
         ]);
 
-
-
         NewsAnnouncement::create([
             'title' => 'Inauguration of the 88th Branch of the Bank of Azad Jammu and Kashmir in Raheemkot',
             'content' => 'Muzaffarabad<br>
@@ -255,9 +253,9 @@ Local residents expressed gratitude to the bank and government, calling this a v
             'is_published' => true,
         ]);
 
-  NewsAnnouncement::create([
+        NewsAnnouncement::create([
             'title' => 'BAJK Celebrates Record-Breaking Rs. 46 Billion Deposit Milestone',
- 'content' => 'Muzaffarabad, July 01, 2025 – The Bank of Azad Jammu & Kashmir (BAJK) has made history by crossing <strong>Rs. 46 billion in deposits</strong>, setting a new benchmark in its financial journey.<br><br>
+            'content' => 'Muzaffarabad, July 01, 2025 – The Bank of Azad Jammu & Kashmir (BAJK) has made history by crossing <strong>Rs. 46 billion in deposits</strong>, setting a new benchmark in its financial journey.<br><br>
 
 A ceremony was held at <strong>BAJK\'s Main Branch Muzaffarabad</strong> to commemorate this achievement. The event was presided over by <strong>Mr. Khan Abdul Majid Khan</strong>, Minister for Finance & Cooperative AJK and <strong>Chairman of BAJK</strong>, who lauded the efforts of <strong>President/CEO Mr. Shahid Shahzad Mir</strong>, the dedicated BAJK team, and all stakeholders.<br><br>
 
@@ -294,9 +292,9 @@ The celebrations culminated in a <strong>traditional cake-cutting ceremony</stro
             'is_published' => true,
         ]);
 
-  NewsAnnouncement::create([
+        NewsAnnouncement::create([
             'title' => '90th Meeting of the Board of Directors of Bank of Azad Jammu & Kashmir (BAJK) Held Successfully',
-           'content' => '<div dir="ltr">
+            'content' => '<div dir="ltr">
 The 90th meeting of the Board of Directors of Bank of Azad Jammu & Kashmir (BAJK) was held at the Bank\'s Head Office in Muzaffarabad on Tuesday. The meeting was chaired by Mr. Khan Abdul Majid Khan, Honorable Minister for Finance & Cooperatives, Government of Azad Jammu & Kashmir, and Chairman of BAJK.<br>
 All members attended the meeting in person, except Ms. Bushra Naz Malik, who joined via Zoom. Mr. Mubashar Nabi also participated following the notification of his further extension as a Board member.<br><br>
 
@@ -363,7 +361,7 @@ The Board reiterated its focus on sustainable growth, service expansion, and the
 
         NewsAnnouncement::create([
             'title' => 'Bank of Azad Jammu & Kashmir Holds 89th Board Meeting: Strategic Approvals and Vision for Future Growth',
-           'content' => '<strong>BAJK Board of Directors 89th Meeting Held at Bank Head Office, Muzaffarabad</strong><br>
+            'content' => '<strong>BAJK Board of Directors 89th Meeting Held at Bank Head Office, Muzaffarabad</strong><br>
 Muzaffarabad<br>
 June 04, 2025<br>
 The 89th meeting of the Board of Directors of Bank of Azad Jammu & Kashmir (BAJK) was held on Wednesday at the Bank’s Head Office in Muzaffarabad under the chairmanship of Mr. Khan Abdul Majid Khan, Honorable Minister for Finance & Cooperatives, Government of Azad Jammu & Kashmir, and Chairman of BAJK.<br>
@@ -412,7 +410,7 @@ The Board reaffirmed its resolve to sustain progress, expand services, and adopt
 
         NewsAnnouncement::create([
             'title' => 'Bank of Azad Jammu and Kashmir Signs Strategic MoU with Silverlake to Advance Digital Banking Infrastructure',
-           'content' => 'The Bank of Azad Jammu and Kashmir (BAJK) has signed a Memorandum of Understanding (MoU) with Silverlake, a world-renowned Malaysian company, marking a significant step towards digitalization and scheduling. The MoU was signed during a ceremony held in Kuala Lumpur, Malaysia, after which documents were exchanged. Azad Jammu and Kashmir Minister for Finance and Cooperatives/Chairman of BAJK, Khan Abdul Majid Khan, President/CEO of BAJK, Mr. Shahid Shahzad Mir, and representatives of Silverlake were present on the occasion.<br>
+            'content' => 'The Bank of Azad Jammu and Kashmir (BAJK) has signed a Memorandum of Understanding (MoU) with Silverlake, a world-renowned Malaysian company, marking a significant step towards digitalization and scheduling. The MoU was signed during a ceremony held in Kuala Lumpur, Malaysia, after which documents were exchanged. Azad Jammu and Kashmir Minister for Finance and Cooperatives/Chairman of BAJK, Khan Abdul Majid Khan, President/CEO of BAJK, Mr. Shahid Shahzad Mir, and representatives of Silverlake were present on the occasion.<br>
 Notably, the local partner of Silverlake, I-Consult played an instrumental role in facilitating this MoU, and its representatives Mr. Shahid Ahmed Khan and Mr. Khurram Jamal were also present during the signing ceremony, contributing to the successful collaboration.<br>
 Silverlake is a leading company providing core banking and digital technology services to over 370 banks and financial institutions across 80 countries. It is globally recognized for its advanced core banking software technology and a 100% success rate.<br>
 With this agreement, BAJK has achieved a major milestone in modernizing its banking infrastructure. The partnership will enable the bank to implement the latest banking software, a key requirement for obtaining a scheduling license under the regulatory framework of the State Bank of Pakistan. This development will bring Kashmir Bank on par with all major banks in Pakistan.<br>
@@ -435,7 +433,7 @@ Speaking at the event, Chairman Khan Abdul Majid Khan stated that this MoU is no
 
         NewsAnnouncement::create([
             'title' => 'Bank of AJK Convenes 88th Board of Directors Meeting Under the Chairmanship of Finance Minister Khan Abdul Majid Khan',
-           'content' => 'The 88th Meeting of the Board of Directors of Bank of Azad Jammu & Kashmir Held Under the Chairmanship of Finance Minister Khan Abdul Majid Khan<br>
+            'content' => 'The 88th Meeting of the Board of Directors of Bank of Azad Jammu & Kashmir Held Under the Chairmanship of Finance Minister Khan Abdul Majid Khan<br>
 The 88th meeting of the Board of Directors of Bank of Azad Jammu & Kashmir was held under the chairmanship of Mr. Khan Abdul Majid Khan, Minister for Finance & Cooperatives, Government of Azad Jammu & Kashmir, and Chairman of the Bank. The meeting was convened on Monday at the Bank’s Head Office.<br>
 The meeting was attended by Mr. Shahid Shahzad Mir, President & CEO, members of the Board of Directors, Mr. Islam Zaib, Secretary Finance, Government of AJK, Mr. Khalid Mahmood Mirza, Secretary Industries & Commerce, Mr. Muhammad Sajjad, Secretary Law & Justice, Ms. Bushra Naz Malik (via Zoom), and Dr. Adnanullah Khan, Company Secretary.<br>
 The meeting included a review of various operational agenda items, including the financial accounts for the year 2024 (as of December 31, 2024), which were discussed in detail and approved. A comprehensive briefing was also given on core banking matters.<br>
@@ -458,10 +456,9 @@ On this occasion, the Chairman stated that every effort is being made to positio
             'is_published' => true,
         ]);
 
-
         NewsAnnouncement::create([
             'title' => 'Bank of AJK Convenes 106th Management Committee Meeting to Drive Strategic Growth and Innovation',
-           'content' => 'Bank of AJK Holds 106th Management Committee Meeting<br>
+            'content' => 'Bank of AJK Holds 106th Management Committee Meeting<br>
 The Bank of Azad Jammu and Kashmir (BAJK) marked a significant milestone with the successful convening of its 106th Management Committee Meeting at the bank’s head office in Muzaffarabad. The session, held under the leadership of Khan Abdul Majid Khan, Chairman of the Board of Directors and Minister for Finance & Cooperative, AJK, brought together key decision-makers to review progress, strategize future initiatives, and reinforce the institution’s commitment to excellence in banking services.<br>
 Khan Abdul Majid Khan presided over the meeting, emphasizing the bank’s role in driving economic growth and financial inclusion across AJK. In his remarks, he underscored the importance of innovation, customer-centric policies, and adherence to governance standards. “Our focus remains on empowering communities through accessible financial solutions while maintaining transparency and accountability at all levels,” he stated.<br><br>
 
@@ -531,7 +528,7 @@ BAJK مستقبل میں اپنی ترقی، جدت، اور سماجی اثرا
 
         NewsAnnouncement::create([
             'title' => 'Recognizing Excellence: BAJK Awards Outstanding Employees for Exceptional Performance',
-           'content' => 'Muzaffarabad<br>
+            'content' => 'Muzaffarabad<br>
 <strong>Bank of Azad Jammu and Kashmir Honors Top Performers in Prestigious Ceremony</strong><br><br>
 
 In a ceremony marked by celebration and recognition, the Bank of Azad Jammu and Kashmir (BAJK) honored its outstanding employees for their exceptional contributions to the institution’s success. The event, held under the leadership of Chairman Khan Abdul Majid Khan—who also serves as AJK’s Minister for Finance and Cooperative—and President & CEO Shahid Shahzad Mir, underscored the bank’s commitment to excellence and employee motivation.<br><br>
@@ -633,7 +630,7 @@ He also assured his full cooperation and support in this regard.<br><br>
 
         NewsAnnouncement::create([
             'title' => 'HR Division of BAJK Organizes Comprehensive Training on Islamic Banking Operations',
-          'content' => 'HR Division of BAJK Organizes Comprehensive Training on Islamic Banking Operations<br>
+            'content' => 'HR Division of BAJK Organizes Comprehensive Training on Islamic Banking Operations<br>
 <strong>Muzaffarabad</strong><br><br>
 
 The Human Resources (HR) Division of Bank of Azad Jammu and Kashmir (BAJK) successfully organized a comprehensive training program on Islamic Banking Operations for its staff on Thursday. The training was conducted by a renowned Sharia consultancy trainer and was attended by officials from the Islamic Banking Division and other nominated staff members.<br><br>
@@ -696,12 +693,12 @@ BAJK کا HR ڈویژن مسلسل پیشہ ورانہ تربیت کے مواق�
 
         NewsAnnouncement::create([
             'title' => 'Proudly Honoring Pakistan’s Brave Forces',
-          'content' => 'The Bank of Azad Jammu and Kashmir pays heartfelt tribute to the courageous armed forces of Pakistan, recognizing their unwavering dedication and sacrifices for national security and peace. Their bravery continues to inspire the nation with pride and gratitude.<br><br>
+            'content' => 'The Bank of Azad Jammu and Kashmir pays heartfelt tribute to the courageous armed forces of Pakistan, recognizing their unwavering dedication and sacrifices for national security and peace. Their bravery continues to inspire the nation with pride and gratitude.<br><br>
 
 <div dir="rtl" style="text-align: right;">
 بینک آف آزاد جموں و کشمیر پاکستان کی بہادر مسلح افواج کو دل کی گہرائیوں سے خراجِ تحسین پیش کرتا ہے، جو قومی سلامتی اور امن کے لیے اپنی بے مثال قربانیوں اور غیر متزلزل عزم کے لیے جانے جاتے ہیں۔ ان کی بہادری پوری قوم کے لیے فخر اور شکرگزاری کا باعث ہے۔
 </div>',
-            'image' =>'news-images/pkforce.jpg',
+            'image' => 'news-images/pkforce.jpg',
             'published_date' => '2025-05-12',
             'is_featured' => true,
             'category' => 'general',
@@ -711,7 +708,7 @@ BAJK کا HR ڈویژن مسلسل پیشہ ورانہ تربیت کے مواق�
 
         NewsAnnouncement::create([
             'title' => 'BAJK Partners with Faysal Bank to Revolutionize Financial Transactions and Cash Management',
-           'content' => 'Bank of AJK Partners with Faysal Bank to Revolutionize Financial Transactions and Enhance Cash Management<br><br>
+            'content' => 'Bank of AJK Partners with Faysal Bank to Revolutionize Financial Transactions and Enhance Cash Management<br><br>
 <b>Islamabad</b><br>
 Bank of Azad Jammu and Kashmir (BAJK), a leading financial institution, has entered into a strategic partnership with Faysal Bank Limited. This collaboration aims to revolutionize the way financial transactions are conducted by integrating the International Bank Account Number (IBAN) system and enhancing cash management operations.<br><br>
 
@@ -768,10 +765,9 @@ IBAN سسٹم کو اپنانے کے ذریعے BAJK اپنے مالیاتی آ�
             'is_published' => true,
         ]);
 
-
         NewsAnnouncement::create([
             'title' => 'Bank of AJK Collaborates with NIBAF to Elevate Enterprise Risk Management Standards',
-           'content' => 'Bank of AJK Strengthens Risk Management with NIBAF’s Support<br><br>
+            'content' => 'Bank of AJK Strengthens Risk Management with NIBAF’s Support<br><br>
 <b>Muzaffarabad,</b><br>
 <b>November 25, 2024:</b><br>
 Bank of Azad Jammu and Kashmir (BAJK) has initiated a week-long Enterprise Risk Management (ERM) training program in collaboration with the National Institute of Banking and Finance (NIBAF). The program, held at the Ch. Ghulam Abbas Learning Hall, aims to equip BAJK’s staff with the essential tools and knowledge to effectively identify, assess, and mitigate risks.<br><br>
@@ -814,7 +810,7 @@ NIBAF کے ساتھ شراکت داری کے ذریعے BAJK کا مقصد اپ�
 
         NewsAnnouncement::create([
             'title' => 'BAJK Sharda Branch Commemorates 18th Anniversary with Community Leaders and Dignitaries',
-          'content' => 'Celebrating the 18th Anniversary of the Bank of Azad Jammu and Kashmir<br><br>
+            'content' => 'Celebrating the 18th Anniversary of the Bank of Azad Jammu and Kashmir<br><br>
 On the occasion of the 18th anniversary of the Bank of Azad Jammu and Kashmir, a cake-cutting ceremony was held at the BAJK Sharda Branch. The event was graced by the presence of Assistant Commissioner Mr. Muhammad Qadeer Mughal, Principal of Boys Degree College Sharda Madam Sakeena Khawaja, President of the Sharda Bazaar Traders Association Mr. Babar Nawaz, and other respected local dignitaries.<br><br>
 
 The guests expressed their heartfelt appreciation for the bank’s services and reaffirmed their commitment to continued cooperation. Prayers were offered for the continued growth and prosperity of the institution. Branch Manager Mr. Noor Zaman thanked all attendees for their participation and support.<br><br>
@@ -835,7 +831,7 @@ The guests expressed their heartfelt appreciation for the bank’s services and 
 
         NewsAnnouncement::create([
             'title' => 'BAJK Celebrates 18th Anniversary at Pulmanda Branch, Khari Sharif',
-            'content' =>  'Khari Sharif<br><br>
+            'content' => 'Khari Sharif<br><br>
 A grand ceremony was held at the Pulmanda Branch of Bank of Azad Jammu and Kashmir (BAJK) to mark the bank’s 18th anniversary. The event was graced by senior political, social, and education department officials from across the region. Regional Head of Mirpur, Raja Muhammad Waseem Khan, along with the bank staff, received high praise for their dedicated services.<br><br>
 
 President of the Anjuman-e-Tajran, Ch. Muhammad Afsar, appreciated the performance of the bank staff and assured full support. While addressing the ceremony, the Secretary of Anjuman-e-Tajran Pulmanda recalled the historic role of Jammu and Kashmir Bank, stating that even before the formation of Pakistan, it held a leading position. He emphasized the importance of supporting a bank that is truly their own.<br><br>
@@ -866,10 +862,9 @@ The event concluded with a vote of thanks by Branch Manager Mr. Waqas Javed to a
             'is_published' => true,
         ]);
 
-
         NewsAnnouncement::create([
             'title' => 'BAJK Celebrates 18th Anniversary with Cake-Cutting Ceremony in Rawalakot',
-           'content' => 'Rawalakot<br><br>
+            'content' => 'Rawalakot<br><br>
 A cake-cutting ceremony took place at the Main Branch in Rawalakot to commemorate the 18th anniversary of the Bank of Azad Jammu and Kashmir (BAJK). The event was honored by the presence of Deputy Commissioner Poonch, Syed Mumtaz Kazmi, and Assistant Commissioner Sardar Mushtaq. They were warmly received by the Chief Manager of the Main Branch, Rawalakot.<br><br>
 
 Divisional Head of CMD, Mr. Imtiaz Shaheen, was also present and delivered an inspiring briefing highlighting the bank’s notable achievements over the years. The Regional Head, Regional Operations Manager (ROM), and Regional Business Manager (RBM) from the Rawalakot Region also participated, contributing to the celebratory atmosphere as all attendees marked this significant milestone with pride.<br><br>
@@ -889,7 +884,7 @@ Divisional Head of CMD, Mr. Imtiaz Shaheen, was also present and delivered an in
         ]);
         NewsAnnouncement::create([
             'title' => 'AJK Finance Minister and Chairman Bank of AJK Emphasizes Role of Kashmir Bank in Regional Business Growth',
-           'content' => 'Mirpur<br><br>
+            'content' => 'Mirpur<br><br>
 The Finance and Cooperative Minister of the Azad Government of the State of Jammu and Kashmir, and Chairman of the Bank of Azad Jammu and Kashmir (BAJK), Khan Abdul Majid Khan, stated that Kashmir Bank is playing a vital role in promoting business activities across the region. Attractive loan schemes, including Small Business Trade Finance (SBTF), are significantly boosting business development.<br><br>
 
 He made these remarks during a meeting with the leadership of the AJK Chamber of Commerce & Industry. The meeting, chaired by the Finance Minister, focused on strengthening the partnership between Kashmir Bank and the business community.<br><br>
@@ -922,7 +917,7 @@ The Chairman praised the outstanding performance of President Mr. Shahid Shahzad
 
         NewsAnnouncement::create([
             'title' => 'AJK Finance Minister Khan Abdul Majid Khan’s Visit to Bank of AJK: Focus on Service and Customer Relations',
-          'content' => 'Muzaffarabad<br><br>
+            'content' => 'Muzaffarabad<br><br>
 The Finance & Cooperatives Minister of the Azad Government of the State of Jammu & Kashmir and Chairman of the Bank of Azad Jammu & Kashmir (BAJK), Mr. Khan Abdul Majid Khan, recently visited the bank’s field monitoring offices and branches in Mirpur. He chaired a meeting with managers and officers at the regional office and also visited the Overseas Desk at the Main Branch. CRBD Head Raja Ghulam Mustafa and Mirpur Regional Head Muhammad Waseem Khan accompanied him during the visit.<br><br>
 
 On this occasion, he reviewed the professional performance of the staff and issued directives regarding banking services for customers. He stated that the overall improvement in services and strengthened business relations with customers have earned the bank special attention and trust. As a result, there has been a notable increase in the bank’s profits, assets, deposits, and home remittances — reflecting the strong confidence of overseas Pakistanis and other valued customers in the institution.<br><br>
@@ -978,7 +973,7 @@ The efforts of District Football Association President Mehtab Ahmed Mir, Aamir H
 
         NewsAnnouncement::create([
             'title' => 'State Bank Governor Endorses Bank of AJK’s Growth and Path Toward Schedule Bank License',
-           'content' => 'Islamabad <br><br>
+            'content' => 'Islamabad <br><br>
 The Governor of the State Bank of Pakistan highly appreciated the performance of the Bank of Azad Jammu and Kashmir (BAJK) and the steps taken towards acquiring scheduled bank status. He expressed principled agreement with the State Bank’s position to issue a license, commending the pace and manner in which Kashmir’s financial institution is progressing and contributing to the economic and social development of the state. He stated that this bank will soon be among the most successful banks.<br><br>
 
 These remarks were made on Thursday by Governor State Bank Mr. Jameel Ahmed during a meeting with the Finance & Cooperatives Minister of Azad Kashmir and Chairman of the Bank’s Board of Directors, Mr. Khan Abdul Majid Khan, President & CEO Mr. Shahid Shehzad Mir, Secretary Finance and Bank Director Mr. Islam Zaib, and Company Secretary Dr. Adnanullah Khan.<br><br>
@@ -1030,7 +1025,7 @@ The Governor attentively listened to the bank team’s briefing and expressed pr
         ]);
         NewsAnnouncement::create([
             'title' => '79th Board of Directors Meeting of BAJK Approves Semi-Annual Financial Accounts, Expresses Satisfaction Over Profit and Asset Growth',
-           'content' => 'Muzaffarabad <br><br>
+            'content' => 'Muzaffarabad <br><br>
 The 79th meeting of the Board of Directors of the Bank of Azad Jammu & Kashmir was held under the chairmanship of Mr. Khan Abdul Majid Khan, Honorable Minister for Finance & Cooperatives, Government of Azad Jammu & Kashmir, and Chairman of the Bank. The meeting took place on Monday at the Bank’s Head Office and was attended by President & Chief Executive Officer Mr. Shahid Shehzad Mir; Directors; Secretary Finance, Government of Azad Jammu & Kashmir, Mr. Islam Zaib; Secretary Industries & Commerce Mr. Khalid Mahmood Mirza; Secretary Law & Justice Mr. Muhammad Sajjad; Mr. Mubashir Nabi; Mr. Zulfiqar Abbasi; Ms. Bushra Naz Malik; and Company Secretary Dr. Adnan Ullah Khan.<br><br>
 
 Various operational agendas, including the financial accounts for the first half of the year (as of June 30, 2024), were presented during the meeting. After detailed discussions, the items were approved. According to the half-yearly financial accounts, the Bank has recorded consistent growth in profit, assets, deposits, and remittances. Customers are being offered attractive loan schemes on easy terms and with minimal markup.<br><br>
@@ -1058,7 +1053,6 @@ The Board appreciated the excellent performance and acknowledged the contributio
             'slug' => 'bajk-79th-board-meeting-approves-financials-highlights-growth',
             'is_published' => true,
         ]);
-
 
         // Create additional random news announcements
         // NewsAnnouncement::factory(15)->create();

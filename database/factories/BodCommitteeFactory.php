@@ -3,11 +3,12 @@
 namespace Database\Factories;
 
 use App\Models\BoardOfDirector;
+use App\Models\BodCommittee;
 use App\Models\Management;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\BodCommittee>
+ * @extends Factory<BodCommittee>
  */
 class BodCommitteeFactory extends Factory
 {
@@ -29,11 +30,11 @@ class BodCommitteeFactory extends Factory
         ];
 
         return [
-            'name' => fake()->randomElement($committees) . ' of BoD',
+            'name' => fake()->randomElement($committees).' of BoD',
             'description' => fake()->sentence(10),
             'chairman_board_id' => null, // Will be set in specific tests
             'secretary_board_id' => null,
-           
+
             'secretary_management_id' => null,
             'board_members' => [],
             'management_members' => [],

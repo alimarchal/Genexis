@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
@@ -15,7 +16,7 @@ return new class extends Migration {
             $table->string('name');                                    // e.g. "Human Resource Committee of BoD"
             $table->text('description')->nullable();                   // Committee description
             $table->unsignedBigInteger('chairman_board_id')->nullable(); // Chairman from board_of_directors
-            $table->unsignedBigInteger('secretary_board_id')->nullable(); // Secretary from board_of_directors  
+            $table->unsignedBigInteger('secretary_board_id')->nullable(); // Secretary from board_of_directors
             $table->unsignedBigInteger('secretary_management_id')->nullable(); // Secretary from managements
             $table->json('board_members')->nullable();                 // Array of board member IDs
             $table->json('management_members')->nullable();            // Array of management member IDs

@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Service;
-use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
@@ -18,14 +17,14 @@ test('it can view services index page', function () {
     $response = $this->get(route('services.index'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('Services/Index'));
+    $response->assertInertia(fn ($page) => $page->component('Services/Index'));
 });
 
 test('it can view create service page', function () {
     $response = $this->get(route('services.create'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('Services/Create'));
+    $response->assertInertia(fn ($page) => $page->component('Services/Create'));
 });
 
 test('it can create service with valid data', function () {
@@ -70,7 +69,7 @@ test('it can view service details', function () {
     $response = $this->get(route('services.show', $service));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('Services/Show'));
+    $response->assertInertia(fn ($page) => $page->component('Services/Show'));
 });
 
 test('it can view edit service page', function () {
@@ -79,7 +78,7 @@ test('it can view edit service page', function () {
     $response = $this->get(route('services.edit', $service));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('Services/Edit'));
+    $response->assertInertia(fn ($page) => $page->component('Services/Edit'));
 });
 
 test('it can update service', function () {
@@ -124,7 +123,7 @@ test('it can view public services page', function () {
     $response = $this->get(route('service-pages.all'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('Services/IndexHomePage'));
+    $response->assertInertia(fn ($page) => $page->component('Services/IndexHomePage'));
 });
 
 test('it can view public service detail page', function () {
@@ -136,7 +135,7 @@ test('it returns 404 for inactive service on public page', function () {
     $service = Service::factory()->create([
         'is_active' => false,
         'name' => 'Inactive Service',
-        'slug' => 'inactive-service-' . time()
+        'slug' => 'inactive-service-'.time(),
     ]);
 
     $response = $this->get(route('service-pages.show', $service->slug));
@@ -149,13 +148,13 @@ test('it can view lockers facility page', function () {
     Service::factory()->create([
         'name' => 'Lockers Facility',
         'slug' => 'lockers-facility',
-        'is_active' => true
+        'is_active' => true,
     ]);
 
     $response = $this->get(route('service-pages.lockers-facility'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('Services/ShowHomePage'));
+    $response->assertInertia(fn ($page) => $page->component('Services/ShowHomePage'));
 });
 
 test('it can view utility bills collection page', function () {
@@ -163,13 +162,13 @@ test('it can view utility bills collection page', function () {
     Service::factory()->create([
         'name' => 'Utility Bills Collection',
         'slug' => 'utility-bills-collection',
-        'is_active' => true
+        'is_active' => true,
     ]);
 
     $response = $this->get(route('service-pages.utility-bills-collection'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('Services/ShowHomePage'));
+    $response->assertInertia(fn ($page) => $page->component('Services/ShowHomePage'));
 });
 
 test('it can view services for ajk psc page', function () {
@@ -177,13 +176,13 @@ test('it can view services for ajk psc page', function () {
     Service::factory()->create([
         'name' => 'Services for AJK PSC',
         'slug' => 'services-for-ajk-psc',
-        'is_active' => true
+        'is_active' => true,
     ]);
 
     $response = $this->get(route('service-pages.services-for-ajk-psc'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('Services/ShowHomePage'));
+    $response->assertInertia(fn ($page) => $page->component('Services/ShowHomePage'));
 });
 
 test('it can view home remittance page', function () {
@@ -191,13 +190,13 @@ test('it can view home remittance page', function () {
     Service::factory()->create([
         'name' => 'Home Remittance',
         'slug' => 'home-remittance',
-        'is_active' => true
+        'is_active' => true,
     ]);
 
     $response = $this->get(route('service-pages.home-remittance'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('Services/ShowHomePage'));
+    $response->assertInertia(fn ($page) => $page->component('Services/ShowHomePage'));
 });
 
 test('it can filter services by active status in admin', function () {
@@ -207,7 +206,7 @@ test('it can filter services by active status in admin', function () {
     $response = $this->get(route('services.index', ['is_active' => 1]));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('Services/Index'));
+    $response->assertInertia(fn ($page) => $page->component('Services/Index'));
 });
 
 test('it can search services by name in admin', function () {
@@ -218,7 +217,7 @@ test('it can search services by name in admin', function () {
     $response = $this->get(route('services.index', ['search' => 'Banking']));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('Services/Index'));
+    $response->assertInertia(fn ($page) => $page->component('Services/Index'));
 });
 
 test('it validates unique slug when creating service', function () {
@@ -254,7 +253,7 @@ test('public services page only shows active services', function () {
 
     $response->assertStatus(200);
     $response->assertInertia(
-        fn($page) => $page
+        fn ($page) => $page
             ->component('Services/IndexHomePage')
             ->has('services', 2) // Only active services should be shown
     );
@@ -271,8 +270,8 @@ test('it can create service with attributes', function () {
         'sort_order' => 1,
         'meta_data' => [
             'features' => ['24/7 Access', 'Secure', 'Fast'],
-            'benefits' => ['Convenient', 'Cost Effective']
-        ]
+            'benefits' => ['Convenient', 'Cost Effective'],
+        ],
     ]);
 
     $response->assertRedirect(route('services.index'));

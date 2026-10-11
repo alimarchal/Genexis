@@ -35,10 +35,10 @@ class AnnualReport extends Model
                 $dbDriver = config('database.default');
 
                 if ($dbDriver === 'pgsql') {
-                    return $query->whereRaw("CAST(annual_report_fiscal_year AS TEXT) LIKE ?", ["%{$value}%"]);
+                    return $query->whereRaw('CAST(annual_report_fiscal_year AS TEXT) LIKE ?', ["%{$value}%"]);
                 } else {
                     // MySQL, MariaDB, SQLite
-                    return $query->whereRaw("CAST(annual_report_fiscal_year AS CHAR) LIKE ?", ["%{$value}%"]);
+                    return $query->whereRaw('CAST(annual_report_fiscal_year AS CHAR) LIKE ?', ["%{$value}%"]);
                 }
             }),
             AllowedFilter::callback('has_report', function ($query, $value) {
@@ -47,6 +47,7 @@ class AnnualReport extends Model
                 } elseif ($value === 'no') {
                     return $query->whereNull('annual_report');
                 }
+
                 return $query;
             }),
             AllowedFilter::callback('year_range', function ($query, $value) {
@@ -80,6 +81,7 @@ class AnnualReport extends Model
         if ($this->annual_report && Storage::disk('public')->exists($this->annual_report)) {
             return route('annual-reports.download', $this->id);
         }
+
         return null;
     }
 
@@ -88,7 +90,7 @@ class AnnualReport extends Model
      */
     public function getHasReportAttribute(): bool
     {
-        return !is_null($this->annual_report);
+        return ! is_null($this->annual_report);
     }
 
     /**

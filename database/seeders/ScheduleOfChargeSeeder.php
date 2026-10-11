@@ -17,7 +17,7 @@ class ScheduleOfChargeSeeder extends Seeder
                 'to' => '2025-06-30',
                 'description' => ' Bank Of Azad Jammu And Kashmir Schedule Of Charges from jan to june 2025',
                 'is_active' => true,
-                 'attachment' => 'schedule-of-charges/soc_from_jan_to_jun_2025.pdf',
+                'attachment' => 'schedule-of-charges/soc_from_jan_to_jun_2025.pdf',
             ],
             // [
             //     'title' => 'Savings Account Charges 2024',
@@ -31,7 +31,7 @@ class ScheduleOfChargeSeeder extends Seeder
             //     'from' => '2024-06-01',
             //     'to' => null,
             //     'description' => 'Updated charges for ATM transactions and digital banking services',
-          //     'is_active' => true,
+            //     'is_active' => true,
             // ],
             // [
             //     'title' => 'Corporate Banking Charges 2024',

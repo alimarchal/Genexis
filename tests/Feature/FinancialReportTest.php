@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\FinancialReport;
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -18,7 +17,7 @@ test('it can display financial reports index', function () {
 
     $response->assertStatus(200);
     $response->assertInertia(
-        fn($page) => $page->component('FinancialReports/Index')
+        fn ($page) => $page->component('FinancialReports/Index')
             ->has('financialReports')
     );
 });
@@ -28,7 +27,7 @@ test('it can display create form', function () {
 
     $response->assertStatus(200);
     $response->assertInertia(
-        fn($page) => $page->component('FinancialReports/Create')
+        fn ($page) => $page->component('FinancialReports/Create')
     );
 });
 
@@ -90,7 +89,7 @@ test('it can display show page', function () {
 
     $response->assertStatus(200);
     $response->assertInertia(
-        fn($page) => $page->component('FinancialReports/Show')
+        fn ($page) => $page->component('FinancialReports/Show')
             ->has('financialReport')
             ->where('financialReport.id', $report->id)
     );

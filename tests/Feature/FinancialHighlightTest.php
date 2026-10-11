@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\FinancialHighlight;
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -21,7 +20,7 @@ test('it can view financial highlights index page', function () {
 
     $response->assertOk()
         ->assertInertia(
-            fn($page) => $page
+            fn ($page) => $page
                 ->component('FinancialHighlights/Index')
                 ->has('financialHighlights.data', 3)
         );
@@ -48,7 +47,7 @@ test('it can sort financial highlights by fiscal year', function () {
 
     $response->assertOk()
         ->assertInertia(
-            fn($page) => $page
+            fn ($page) => $page
                 ->where('financialHighlights.data.0.fiscal_year', 2023)
                 ->where('financialHighlights.data.1.fiscal_year', 2024)
         );
@@ -59,7 +58,7 @@ test('it can view create financial highlight page', function () {
 
     $response->assertOk()
         ->assertInertia(
-            fn($page) => $page
+            fn ($page) => $page
                 ->component('FinancialHighlights/Create')
         );
 });
@@ -79,7 +78,7 @@ test('it can create financial highlight with valid data', function () {
         'created_by' => $this->user->id,
     ]);
 
-    Storage::disk('public')->assertExists('financial-highlights/' . $file->hashName());
+    Storage::disk('public')->assertExists('financial-highlights/'.$file->hashName());
 });
 
 test('it cannot create financial highlight with duplicate fiscal year', function () {
@@ -135,7 +134,7 @@ test('it can view financial highlight details', function () {
 
     $response->assertOk()
         ->assertInertia(
-            fn($page) => $page
+            fn ($page) => $page
                 ->component('FinancialHighlights/Show')
                 ->where('financialHighlight.id', $financialHighlight->id)
                 ->where('financialHighlight.fiscal_year', 2024)
@@ -149,7 +148,7 @@ test('it can view edit financial highlight page', function () {
 
     $response->assertOk()
         ->assertInertia(
-            fn($page) => $page
+            fn ($page) => $page
                 ->component('FinancialHighlights/Edit')
                 ->where('financialHighlight.id', $financialHighlight->id)
         );

@@ -3,14 +3,15 @@
 namespace Database\Factories;
 
 use App\Models\Service;
+use App\Models\ServiceAttribute;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ServiceAttribute>
+ * @extends Factory<ServiceAttribute>
  */
 class ServiceAttributeFactory extends Factory
 {
-   public function definition(): array
+    public function definition(): array
     {
         return [
             'service_id' => Service::factory(),

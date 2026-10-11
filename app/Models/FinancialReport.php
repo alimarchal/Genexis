@@ -41,10 +41,10 @@ class FinancialReport extends Model
                 $dbDriver = config('database.default');
 
                 if ($dbDriver === 'pgsql') {
-                    return $query->whereRaw("CAST(fiscal_year AS TEXT) LIKE ?", ["%{$value}%"]);
+                    return $query->whereRaw('CAST(fiscal_year AS TEXT) LIKE ?', ["%{$value}%"]);
                 } else {
                     // MySQL, MariaDB, SQLite
-                    return $query->whereRaw("CAST(fiscal_year AS CHAR) LIKE ?", ["%{$value}%"]);
+                    return $query->whereRaw('CAST(fiscal_year AS CHAR) LIKE ?', ["%{$value}%"]);
                 }
             }),
             AllowedFilter::callback('has_reports', function ($query, $value) {
@@ -104,6 +104,7 @@ class FinancialReport extends Model
         if ($this->first_quarter_report && Storage::disk('public')->exists($this->first_quarter_report)) {
             return route('financial-reports.download', ['financial_report' => $this->id, 'type' => 'first_quarter_report']);
         }
+
         return null;
     }
 
@@ -112,6 +113,7 @@ class FinancialReport extends Model
         if ($this->half_yearly_report && Storage::disk('public')->exists($this->half_yearly_report)) {
             return route('financial-reports.download', ['financial_report' => $this->id, 'type' => 'half_yearly_report']);
         }
+
         return null;
     }
 
@@ -120,6 +122,7 @@ class FinancialReport extends Model
         if ($this->third_quarter_report && Storage::disk('public')->exists($this->third_quarter_report)) {
             return route('financial-reports.download', ['financial_report' => $this->id, 'type' => 'third_quarter_report']);
         }
+
         return null;
     }
 
@@ -128,6 +131,7 @@ class FinancialReport extends Model
         if ($this->annual_report && Storage::disk('public')->exists($this->annual_report)) {
             return route('financial-reports.download', ['financial_report' => $this->id, 'type' => 'annual_report']);
         }
+
         return null;
     }
 

@@ -2,7 +2,6 @@
 
 use App\Models\Service;
 use App\Models\ServiceAttribute;
-use App\Models\User;
 
 beforeEach(function () {
     $this->user = $this->createAdminUser();
@@ -19,8 +18,7 @@ test('it can view service attributes index page', function () {
 
     $response->assertStatus(200);
     $response->assertInertia(
-        fn($page) =>
-        $page->component('ServiceAttributes/Index')
+        fn ($page) => $page->component('ServiceAttributes/Index')
             ->has('serviceAttributes.data', 3)
             ->has('services')
     );
@@ -34,8 +32,7 @@ test('it can filter by attribute name', function () {
 
     $response->assertStatus(200);
     $response->assertInertia(
-        fn($page) =>
-        $page->has('serviceAttributes.data', 1)
+        fn ($page) => $page->has('serviceAttributes.data', 1)
             ->where('serviceAttributes.data.0.attribute_name', 'Coverage Area')
     );
 });
@@ -47,7 +44,7 @@ test('it can filter by service id', function () {
     $response = $this->get(route('service-attributes.index', ['filter[service_id]' => $this->service1->id]));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->has('serviceAttributes.data', 2));
+    $response->assertInertia(fn ($page) => $page->has('serviceAttributes.data', 2));
 });
 
 test('it can view create service attribute page', function () {
@@ -55,8 +52,7 @@ test('it can view create service attribute page', function () {
 
     $response->assertStatus(200);
     $response->assertInertia(
-        fn($page) =>
-        $page->component('ServiceAttributes/Create')
+        fn ($page) => $page->component('ServiceAttributes/Create')
             ->has('services')
     );
 });
@@ -132,8 +128,7 @@ test('it can view service attribute details', function () {
 
     $response->assertStatus(200);
     $response->assertInertia(
-        fn($page) =>
-        $page->component('ServiceAttributes/Show')
+        fn ($page) => $page->component('ServiceAttributes/Show')
             ->where('serviceAttribute.id', $attribute->id)
             ->has('serviceAttribute.service')
     );
@@ -146,8 +141,7 @@ test('it can view edit service attribute page', function () {
 
     $response->assertStatus(200);
     $response->assertInertia(
-        fn($page) =>
-        $page->component('ServiceAttributes/Edit')
+        fn ($page) => $page->component('ServiceAttributes/Edit')
             ->where('serviceAttribute.id', $attribute->id)
             ->has('services')
     );
@@ -204,8 +198,7 @@ test('it orders by sort order by default', function () {
 
     $response->assertStatus(200);
     $response->assertInertia(
-        fn($page) =>
-        $page->where('serviceAttributes.data.0.sort_order', 5)
+        fn ($page) => $page->where('serviceAttributes.data.0.sort_order', 5)
             ->where('serviceAttributes.data.1.sort_order', 15)
             ->where('serviceAttributes.data.2.sort_order', 20)
     );
@@ -219,8 +212,7 @@ test('it can sort by attribute name', function () {
 
     $response->assertStatus(200);
     $response->assertInertia(
-        fn($page) =>
-        $page->where('serviceAttributes.data.0.attribute_name', 'A Attribute')
+        fn ($page) => $page->where('serviceAttributes.data.0.attribute_name', 'A Attribute')
             ->where('serviceAttributes.data.1.attribute_name', 'Z Attribute')
     );
 });
@@ -232,8 +224,7 @@ test('it paginates results', function () {
 
     $response->assertStatus(200);
     $response->assertInertia(
-        fn($page) =>
-        $page->has('serviceAttributes.data', 5)
+        fn ($page) => $page->has('serviceAttributes.data', 5)
             ->where('serviceAttributes.total', 15)
             ->where('serviceAttributes.per_page', 5)
     );
@@ -246,8 +237,7 @@ test('service relationship is loaded', function () {
 
     $response->assertStatus(200);
     $response->assertInertia(
-        fn($page) =>
-        $page->where('serviceAttributes.data.0.service.id', $this->service1->id)
+        fn ($page) => $page->where('serviceAttributes.data.0.service.id', $this->service1->id)
             ->where('serviceAttributes.data.0.service.name', $this->service1->name)
     );
 });

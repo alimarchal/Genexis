@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Route;
 
 class Menu extends Model
@@ -116,13 +117,13 @@ class Menu extends Model
         return $this->children->count() > 0;
     }
 
-    public static function getMenuTree(): \Illuminate\Support\Collection
+    public static function getMenuTree(): Collection
     {
         return static::with(['children' => function ($query) {
             $query->where('is_active', true)
-                  ->with(['children' => function ($subQuery) {
-                      $subQuery->where('is_active', true)->orderBy('sort_order');
-                  }])->orderBy('sort_order');
+                ->with(['children' => function ($subQuery) {
+                    $subQuery->where('is_active', true)->orderBy('sort_order');
+                }])->orderBy('sort_order');
         }])
             ->mainMenu() // This already filters by is_active = true and parent_id = null
             ->get();

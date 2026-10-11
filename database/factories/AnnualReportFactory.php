@@ -2,10 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\AnnualReport;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\AnnualReport>
+ * @extends Factory<AnnualReport>
  */
 class AnnualReportFactory extends Factory
 {
