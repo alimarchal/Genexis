@@ -36,11 +36,11 @@ class DownloadController extends Controller
     {
         $data = $request->validated();
 
-        if ($request->hasFile('file')) {
-            $file = $request->file('file');
-            $data['file_path'] = $file->store('downloads', 'public');
-            $data['file_type'] = $file->getClientMimeType();
-            $data['file_size'] = $file->getSize();
+        [$data, , $files] = $this->applyUploads($request, $data, 'downloads', ['file' => 'file_path']);
+
+        if (isset($files['file'])) {
+            $data['file_type'] = $files['file']['mime'];
+            $data['file_size'] = $files['file']['size'];
         }
 
         Download::create($data);
@@ -67,19 +67,15 @@ class DownloadController extends Controller
     {
         $data = $request->validated();
 
-        if ($request->hasFile('file')) {
-            // Delete old file if it exists
-            if ($download->file_path) {
-                Storage::disk('public')->delete($download->file_path);
-            }
+        [$data, $obsolete, $files] = $this->applyUploads($request, $data, 'downloads', ['file' => 'file_path'], $download);
 
-            $file = $request->file('file');
-            $data['file_path'] = $file->store('downloads', 'public');
-            $data['file_type'] = $file->getClientMimeType();
-            $data['file_size'] = $file->getSize();
+        if (isset($files['file'])) {
+            $data['file_type'] = $files['file']['mime'];
+            $data['file_size'] = $files['file']['size'];
         }
 
         $download->update($data);
+        $this->deleteStoredFiles($obsolete);
 
         return redirect()->route('downloads.index')
             ->with('success', 'Download updated successfully.');
@@ -102,21 +98,18 @@ class DownloadController extends Controller
     {
         abort_unless($download->is_active || auth()->user()?->can('view downloads'), 404, 'File not found.');
 
-        if (! $download->file_path) {
-            abort(404, 'File not found.');
-        }
+        abort_if(blank($download->file_path) || ! Storage::disk('public')->exists($download->file_path), 404, 'File not found.');
 
-        if (! Storage::disk('public')->exists($download->file_path)) {
-            abort(404, 'File not found.');
+        // A resumed (HTTP Range) request continues a download that was already counted.
+        $range = request()->header('Range');
+        if ($range === null || str_starts_with($range, 'bytes=0-')) {
+            $download->incrementDownloadCount();
         }
-
-        // Increment download count
-        $download->incrementDownloadCount();
 
         $originalExtension = pathinfo($download->file_path, PATHINFO_EXTENSION);
         $filename = $download->title.'.'.$originalExtension;
 
-        return Storage::disk('public')->download($download->file_path, $filename);
+        return $this->sendPublicFile($download->file_path, $filename);
     }
 
     // Public method for website downloads

@@ -18,7 +18,7 @@ class UpdateManagementRequest extends FormRequest
             'full_name' => ['required', 'string', 'max:255'],
             'designation' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
-            'attachment' => ['nullable', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
+            'attachment' => ['nullable', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:10240'],
             'order' => ['nullable', 'integer', 'min:0'],
             'status' => ['required', 'in:active,inactive'],
         ];
@@ -32,7 +32,7 @@ class UpdateManagementRequest extends FormRequest
             'status.required' => 'The status field is required.',
             'status.in' => 'The status must be either active or inactive.',
             'attachment.mimes' => 'The attachment must be a file of type: jpg, jpeg, png, pdf.',
-            'attachment.max' => 'The attachment may not be greater than 2MB.',
+            'attachment.max' => 'The attachment may not be greater than 10MB.',
         ];
     }
 }

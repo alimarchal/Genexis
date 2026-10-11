@@ -14,11 +14,12 @@ class UpdateCareerRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'document_upload_id' => ['nullable', 'uuid'],
             'title' => 'required|string|max:255',
             'description' => 'required|string|max:5000',
             'requirements' => 'required|string|max:5000',
             'location' => 'required|string|max:255',
-            'document' => 'nullable|file|mimes:pdf,doc,docx|max:307200',
+            'document' => 'nullable|file|mimes:pdf,doc,docx|max:51200',
             'closing_date' => 'nullable|date|after_or_equal:today',
             'is_active' => 'required|in:0,1', // Accept string values
             'is_featured' => 'required|in:0,1', // Accept string values
@@ -35,7 +36,7 @@ class UpdateCareerRequest extends FormRequest
             'location.required' => 'The job location is required.',
             'closing_date.after_or_equal' => 'The closing date must be today or a future date.',
             'document.mimes' => 'The document must be a PDF or Word file.',
-            'document.max' => 'The document size cannot exceed 300MB.',
+            'document.max' => 'The document size cannot exceed 50MB when posted directly (use the large-file uploader).',
         ];
     }
 }

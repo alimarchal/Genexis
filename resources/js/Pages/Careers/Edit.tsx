@@ -5,10 +5,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
+import UploadField from '@/components/upload-field';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, useForm } from '@inertiajs/react';
-import { Download, FileText, Save, Upload } from 'lucide-react';
+import { Download, FileText, Save } from 'lucide-react';
 import { FormEventHandler, useState } from 'react';
 
 interface Career {
@@ -52,7 +53,7 @@ export default function EditCareer({ career }: Props) {
         description: career.description,
         requirements: career.requirements,
         location: career.location,
-        document: null as File | null,
+        document_upload_id: null as string | null,
         closing_date: formatDateForInput(career.closing_date),
         is_active: career.is_active,
         is_featured: career.is_featured,
@@ -60,7 +61,7 @@ export default function EditCareer({ career }: Props) {
         _method: 'PUT',
     });
 
-    const [fileName, setFileName] = useState('');
+    const [uploading, setUploading] = useState(false);
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
@@ -77,17 +78,6 @@ export default function EditCareer({ career }: Props) {
             preserveState: true,
             preserveScroll: true,
         });
-    };
-
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0] || null;
-        setData('document', file);
-        setFileName(file ? file.name : '');
-    };
-
-    const getFileSize = (file: File | null): string => {
-        if (!file) return '';
-        return `${(file.size / (1024 * 1024)).toFixed(2)} MB`;
     };
 
     const getCurrentFileName = (filePath: string | null): string => {
@@ -226,39 +216,15 @@ export default function EditCareer({ career }: Props) {
                                     </div>
                                 )}
 
-                                <div className="space-y-2">
-                                    <Label htmlFor="document">{career.document ? 'Replace Document' : 'Upload Document'}</Label>
-                                    <div className="relative flex-1">
-                                        <Input
-                                            id="document"
-                                            type="file"
-                                            accept=".pdf,.doc,.docx"
-                                            onChange={handleFileChange}
-                                            className={errors.document ? 'border-red-500' : ''}
-                                        />
-                                        <Upload className="absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
-                                    </div>
-                                    {errors.document && <p className="text-sm text-red-500">{errors.document}</p>}
-
-                                    {fileName && (
-                                        <div className="rounded-md border border-blue-200 bg-blue-50 p-3">
-                                            <div className="flex items-center justify-between">
-                                                <div className="flex items-center gap-2">
-                                                    <FileText className="h-4 w-4 text-blue-500" />
-                                                    <span className="text-sm font-medium text-blue-900">New: {fileName}</span>
-                                                </div>
-                                                <span className="text-sm text-blue-600">{getFileSize(data.document)}</span>
-                                            </div>
-                                            {career.document && <p className="mt-1 text-xs text-blue-600">This will replace the current document</p>}
-                                        </div>
-                                    )}
-
-                                    <p className="text-sm text-gray-500">
-                                        {career.document
-                                            ? 'Upload a new document to replace the current one (optional)'
-                                            : 'Supported formats: PDF, Word (.doc, .docx). Maximum size: 300MB'}
-                                    </p>
-                                </div>
+                                <UploadField
+                                    context="careers"
+                                    label="File"
+                                    accept={['pdf', 'doc', 'docx']}
+                                    currentFileName={career.document?.split('/').pop()}
+                                    onChange={(id) => setData('document_upload_id', id)}
+                                    onBusyChange={setUploading}
+                                    error={errors.document_upload_id ?? (errors as Record<string, string | undefined>).document}
+                                />
                             </CardContent>
                         </Card>
 
@@ -325,10 +291,10 @@ export default function EditCareer({ career }: Props) {
                                         <span className="font-medium">Current Document:</span>
                                         <span className="text-gray-600">{career.document ? getCurrentFileName(career.document) : 'No document'}</span>
                                     </div>
-                                    {fileName && (
+                                    {(data.document_upload_id ? 'Uploaded file' : '') && (
                                         <div className="flex items-center justify-between text-sm">
                                             <span className="font-medium text-blue-700">New Document:</span>
-                                            <span className="text-blue-600">{fileName}</span>
+                                            <span className="text-blue-600">{data.document_upload_id ? 'Uploaded file' : ''}</span>
                                         </div>
                                     )}
                                 </div>
@@ -339,7 +305,7 @@ export default function EditCareer({ career }: Props) {
                             <Button variant="outline" asChild>
                                 <Link href={route('careers.index')}>Cancel</Link>
                             </Button>
-                            <Button type="submit" disabled={processing}>
+                            <Button type="submit" disabled={processing || uploading}>
                                 <Save className="mr-2 h-4 w-4" />
                                 {processing ? 'Updating...' : 'Update Career'}
                             </Button>

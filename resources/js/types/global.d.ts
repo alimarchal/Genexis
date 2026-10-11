@@ -101,6 +101,7 @@ declare module '@inertiajs/core' {
             };
         };
         topNavbarMessages?: TopNavbarMessage[];
+        uploadLimits?: { maxBytes: number; isSuperAdmin: boolean; staffMaxBytes: number } | null;
 
         // Add any other globally shared props here as you define them
     }
