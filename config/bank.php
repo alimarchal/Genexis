@@ -143,4 +143,13 @@ return [
         'company_secretary_phone' => env('COMPANY_SECRETARY_PHONE', '+92-5822-920002'),
         'hrmd_phone' => env('HRMD_PHONE', '+92-5822-923138'),
     ],
+    'security' => [
+        'csp_enabled' => (bool) env('CSP_ENABLED', true),
+        'trusted_proxies' => env('TRUSTED_PROXIES'),
+        'force_https' => (bool) env('FORCE_HTTPS', false),
+        'api_rate_limit' => (int) env('API_RATE_LIMIT', 60),
+        'contact_rate_limit' => (int) env('CONTACT_RATE_LIMIT', 5),
+        'download_rate_limit' => (int) env('DOWNLOAD_RATE_LIMIT', 30),
+        'web_rate_limit' => (int) env('WEB_RATE_LIMIT', 600),
+    ],
 ];

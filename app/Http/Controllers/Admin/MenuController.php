@@ -12,6 +12,11 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class MenuController extends Controller
 {
+    /**
+     * Menu links may be relative paths, anchors, http(s), mailto: or tel: - never javascript:/data:.
+     */
+    private const SAFE_URL_PATTERN = '/^(\/(?!\/)|#|https?:\/\/|mailto:|tel:)/i';
+
     public function __construct(
         private MenuService $menuService
     ) {}
@@ -54,7 +59,7 @@ class MenuController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'slug' => 'required|string|max:255|unique:menus,slug',
-            'url' => 'nullable|string|max:500',
+            'url' => ['nullable', 'string', 'max:500', 'regex:'.self::SAFE_URL_PATTERN],
             'route_name' => 'nullable|string|max:255',
             'route_params' => 'nullable|array',
             'target' => 'required|in:_self,_blank',
@@ -107,7 +112,7 @@ class MenuController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'slug' => 'required|string|max:255|unique:menus,slug,'.$menu->id,
-            'url' => 'nullable|string|max:500',
+            'url' => ['nullable', 'string', 'max:500', 'regex:'.self::SAFE_URL_PATTERN],
             'route_name' => 'nullable|string|max:255',
             'route_params' => 'nullable|array',
             'target' => 'required|in:_self,_blank',

@@ -20,7 +20,6 @@ use App\Models\ProductTypeAccount;
 use App\Models\ProfitRate;
 use App\Models\Region;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\RateLimiter;
@@ -168,68 +167,57 @@ class PageController extends Controller
 
     public function contactSubmit(StoreContactSubmissionRequest $request)
     {
-        // Rate limiting: 1 submission per 30 seconds per IP
         $key = 'contact-form:'.$request->getClientIp();
+        $maxAttempts = config('bank.security.contact_rate_limit');
 
-        if (RateLimiter::tooManyAttempts($key, 1)) {
+        if (RateLimiter::tooManyAttempts($key, $maxAttempts)) {
             $seconds = RateLimiter::availableIn($key);
 
             return response()->json([
                 'success' => false,
-                'message' => "Please wait {$seconds} seconds before submitting another message.",
+                'message' => "Too many messages sent. Please wait {$seconds} seconds before trying again.",
                 'remaining_time' => $seconds,
             ], 429);
         }
 
+        RateLimiter::hit($key, 600);
+
         try {
-            // Log the incoming request data for debugging
-            Log::info('Contact form submission data:', $request->validated());
-
-            // Use database transaction for data integrity
-            $submission = DB::transaction(function () use ($request) {
-                $submission = ContactSubmission::create([
-                    'name' => $request->name,
-                    'email' => $request->email,
-                    'phone' => $request->phone,
-                    'district' => $request->district,
-                    'tehsil' => $request->tehsil,
-                    'place' => $request->place,
-                    'category' => $request->category,
-                    'subject' => $request->subject,
-                    'message' => $request->message,
-                    'ip_address' => $request->getClientIp(),
-                    'user_agent' => $request->header('User-Agent'),
-                    'submitted_at' => now(),
-                ]);
-
-                Log::info('Contact submission created with ID: '.$submission->id);
-
-                // Send email to CONTACT_EMAIL
-                Mail::to(config('bank.contact.form_recipient'))->send(new ContactSubmissionMail($submission));
-
-                Log::info('Contact submission email sent successfully');
-
-                return $submission;
-            });
-
-            // Set rate limiter for 30 seconds
-            RateLimiter::hit($key, 30);
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Thank you for your message. We will get back to you soon!',
-                'submission_id' => $submission->id,
+            $submission = ContactSubmission::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'district' => $request->district,
+                'tehsil' => $request->tehsil,
+                'place' => $request->place,
+                'category' => $request->category,
+                'subject' => $request->subject,
+                'message' => $request->message,
+                'ip_address' => $request->getClientIp(),
+                'user_agent' => $request->header('User-Agent'),
+                'submitted_at' => now(),
             ]);
-
-        } catch (\Exception $e) {
-            Log::error('Failed to process contact submission: '.$e->getMessage());
-            Log::error('Stack trace: '.$e->getTraceAsString());
+        } catch (\Throwable $e) {
+            Log::error('Failed to store contact submission: '.$e->getMessage());
 
             return response()->json([
                 'success' => false,
                 'message' => 'Sorry, there was an error processing your request. Please try again later.',
             ], 500);
         }
+
+        // The message is already saved; a mail outage must not lose it or report failure to the visitor.
+        try {
+            Mail::to(config('bank.contact.form_recipient'))->send(new ContactSubmissionMail($submission));
+        } catch (\Throwable $e) {
+            Log::error("Contact submission {$submission->id} saved but notification email failed: ".$e->getMessage());
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Thank you for your message. We will get back to you soon!',
+            'submission_id' => $submission->id,
+        ]);
     }
 
     public function news()

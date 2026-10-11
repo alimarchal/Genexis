@@ -202,7 +202,7 @@ Route::prefix('financials')->name('financials.')->group(function () {
 Route::prefix('rates')->name('rates.')->group(function () {
     Route::get('/profit-rates', [PageController::class, 'profitRates'])->name('profit-rates');
     Route::get('/schedule-of-charges', [ScheduleOfChargeController::class, 'publicIndex'])->name('schedule-of-charges');
-    Route::get('/schedule-of-charges/{scheduleOfCharge}/download', [ScheduleOfChargeController::class, 'download'])->name('schedule-of-charges.download');
+    Route::get('/schedule-of-charges/{scheduleOfCharge}/download', [ScheduleOfChargeController::class, 'download'])->name('schedule-of-charges.download')->middleware('throttle:downloads');
 });
 
 // -------------------------------------------------------------------------
@@ -227,7 +227,7 @@ Route::post('/contact-us', [PageController::class, 'contactSubmit'])->name('cont
 // PUBLIC DOWNLOADS SECTION
 // -------------------------------------------------------------------------
 Route::get('/documents', [DownloadController::class, 'publicIndex'])->name('public-downloads');
-Route::get('/documents/{download}/download', [DownloadController::class, 'download'])->name('public-downloads.download');
+Route::get('/documents/{download}/download', [DownloadController::class, 'download'])->name('public-downloads.download')->middleware('throttle:downloads');
 
 // -------------------------------------------------------------------------
 // UTILITY TOOLS
@@ -240,33 +240,34 @@ Route::get('/loan-calculator', [LoanCalculatorController::class, 'index'])->name
  * These routes handle file downloads for various documents and attachments.
  * Organized by document type for better maintainability.
  */
+Route::middleware('throttle:downloads')->group(function () {
+    // -------------------------------------------------------------------------
+    // CAREER DOCUMENT DOWNLOADS
+    // -------------------------------------------------------------------------
+    Route::get('careers/{career}/download', [CareerController::class, 'download'])
+        ->name('public-careers.download');
 
-// -------------------------------------------------------------------------
-// CAREER DOCUMENT DOWNLOADS
-// -------------------------------------------------------------------------
-Route::get('careers/{career}/download', [CareerController::class, 'download'])
-    ->name('public-careers.download');
+    // -------------------------------------------------------------------------
+    // FINANCIAL DOCUMENT DOWNLOADS
+    // -------------------------------------------------------------------------
+    Route::get('annual-reports/{annual_report}/download', [AnnualReportController::class, 'download'])
+        ->name('annual-reports.download');
 
-// -------------------------------------------------------------------------
-// FINANCIAL DOCUMENT DOWNLOADS
-// -------------------------------------------------------------------------
-Route::get('annual-reports/{annual_report}/download', [AnnualReportController::class, 'download'])
-    ->name('annual-reports.download');
+    Route::get('financial-highlights/{financial_highlight}/download', [FinancialHighlightController::class, 'download'])
+        ->name('financial-highlights.download');
 
-Route::get('financial-highlights/{financial_highlight}/download', [FinancialHighlightController::class, 'download'])
-    ->name('financial-highlights.download');
+    Route::get('financial-reports/{financial_report}/download/{type}', [FinancialReportController::class, 'download'])
+        ->name('financial-reports.download');
 
-Route::get('financial-reports/{financial_report}/download/{type}', [FinancialReportController::class, 'download'])
-    ->name('financial-reports.download');
+    // -------------------------------------------------------------------------
+    // ADMINISTRATIVE DOCUMENT DOWNLOADS
+    // -------------------------------------------------------------------------
+    Route::get('schedule-of-charges/{scheduleOfCharge}/download', [ScheduleOfChargeController::class, 'download'])
+        ->name('schedule-of-charges.admin-download');
 
-// -------------------------------------------------------------------------
-// ADMINISTRATIVE DOCUMENT DOWNLOADS
-// -------------------------------------------------------------------------
-Route::get('schedule-of-charges/{scheduleOfCharge}/download', [ScheduleOfChargeController::class, 'download'])
-    ->name('schedule-of-charges.admin-download');
-
-Route::get('downloads/{download}/download', [DownloadController::class, 'download'])
-    ->name('downloads.admin-download');
+    Route::get('downloads/{download}/download', [DownloadController::class, 'download'])
+        ->name('downloads.admin-download');
+});
 
 // =============================================================================
 // API ROUTES
@@ -274,7 +275,7 @@ Route::get('downloads/{download}/download', [DownloadController::class, 'downloa
 /**
  * API endpoints for AJAX requests and external integrations.
  */
-Route::prefix('api')->group(function () {
+Route::prefix('api')->middleware('throttle:api')->group(function () {
     Route::get('/search', [SearchController::class, 'search']);
 });
 
