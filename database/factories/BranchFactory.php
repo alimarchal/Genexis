@@ -2,10 +2,13 @@
 
 namespace Database\Factories;
 
+use App\Models\Branch;
+use App\Models\District;
+use App\Models\Region;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Branch>
+ * @extends Factory<Branch>
  */
 class BranchFactory extends Factory
 {
@@ -17,12 +20,12 @@ class BranchFactory extends Factory
     public function definition(): array
     {
         return [
-            'region_id' => \App\Models\Region::factory(),
-            'district_id' => \App\Models\District::factory(),
+            'region_id' => Region::factory(),
+            'district_id' => District::factory(),
             'code' => fake()->unique()->regexify('[A-Z]{3}[0-9]{3}'),
             'type' => fake()->randomElement(['main_branch', 'sub_branch', 'atm', 'service_center', 'mobile_unit']),
             'facilities' => json_encode(fake()->randomElements(['ATM', 'Parking', '24/7 Service', 'Drive Through', 'Customer Lounge', 'Safe Deposit Boxes'], rand(1, 4))),
-            'name' => fake()->company() . ' Branch',
+            'name' => fake()->company().' Branch',
             'address' => fake()->address(),
             'latitude' => fake()->latitude(24.8607, 24.8607),
             'longitude' => fake()->longitude(67.0011, 67.0011),

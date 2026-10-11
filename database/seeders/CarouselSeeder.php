@@ -21,7 +21,7 @@ class CarouselSeeder extends Seeder
                 'created_by' => 1,
             ],
 
-             [
+            [
                 'title' => 'Car Finance',
                 'description' => 'Enjoy the drive of your dreams with our simple and accessible car financing solutions across Azad Jammu & Kashmir.',
                 'image' => 'carousel-images/cardrive.png',
@@ -41,7 +41,7 @@ class CarouselSeeder extends Seeder
                 'status' => 'active',
                 'created_by' => 1,
             ],
-             
+
         ];
 
         foreach ($carouselData as $carousel) {

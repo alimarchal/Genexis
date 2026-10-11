@@ -1,7 +1,7 @@
+import SafeImage from '@/components/safe-image';
 import { router } from '@inertiajs/react';
 import { Search, X } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
-import SafeImage from '@/components/safe-image';
 
 interface SearchResult {
     id: number;
@@ -156,7 +156,9 @@ export default function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
                                         onClick={() => handleResultClick(result)}
                                     >
                                         <div className="flex items-start space-x-3">
-                                            {result.image && <SafeImage kind="generic" src={result.image} alt="" className="h-12 w-12 rounded object-cover" />}
+                                            {result.image && (
+                                                <SafeImage kind="generic" src={result.image} alt="" className="h-12 w-12 rounded object-cover" />
+                                            )}
                                             <div className="min-w-0 flex-1">
                                                 <div className="mb-1 flex items-center space-x-2">
                                                     <h3 className="truncate text-sm font-medium text-gray-900">{result.title}</h3>

@@ -2,10 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\Download;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Download>
+ * @extends Factory<Download>
  */
 class DownloadFactory extends Factory
 {
@@ -26,7 +27,7 @@ class DownloadFactory extends Factory
         return [
             'title' => fake()->sentence(4, true),
             'description' => fake()->boolean(70) ? fake()->paragraph() : null,
-            'file_path' => 'downloads/' . fake()->uuid() . '.' . $extension,
+            'file_path' => 'downloads/'.fake()->uuid().'.'.$extension,
             'file_type' => $fileType,
             'file_size' => fake()->numberBetween(50000, 10000000), // 50KB to 10MB
             'category' => fake()->randomElement($categories),

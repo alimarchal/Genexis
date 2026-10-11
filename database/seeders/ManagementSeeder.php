@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Management;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -11,7 +12,7 @@ class ManagementSeeder extends Seeder
     public function run(): void
     {
 
-         $user = \App\Models\User::create([
+        $user = User::create([
             'name' => 'System Admin',
             'email' => 'admin@example.com',
             'password' => Hash::make('password'),
@@ -26,7 +27,7 @@ class ManagementSeeder extends Seeder
                 'order' => 1,
                 'status' => 'active',
             ],
-             [
+            [
                 'title' => 'Mr.',
                 'full_name' => 'Shahid Shahzad Mir',
                 'designation' => 'Chief Financial Officer, Finance Control Division',
@@ -35,7 +36,7 @@ class ManagementSeeder extends Seeder
                 'order' => 2,
                 'status' => 'active',
             ],
-             [
+            [
                 'title' => 'Mr.',
                 'full_name' => 'Raja Ghulam Mustafa',
                 'designation' => 'Divisional Head Commercial & Retail Banking Division',
@@ -54,7 +55,7 @@ class ManagementSeeder extends Seeder
                 'status' => 'active',
             ],
 
-             [
+            [
                 'title' => 'Mr.',
                 'full_name' => 'Imtiaz Shaheen',
                 'designation' => 'Divisional Head Credit Management Division',
@@ -63,7 +64,7 @@ class ManagementSeeder extends Seeder
                 'order' => 5,
                 'status' => 'active',
             ],
-              [
+            [
                 'title' => 'Mr.',
                 'full_name' => 'Akhter Hussain',
                 'designation' => 'Divisional Head Credit Administration Division',
@@ -72,7 +73,7 @@ class ManagementSeeder extends Seeder
                 'order' => 6,
                 'status' => 'active',
             ],
-             [
+            [
                 'title' => 'Mr.',
                 'full_name' => 'Amjad Mahmood Gilani',
                 'designation' => 'Divisional Head Risk Management Division',
@@ -90,7 +91,7 @@ class ManagementSeeder extends Seeder
                 'order' => 8,
                 'status' => 'active',
             ],
-             [
+            [
                 'title' => 'Syed',
                 'full_name' => 'Tashfeen Gilani',
                 'designation' => 'Divisional Head Treasury Management Division',
@@ -99,7 +100,7 @@ class ManagementSeeder extends Seeder
                 'order' => 9,
                 'status' => 'active',
             ],
-               [
+            [
                 'title' => 'Raja',
                 'full_name' => 'Masood Khan',
                 'designation' => 'Divisional Head Special Asset Management Division',
@@ -108,7 +109,7 @@ class ManagementSeeder extends Seeder
                 'order' => 10,
                 'status' => 'active',
             ],
-             [
+            [
                 'title' => 'Mr.',
                 'full_name' => 'Javed Iqbal',
                 'designation' => 'Chief Compliance Officer, Compliance Division',
@@ -136,7 +137,7 @@ class ManagementSeeder extends Seeder
                 'order' => 13,
                 'status' => 'active',
             ],
-         [
+            [
                 'title' => 'Mr.',
                 'full_name' => 'Tariq Khan',
                 'designation' => 'Divisional Head Audit',

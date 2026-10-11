@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\UserTracking;
+use Database\Factories\BranchFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,7 +12,7 @@ use Spatie\QueryBuilder\AllowedFilter;
 
 class Branch extends Model
 {
-    /** @use HasFactory<\Database\Factories\BranchFactory> */
+    /** @use HasFactory<BranchFactory> */
     use HasFactory, UserTracking;
 
     protected $fillable = [

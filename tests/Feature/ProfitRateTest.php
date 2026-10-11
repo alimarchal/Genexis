@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\ProfitRate;
-use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -19,7 +18,7 @@ test('it can view profit rates index page', function () {
 
     $response->assertOk()
         ->assertInertia(
-            fn($page) => $page
+            fn ($page) => $page
                 ->component('ProfitRates/Index')
                 ->has('profitRates.data', 3)
         );
@@ -33,7 +32,7 @@ test('it can search profit rates by category', function () {
 
     $response->assertOk()
         ->assertInertia(
-            fn($page) => $page
+            fn ($page) => $page
                 ->has('profitRates.data', 1)
                 ->where('profitRates.data.0.category', 'Unique Test Deposit')
         );
@@ -47,7 +46,7 @@ test('it can filter profit rates by status', function () {
 
     $response->assertOk()
         ->assertInertia(
-            fn($page) => $page
+            fn ($page) => $page
                 ->has('profitRates.data', 1)
                 ->where('profitRates.data.0.is_active', true)
         );
@@ -70,7 +69,7 @@ test('it can filter current profit rates', function () {
 
     $response->assertOk()
         ->assertInertia(
-            fn($page) => $page
+            fn ($page) => $page
                 ->has('profitRates.data', 1)
         );
 });
@@ -83,7 +82,7 @@ test('it can sort profit rates by category', function () {
 
     $response->assertOk()
         ->assertInertia(
-            fn($page) => $page
+            fn ($page) => $page
                 ->where('profitRates.data.0.category', 'A Category')
                 ->where('profitRates.data.1.category', 'Z Category')
         );
@@ -103,7 +102,7 @@ test('it can sort profit rates by sort_order', function () {
 
     $response->assertOk()
         ->assertInertia(
-            fn($page) => $page
+            fn ($page) => $page
                 ->where('profitRates.data.0.category', 'High Priority')
                 ->where('profitRates.data.1.category', 'Low Priority')
         );
@@ -114,7 +113,7 @@ test('it can view create profit rate page', function () {
 
     $response->assertOk()
         ->assertInertia(
-            fn($page) => $page
+            fn ($page) => $page
                 ->component('ProfitRates/Create')
         );
 });
@@ -195,7 +194,7 @@ test('it can view show profit rate page', function () {
 
     $response->assertOk()
         ->assertInertia(
-            fn($page) => $page
+            fn ($page) => $page
                 ->component('ProfitRates/Show')
                 ->where('profitRate.id', $profitRate->id)
         );
@@ -208,7 +207,7 @@ test('it can view edit profit rate page', function () {
 
     $response->assertOk()
         ->assertInertia(
-            fn($page) => $page
+            fn ($page) => $page
                 ->component('ProfitRates/Edit')
                 ->where('profitRate.id', $profitRate->id)
         );
@@ -343,7 +342,7 @@ test('it can paginate profit rates', function () {
 
     $response->assertOk()
         ->assertInertia(
-            fn($page) => $page
+            fn ($page) => $page
                 ->has('profitRates.data', 10)
                 ->where('profitRates.per_page', 10)
                 ->where('profitRates.total', 25)

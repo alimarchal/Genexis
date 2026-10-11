@@ -1,4 +1,5 @@
 import Heading from '@/components/heading';
+import SafeImage from '@/components/safe-image';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,7 +8,6 @@ import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 import { Calendar, Edit, Eye, Star, Tag } from 'lucide-react';
-import SafeImage from '@/components/safe-image';
 
 interface NewsAnnouncement {
     id: number;
@@ -99,7 +99,8 @@ export default function ShowNewsAnnouncement({ newsAnnouncement }: Props) {
                                 {/* Featured Image */}
                                 {newsAnnouncement.image_url && (
                                     <div className="space-y-2">
-                                        <SafeImage kind="news"
+                                        <SafeImage
+                                            kind="news"
                                             src={newsAnnouncement.image_url}
                                             alt={newsAnnouncement.title}
                                             className="h-64 w-full rounded-lg border object-cover"

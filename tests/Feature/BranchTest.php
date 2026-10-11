@@ -2,7 +2,10 @@
 
 use App\Models\Branch;
 use App\Models\District;
-use App\Models\User;
+use Database\Seeders\BranchSeeder;
+use Database\Seeders\DistrictSeeder;
+use Database\Seeders\DivisionSeeder;
+use Database\Seeders\RegionSeeder;
 
 beforeEach(function () {
     $this->user = $this->createAdminUser();
@@ -10,10 +13,10 @@ beforeEach(function () {
 
     // Seed the required data for branch tests
     $this->seed([
-        \Database\Seeders\DivisionSeeder::class,
-        \Database\Seeders\RegionSeeder::class,
-        \Database\Seeders\DistrictSeeder::class,
-        \Database\Seeders\BranchSeeder::class,
+        DivisionSeeder::class,
+        RegionSeeder::class,
+        DistrictSeeder::class,
+        BranchSeeder::class,
     ]);
 });
 
@@ -21,18 +24,18 @@ test('it can view branches index page', function () {
     $response = $this->get(route('branches.index'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('Branch/Index'));
+    $response->assertInertia(fn ($page) => $page->component('Branch/Index'));
 });
 
 test('it can view create branch page', function () {
     $response = $this->get(route('branches.create'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('Branch/Create'));
+    $response->assertInertia(fn ($page) => $page->component('Branch/Create'));
 });
 
 test('it can create branch with valid data', function () {
-    $district = \App\Models\District::where('name', 'Muzaffarabad')->first();
+    $district = District::where('name', 'Muzaffarabad')->first();
 
     $response = $this->post(route('branches.store'), [
         'name' => 'Test Branch',
@@ -44,7 +47,7 @@ test('it can create branch with valid data', function () {
         'status' => 'active',
         'facilities' => json_encode(['ATM', 'Parking']),
         'operating_hours' => json_encode([
-            'monday' => ['open' => '09:00', 'close' => '17:00']
+            'monday' => ['open' => '09:00', 'close' => '17:00'],
         ]),
         'holidays' => json_encode(['Eid']),
     ]);
@@ -62,25 +65,25 @@ test('it can create branch with valid data', function () {
 });
 
 test('it can view branch details', function () {
-    $branch = \App\Models\Branch::where('code', '0001')->first();
+    $branch = Branch::where('code', '0001')->first();
 
     $response = $this->get(route('branches.show', $branch));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('Branch/Show'));
+    $response->assertInertia(fn ($page) => $page->component('Branch/Show'));
 });
 
 test('it can view edit branch page', function () {
-    $branch = \App\Models\Branch::where('code', '0001')->first();
+    $branch = Branch::where('code', '0001')->first();
 
     $response = $this->get(route('branches.edit', $branch));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('Branch/Edit'));
+    $response->assertInertia(fn ($page) => $page->component('Branch/Edit'));
 });
 
 test('it can update branch', function () {
-    $branch = \App\Models\Branch::where('code', '0001')->first();
+    $branch = Branch::where('code', '0001')->first();
 
     $response = $this->put(route('branches.update', $branch), [
         'name' => 'Updated Branch',
@@ -92,7 +95,7 @@ test('it can update branch', function () {
         'status' => 'inactive',
         'facilities' => json_encode(['ATM']),
         'operating_hours' => json_encode([
-            'monday' => ['open' => '09:00', 'close' => '17:00']
+            'monday' => ['open' => '09:00', 'close' => '17:00'],
         ]),
         'holidays' => json_encode(['Eid']),
     ]);
@@ -110,8 +113,8 @@ test('it can update branch', function () {
 
 test('it can delete branch', function () {
     // Create a test branch that's safe to delete
-    $district = \App\Models\District::where('name', 'Muzaffarabad')->first();
-    $branch = \App\Models\Branch::create([
+    $district = District::where('name', 'Muzaffarabad')->first();
+    $branch = Branch::create([
         'name' => 'Deletable Test Branch',
         'code' => 'DTB001',
         'address' => 'Test Address',
@@ -121,7 +124,7 @@ test('it can delete branch', function () {
         'status' => 'active',
         'facilities' => json_encode(['ATM']),
         'operating_hours' => json_encode([
-            'monday' => ['open' => '09:00', 'close' => '17:00']
+            'monday' => ['open' => '09:00', 'close' => '17:00'],
         ]),
         'holidays' => json_encode(['Eid']),
     ]);

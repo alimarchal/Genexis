@@ -19,7 +19,7 @@ class UpdateFinancialReportRequest extends FormRequest
                 'required',
                 'integer',
                 'min:1900',
-                'max:' . (date('Y') + 5),
+                'max:'.(date('Y') + 5),
                 Rule::unique('financial_reports', 'fiscal_year')->ignore($this->route('financial_report')),
             ],
             'first_quarter_report' => [

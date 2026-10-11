@@ -34,9 +34,9 @@ class FinancialHighlight extends Model
                 $dbDriver = config('database.default');
 
                 if ($dbDriver === 'pgsql') {
-                    return $query->whereRaw("CAST(fiscal_year AS TEXT) LIKE ?", ["%{$value}%"]);
+                    return $query->whereRaw('CAST(fiscal_year AS TEXT) LIKE ?', ["%{$value}%"]);
                 } else {
-                    return $query->whereRaw("CAST(fiscal_year AS CHAR) LIKE ?", ["%{$value}%"]);
+                    return $query->whereRaw('CAST(fiscal_year AS CHAR) LIKE ?', ["%{$value}%"]);
                 }
             }),
             AllowedFilter::callback('has_highlights', function ($query, $value) {
@@ -45,6 +45,7 @@ class FinancialHighlight extends Model
                 } elseif ($value === 'no') {
                     return $query->whereNull('financial_highlights');
                 }
+
                 return $query;
             }),
             AllowedFilter::callback('year_range', function ($query, $value) {
@@ -78,12 +79,13 @@ class FinancialHighlight extends Model
         if ($this->financial_highlights && Storage::disk('public')->exists($this->financial_highlights)) {
             return route('financial-highlights.download', $this->id);
         }
+
         return null;
     }
 
     public function getHasHighlightsAttribute(): bool
     {
-        return !is_null($this->financial_highlights);
+        return ! is_null($this->financial_highlights);
     }
 
     public function getYearCategoryAttribute(): string

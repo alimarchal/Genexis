@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\NewsAnnouncement;
-use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
@@ -17,14 +16,14 @@ test('it can view news announcements index page', function () {
     $response = $this->get(route('news-announcements.index'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('NewsAnnouncement/Index'));
+    $response->assertInertia(fn ($page) => $page->component('NewsAnnouncement/Index'));
 });
 
 test('it can view create news announcement page', function () {
     $response = $this->get(route('news-announcements.create'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('NewsAnnouncement/Create'));
+    $response->assertInertia(fn ($page) => $page->component('NewsAnnouncement/Create'));
 });
 
 test('it can create news announcement with valid data', function () {
@@ -91,7 +90,7 @@ test('it can view news announcement details', function () {
     $response = $this->get(route('news-announcements.show', $news));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('NewsAnnouncement/Show'));
+    $response->assertInertia(fn ($page) => $page->component('NewsAnnouncement/Show'));
 });
 
 test('it can view edit news announcement page', function () {
@@ -100,7 +99,7 @@ test('it can view edit news announcement page', function () {
     $response = $this->get(route('news-announcements.edit', $news));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('NewsAnnouncement/Edit'));
+    $response->assertInertia(fn ($page) => $page->component('NewsAnnouncement/Edit'));
 });
 
 test('it can update news announcement', function () {
@@ -159,7 +158,7 @@ test('it preserves the exact date when updating news announcement', function () 
     ]);
 
     $response->assertRedirect(route('news-announcements.index'));
-    
+
     $news->refresh();
     expect($news->published_date->format('Y-m-d'))->toBe($specificDate);
 });
@@ -178,7 +177,7 @@ test('it stores exact date without timezone conversion when creating', function 
     ]);
 
     $response->assertRedirect(route('news-announcements.index'));
-    
+
     $news = NewsAnnouncement::where('slug', 'test-news')->first();
     expect($news->published_date->format('Y-m-d'))->toBe($specificDate);
 });

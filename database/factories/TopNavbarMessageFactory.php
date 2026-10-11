@@ -2,10 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\TopNavbarMessage;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\TopNavbarMessage>
+ * @extends Factory<TopNavbarMessage>
  */
 class TopNavbarMessageFactory extends Factory
 {

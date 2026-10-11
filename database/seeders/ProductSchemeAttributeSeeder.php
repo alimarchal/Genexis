@@ -211,8 +211,8 @@ class ProductSchemeAttributeSeeder extends Seeder
              Cheques for the predetermined Installments.', 8],
             ['Insurance', 'Insurance of Purchased goods.', 9],
         ]);
-  
-            // Pension Loan
+
+        // Pension Loan
         $scheme = ProductScheme::create([
             'product_type_account_id' => $consumerFinances->id,
             'name' => 'Pension Loan',
@@ -366,7 +366,7 @@ class ProductSchemeAttributeSeeder extends Seeder
             (ii) Businessmen maintaining running account with BAJK or any other bank having annual average balance of the amount equivalent to the loan amount requeste.
             (iii) Any other security acceptable by the bank.', 7],
             [' Guarantee', 'One government employee of BPS-11 or above.
-                            One businessman maintaining a satisfactory average monthly balance.',8],
+                            One businessman maintaining a satisfactory average monthly balance.', 8],
             ['Insurance', 'Stock: Mandatory.
                            Life: Optional.', 9],
         ]);
@@ -416,7 +416,7 @@ class ProductSchemeAttributeSeeder extends Seeder
             ['Age limit', '18-60 years', 3],
             ['Loan Limit', 'Upto Rs. 200,000/-', 4],
             ['Tenure', 'One year', 5],
-            ['Repayment', "(Lump sum/borrower\'s discretion) should be replaced with (Equal Monthly Installments (EMIs) / Quarterly / Half-Yearly Installments)." ,6],
+            ['Repayment', "(Lump sum/borrower\'s discretion) should be replaced with (Equal Monthly Installments (EMIs) / Quarterly / Half-Yearly Installments).", 6],
             ['Primary Security', 'Hypothecation of stock', 7],
             ['Secondary Security', 'One P.G of BPS-11 or above or Lien of Deposits or Pledge of Gold', 8],
             ['Insurance', 'As per Bank\'s policy', 9],

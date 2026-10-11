@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\TopNavbarMessage;
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
@@ -17,7 +16,7 @@ test('authenticated user can view top navbar messages index', function () {
         ->get(route('top-navbar-messages.index'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('TopNavbarMessages/Index'));
+    $response->assertInertia(fn ($page) => $page->component('TopNavbarMessages/Index'));
 });
 
 test('authenticated user can view create top navbar message form', function () {
@@ -25,7 +24,7 @@ test('authenticated user can view create top navbar message form', function () {
         ->get(route('top-navbar-messages.create'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('TopNavbarMessages/Create'));
+    $response->assertInertia(fn ($page) => $page->component('TopNavbarMessages/Create'));
 });
 
 test('authenticated user can create top navbar message', function () {
@@ -61,7 +60,7 @@ test('authenticated user can view top navbar message details', function () {
         ->get(route('top-navbar-messages.show', $message));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('TopNavbarMessages/Show'));
+    $response->assertInertia(fn ($page) => $page->component('TopNavbarMessages/Show'));
 });
 
 test('authenticated user can view edit top navbar message form', function () {
@@ -71,7 +70,7 @@ test('authenticated user can view edit top navbar message form', function () {
         ->get(route('top-navbar-messages.edit', $message));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('TopNavbarMessages/Edit'));
+    $response->assertInertia(fn ($page) => $page->component('TopNavbarMessages/Edit'));
 });
 
 test('authenticated user can update top navbar message', function () {

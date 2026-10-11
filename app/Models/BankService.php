@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use App\Traits\UserTracking;
+use Database\Factories\BankServiceFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\QueryBuilder\AllowedFilter;
 
 class BankService extends Model
 {
-    /** @use HasFactory<\Database\Factories\BankServiceFactory> */
+    /** @use HasFactory<BankServiceFactory> */
     use HasFactory, UserTracking;
 
     protected $fillable = [

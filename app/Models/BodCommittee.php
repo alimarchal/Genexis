@@ -3,15 +3,17 @@
 namespace App\Models;
 
 use App\Traits\UserTracking;
+use Database\Factories\BodCommitteeFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\QueryBuilder\AllowedFilter;
-use App\Models\Management; // Import the Management model
+
+// Import the Management model
 
 class BodCommittee extends Model
 {
-    /** @use HasFactory<\Database\Factories\BodCommitteeFactory> */
+    /** @use HasFactory<BodCommitteeFactory> */
     use HasFactory, UserTracking;
 
     protected $fillable = [
@@ -54,8 +56,9 @@ class BodCommittee extends Model
     // Get board members
     public function getBoardMembersListAttribute()
     {
-        if (!$this->board_members)
+        if (! $this->board_members) {
             return collect();
+        }
 
         return BoardOfDirector::whereIn('id', $this->board_members)
             ->where('is_active', true)
@@ -65,8 +68,9 @@ class BodCommittee extends Model
     // Get management members
     public function getManagementMembersListAttribute()
     {
-        if (!$this->management_members)
+        if (! $this->management_members) {
             return collect();
+        }
 
         return Management::whereIn('id', $this->management_members)
             ->where('status', 'active')
@@ -91,28 +95,37 @@ class BodCommittee extends Model
             AllowedFilter::partial('name'),
             AllowedFilter::partial('description'),
             AllowedFilter::callback('is_active', function ($query, $value) {
-                if ($value === '1')
+                if ($value === '1') {
                     return $query->where('is_active', true);
-                if ($value === '0')
+                }
+                if ($value === '0') {
                     return $query->where('is_active', false);
+                }
+
                 return $query;
             }),
             AllowedFilter::callback('has_chairman', function ($query, $value) {
-                if ($value === 'yes')
+                if ($value === 'yes') {
                     return $query->whereNotNull('chairman_board_id');
-                if ($value === 'no')
+                }
+                if ($value === 'no') {
                     return $query->whereNull('chairman_board_id');
+                }
+
                 return $query;
             }),
             AllowedFilter::callback('has_secretary', function ($query, $value) {
-                if ($value === 'yes')
+                if ($value === 'yes') {
                     return $query->where(function ($q) {
                         $q->whereNotNull('secretary_board_id')
                             ->orWhereNotNull('secretary_management_id');
                     });
-                if ($value === 'no')
+                }
+                if ($value === 'no') {
                     return $query->whereNull('secretary_board_id')
                         ->whereNull('secretary_management_id');
+                }
+
                 return $query;
             }),
         ];

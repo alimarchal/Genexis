@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\AnnualReport;
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -21,7 +20,7 @@ test('it can view annual reports index page', function () {
 
     $response->assertOk()
         ->assertInertia(
-            fn($page) => $page
+            fn ($page) => $page
                 ->component('AnnualReports/Index')
                 ->has('annualReports.data', 3)
         );
@@ -35,7 +34,7 @@ test('it can search annual reports by fiscal year', function () {
 
     $response->assertOk()
         ->assertInertia(
-            fn($page) => $page
+            fn ($page) => $page
                 ->has('annualReports.data', 1)
                 ->where('annualReports.data.0.annual_report_fiscal_year', 2023)
         );
@@ -49,7 +48,7 @@ test('it can sort annual reports by fiscal year', function () {
 
     $response->assertOk()
         ->assertInertia(
-            fn($page) => $page
+            fn ($page) => $page
                 ->where('annualReports.data.0.annual_report_fiscal_year', 2023)
                 ->where('annualReports.data.1.annual_report_fiscal_year', 2024)
         );
@@ -60,7 +59,7 @@ test('it can view create annual report page', function () {
 
     $response->assertOk()
         ->assertInertia(
-            fn($page) => $page
+            fn ($page) => $page
                 ->component('AnnualReports/Create')
         );
 });
@@ -80,7 +79,7 @@ test('it can create annual report with valid data', function () {
         'created_by' => $this->user->id,
     ]);
 
-    Storage::disk('public')->assertExists('annual-reports/' . $file->hashName());
+    Storage::disk('public')->assertExists('annual-reports/'.$file->hashName());
 });
 
 test('it cannot create annual report with duplicate fiscal year', function () {
@@ -95,7 +94,6 @@ test('it cannot create annual report with duplicate fiscal year', function () {
 
     $response->assertSessionHasErrors('annual_report_fiscal_year');
 });
-
 
 test('it cannot create annual report with invalid file type', function () {
     $file = UploadedFile::fake()->create('document.txt', 1000, 'text/plain');
@@ -129,7 +127,7 @@ test('it can view annual report details', function () {
 
     $response->assertOk()
         ->assertInertia(
-            fn($page) => $page
+            fn ($page) => $page
                 ->component('AnnualReports/Show')
                 ->where('annualReport.id', $annualReport->id)
                 ->where('annualReport.annual_report_fiscal_year', 2024)
@@ -143,7 +141,7 @@ test('it can view edit annual report page', function () {
 
     $response->assertOk()
         ->assertInertia(
-            fn($page) => $page
+            fn ($page) => $page
                 ->component('AnnualReports/Edit')
                 ->where('annualReport.id', $annualReport->id)
         );

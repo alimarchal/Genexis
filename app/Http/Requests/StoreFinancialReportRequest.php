@@ -19,7 +19,7 @@ class StoreFinancialReportRequest extends FormRequest
                 'required',
                 'integer',
                 'min:1900',
-                'max:' . (date('Y') + 5),
+                'max:'.(date('Y') + 5),
                 Rule::unique('financial_reports', 'fiscal_year'),
             ],
             'first_quarter_report' => [

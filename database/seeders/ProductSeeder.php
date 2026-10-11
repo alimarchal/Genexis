@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Product;
 use Illuminate\Database\Seeder;
 
 class ProductSeeder extends Seeder
@@ -11,12 +12,12 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\Product::create([
+        Product::create([
             'name' => 'Liability',
             'is_active' => true,
         ]);
 
-        \App\Models\Product::create([
+        Product::create([
             'name' => 'Asset',
             'is_active' => true,
         ]);

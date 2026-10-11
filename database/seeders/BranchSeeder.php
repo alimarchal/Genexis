@@ -839,7 +839,7 @@ class BranchSeeder extends Seeder
                 'longitude' => 73.7530460,
             ],
 
-               [
+            [
                 'district_id' => District::without('branches', 'region')->where('name', 'Muzaffarabad')->first()->id,
                 'region_id' => District::without('branches', 'region')->where('name', 'Muzaffarabad')->first()->region_id,
                 'code' => '0089',

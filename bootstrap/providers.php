@@ -1,6 +1,9 @@
 <?php
 
+use App\Providers\AppServiceProvider;
+use App\Providers\UserTrackingServiceProvider;
+
 return [
-    App\Providers\AppServiceProvider::class,
-    App\Providers\UserTrackingServiceProvider::class,
+    AppServiceProvider::class,
+    UserTrackingServiceProvider::class,
 ];

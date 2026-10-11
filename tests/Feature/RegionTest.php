@@ -2,7 +2,8 @@
 
 use App\Models\Division;
 use App\Models\Region;
-use App\Models\User;
+use Database\Seeders\DivisionSeeder;
+use Database\Seeders\RegionSeeder;
 
 beforeEach(function () {
     $this->user = $this->createAdminUser();
@@ -17,8 +18,8 @@ beforeEach(function () {
 
     // Seed some regions for read tests
     $this->seed([
-        \Database\Seeders\DivisionSeeder::class,
-        \Database\Seeders\RegionSeeder::class,
+        DivisionSeeder::class,
+        RegionSeeder::class,
     ]);
 });
 
@@ -26,14 +27,14 @@ test('it can view regions index page', function () {
     $response = $this->get(route('regions.index'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('Region/Index'));
+    $response->assertInertia(fn ($page) => $page->component('Region/Index'));
 });
 
 test('it can view create region page', function () {
     $response = $this->get(route('regions.create'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('Region/Create'));
+    $response->assertInertia(fn ($page) => $page->component('Region/Create'));
 });
 
 test('it can create region with valid data', function () {
@@ -52,25 +53,25 @@ test('it can create region with valid data', function () {
 });
 
 test('it can view region details', function () {
-    $region = \App\Models\Region::where('name', 'Muzaffarabad')->first();
+    $region = Region::where('name', 'Muzaffarabad')->first();
 
     $response = $this->get(route('regions.show', $region));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('Region/Show'));
+    $response->assertInertia(fn ($page) => $page->component('Region/Show'));
 });
 
 test('it can view edit region page', function () {
-    $region = \App\Models\Region::where('name', 'Muzaffarabad')->first();
+    $region = Region::where('name', 'Muzaffarabad')->first();
 
     $response = $this->get(route('regions.edit', $region));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('Region/Edit'));
+    $response->assertInertia(fn ($page) => $page->component('Region/Edit'));
 });
 
 test('it can update region', function () {
-    $region = \App\Models\Region::where('name', 'Muzaffarabad')->first();
+    $region = Region::where('name', 'Muzaffarabad')->first();
 
     $response = $this->put(route('regions.update', $region), [
         'name' => 'Updated Region',
@@ -89,7 +90,7 @@ test('it can update region', function () {
 
 test('it can delete region', function () {
     // Create a test region that's safe to delete
-    $region = \App\Models\Region::create([
+    $region = Region::create([
         'name' => 'Deletable Test Region',
         'status' => 'active',
         'division_id' => $this->division->id,

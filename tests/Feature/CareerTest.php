@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Career;
-use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
@@ -21,14 +20,14 @@ test('it can view careers index page', function () {
     $response = $this->get(route('careers.index'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('Careers/Index'));
+    $response->assertInertia(fn ($page) => $page->component('Careers/Index'));
 });
 
 test('it can view create career page', function () {
     $response = $this->get(route('careers.create'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('Careers/Create'));
+    $response->assertInertia(fn ($page) => $page->component('Careers/Create'));
 });
 
 test('it can create career with valid data', function () {
@@ -59,7 +58,7 @@ test('it can view career details', function () {
     $response = $this->get(route('careers.show', $career));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('Careers/Show'));
+    $response->assertInertia(fn ($page) => $page->component('Careers/Show'));
 });
 
 test('it can view edit career page', function () {
@@ -68,7 +67,7 @@ test('it can view edit career page', function () {
     $response = $this->get(route('careers.edit', $career));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('Careers/Edit'));
+    $response->assertInertia(fn ($page) => $page->component('Careers/Edit'));
 });
 
 test('it can update career', function () {
@@ -115,7 +114,7 @@ test('it can filter careers by active status', function () {
     $response = $this->get(route('careers.index', ['filter' => ['is_active' => '1']]));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('Careers/Index'));
+    $response->assertInertia(fn ($page) => $page->component('Careers/Index'));
 });
 
 test('it can search careers by title', function () {
@@ -126,7 +125,7 @@ test('it can search careers by title', function () {
     $response = $this->get(route('careers.index', ['filter' => ['title' => 'Engineer']]));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('Careers/Index'));
+    $response->assertInertia(fn ($page) => $page->component('Careers/Index'));
 });
 
 // =============================================================================
@@ -141,7 +140,7 @@ test('guests can view public careers page', function () {
     $response = $this->get(route('public-careers'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('Careers/PublicCareers'));
+    $response->assertInertia(fn ($page) => $page->component('Careers/PublicCareers'));
 });
 
 test('guests can view public career detail page', function () {
@@ -155,7 +154,7 @@ test('guests can view public career detail page', function () {
     $response = $this->get(route('public-careers.detail', $career));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('Careers/PublicCareerDetail'));
+    $response->assertInertia(fn ($page) => $page->component('Careers/PublicCareerDetail'));
 });
 
 test('public careers page only shows active careers', function () {
@@ -168,9 +167,9 @@ test('public careers page only shows active careers', function () {
 
     $response->assertStatus(200);
     $response->assertInertia(
-        fn($page) => $page
+        fn ($page) => $page
             ->component('Careers/PublicCareers')
-            ->where('careers.data', fn($careers) => count($careers) >= 2) // At least 2 active careers
+            ->where('careers.data', fn ($careers) => count($careers) >= 2) // At least 2 active careers
     );
 });
 

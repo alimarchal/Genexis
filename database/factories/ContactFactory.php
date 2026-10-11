@@ -2,10 +2,12 @@
 
 namespace Database\Factories;
 
+use App\Models\Branch;
+use App\Models\Contact;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Contact>
+ * @extends Factory<Contact>
  */
 class ContactFactory extends Factory
 {
@@ -22,7 +24,7 @@ class ContactFactory extends Factory
             'phone' => fake()->phoneNumber(),
             'position' => fake()->jobTitle(),
             'department' => fake()->randomElement(['Customer Service', 'Operations', 'Finance', 'IT', 'HR', 'Marketing']),
-            'branch_id' => \App\Models\Branch::factory(),
+            'branch_id' => Branch::factory(),
             'status' => fake()->randomElement(['active', 'inactive']),
         ];
     }

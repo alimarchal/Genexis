@@ -447,7 +447,7 @@ class SearchController extends Controller
 
         // Search Pages (if they exist)
         $pages = collect();
-        if (class_exists(\App\Models\Page::class) && Schema::hasTable('pages')) {
+        if (class_exists(Page::class) && Schema::hasTable('pages')) {
             if (Schema::hasColumns('pages', ['title', 'content', 'is_published'])) {
                 $pages = Page::where('is_published', true);
                 $pages = $this->searchColumns($pages, ['title', 'content'], $query);

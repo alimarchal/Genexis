@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Routing\Route;
 
 class TestMenuHelpers extends Command
 {
@@ -59,7 +60,7 @@ class TestMenuHelpers extends Command
 
         // Mock the route
         request()->setRouteResolver(function () {
-            $route = new \Illuminate\Routing\Route('GET', '/test-about-management', []);
+            $route = new Route('GET', '/test-about-management', []);
             $route->name('about.management');
 
             return $route;

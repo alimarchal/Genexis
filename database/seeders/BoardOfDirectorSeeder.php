@@ -147,9 +147,9 @@ class BoardOfDirectorSeeder extends Seeder
                 ],
                 'achievements' => [
                     'Founder of Human Resource Development Network (HRDN)',
-'Led policy work and piloted national development programs across Pakistan & AJK',
-'Strengthened institutions: TRDP, MRDP, SAFCOW, BRSP, KWO, WWOP',
-'Specialist in community mobilization and poverty alleviation',
+                    'Led policy work and piloted national development programs across Pakistan & AJK',
+                    'Strengthened institutions: TRDP, MRDP, SAFCOW, BRSP, KWO, WWOP',
+                    'Specialist in community mobilization and poverty alleviation',
                 ],
                 'image' => 'bod/mubshar nabi.jpg',
                 'sort_order' => 6,
@@ -205,7 +205,7 @@ class BoardOfDirectorSeeder extends Seeder
                 'is_chairman' => false,
                 'is_active' => true,
             ],
- [
+            [
                 'title' => '',
                 'full_name' => 'Dr. Adnan U. Khan',
                 'designation' => 'Company Secretary',
@@ -216,7 +216,7 @@ class BoardOfDirectorSeeder extends Seeder
                     'Manager Corporate & Secretarial Affairs, Pakistan Security Printing Corporation (a subsidiary of State Bank of Pakistan)',
                     'Associate Member, Institute of Corporate Secretaries of Pakistan',
                     'Academic and research background in finance and corporate governance',
-                   'Completed certifications in Financial Markets and Investment Banking from top U.S. universities',
+                    'Completed certifications in Financial Markets and Investment Banking from top U.S. universities',
                 ],
                 'achievements' => [
                     'Awarded a PhD in Finance, with research published in internationally acclaimed journals on finance and corporate governance',
@@ -224,13 +224,11 @@ class BoardOfDirectorSeeder extends Seeder
                     'Appointed as Company Secretary of the Bank of Azad Jammu & Kashmir, reflecting institutional confidence in his leadership and governance expertise',
                     'Played a key role in strengthening governance and compliance frameworks at the Pakistan Security Printing Corporation, a subsidiary of the State Bank of Pakistan',
                 ],
-                   'image' => 'bod/company.png',
+                'image' => 'bod/company.png',
                 'sort_order' => 9,
                 'is_chairman' => false,
                 'is_active' => true,
             ],
-
-
 
         ];
 

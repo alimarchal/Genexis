@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\TopNavbarMessage;
 use Illuminate\Database\Seeder;
 
 class TopNavbarMessageSeeder extends Seeder
@@ -66,7 +66,7 @@ class TopNavbarMessageSeeder extends Seeder
         ];
 
         foreach ($messages as $message) {
-            \App\Models\TopNavbarMessage::create($message);
+            TopNavbarMessage::create($message);
         }
     }
 }

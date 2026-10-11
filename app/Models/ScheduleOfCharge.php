@@ -38,17 +38,23 @@ class ScheduleOfCharge extends Model
         return [
             AllowedFilter::partial('title'),
             AllowedFilter::callback('is_active', function ($query, $value) {
-                if ($value === '1')
+                if ($value === '1') {
                     return $query->where('is_active', true);
-                if ($value === '0')
+                }
+                if ($value === '0') {
                     return $query->where('is_active', false);
+                }
+
                 return $query;
             }),
             AllowedFilter::callback('has_attachment', function ($query, $value) {
-                if ($value === 'yes')
+                if ($value === 'yes') {
                     return $query->whereNotNull('attachment');
-                if ($value === 'no')
+                }
+                if ($value === 'no') {
                     return $query->whereNull('attachment');
+                }
+
                 return $query;
             }),
             AllowedFilter::callback('date_range', function ($query, $value) {
@@ -88,25 +94,30 @@ class ScheduleOfCharge extends Model
         if ($this->attachment && Storage::disk('public')->exists($this->attachment)) {
             return route('schedule-of-charges.admin-download', $this->id);
         }
+
         return null;
     }
 
     public function getStatusAttribute(): string
     {
-        if (!$this->is_active)
+        if (! $this->is_active) {
             return 'inactive';
+        }
 
         $currentDate = now()->toDateString();
 
-        if ($this->from > $currentDate)
+        if ($this->from > $currentDate) {
             return 'upcoming';
-        if ($this->to && $this->to < $currentDate)
+        }
+        if ($this->to && $this->to < $currentDate) {
             return 'expired';
+        }
+
         return 'current';
     }
 
     public function getHasAttachmentAttribute(): bool
     {
-        return !is_null($this->attachment);
+        return ! is_null($this->attachment);
     }
 }

@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\BodCommittee;
-
 use App\Models\BoardOfDirector;
+use App\Models\BodCommittee;
 use App\Models\Management;
 use Illuminate\Database\Seeder;
 
@@ -20,8 +19,7 @@ class BodCommitteeSeeder extends Seeder
         $secretaryIndustries = BoardOfDirector::where('full_name', 'Khalid Mehmood Mirza')->first();
         $mubasharNabi = BoardOfDirector::where('full_name', 'Mubashar Nabi')->first();
         $bushraNaz = BoardOfDirector::where('full_name', 'Bushra Naz Malik')->first();
-       $companySecretary = BoardOfDirector::where('full_name', 'Dr. Adnan U. Khan')->first();
-
+        $companySecretary = BoardOfDirector::where('full_name', 'Dr. Adnan U. Khan')->first();
 
         // Get from management
         $presidentCEOManag = Management::where('full_name', 'Shahid Shahzad Mir')->first();
@@ -38,7 +36,7 @@ class BodCommitteeSeeder extends Seeder
                 'chairman_board_id' => $secretaryFinance?->id,
                 'secretary_management_id' => $hrDivHead?->id,
                 'board_members' => array_filter([$mubasharNabi?->id]),
-                
+
                 'management_members' => array_filter([$presidentCEOManag?->id]),
                 'is_active' => true,
                 'sort_order' => 1,
@@ -52,7 +50,7 @@ class BodCommitteeSeeder extends Seeder
                     $secretaryFinance?->id,
                     $secretaryLaw?->id,
                     $mubasharNabi?->id,
-                   
+
                 ]),
                 // 'management_members' => array_filter([$auditHead?->id]),
                 'is_active' => true,
@@ -87,18 +85,18 @@ class BodCommitteeSeeder extends Seeder
             ],
 
             [
-    'name' => 'Board Environmental, Social & Governance Committee',
-    'description' => 'Committee responsible for overseeing environmental, social, and corporate governance matters.',
-    'chairman_board_id' => $secretaryIndustries?->id,
-   'secretary_board_id' => $companySecretary?->id,
-    'board_members' => array_filter([
-        $mubasharNabi?->id,
-       $bushraNaz?->id,
-    ]),
-    'management_members' => [],
-    'is_active' => true,
-    'sort_order' => 5,
-],
+                'name' => 'Board Environmental, Social & Governance Committee',
+                'description' => 'Committee responsible for overseeing environmental, social, and corporate governance matters.',
+                'chairman_board_id' => $secretaryIndustries?->id,
+                'secretary_board_id' => $companySecretary?->id,
+                'board_members' => array_filter([
+                    $mubasharNabi?->id,
+                    $bushraNaz?->id,
+                ]),
+                'management_members' => [],
+                'is_active' => true,
+                'sort_order' => 5,
+            ],
         ];
 
         foreach ($committees as $committee) {

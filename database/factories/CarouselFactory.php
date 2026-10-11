@@ -2,10 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\Carousel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Carousel>
+ * @extends Factory<Carousel>
  */
 class CarouselFactory extends Factory
 {

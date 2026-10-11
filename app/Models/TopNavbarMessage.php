@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use Database\Factories\TopNavbarMessageFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class TopNavbarMessage extends Model
 {
-    /** @use HasFactory<\Database\Factories\TopNavbarMessageFactory> */
+    /** @use HasFactory<TopNavbarMessageFactory> */
     use HasFactory;
 
     protected $fillable = [

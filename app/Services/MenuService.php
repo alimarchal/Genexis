@@ -11,11 +11,12 @@ class MenuService
     public function getMainMenu(): Collection
     {
         // For immediate updates, use very short cache in production
-        $cacheKey = 'main_menu_v2'; 
+        $cacheKey = 'main_menu_v2';
         $cacheDuration = config('app.env') === 'production' ? now()->addSeconds(30) : now()->addMinutes(2);
-        
+
         return Cache::remember($cacheKey, $cacheDuration, function () {
             \Log::info('Loading fresh menu data from database');
+
             return Menu::getMenuTree();
         });
     }
@@ -24,29 +25,29 @@ class MenuService
     {
         Cache::forget('main_menu');
         Cache::forget('main_menu_v2'); // Clear new cache key too
-        
+
         // Clear any other menu-related cache keys
         $cacheKeys = [
             'formatted_menu',
-            'navigation_menu', 
+            'navigation_menu',
             'website_menu',
-            'public_menu'
+            'public_menu',
         ];
-        
+
         foreach ($cacheKeys as $key) {
             Cache::forget($key);
         }
-        
+
         \Log::info('All menu caches cleared');
     }
 
     public function formatMenuForFrontend($menus): array
     {
         // Convert to Collection if needed
-        if (!$menus instanceof Collection) {
+        if (! $menus instanceof Collection) {
             $menus = collect($menus);
         }
-        
+
         return $menus->map(function (Menu $menu) {
             return [
                 'id' => $menu->id,

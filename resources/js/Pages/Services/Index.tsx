@@ -1,4 +1,5 @@
 import Heading from '@/components/heading';
+import SafeImage from '@/components/safe-image';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -17,7 +18,6 @@ import { type BreadcrumbItem, type SharedData } from '@/types';
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Edit, Eye, MoreHorizontal, Plus, Search, Trash } from 'lucide-react';
 import { useState } from 'react';
-import SafeImage from '@/components/safe-image';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -204,7 +204,8 @@ export default function ServicesIndex({ services, filters }: Props) {
                                             <TableCell className="w-64 max-w-64">
                                                 <div className="flex items-start gap-3">
                                                     {service.image_url && (
-                                                        <SafeImage kind="service"
+                                                        <SafeImage
+                                                            kind="service"
                                                             src={service.image_url}
                                                             alt={service.name}
                                                             className="h-10 w-10 shrink-0 rounded object-cover"

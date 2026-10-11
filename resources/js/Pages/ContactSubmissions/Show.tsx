@@ -46,7 +46,10 @@ export default function Show({ submission }: { submission: Submission }) {
                         <ArrowLeft className="mr-1 h-4 w-4" /> Back to messages
                     </Link>
                 </Button>
-                <Heading title={submission.subject} description={submission.submitted_at ? new Date(submission.submitted_at).toLocaleString('en-GB') : ''} />
+                <Heading
+                    title={submission.subject}
+                    description={submission.submitted_at ? new Date(submission.submitted_at).toLocaleString('en-GB') : ''}
+                />
 
                 <Card className="mt-6">
                     <CardHeader>

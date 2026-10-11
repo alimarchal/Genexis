@@ -19,7 +19,7 @@ class StoreAnnualReportRequest extends FormRequest
                 'required',
                 'integer',
                 'min:1900',
-                'max:' . (date('Y') + 5),
+                'max:'.(date('Y') + 5),
                 Rule::unique('annual_reports', 'annual_report_fiscal_year'),
             ],
             'annual_report' => [

@@ -30,10 +30,10 @@ class PopulateNewsExcerpts extends Command
 
         $query = NewsAnnouncement::query();
 
-        if (!$this->option('force')) {
+        if (! $this->option('force')) {
             $query->where(function ($q) {
                 $q->whereNull('excerpt')
-                  ->orWhere('excerpt', '');
+                    ->orWhere('excerpt', '');
             });
         }
 
@@ -41,6 +41,7 @@ class PopulateNewsExcerpts extends Command
 
         if ($news->isEmpty()) {
             $this->info('No news announcements need excerpt updates.');
+
             return Command::SUCCESS;
         }
 
@@ -51,11 +52,11 @@ class PopulateNewsExcerpts extends Command
         foreach ($news as $item) {
             // Use the model's method to generate excerpt
             $excerpt = $item->generateExcerpt();
-            
+
             // Update directly
             $item->update(['excerpt' => $excerpt]);
             $updated++;
-            
+
             $bar->advance();
         }
 

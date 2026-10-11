@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\BoardOfDirector;
-use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
@@ -17,14 +16,14 @@ test('it can view board of directors index page', function () {
     $response = $this->get(route('board-of-directors.index'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('BoardOfDirector/Index'));
+    $response->assertInertia(fn ($page) => $page->component('BoardOfDirector/Index'));
 });
 
 test('it can view create board of director page', function () {
     $response = $this->get(route('board-of-directors.create'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('BoardOfDirector/Create'));
+    $response->assertInertia(fn ($page) => $page->component('BoardOfDirector/Create'));
 });
 
 test('it can create board of director with valid data', function () {
@@ -69,7 +68,7 @@ test('it can view board of director details', function () {
     $response = $this->get(route('board-of-directors.show', $director));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('BoardOfDirector/Show'));
+    $response->assertInertia(fn ($page) => $page->component('BoardOfDirector/Show'));
 });
 
 test('it can view edit board of director page', function () {
@@ -78,7 +77,7 @@ test('it can view edit board of director page', function () {
     $response = $this->get(route('board-of-directors.edit', $director));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('BoardOfDirector/Edit'));
+    $response->assertInertia(fn ($page) => $page->component('BoardOfDirector/Edit'));
 });
 
 test('it can update board of director', function () {

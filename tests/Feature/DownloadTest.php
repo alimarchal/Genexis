@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Download;
-use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
@@ -17,14 +16,14 @@ test('it can view downloads index page', function () {
     $response = $this->get(route('downloads.index'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('Download/Index'));
+    $response->assertInertia(fn ($page) => $page->component('Download/Index'));
 });
 
 test('it can view create download page', function () {
     $response = $this->get(route('downloads.create'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('Download/Create'));
+    $response->assertInertia(fn ($page) => $page->component('Download/Create'));
 });
 
 test('it can create download with valid data', function () {
@@ -51,7 +50,7 @@ test('it can create download with valid data', function () {
         'created_by' => $this->user->id,
     ]);
 
-    Storage::disk('public')->assertExists('downloads/' . $file->hashName());
+    Storage::disk('public')->assertExists('downloads/'.$file->hashName());
 });
 
 test('it validates required fields when creating download', function () {
@@ -80,7 +79,7 @@ test('it can view download details', function () {
     $response = $this->get(route('downloads.show', $download));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('Download/Show'));
+    $response->assertInertia(fn ($page) => $page->component('Download/Show'));
 });
 
 test('it can view edit download page', function () {
@@ -89,7 +88,7 @@ test('it can view edit download page', function () {
     $response = $this->get(route('downloads.edit', $download));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('Download/Edit'));
+    $response->assertInertia(fn ($page) => $page->component('Download/Edit'));
 });
 
 test('it can update download', function () {
@@ -196,8 +195,7 @@ test('it can view public downloads page', function () {
 
     $response->assertStatus(200);
     $response->assertInertia(
-        fn($page) =>
-        $page->component('Rates/PublicDownloads')
+        fn ($page) => $page->component('Rates/PublicDownloads')
             ->has('downloads.data', 5)
     );
 });
@@ -208,7 +206,7 @@ test('it filters downloads by search query', function () {
     $response = $this->get(route('downloads.index', ['filter[title]' => $downloads->first()->title]));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('Download/Index'));
+    $response->assertInertia(fn ($page) => $page->component('Download/Index'));
 });
 
 test('it filters downloads by category', function () {
@@ -218,7 +216,7 @@ test('it filters downloads by category', function () {
     $response = $this->get(route('downloads.index', ['filter[category]' => 'forms']));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('Download/Index'));
+    $response->assertInertia(fn ($page) => $page->component('Download/Index'));
 });
 
 test('it filters downloads by status', function () {
@@ -228,7 +226,7 @@ test('it filters downloads by status', function () {
     $response = $this->get(route('downloads.index', ['filter[is_active]' => '1']));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('Download/Index'));
+    $response->assertInertia(fn ($page) => $page->component('Download/Index'));
 });
 
 test('it filters downloads by featured status', function () {
@@ -238,7 +236,7 @@ test('it filters downloads by featured status', function () {
     $response = $this->get(route('downloads.index', ['filter[is_featured]' => '1']));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('Download/Index'));
+    $response->assertInertia(fn ($page) => $page->component('Download/Index'));
 });
 
 test('public downloads only shows active downloads', function () {
@@ -249,8 +247,7 @@ test('public downloads only shows active downloads', function () {
 
     $response->assertStatus(200);
     $response->assertInertia(
-        fn($page) =>
-        $page->component('Rates/PublicDownloads')
+        fn ($page) => $page->component('Rates/PublicDownloads')
             ->has('downloads.data', 3)
     );
 });
@@ -272,8 +269,7 @@ test('public downloads orders by featured then created date', function () {
 
     $response->assertStatus(200);
     $response->assertInertia(
-        fn($page) =>
-        $page->component('Rates/PublicDownloads')
+        fn ($page) => $page->component('Rates/PublicDownloads')
             ->where('downloads.data.0.id', $featured->id)
             ->where('downloads.data.1.id', $regular->id)
     );

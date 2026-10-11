@@ -1,7 +1,7 @@
+import SafeImage from '@/components/safe-image';
 import WebsiteLayout from '@/layouts/WebsiteLayout';
 import { FileText, Shield } from 'lucide-react';
 import { useState } from 'react';
-import SafeImage from '@/components/safe-image';
 
 interface ServiceAttribute {
     id: number;
@@ -255,7 +255,8 @@ const ServicesPage = () => {
 
                         {/* Service Image */}
                         <div className="relative h-64 overflow-hidden">
-                            <SafeImage kind="service"
+                            <SafeImage
+                                kind="service"
                                 src={activeService.image}
                                 alt={activeService.name}
                                 className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"

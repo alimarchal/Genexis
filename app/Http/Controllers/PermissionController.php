@@ -25,7 +25,7 @@ class PermissionController extends Controller implements HasMiddleware
         $query = Permission::query();
 
         if ($request->has('search')) {
-            $query->where('name', 'like', '%' . $request->search . '%');
+            $query->where('name', 'like', '%'.$request->search.'%');
         }
 
         $permissions = $query->paginate(10)->withQueryString();
@@ -62,7 +62,7 @@ class PermissionController extends Controller implements HasMiddleware
     public function update(Request $request, Permission $permission)
     {
         $request->validate([
-            'name' => 'required|string|max:255|unique:permissions,name,' . $permission->id,
+            'name' => 'required|string|max:255|unique:permissions,name,'.$permission->id,
         ]);
 
         $permission->update(['name' => $request->name]);

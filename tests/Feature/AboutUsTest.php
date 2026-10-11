@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\AboutUs;
-use App\Models\User;
 
 beforeEach(function () {
     $this->user = $this->createAdminUser();
@@ -15,7 +14,7 @@ test('it can view about us index page', function () {
 
     $response->assertStatus(200);
     $response->assertInertia(
-        fn($page) => $page
+        fn ($page) => $page
             ->component('AboutUs/Index')
             ->has('aboutUsList.data', 3)
     );
@@ -25,7 +24,7 @@ test('it can view create about us page', function () {
     $response = $this->get(route('about-us.create'));
 
     $response->assertStatus(200);
-    $response->assertInertia(fn($page) => $page->component('AboutUs/Create'));
+    $response->assertInertia(fn ($page) => $page->component('AboutUs/Create'));
 });
 
 test('it can create about us with valid data', function () {
@@ -60,7 +59,7 @@ test('it can view about us details', function () {
 
     $response->assertStatus(200);
     $response->assertInertia(
-        fn($page) => $page
+        fn ($page) => $page
             ->component('AboutUs/Show')
             ->where('aboutUs.id', $aboutUs->id)
     );
@@ -73,7 +72,7 @@ test('it can view edit about us page', function () {
 
     $response->assertStatus(200);
     $response->assertInertia(
-        fn($page) => $page
+        fn ($page) => $page
             ->component('AboutUs/Edit')
             ->where('aboutUs.id', $aboutUs->id)
     );
@@ -125,7 +124,7 @@ test('it can filter about us by status', function () {
 
     $response->assertStatus(200);
     $response->assertInertia(
-        fn($page) => $page
+        fn ($page) => $page
             ->has('aboutUsList.data', 1)
             ->where('aboutUsList.data.0.is_active', true)
     );
@@ -139,7 +138,7 @@ test('it can search about us by title', function () {
 
     $response->assertStatus(200);
     $response->assertInertia(
-        fn($page) => $page
+        fn ($page) => $page
             ->has('aboutUsList.data', 1)
             ->where('aboutUsList.data.0.title', 'About BAJK Bank')
     );
@@ -152,7 +151,7 @@ test('it can view public about us page', function () {
 
     $response->assertStatus(200);
     $response->assertInertia(
-        fn($page) => $page
+        fn ($page) => $page
             ->component('About/AboutUs')
             ->where('aboutUs.id', $aboutUs->id)
     );
@@ -166,7 +165,7 @@ test('public about us page shows only active content', function () {
 
     $response->assertStatus(200);
     $response->assertInertia(
-        fn($page) => $page
+        fn ($page) => $page
             ->component('About/AboutUs')
             ->where('aboutUs.id', $activeAboutUs->id)
     );
@@ -201,7 +200,7 @@ test('seeded about us content exists and is accessible', function () {
     $response = $this->get(route('about.about-us'));
     $response->assertStatus(200);
     $response->assertInertia(
-        fn($page) => $page
+        fn ($page) => $page
             ->component('About/AboutUs')
             ->where('aboutUs.title', 'About BAJK')
     );

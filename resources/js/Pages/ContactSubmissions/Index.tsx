@@ -75,7 +75,12 @@ export default function Index({ submissions, categories, filters }: Props) {
                 <form onSubmit={submit} className="mt-6 flex flex-col gap-3 sm:flex-row">
                     <div className="relative flex-1 sm:max-w-sm">
                         <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
-                        <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search name, e-mail, subject, message" className="pl-10" />
+                        <Input
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            placeholder="Search name, e-mail, subject, message"
+                            className="pl-10"
+                        />
                     </div>
                     <select
                         aria-label="Category"
@@ -123,7 +128,9 @@ export default function Index({ submissions, categories, filters }: Props) {
                                         <div className="text-muted-foreground text-xs">{submission.email}</div>
                                     </TableCell>
                                     <TableCell className="max-w-xs truncate">{submission.subject}</TableCell>
-                                    <TableCell>{submission.category ? <Badge variant="outline">{submission.category.replace(/_/g, ' ')}</Badge> : '-'}</TableCell>
+                                    <TableCell>
+                                        {submission.category ? <Badge variant="outline">{submission.category.replace(/_/g, ' ')}</Badge> : '-'}
+                                    </TableCell>
                                     <TableCell className="text-right whitespace-nowrap">
                                         <Button asChild variant="ghost" size="icon" aria-label="View message">
                                             <Link href={route('admin.contact-submissions.show', submission.id)}>
@@ -147,7 +154,12 @@ export default function Index({ submissions, categories, filters }: Props) {
                         {submissions.total === 0 ? '0 messages' : `Showing ${submissions.from}-${submissions.to} of ${submissions.total}`}
                     </span>
                     <div className="flex gap-2">
-                        <Button variant="outline" size="sm" disabled={submissions.current_page <= 1} onClick={() => apply({ page: submissions.current_page - 1 })}>
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            disabled={submissions.current_page <= 1}
+                            onClick={() => apply({ page: submissions.current_page - 1 })}
+                        >
                             Previous
                         </Button>
                         <Button
