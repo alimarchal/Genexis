@@ -94,6 +94,15 @@ GitHub میں: **Settings ← Secrets and variables ← Actions ← New reposito
 
 دستی ڈیپلائے: سرور پر `bash scripts/deploy.sh`۔
 
+## 4-الف۔ بڑی فائلوں کے اپلوڈ کے لیے سرور کی ترتیب
+
+- **ویب سرور کی باڈی حد:** nginx میں `client_max_body_size 16m;` (یہ فائل کی حد **نہیں** ہے، صرف ایک ٹکڑے کی ہے۔ فائل 4 MB کے ٹکڑوں میں جاتی ہے)۔ PHP کی `upload_max_filesize` اور `post_max_size` بڑھانے کی ضرورت نہیں۔
+- **ڈسک:** خالی جگہ کم از کم فائل کے سائز + 1 GB۔ `php artisan bank:check` کم جگہ پر خبردار کرتا ہے۔
+- **شیڈیولر (صفائی کے لیے ضروری):** cron میں یہ لائن لگائیں:
+  `* * * * * cd /var/www/bajk && php artisan schedule:run >> /dev/null 2>&1`
+  اس سے ادھوری یا استعمال نہ ہونے والی اپلوڈ فائلیں 24 گھنٹے بعد خود حذف ہوتی ہیں۔
+- حدیں `.env` میں: `UPLOAD_LARGE_MAX_BYTES` (مالی رپورٹس، سالانہ رپورٹس، ہائی لائٹس، ڈاؤن لوڈز؛ ڈیفالٹ 10 GB)، `UPLOAD_DOCUMENT_MAX_BYTES` (شیڈول اور نوکریاں؛ ڈیفالٹ 500 MB)، `UPLOAD_MAX_BYTES` (سپر ایڈمن کی بالائی حد)۔
+
 ## 5. پچھلے ورژن پر واپسی (Rollback)
 
 ```bash

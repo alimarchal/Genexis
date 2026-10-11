@@ -195,6 +195,24 @@ curl "https://example.bank/api/v1/branches/nearby?lat=34.37&lng=73.47&radius_km=
 
 Full reference: [docs/api.md](docs/api.md). The older `GET /api/search?q=` endpoint (site search) is unchanged.
 
+## Large file uploads
+
+Financial statements, annual reports, highlights, downloads, schedules of charges and vacancy documents can be several GB. A normal form post cannot carry that (PHP, the web server and proxies all cap request bodies), so these forms use a **resumable chunked uploader**:
+
+- The browser cuts the file into 4 MB parts, sends them one by one and shows a **progress bar** with amount, speed and time left. It can **pause, resume, cancel**, retries automatically after network errors and can continue after a page refresh.
+- **Everybody who may manage a module can upload large files for it.** Anyone with the module's create/edit permission (financial reports, annual reports, highlights, downloads) may upload up to 10 GB (`UPLOAD_LARGE_MAX_BYTES`); schedules of charges and vacancy documents up to 500 MB (`UPLOAD_DOCUMENT_MAX_BYTES`). Users without the permission cannot upload at all, and a super-admin may always go up to `UPLOAD_MAX_BYTES`. No PHP setting needs to be changed: because the file travels in 4 MB parts, PHP's `upload_max_filesize` / `post_max_size` never apply.
+- The server keeps a record of every upload (who, which file, size, bytes received, IP, status, SHA-256 of the finished file). Super-admins see it under **System Management -> Upload Log**; running uploads refresh live.
+- A finished file is checked by its **real content** (not the browser's claim) against the allowed types, moved into `storage/app/public`, and only attached to a record when the form is saved. A replaced file is deleted only after the new one is saved.
+- Abandoned uploads and finished files that were never attached are removed after 24 hours by `php artisan uploads:prune` (hourly through the scheduler, see below).
+- Downloads use HTTP Range, so browsers can resume large downloads.
+
+Server requirements:
+
+1. The web server must accept request bodies of at least the chunk size, e.g. nginx `client_max_body_size 16m;` (this is **not** the file size limit). PHP's `upload_max_filesize` / `post_max_size` do not need raising.
+2. Free disk space of at least the file size plus the `UPLOAD_RESERVE_BYTES` reserve (`php artisan bank:check` warns when the disk is too small). The upload is assembled in `storage/app/private/uploads/tmp` and then moved, so the file exists once when finished.
+3. The Laravel scheduler must run for automatic clean-up: `* * * * * cd /var/www/bajk && php artisan schedule:run >> /dev/null 2>&1`.
+4. If a CDN such as Cloudflare sits in front, the 4 MB chunks stay far below its 100 MB request limit.
+
 ## Security
 
 Built in:

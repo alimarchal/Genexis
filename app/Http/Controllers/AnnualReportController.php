@@ -37,9 +37,7 @@ class AnnualReportController extends Controller
         $validated = $request->validated();
         $data = $validated;
 
-        if ($request->hasFile('annual_report')) {
-            $data['annual_report'] = $request->file('annual_report')->store('annual-reports', 'public');
-        }
+        [$data] = $this->applyUploads($request, $data, 'annual-reports', ['annual_report' => 'annual_report']);
 
         AnnualReport::create($data);
 
@@ -65,18 +63,10 @@ class AnnualReportController extends Controller
     {
         $data = $request->validated();
 
-        if ($request->hasFile('annual_report')) {
-            // Delete old file if exists
-            if ($annualReport->annual_report) {
-                Storage::disk('public')->delete($annualReport->annual_report);
-            }
-            $data['annual_report'] = $request->file('annual_report')->store('annual-reports', 'public');
-        } else {
-            // Remove from update data to preserve existing value
-            unset($data['annual_report']);
-        }
+        [$data, $obsolete] = $this->applyUploads($request, $data, 'annual-reports', ['annual_report' => 'annual_report'], $annualReport);
 
         $annualReport->update($data);
+        $this->deleteStoredFiles($obsolete);
 
         return redirect()->route('annual-reports.index')
             ->with('success', 'Annual report updated successfully.');
@@ -103,6 +93,6 @@ class AnnualReportController extends Controller
         $extension = pathinfo($annualReport->annual_report, PATHINFO_EXTENSION);
         $fileName = "Annual-Report-FY{$annualReport->annual_report_fiscal_year}.{$extension}";
 
-        return Storage::disk('public')->download($annualReport->annual_report, $fileName);
+        return $this->sendPublicFile($annualReport->annual_report, $fileName);
     }
 }

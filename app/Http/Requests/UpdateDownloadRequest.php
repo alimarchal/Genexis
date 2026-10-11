@@ -23,9 +23,10 @@ class UpdateDownloadRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'file_upload_id' => ['nullable', 'uuid'],
             'title' => 'required|string|max:255',
             'description' => 'nullable|string|max:5000',
-            'file' => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,jpg,jpeg,png,gif,zip,rar|max:102400', // 100MB
+            'file' => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,jpg,jpeg,png,gif,zip,rar|max:51200', // 50MB when posted directly
             'category' => 'required|string|in:general,Document,picture,form,forms,reports',
             'is_featured' => 'boolean',
             'is_active' => 'boolean',
@@ -43,7 +44,7 @@ class UpdateDownloadRequest extends FormRequest
             'title.required' => 'The title field is required.',
             'title.max' => 'The title may not be greater than 255 characters.',
             'file.mimes' => 'The file must be a PDF, Word document, Excel file, image, or archive file.',
-            'file.max' => 'The file size may not be greater than 100MB.',
+            'file.max' => 'The file size may not be greater than 50MB when posted directly (use the large-file uploader).',
             'category.required' => 'Please select a category.',
             'category.in' => 'The selected category is invalid.',
             'description.max' => 'The description may not be greater than 5000 characters.',

@@ -15,6 +15,7 @@ class UpdateFinancialHighlightRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'financial_highlights_upload_id' => ['nullable', 'uuid'],
             'fiscal_year' => [
                 'required',
                 'integer',
@@ -25,8 +26,8 @@ class UpdateFinancialHighlightRequest extends FormRequest
             'financial_highlights' => [
                 'nullable',
                 'file',
-                'mimes:pdf,doc,docx,xls,xlsx',
-                'max:307200',
+                'mimes:pdf,doc,docx,xls,xlsx,ppt,pptx',
+                'max:51200',
             ],
         ];
     }
@@ -39,8 +40,8 @@ class UpdateFinancialHighlightRequest extends FormRequest
             'fiscal_year.min' => 'The fiscal year must be at least 1900.',
             'fiscal_year.max' => 'The fiscal year cannot be more than 5 years in the future.',
             'financial_highlights.file' => 'The file must be a valid file.',
-            'financial_highlights.mimes' => 'The file must be a PDF, Word document, or Excel file.',
-            'financial_highlights.max' => 'The file size cannot exceed 300MB.',
+            'financial_highlights.mimes' => 'The file must be a PDF, Word, Excel or PowerPoint file.',
+            'financial_highlights.max' => 'The file size cannot exceed 50MB when posted directly (use the large-file uploader).',
         ];
     }
 

@@ -12,6 +12,13 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class FinancialReportController extends Controller
 {
+    private const FILE_COLUMNS = [
+        'first_quarter_report' => 'first_quarter_report',
+        'half_yearly_report' => 'half_yearly_report',
+        'third_quarter_report' => 'third_quarter_report',
+        'annual_report' => 'annual_report',
+    ];
+
     public function index(Request $request)
     {
         $financialReports = QueryBuilder::for(FinancialReport::class)
@@ -37,14 +44,7 @@ class FinancialReportController extends Controller
         $validated = $request->validated();
         $data = $validated;
 
-        // Handle file uploads
-        $reportTypes = ['first_quarter_report', 'half_yearly_report', 'third_quarter_report', 'annual_report'];
-
-        foreach ($reportTypes as $reportType) {
-            if ($request->hasFile($reportType)) {
-                $data[$reportType] = $request->file($reportType)->store('financial-reports', 'public');
-            }
-        }
+        [$data] = $this->applyUploads($request, $data, 'financial-reports', self::FILE_COLUMNS);
 
         FinancialReport::create($data);
 
@@ -69,22 +69,10 @@ class FinancialReportController extends Controller
     public function update(UpdateFinancialReportRequest $request, FinancialReport $financialReport)
     {
         $data = $request->validated();
-        $reportTypes = ['first_quarter_report', 'half_yearly_report', 'third_quarter_report', 'annual_report'];
-
-        foreach ($reportTypes as $reportType) {
-            if ($request->hasFile($reportType)) {
-                // Delete old file if exists
-                if ($financialReport->$reportType) {
-                    Storage::disk('public')->delete($financialReport->$reportType);
-                }
-                $data[$reportType] = $request->file($reportType)->store('financial-reports', 'public');
-            } else {
-                // Remove from update data to preserve existing value
-                unset($data[$reportType]);
-            }
-        }
+        [$data, $obsolete] = $this->applyUploads($request, $data, 'financial-reports', self::FILE_COLUMNS, $financialReport);
 
         $financialReport->update($data);
+        $this->deleteStoredFiles($obsolete);
 
         return redirect()->route('financial-reports.index')
             ->with('success', 'Financial report updated successfully.');
@@ -133,6 +121,6 @@ class FinancialReportController extends Controller
         $extension = pathinfo($filePath, PATHINFO_EXTENSION);
         $fileName = "Financial-Report-{$typeName}-FY{$financialReport->fiscal_year}.{$extension}";
 
-        return Storage::disk('public')->download($filePath, $fileName);
+        return $this->sendPublicFile($filePath, $fileName);
     }
 }

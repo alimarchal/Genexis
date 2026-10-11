@@ -36,9 +36,7 @@ class CareerController extends Controller
     {
         $data = $request->validated();
 
-        if ($request->hasFile('document')) {
-            $data['document'] = $request->file('document')->store('careers', 'public');
-        }
+        [$data] = $this->applyUploads($request, $data, 'careers', ['document' => 'document']);
 
         Career::create($data);
 
@@ -70,16 +68,10 @@ class CareerController extends Controller
         $data['is_active'] = $request->input('is_active') === '1';
         $data['is_featured'] = $request->input('is_featured') === '1';
 
-        if ($request->hasFile('document')) {
-            if ($career->document) {
-                Storage::disk('public')->delete($career->document);
-            }
-            $data['document'] = $request->file('document')->store('careers', 'public');
-        } else {
-            unset($data['document']);
-        }
+        [$data, $obsolete] = $this->applyUploads($request, $data, 'careers', ['document' => 'document'], $career);
 
         $career->update($data);
+        $this->deleteStoredFiles($obsolete);
 
         return redirect()->route('careers.index')
             ->with('success', 'Career updated successfully.');
@@ -107,7 +99,7 @@ class CareerController extends Controller
             abort(404, 'File not found.');
         }
 
-        return Storage::disk('public')->download($path, basename($path));
+        return $this->sendPublicFile($path, basename($path));
     }
 
     // Public method for website careers
