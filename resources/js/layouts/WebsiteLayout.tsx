@@ -66,7 +66,7 @@ export default function WebsiteLayout({ children, title, breadcrumbs = [] }: Web
     }, [finalBreadcrumbs.length]);
 
     return (
-        <>
+        <div className="public-site min-h-screen">
             <Head title={title} />
 
             {/* Fixed TopNavbar, Header, and Breadcrumb */}
@@ -83,6 +83,6 @@ export default function WebsiteLayout({ children, title, breadcrumbs = [] }: Web
 
             {/* Footer */}
             <Footer bankBranchesCount={bankBranchesCount} socialLinks={socialLinks} />
-        </>
+        </div>
     );
 }

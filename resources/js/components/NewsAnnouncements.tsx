@@ -6,6 +6,7 @@ interface NewsAnnouncement {
     id: number;
     title: string;
     content: string;
+    preview?: string;
     image: string | null;
     image_url: string | null;
     published_date: string;
@@ -51,6 +52,13 @@ const getCategoryColor = (category: string) => {
             return 'bg-gray-100 text-gray-700 border-gray-200';
     }
 };
+
+const stripHtml = (html: string) =>
+    html
+        .replace(/<[^>]*>/g, ' ')
+        .replace(/&nbsp;/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
 
 const NewsAnnouncements: React.FC<Props> = ({ newsAnnouncements = [], showAllLink = '/news', maxItems = 6 }) => {
     // Fallback static data if no props provided
@@ -245,7 +253,9 @@ const NewsAnnouncements: React.FC<Props> = ({ newsAnnouncements = [], showAllLin
                                         {item.title}
                                     </h3>
 
-                                    <p className="mb-4 line-clamp-3 leading-relaxed text-gray-600">{formatExcerpt(item.content)}</p>
+                                    <p className="mb-4 line-clamp-3 leading-relaxed text-gray-600">
+                                        {('preview' in item ? item.preview : undefined) ?? formatExcerpt(stripHtml(item.content))}
+                                    </p>
 
                                     <div className="flex items-center justify-between">
                                         <div className="flex items-center text-sm text-gray-500">

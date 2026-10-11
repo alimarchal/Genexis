@@ -1,7 +1,7 @@
 import WebsiteLayout from '@/layouts/WebsiteLayout';
 import { router } from '@inertiajs/react';
 import { Building2, ChevronLeft, ChevronRight, Download } from 'lucide-react';
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 
 interface PublicDownload {
     id: number;
@@ -36,6 +36,18 @@ interface PublicDownloadsPublicProps {
 }
 
 const PublicDownloadsPublic = ({ downloads }: PublicDownloadsPublicProps) => {
+    const tableTop = useRef<HTMLDivElement>(null);
+
+    const visitPage = (url: string, data?: Record<string, number>) => {
+        router.get(url, data, {
+            preserveState: true,
+            preserveScroll: true,
+            onSuccess: () => tableTop.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }),
+        });
+    };
+    const goToPage = (page: number) => visitPage(route('public-downloads'), { page });
+    const goToUrl = (url: string) => visitPage(url);
+
     const [search, setSearch] = useState('');
     const filteredDownloads = useMemo(
         () =>
@@ -97,7 +109,7 @@ const PublicDownloadsPublic = ({ downloads }: PublicDownloadsPublicProps) => {
                         <p className="text-gray-600">Downloads will be updated here as they become available.</p>
                     </div>
                 ) : (
-                    <div className="w-full overflow-x-auto rounded-lg border border-gray-200 shadow-lg">
+                    <div ref={tableTop} className="w-full scroll-mt-40 overflow-x-auto rounded-lg border border-gray-200 shadow-lg">
                         <table className="w-full min-w-[900px] table-fixed divide-y divide-gray-200 bg-white text-sm">
                             <colgroup>
                                 <col className="w-[30%]" />
@@ -195,9 +207,9 @@ const PublicDownloadsPublic = ({ downloads }: PublicDownloadsPublicProps) => {
                         <div className="text-sm text-gray-600">
                             Showing {downloads.from} to {downloads.to} of {downloads.total} results
                         </div>
-                        <div className="flex items-center gap-2">
+                        <div className="flex flex-wrap items-center justify-center gap-2">
                             <button
-                                onClick={() => router.get(route('public-downloads'), { page: downloads.current_page - 1 })}
+                                onClick={() => goToPage(downloads.current_page - 1)}
                                 disabled={downloads.current_page === 1}
                                 className={`flex items-center gap-1 rounded-md border px-3 py-2 text-sm ${
                                     downloads.current_page === 1
@@ -209,13 +221,13 @@ const PublicDownloadsPublic = ({ downloads }: PublicDownloadsPublicProps) => {
                                 Previous
                             </button>
 
-                            <div className="flex gap-1">
+                            <div className="flex flex-wrap justify-center gap-1">
                                 {downloads.links
                                     .filter((link) => link.label !== '&laquo; Previous' && link.label !== 'Next &raquo;')
                                     .map((link, index) => (
                                         <button
                                             key={index}
-                                            onClick={() => link.url && router.get(link.url)}
+                                            onClick={() => link.url && goToUrl(link.url)}
                                             disabled={!link.url}
                                             className={`rounded-md border px-3 py-2 text-sm ${
                                                 link.active
@@ -230,7 +242,7 @@ const PublicDownloadsPublic = ({ downloads }: PublicDownloadsPublicProps) => {
                             </div>
 
                             <button
-                                onClick={() => router.get(route('public-downloads'), { page: downloads.current_page + 1 })}
+                                onClick={() => goToPage(downloads.current_page + 1)}
                                 disabled={downloads.current_page === downloads.last_page}
                                 className={`flex items-center gap-1 rounded-md border px-3 py-2 text-sm ${
                                     downloads.current_page === downloads.last_page
