@@ -14,7 +14,7 @@
     "test:js": "node --experimental-strip-types --test \"tests/js/**/*.test.mjs\""
   },
   "devDependencies": {
-    "@eslint/js": "^9.39.2",
+    "@eslint/js": "^10.0.1",
     "@types/bun": "latest",
     "@types/node": "^22.19.7",
     "eslint": "^9.39.2",
