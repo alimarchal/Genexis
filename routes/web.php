@@ -13,6 +13,8 @@
  */
 
 use App\Http\Controllers\AboutUsController;
+use App\Http\Controllers\Admin\ContactSubmissionController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\MenuController;
 // =============================================================================
 // CONTROLLER IMPORTS
@@ -56,7 +58,6 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\TopNavbarMessageController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 // =============================================================================
 // PROTECTED ADMIN ROUTES
@@ -71,9 +72,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // -------------------------------------------------------------------------
     // DASHBOARD
     // -------------------------------------------------------------------------
-    Route::get('dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
+    Route::get('dashboard', DashboardController::class)->name('dashboard');
 
     // -------------------------------------------------------------------------
     // HOMEPAGE CONTENT MANAGEMENT
@@ -301,6 +300,11 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
     Route::resource('users', UserController::class);
     Route::resource('roles', RoleController::class);
     Route::resource('permissions', PermissionController::class);
+
+    Route::resource('contact-submissions', ContactSubmissionController::class)
+        ->only(['index', 'show', 'destroy'])
+        ->parameters(['contact-submissions' => 'contactSubmission'])
+        ->guardedBy('contact submissions');
 
     // Menu Management System
     Route::resource('menus', MenuController::class)->guardedBy('menus');

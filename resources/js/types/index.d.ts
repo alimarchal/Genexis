@@ -59,8 +59,8 @@ export interface SharedData {
     menu: MenuItem[];
     autoBreadcrumbs: AutoBreadcrumbItem[];
     socialLinks: SocialLinks;
-    footerLinks: unknown;
-    bankRates: unknown;
+    footerLinks: import('@inertiajs/core').PageProps['footerLinks'];
+    bankRates: import('@inertiajs/core').PageProps['bankRates'];
     [key: string]: unknown;
 }
 

@@ -287,6 +287,12 @@ const sidebarGroups = [
                 icon: Contact,
                 permission: 'view contacts',
             },
+            {
+                title: 'Contact Messages',
+                href: '/admin/contact-submissions',
+                icon: MessageSquare,
+                permission: 'view contact submissions',
+            },
         ],
     },
     {

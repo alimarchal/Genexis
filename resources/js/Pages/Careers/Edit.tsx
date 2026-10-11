@@ -47,7 +47,7 @@ export default function EditCareer({ career }: Props) {
         }
     };
 
-    const { data, setData, post, processing, errors } = useForm({
+    const { data, setData, post, processing, errors, transform } = useForm({
         title: career.title,
         description: career.description,
         requirements: career.requirements,
@@ -65,16 +65,14 @@ export default function EditCareer({ career }: Props) {
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
-        // Transform boolean values to strings for proper handling
-        const formData = {
-            ...data,
-            is_active: data.is_active ? '1' : '0',
-            is_featured: data.is_featured ? '1' : '0',
-        };
+        // Booleans are sent as '1'/'0'; useForm ignores a `data` option, so transform() is required
+        transform((current) => ({
+            ...current,
+            is_active: current.is_active ? '1' : '0',
+            is_featured: current.is_featured ? '1' : '0',
+        }));
 
-        // Use the post method from useForm which handles errors properly
         post(route('careers.update', career.id), {
-            data: formData,
             forceFormData: true,
             preserveState: true,
             preserveScroll: true,

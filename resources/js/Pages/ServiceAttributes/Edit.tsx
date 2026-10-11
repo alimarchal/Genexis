@@ -37,7 +37,7 @@ export default function EditServiceAttribute({ serviceAttribute, services }: Pro
         { title: 'Edit', href: route('service-attributes.edit', serviceAttribute.id) },
     ];
 
-    const { data, setData, post, processing, errors } = useForm({
+    const { data, setData, post, processing, errors, transform } = useForm({
         service_id: serviceAttribute.service_id.toString(),
         attribute_name: serviceAttribute.attribute_name,
         attribute_value: serviceAttribute.attribute_value,
@@ -48,13 +48,12 @@ export default function EditServiceAttribute({ serviceAttribute, services }: Pro
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
-        const formData = {
-            ...data,
-            service_id: parseInt(data.service_id),
-        };
+        transform((current) => ({
+            ...current,
+            service_id: parseInt(current.service_id),
+        }));
 
         post(route('service-attributes.update', serviceAttribute.id), {
-            data: formData,
             preserveState: true,
             preserveScroll: true,
         });
