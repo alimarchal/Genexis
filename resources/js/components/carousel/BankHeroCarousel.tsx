@@ -1,5 +1,6 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import React, { useCallback, useEffect, useState } from 'react';
+import SafeImage from '@/components/safe-image';
 
 interface CarouselSlide {
     id: number;
@@ -105,7 +106,7 @@ const BankHeroCarousel: React.FC<BankHeroCarouselProps> = ({ slides: propSlides 
                     >
                         {/* Background Image */}
                         <div className="relative h-full w-full">
-                            <img src={slide.image} alt={slide.title} className="object-fit h-full w-full" loading={index === 0 ? 'eager' : 'lazy'} />
+                            <SafeImage kind="carousel" src={slide.image} alt={slide.title} className="object-fit h-full w-full" loading={index === 0 ? 'eager' : 'lazy'} />
 
                             {/* Gradient Overlay */}
                             {/* <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent"></div> */}
@@ -205,7 +206,7 @@ const BankHeroCarousel: React.FC<BankHeroCarouselProps> = ({ slides: propSlides 
                             index === currentSlide ? 'scale-110 ring-2 ring-[#F9B912]' : 'opacity-70 hover:opacity-100'
                         }`}
                     >
-                        <img src={slide.image} alt={`Thumbnail ${index + 1}`} className="h-full w-full object-cover" />
+                        <SafeImage kind="carousel" src={slide.image} alt={`Thumbnail ${index + 1}`} className="h-full w-full object-cover" />
                         {index === currentSlide && <div className="absolute inset-0 bg-[#F9B912]/20"></div>}
                     </button>
                 ))}

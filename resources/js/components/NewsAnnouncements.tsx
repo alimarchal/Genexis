@@ -1,5 +1,6 @@
 import { ArrowRight, Bell, Calendar, ExternalLink, Star, TrendingUp } from 'lucide-react';
 import React from 'react';
+import SafeImage from '@/components/safe-image';
 
 interface NewsAnnouncement {
     id: number;
@@ -197,7 +198,7 @@ const NewsAnnouncements: React.FC<Props> = ({ newsAnnouncements = [], showAllLin
                                 {/* Image Section */}
                                 {item.image_url && (
                                     <div className="relative overflow-hidden rounded-t-2xl">
-                                        <img
+                                        <SafeImage kind="news"
                                             src={item.image_url}
                                             alt={item.title}
                                             className="h-48 w-full object-cover transition-transform duration-500 group-hover:scale-110"

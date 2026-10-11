@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use App\Services\MenuService;
+use App\Support\PublicFile;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Cache;
 use Spatie\QueryBuilder\AllowedFilter;
 
 class Service extends Model
@@ -84,11 +87,7 @@ class Service extends Model
 
     public function getImageUrlAttribute(): ?string
     {
-        if ($this->image) {
-            return asset('storage/'.$this->image);
-        }
-
-        return null;
+        return PublicFile::url($this->image);
     }
 
     public function getRouteKeyName()
@@ -107,22 +106,22 @@ class Service extends Model
         }
 
         // Find the Services parent menu
-        $servicesParent = \App\Models\Menu::where('slug', 'services')->first();
-        
+        $servicesParent = Menu::where('slug', 'services')->first();
+
         if ($servicesParent && $this->is_active) {
             // Check if menu item already exists
-            $existingMenu = \App\Models\Menu::where('parent_id', $servicesParent->id)
+            $existingMenu = Menu::where('parent_id', $servicesParent->id)
                 ->where('route_name', 'service-pages.show')
                 ->whereJsonContains('route_params->slug', $this->slug)
                 ->first();
 
-            if (!$existingMenu) {
+            if (! $existingMenu) {
                 // Get the highest sort order for dynamic services
-                $maxOrder = \App\Models\Menu::where('parent_id', $servicesParent->id)
+                $maxOrder = Menu::where('parent_id', $servicesParent->id)
                     ->where('route_name', 'service-pages.show')
                     ->max('sort_order') ?? 9;
 
-                \App\Models\Menu::create([
+                Menu::create([
                     'title' => $this->name,
                     'slug' => $this->slug,
                     'route_name' => 'service-pages.show',
@@ -147,10 +146,10 @@ class Service extends Model
             return;
         }
 
-        $servicesParent = \App\Models\Menu::where('slug', 'services')->first();
-        
+        $servicesParent = Menu::where('slug', 'services')->first();
+
         if ($servicesParent) {
-            $menuItem = \App\Models\Menu::where('parent_id', $servicesParent->id)
+            $menuItem = Menu::where('parent_id', $servicesParent->id)
                 ->where('route_name', 'service-pages.show')
                 ->whereJsonContains('route_params->slug', $this->getOriginal('slug') ?? $this->slug)
                 ->first();
@@ -168,7 +167,7 @@ class Service extends Model
                     // Service is inactive, remove from menu
                     $menuItem->delete();
                 }
-                
+
                 $this->clearMenuCache();
             } elseif ($this->is_active) {
                 // Service was reactivated, add to menu
@@ -187,10 +186,10 @@ class Service extends Model
             return;
         }
 
-        $servicesParent = \App\Models\Menu::where('slug', 'services')->first();
-        
+        $servicesParent = Menu::where('slug', 'services')->first();
+
         if ($servicesParent) {
-            \App\Models\Menu::where('parent_id', $servicesParent->id)
+            Menu::where('parent_id', $servicesParent->id)
                 ->where('route_name', 'service-pages.show')
                 ->whereJsonContains('route_params->slug', $this->slug)
                 ->delete();
@@ -206,25 +205,23 @@ class Service extends Model
     {
         try {
             // Clear menu service cache
-            if (app()->bound(\App\Services\MenuService::class)) {
-                app(\App\Services\MenuService::class)->clearMenuCache();
+            if (app()->bound(MenuService::class)) {
+                app(MenuService::class)->clearMenuCache();
             }
 
             // Also clear general Laravel cache that might contain menu data
-            \Illuminate\Support\Facades\Cache::forget('main_menu');
-            \Illuminate\Support\Facades\Cache::forget('main_menu_v2');
-            
+            Cache::forget('main_menu');
+            Cache::forget('main_menu_v2');
+
             // Clear any cache tags related to menus
-            if (method_exists(\Illuminate\Support\Facades\Cache::class, 'tags')) {
-                \Illuminate\Support\Facades\Cache::tags(['menu', 'navigation'])->flush();
+            if (method_exists(Cache::class, 'tags')) {
+                Cache::tags(['menu', 'navigation'])->flush();
             }
 
-            \Log::info('Menu cache cleared due to service change: ' . $this->name);
-            
+            \Log::info('Menu cache cleared due to service change: '.$this->name);
+
         } catch (\Exception $e) {
-            \Log::warning('Failed to clear menu cache: ' . $e->getMessage());
+            \Log::warning('Failed to clear menu cache: '.$e->getMessage());
         }
     }
-
-    
 }

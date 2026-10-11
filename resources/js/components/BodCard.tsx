@@ -38,16 +38,9 @@ const BodCard: React.FC<BodCardProps> = ({ boardMember }) => {
             .join('');
     };
 
-    // Generate dummy avatar URL using DiceBear
-    const getDummyAvatar = (fullName: string) => {
-        if (!fullName) return '';
-        const seed = encodeURIComponent(fullName.toLowerCase().replace(/\s+/g, ''));
-        return `https://api.dicebear.com/7.x/initials/svg?seed=${seed}&backgroundColor=4A7C59&textColor=ffffff`;
-    };
-
     const initials = getInitials(full_name);
-    const avatarUrl = image ? `/storage/${image}` : getDummyAvatar(full_name);
-    const shouldShowImage = (image && !imageError) || (!image && avatarUrl);
+    const avatarUrl = image ? `/storage/${image}` : '';
+    const shouldShowImage = Boolean(image) && !imageError;
     const shouldShowInitials = !shouldShowImage || (image && imageError);
 
     const handleImageError = () => {

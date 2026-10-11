@@ -191,7 +191,7 @@ export default function PublicCareersIndex({ careers }: Props) {
                         </div>
                         <div className="flex items-center gap-2">
                             <button
-                                onClick={() => router.get(route('public-careers.index'), { page: careers.current_page - 1 })}
+                                onClick={() => router.get(route('public-careers'), { page: careers.current_page - 1 })}
                                 disabled={careers.current_page === 1}
                                 className="flex items-center gap-1 rounded-md border border-gray-300 px-3 py-2 text-sm hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
                             >
@@ -218,7 +218,7 @@ export default function PublicCareersIndex({ careers }: Props) {
                             </div>
 
                             <button
-                                onClick={() => router.get(route('public-careers.index'), { page: careers.current_page + 1 })}
+                                onClick={() => router.get(route('public-careers'), { page: careers.current_page + 1 })}
                                 disabled={careers.current_page === careers.last_page}
                                 className="flex items-center gap-1 rounded-md border border-gray-300 px-3 py-2 text-sm hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
                             >
@@ -261,7 +261,7 @@ export default function PublicCareersIndex({ careers }: Props) {
 }
 
 PublicCareersIndex.layout = (page: React.ReactNode) => (
-    <WebsiteLayout title="Career Opportunities" breadcrumbs={[{ label: 'Careers', href: '/careers' }]}>
+    <WebsiteLayout title="Career Opportunities" breadcrumbs={[{ label: 'Careers', href: '/join-the-bank' }]}>
         {page}
     </WebsiteLayout>
 );

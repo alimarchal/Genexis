@@ -2,6 +2,7 @@ import WebsiteLayout from '@/layouts/WebsiteLayout';
 import { Head, Link } from '@inertiajs/react';
 import { Calendar, Eye, Newspaper, Star, Tag } from 'lucide-react';
 import React from 'react';
+import SafeImage from '@/components/safe-image';
 
 interface NewsAnnouncement {
     id: number;
@@ -103,7 +104,7 @@ export default function NewsIndex({ newsAnnouncements }: Props) {
                                         {/* Image */}
                                         <div className="relative h-48 overflow-hidden bg-gradient-to-br from-[#e9f7ef] to-[#f0f9f3]">
                                             {news.image_url ? (
-                                                <img
+                                                <SafeImage kind="news"
                                                     src={news.image_url}
                                                     alt={news.title}
                                                     className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"

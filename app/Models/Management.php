@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\PublicFile;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -64,10 +65,6 @@ class Management extends Model
 
     public function getAttachmentUrlAttribute(): ?string
     {
-        if ($this->attachment) {
-            return asset('storage/'.$this->attachment);
-        }
-
-        return null;
+        return PublicFile::url($this->attachment);
     }
 }

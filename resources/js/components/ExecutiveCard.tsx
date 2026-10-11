@@ -31,16 +31,9 @@ const ExecutiveCard: React.FC<ExecutiveCardProps> = ({
             .join('');
     };
 
-    // Generate dummy avatar URL using DiceBear
-    const getDummyAvatar = (fullName: string) => {
-        if (!fullName) return '';
-        const seed = encodeURIComponent(fullName.toLowerCase().replace(/\s+/g, ''));
-        return `https://api.dicebear.com/7.x/initials/svg?seed=${seed}&backgroundColor=4A7C59&textColor=ffffff`;
-    };
-
     const initials = getInitials(name);
-    const avatarUrl = image || getDummyAvatar(name);
-    const shouldShowImage = (image && !imageError) || (!image && avatarUrl);
+    const avatarUrl = image || '';
+    const shouldShowImage = Boolean(image) && !imageError;
 
     const handleImageError = () => {
         setImageError(true);

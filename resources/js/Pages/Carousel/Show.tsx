@@ -6,6 +6,7 @@ import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
 import { Edit, Trash2 } from 'lucide-react';
+import SafeImage from '@/components/safe-image';
 
 interface Carousel {
     id: number;
@@ -91,7 +92,7 @@ export default function ShowCarousel({ carousel }: Props) {
                                 {carousel.image_url && (
                                     <div className="space-y-2">
                                         <h3 className="text-lg font-semibold">Slide Image</h3>
-                                        <img src={carousel.image_url} alt={carousel.title} className="w-full rounded-lg border object-cover" />
+                                        <SafeImage kind="carousel" src={carousel.image_url} alt={carousel.title} className="w-full rounded-lg border object-cover" />
                                     </div>
                                 )}
 

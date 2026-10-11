@@ -10,7 +10,7 @@ export default function AboutPage() {
 }
 
 AboutPage.layout = (page: React.ReactNode) => (
-    <WebsiteLayout title="About Us" breadcrumbs={[{ label: 'About Us', href: route('about'), isActive: true }]}>
+    <WebsiteLayout title="About Us" breadcrumbs={[{ label: 'About Us', href: route('about.about-us'), isActive: true }]}>
         {page}
     </WebsiteLayout>
 );

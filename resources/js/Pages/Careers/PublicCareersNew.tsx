@@ -111,7 +111,7 @@ export default function PublicCareersIndex({ careers }: Props) {
                                             <Td>
                                                 <div className="flex gap-2">
                                                     <Link
-                                                        href={route('public-careers.show', career.id)}
+                                                        href={route('public-careers.detail', career.id)}
                                                         className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 px-3 py-2 text-sm font-medium text-white transition-all duration-200 hover:from-blue-700 hover:to-indigo-700 hover:shadow-lg"
                                                     >
                                                         <Eye className="h-4 w-4" />
@@ -177,7 +177,7 @@ export default function PublicCareersIndex({ careers }: Props) {
 }
 
 PublicCareersIndex.layout = (page: React.ReactNode) => (
-    <WebsiteLayout title="Career Opportunities" breadcrumbs={[{ label: 'Careers', href: '/careers' }]}>
+    <WebsiteLayout title="Career Opportunities" breadcrumbs={[{ label: 'Careers', href: '/join-the-bank' }]}>
         {page}
     </WebsiteLayout>
 );

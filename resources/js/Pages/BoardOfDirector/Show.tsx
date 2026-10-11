@@ -7,6 +7,7 @@ import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 import { Award, Crown, Edit, Hash, Trophy, User, Users } from 'lucide-react';
+import SafeImage from '@/components/safe-image';
 
 interface BoardOfDirector {
     id: number;
@@ -90,7 +91,7 @@ export default function ShowBoardOfDirector({ boardOfDirector }: Props) {
                                 <div className="flex items-start gap-6">
                                     {/* Profile Image */}
                                     {boardOfDirector.image_url && (
-                                        <img
+                                        <SafeImage kind="person"
                                             src={boardOfDirector.image_url}
                                             alt={boardOfDirector.full_name}
                                             className="h-32 w-32 rounded-full border object-cover"
