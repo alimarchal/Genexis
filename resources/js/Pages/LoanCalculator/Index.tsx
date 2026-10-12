@@ -1,4 +1,5 @@
 import WebsiteLayout from '@/layouts/WebsiteLayout';
+import { monthlyInstalment } from '@/lib/loan';
 import { ArcElement, CategoryScale, Chart as ChartJS, Legend, LinearScale, LineElement, PointElement, Title, Tooltip } from 'chart.js';
 import { Banknote, Calculator, Calendar, ChevronDown, Download, FileSpreadsheet, Percent, PieChart, Printer, RotateCcw, Shield } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
@@ -173,7 +174,7 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
         // Simulate first 12 months to get outstanding balance
         for (let month = 1; month <= 12; month++) {
             const interestPayment = balance * monthlyRate;
-            const baseEmi = (loanAmount * monthlyRate * Math.pow(1 + monthlyRate, tenure)) / (Math.pow(1 + monthlyRate, tenure) - 1);
+            const baseEmi = monthlyInstalment(loanAmount, interestRate, tenure);
             const principalPayment = baseEmi - interestPayment;
             balance = balance - principalPayment;
         }
@@ -270,8 +271,7 @@ export default function LoanCalculator({ loanTypes, currentRates, bankRates }: L
         const numberOfPayments = tenure;
 
         // Base EMI calculation (without insurance)
-        const baseEmi =
-            (financingAmount * monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments)) / (Math.pow(1 + monthlyRate, numberOfPayments) - 1);
+        const baseEmi = monthlyInstalment(financingAmount, interestRate, numberOfPayments);
 
         const totalMarkup = baseEmi * numberOfPayments - financingAmount;
         const totalAmount = baseEmi * numberOfPayments + securityDeposit + totalInsurance;

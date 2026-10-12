@@ -3,10 +3,11 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import UploadField from '@/components/upload-field';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, Link, router, useForm } from '@inertiajs/react';
-import { FileText, Save, Upload } from 'lucide-react';
+import { Head, Link, useForm } from '@inertiajs/react';
+import { FileText, Save } from 'lucide-react';
 import { FormEventHandler, useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -25,28 +26,16 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function CreateAnnualReport() {
-    const { data, setData, processing, errors } = useForm({
+    const { data, setData, post, processing, errors } = useForm({
         annual_report_fiscal_year: new Date().getFullYear(),
-        annual_report: null as File | null,
+        annual_report_upload_id: null as string | null,
     });
 
-    const [fileName, setFileName] = useState('');
+    const [uploading, setUploading] = useState(false);
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
-        router.post(route('annual-reports.store'), data);
-    };
-
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0] || null;
-        setData('annual_report', file);
-        setFileName(file ? file.name : '');
-    };
-
-    const getFileSize = (file: File | null): string => {
-        if (!file) return '';
-        const sizeInMB = (file.size / (1024 * 1024)).toFixed(2);
-        return `${sizeInMB} MB`;
+        post(route('annual-reports.store'));
     };
 
     return (
@@ -96,39 +85,14 @@ export default function CreateAnnualReport() {
                                 </div>
                             </CardHeader>
                             <CardContent className="space-y-4">
-                                <div className="space-y-2">
-                                    <Label htmlFor="annual_report">Upload File</Label>
-                                    <div className="flex items-center gap-4">
-                                        <div className="relative flex-1">
-                                            <Input
-                                                id="annual_report"
-                                                type="file"
-                                                accept=".pdf,.doc,.docx,.xls,.xlsx"
-                                                onChange={handleFileChange}
-                                                className={errors.annual_report ? 'border-red-500' : ''}
-                                            />
-                                            <Upload className="absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
-                                        </div>
-                                    </div>
-                                    {errors.annual_report && <p className="text-sm text-red-500">{errors.annual_report}</p>}
-
-                                    {/* File Info */}
-                                    {fileName && (
-                                        <div className="rounded-md bg-gray-50 p-3">
-                                            <div className="flex items-center justify-between">
-                                                <div className="flex items-center gap-2">
-                                                    <FileText className="h-4 w-4 text-gray-500" />
-                                                    <span className="text-sm font-medium text-gray-900">{fileName}</span>
-                                                </div>
-                                                <span className="text-sm text-gray-500">{getFileSize(data.annual_report)}</span>
-                                            </div>
-                                        </div>
-                                    )}
-
-                                    <p className="text-sm text-gray-500">
-                                        Supported formats: PDF, Word (.doc, .docx), Excel (.xls, .xlsx). Maximum size: 300MB
-                                    </p>
-                                </div>
+                                <UploadField
+                                    context="annual-reports"
+                                    label="File"
+                                    accept={['pdf', 'doc', 'docx', 'xls', 'xlsx']}
+                                    onChange={(id) => setData('annual_report_upload_id', id)}
+                                    onBusyChange={setUploading}
+                                    error={errors.annual_report_upload_id ?? (errors as Record<string, string | undefined>).annual_report}
+                                />
                             </CardContent>
                         </Card>
 
@@ -148,14 +112,16 @@ export default function CreateAnnualReport() {
                                     </div>
                                     <div className="flex items-center justify-between text-sm">
                                         <span className="font-medium">Report Status:</span>
-                                        <span className="text-gray-600">{fileName ? 'Ready to upload' : 'No file selected'}</span>
+                                        <span className="text-gray-600">
+                                            {(data.annual_report_upload_id ? 'Uploaded file' : '') ? 'Ready to upload' : 'No file selected'}
+                                        </span>
                                     </div>
-                                    {fileName && (
+                                    {(data.annual_report_upload_id ? 'Uploaded file' : '') && (
                                         <div className="mt-4">
                                             <p className="mb-2 text-sm font-medium text-gray-700">Selected File:</p>
                                             <div className="flex items-center gap-2 text-sm text-gray-600">
                                                 <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                                                <span>Annual Report: {fileName}</span>
+                                                <span>Annual Report: {data.annual_report_upload_id ? 'Uploaded file' : ''}</span>
                                             </div>
                                         </div>
                                     )}
@@ -168,7 +134,7 @@ export default function CreateAnnualReport() {
                             <Button variant="outline" asChild>
                                 <Link href={route('annual-reports.index')}>Cancel</Link>
                             </Button>
-                            <Button type="submit" disabled={processing}>
+                            <Button type="submit" disabled={processing || uploading}>
                                 <Save className="mr-2 h-4 w-4" />
                                 {processing ? 'Creating...' : 'Create Report'}
                             </Button>

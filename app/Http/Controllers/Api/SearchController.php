@@ -20,66 +20,48 @@ use App\Models\ProfitRate;
 use App\Models\ScheduleOfCharge;
 use App\Models\Service;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 
 class SearchController extends Controller
 {
     /**
-     * Get the appropriate LIKE operator for case-insensitive search based on database driver
-     */
-    private function getLikeOperator(): string
-    {
-        $driver = DB::connection()->getDriverName();
-
-        return match ($driver) {
-            'pgsql' => 'ILIKE',
-            'mysql', 'mariadb' => 'LIKE',
-            'sqlite' => 'LIKE', // SQLite LIKE is case-insensitive by default
-            'sqlsrv' => 'LIKE', // SQL Server
-            default => 'LIKE'
-        };
-    }
-
-    /**
-     * Apply case-insensitive LIKE search that works across database drivers
+     * Case-insensitive "contains" search over several columns.
+     * LIKE wildcards typed by the visitor (% and _) are escaped so they match literally.
      */
     private function searchColumns($query, $columns, $searchTerm)
     {
-        $driver = DB::connection()->getDriverName();
+        $escaped = '%'.str_replace(['!', '%', '_'], ['!!', '!%', '!_'], mb_strtolower($searchTerm)).'%';
 
-        return $query->where(function ($q) use ($columns, $searchTerm, $driver) {
-            foreach ($columns as $index => $column) {
-                if ($driver === 'pgsql') {
-                    if ($index === 0) {
-                        $q->where($column, 'ILIKE', "%{$searchTerm}%");
-                    } else {
-                        $q->orWhere($column, 'ILIKE', "%{$searchTerm}%");
-                    }
-                } else {
-                    // For MySQL/MariaDB, use LOWER() for case-insensitive search
-                    if ($index === 0) {
-                        $q->whereRaw("LOWER({$column}) LIKE LOWER(?)", ["%{$searchTerm}%"]);
-                    } else {
-                        $q->orWhereRaw("LOWER({$column}) LIKE LOWER(?)", ["%{$searchTerm}%"]);
-                    }
-                }
+        return $query->where(function ($q) use ($columns, $escaped) {
+            foreach ($columns as $column) {
+                $q->orWhereRaw("LOWER({$column}) LIKE ? ESCAPE '!'", [$escaped]);
             }
         });
     }
 
+    /**
+     * Plain-text teaser of HTML content, cut on a character (not byte) boundary.
+     */
+    private function excerpt(?string $html, int $limit = 150): string
+    {
+        $text = trim(preg_replace('/\s+/u', ' ', html_entity_decode(strip_tags((string) $html), ENT_QUOTES | ENT_HTML5, 'UTF-8')) ?? '');
+
+        return Str::limit($text, $limit);
+    }
+
     public function search(Request $request)
     {
-        $query = $request->get('q');
+        $query = mb_substr(trim((string) $request->get('q')), 0, 100);
 
-        if (empty($query) || strlen($query) < 2) {
+        if (mb_strlen($query) < 2) {
             return response()->json(['results' => []]);
         }
 
         $results = collect();
 
         // Search News Announcements (High Priority)
-        $news = NewsAnnouncement::where('is_published', true);
+        $news = NewsAnnouncement::published()->recent();
         $news = $this->searchColumns($news, ['title', 'content'], $query);
         $news = $news
             ->limit(5)
@@ -90,7 +72,7 @@ class SearchController extends Controller
                     'title' => $item->title,
                     'type' => 'News',
                     'url' => route('news.detail', $item->slug),
-                    'excerpt' => strip_tags(substr($item->content, 0, 150)).'...',
+                    'excerpt' => $this->excerpt($item->content),
                     'image' => $item->image ? asset('storage/'.$item->image) : null,
                 ];
             });
@@ -292,7 +274,7 @@ class SearchController extends Controller
                     'id' => $item->id,
                     'title' => $item->name,
                     'type' => 'Service',
-                    'url' => '/services/all-services',
+                    'url' => route('service-pages.all'),
                     'excerpt' => $item->description ?: 'Bank Service',
                     'image' => $item->image ? asset('storage/'.$item->image) : null,
                 ];
@@ -460,7 +442,7 @@ class SearchController extends Controller
                             'title' => $item->title,
                             'type' => 'Page',
                             'url' => '#',
-                            'excerpt' => strip_tags(substr($item->content ?? '', 0, 150)).'...',
+                            'excerpt' => $this->excerpt($item->content),
                             'image' => null,
                         ];
                     });

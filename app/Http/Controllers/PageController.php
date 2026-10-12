@@ -119,6 +119,7 @@ class PageController extends Controller
                     'is_published' => $news->is_published,
                     'created_at' => $news->created_at->toISOString(),
                     'excerpt' => $news->excerpt,
+                    'preview' => $news->plainPreview(),
                 ];
             });
 
@@ -242,6 +243,7 @@ class PageController extends Controller
                     'is_published' => $news->is_published,
                     'created_at' => $news->created_at->toISOString(),
                     'excerpt' => $news->excerpt,
+                    'preview' => $news->plainPreview(),
                 ];
             });
 
@@ -275,6 +277,7 @@ class PageController extends Controller
                     'category' => $news->category,
                     'published_date' => $news->published_date,
                     'excerpt' => $news->excerpt,
+                    'preview' => $news->plainPreview(),
                 ];
             });
 

@@ -36,9 +36,7 @@ class ScheduleOfChargeController extends Controller
     {
         $data = $request->validated();
 
-        if ($request->hasFile('attachment')) {
-            $data['attachment'] = $request->file('attachment')->store('schedule-of-charges', 'public');
-        }
+        [$data] = $this->applyUploads($request, $data, 'schedule-of-charges', ['attachment' => 'attachment']);
 
         ScheduleOfCharge::create($data);
 
@@ -64,16 +62,10 @@ class ScheduleOfChargeController extends Controller
     {
         $data = $request->validated();
 
-        if ($request->hasFile('attachment')) {
-            if ($scheduleOfCharge->attachment) {
-                Storage::disk('public')->delete($scheduleOfCharge->attachment);
-            }
-            $data['attachment'] = $request->file('attachment')->store('schedule-of-charges', 'public');
-        } else {
-            unset($data['attachment']);
-        }
+        [$data, $obsolete] = $this->applyUploads($request, $data, 'schedule-of-charges', ['attachment' => 'attachment'], $scheduleOfCharge);
 
         $scheduleOfCharge->update($data);
+        $this->deleteStoredFiles($obsolete);
 
         return redirect()->route('schedule-of-charges.index')
             ->with('success', 'Schedule of charges updated successfully.');
@@ -102,7 +94,7 @@ class ScheduleOfChargeController extends Controller
         $extension = pathinfo($scheduleOfCharge->attachment, PATHINFO_EXTENSION);
         $fileName = "Schedule-of-Charges-{$scheduleOfCharge->title}.{$extension}";
 
-        return Storage::disk('public')->download($scheduleOfCharge->attachment, $fileName);
+        return $this->sendPublicFile($scheduleOfCharge->attachment, $fileName);
     }
 
     /**

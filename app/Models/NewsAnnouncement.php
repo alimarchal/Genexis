@@ -84,6 +84,19 @@ class NewsAnnouncement extends Model
      *
      * @param  int  $length  Maximum length of excerpt
      */
+    /**
+     * Plain-text preview (no tags, entities decoded) for cards and lists.
+     */
+    public function plainPreview(int $length = 160): string
+    {
+        $source = $this->excerpt ?: (string) $this->content;
+        $withBreaks = preg_replace('#</(p|div|li|h[1-6]|tr)>|<br\s*/?>#i', ' ', $source) ?? $source;
+        $text = html_entity_decode(strip_tags($withBreaks), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        $text = trim(preg_replace('/\s+/u', ' ', $text) ?? $text);
+
+        return Str::limit($text, $length);
+    }
+
     public function generateExcerpt(int $length = 200): string
     {
         if (empty($this->content)) {
