@@ -1,6 +1,6 @@
 import WebsiteLayout from '@/layouts/WebsiteLayout';
+import { postJson } from '@/lib/post-json';
 import { usePage } from '@inertiajs/react';
-import axios from 'axios';
 import { Building2, Check, Clock, Headphones, Loader2, Mail, MapPin, Phone, User, X } from 'lucide-react';
 import React, { ReactElement, useEffect, useState } from 'react';
 
@@ -140,12 +140,7 @@ export default function ContactPage() {
         });
 
         try {
-            const response = await axios.post(route('contact.submit'), formData, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest',
-                },
-            });
+            const response = await postJson<{ success?: boolean; message?: string }>(route('contact.submit'), formData);
 
             if (response.data.success) {
                 // Show success popup
@@ -175,7 +170,7 @@ export default function ContactPage() {
                 }, 3000);
             }
         } catch (error: unknown) {
-            const axiosError = error as {
+            const requestError = error as {
                 response?: {
                     status?: number;
                     data?: {
@@ -185,9 +180,9 @@ export default function ContactPage() {
                     };
                 };
             };
-            if (axiosError.response?.status === 429) {
+            if (requestError.response?.status === 429) {
                 // Rate limited
-                const remainingSeconds = axiosError.response.data?.remaining_time || 30;
+                const remainingSeconds = requestError.response.data?.remaining_time || 30;
                 setRateLimited(true);
                 setRemainingTime(remainingSeconds);
 
@@ -196,9 +191,9 @@ export default function ContactPage() {
                     type: 'error',
                     message: `Please wait ${remainingSeconds} seconds before submitting again.`,
                 });
-            } else if (axiosError.response?.status === 422) {
+            } else if (requestError.response?.status === 422) {
                 // Validation errors - convert array format to string format
-                const errors = axiosError.response.data?.errors || {};
+                const errors = requestError.response.data?.errors || {};
                 const convertedErrors: Record<string, string> = {};
                 Object.keys(errors).forEach((key) => {
                     const errorArray = errors[key];
@@ -217,7 +212,7 @@ export default function ContactPage() {
                 setPopup({
                     show: true,
                     type: 'error',
-                    message: axiosError.response?.data?.message || 'An error occurred. Please try again.',
+                    message: requestError.response?.data?.message || 'An error occurred. Please try again.',
                 });
             }
 
