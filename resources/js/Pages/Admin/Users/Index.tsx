@@ -85,7 +85,7 @@ export default function UserIndex({ users, filters }: Props) {
             <div className="px-4 py-6">
                 <div className="mb-6 flex items-center justify-between">
                     <Heading title="User Management" description="Manage system users and their access" />
-                    {(auth.permissions.includes('create users') || auth.roles.includes('super-admin')) && (
+                    {auth.permissions.includes('create users') && (
                         <Button asChild>
                             <Link href={route('admin.users.create')}>
                                 <Plus className="mr-2 h-4 w-4" />
@@ -167,7 +167,7 @@ export default function UserIndex({ users, filters }: Props) {
                                                 <DropdownMenuContent align="end">
                                                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                     <DropdownMenuSeparator />
-                                                    {(auth.permissions.includes('edit users') || auth.roles.includes('super-admin')) && (
+                                                    {auth.permissions.includes('edit users') && (
                                                         <DropdownMenuItem asChild>
                                                             <Link href={route('admin.users.edit', user.id)}>
                                                                 <Edit className="mr-2 h-4 w-4" />
@@ -175,7 +175,7 @@ export default function UserIndex({ users, filters }: Props) {
                                                             </Link>
                                                         </DropdownMenuItem>
                                                     )}
-                                                    {(auth.permissions.includes('delete users') || auth.roles.includes('super-admin')) && (
+                                                    {auth.permissions.includes('delete users') && (
                                                         <DropdownMenuItem onClick={() => handleDelete(user.id)} className="text-red-600">
                                                             <Trash className="mr-2 h-4 w-4" />
                                                             Delete

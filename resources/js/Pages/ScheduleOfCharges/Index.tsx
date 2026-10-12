@@ -218,7 +218,7 @@ export default function ScheduleOfChargeIndex({ scheduleOfCharges, filters }: Pr
                                 </SelectContent>
                             </Select>
                         </div>
-                        {(auth.permissions.includes('create schedule of charges') || auth.roles.includes('super-admin')) && (
+                        {auth.permissions.includes('create schedule of charges') && (
                             <Button asChild>
                                 <Link href={route('schedule-of-charges.create')}>
                                     <Plus className="mr-2 h-4 w-4" />
@@ -276,8 +276,7 @@ export default function ScheduleOfChargeIndex({ scheduleOfCharges, filters }: Pr
                                                     <DropdownMenuContent align="end">
                                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('view schedule of charges') ||
-                                                            auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('view schedule of charges') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('schedule-of-charges.show', charge.id)}>
                                                                     <Eye className="mr-2 h-4 w-4" />
@@ -285,8 +284,7 @@ export default function ScheduleOfChargeIndex({ scheduleOfCharges, filters }: Pr
                                                                 </Link>
                                                             </DropdownMenuItem>
                                                         )}
-                                                        {(auth.permissions.includes('edit schedule of charges') ||
-                                                            auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('edit schedule of charges') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('schedule-of-charges.edit', charge.id)}>
                                                                     <Edit className="mr-2 h-4 w-4" />
@@ -306,8 +304,7 @@ export default function ScheduleOfChargeIndex({ scheduleOfCharges, filters }: Pr
                                                             </>
                                                         )}
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('delete schedule of charges') ||
-                                                            auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('delete schedule of charges') && (
                                                             <DropdownMenuItem onClick={() => handleDelete(charge.id)} className="text-red-600">
                                                                 <Trash className="mr-2 h-4 w-4" />
                                                                 Delete

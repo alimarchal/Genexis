@@ -43,7 +43,7 @@ const formatDate = (value: string | null) =>
 
 export default function Index({ submissions, categories, filters }: Props) {
     const { auth } = usePage<SharedData>().props;
-    const canDelete = auth.roles?.includes('super-admin') || auth.permissions?.includes('delete contact submissions');
+    const canDelete = auth.permissions?.includes('delete contact submissions');
     const [search, setSearch] = useState(filters.search ?? '');
     const [category, setCategory] = useState(filters.category ?? '');
 

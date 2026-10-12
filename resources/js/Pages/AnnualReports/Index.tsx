@@ -207,7 +207,7 @@ export default function AnnualReportIndex({ annualReports, filters }: Props) {
                             </Select>
                         </div>
 
-                        {(auth.permissions.includes('create annual reports') || auth.roles.includes('super-admin')) && (
+                        {auth.permissions.includes('create annual reports') && (
                             <Button asChild>
                                 <Link href={route('annual-reports.create')}>
                                     <Plus className="mr-2 h-4 w-4" />
@@ -263,7 +263,7 @@ export default function AnnualReportIndex({ annualReports, filters }: Props) {
                                                     <DropdownMenuContent align="end">
                                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('view annual reports') || auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('view annual reports') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('annual-reports.show', report.id)}>
                                                                     <Eye className="mr-2 h-4 w-4" />
@@ -271,7 +271,7 @@ export default function AnnualReportIndex({ annualReports, filters }: Props) {
                                                                 </Link>
                                                             </DropdownMenuItem>
                                                         )}
-                                                        {(auth.permissions.includes('edit annual reports') || auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('edit annual reports') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('annual-reports.edit', report.id)}>
                                                                     <Edit className="mr-2 h-4 w-4" />
@@ -291,8 +291,7 @@ export default function AnnualReportIndex({ annualReports, filters }: Props) {
                                                             </>
                                                         )}
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('delete annual reports') ||
-                                                            auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('delete annual reports') && (
                                                             <DropdownMenuItem onClick={() => handleDelete(report.id)} className="text-red-600">
                                                                 <Trash className="mr-2 h-4 w-4" />
                                                                 Delete

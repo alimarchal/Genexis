@@ -80,7 +80,7 @@ export default function RoleIndex({ roles, filters }: Props) {
             <div className="px-4 py-6">
                 <div className="mb-6 flex items-center justify-between">
                     <Heading title="Role Management" description="Manage system roles and permissions" />
-                    {(auth.permissions.includes('create roles') || auth.roles.includes('super-admin')) && (
+                    {auth.permissions.includes('create roles') && (
                         <Button asChild>
                             <Link href={route('admin.roles.create')}>
                                 <Plus className="mr-2 h-4 w-4" />
@@ -151,7 +151,7 @@ export default function RoleIndex({ roles, filters }: Props) {
                                                 <DropdownMenuContent align="end">
                                                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                     <DropdownMenuSeparator />
-                                                    {(auth.permissions.includes('edit roles') || auth.roles.includes('super-admin')) && (
+                                                    {auth.permissions.includes('edit roles') && (
                                                         <DropdownMenuItem asChild>
                                                             <Link href={route('admin.roles.edit', role.id)}>
                                                                 <Edit className="mr-2 h-4 w-4" />
@@ -159,13 +159,12 @@ export default function RoleIndex({ roles, filters }: Props) {
                                                             </Link>
                                                         </DropdownMenuItem>
                                                     )}
-                                                    {(auth.permissions.includes('delete roles') || auth.roles.includes('super-admin')) &&
-                                                        role.name !== 'super-admin' && (
-                                                            <DropdownMenuItem onClick={() => handleDelete(role.id)} className="text-red-600">
-                                                                <Trash className="mr-2 h-4 w-4" />
-                                                                Delete
-                                                            </DropdownMenuItem>
-                                                        )}
+                                                    {auth.permissions.includes('delete roles') && role.name !== 'super-admin' && (
+                                                        <DropdownMenuItem onClick={() => handleDelete(role.id)} className="text-red-600">
+                                                            <Trash className="mr-2 h-4 w-4" />
+                                                            Delete
+                                                        </DropdownMenuItem>
+                                                    )}
                                                 </DropdownMenuContent>
                                             </DropdownMenu>
                                         </TableCell>

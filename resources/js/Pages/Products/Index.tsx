@@ -155,7 +155,7 @@ export default function ProductIndex({ products, filters }: Props) {
                             </Select>
                         </div>
 
-                        {(auth.permissions.includes('create products') || auth.roles.includes('super-admin')) && (
+                        {auth.permissions.includes('create products') && (
                             <Button asChild>
                                 <Link href={route('product.create')}>
                                     <Plus className="mr-2 h-4 w-4" />
@@ -206,7 +206,7 @@ export default function ProductIndex({ products, filters }: Props) {
                                                     <DropdownMenuContent align="end">
                                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('view products') || auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('view products') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('product.show', product.id)}>
                                                                     <Eye className="mr-2 h-4 w-4" />
@@ -214,7 +214,7 @@ export default function ProductIndex({ products, filters }: Props) {
                                                                 </Link>
                                                             </DropdownMenuItem>
                                                         )}
-                                                        {(auth.permissions.includes('edit products') || auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('edit products') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('product.edit', product.id)}>
                                                                     <Edit className="mr-2 h-4 w-4" />
@@ -223,7 +223,7 @@ export default function ProductIndex({ products, filters }: Props) {
                                                             </DropdownMenuItem>
                                                         )}
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('delete products') || auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('delete products') && (
                                                             <DropdownMenuItem onClick={() => handleDelete(product.id)} className="text-red-600">
                                                                 <Trash className="mr-2 h-4 w-4" />
                                                                 Delete

@@ -199,7 +199,7 @@ export default function ProductTypeAccountIndex({ productTypeAccounts, productTy
                             </Select>
                         </div>
 
-                        {(auth.permissions.includes('create product type accounts') || auth.roles.includes('super-admin')) && (
+                        {auth.permissions.includes('create product type accounts') && (
                             <Button asChild>
                                 <Link href={route('product-type-accounts.create')}>
                                     <Plus className="mr-2 h-4 w-4" />
@@ -258,8 +258,7 @@ export default function ProductTypeAccountIndex({ productTypeAccounts, productTy
                                                     <DropdownMenuContent align="end">
                                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('view product type accounts') ||
-                                                            auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('view product type accounts') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('product-type-accounts.show', account.id)}>
                                                                     <Eye className="mr-2 h-4 w-4" />
@@ -267,8 +266,7 @@ export default function ProductTypeAccountIndex({ productTypeAccounts, productTy
                                                                 </Link>
                                                             </DropdownMenuItem>
                                                         )}
-                                                        {(auth.permissions.includes('edit product type accounts') ||
-                                                            auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('edit product type accounts') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('product-type-accounts.edit', account.id)}>
                                                                     <Edit className="mr-2 h-4 w-4" />
@@ -277,8 +275,7 @@ export default function ProductTypeAccountIndex({ productTypeAccounts, productTy
                                                             </DropdownMenuItem>
                                                         )}
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('delete product type accounts') ||
-                                                            auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('delete product type accounts') && (
                                                             <DropdownMenuItem onClick={() => handleDelete(account.id)} className="text-red-600">
                                                                 <Trash className="mr-2 h-4 w-4" />
                                                                 Delete

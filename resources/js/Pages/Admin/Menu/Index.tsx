@@ -122,7 +122,7 @@ export default function MenuIndex({ menus, filters }: Props) {
                         <Button variant="outline" onClick={clearMenuCache}>
                             Clear Cache
                         </Button>
-                        {(auth.permissions.includes('create menus') || auth.roles.includes('super-admin')) && (
+                        {auth.permissions.includes('create menus') && (
                             <Button asChild>
                                 <Link href={route('admin.menus.create')}>
                                     <Plus className="mr-2 h-4 w-4" />
@@ -243,7 +243,7 @@ export default function MenuIndex({ menus, filters }: Props) {
                                                 <DropdownMenuContent align="end">
                                                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                     <DropdownMenuSeparator />
-                                                    {(auth.permissions.includes('view menus') || auth.roles.includes('super-admin')) && (
+                                                    {auth.permissions.includes('view menus') && (
                                                         <DropdownMenuItem asChild>
                                                             <Link href={route('admin.menus.show', menu.id)}>
                                                                 <Eye className="mr-2 h-4 w-4" />
@@ -251,7 +251,7 @@ export default function MenuIndex({ menus, filters }: Props) {
                                                             </Link>
                                                         </DropdownMenuItem>
                                                     )}
-                                                    {(auth.permissions.includes('edit menus') || auth.roles.includes('super-admin')) && (
+                                                    {auth.permissions.includes('edit menus') && (
                                                         <DropdownMenuItem asChild>
                                                             <Link href={route('admin.menus.edit', menu.id)}>
                                                                 <Edit className="mr-2 h-4 w-4" />
@@ -259,7 +259,7 @@ export default function MenuIndex({ menus, filters }: Props) {
                                                             </Link>
                                                         </DropdownMenuItem>
                                                     )}
-                                                    {(auth.permissions.includes('delete menus') || auth.roles.includes('super-admin')) && (
+                                                    {auth.permissions.includes('delete menus') && (
                                                         <DropdownMenuItem onClick={() => handleDelete(menu.id)} className="text-red-600">
                                                             <Trash className="mr-2 h-4 w-4" />
                                                             Delete

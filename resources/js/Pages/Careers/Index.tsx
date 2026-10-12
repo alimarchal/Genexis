@@ -228,7 +228,7 @@ export default function CareerIndex({ careers, filters }: Props) {
                                 </SelectContent>
                             </Select>
                         </div>
-                        {(auth.permissions.includes('create careers') || auth.roles.includes('super-admin')) && (
+                        {auth.permissions.includes('create careers') && (
                             <Button asChild>
                                 <Link href={route('careers.create')}>
                                     <Plus className="mr-2 h-4 w-4" />
@@ -296,7 +296,7 @@ export default function CareerIndex({ careers, filters }: Props) {
                                                     <DropdownMenuContent align="end">
                                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('view careers') || auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('view careers') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('careers.show', career.id)}>
                                                                     <Eye className="mr-2 h-4 w-4" />
@@ -304,7 +304,7 @@ export default function CareerIndex({ careers, filters }: Props) {
                                                                 </Link>
                                                             </DropdownMenuItem>
                                                         )}
-                                                        {(auth.permissions.includes('edit careers') || auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('edit careers') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('careers.edit', career.id)}>
                                                                     <Edit className="mr-2 h-4 w-4" />
@@ -324,7 +324,7 @@ export default function CareerIndex({ careers, filters }: Props) {
                                                             </>
                                                         )}
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('delete careers') || auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('delete careers') && (
                                                             <DropdownMenuItem onClick={() => handleDelete(career.id)} className="text-red-600">
                                                                 <Trash className="mr-2 h-4 w-4" />
                                                                 Delete

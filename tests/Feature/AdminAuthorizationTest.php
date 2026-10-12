@@ -203,3 +203,48 @@ describe('privilege escalation', function () {
         expect(Role::where('name', 'super-admin')->exists())->toBeTrue();
     });
 });
+
+describe('super-admin permissions are editable', function () {
+    it('holds real permissions instead of bypassing every check', function () {
+        $root = $this->createAdminUser();
+
+        expect(Role::findByName('super-admin')->permissions->count())->toBe(Permission::count())
+            ->and($root->can('view users'))->toBeTrue();
+    });
+
+    it('stops granting a permission once it is removed from the super-admin role', function () {
+        $root = $this->createAdminUser();
+        $role = Role::findByName('super-admin');
+        $keep = $role->permissions->reject(fn ($permission) => $permission->name === 'delete branches')->pluck('id')->all();
+
+        $this->actingAs($root)->put(route('admin.roles.update', $role), [
+            'name' => 'super-admin',
+            'permissions' => $keep,
+        ])->assertRedirect(route('admin.roles.index'));
+
+        expect($root->fresh()->can('delete branches'))->toBeFalse()
+            ->and($root->fresh()->can('view branches'))->toBeTrue();
+    });
+
+    it('keeps the permissions needed to manage roles on the super-admin role', function () {
+        $root = $this->createAdminUser();
+        $role = Role::findByName('super-admin');
+
+        $this->actingAs($root)->put(route('admin.roles.update', $role), [
+            'name' => 'super-admin',
+            'permissions' => [],
+        ])->assertSessionHasErrors('permissions');
+
+        expect($role->fresh()->permissions)->not->toBeEmpty();
+    });
+
+    it('does not restore removed permissions when the seeder runs again', function () {
+        $this->createAdminUser();
+        $role = Role::findByName('super-admin');
+        $role->revokePermissionTo('delete branches');
+
+        $this->seed(RoleAndPermissionSeeder::class);
+
+        expect($role->fresh()->hasPermissionTo('delete branches'))->toBeFalse();
+    });
+});

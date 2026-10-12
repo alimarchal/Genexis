@@ -162,7 +162,7 @@ export default function CarouselIndex({ carousels, filters }: Props) {
                             </Select>
                         </div>
 
-                        {(auth.permissions.includes('create carousels') || auth.roles.includes('super-admin')) && (
+                        {auth.permissions.includes('create carousels') && (
                             <Button asChild>
                                 <Link href={route('carousels.create')}>
                                     <Plus className="mr-2 h-4 w-4" />
@@ -237,7 +237,7 @@ export default function CarouselIndex({ carousels, filters }: Props) {
                                                     <DropdownMenuContent align="end">
                                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('view carousels') || auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('view carousels') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('carousels.show', carousel.id)}>
                                                                     <Eye className="mr-2 h-4 w-4" />
@@ -245,7 +245,7 @@ export default function CarouselIndex({ carousels, filters }: Props) {
                                                                 </Link>
                                                             </DropdownMenuItem>
                                                         )}
-                                                        {(auth.permissions.includes('edit carousels') || auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('edit carousels') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('carousels.edit', carousel.id)}>
                                                                     <Edit className="mr-2 h-4 w-4" />
@@ -254,7 +254,7 @@ export default function CarouselIndex({ carousels, filters }: Props) {
                                                             </DropdownMenuItem>
                                                         )}
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('delete carousels') || auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('delete carousels') && (
                                                             <DropdownMenuItem onClick={() => handleDelete(carousel.id)} className="text-red-600">
                                                                 <Trash className="mr-2 h-4 w-4" />
                                                                 Delete

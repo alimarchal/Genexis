@@ -68,7 +68,7 @@ export default function Index({ sessions, filters, statuses, limits }: Props) {
                             {definition.label}: up to {formatBytes(definition.max_bytes)}
                         </li>
                     ))}
-                    <li>Super-admins: up to {formatBytes(limits.super_admin_max_bytes)}</li>
+                    <li>Users with large-upload access: up to {formatBytes(limits.super_admin_max_bytes)}</li>
                 </ul>
 
                 <div className="mt-6 flex flex-wrap gap-2">

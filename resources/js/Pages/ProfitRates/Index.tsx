@@ -221,7 +221,7 @@ export default function ProfitRateIndex({ profitRates, filters }: Props) {
                                 </SelectContent>
                             </Select>
                         </div>
-                        {(auth.permissions.includes('create profit rates') || auth.roles.includes('super-admin')) && (
+                        {auth.permissions.includes('create profit rates') && (
                             <Button asChild>
                                 <Link href={route('profit-rates.create')}>
                                     <Plus className="mr-2 h-4 w-4" />
@@ -283,7 +283,7 @@ export default function ProfitRateIndex({ profitRates, filters }: Props) {
                                                     <DropdownMenuContent align="end">
                                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('view profit rates') || auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('view profit rates') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('profit-rates.show', rate.id)}>
                                                                     <Eye className="mr-2 h-4 w-4" />
@@ -291,7 +291,7 @@ export default function ProfitRateIndex({ profitRates, filters }: Props) {
                                                                 </Link>
                                                             </DropdownMenuItem>
                                                         )}
-                                                        {(auth.permissions.includes('edit profit rates') || auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('edit profit rates') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('profit-rates.edit', rate.id)}>
                                                                     <Edit className="mr-2 h-4 w-4" />
@@ -300,7 +300,7 @@ export default function ProfitRateIndex({ profitRates, filters }: Props) {
                                                             </DropdownMenuItem>
                                                         )}
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('delete profit rates') || auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('delete profit rates') && (
                                                             <DropdownMenuItem onClick={() => handleDelete(rate.id)} className="text-red-600">
                                                                 <Trash className="mr-2 h-4 w-4" />
                                                                 Delete

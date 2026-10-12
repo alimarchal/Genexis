@@ -254,7 +254,7 @@ export default function BodCommitteeIndex({ bodCommittees, filters }: Props) {
                             </Select>
                         </div>
 
-                        {(auth.permissions.includes('create bod committees') || auth.roles.includes('super-admin')) && (
+                        {auth.permissions.includes('create bod committees') && (
                             <Button asChild>
                                 <Link href={route('bod-committees.create')}>
                                     <Plus className="mr-2 h-4 w-4" />
@@ -324,7 +324,7 @@ export default function BodCommitteeIndex({ bodCommittees, filters }: Props) {
                                                     <DropdownMenuContent align="end">
                                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('view bod committees') || auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('view bod committees') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('bod-committees.show', committee.id)}>
                                                                     <Eye className="mr-2 h-4 w-4" />
@@ -332,7 +332,7 @@ export default function BodCommitteeIndex({ bodCommittees, filters }: Props) {
                                                                 </Link>
                                                             </DropdownMenuItem>
                                                         )}
-                                                        {(auth.permissions.includes('edit bod committees') || auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('edit bod committees') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('bod-committees.edit', committee.id)}>
                                                                     <Edit className="mr-2 h-4 w-4" />
@@ -341,8 +341,7 @@ export default function BodCommitteeIndex({ bodCommittees, filters }: Props) {
                                                             </DropdownMenuItem>
                                                         )}
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('delete bod committees') ||
-                                                            auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('delete bod committees') && (
                                                             <DropdownMenuItem onClick={() => handleDelete(committee.id)} className="text-red-600">
                                                                 <Trash className="mr-2 h-4 w-4" />
                                                                 Delete

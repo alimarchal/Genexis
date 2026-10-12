@@ -155,7 +155,7 @@ export default function RegionIndex({ regions, filters }: Props) {
                             </Select>
                         </div>
 
-                        {(auth.permissions.includes('create regions') || auth.roles.includes('super-admin')) && (
+                        {auth.permissions.includes('create regions') && (
                             <Button asChild>
                                 <Link href={route('regions.create')}>
                                     <Plus className="mr-2 h-4 w-4" />
@@ -199,7 +199,7 @@ export default function RegionIndex({ regions, filters }: Props) {
                                                     </DropdownMenuTrigger>
                                                     <DropdownMenuContent align="end">
                                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                                        {(auth.permissions.includes('view regions') || auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('view regions') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('regions.show', region.id)}>
                                                                     <Eye className="mr-2 h-4 w-4" />
@@ -207,7 +207,7 @@ export default function RegionIndex({ regions, filters }: Props) {
                                                                 </Link>
                                                             </DropdownMenuItem>
                                                         )}
-                                                        {(auth.permissions.includes('edit regions') || auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('edit regions') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('regions.edit', region.id)}>
                                                                     <Edit className="mr-2 h-4 w-4" />
@@ -216,7 +216,7 @@ export default function RegionIndex({ regions, filters }: Props) {
                                                             </DropdownMenuItem>
                                                         )}
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('delete regions') || auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('delete regions') && (
                                                             <DropdownMenuItem className="text-red-600" onClick={() => handleDelete(region.id)}>
                                                                 <Trash className="mr-2 h-4 w-4" />
                                                                 Delete

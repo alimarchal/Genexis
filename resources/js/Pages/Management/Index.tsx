@@ -161,7 +161,7 @@ export default function ManagementIndex({ managements, filters }: Props) {
                             </Select>
                         </div>
 
-                        {(auth.permissions.includes('create managements') || auth.roles.includes('super-admin')) && (
+                        {auth.permissions.includes('create managements') && (
                             <Button asChild>
                                 <Link href={route('managements.create')}>
                                     <Plus className="mr-2 h-4 w-4" />
@@ -228,7 +228,7 @@ export default function ManagementIndex({ managements, filters }: Props) {
                                                     <DropdownMenuContent align="end">
                                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('view managements') || auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('view managements') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('managements.show', member.id)}>
                                                                     <Eye className="mr-2 h-4 w-4" />
@@ -236,7 +236,7 @@ export default function ManagementIndex({ managements, filters }: Props) {
                                                                 </Link>
                                                             </DropdownMenuItem>
                                                         )}
-                                                        {(auth.permissions.includes('edit managements') || auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('edit managements') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('managements.edit', member.id)}>
                                                                     <Edit className="mr-2 h-4 w-4" />
@@ -245,7 +245,7 @@ export default function ManagementIndex({ managements, filters }: Props) {
                                                             </DropdownMenuItem>
                                                         )}
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('delete managements') || auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('delete managements') && (
                                                             <DropdownMenuItem onClick={() => handleDelete(member.id)} className="text-red-600">
                                                                 <Trash className="mr-2 h-4 w-4" />
                                                                 Delete

@@ -235,7 +235,7 @@ export default function ContactIndex({ contacts, branches, filters }: Props) {
                             </Select>
                         </div>
 
-                        {(auth.permissions.includes('create contacts') || auth.roles.includes('super-admin')) && (
+                        {auth.permissions.includes('create contacts') && (
                             <Button asChild>
                                 <Link href={route('contacts.create')}>
                                     <Plus className="mr-2 h-4 w-4" />
@@ -289,7 +289,7 @@ export default function ContactIndex({ contacts, branches, filters }: Props) {
                                                     </DropdownMenuTrigger>
                                                     <DropdownMenuContent align="end">
                                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                                        {(auth.permissions.includes('view contacts') || auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('view contacts') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('contacts.show', contact.id)}>
                                                                     <Eye className="mr-2 h-4 w-4" />
@@ -297,7 +297,7 @@ export default function ContactIndex({ contacts, branches, filters }: Props) {
                                                                 </Link>
                                                             </DropdownMenuItem>
                                                         )}
-                                                        {(auth.permissions.includes('edit contacts') || auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('edit contacts') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('contacts.edit', contact.id)}>
                                                                     <Edit className="mr-2 h-4 w-4" />
@@ -306,7 +306,7 @@ export default function ContactIndex({ contacts, branches, filters }: Props) {
                                                             </DropdownMenuItem>
                                                         )}
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('delete contacts') || auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('delete contacts') && (
                                                             <DropdownMenuItem className="text-red-600" onClick={() => handleDelete(contact.id)}>
                                                                 <Trash className="mr-2 h-4 w-4" />
                                                                 Delete

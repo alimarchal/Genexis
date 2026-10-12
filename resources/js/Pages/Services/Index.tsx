@@ -167,7 +167,7 @@ export default function ServicesIndex({ services, filters }: Props) {
                             </Select>
                         </div>
 
-                        {(auth.permissions.includes('create services') || auth.roles.includes('super-admin')) && (
+                        {auth.permissions.includes('create services') && (
                             <Button asChild>
                                 <Link href={route('services.create')}>
                                     <Plus className="mr-2 h-4 w-4" />
@@ -236,7 +236,7 @@ export default function ServicesIndex({ services, filters }: Props) {
                                                     <DropdownMenuContent align="end">
                                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('view services') || auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('view services') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('services.show', service.slug)}>
                                                                     <Eye className="mr-2 h-4 w-4" />
@@ -244,7 +244,7 @@ export default function ServicesIndex({ services, filters }: Props) {
                                                                 </Link>
                                                             </DropdownMenuItem>
                                                         )}
-                                                        {(auth.permissions.includes('edit services') || auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('edit services') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('services.edit', service.slug)}>
                                                                     <Edit className="mr-2 h-4 w-4" />
@@ -253,7 +253,7 @@ export default function ServicesIndex({ services, filters }: Props) {
                                                             </DropdownMenuItem>
                                                         )}
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('delete services') || auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('delete services') && (
                                                             <DropdownMenuItem onClick={() => handleDelete(service.slug)} className="text-red-600">
                                                                 <Trash className="mr-2 h-4 w-4" />
                                                                 Delete

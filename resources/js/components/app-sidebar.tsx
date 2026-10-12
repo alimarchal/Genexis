@@ -433,11 +433,9 @@ function NavGroup({ title, items }: { title: string; items: NavItem[] }) {
 export function AppSidebar() {
     const { auth } = usePage<SharedData>().props;
     const permissions = auth.permissions || [];
-    const roles = auth.roles || [];
 
     const hasPermission = (item: NavItem) => {
         if (!item.permission) return true; // Public item
-        if (roles.includes('super-admin')) return true; // Super admin sees all
         return permissions.includes(item.permission);
     };
 

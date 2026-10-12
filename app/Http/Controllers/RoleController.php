@@ -15,13 +15,20 @@ class RoleController extends Controller implements HasMiddleware
 {
     use GuardsPrivilegeEscalation;
 
+    /**
+     * Permissions the super-admin role can never lose, so roles stay manageable.
+     *
+     * @var list<string>
+     */
+    private const PROTECTED_SUPER_ADMIN_PERMISSIONS = ['view roles', 'edit roles'];
+
     public static function middleware(): array
     {
         return [
-            new Middleware('can:view roles', only: ['index', 'show']),
-            new Middleware('can:create roles', only: ['create', 'store']),
-            new Middleware('can:edit roles', only: ['edit', 'update']),
-            new Middleware('can:delete roles', only: ['destroy']),
+            new Middleware('permission:view roles', only: ['index', 'show']),
+            new Middleware('permission:create roles', only: ['create', 'store']),
+            new Middleware('permission:edit roles', only: ['edit', 'update']),
+            new Middleware('permission:delete roles', only: ['destroy']),
         ];
     }
 
@@ -94,6 +101,17 @@ class RoleController extends Controller implements HasMiddleware
         }
 
         $this->authorizeGrant([], $request->input('permissions', []));
+
+        if ($role->name === 'super-admin' && $request->has('permissions')) {
+            $kept = Permission::whereIn('id', $request->input('permissions', []))->pluck('name');
+            $missing = collect(self::PROTECTED_SUPER_ADMIN_PERMISSIONS)->diff($kept);
+
+            if ($missing->isNotEmpty()) {
+                return back()->withErrors([
+                    'permissions' => 'The super-admin role must keep these permissions to avoid locking everyone out: '.$missing->implode(', ').'.',
+                ]);
+            }
+        }
 
         DB::transaction(function () use ($request, $role) {
             $role->update(['name' => $request->name]);
