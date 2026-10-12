@@ -181,3 +181,23 @@ test('it stores exact date without timezone conversion when creating', function 
     $news = NewsAnnouncement::where('slug', 'test-news')->first();
     expect($news->published_date->format('Y-m-d'))->toBe($specificDate);
 });
+
+it('sends a plain-text preview without html tags to the homepage and news list', function () {
+    NewsAnnouncement::factory()->create([
+        'title' => 'Tagged news',
+        'content' => '<div><strong>Message</strong> from the <em>President</em>&nbsp;&amp; team</div><p>Second paragraph</p>',
+        'excerpt' => '<div><strong>Message</strong> from the President &amp; team</div>',
+        'is_published' => true,
+        'is_featured' => true,
+        'published_date' => now()->subDay(),
+    ]);
+
+    foreach (['/', '/news'] as $url) {
+        $page = $this->get($url)->viewData('page')['props'];
+        $items = $page['newsAnnouncements']['data'] ?? $page['newsAnnouncements'];
+        $preview = collect($items)->firstWhere('title', 'Tagged news')['preview'];
+
+        expect($preview)->toBe('Message from the President & team')
+            ->and($preview)->not->toContain('<');
+    }
+});

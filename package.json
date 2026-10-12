@@ -10,7 +10,8 @@
     "lint": "eslint . --fix",
     "lint:check": "eslint .",
     "types": "tsc --noEmit",
-    "ci": "npm run format:check && npm run lint:check && npm run types"
+    "ci": "npm run format:check && npm run lint:check && npm run types && npm run test:js",
+    "test:js": "node --experimental-strip-types --test \"tests/js/**/*.test.mjs\""
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",
@@ -53,11 +54,8 @@
     "clsx": "^2.1.1",
     "concurrently": "^9.2.1",
     "exceljs": "^4.4.0",
-    "flowbite-react": "^0.11.9",
     "globals": "^16.5.0",
     "html2canvas": "^1.4.1",
-    "jspdf": "^3.0.4",
-    "jspdf-autotable": "^5.0.7",
     "laravel-vite-plugin": "^1.3.0",
     "lucide-react": "^0.511.0",
     "react": "^19.2.4",
@@ -68,7 +66,7 @@
     "tailwind-merge": "^3.4.0",
     "tailwindcss": "^4.1.18",
     "tailwindcss-animate": "^1.0.7",
-    "typescript": "^5.9.3",
+    "typescript": "^5",
     "vite": "^6.4.1"
   },
   "optionalDependencies": {

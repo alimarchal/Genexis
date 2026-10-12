@@ -70,3 +70,12 @@ it('reports a database that cannot be reached', function () {
 
     expect($code)->toBe(1)->and($output)->toContain('Database connection failed');
 });
+
+it('warns when the disk could not hold the largest allowed upload', function () {
+    app()['env'] = 'production';
+    config(['app.debug' => false, 'bank.uploads.super_admin_max_bytes' => PHP_INT_MAX / 2]);
+
+    [, $output] = runCheck();
+
+    expect($output)->toContain('disk space is free but a super-admin may upload');
+});

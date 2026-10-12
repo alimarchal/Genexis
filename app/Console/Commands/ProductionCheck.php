@@ -114,6 +114,17 @@ class ProductionCheck extends Command
             $this->warnings[] = 'public/storage is missing: uploaded images/files will 404. Run: php artisan storage:link';
         }
 
+        $free = @disk_free_space(storage_path());
+        $needed = (int) config('bank.uploads.super_admin_max_bytes') + (int) config('bank.uploads.reserve_bytes');
+        if ($free !== false && $free < $needed) {
+            $this->warnings[] = sprintf(
+                'Only %.1f GB of disk space is free but a super-admin may upload files of up to %.1f GB (plus a %.1f GB reserve). Free some space or lower UPLOAD_MAX_BYTES.',
+                $free / 1024 ** 3,
+                config('bank.uploads.super_admin_max_bytes') / 1024 ** 3,
+                config('bank.uploads.reserve_bytes') / 1024 ** 3
+            );
+        }
+
         foreach (['storage', 'bootstrap/cache'] as $path) {
             if (! is_writable(base_path($path))) {
                 $this->errors[] = "{$path} is not writable by the web server user.";

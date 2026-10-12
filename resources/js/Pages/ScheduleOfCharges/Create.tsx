@@ -5,10 +5,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
+import UploadField from '@/components/upload-field';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, Link, router, useForm } from '@inertiajs/react';
-import { FileText, Save, Upload } from 'lucide-react';
+import { Head, Link, useForm } from '@inertiajs/react';
+import { FileText, Save } from 'lucide-react';
 import { FormEventHandler, useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -18,31 +19,20 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function CreateScheduleOfCharge() {
-    const { data, setData, processing, errors } = useForm({
+    const { data, setData, post, processing, errors } = useForm({
         title: '',
         from: '',
         to: '',
-        attachment: null as File | null,
+        attachment_upload_id: null as string | null,
         description: '',
         is_active: true as boolean,
     });
 
-    const [fileName, setFileName] = useState('');
+    const [uploading, setUploading] = useState(false);
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
-        router.post(route('schedule-of-charges.store'), data);
-    };
-
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0] || null;
-        setData('attachment', file);
-        setFileName(file ? file.name : '');
-    };
-
-    const getFileSize = (file: File | null): string => {
-        if (!file) return '';
-        return `${(file.size / (1024 * 1024)).toFixed(2)} MB`;
+        post(route('schedule-of-charges.store'));
     };
 
     return (
@@ -121,36 +111,14 @@ export default function CreateScheduleOfCharge() {
                                 </div>
                             </CardHeader>
                             <CardContent className="space-y-4">
-                                <div className="space-y-2">
-                                    <Label htmlFor="attachment">Upload File</Label>
-                                    <div className="relative flex-1">
-                                        <Input
-                                            id="attachment"
-                                            type="file"
-                                            accept=".pdf,.doc,.docx,.xls,.xlsx"
-                                            onChange={handleFileChange}
-                                            className={errors.attachment ? 'border-red-500' : ''}
-                                        />
-                                        <Upload className="absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
-                                    </div>
-                                    {errors.attachment && <p className="text-sm text-red-500">{errors.attachment}</p>}
-
-                                    {fileName && (
-                                        <div className="rounded-md bg-gray-50 p-3">
-                                            <div className="flex items-center justify-between">
-                                                <div className="flex items-center gap-2">
-                                                    <FileText className="h-4 w-4 text-gray-500" />
-                                                    <span className="text-sm font-medium text-gray-900">{fileName}</span>
-                                                </div>
-                                                <span className="text-sm text-gray-500">{getFileSize(data.attachment)}</span>
-                                            </div>
-                                        </div>
-                                    )}
-
-                                    <p className="text-sm text-gray-500">
-                                        Supported formats: PDF, Word (.doc, .docx), Excel (.xls, .xlsx). Maximum size: 300MB
-                                    </p>
-                                </div>
+                                <UploadField
+                                    context="schedule-of-charges"
+                                    label="File"
+                                    accept={['pdf', 'doc', 'docx', 'xls', 'xlsx']}
+                                    onChange={(id) => setData('attachment_upload_id', id)}
+                                    onBusyChange={setUploading}
+                                    error={errors.attachment_upload_id ?? (errors as Record<string, string | undefined>).attachment}
+                                />
                             </CardContent>
                         </Card>
 
@@ -194,7 +162,7 @@ export default function CreateScheduleOfCharge() {
                                     </div>
                                     <div className="flex items-center justify-between text-sm">
                                         <span className="font-medium">Attachment:</span>
-                                        <span className="text-gray-600">{fileName || 'No file selected'}</span>
+                                        <span className="text-gray-600">{(data.attachment_upload_id ? 'Uploaded' : '') || 'No file selected'}</span>
                                     </div>
                                 </div>
                             </CardContent>
@@ -204,7 +172,7 @@ export default function CreateScheduleOfCharge() {
                             <Button variant="outline" asChild>
                                 <Link href={route('schedule-of-charges.index')}>Cancel</Link>
                             </Button>
-                            <Button type="submit" disabled={processing}>
+                            <Button type="submit" disabled={processing || uploading}>
                                 <Save className="mr-2 h-4 w-4" />
                                 {processing ? 'Creating...' : 'Create Schedule'}
                             </Button>
