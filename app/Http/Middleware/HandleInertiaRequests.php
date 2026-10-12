@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Services\ChunkedUploadService;
 use App\Services\MenuService;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Http\Request;
@@ -73,6 +74,10 @@ class HandleInertiaRequests extends Middleware
                 }
             },
             // now every Inertia page has `bankBranchesCount` in props
+            'uploadLimits' => fn () => $request->user() ? [
+                'contexts' => app(ChunkedUploadService::class)->limitsFor($request->user()),
+                'isSuperAdmin' => $request->user()->hasRole('super-admin'),
+            ] : null,
             'bankBranchesCount' => config('bank.stats.branches_count'),
             'contact_phone' => config('bank.contact.contact_phone'),
             'contact_email' => config('bank.contact.contact_email'),

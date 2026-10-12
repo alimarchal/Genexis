@@ -122,7 +122,7 @@ test('it can update download with new file', function () {
         'file_path' => $oldFile->store('downloads', 'public'),
     ]);
 
-    $newFile = UploadedFile::fake()->create('new.pdf', 1500);
+    $newFile = UploadedFile::fake()->createWithContent('new.pdf', '%PDF-1.4 '.str_repeat('x', 1500));
 
     $response = $this->put(route('downloads.update', $download), [
         'title' => $download->title,
@@ -273,4 +273,38 @@ test('public downloads orders by featured then created date', function () {
             ->where('downloads.data.0.id', $featured->id)
             ->where('downloads.data.1.id', $regular->id)
     );
+});
+
+test('the stored file type comes from the real content, not from what the browser claims', function () {
+    $disguised = UploadedFile::fake()->createWithContent('report.pdf', "MZ\x90\x00\x03\x00\x00\x00\x04\x00\x00\x00\xff\xff\x00\x00");
+
+    $this->post(route('downloads.store'), [
+        'title' => 'Disguised',
+        'file' => $disguised,
+        'category' => 'general',
+        'is_active' => true,
+    ])->assertRedirect(route('downloads.index'));
+
+    expect(Download::where('title', 'Disguised')->value('file_type'))->not->toBe('application/pdf');
+});
+
+test('a title with slashes still downloads with a safe file name', function () {
+    Storage::disk('public')->put('downloads/a.pdf', '%PDF-1.4 content');
+    $download = Download::factory()->create(['title' => 'Terms/Conditions: "2025"', 'file_path' => 'downloads/a.pdf', 'is_active' => true]);
+
+    $response = $this->get(route('public-downloads.download', $download))->assertOk();
+
+    expect($response->headers->get('Content-Disposition'))->toContain('Terms-Conditions- -2025-.pdf');
+});
+
+test('downloads can be resumed with an HTTP Range request and a resumed request is not counted twice', function () {
+    Storage::disk('public')->put('downloads/big.pdf', '0123456789');
+    $download = Download::factory()->create(['file_path' => 'downloads/big.pdf', 'is_active' => true, 'download_count' => 0]);
+
+    $this->get(route('public-downloads.download', $download))->assertOk();
+    $partial = $this->get(route('public-downloads.download', $download), ['Range' => 'bytes=4-7']);
+
+    $partial->assertStatus(206);
+    expect($partial->streamedContent())->toBe('4567')
+        ->and($download->fresh()->download_count)->toBe(1);
 });

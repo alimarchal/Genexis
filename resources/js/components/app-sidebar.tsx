@@ -301,6 +301,12 @@ const sidebarGroups = [
         defaultExpanded: false,
         items: [
             {
+                title: 'Upload Log',
+                href: '/admin/uploads',
+                icon: Download,
+                permission: 'view upload log',
+            },
+            {
                 title: 'Admin Menus',
                 href: '/admin/menus',
                 icon: Menu,

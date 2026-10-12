@@ -15,6 +15,10 @@ class StoreFinancialReportRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'first_quarter_report_upload_id' => ['nullable', 'uuid'],
+            'half_yearly_report_upload_id' => ['nullable', 'uuid'],
+            'third_quarter_report_upload_id' => ['nullable', 'uuid'],
+            'annual_report_upload_id' => ['nullable', 'uuid'],
             'fiscal_year' => [
                 'required',
                 'integer',
@@ -26,25 +30,25 @@ class StoreFinancialReportRequest extends FormRequest
                 'nullable',
                 'file',
                 'mimes:pdf,doc,docx,xls,xlsx',
-                'max:1048576', // 1GB
+                'max:51200', // 50MB when posted directly; bigger files use the chunked uploader
             ],
             'half_yearly_report' => [
                 'nullable',
                 'file',
                 'mimes:pdf,doc,docx,xls,xlsx',
-                'max:1048576', // 1GB
+                'max:51200', // 50MB when posted directly; bigger files use the chunked uploader
             ],
             'third_quarter_report' => [
                 'nullable',
                 'file',
                 'mimes:pdf,doc,docx,xls,xlsx',
-                'max:1048576', // 1GB
+                'max:51200', // 50MB when posted directly; bigger files use the chunked uploader
             ],
             'annual_report' => [
                 'nullable',
                 'file',
                 'mimes:pdf,doc,docx,xls,xlsx',
-                'max:1048576', // 1GB
+                'max:51200', // 50MB when posted directly; bigger files use the chunked uploader
             ],
         ];
     }
@@ -58,7 +62,7 @@ class StoreFinancialReportRequest extends FormRequest
             'fiscal_year.max' => 'The fiscal year cannot be more than 5 years in the future.',
             '*.file' => 'The file must be a valid file.',
             '*.mimes' => 'The file must be a PDF, Word document, or Excel file.',
-            '*.max' => 'The file size cannot exceed 1GB.',
+            '*.max' => 'The file size cannot exceed 50MB when posted directly (use the large-file uploader).',
         ];
     }
 

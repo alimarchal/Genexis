@@ -16,6 +16,7 @@ use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\Admin\ContactSubmissionController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\MenuController;
+use App\Http\Controllers\Admin\UploadController;
 // =============================================================================
 // CONTROLLER IMPORTS
 // =============================================================================
@@ -305,6 +306,16 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
         ->only(['index', 'show', 'destroy'])
         ->parameters(['contact-submissions' => 'contactSubmission'])
         ->guardedBy('contact submissions');
+
+    // Resumable large-file uploads (super-admins may send multi-GB files; see ChunkedUploadService)
+    Route::get('uploads', [UploadController::class, 'index'])->middleware('role:super-admin')->name('uploads.index');
+    Route::middleware('throttle:uploads')->group(function () {
+        Route::post('uploads', [UploadController::class, 'store'])->name('uploads.store');
+        Route::get('uploads/{uploadSession}', [UploadController::class, 'show'])->name('uploads.show');
+        Route::put('uploads/{uploadSession}/chunk', [UploadController::class, 'chunk'])->name('uploads.chunk');
+        Route::post('uploads/{uploadSession}/complete', [UploadController::class, 'complete'])->name('uploads.complete');
+        Route::delete('uploads/{uploadSession}', [UploadController::class, 'destroy'])->name('uploads.destroy');
+    });
 
     // Menu Management System
     Route::resource('menus', MenuController::class)->guardedBy('menus');
