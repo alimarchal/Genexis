@@ -1,3 +1,4 @@
+import inertia from '@inertiajs/vite';
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import laravel from 'laravel-vite-plugin';
@@ -8,31 +9,29 @@ export default defineConfig({
     plugins: [
         laravel({
             input: ['resources/css/app.css', 'resources/js/app.tsx'],
-            ssr: 'resources/js/ssr.tsx',
             refresh: true,
         }),
+        inertia(),
         react(),
         tailwindcss(),
     ],
-    esbuild: {
-        jsx: 'automatic',
-    },
     resolve: {
         alias: {
-            'ziggy-js': resolve(__dirname, 'vendor/tightenco/ziggy'),
+            'ziggy-js': resolve(import.meta.dirname, 'vendor/tightenco/ziggy'),
         },
     },
     build: {
-        chunkSizeWarningLimit: 1000, // Increase limit to 1000kb
-        rollupOptions: {
+        chunkSizeWarningLimit: 1000,
+        rolldownOptions: {
             output: {
-                manualChunks: {
-                    // Separate large libraries into their own chunks
-                    vendor: ['react', 'react-dom'],
-                    excel: ['exceljs'], // Only if you keep static import
-                    icons: ['lucide-react'],
-                }
-            }
-        }
-    }
+                codeSplitting: {
+                    groups: [
+                        { name: 'vendor', test: /node_modules[\\/](react|react-dom)[\\/]/ },
+                        { name: 'excel', test: /node_modules[\\/]exceljs[\\/]/ },
+                        { name: 'icons', test: /node_modules[\\/]lucide-react[\\/]/ },
+                    ],
+                },
+            },
+        },
+    },
 });

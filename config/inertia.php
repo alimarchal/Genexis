@@ -24,24 +24,22 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Testing
+    | Pages
     |--------------------------------------------------------------------------
     |
-    | The values described here are used to locate Inertia components on the
-    | filesystem. For instance, when using `assertInertia`, the assertion
-    | attempts to locate the component as a file relative to the paths.
+    | These options configure how Inertia discovers page components on the
+    | filesystem. The paths and extensions are used to locate components
+    | when rendering responses and during testing assertions.
     |
     */
 
-    'testing' => [
+    'pages' => [
 
-        'ensure_pages_exist' => true,
-
-        'page_paths' => [
+        'paths' => [
             resource_path('js/Pages'),
         ],
 
-        'page_extensions' => [
+        'extensions' => [
             'js',
             'jsx',
             'svelte',
@@ -49,6 +47,22 @@ return [
             'tsx',
             'vue',
         ],
+
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Testing
+    |--------------------------------------------------------------------------
+    |
+    | When enabled, `assertInertia` verifies that the rendered component
+    | exists as a page file on disk.
+    |
+    */
+
+    'testing' => [
+
+        'ensure_pages_exist' => true,
 
     ],
 
