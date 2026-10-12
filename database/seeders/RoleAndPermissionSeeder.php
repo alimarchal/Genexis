@@ -157,17 +157,29 @@ class RoleAndPermissionSeeder extends Seeder
             'create careers',
             'edit careers',
             'delete careers',
+
+            // Uploads
+            'view uploads',
+            'upload large files',
         ];
 
+        $createdPermissions = [];
+
         foreach ($permissions as $permission) {
-            Permission::firstOrCreate(['name' => $permission, 'guard_name' => 'web']);
+            $model = Permission::firstOrCreate(['name' => $permission, 'guard_name' => 'web']);
+
+            if ($model->wasRecentlyCreated) {
+                $createdPermissions[] = $model;
+            }
         }
 
         // Create roles
 
         // Super Admin
         $superAdminRole = Role::firstOrCreate(['name' => 'super-admin', 'guard_name' => 'web']);
-        // Super admin gets all permissions via Gate::before in AppServiceProvider
+        // Super-admin holds real, editable permissions like any other role. Only newly created
+        // permissions are granted here, so ones an administrator removed are never silently restored.
+        $superAdminRole->givePermissionTo($superAdminRole->wasRecentlyCreated ? Permission::where('guard_name', 'web')->get() : $createdPermissions);
 
         // Admin (Default example role)
         $adminRole = Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'web']);

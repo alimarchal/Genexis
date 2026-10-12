@@ -213,7 +213,7 @@ export default function DownloadIndex({ downloads, filters }: Props) {
                                 </SelectContent>
                             </Select>
                         </div>
-                        {(auth.permissions.includes('create downloads') || auth.roles.includes('super-admin')) && (
+                        {auth.permissions.includes('create downloads') && (
                             <Button asChild>
                                 <Link href={route('downloads.create')}>
                                     <Plus className="mr-2 h-4 w-4" />
@@ -291,7 +291,7 @@ export default function DownloadIndex({ downloads, filters }: Props) {
                                                     <DropdownMenuContent align="end">
                                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('view downloads') || auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('view downloads') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('downloads.show', download.id)}>
                                                                     <Eye className="mr-2 h-4 w-4" />
@@ -299,7 +299,7 @@ export default function DownloadIndex({ downloads, filters }: Props) {
                                                                 </Link>
                                                             </DropdownMenuItem>
                                                         )}
-                                                        {(auth.permissions.includes('edit downloads') || auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('edit downloads') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('downloads.edit', download.id)}>
                                                                     <Edit className="mr-2 h-4 w-4" />
@@ -319,7 +319,7 @@ export default function DownloadIndex({ downloads, filters }: Props) {
                                                             </a>
                                                         </DropdownMenuItem>
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('delete downloads') || auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('delete downloads') && (
                                                             <DropdownMenuItem onClick={() => handleDelete(download.id)} className="text-red-600">
                                                                 <Trash className="mr-2 h-4 w-4" />
                                                                 Delete

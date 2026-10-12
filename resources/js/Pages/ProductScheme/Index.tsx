@@ -206,7 +206,7 @@ export default function ProductSchemeIndex({ productSchemes, accounts, filters }
                             </Select>
                         </div>
 
-                        {(auth.permissions.includes('create product schemes') || auth.roles.includes('super-admin')) && (
+                        {auth.permissions.includes('create product schemes') && (
                             <Button asChild>
                                 <Link href={route('product-schemes.create')}>
                                     <Plus className="mr-2 h-4 w-4" />
@@ -278,8 +278,7 @@ export default function ProductSchemeIndex({ productSchemes, accounts, filters }
                                                     <DropdownMenuContent align="end">
                                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('view product schemes') ||
-                                                            auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('view product schemes') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('product-schemes.show', scheme.id)}>
                                                                     <Eye className="mr-2 h-4 w-4" />
@@ -287,8 +286,7 @@ export default function ProductSchemeIndex({ productSchemes, accounts, filters }
                                                                 </Link>
                                                             </DropdownMenuItem>
                                                         )}
-                                                        {(auth.permissions.includes('edit product schemes') ||
-                                                            auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('edit product schemes') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('product-schemes.edit', scheme.id)}>
                                                                     <Edit className="mr-2 h-4 w-4" />
@@ -297,8 +295,7 @@ export default function ProductSchemeIndex({ productSchemes, accounts, filters }
                                                             </DropdownMenuItem>
                                                         )}
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('delete product schemes') ||
-                                                            auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('delete product schemes') && (
                                                             <DropdownMenuItem onClick={() => handleDelete(scheme.id)} className="text-red-600">
                                                                 <Trash className="mr-2 h-4 w-4" />
                                                                 Delete

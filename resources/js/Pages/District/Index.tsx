@@ -196,7 +196,7 @@ export default function DistrictIndex({ districts, regions, filters }: Props) {
                             </Select>
                         </div>
 
-                        {(auth.permissions.includes('create districts') || auth.roles.includes('super-admin')) && (
+                        {auth.permissions.includes('create districts') && (
                             <Button asChild>
                                 <Link href={route('districts.create')}>
                                     <Plus className="mr-2 h-4 w-4" />
@@ -242,7 +242,7 @@ export default function DistrictIndex({ districts, regions, filters }: Props) {
                                                     </DropdownMenuTrigger>
                                                     <DropdownMenuContent align="end">
                                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                                        {(auth.permissions.includes('view districts') || auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('view districts') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('districts.show', district.id)}>
                                                                     <Eye className="mr-2 h-4 w-4" />
@@ -250,7 +250,7 @@ export default function DistrictIndex({ districts, regions, filters }: Props) {
                                                                 </Link>
                                                             </DropdownMenuItem>
                                                         )}
-                                                        {(auth.permissions.includes('edit districts') || auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('edit districts') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('districts.edit', district.id)}>
                                                                     <Edit className="mr-2 h-4 w-4" />
@@ -259,7 +259,7 @@ export default function DistrictIndex({ districts, regions, filters }: Props) {
                                                             </DropdownMenuItem>
                                                         )}
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('delete districts') || auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('delete districts') && (
                                                             <DropdownMenuItem className="text-red-600" onClick={() => handleDelete(district.id)}>
                                                                 <Trash className="mr-2 h-4 w-4" />
                                                                 Delete

@@ -221,7 +221,7 @@ export default function BankServiceIndex({ bankServices, filters }: Props) {
                             </Select>
                         </div>
 
-                        {(auth.permissions.includes('create bank services') || auth.roles.includes('super-admin')) && (
+                        {auth.permissions.includes('create bank services') && (
                             <Button asChild>
                                 <Link href={route('bank-services.create')}>
                                     <Plus className="mr-2 h-4 w-4" />
@@ -285,7 +285,7 @@ export default function BankServiceIndex({ bankServices, filters }: Props) {
                                                     <DropdownMenuContent align="end">
                                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('view bank services') || auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('view bank services') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('bank-services.show', service.id)}>
                                                                     <Eye className="mr-2 h-4 w-4" />
@@ -293,7 +293,7 @@ export default function BankServiceIndex({ bankServices, filters }: Props) {
                                                                 </Link>
                                                             </DropdownMenuItem>
                                                         )}
-                                                        {(auth.permissions.includes('edit bank services') || auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('edit bank services') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('bank-services.edit', service.id)}>
                                                                     <Edit className="mr-2 h-4 w-4" />
@@ -302,8 +302,7 @@ export default function BankServiceIndex({ bankServices, filters }: Props) {
                                                             </DropdownMenuItem>
                                                         )}
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('delete bank services') ||
-                                                            auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('delete bank services') && (
                                                             <DropdownMenuItem onClick={() => handleDelete(service.id)} className="text-red-600">
                                                                 <Trash className="mr-2 h-4 w-4" />
                                                                 Delete

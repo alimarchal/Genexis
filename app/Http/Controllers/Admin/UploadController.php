@@ -13,7 +13,7 @@ use Inertia\Response;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 
 /**
- * Resumable upload API used by the admin forms, plus the upload log for super-admins.
+ * Resumable upload API used by the admin forms, plus the upload log for users with the 'view uploads' permission.
  */
 class UploadController extends Controller
 {
@@ -112,7 +112,7 @@ class UploadController extends Controller
 
     private function authorizeAccess(Request $request, UploadSession $session): void
     {
-        abort_unless($session->user_id === $request->user()->id || $request->user()->hasRole('super-admin'), 403);
+        abort_unless($session->user_id === $request->user()->id || $request->user()->can('view uploads'), 403);
     }
 
     /**

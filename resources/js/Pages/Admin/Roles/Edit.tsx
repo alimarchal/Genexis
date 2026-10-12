@@ -111,6 +111,7 @@ export default function EditRole({ role, permissions }: Props) {
                                                 <Label htmlFor="select-all">Select All</Label>
                                             </div>
                                         </div>
+                                        {errors.permissions && <p className="text-destructive text-sm">{errors.permissions}</p>}
                                         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                                             {permissions.map((permission) => (
                                                 <div key={permission.id} className="flex items-center space-x-2">

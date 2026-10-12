@@ -142,7 +142,7 @@ export default function ServiceAttributeIndex({ serviceAttributes, services, fil
                                 </SelectContent>
                             </Select>
                         </div>
-                        {(auth.permissions.includes('create service attributes') || auth.roles.includes('super-admin')) && (
+                        {auth.permissions.includes('create service attributes') && (
                             <Button asChild>
                                 <Link href={route('service-attributes.create')}>
                                     <Plus className="mr-2 h-4 w-4" />
@@ -201,8 +201,7 @@ export default function ServiceAttributeIndex({ serviceAttributes, services, fil
                                                     <DropdownMenuContent align="end">
                                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('view service attributes') ||
-                                                            auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('view service attributes') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('service-attributes.show', attribute.id)}>
                                                                     <Eye className="mr-2 h-4 w-4" />
@@ -210,8 +209,7 @@ export default function ServiceAttributeIndex({ serviceAttributes, services, fil
                                                                 </Link>
                                                             </DropdownMenuItem>
                                                         )}
-                                                        {(auth.permissions.includes('edit service attributes') ||
-                                                            auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('edit service attributes') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('service-attributes.edit', attribute.id)}>
                                                                     <Edit className="mr-2 h-4 w-4" />
@@ -220,8 +218,7 @@ export default function ServiceAttributeIndex({ serviceAttributes, services, fil
                                                             </DropdownMenuItem>
                                                         )}
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('delete service attributes') ||
-                                                            auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('delete service attributes') && (
                                                             <DropdownMenuItem onClick={() => handleDelete(attribute.id)} className="text-red-600">
                                                                 <Trash className="mr-2 h-4 w-4" />
                                                                 Delete

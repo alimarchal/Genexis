@@ -193,7 +193,7 @@ export default function ProductTypeIndex({ productTypes, products, filters }: Pr
                             </Select>
                         </div>
 
-                        {(auth.permissions.includes('create product types') || auth.roles.includes('super-admin')) && (
+                        {auth.permissions.includes('create product types') && (
                             <Button asChild>
                                 <Link href={route('product-types.create')}>
                                     <Plus className="mr-2 h-4 w-4" />
@@ -248,7 +248,7 @@ export default function ProductTypeIndex({ productTypes, products, filters }: Pr
                                                     <DropdownMenuContent align="end">
                                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('view product types') || auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('view product types') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('product-types.show', productType.id)}>
                                                                     <Eye className="mr-2 h-4 w-4" />
@@ -256,7 +256,7 @@ export default function ProductTypeIndex({ productTypes, products, filters }: Pr
                                                                 </Link>
                                                             </DropdownMenuItem>
                                                         )}
-                                                        {(auth.permissions.includes('edit product types') || auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('edit product types') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('product-types.edit', productType.id)}>
                                                                     <Edit className="mr-2 h-4 w-4" />
@@ -265,8 +265,7 @@ export default function ProductTypeIndex({ productTypes, products, filters }: Pr
                                                             </DropdownMenuItem>
                                                         )}
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('delete product types') ||
-                                                            auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('delete product types') && (
                                                             <DropdownMenuItem onClick={() => handleDelete(productType.id)} className="text-red-600">
                                                                 <Trash className="mr-2 h-4 w-4" />
                                                                 Delete

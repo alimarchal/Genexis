@@ -192,7 +192,7 @@ export default function NewsAnnouncementIndex({ newsAnnouncements, filters }: Pr
                             </Select>
                         </div>
 
-                        {(auth.permissions.includes('create news announcements') || auth.roles.includes('super-admin')) && (
+                        {auth.permissions.includes('create news announcements') && (
                             <Button asChild>
                                 <Link href={route('news-announcements.create')}>
                                     <Plus className="mr-2 h-4 w-4" />
@@ -268,8 +268,7 @@ export default function NewsAnnouncementIndex({ newsAnnouncements, filters }: Pr
                                                     <DropdownMenuContent align="end">
                                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('view news announcements') ||
-                                                            auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('view news announcements') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('news-announcements.show', announcement.id)}>
                                                                     <Eye className="mr-2 h-4 w-4" />
@@ -277,8 +276,7 @@ export default function NewsAnnouncementIndex({ newsAnnouncements, filters }: Pr
                                                                 </Link>
                                                             </DropdownMenuItem>
                                                         )}
-                                                        {(auth.permissions.includes('edit news announcements') ||
-                                                            auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('edit news announcements') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('news-announcements.edit', announcement.id)}>
                                                                     <Edit className="mr-2 h-4 w-4" />
@@ -287,8 +285,7 @@ export default function NewsAnnouncementIndex({ newsAnnouncements, filters }: Pr
                                                             </DropdownMenuItem>
                                                         )}
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('delete news announcements') ||
-                                                            auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('delete news announcements') && (
                                                             <DropdownMenuItem onClick={() => handleDelete(announcement.id)} className="text-red-600">
                                                                 <Trash className="mr-2 h-4 w-4" />
                                                                 Delete

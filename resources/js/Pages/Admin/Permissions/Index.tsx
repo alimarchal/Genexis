@@ -82,7 +82,7 @@ export default function PermissionIndex({ permissions, filters }: Props) {
             <div className="px-4 py-6">
                 <div className="mb-6 flex items-center justify-between">
                     <Heading title="Permission Management" description="Manage system permissions (advanced)" />
-                    {(auth.permissions.includes('create permissions') || auth.roles.includes('super-admin')) && (
+                    {auth.permissions.includes('create permissions') && (
                         <Button asChild>
                             <Link href={route('admin.permissions.create')}>
                                 <Plus className="mr-2 h-4 w-4" />
@@ -149,7 +149,7 @@ export default function PermissionIndex({ permissions, filters }: Props) {
                                                 <DropdownMenuContent align="end">
                                                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                     <DropdownMenuSeparator />
-                                                    {(auth.permissions.includes('edit permissions') || auth.roles.includes('super-admin')) && (
+                                                    {auth.permissions.includes('edit permissions') && (
                                                         <DropdownMenuItem asChild>
                                                             <Link href={route('admin.permissions.edit', permission.id)}>
                                                                 <Edit className="mr-2 h-4 w-4" />
@@ -157,7 +157,7 @@ export default function PermissionIndex({ permissions, filters }: Props) {
                                                             </Link>
                                                         </DropdownMenuItem>
                                                     )}
-                                                    {(auth.permissions.includes('delete permissions') || auth.roles.includes('super-admin')) && (
+                                                    {auth.permissions.includes('delete permissions') && (
                                                         <DropdownMenuItem onClick={() => handleDelete(permission.id)} className="text-red-600">
                                                             <Trash className="mr-2 h-4 w-4" />
                                                             Delete

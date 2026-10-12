@@ -234,7 +234,7 @@ export default function FinancialReportIndex({ financialReports, filters }: Prop
                             </Select>
                         </div>
 
-                        {(auth.permissions.includes('create financial reports') || auth.roles.includes('super-admin')) && (
+                        {auth.permissions.includes('create financial reports') && (
                             <Button asChild>
                                 <Link href={route('financial-reports.create')}>
                                     <Plus className="mr-2 h-4 w-4" />
@@ -304,8 +304,7 @@ export default function FinancialReportIndex({ financialReports, filters }: Prop
                                                     <DropdownMenuContent align="end">
                                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('view financial reports') ||
-                                                            auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('view financial reports') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('financial-reports.show', report.id)}>
                                                                     <Eye className="mr-2 h-4 w-4" />
@@ -313,8 +312,7 @@ export default function FinancialReportIndex({ financialReports, filters }: Prop
                                                                 </Link>
                                                             </DropdownMenuItem>
                                                         )}
-                                                        {(auth.permissions.includes('edit financial reports') ||
-                                                            auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('edit financial reports') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('financial-reports.edit', report.id)}>
                                                                     <Edit className="mr-2 h-4 w-4" />
@@ -336,8 +334,7 @@ export default function FinancialReportIndex({ financialReports, filters }: Prop
                                                             </>
                                                         )}
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('delete financial reports') ||
-                                                            auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('delete financial reports') && (
                                                             <DropdownMenuItem onClick={() => handleDelete(report.id)} className="text-red-600">
                                                                 <Trash className="mr-2 h-4 w-4" />
                                                                 Delete

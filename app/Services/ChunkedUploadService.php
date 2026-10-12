@@ -40,23 +40,19 @@ class ChunkedUploadService
 
     /**
      * Largest file this user may upload for an upload type. Anyone allowed to manage the module gets the
-     * module's own limit; a super-admin may additionally always go up to the global super-admin ceiling.
+     * module's own limit; anyone with the 'upload large files' permission may additionally go up to the global ceiling.
      */
     public function maxBytesFor(User $user, string $context): int
     {
         $moduleLimit = (int) ($this->context($context)['max_bytes'] ?? 0);
 
-        return $user->hasRole('super-admin')
+        return $user->can('upload large files')
             ? max($moduleLimit, (int) config('bank.uploads.super_admin_max_bytes'))
             : $moduleLimit;
     }
 
     public function mayUpload(User $user, string $context): bool
     {
-        if ($user->hasRole('super-admin')) {
-            return true;
-        }
-
         $permission = $this->context($context)['permission'];
 
         return $user->can("create {$permission}") || $user->can("edit {$permission}");

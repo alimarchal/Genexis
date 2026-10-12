@@ -212,7 +212,7 @@ export default function BoardOfDirectorIndex({ boardOfDirectors, filters }: Prop
                             </Select>
                         </div>
 
-                        {(auth.permissions.includes('create board of directors') || auth.roles.includes('super-admin')) && (
+                        {auth.permissions.includes('create board of directors') && (
                             <Button asChild>
                                 <Link href={route('board-of-directors.create')}>
                                     <Plus className="mr-2 h-4 w-4" />
@@ -291,8 +291,7 @@ export default function BoardOfDirectorIndex({ boardOfDirectors, filters }: Prop
                                                     <DropdownMenuContent align="end">
                                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('view board of directors') ||
-                                                            auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('view board of directors') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('board-of-directors.show', member.id)}>
                                                                     <Eye className="mr-2 h-4 w-4" />
@@ -300,8 +299,7 @@ export default function BoardOfDirectorIndex({ boardOfDirectors, filters }: Prop
                                                                 </Link>
                                                             </DropdownMenuItem>
                                                         )}
-                                                        {(auth.permissions.includes('edit board of directors') ||
-                                                            auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('edit board of directors') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('board-of-directors.edit', member.id)}>
                                                                     <Edit className="mr-2 h-4 w-4" />
@@ -310,8 +308,7 @@ export default function BoardOfDirectorIndex({ boardOfDirectors, filters }: Prop
                                                             </DropdownMenuItem>
                                                         )}
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('delete board of directors') ||
-                                                            auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('delete board of directors') && (
                                                             <DropdownMenuItem onClick={() => handleDelete(member.id)} className="text-red-600">
                                                                 <Trash className="mr-2 h-4 w-4" />
                                                                 Delete

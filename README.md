@@ -10,9 +10,9 @@ Public website and administration panel for the Bank of Azad Jammu & Kashmir.
 | | |
 |---|---|
 | Backend | Laravel 13, PHP 8.3+ (production runs 8.4) |
-| Frontend | React 19 + TypeScript, Inertia.js v2, Tailwind CSS v4, Vite |
+| Frontend | React 19 + TypeScript, Inertia.js v3, Tailwind CSS v4, Vite 8 (same stack as the official Laravel React starter kit) |
 | Database | MariaDB/MySQL (production), SQLite for tests |
-| Auth / permissions | Laravel auth + `spatie/laravel-permission` |
+| Auth / permissions | Laravel auth + `spatie/laravel-permission` v8 (permission middleware) |
 | Tests | Pest 4 (about 440 tests) |
 
 ---
@@ -159,11 +159,15 @@ Where to change things:
 
 ## Roles and permissions
 
-- `super-admin` can do everything (`Gate::before`).
-- Every other role is a set of permissions named `view|create|edit|delete <module>` (for example `edit carousels`).
-- Admin routes use `->guardedBy('module')`, which maps index/show -> view, create/store -> create, edit/update -> edit, destroy -> delete. A user with only `view carousels` can look but not change anything.
-- Staff can only hand out permissions they hold themselves; only a super-admin can create or modify another super-admin, and the `super-admin` role cannot be renamed.
-- Dashboard widgets and sidebar entries appear only for permissions the user has.
+Access control follows the [spatie/laravel-permission best practices](https://spatie.be/docs/laravel-permission/v8/best-practices/roles-vs-permissions): users have **roles**, roles have **permissions**, and the application only ever checks **permissions** (role names are used for nothing but guard rails).
+
+- **Every role is editable, including `super-admin`.** Permissions are named `view|create|edit|delete <module>` (for example `edit carousels`) and are granted or taken away per role under **User Management -> Roles -> Edit Permissions**. There is no hidden bypass: no `Gate::before` hook, no role-name check in the UI. A permission removed from a role is really gone for everyone holding that role, and can be added back at any time.
+- **Spatie middleware does the enforcing.** Admin resources use `->guardedBy('module')` (in `AppServiceProvider`), which maps index/show -> `permission:view module`, create/store -> `permission:create module`, edit/update -> `permission:edit module`, destroy -> `permission:delete module`. Controllers and one-off routes use the same `permission:` alias (see `bootstrap/app.php` for the `role`, `permission` and `role_or_permission` aliases). A user with only `view carousels` can look but not change anything.
+- **No lock-out.** The `super-admin` role must always keep `view roles` and `edit roles` so roles stay manageable; it cannot be renamed or deleted, and the last super-admin user cannot be removed or demoted.
+- **Seeding never overrides your choices.** `RoleAndPermissionSeeder` only grants permissions it creates for the first time, so re-running it (or a deploy) never restores a permission an administrator removed. When you add a module, add its permissions to the seeder **and** to a migration (see `database/migrations/*upload_permissions.php`) that creates them and grants them to `super-admin` on existing installs.
+- Staff can only hand out permissions they hold themselves; only a super-admin can create or modify another super-admin.
+- Dashboard widgets, sidebar entries and action buttons appear only for permissions the user has (the UI reads `auth.permissions`).
+- Uploads: `view uploads` opens the upload log; `upload large files` raises the size ceiling to `UPLOAD_MAX_BYTES`.
 
 ## Public API v1
 
@@ -200,8 +204,8 @@ Full reference: [docs/api.md](docs/api.md). The older `GET /api/search?q=` endpo
 Financial statements, annual reports, highlights, downloads, schedules of charges and vacancy documents can be several GB. A normal form post cannot carry that (PHP, the web server and proxies all cap request bodies), so these forms use a **resumable chunked uploader**:
 
 - The browser cuts the file into 4 MB parts, sends them one by one and shows a **progress bar** with amount, speed and time left. It can **pause, resume, cancel**, retries automatically after network errors and can continue after a page refresh.
-- **Everybody who may manage a module can upload large files for it.** Anyone with the module's create/edit permission (financial reports, annual reports, highlights, downloads) may upload up to 10 GB (`UPLOAD_LARGE_MAX_BYTES`); schedules of charges and vacancy documents up to 500 MB (`UPLOAD_DOCUMENT_MAX_BYTES`). Users without the permission cannot upload at all, and a super-admin may always go up to `UPLOAD_MAX_BYTES`. No PHP setting needs to be changed: because the file travels in 4 MB parts, PHP's `upload_max_filesize` / `post_max_size` never apply.
-- The server keeps a record of every upload (who, which file, size, bytes received, IP, status, SHA-256 of the finished file). Super-admins see it under **System Management -> Upload Log**; running uploads refresh live.
+- **Everybody who may manage a module can upload large files for it.** Anyone with the module's create/edit permission (financial reports, annual reports, highlights, downloads) may upload up to 10 GB (`UPLOAD_LARGE_MAX_BYTES`); schedules of charges and vacancy documents up to 500 MB (`UPLOAD_DOCUMENT_MAX_BYTES`). Users without the permission cannot upload at all, and anyone holding `upload large files` (super-admin by default) may go up to `UPLOAD_MAX_BYTES`. No PHP setting needs to be changed: because the file travels in 4 MB parts, PHP's `upload_max_filesize` / `post_max_size` never apply.
+- The server keeps a record of every upload (who, which file, size, bytes received, IP, status, SHA-256 of the finished file). Users with `view uploads` see it under **System Management -> Upload Log**; running uploads refresh live.
 - A finished file is checked by its **real content** (not the browser's claim) against the allowed types, moved into `storage/app/public`, and only attached to a record when the form is saved. A replaced file is deleted only after the new one is saved.
 - Abandoned uploads and finished files that were never attached are removed after 24 hours by `php artisan uploads:prune` (hourly through the scheduler, see below).
 - Downloads use HTTP Range, so browsers can resume large downloads.

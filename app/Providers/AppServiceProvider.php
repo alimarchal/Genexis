@@ -6,7 +6,6 @@ use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Middleware\TrustProxies;
 use Illuminate\Http\Request;
 use Illuminate\Routing\PendingResourceRegistration;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
@@ -36,14 +35,10 @@ class AppServiceProvider extends ServiceProvider
         PendingResourceRegistration::macro('guardedBy', function (string $permission) {
             /** @var PendingResourceRegistration $this */
             return $this
-                ->middlewareFor(['index', 'show'], "can:view {$permission}")
-                ->middlewareFor(['create', 'store'], "can:create {$permission}")
-                ->middlewareFor(['edit', 'update'], "can:edit {$permission}")
-                ->middlewareFor('destroy', "can:delete {$permission}");
-        });
-
-        Gate::before(function ($user, $ability) {
-            return $user->hasRole('super-admin') ? true : null;
+                ->middlewareFor(['index', 'show'], "permission:view {$permission}")
+                ->middlewareFor(['create', 'store'], "permission:create {$permission}")
+                ->middlewareFor(['edit', 'update'], "permission:edit {$permission}")
+                ->middlewareFor('destroy', "permission:delete {$permission}");
         });
     }
 

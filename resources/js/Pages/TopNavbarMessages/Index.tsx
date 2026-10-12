@@ -183,7 +183,7 @@ export default function Index({ messages, filters }: Props) {
                                 </SelectContent>
                             </Select>
                         </div>
-                        {(auth.permissions.includes('create top navbar messages') || auth.roles.includes('super-admin')) && (
+                        {auth.permissions.includes('create top navbar messages') && (
                             <Button asChild>
                                 <Link href={route('top-navbar-messages.create')}>
                                     <Plus className="mr-2 h-4 w-4" />
@@ -247,8 +247,7 @@ export default function Index({ messages, filters }: Props) {
                                                     <DropdownMenuContent align="end">
                                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('view top navbar messages') ||
-                                                            auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('view top navbar messages') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('top-navbar-messages.show', message.id)}>
                                                                     <Eye className="mr-2 h-4 w-4" />
@@ -256,8 +255,7 @@ export default function Index({ messages, filters }: Props) {
                                                                 </Link>
                                                             </DropdownMenuItem>
                                                         )}
-                                                        {(auth.permissions.includes('edit top navbar messages') ||
-                                                            auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('edit top navbar messages') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('top-navbar-messages.edit', message.id)}>
                                                                     <Edit className="mr-2 h-4 w-4" />
@@ -266,8 +264,7 @@ export default function Index({ messages, filters }: Props) {
                                                             </DropdownMenuItem>
                                                         )}
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('delete top navbar messages') ||
-                                                            auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('delete top navbar messages') && (
                                                             <DropdownMenuItem onClick={() => handleDelete(message.id)} className="text-red-600">
                                                                 <Trash2 className="mr-2 h-4 w-4" />
                                                                 Delete

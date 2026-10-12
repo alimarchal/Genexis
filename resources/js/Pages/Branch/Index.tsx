@@ -287,7 +287,7 @@ export default function BranchIndex({ branches, regions, districts, filters }: P
                             </Select>
                         </div>
 
-                        {(auth.permissions.includes('create branches') || auth.roles.includes('super-admin')) && (
+                        {auth.permissions.includes('create branches') && (
                             <Button asChild>
                                 <Link href={route('branches.create')}>
                                     <Plus className="mr-2 h-4 w-4" />
@@ -339,7 +339,7 @@ export default function BranchIndex({ branches, regions, districts, filters }: P
                                                     </DropdownMenuTrigger>
                                                     <DropdownMenuContent align="end">
                                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                                        {(auth.permissions.includes('view branches') || auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('view branches') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('branches.show', branch.id)}>
                                                                     <Eye className="mr-2 h-4 w-4" />
@@ -347,7 +347,7 @@ export default function BranchIndex({ branches, regions, districts, filters }: P
                                                                 </Link>
                                                             </DropdownMenuItem>
                                                         )}
-                                                        {(auth.permissions.includes('edit branches') || auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('edit branches') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('branches.edit', branch.id)}>
                                                                     <Edit className="mr-2 h-4 w-4" />
@@ -356,7 +356,7 @@ export default function BranchIndex({ branches, regions, districts, filters }: P
                                                             </DropdownMenuItem>
                                                         )}
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('delete branches') || auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('delete branches') && (
                                                             <DropdownMenuItem className="text-red-600" onClick={() => handleDelete(branch.id)}>
                                                                 <Trash className="mr-2 h-4 w-4" />
                                                                 Delete

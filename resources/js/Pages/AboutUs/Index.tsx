@@ -139,7 +139,7 @@ export default function AboutUsIndex({ aboutUsList, filters }: Props) {
                             </Select>
                         </div>
 
-                        {(auth.permissions.includes('create about us') || auth.roles.includes('super-admin')) && (
+                        {auth.permissions.includes('create about us') && (
                             <Button asChild>
                                 <Link href={route('about-us.create')}>
                                     <Plus className="mr-2 h-4 w-4" />
@@ -197,7 +197,7 @@ export default function AboutUsIndex({ aboutUsList, filters }: Props) {
                                                     <DropdownMenuContent align="end">
                                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('view about us') || auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('view about us') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('about-us.show', aboutUs.id)}>
                                                                     <Eye className="mr-2 h-4 w-4" />
@@ -205,7 +205,7 @@ export default function AboutUsIndex({ aboutUsList, filters }: Props) {
                                                                 </Link>
                                                             </DropdownMenuItem>
                                                         )}
-                                                        {(auth.permissions.includes('edit about us') || auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('edit about us') && (
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('about-us.edit', aboutUs.id)}>
                                                                     <Edit className="mr-2 h-4 w-4" />
@@ -214,7 +214,7 @@ export default function AboutUsIndex({ aboutUsList, filters }: Props) {
                                                             </DropdownMenuItem>
                                                         )}
                                                         <DropdownMenuSeparator />
-                                                        {(auth.permissions.includes('delete about us') || auth.roles.includes('super-admin')) && (
+                                                        {auth.permissions.includes('delete about us') && (
                                                             <DropdownMenuItem onClick={() => handleDelete(aboutUs.id)} className="text-red-600">
                                                                 <Trash className="mr-2 h-4 w-4" />
                                                                 Delete
