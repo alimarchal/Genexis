@@ -23,7 +23,7 @@ class StoreBoardOfDirectorRequest extends FormRequest
             'experience.*' => 'nullable|string|max:500',
             'achievements' => 'nullable|array',
             'achievements.*' => 'nullable|string|max:500',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:307200',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
             'sort_order' => 'nullable|integer|min:0',
             'is_active' => 'boolean',
             'is_chairman' => 'boolean',
@@ -43,7 +43,7 @@ class StoreBoardOfDirectorRequest extends FormRequest
             'full_name.required' => 'The full name field is required.',
             'designation.required' => 'The designation field is required.',
             'image.image' => 'The uploaded file must be an image.',
-            'image.max' => 'The image size should not exceed 2MB.',
+            'image.max' => 'The image size should not exceed 10MB.',
             'experience.*.max' => 'Each experience item should not exceed 500 characters.',
             'achievements.*.max' => 'Each achievement item should not exceed 500 characters.',
         ];

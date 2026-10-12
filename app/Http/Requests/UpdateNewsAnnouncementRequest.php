@@ -28,7 +28,7 @@ class UpdateNewsAnnouncementRequest extends FormRequest
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'excerpt' => 'nullable|string|max:500',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:307200',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
             'published_date' => 'required|date',
             'is_featured' => 'boolean',
             'category' => 'required|string|in:general,banking,services,announcements,updates',

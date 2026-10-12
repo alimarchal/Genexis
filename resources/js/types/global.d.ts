@@ -101,6 +101,7 @@ declare module '@inertiajs/core' {
             };
         };
         topNavbarMessages?: TopNavbarMessage[];
+        uploadLimits?: { contexts: Record<string, number>; isSuperAdmin: boolean } | null;
 
         // Add any other globally shared props here as you define them
     }

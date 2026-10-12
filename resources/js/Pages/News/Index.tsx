@@ -9,6 +9,7 @@ interface NewsAnnouncement {
     title: string;
     content: string;
     excerpt: string;
+    preview?: string;
     image: string | null;
     image_url: string | null;
     published_date: string;
@@ -145,7 +146,7 @@ export default function NewsIndex({ newsAnnouncements }: Props) {
                                             </h3>
 
                                             {/* Excerpt */}
-                                            <p className="mb-4 text-sm leading-relaxed text-gray-600">{news.excerpt}</p>
+                                            <p className="mb-4 text-sm leading-relaxed text-gray-600">{news.preview ?? news.excerpt}</p>
 
                                             {/* Read More Link */}
                                             <Link

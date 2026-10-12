@@ -14,10 +14,11 @@ class StoreScheduleOfChargeRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'attachment_upload_id' => ['nullable', 'uuid'],
             'title' => 'required|string|max:255',
             'from' => 'required|date',
             'to' => 'nullable|date|after_or_equal:from',
-            'attachment' => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx|max:307200',
+            'attachment' => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx|max:51200',
             'description' => 'nullable|string|max:1000',
             'is_active' => 'boolean',
         ];
@@ -30,7 +31,7 @@ class StoreScheduleOfChargeRequest extends FormRequest
             'from.required' => 'The start date is required.',
             'to.after_or_equal' => 'The end date must be after or equal to the start date.',
             'attachment.mimes' => 'The attachment must be a PDF, Word document, or Excel file.',
-            'attachment.max' => 'The attachment size cannot exceed 300MB.',
+            'attachment.max' => 'The attachment size cannot exceed 50MB when posted directly (use the large-file uploader).',
         ];
     }
 }
