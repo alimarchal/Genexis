@@ -6,10 +6,11 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
+import UploadField from '@/components/upload-field';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, Link, router, useForm } from '@inertiajs/react';
-import { Download, FileText, Save, Upload } from 'lucide-react';
+import { Head, Link, useForm } from '@inertiajs/react';
+import { Download, FileText, Save } from 'lucide-react';
 import { FormEventHandler, useState } from 'react';
 
 interface DownloadItem {
@@ -37,40 +38,21 @@ export default function EditDownload({ download }: Props) {
         { title: 'Edit', href: route('downloads.edit', download.id) },
     ];
 
-    const { data, setData, processing, errors } = useForm({
+    const { data, setData, post, processing, errors } = useForm({
         title: download.title,
         description: download.description || '',
-        file: null as File | null,
+        file_upload_id: null as string | null,
         category: download.category,
         is_featured: download.is_featured,
         is_active: download.is_active,
         _method: 'PUT',
     });
 
-    const [fileName, setFileName] = useState('');
+    const [uploading, setUploading] = useState(false);
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
-        router.post(route('downloads.update', download.id), {
-            ...data,
-            _method: 'PUT',
-        });
-    };
-
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0] || null;
-        setData('file', file);
-        setFileName(file ? file.name : '');
-    };
-
-    const getFileSize = (file: File | null): string => {
-        if (!file) return '';
-        return `${(file.size / (1024 * 1024)).toFixed(2)} MB`;
-    };
-
-    const getFileType = (file: File | null): string => {
-        if (!file) return '';
-        return file.type || 'Unknown';
+        post(route('downloads.update', download.id));
     };
 
     const getCurrentFileName = (filePath: string): string => {
@@ -168,40 +150,15 @@ export default function EditDownload({ download }: Props) {
                                     </div>
                                 )}
 
-                                <div className="space-y-2">
-                                    <Label htmlFor="file">{download.file_path ? 'Replace File' : 'Upload File'}</Label>
-                                    <div className="relative flex-1">
-                                        <Input
-                                            id="file"
-                                            type="file"
-                                            accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png,.gif,.zip,.rar"
-                                            onChange={handleFileChange}
-                                            className={errors.file ? 'border-red-500' : ''}
-                                        />
-                                        <Upload className="absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
-                                    </div>
-                                    {errors.file && <p className="text-sm text-red-500">{errors.file}</p>}
-
-                                    {fileName && (
-                                        <div className="rounded-md border border-blue-200 bg-blue-50 p-3">
-                                            <div className="flex items-center justify-between">
-                                                <div className="flex items-center gap-2">
-                                                    <FileText className="h-4 w-4 text-blue-500" />
-                                                    <span className="text-sm font-medium text-blue-900">New: {fileName}</span>
-                                                </div>
-                                                <span className="text-sm text-blue-600">{getFileSize(data.file)}</span>
-                                            </div>
-                                            <div className="mt-1 text-xs text-blue-600">Type: {getFileType(data.file)}</div>
-                                            {download.file_path && <p className="mt-1 text-xs text-blue-600">This will replace the current file</p>}
-                                        </div>
-                                    )}
-
-                                    <p className="text-sm text-gray-500">
-                                        {download.file_path
-                                            ? 'Upload a new file to replace the current one (optional)'
-                                            : 'Supported formats: PDF, Word (.doc, .docx), Excel (.xls, .xlsx), Images (.jpg, .jpeg, .png, .gif), Archives (.zip, .rar). Maximum size: 100MB'}
-                                    </p>
-                                </div>
+                                <UploadField
+                                    context="downloads"
+                                    label="File"
+                                    accept={['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'jpg', 'jpeg', 'png', 'gif', 'zip', 'rar']}
+                                    currentFileName={download.file_path?.split('/').pop()}
+                                    onChange={(id) => setData('file_upload_id', id)}
+                                    onBusyChange={setUploading}
+                                    error={errors.file_upload_id ?? (errors as Record<string, string | undefined>).file}
+                                />
                             </CardContent>
                         </Card>
 
@@ -268,10 +225,10 @@ export default function EditDownload({ download }: Props) {
                                         <span className="font-medium">Downloads:</span>
                                         <span className="text-gray-600">{download.download_count.toLocaleString()}</span>
                                     </div>
-                                    {fileName && (
+                                    {(data.file_upload_id ? 'Uploaded file' : '') && (
                                         <div className="flex items-center justify-between text-sm">
                                             <span className="font-medium text-blue-700">New File:</span>
-                                            <span className="text-blue-600">{fileName}</span>
+                                            <span className="text-blue-600">{data.file_upload_id ? 'Uploaded file' : ''}</span>
                                         </div>
                                     )}
                                 </div>
@@ -282,7 +239,7 @@ export default function EditDownload({ download }: Props) {
                             <Button variant="outline" asChild>
                                 <Link href={route('downloads.index')}>Cancel</Link>
                             </Button>
-                            <Button type="submit" disabled={processing}>
+                            <Button type="submit" disabled={processing || uploading}>
                                 <Save className="mr-2 h-4 w-4" />
                                 {processing ? 'Updating...' : 'Update Download'}
                             </Button>

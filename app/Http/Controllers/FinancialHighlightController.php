@@ -37,9 +37,7 @@ class FinancialHighlightController extends Controller
         $validated = $request->validated();
         $data = $validated;
 
-        if ($request->hasFile('financial_highlights')) {
-            $data['financial_highlights'] = $request->file('financial_highlights')->store('financial-highlights', 'public');
-        }
+        [$data] = $this->applyUploads($request, $data, 'financial-highlights', ['financial_highlights' => 'financial_highlights']);
 
         FinancialHighlight::create($data);
 
@@ -65,16 +63,10 @@ class FinancialHighlightController extends Controller
     {
         $data = $request->validated();
 
-        if ($request->hasFile('financial_highlights')) {
-            if ($financialHighlight->financial_highlights) {
-                Storage::disk('public')->delete($financialHighlight->financial_highlights);
-            }
-            $data['financial_highlights'] = $request->file('financial_highlights')->store('financial-highlights', 'public');
-        } else {
-            unset($data['financial_highlights']);
-        }
+        [$data, $obsolete] = $this->applyUploads($request, $data, 'financial-highlights', ['financial_highlights' => 'financial_highlights'], $financialHighlight);
 
         $financialHighlight->update($data);
+        $this->deleteStoredFiles($obsolete);
 
         return redirect()->route('financial-highlights.index')
             ->with('success', 'Financial highlights updated successfully.');
@@ -101,6 +93,6 @@ class FinancialHighlightController extends Controller
         $extension = pathinfo($financialHighlight->financial_highlights, PATHINFO_EXTENSION);
         $fileName = "Financial-Highlights-FY{$financialHighlight->fiscal_year}.{$extension}";
 
-        return Storage::disk('public')->download($financialHighlight->financial_highlights, $fileName);
+        return $this->sendPublicFile($financialHighlight->financial_highlights, $fileName);
     }
 }

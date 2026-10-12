@@ -152,4 +152,40 @@ return [
         'download_rate_limit' => (int) env('DOWNLOAD_RATE_LIMIT', 30),
         'web_rate_limit' => (int) env('WEB_RATE_LIMIT', 600),
     ],
+    'uploads' => [
+        // Size of every chunk the browser sends (bytes). Keep it below the web server's body limit.
+        'chunk_size' => (int) env('UPLOAD_CHUNK_BYTES', 4 * 1024 * 1024),
+        // Anyone with the module's create/edit permission may upload up to that module's max_bytes below;
+        // a super-admin may always upload up to super_admin_max_bytes (or the module limit if that is higher).
+        'super_admin_max_bytes' => (int) env('UPLOAD_MAX_BYTES', 10 * 1024 * 1024 * 1024),
+        'max_active_per_user' => (int) env('UPLOAD_MAX_ACTIVE', 3),
+        // Abandoned uploads (and finished-but-unused files) are removed after this many hours.
+        'stale_hours' => (int) env('UPLOAD_STALE_HOURS', 24),
+        // Free space that must remain on the disk after the upload (bytes).
+        'reserve_bytes' => (int) env('UPLOAD_RESERVE_BYTES', 1024 * 1024 * 1024),
+        'contexts' => [
+            'financial-reports' => ['max_bytes' => (int) env('UPLOAD_LARGE_MAX_BYTES', 10 * 1024 * 1024 * 1024), 'label' => 'Financial reports', 'permission' => 'financial reports', 'extensions' => ['pdf', 'doc', 'docx', 'xls', 'xlsx']],
+            'annual-reports' => ['max_bytes' => (int) env('UPLOAD_LARGE_MAX_BYTES', 10 * 1024 * 1024 * 1024), 'label' => 'Annual reports', 'permission' => 'annual reports', 'extensions' => ['pdf', 'doc', 'docx', 'xls', 'xlsx']],
+            'financial-highlights' => ['max_bytes' => (int) env('UPLOAD_LARGE_MAX_BYTES', 10 * 1024 * 1024 * 1024), 'label' => 'Financial highlights', 'permission' => 'financial highlights', 'extensions' => ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx']],
+            'downloads' => ['max_bytes' => (int) env('UPLOAD_LARGE_MAX_BYTES', 10 * 1024 * 1024 * 1024), 'label' => 'Downloads', 'permission' => 'downloads', 'extensions' => ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'jpg', 'jpeg', 'png', 'gif', 'zip', 'rar']],
+            'schedule-of-charges' => ['max_bytes' => (int) env('UPLOAD_DOCUMENT_MAX_BYTES', 500 * 1024 * 1024), 'label' => 'Schedule of charges', 'permission' => 'schedule of charges', 'extensions' => ['pdf', 'doc', 'docx', 'xls', 'xlsx']],
+            'careers' => ['max_bytes' => (int) env('UPLOAD_DOCUMENT_MAX_BYTES', 500 * 1024 * 1024), 'label' => 'Career documents', 'permission' => 'careers', 'extensions' => ['pdf', 'doc', 'docx']],
+        ],
+        // What the file's real content may look like for each extension (checked with finfo, not the browser's claim).
+        'mimes' => [
+            'pdf' => ['application/pdf'],
+            'doc' => ['application/msword', 'application/CDFV2', 'application/x-ole-storage', 'application/vnd.ms-office'],
+            'xls' => ['application/vnd.ms-excel', 'application/CDFV2', 'application/x-ole-storage', 'application/vnd.ms-office'],
+            'ppt' => ['application/vnd.ms-powerpoint', 'application/CDFV2', 'application/x-ole-storage', 'application/vnd.ms-office'],
+            'docx' => ['application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/zip', 'application/octet-stream'],
+            'xlsx' => ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/zip', 'application/octet-stream'],
+            'pptx' => ['application/vnd.openxmlformats-officedocument.presentationml.presentation', 'application/zip', 'application/octet-stream'],
+            'zip' => ['application/zip', 'application/x-zip-compressed'],
+            'rar' => ['application/vnd.rar', 'application/x-rar', 'application/x-rar-compressed'],
+            'jpg' => ['image/jpeg'],
+            'jpeg' => ['image/jpeg'],
+            'png' => ['image/png'],
+            'gif' => ['image/gif'],
+        ],
+    ],
 ];
