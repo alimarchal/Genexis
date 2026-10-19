@@ -1,6 +1,6 @@
 import WebsiteLayout from '@/layouts/WebsiteLayout';
 import { router } from '@inertiajs/react';
-import { Briefcase, ChevronLeft, ChevronRight, Download, Eye } from 'lucide-react';
+import { Briefcase, CalendarDays, ChevronLeft, ChevronRight, Download, Eye } from 'lucide-react';
 import { useMemo, useState } from 'react';
 
 interface Career {
@@ -10,6 +10,7 @@ interface Career {
     requirements: string;
     location: string;
     closing_date: string | null;
+    is_expired: boolean;
     benefits: string | null;
     is_featured: boolean;
     views_count: number;
@@ -57,11 +58,6 @@ export default function PublicCareersIndex({ careers }: Props) {
         });
     };
 
-    const isExpired = (closingDate: string | null) => {
-        if (!closingDate) return false;
-        return new Date(closingDate) < new Date();
-    };
-
     return (
         <div className="min-h-screen bg-gradient-to-br from-[#e9f7ef] to-[#fff7e6]">
             <div className="mx-auto max-w-7xl px-6 py-8">
@@ -100,11 +96,12 @@ export default function PublicCareersIndex({ careers }: Props) {
                     <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-lg">
                         <table className="w-full min-w-full table-auto divide-y divide-gray-200 bg-white text-sm sm:text-base">
                             <colgroup>
-                                <col className="w-[25%]" />
-                                <col className="w-[20%]" />
-                                <col className="w-[15%]" />
-                                <col className="w-[15%]" />
-                                <col className="w-[25%]" />
+                                <col className="w-[24%]" />
+                                <col className="w-[16%]" />
+                                <col className="w-[18%]" />
+                                <col className="w-[12%]" />
+                                <col className="w-[8%]" />
+                                <col className="w-[22%]" />
                             </colgroup>
                             <thead className="bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A]">
                                 <tr>
@@ -115,8 +112,9 @@ export default function PublicCareersIndex({ careers }: Props) {
                                         Location
                                     </th>
                                     <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-white uppercase sm:text-sm">
-                                        Deadline
+                                        Expiry Date
                                     </th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-white uppercase sm:text-sm">Status</th>
                                     <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-white uppercase sm:text-sm">Views</th>
                                     <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-white uppercase sm:text-sm">
                                         Actions
@@ -125,7 +123,10 @@ export default function PublicCareersIndex({ careers }: Props) {
                             </thead>
                             <tbody className="divide-y divide-gray-200 bg-white">
                                 {(filteredCareers.length > 0 ? filteredCareers : []).map((career) => (
-                                    <tr key={career.id} className="hover:bg-gray-50">
+                                    <tr
+                                        key={career.id}
+                                        className={career.is_expired ? 'bg-gray-50/80 opacity-75 hover:bg-gray-100' : 'hover:bg-gray-50'}
+                                    >
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="text-sm font-medium text-gray-900">{career.title}</div>
                                             <div>
@@ -149,9 +150,23 @@ export default function PublicCareersIndex({ careers }: Props) {
                                             <div className="text-sm text-gray-900">{career.location}</div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            <span className={`text-sm ${isExpired(career.closing_date) ? 'text-red-600' : 'text-gray-900'}`}>
+                                            <span
+                                                className={`inline-flex items-center gap-1.5 text-sm ${career.is_expired ? 'text-red-600' : 'text-gray-900'}`}
+                                            >
+                                                <CalendarDays className="h-4 w-4" />
                                                 {formatDate(career.closing_date)}
                                             </span>
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            {career.is_expired ? (
+                                                <span className="inline-flex items-center rounded-full border border-red-200 bg-red-50 px-3 py-1 text-xs font-semibold text-red-700">
+                                                    Expired
+                                                </span>
+                                            ) : (
+                                                <span className="inline-flex items-center rounded-full border border-green-200 bg-green-50 px-3 py-1 text-xs font-semibold text-green-700">
+                                                    Open
+                                                </span>
+                                            )}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="text-sm font-medium text-gray-900">{career.views_count}</div>

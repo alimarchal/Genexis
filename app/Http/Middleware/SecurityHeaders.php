@@ -49,7 +49,7 @@ class SecurityHeaders
             "font-src 'self' data: https://fonts.bunny.net",
             "img-src 'self' data: blob: https:",
             "connect-src 'self'",
-            "frame-src 'self'",
+            "frame-src 'self' https://www.google.com",
             "media-src 'self'",
             "object-src 'none'",
             "base-uri 'self'",

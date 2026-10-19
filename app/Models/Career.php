@@ -162,8 +162,13 @@ class Career extends Model
         $this->increment('views_count');
     }
 
-    public function getIsExpiredAttribute()
+    public function scopeExpired($query)
     {
-        return $this->closing_date && $this->closing_date->isPast();
+        return $query->whereNotNull('closing_date')->where('closing_date', '<', now()->toDateString());
+    }
+
+    public function getIsExpiredAttribute(): bool
+    {
+        return $this->closing_date !== null && $this->closing_date->lt(today());
     }
 }

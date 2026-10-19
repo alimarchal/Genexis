@@ -10,6 +10,7 @@ interface Career {
     requirements: string;
     location: string;
     closing_date: string | null;
+    is_expired: boolean;
     benefits: string | null;
     views_count: number;
     document_url: string | null;
@@ -36,11 +37,6 @@ export default function PublicCareerDetail({ career }: Props) {
             month: 'short',
             day: 'numeric',
         });
-    };
-
-    const isExpired = (closingDate: string | null) => {
-        if (!closingDate) return false;
-        return new Date(closingDate) < new Date();
     };
 
     const formatText = (text: string) => {
@@ -70,7 +66,12 @@ export default function PublicCareerDetail({ career }: Props) {
                                 <Briefcase className="h-8 w-8" />
                             </div>
                             <div className="flex-1">
-                                <h1 className="mb-3 text-3xl font-bold sm:text-4xl">{career.title}</h1>
+                                <h1 className="mb-3 flex flex-wrap items-center gap-3 text-3xl font-bold sm:text-4xl">
+                                    {career.title}
+                                    {career.is_expired && (
+                                        <span className="rounded-full bg-red-600 px-3 py-1 text-sm font-semibold text-white">Expired</span>
+                                    )}
+                                </h1>
                                 <div className="flex flex-wrap items-center gap-6 text-green-100">
                                     <div className="flex items-center gap-2">
                                         <MapPin className="h-4 w-4" />
@@ -78,7 +79,7 @@ export default function PublicCareerDetail({ career }: Props) {
                                     </div>
                                     <div className="flex items-center gap-2">
                                         <Calendar className="h-4 w-4" />
-                                        <span className={isExpired(career.closing_date) ? 'text-red-300' : ''}>
+                                        <span className={career.is_expired ? 'text-red-300' : ''}>
                                             Application Deadline: {formatDate(career.closing_date)}
                                         </span>
                                     </div>
@@ -135,7 +136,7 @@ export default function PublicCareerDetail({ career }: Props) {
                                         <dt className="text-sm font-medium text-gray-500">Application Deadline</dt>
                                         <dd className="mt-1 flex items-center gap-2">
                                             <Calendar className="h-4 w-4 text-gray-400" />
-                                            <span className={`text-sm ${isExpired(career.closing_date) ? 'text-red-600' : 'text-gray-900'}`}>
+                                            <span className={`text-sm ${career.is_expired ? 'text-red-600' : 'text-gray-900'}`}>
                                                 {formatDate(career.closing_date)}
                                             </span>
                                         </dd>
@@ -174,7 +175,7 @@ export default function PublicCareerDetail({ career }: Props) {
                                         </div>
                                     )}
 
-                                    {isExpired(career.closing_date) && (
+                                    {career.is_expired && (
                                         <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-center">
                                             <p className="text-sm font-medium text-red-600">⚠️ Application deadline has passed</p>
                                         </div>
