@@ -1,3 +1,4 @@
+import BranchLocationsMap, { BranchLocation } from '@/components/BranchLocationsMap';
 import WebsiteLayout from '@/layouts/WebsiteLayout';
 import { postJson } from '@/lib/post-json';
 import { usePage } from '@inertiajs/react';
@@ -23,6 +24,7 @@ interface ContactCard {
 
 interface ContactPageProps {
     bankBranchesCount: number;
+    branchLocations: BranchLocation[];
     contact_phone: string;
     contact_email: string;
     contact_address: string;
@@ -35,8 +37,8 @@ interface ContactPageProps {
 }
 
 export default function ContactPage() {
-    const { bankBranchesCount, contact_phone, contact_email, contact_address, company_secretary_phone, hrmd_phone, flash } = usePage()
-        .props as ContactPageProps;
+    const { bankBranchesCount, branchLocations, contact_phone, contact_email, contact_address, company_secretary_phone, hrmd_phone, flash } =
+        usePage().props as unknown as ContactPageProps;
 
     const [formData, setFormData] = useState({
         name: '',
@@ -609,6 +611,8 @@ export default function ContactPage() {
                         </div>
                     </div>
                 </div>
+
+                <BranchLocationsMap branches={branchLocations ?? []} headOfficeAddress={contact_address} />
 
                 {/* Branch Locator Section */}
                 <div className="relative mt-16 mb-8 overflow-hidden rounded-2xl bg-gradient-to-br from-[#4A7C59] via-[#5D9973] to-[#6CAF7E] shadow-2xl">

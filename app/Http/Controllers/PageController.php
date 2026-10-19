@@ -158,7 +158,25 @@ class PageController extends Controller
 
     public function contact()
     {
+        $branchLocations = Branch::with(['region', 'district'])
+            ->active()
+            ->whereNotNull('latitude')
+            ->whereNotNull('longitude')
+            ->orderBy('name')
+            ->get()
+            ->map(fn (Branch $branch): array => [
+                'id' => $branch->id,
+                'name' => $branch->name,
+                'type' => $branch->type,
+                'address' => $branch->full_address,
+                'region' => $branch->region->name ?? '',
+                'latitude' => (float) $branch->latitude,
+                'longitude' => (float) $branch->longitude,
+                'google_maps_url' => $branch->google_maps_url,
+            ]);
+
         return inertia('Contact/Index', [
+            'branchLocations' => $branchLocations,
             'bankBranchesCount' => config('bank.stats.branches_count'),
             'contact_phone' => config('bank.contact.contact_phone'),
             'contact_email' => config('bank.contact.contact_email'),

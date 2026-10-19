@@ -28,6 +28,7 @@ describe('security headers', function () {
 
         expect($csp)->toContain("object-src 'none'")
             ->toContain("frame-ancestors 'self'")
+            ->toContain("frame-src 'self' https://www.google.com;")
             ->not->toContain("script-src 'self' 'unsafe-inline'");
 
         preg_match("/'nonce-([^']+)'/", $csp, $matches);

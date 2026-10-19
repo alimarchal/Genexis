@@ -107,7 +107,10 @@ class CareerController extends Controller
     {
         $perPage = $this->perPage(10);
 
-        $careers = Career::active()->open()
+        $today = now()->toDateString();
+
+        $careers = Career::active()
+            ->orderByRaw('CASE WHEN closing_date IS NOT NULL AND closing_date < ? THEN 1 ELSE 0 END', [$today])
             ->orderBy('is_featured', 'desc')
             ->orderBy('created_at', 'desc')
             ->paginate($perPage)
@@ -120,10 +123,11 @@ class CareerController extends Controller
                     'requirements' => $career->requirements,
                     'location' => $career->location,
                     'closing_date' => $career->closing_date,
+                    'is_expired' => $career->is_expired,
                     'benefits' => $career->benefits,
                     'is_featured' => $career->is_featured,
                     'views_count' => $career->views_count,
-                    'document_url' => $career->document_url,
+                    'document_url' => $career->is_expired ? null : $career->document_url,
                     'created_at' => $career->created_at,
                 ];
             });
@@ -135,7 +139,7 @@ class CareerController extends Controller
 
     public function publicShow(Career $career)
     {
-        if (! Career::active()->open()->whereKey($career->id)->exists()) {
+        if (! $career->is_active) {
             abort(404, 'Career not available.');
         }
 
@@ -150,9 +154,10 @@ class CareerController extends Controller
                 'requirements' => $career->requirements,
                 'location' => $career->location,
                 'closing_date' => $career->closing_date,
+                'is_expired' => $career->is_expired,
                 'benefits' => $career->benefits,
                 'views_count' => $career->views_count,
-                'document_url' => $career->document_url,
+                'document_url' => $career->is_expired ? null : $career->document_url,
                 'created_at' => $career->created_at,
             ],
         ]);

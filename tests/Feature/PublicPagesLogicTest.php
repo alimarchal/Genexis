@@ -75,15 +75,36 @@ describe('careers', function () {
     it('treats a vacancy closing today as still open on the list and the detail page', function () {
         $career = Career::factory()->create(['is_active' => true, 'closing_date' => now()->toDateString()]);
 
-        $this->get(route('public-careers'))->assertInertia(fn ($page) => $page->has('careers.data', 1));
+        $this->get(route('public-careers'))->assertInertia(fn ($page) => $page->has('careers.data', 1)->where('careers.data.0.is_expired', false));
         $this->get(route('public-careers.detail', $career))->assertOk();
     });
 
-    it('hides a vacancy that closed yesterday everywhere', function () {
-        $career = Career::factory()->create(['is_active' => true, 'closing_date' => now()->subDay()->toDateString()]);
+    it('shows a vacancy that closed yesterday as expired and lists it after open vacancies', function () {
+        $expired = Career::factory()->create(['title' => 'Expired post', 'is_active' => true, 'is_featured' => true, 'closing_date' => now()->subDay()->toDateString()]);
+        Career::factory()->create(['title' => 'Open post', 'is_active' => true, 'is_featured' => false, 'closing_date' => now()->addWeek()->toDateString()]);
+
+        $this->get(route('public-careers'))->assertInertia(fn ($page) => $page
+            ->has('careers.data', 2)
+            ->where('careers.data.0.title', 'Open post')
+            ->where('careers.data.0.is_expired', false)
+            ->where('careers.data.1.title', 'Expired post')
+            ->where('careers.data.1.is_expired', true));
+
+        $this->get(route('public-careers.detail', $expired))->assertOk()
+            ->assertInertia(fn ($page) => $page->where('career.is_expired', true)->where('career.document_url', null));
+    });
+
+    it('never exposes inactive vacancies', function () {
+        $career = Career::factory()->create(['is_active' => false, 'closing_date' => now()->addWeek()->toDateString()]);
 
         $this->get(route('public-careers'))->assertInertia(fn ($page) => $page->has('careers.data', 0));
         $this->get(route('public-careers.detail', $career))->assertNotFound();
+    });
+
+    it('does not flag a vacancy without a closing date as expired', function () {
+        Career::factory()->create(['is_active' => true, 'closing_date' => null]);
+
+        $this->get(route('public-careers'))->assertInertia(fn ($page) => $page->where('careers.data.0.is_expired', false));
     });
 
     it('does not let visitors download documents of closed or inactive vacancies', function () {

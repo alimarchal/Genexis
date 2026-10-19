@@ -89,7 +89,7 @@ const StyledNode = ({
 
 export default function Organogram() {
     const { props } = usePage();
-    const { divisions, regions, regionBranchCounts } = props as unknown as OrganogramPageProps;
+    const { divisions = [], regions = [], regionBranchCounts = {} } = props as unknown as OrganogramPageProps;
 
     // Separate divisions into assistant (special) and regular divisions
     const regularDivisions = divisions.filter((div: Division) => div.is_active);
@@ -130,8 +130,13 @@ export default function Organogram() {
                     </div>
 
                     {/* Organogram Container */}
+                    {divisions.length === 0 && regions.length === 0 && (
+                        <p className="mb-4 rounded-lg bg-amber-50 p-3 text-center text-sm text-amber-800">
+                            Divisional and regional data is not available yet. Only the top of the hierarchy is shown.
+                        </p>
+                    )}
                     <div className="organogram-container overflow-x-auto rounded-lg bg-white p-4 shadow-lg">
-                        <div className="w-full min-w-[1400px]">
+                        <div className="flex w-max min-w-full justify-center px-4">
                             <Tree
                                 lineWidth={'2px'}
                                 lineColor={'#374151'}
@@ -145,6 +150,17 @@ export default function Organogram() {
                                         label={<StyledNode title={division.name} type="division" tooltip={division.name} />}
                                     />
                                 ))}
+
+                                {/* Regions fall back under the President when no CRBD division exists */}
+                                {!crbd_division &&
+                                    regions.map((region: Region) => (
+                                        <TreeNode
+                                            key={`region-${region.id}`}
+                                            label={
+                                                <StyledNode title={region.name} subtitle="Region" type="region" tooltip={`Region ${region.name}`} />
+                                            }
+                                        />
+                                    ))}
 
                                 {/* CRBD in Center with Regions */}
                                 {crbd_division && (
@@ -218,6 +234,7 @@ export default function Organogram() {
                         <h3 className="mb-4 text-xl font-bold text-[#4A7C59]">Divisional Structure</h3>
                         <div className="space-y-3">
                             {regularDivisions
+                                .slice()
                                 .sort((a, b) => a.short_name.localeCompare(b.short_name))
                                 .map((division: Division) => (
                                     <div key={division.id} className="flex items-center justify-between border-b border-gray-200 pb-2">
