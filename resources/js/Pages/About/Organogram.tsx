@@ -1,14 +1,13 @@
 import WebsiteLayout from '@/layouts/WebsiteLayout';
 import { usePage } from '@inertiajs/react';
+import { Building2, Crown, Landmark, MapPin, Network, Printer } from 'lucide-react';
 import React from 'react';
-import { Tree, TreeNode } from 'react-organizational-chart';
 
 interface Division {
     id: number;
     name: string;
     short_name: string;
     is_active: boolean;
-    regions?: Region[];
 }
 
 interface Region {
@@ -16,13 +15,6 @@ interface Region {
     name: string;
     status: string;
     division_id: number;
-    branches?: Branch[];
-}
-
-interface Branch {
-    id: number;
-    name: string;
-    region_id: number;
 }
 
 interface RegionBranchCounts {
@@ -35,232 +27,171 @@ interface OrganogramPageProps {
     regionBranchCounts: RegionBranchCounts;
 }
 
-// Custom styled component for organizational nodes
-const StyledNode = ({
-    title,
-    subtitle,
-    type = 'default',
-    className = '',
-    tooltip,
-}: {
-    title: string;
-    subtitle?: string;
-    type?: 'president' | 'assistant' | 'division' | 'crbd' | 'region' | 'branch' | 'default';
-    className?: string;
-    tooltip?: string;
-}) => {
-    const getNodeStyle = () => {
-        switch (type) {
-            case 'president':
-                return 'bg-gradient-to-r from-[#1e40af] to-[#1e3a8a] text-white shadow-lg w-40 mx-auto';
-            case 'assistant':
-                return 'bg-gradient-to-r from-[#059669] to-[#047857] text-white shadow-md w-32 mx-auto';
-            case 'crbd':
-                return 'bg-gradient-to-r from-[#dc2626] to-[#b91c1c] text-white shadow-md w-64 mx-auto';
-            case 'division':
-                return 'bg-gradient-to-r from-[#6b7280] to-[#4b5563] text-white shadow-md w-28 mx-auto';
-            case 'region':
-                return 'bg-gradient-to-r from-[#f59e0b] to-[#d97706] text-white shadow-md w-28 mx-auto';
-            case 'branch':
-                return 'bg-gradient-to-r from-[#10b981] to-[#059669] text-white shadow-sm w-24 mx-auto';
-            default:
-                return 'bg-white border-2 border-gray-300 text-gray-800 shadow-sm w-32 mx-auto';
-        }
-    };
+const PRINT_STYLES = `
+@page { size: A4 landscape; margin: 10mm; }
+@media print {
+    .public-site > .fixed,
+    .public-site > footer { display: none !important; }
+    .public-site > div { padding-top: 0 !important; }
+    body, .public-site { background: #fff !important; }
+    .organogram-page { min-height: 0 !important; background: #fff !important; zoom: 0.86; }
+    .organogram-sheet { box-shadow: none !important; border: 1px solid #d1d5db !important; break-inside: avoid; }
+    .organogram-sheet, .organogram-sheet * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+`;
 
-    return (
-        <div
-            className={`group relative rounded-lg p-2 text-center transition-transform hover:scale-105 ${getNodeStyle()} ${className}`}
-            title={tooltip}
-        >
-            <h4 className="text-xs leading-tight font-semibold">{title}</h4>
-            {subtitle && <p className="text-xs leading-tight opacity-90">{subtitle}</p>}
-
-            {/* Beautiful Tooltip */}
-            {tooltip && (
-                <div className="pointer-events-none absolute bottom-full left-1/2 z-10 mb-2 -translate-x-1/2 transform rounded-lg bg-gray-900 px-3 py-2 text-xs whitespace-nowrap text-white opacity-0 shadow-lg transition-opacity duration-300 group-hover:opacity-100">
-                    {tooltip}
-                    <div className="absolute top-full left-1/2 h-0 w-0 -translate-x-1/2 transform border-t-4 border-r-4 border-l-4 border-transparent border-t-gray-900"></div>
-                </div>
-            )}
-        </div>
-    );
-};
+const TrunkLine = () => <div className="mx-auto h-7 w-0.5 bg-gray-400 print:h-4" aria-hidden="true" />;
 
 export default function Organogram() {
     const { props } = usePage();
     const { divisions = [], regions = [], regionBranchCounts = {} } = props as unknown as OrganogramPageProps;
 
-    // Separate divisions into assistant (special) and regular divisions
-    const regularDivisions = divisions.filter((div: Division) => div.is_active);
+    const activeDivisions = divisions.filter((division) => division.is_active);
+    const crbdDivision = activeDivisions.find((division) => division.short_name === 'CRBD');
+    const otherDivisions = activeDivisions.filter((division) => division.short_name !== 'CRBD').sort((a, b) => a.name.localeCompare(b.name));
 
-    // Separate CRBD from other divisions to position it in center
-    const crbd_division = regularDivisions.find((div: Division) => div.short_name === 'CRBD');
-    const otherDivisions = regularDivisions.filter((div: Division) => div.short_name !== 'CRBD');
+    const branchCountFor = (region: Region) => Number(regionBranchCounts[region.name] ?? 0);
+    const totalBranches = regions.reduce((total, region) => total + branchCountFor(region), 0);
+    const maxBranches = Math.max(1, ...regions.map(branchCountFor));
+    const hasRegions = regions.length > 0;
+    const hasNoData = activeDivisions.length === 0 && !hasRegions;
 
-    // Split other divisions into left and right groups
-    const leftDivisions = otherDivisions.slice(0, Math.ceil(otherDivisions.length / 2));
-    const rightDivisions = otherDivisions.slice(Math.ceil(otherDivisions.length / 2));
+    const regionalNetwork = hasRegions && (
+        <div className="mt-4 rounded-lg border border-amber-200 bg-white/80 p-3 sm:p-4 print:mt-2 print:p-2">
+            <h4 className="mb-3 flex items-center gap-2 text-xs font-semibold tracking-wide text-amber-800 uppercase">
+                <Network className="h-4 w-4" aria-hidden="true" />
+                Regional Network
+            </h4>
+            <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 print:grid-cols-4 print:gap-2">
+                {regions.map((region) => {
+                    const count = branchCountFor(region);
 
-    // Center scroll position on mount
-    React.useEffect(() => {
-        const container = document.querySelector('.organogram-container');
-        if (container) {
-            const scrollLeft = (container.scrollWidth - container.clientWidth) / 2;
-            container.scrollLeft = scrollLeft;
-        }
-    }, []);
+                    return (
+                        <li key={region.id} className="rounded-lg border border-amber-200 bg-amber-50 p-3 print:p-2">
+                            <p className="flex items-center gap-1.5 text-sm font-semibold text-gray-900">
+                                <MapPin className="h-4 w-4 shrink-0 text-amber-600" aria-hidden="true" />
+                                {region.name}
+                            </p>
+                            <p className="mt-1 flex items-baseline gap-1">
+                                <span className="text-2xl font-bold text-amber-700 tabular-nums">{count}</span>
+                                <span className="text-xs text-gray-600">{count === 1 ? 'branch' : 'branches'}</span>
+                            </p>
+                            <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-amber-200" role="presentation">
+                                <div className="h-full rounded-full bg-amber-500" style={{ width: `${(count / maxBranches) * 100}%` }} />
+                            </div>
+                        </li>
+                    );
+                })}
+            </ul>
+        </div>
+    );
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-[#e9f7ef] to-[#fff7e6]">
-            <div className="mx-auto max-w-7xl px-4 py-8">
-                {/* Page Header */}
-                <div className="mb-12 text-center">
-                    <h1 className="mb-4 text-4xl font-bold text-gray-900">Organization Structure</h1>
-                    <p className="mx-auto max-w-3xl text-xl text-gray-600">
-                        Explore the organizational hierarchy and structure of the Bank of Azad Jammu & Kashmir.
-                    </p>
+        <div className="organogram-page min-h-screen bg-gradient-to-br from-[#e9f7ef] to-[#fff7e6]">
+            <style>{PRINT_STYLES}</style>
+
+            <div className="mx-auto max-w-6xl px-4 py-8 print:max-w-none print:p-0">
+                <div className="mb-8 flex flex-col items-center gap-4 text-center sm:flex-row sm:items-end sm:justify-between sm:text-left print:mb-3">
+                    <div>
+                        <h1 className="text-3xl font-bold text-gray-900 sm:text-4xl print:text-2xl">Organization Structure</h1>
+                        <p className="mt-2 max-w-2xl text-gray-600 print:mt-1 print:text-sm">
+                            The organizational hierarchy of the Bank of Azad Jammu &amp; Kashmir.
+                        </p>
+                        <div className="mt-3 h-1 w-24 bg-gradient-to-r from-[#4A7C59] to-[#F9B912] max-sm:mx-auto" aria-hidden="true" />
+                    </div>
+                    <button
+                        type="button"
+                        onClick={() => window.print()}
+                        className="inline-flex items-center gap-2 rounded-lg bg-[#4A7C59] px-5 py-2.5 text-sm font-semibold text-white shadow transition-colors hover:bg-[#3d6b4a] focus-visible:ring-2 focus-visible:ring-[#4A7C59] focus-visible:ring-offset-2 focus-visible:outline-none print:hidden"
+                    >
+                        <Printer className="h-4 w-4" aria-hidden="true" />
+                        Print / Save as PDF
+                    </button>
                 </div>
 
-                {/* Organogram Section */}
-                <div className="mb-16">
-                    <div className="mb-8 text-center">
-                        <h2 className="mb-2 text-3xl font-bold text-[#4A7C59]">Organogram</h2>
-                        <div className="mx-auto h-1 w-24 bg-gradient-to-r from-[#4A7C59] to-[#F9B912]"></div>
-                    </div>
-
-                    {/* Organogram Container */}
-                    {divisions.length === 0 && regions.length === 0 && (
-                        <p className="mb-4 rounded-lg bg-amber-50 p-3 text-center text-sm text-amber-800">
+                <div className="organogram-sheet rounded-2xl border border-gray-200 bg-white p-4 shadow-lg sm:p-8 print:p-4">
+                    {hasNoData && (
+                        <p className="mb-6 rounded-lg bg-amber-50 p-3 text-center text-sm text-amber-800">
                             Divisional and regional data is not available yet. Only the top of the hierarchy is shown.
                         </p>
                     )}
-                    <div className="organogram-container overflow-x-auto rounded-lg bg-white p-4 shadow-lg">
-                        <div className="flex w-max min-w-full justify-center px-4">
-                            <Tree
-                                lineWidth={'2px'}
-                                lineColor={'#374151'}
-                                lineBorderRadius={'10px'}
-                                label={<StyledNode title="President & CEO" subtitle="Chief Executive Officer" type="president" className="text-xs" />}
+
+                    <div className="mx-auto flex w-full max-w-xs items-center justify-center gap-3 rounded-xl bg-gradient-to-r from-[#1e40af] to-[#1e3a8a] px-5 py-3 text-white shadow-md">
+                        <Crown className="h-6 w-6 shrink-0 text-[#F9B912]" aria-hidden="true" />
+                        <div>
+                            <h2 className="text-base leading-tight font-bold">President &amp; CEO</h2>
+                            <p className="text-xs opacity-90">Chief Executive Officer</p>
+                        </div>
+                    </div>
+
+                    {(crbdDivision || otherDivisions.length > 0 || hasRegions) && (
+                        <>
+                            <TrunkLine />
+
+                            <section
+                                aria-label="Divisions"
+                                className="relative rounded-xl border-2 border-dashed border-gray-300 p-4 pt-7 sm:p-6 sm:pt-8 print:p-3 print:pt-6"
                             >
-                                {/* Left Divisions */}
-                                {leftDivisions.map((division: Division) => (
-                                    <TreeNode
-                                        key={division.id}
-                                        label={<StyledNode title={division.name} type="division" tooltip={division.name} />}
-                                    />
-                                ))}
+                                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-[#4A7C59] px-4 py-1 text-xs font-semibold tracking-wide text-white uppercase">
+                                    Divisions
+                                </span>
 
-                                {/* Regions fall back under the President when no CRBD division exists */}
-                                {!crbd_division &&
-                                    regions.map((region: Region) => (
-                                        <TreeNode
-                                            key={`region-${region.id}`}
-                                            label={
-                                                <StyledNode title={region.name} subtitle="Region" type="region" tooltip={`Region ${region.name}`} />
-                                            }
-                                        />
-                                    ))}
-
-                                {/* CRBD in Center with Regions */}
-                                {crbd_division && (
-                                    <TreeNode
-                                        key={crbd_division.id}
-                                        label={<StyledNode title={crbd_division.name} type="crbd" tooltip={crbd_division.name} />}
-                                    >
-                                        {/* Show regions under CRBD */}
-                                        {regions.map((region: Region) => (
-                                            <TreeNode
-                                                key={region.id}
-                                                label={
-                                                    <StyledNode
-                                                        title={region.name}
-                                                        subtitle="Region"
-                                                        type="region"
-                                                        tooltip={`Region ${region.name}`}
-                                                    />
-                                                }
-                                            >
-                                                {/* Branch count for each region */}
-                                                <TreeNode
-                                                    label={
-                                                        <StyledNode
-                                                            title="Branches"
-                                                            subtitle={`(${regionBranchCounts[region.name] || 0})`}
-                                                            type="branch"
-                                                            tooltip={`Total Branches in ${region.name}: ${regionBranchCounts[region.name] || 0}`}
-                                                        />
-                                                    }
-                                                />
-                                            </TreeNode>
-                                        ))}
-                                    </TreeNode>
+                                {(crbdDivision || hasRegions) && (
+                                    <div className="mb-4 rounded-xl border border-red-200 bg-gradient-to-br from-red-50 to-amber-50 p-4 print:mb-3 print:p-3">
+                                        <div className="flex flex-wrap items-center gap-3">
+                                            <span className="rounded-lg bg-red-600 p-2 text-white">
+                                                <Landmark className="h-5 w-5" aria-hidden="true" />
+                                            </span>
+                                            <div className="min-w-0 flex-1">
+                                                <h3 className="text-base font-bold text-gray-900">{crbdDivision?.name ?? 'Regional Operations'}</h3>
+                                                <p className="text-xs text-gray-600">
+                                                    {regions.length} regions · {totalBranches} branches
+                                                </p>
+                                            </div>
+                                            {crbdDivision && (
+                                                <span className="rounded-full bg-red-600 px-3 py-1 text-xs font-bold text-white">
+                                                    {crbdDivision.short_name}
+                                                </span>
+                                            )}
+                                        </div>
+                                        {regionalNetwork}
+                                    </div>
                                 )}
 
-                                {/* Right Divisions */}
-                                {rightDivisions.map((division: Division) => (
-                                    <TreeNode
-                                        key={division.id}
-                                        label={<StyledNode title={division.name} type="division" tooltip={division.name} />}
-                                    />
-                                ))}
-                            </Tree>
-                        </div>
-                    </div>
-                </div>
+                                {otherDivisions.length > 0 && (
+                                    <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 print:grid-cols-4 print:gap-2">
+                                        {otherDivisions.map((division) => (
+                                            <li
+                                                key={division.id}
+                                                className="flex items-center gap-3 rounded-lg border border-l-4 border-gray-200 border-l-[#4A7C59] bg-gray-50 p-3 print:p-2"
+                                            >
+                                                <Building2 className="h-5 w-5 shrink-0 text-[#4A7C59]" aria-hidden="true" />
+                                                <span className="min-w-0 flex-1 text-sm leading-snug font-medium text-gray-900">{division.name}</span>
+                                                <span className="rounded-full bg-[#4A7C59] px-2 py-0.5 text-[11px] font-bold text-white">
+                                                    {division.short_name}
+                                                </span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
+                            </section>
+                        </>
+                    )}
 
-                {/* Organization Statistics */}
-                <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-3">
-                    <div className="rounded-lg bg-gradient-to-r from-[#3b82f6] to-[#2563eb] p-4 text-center text-white shadow-md">
-                        <h4 className="text-lg font-bold">{regularDivisions.length}</h4>
-                        <p className="text-sm opacity-90">Active Divisions</p>
-                    </div>
-                    <div className="rounded-lg bg-gradient-to-r from-[#8b5cf6] to-[#7c3aed] p-4 text-center text-white shadow-md">
-                        <h4 className="text-lg font-bold">{regions.length}</h4>
-                        <p className="text-sm opacity-90">Regional Operations</p>
-                    </div>
-                    <div className="rounded-lg bg-gradient-to-r from-[#06b6d4] to-[#0891b2] p-4 text-center text-white shadow-md">
-                        <h4 className="text-lg font-bold">
-                            {Object.values(regionBranchCounts || {}).reduce((a: number, b: number) => a + Number(b), 0)}
-                        </h4>
-                        <p className="text-sm opacity-90">Total Branches</p>
-                    </div>
-                </div>
-
-                {/* Additional Information */}
-                <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
-                    {/* Divisional Structure */}
-                    <div className="rounded-lg bg-white p-6 shadow-lg">
-                        <h3 className="mb-4 text-xl font-bold text-[#4A7C59]">Divisional Structure</h3>
-                        <div className="space-y-3">
-                            {regularDivisions
-                                .slice()
-                                .sort((a, b) => a.short_name.localeCompare(b.short_name))
-                                .map((division: Division) => (
-                                    <div key={division.id} className="flex items-center justify-between border-b border-gray-200 pb-2">
-                                        <span className="text-sm font-medium text-gray-900">{division.name}</span>
-                                        <span className="rounded-full bg-[#4A7C59] px-2 py-1 text-xs font-medium text-white">
-                                            {division.short_name}
-                                        </span>
-                                    </div>
-                                ))}
+                    <dl className="mt-6 grid grid-cols-3 gap-3 text-center print:mt-3">
+                        <div className="rounded-lg bg-blue-50 p-3 print:p-2">
+                            <dd className="text-2xl font-bold text-blue-700">{activeDivisions.length}</dd>
+                            <dt className="text-xs text-gray-600">Active Divisions</dt>
                         </div>
-                    </div>
-
-                    {/* Regional Operations */}
-                    <div className="rounded-lg bg-white p-6 shadow-lg">
-                        <h3 className="mb-4 text-xl font-bold text-[#4A7C59]">Regional</h3>
-                        <div className="space-y-3">
-                            {regions.map((region: Region) => (
-                                <div key={region.id} className="flex items-center justify-between border-b border-gray-200 pb-2">
-                                    <span className="text-sm font-medium text-gray-900">{region.name}</span>
-                                    <span className="rounded-full bg-[#F9B912] px-2 py-1 text-xs font-medium text-white">
-                                        {regionBranchCounts[region.name] || 0} Branches
-                                    </span>
-                                </div>
-                            ))}
+                        <div className="rounded-lg bg-amber-50 p-3 print:p-2">
+                            <dd className="text-2xl font-bold text-amber-700">{regions.length}</dd>
+                            <dt className="text-xs text-gray-600">Regions</dt>
                         </div>
-                    </div>
+                        <div className="rounded-lg bg-emerald-50 p-3 print:p-2">
+                            <dd className="text-2xl font-bold text-emerald-700">{totalBranches}</dd>
+                            <dt className="text-xs text-gray-600">Total Branches</dt>
+                        </div>
+                    </dl>
                 </div>
             </div>
         </div>
