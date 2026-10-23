@@ -36,7 +36,7 @@ test('it can create news announcement with valid data', function () {
         'image' => $file,
         'published_date' => now()->format('Y-m-d'),
         'is_featured' => true,
-        'category' => 'General',
+        'category' => 'general',
         'is_published' => true,
     ]);
 
@@ -45,7 +45,7 @@ test('it can create news announcement with valid data', function () {
         'title' => 'Test News',
         'slug' => 'test-news',
         'is_featured' => true,
-        'category' => 'General',
+        'category' => 'general',
         'is_published' => true,
     ]);
 });
@@ -60,7 +60,7 @@ test('it cannot create news announcement with invalid file type', function () {
         'image' => $file,
         'published_date' => now()->format('Y-m-d'),
         'is_featured' => true,
-        'category' => 'General',
+        'category' => 'general',
         'is_published' => true,
     ]);
 
@@ -77,7 +77,7 @@ test('it cannot create news announcement with file too large', function () {
         'image' => $file,
         'published_date' => now()->format('Y-m-d'),
         'is_featured' => true,
-        'category' => 'General',
+        'category' => 'general',
         'is_published' => true,
     ]);
 
@@ -172,7 +172,7 @@ test('it stores exact date without timezone conversion when creating', function 
         'content' => 'Test content',
         'published_date' => $specificDate,
         'is_featured' => true,
-        'category' => 'General',
+        'category' => 'general',
         'is_published' => true,
     ]);
 
