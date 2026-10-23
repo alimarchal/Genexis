@@ -198,4 +198,13 @@ return [
         'checker_permission' => 'approve changes',
         'excluded_modules' => ['admin.menus', 'admin.contact-submissions'],
     ],
+    /*
+     * Data extraction API (/api/extract/v1).
+     */
+    'extraction' => [
+        'rate_limit' => (int) env('EXTRACT_RATE_LIMIT', 30), // requests per minute per token
+        'default_per_page' => 100,
+        'max_per_page' => 1000, // JSON
+        'max_per_page_export' => 5000, // CSV and Excel
+    ],
 ];

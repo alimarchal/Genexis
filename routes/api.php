@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Extract\V1\ExtractionController;
 use App\Http\Controllers\Api\V1\BranchController;
 use App\Http\Controllers\Api\V1\CareerController;
 use App\Http\Controllers\Api\V1\ContactInfoController;
@@ -35,4 +36,20 @@ Route::prefix('v1')
 
         Route::get('careers', [CareerController::class, 'index'])->name('careers.index');
         Route::get('careers/{career}', [CareerController::class, 'show'])->whereNumber('career')->name('careers.show');
+    });
+
+/*
+|--------------------------------------------------------------------------
+| Data extraction API v1
+|--------------------------------------------------------------------------
+| Separate from the public API: needs an API token of a user holding the
+| "extract data" permission ("extract sensitive data" as well for personal
+| data), is rate limited per token and logs every extraction.
+*/
+Route::prefix('extract/v1')
+    ->name('api.extract.v1.')
+    ->middleware(['throttle:extract-ip', 'auth.token', 'throttle:extract'])
+    ->group(function () {
+        Route::get('datasets', [ExtractionController::class, 'index'])->name('datasets');
+        Route::get('{dataset}', [ExtractionController::class, 'show'])->where('dataset', '[a-z\-]+')->name('show');
     });

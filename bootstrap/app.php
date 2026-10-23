@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\AuthenticateApiToken;
 use App\Http\Middleware\AutoBreadcrumbMiddleware;
 use App\Http\Middleware\HandleAppearance;
 use App\Http\Middleware\HandleInertiaRequests;
@@ -42,6 +43,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'permission' => PermissionMiddleware::class,
             'role_or_permission' => RoleOrPermissionMiddleware::class,
             'maker.checker' => HoldChangesForApproval::class,
+            'auth.token' => AuthenticateApiToken::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
