@@ -10,6 +10,7 @@ interface QuickLinkItem {
 
 const quickLinkItems: QuickLinkItem[] = [
     { label: 'About Us', href: route('about.board-directors') },
+    { label: 'Organogram', href: route('about.organogram') },
     { label: 'Branch Network', href: route('about.branch-network') },
     { label: 'News & Updates', href: route('news') },
     { label: 'Downloads', href: route('public-downloads') },

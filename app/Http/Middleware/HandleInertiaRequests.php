@@ -119,6 +119,8 @@ class HandleInertiaRequests extends Middleware
                     'goajk' => config('bank.footer.regulatory.goajk'),
                     'gopak' => config('bank.footer.regulatory.gopak'),
                     'ajk_tourism' => config('bank.footer.regulatory.ajk_tourism'),
+                    'ajk_pdo' => config('bank.footer.regulatory.ajk_pdo'),
+                    'ajk_pm_portal' => config('bank.footer.regulatory.ajk_pm_portal'),
                     'loan_calculator' => config('bank.loan_limits.calculator_url'),
                 ],
             ],

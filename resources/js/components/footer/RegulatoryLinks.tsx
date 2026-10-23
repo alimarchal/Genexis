@@ -13,8 +13,10 @@ const RegulatoryLinks: React.FC = () => {
         { label: 'Govt. of AJK', href: footerLinks.regulatory.goajk },
         { label: 'Govt. of Pakistan', href: footerLinks.regulatory.gopak },
         { label: 'AJK Tourism', href: footerLinks.regulatory.ajk_tourism },
+        { label: 'AJK PDO', href: footerLinks.regulatory.ajk_pdo },
+        { label: 'AJK Web Portal - Prime Minister', href: footerLinks.regulatory.ajk_pm_portal },
         // { label: 'Loan Calculator', href: footerLinks.regulatory.loan_calculator },
-    ];
+    ].filter((link): link is { label: string; href: string } => Boolean(link.href));
 
     return (
         <div className="border-t border-white/20 bg-[#0d4a12]">

@@ -119,6 +119,9 @@ return [
             'goajk' => env('GOAJK_URL', env('GOAJK', 'https://www.ajk.gov.pk')),
             'gopak' => env('GOPAK_URL', env('GOPAK', 'https://www.pakistan.gov.pk')),
             'ajk_tourism' => env('AJK_TOURISM_URL', env('AJK_TOURISM', 'https://tourism.ajk.gov.pk')),
+            'ajk_pdo' => env('AJK_PDO_URL', 'https://ajkpdo.com'),
+            // Shown in the footer once the address of the Prime Minister page on the AJK web portal is set.
+            'ajk_pm_portal' => env('AJK_PM_PORTAL_URL'),
         ],
     ],
     'deposit_rates' => [
