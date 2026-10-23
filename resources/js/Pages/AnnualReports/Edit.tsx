@@ -14,6 +14,7 @@ interface AnnualReport {
     id: number;
     annual_report_fiscal_year: number;
     annual_report: string | null;
+    display_file_name: string | null;
     annual_report_url: string | null;
 }
 
@@ -48,11 +49,6 @@ export default function EditAnnualReport({ annualReport }: Props) {
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
         post(route('annual-reports.update', annualReport.id));
-    };
-
-    const getCurrentFileName = (filePath: string | null): string => {
-        if (!filePath) return '';
-        return filePath.split('/').pop() || '';
     };
 
     return (
@@ -113,7 +109,7 @@ export default function EditAnnualReport({ annualReport }: Props) {
                                             <div className="flex flex-1 items-center gap-3">
                                                 <FileText className="h-5 w-5 text-gray-500" />
                                                 <div>
-                                                    <div className="font-medium text-gray-900">{getCurrentFileName(annualReport.annual_report)}</div>
+                                                    <div className="font-medium text-gray-900">{annualReport.display_file_name}</div>
                                                     <div className="text-sm text-gray-500">Currently uploaded file</div>
                                                 </div>
                                             </div>
@@ -134,7 +130,7 @@ export default function EditAnnualReport({ annualReport }: Props) {
                                     context="annual-reports"
                                     label="File"
                                     accept={['pdf', 'doc', 'docx', 'xls', 'xlsx']}
-                                    currentFileName={annualReport.annual_report?.split('/').pop()}
+                                    currentFileName={annualReport.display_file_name}
                                     onChange={(id) => setData('annual_report_upload_id', id)}
                                     onBusyChange={setUploading}
                                     error={errors.annual_report_upload_id ?? (errors as Record<string, string | undefined>).annual_report}
@@ -173,7 +169,7 @@ export default function EditAnnualReport({ annualReport }: Props) {
                                             <p className="mb-2 text-sm font-medium text-gray-700">Current File:</p>
                                             <div className="flex items-center gap-2 text-sm text-gray-600">
                                                 <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                                                <span>Annual Report: {getCurrentFileName(annualReport.annual_report)}</span>
+                                                <span>Annual Report: {annualReport.display_file_name}</span>
                                             </div>
                                         </div>
                                     )}

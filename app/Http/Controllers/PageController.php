@@ -434,7 +434,7 @@ class PageController extends Controller
                 return [
                     'id' => $report->id,
                     'fiscal_year' => $report->annual_report_fiscal_year,
-                    'file_name' => $report->annual_report ? basename($report->annual_report) : null,
+                    'file_name' => $report->display_file_name,
                     'file_size' => $report->annual_report ? (file_exists(storage_path('app/public/'.$report->annual_report)) ? filesize(storage_path('app/public/'.$report->annual_report)) : 0) : 0,
                     'download_url' => $report->annual_report ? route('annual-reports.download', $report) : null,
                     'created_at' => $report->created_at->format('M d, Y'),
