@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasReadableFileName;
 use App\Traits\UserTracking;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,11 +11,12 @@ use Spatie\QueryBuilder\AllowedFilter;
 
 class AnnualReport extends Model
 {
-    use HasFactory, UserTracking;
+    use HasFactory, HasReadableFileName, UserTracking;
 
     protected $fillable = [
         'annual_report_fiscal_year',
         'annual_report',
+        'file_name',
         'created_by',
         'updated_by',
     ];
@@ -25,6 +27,7 @@ class AnnualReport extends Model
 
     protected $appends = [
         'annual_report_url',
+        'display_file_name',
     ];
 
     public static function getAllowedFilters(): array
@@ -83,6 +86,18 @@ class AnnualReport extends Model
         }
 
         return null;
+    }
+
+    /**
+     * The name shown on the website and used for the downloaded file.
+     */
+    public function getDisplayFileNameAttribute(): ?string
+    {
+        if (blank($this->annual_report)) {
+            return null;
+        }
+
+        return $this->readableFileName($this->annual_report, $this->file_name, "Annual Report {$this->annual_report_fiscal_year}");
     }
 
     /**

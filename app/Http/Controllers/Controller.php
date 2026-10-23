@@ -26,9 +26,10 @@ abstract class Controller
      *
      * @param  array<string, mixed>  $data  validated request data
      * @param  array<string, string>  $columns  form field => database column
+     * @param  array<string, string>  $nameColumns  form field => column that keeps the name the file was uploaded with
      * @return array{0: array<string, mixed>, 1: list<string>, 2: array<string, array{path: string, mime: string, size: int, name: string}>}
      */
-    protected function applyUploads(Request $request, array $data, string $context, array $columns, ?object $existing = null): array
+    protected function applyUploads(Request $request, array $data, string $context, array $columns, ?object $existing = null, array $nameColumns = []): array
     {
         $uploads = app(ChunkedUploadService::class);
         $obsolete = [];
@@ -47,6 +48,10 @@ abstract class Controller
 
             $data[$column] = $file['path'];
             $files[$field] = $file;
+
+            if (isset($nameColumns[$field])) {
+                $data[$nameColumns[$field]] = $file['name'];
+            }
 
             if ($existing && ! empty($existing->{$column})) {
                 $obsolete[] = $existing->{$column};

@@ -37,7 +37,7 @@ class AnnualReportController extends Controller
         $validated = $request->validated();
         $data = $validated;
 
-        [$data] = $this->applyUploads($request, $data, 'annual-reports', ['annual_report' => 'annual_report']);
+        [$data] = $this->applyUploads($request, $data, 'annual-reports', ['annual_report' => 'annual_report'], nameColumns: ['annual_report' => 'file_name']);
 
         AnnualReport::create($data);
 
@@ -63,7 +63,7 @@ class AnnualReportController extends Controller
     {
         $data = $request->validated();
 
-        [$data, $obsolete] = $this->applyUploads($request, $data, 'annual-reports', ['annual_report' => 'annual_report'], $annualReport);
+        [$data, $obsolete] = $this->applyUploads($request, $data, 'annual-reports', ['annual_report' => 'annual_report'], $annualReport, ['annual_report' => 'file_name']);
 
         $annualReport->update($data);
         $this->deleteStoredFiles($obsolete);
@@ -90,9 +90,6 @@ class AnnualReportController extends Controller
             abort(404, 'File not found');
         }
 
-        $extension = pathinfo($annualReport->annual_report, PATHINFO_EXTENSION);
-        $fileName = "Annual-Report-FY{$annualReport->annual_report_fiscal_year}.{$extension}";
-
-        return $this->sendPublicFile($annualReport->annual_report, $fileName);
+        return $this->sendPublicFile($annualReport->annual_report, $annualReport->display_file_name);
     }
 }

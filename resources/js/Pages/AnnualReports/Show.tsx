@@ -12,6 +12,7 @@ interface AnnualReport {
     id: number;
     annual_report_fiscal_year: number;
     annual_report: string | null;
+    display_file_name: string | null;
     annual_report_url: string | null;
     created_at: string;
     updated_at: string;
@@ -56,11 +57,6 @@ export default function ShowAnnualReport({ annualReport }: Props) {
         } else {
             return <Badge variant="outline">Older</Badge>;
         }
-    };
-
-    const getCurrentFileName = (filePath: string | null): string => {
-        if (!filePath) return '';
-        return filePath.split('/').pop() || '';
     };
 
     const getFileExtension = (filePath: string | null): string => {
@@ -140,7 +136,7 @@ export default function ShowAnnualReport({ annualReport }: Props) {
                                             <FileText className="h-6 w-6 text-gray-500" />
                                         </div>
                                         <div className="flex-1">
-                                            <div className="font-medium text-gray-900">{getCurrentFileName(annualReport.annual_report)}</div>
+                                            <div className="font-medium text-gray-900">{annualReport.display_file_name}</div>
                                             <div className="flex items-center gap-2 text-sm text-gray-500">
                                                 <span>{getFileExtension(annualReport.annual_report)} File</span>
                                                 <span>•</span>
