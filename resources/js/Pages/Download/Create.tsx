@@ -19,12 +19,12 @@ const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Create', href: route('downloads.create') },
 ];
 
-export default function CreateDownload() {
+export default function CreateDownload({ categories }: { categories: string[] }) {
     const { data, setData, post, processing, errors } = useForm({
         title: '',
         description: '',
         file_upload_id: null as string | null,
-        category: 'general',
+        category: categories[0] ?? 'General',
         is_featured: false as boolean,
         is_active: true as boolean,
     });
@@ -67,10 +67,11 @@ export default function CreateDownload() {
                                             <SelectValue placeholder="Select category" />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem value="general">General</SelectItem>
-                                            <SelectItem value="Document">Document</SelectItem>
-                                            <SelectItem value="picture">Picture</SelectItem>
-                                            <SelectItem value="form">Form</SelectItem>
+                                            {categories.map((category) => (
+                                                <SelectItem key={category} value={category}>
+                                                    {category}
+                                                </SelectItem>
+                                            ))}
                                         </SelectContent>
                                     </Select>
                                     {errors.category && <p className="text-sm text-red-500">{errors.category}</p>}

@@ -49,9 +49,9 @@ describe('product pages', function () {
 
 describe('news visibility', function () {
     beforeEach(function () {
-        NewsAnnouncement::factory()->create(['slug' => 'live', 'title' => 'Live', 'category' => 'general', 'is_published' => true, 'published_date' => now()->subDay()]);
-        NewsAnnouncement::factory()->create(['slug' => 'scheduled', 'title' => 'Scheduled', 'category' => 'general', 'is_published' => true, 'published_date' => now()->addWeek()]);
-        NewsAnnouncement::factory()->create(['slug' => 'draft', 'title' => 'Draft', 'category' => 'general', 'is_published' => false, 'published_date' => now()->subDay()]);
+        NewsAnnouncement::factory()->create(['slug' => 'live', 'title' => 'Live', 'category' => 'General', 'is_published' => true, 'published_date' => now()->subDay()]);
+        NewsAnnouncement::factory()->create(['slug' => 'scheduled', 'title' => 'Scheduled', 'category' => 'General', 'is_published' => true, 'published_date' => now()->addWeek()]);
+        NewsAnnouncement::factory()->create(['slug' => 'draft', 'title' => 'Draft', 'category' => 'General', 'is_published' => false, 'published_date' => now()->subDay()]);
     });
 
     it('keeps scheduled news off the news index', function () {

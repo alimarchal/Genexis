@@ -33,7 +33,7 @@ test('it can create download with valid data', function () {
         'title' => 'Test Download',
         'description' => 'Test description',
         'file' => $file,
-        'category' => 'forms',
+        'category' => 'Form',
         'is_featured' => true,
         'is_active' => true,
     ]);
@@ -44,7 +44,7 @@ test('it can create download with valid data', function () {
     $this->assertDatabaseHas('downloads', [
         'title' => 'Test Download',
         'description' => 'Test description',
-        'category' => 'forms',
+        'category' => 'Form',
         'is_featured' => true,
         'is_active' => true,
         'created_by' => $this->user->id,
@@ -65,7 +65,7 @@ test('it validates file type when creating download', function () {
     $response = $this->post(route('downloads.store'), [
         'title' => 'Test Download',
         'file' => $file,
-        'category' => 'forms',
+        'category' => 'Form',
         'is_featured' => true,
         'is_active' => true,
     ]);
@@ -97,7 +97,7 @@ test('it can update download', function () {
     $response = $this->put(route('downloads.update', $download), [
         'title' => 'Updated Download',
         'description' => 'Updated description',
-        'category' => 'reports',
+        'category' => 'Report',
         'is_featured' => false,
         'is_active' => false,
     ]);
@@ -109,7 +109,7 @@ test('it can update download', function () {
         'id' => $download->id,
         'title' => 'Updated Download',
         'description' => 'Updated description',
-        'category' => 'reports',
+        'category' => 'Report',
         'is_featured' => false,
         'is_active' => false,
         'updated_by' => $this->user->id,
@@ -210,10 +210,10 @@ test('it filters downloads by search query', function () {
 });
 
 test('it filters downloads by category', function () {
-    Download::factory()->create(['category' => 'forms']);
-    Download::factory()->create(['category' => 'reports']);
+    Download::factory()->create(['category' => 'Form']);
+    Download::factory()->create(['category' => 'Report']);
 
-    $response = $this->get(route('downloads.index', ['filter[category]' => 'forms']));
+    $response = $this->get(route('downloads.index', ['filter[category]' => 'Form']));
 
     $response->assertStatus(200);
     $response->assertInertia(fn ($page) => $page->component('Download/Index'));
@@ -281,7 +281,7 @@ test('the stored file type comes from the real content, not from what the browse
     $this->post(route('downloads.store'), [
         'title' => 'Disguised',
         'file' => $disguised,
-        'category' => 'general',
+        'category' => 'General',
         'is_active' => true,
     ])->assertRedirect(route('downloads.index'));
 

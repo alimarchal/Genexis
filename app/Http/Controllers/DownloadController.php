@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\DownloadCategory;
 use App\Http\Requests\StoreDownloadRequest;
 use App\Http\Requests\UpdateDownloadRequest;
 use App\Models\Download;
@@ -24,12 +25,15 @@ class DownloadController extends Controller
         return Inertia::render('Download/Index', [
             'downloads' => $downloads,
             'filters' => request()->all(),
+            'categories' => DownloadCategory::values(),
         ]);
     }
 
     public function create()
     {
-        return Inertia::render('Download/Create');
+        return Inertia::render('Download/Create', [
+            'categories' => DownloadCategory::values(),
+        ]);
     }
 
     public function store(StoreDownloadRequest $request)
@@ -60,6 +64,7 @@ class DownloadController extends Controller
     {
         return Inertia::render('Download/Edit', [
             'download' => $download,
+            'categories' => DownloadCategory::values(),
         ]);
     }
 
@@ -115,7 +120,10 @@ class DownloadController extends Controller
     // Public method for website downloads
     public function publicIndex(Request $request)
     {
+        $category = DownloadCategory::tryFrom((string) $request->query('category'));
+
         $downloads = Download::where('is_active', true)
+            ->when($category, fn ($query) => $query->where('category', $category->value))
             ->orderBy('is_featured', 'desc')
             ->orderBy('created_at', 'desc')
             ->paginate($this->perPage(12))
@@ -137,6 +145,8 @@ class DownloadController extends Controller
 
         return Inertia::render('Rates/PublicDownloads', [
             'downloads' => $downloads,
+            'categories' => DownloadCategory::values(),
+            'activeCategory' => $category?->value,
         ]);
     }
 }

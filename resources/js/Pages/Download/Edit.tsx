@@ -29,9 +29,10 @@ interface DownloadItem {
 
 interface Props {
     download: DownloadItem;
+    categories: string[];
 }
 
-export default function EditDownload({ download }: Props) {
+export default function EditDownload({ download, categories }: Props) {
     const breadcrumbs: BreadcrumbItem[] = [
         { title: 'Dashboard', href: route('dashboard') },
         { title: 'Downloads', href: route('downloads.index') },
@@ -90,10 +91,11 @@ export default function EditDownload({ download }: Props) {
                                             <SelectValue placeholder="Select category" />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem value="general">General</SelectItem>
-                                            <SelectItem value="Document">Document</SelectItem>
-                                            <SelectItem value="picture">Picture</SelectItem>
-                                            <SelectItem value="form">Form</SelectItem>
+                                            {categories.map((category) => (
+                                                <SelectItem key={category} value={category}>
+                                                    {category}
+                                                </SelectItem>
+                                            ))}
                                         </SelectContent>
                                     </Select>
                                     {errors.category && <p className="text-sm text-red-500">{errors.category}</p>}

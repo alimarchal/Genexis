@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\DownloadCategory;
 use App\Models\Download;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -17,7 +18,7 @@ class DownloadFactory extends Factory
      */
     public function definition(): array
     {
-        $categories = ['general', 'Document', 'picture', 'form', 'forms', 'reports'];
+        $categories = DownloadCategory::values();
         $fileTypes = ['application/pdf', 'application/msword', 'application/vnd.ms-excel', 'image/jpeg', 'application/zip'];
         $extensions = ['pdf', 'doc', 'xls', 'jpg', 'zip'];
 

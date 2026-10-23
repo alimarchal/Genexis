@@ -50,9 +50,10 @@ interface Props {
         to: number;
     };
     filters: Record<string, string>;
+    categories: string[];
 }
 
-export default function DownloadIndex({ downloads, filters }: Props) {
+export default function DownloadIndex({ downloads, filters, categories }: Props) {
     const { auth } = usePage<SharedData>().props;
     const [search, setSearch] = useState(filters['filter[title]'] || '');
     const [statusFilter, setStatusFilter] = useState(() => {
@@ -145,6 +146,7 @@ export default function DownloadIndex({ downloads, filters }: Props) {
             document: 'bg-blue-100 text-blue-800',
             picture: 'bg-green-100 text-green-800',
             form: 'bg-purple-100 text-purple-800',
+            report: 'bg-amber-100 text-amber-800',
             general: 'bg-gray-100 text-gray-800',
         };
 
@@ -196,10 +198,11 @@ export default function DownloadIndex({ downloads, filters }: Props) {
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="all">All Categories</SelectItem>
-                                    <SelectItem value="general">General</SelectItem>
-                                    <SelectItem value="Document">Document</SelectItem>
-                                    <SelectItem value="picture">Picture</SelectItem>
-                                    <SelectItem value="form">Form</SelectItem>
+                                    {categories.map((category) => (
+                                        <SelectItem key={category} value={category}>
+                                            {category}
+                                        </SelectItem>
+                                    ))}
                                 </SelectContent>
                             </Select>
                             <Select value={featuredFilter} onValueChange={handleFeaturedFilter}>

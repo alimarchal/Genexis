@@ -85,7 +85,7 @@ class DownloadSeeder extends Seeder
                 'file_path' => 'downloads/chichian.jpeg',
                 'file_type' => 'application/pic',
                 'file_size' => 307200, // ~300KB
-                'category' => 'picture',
+                'category' => 'Picture',
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 234,
@@ -100,7 +100,7 @@ class DownloadSeeder extends Seeder
                 'file_path' => 'gp Rawalakot.jpeg',
                 'file_type' => 'application/pic',
                 'file_size' => 819200, // ~800KB
-                'category' => 'picture',
+                'category' => 'Picture',
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 167,
@@ -126,7 +126,7 @@ class DownloadSeeder extends Seeder
                 'file_path' => 'downloads/account-opening-form.pdf',
                 'file_type' => 'application/pdf',
                 'file_size' => 1572864, // ~1.5MB
-                'category' => 'form',
+                'category' => 'Form',
                 'is_featured' => true,
                 'is_active' => true,
                 'download_count' => 423,
@@ -137,7 +137,7 @@ class DownloadSeeder extends Seeder
                 'file_path' => 'downloads/CORRIGENDUM2.jpeg',
                 'file_type' => 'application/pic',
                 'file_size' => 1572864, // ~1.5MB
-                'category' => 'picture',
+                'category' => 'Picture',
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 423,
@@ -151,7 +151,7 @@ class DownloadSeeder extends Seeder
             //     'file_path' => 'downloads/mobile-app-manual.pdf',
             //     'file_type' => 'application/pdf',
             //     'file_size' => 1572864, // ~1.5MB
-            //     'category' => 'picture',
+            //     'category' => 'Picture',
             //     'is_featured' => false,
             //     'is_active' => true,
             //     'download_count' => 423,
@@ -164,7 +164,7 @@ class DownloadSeeder extends Seeder
                 'file_path' => 'downloads/cor1.pdf',
                 'file_type' => 'application/pdf',
                 'file_size' => 1572864, // ~1.5MB
-                'category' => 'document',
+                'category' => 'Document',
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 423,
@@ -177,7 +177,7 @@ class DownloadSeeder extends Seeder
                 'file_path' => 'downloads/adver1.pdf',
                 'file_type' => 'application/pdf',
                 'file_size' => 1572864, // ~1.5MB
-                'category' => 'Dcument',
+                'category' => 'Document',
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 423,
@@ -218,7 +218,7 @@ class DownloadSeeder extends Seeder
                 'file_path' => 'downloads/corrigendum 12-02-2024.jpeg',
                 'file_type' => 'application/pic',
                 'file_size' => 1572864, // ~1.5MB
-                'category' => 'picture',
+                'category' => 'Picture',
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 423,
@@ -231,7 +231,7 @@ class DownloadSeeder extends Seeder
                 'file_path' => 'downloads/pic.jpg',
                 'file_type' => 'application/pic',
                 'file_size' => 1572864, // ~1.5MB
-                'category' => 'pic',
+                'category' => 'Picture',
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 423,
@@ -310,7 +310,7 @@ class DownloadSeeder extends Seeder
                 'file_path' => 'downloads/islmibranch.jpg',
                 'file_type' => 'application/pic',
                 'file_size' => 1572864, // ~1.5MB
-                'category' => 'picture',
+                'category' => 'Picture',
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 423,
@@ -349,7 +349,7 @@ class DownloadSeeder extends Seeder
                 'file_path' => 'downloads/image.jpeg',
                 'file_type' => 'application/pic',
                 'file_size' => 1572864, // ~1.5MB
-                'category' => 'picture',
+                'category' => 'Picture',
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 423,
@@ -362,7 +362,7 @@ class DownloadSeeder extends Seeder
                 'file_path' => 'downloads/bids.jpeg',
                 'file_type' => 'application/pic',
                 'file_size' => 1572864, // ~1.5MB
-                'category' => 'picture',
+                'category' => 'Picture',
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 423,
@@ -375,7 +375,7 @@ class DownloadSeeder extends Seeder
                 'file_path' => 'downloads/bids2.jpeg',
                 'file_type' => 'application/pic',
                 'file_size' => 1572864, // ~1.5MB
-                'category' => 'picture',
+                'category' => 'Picture',
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 423,
@@ -441,7 +441,7 @@ class DownloadSeeder extends Seeder
                 'file_path' => 'downloads/bids5.jpeg',
                 'file_type' => 'application/pic',
                 'file_size' => 1572864, // ~1.5MB
-                'category' => 'picture',
+                'category' => 'Picture',
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 423,
@@ -482,7 +482,7 @@ class DownloadSeeder extends Seeder
                 'file_path' => 'downloads/health.jpg',
                 'file_type' => 'application/pic',
                 'file_size' => 1572864, // ~1.5MB
-                'category' => 'picture',
+                'category' => 'Picture',
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 423,
@@ -671,7 +671,7 @@ class DownloadSeeder extends Seeder
                 'file_path' => 'downloads/july-21-2022.pdf',
                 'file_type' => 'application/pdf',
                 'file_size' => 1572864, // ~1.5MB
-                'category' => 'Documet',
+                'category' => 'Document',
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 423,
@@ -710,7 +710,7 @@ class DownloadSeeder extends Seeder
                 'file_path' => 'downloads/doc.jpg',
                 'file_type' => 'application/pic',
                 'file_size' => 1572864, // ~1.5MB
-                'category' => 'picture',
+                'category' => 'Picture',
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 423,
@@ -723,7 +723,7 @@ class DownloadSeeder extends Seeder
                 'file_path' => 'downloads/doc2.jpg',
                 'file_type' => 'application/pic',
                 'file_size' => 1572864, // ~1.5MB
-                'category' => 'picture',
+                'category' => 'Picture',
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 423,
@@ -829,7 +829,7 @@ class DownloadSeeder extends Seeder
                 'file_path' => 'downloads/CoreBanking.jpeg',
                 'file_type' => 'application/pic',
                 'file_size' => 1572864, // ~1.5MB
-                'category' => 'picture',
+                'category' => 'Picture',
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 423,
@@ -1093,7 +1093,7 @@ class DownloadSeeder extends Seeder
                 'file_path' => 'downloads/invitation-to-bids-10059.jpg',
                 'file_type' => 'application/pic',
                 'file_size' => 1572864, // ~1.5MB
-                'category' => 'picture',
+                'category' => 'Picture',
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 423,
@@ -1119,7 +1119,7 @@ class DownloadSeeder extends Seeder
                 'file_path' => 'downloads/invitation-of-bid-09-2021.jpg',
                 'file_type' => 'application/pic',
                 'file_size' => 1572864, // ~1.5MB
-                'category' => 'picture',
+                'category' => 'Picture',
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 423,
@@ -1172,7 +1172,7 @@ class DownloadSeeder extends Seeder
                 'file_path' => 'downloads/invitation of bids 01-06-2021.jpg',
                 'file_type' => 'application/pic',
                 'file_size' => 1572864, // ~1.5MB
-                'category' => 'picture',
+                'category' => 'Picture',
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 423,
@@ -1186,7 +1186,7 @@ class DownloadSeeder extends Seeder
                 'file_path' => 'downloads/invitation-of-bids-25-05-2021.jpg',
                 'file_type' => 'application/pic',
                 'file_size' => 1572864, // ~1.5MB
-                'category' => 'picture',
+                'category' => 'Picture',
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 423,
@@ -1200,7 +1200,7 @@ class DownloadSeeder extends Seeder
                 'file_path' => 'downloads/invitation-of-bids-25-05-2021 (1).jpg',
                 'file_type' => 'application/pic',
                 'file_size' => 1572864, // ~1.5MB
-                'category' => 'picture',
+                'category' => 'Picture',
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 423,
@@ -1214,7 +1214,7 @@ class DownloadSeeder extends Seeder
                 'file_path' => 'downloads/advertisement-770.jpg',
                 'file_type' => 'application/pic',
                 'file_size' => 1572864, // ~1.5MB
-                'category' => 'picture',
+                'category' => 'Picture',
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 423,
@@ -1228,7 +1228,7 @@ class DownloadSeeder extends Seeder
                 'file_path' => 'downloads/advertisement-651.jpg',
                 'file_type' => 'application/pic',
                 'file_size' => 1572864, // ~1.5MB
-                'category' => 'picture',
+                'category' => 'Picture',
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 423,
@@ -1242,7 +1242,7 @@ class DownloadSeeder extends Seeder
                 'file_path' => 'downloads/advertisement-636.jpg',
                 'file_type' => 'application/pic ',
                 'file_size' => 1572864, // ~1.5MB
-                'category' => 'picture',
+                'category' => 'Picture',
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 423,
@@ -1256,7 +1256,7 @@ class DownloadSeeder extends Seeder
                 'file_path' => 'downloads/evalutation_report-600.jpg',
                 'file_type' => 'application/pic',
                 'file_size' => 1572864, // ~1.5MB
-                'category' => 'picture',
+                'category' => 'Picture',
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 423,
@@ -1270,7 +1270,7 @@ class DownloadSeeder extends Seeder
                 'file_path' => 'downloads/advertisement_599.jpg',
                 'file_type' => 'application/pic',
                 'file_size' => 1572864, // ~1.5MB
-                'category' => 'picture',
+                'category' => 'Picture',
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 423,
@@ -1283,7 +1283,7 @@ class DownloadSeeder extends Seeder
                 'file_path' => 'downloads/advertisement264.jpg',
                 'file_type' => 'application/pic',
                 'file_size' => 1572864, // ~1.5MB
-                'category' => 'picture',
+                'category' => 'Picture',
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 423,
@@ -1296,7 +1296,7 @@ class DownloadSeeder extends Seeder
                 'file_path' => 'downloads/advertisement-395.jpg',
                 'file_type' => 'application/pic',
                 'file_size' => 1572864, // ~1.5MB
-                'category' => 'picture',
+                'category' => 'Picture',
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 423,
@@ -1309,7 +1309,7 @@ class DownloadSeeder extends Seeder
                 'file_path' => 'downloads/corrigendum_it_ hardware.jpg',
                 'file_type' => 'application/pic',
                 'file_size' => 1572864, // ~1.5MB
-                'category' => 'picture',
+                'category' => 'Picture',
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 423,
@@ -1322,7 +1322,7 @@ class DownloadSeeder extends Seeder
                 'file_path' => 'downloads/advertisement_330.jpg',
                 'file_type' => 'application/pic',
                 'file_size' => 1572864, // ~1.5MB
-                'category' => 'picture',
+                'category' => 'Picture',
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 423,
@@ -1335,7 +1335,7 @@ class DownloadSeeder extends Seeder
                 'file_path' => 'downloads/advertisement_329.jpg',
                 'file_type' => 'application/pic',
                 'file_size' => 1572864, // ~1.5MB
-                'category' => 'picture',
+                'category' => 'Picture',
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 423,
@@ -1361,7 +1361,7 @@ class DownloadSeeder extends Seeder
                 'file_path' => 'downloads/invitation_of_bids_11_12_2020.jpg',
                 'file_type' => 'application/pic',
                 'file_size' => 1572864, // ~1.5MB
-                'category' => 'picture',
+                'category' => 'Picture',
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 423,
@@ -1386,7 +1386,7 @@ class DownloadSeeder extends Seeder
                 'file_path' => 'downloads/c1.jpg',
                 'file_type' => 'application/pic',
                 'file_size' => 1572864, // ~1.5MB
-                'category' => 'picture',
+                'category' => 'Picture',
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 423,
@@ -1400,7 +1400,7 @@ class DownloadSeeder extends Seeder
                 'file_path' => 'downloads/web.png',
                 'file_type' => 'application/pic',
                 'file_size' => 1572864, // ~1.5MB
-                'category' => 'picture',
+                'category' => 'Picture',
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 423,
@@ -1481,7 +1481,7 @@ class DownloadSeeder extends Seeder
                 'file_path' => 'downloads/pic3.jpg',
                 'file_type' => 'application/pic',
                 'file_size' => 1572864, // ~1.5MB
-                'category' => 'picture',
+                'category' => 'Picture',
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 423,
@@ -1495,7 +1495,7 @@ class DownloadSeeder extends Seeder
                 'file_path' => 'downloads/IMG_20191223_102508.jpg',
                 'file_type' => 'application/pic',
                 'file_size' => 1572864, // ~1.5MB
-                'category' => 'picture',
+                'category' => 'Picture',
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 423,
@@ -1597,7 +1597,7 @@ class DownloadSeeder extends Seeder
                 'file_path' => 'downloads/add_as_on_05-apr-2019.jpg',
                 'file_type' => 'application/pic',
                 'file_size' => 1572864, // ~1.5MB
-                'category' => 'picture',
+                'category' => 'Picture',
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 423,
@@ -1611,7 +1611,7 @@ class DownloadSeeder extends Seeder
                 'file_path' => 'downloads/add_27_mar_2019_brarkot_branch.jpg',
                 'file_type' => 'application/pic',
                 'file_size' => 1572864, // ~1.5MB
-                'category' => 'picture',
+                'category' => 'Picture',
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 423,
@@ -1624,7 +1624,7 @@ class DownloadSeeder extends Seeder
                 'file_path' => 'downloads/add_27_mar_2019_chatter_klass_branch.jpg',
                 'file_type' => 'application/pic',
                 'file_size' => 1572864, // ~1.5MB
-                'category' => 'picture',
+                'category' => 'Picture',
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 423,
@@ -1637,7 +1637,7 @@ class DownloadSeeder extends Seeder
                 'file_path' => 'downloads/add_held_on_25_03_2019.jpg',
                 'file_type' => 'application/pic',
                 'file_size' => 1572864, // ~1.5MB
-                'category' => 'picture',
+                'category' => 'Picture',
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 423,
@@ -1650,7 +1650,7 @@ class DownloadSeeder extends Seeder
                 'file_path' => 'downloads/add_held_on_21_03_2019.jpg',
                 'file_type' => 'application/pic',
                 'file_size' => 1572864, // ~1.5MB
-                'category' => 'picture',
+                'category' => 'Picture',
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 423,
@@ -1663,7 +1663,7 @@ class DownloadSeeder extends Seeder
                 'file_path' => 'downloads/invitation_to_bids_20_feb_2019.jpg',
                 'file_type' => 'application/pic',
                 'file_size' => 1572864, // ~1.5MB
-                'category' => 'picture',
+                'category' => 'Picture',
                 'is_featured' => false,
                 'is_active' => true,
                 'download_count' => 423,
