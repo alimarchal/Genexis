@@ -37,7 +37,7 @@ class FinancialHighlightController extends Controller
         $validated = $request->validated();
         $data = $validated;
 
-        [$data] = $this->applyUploads($request, $data, 'financial-highlights', ['financial_highlights' => 'financial_highlights']);
+        [$data] = $this->applyUploads($request, $data, 'financial-highlights', ['financial_highlights' => 'financial_highlights'], nameColumns: ['financial_highlights' => 'file_name']);
 
         FinancialHighlight::create($data);
 
@@ -63,7 +63,7 @@ class FinancialHighlightController extends Controller
     {
         $data = $request->validated();
 
-        [$data, $obsolete] = $this->applyUploads($request, $data, 'financial-highlights', ['financial_highlights' => 'financial_highlights'], $financialHighlight);
+        [$data, $obsolete] = $this->applyUploads($request, $data, 'financial-highlights', ['financial_highlights' => 'financial_highlights'], $financialHighlight, ['financial_highlights' => 'file_name']);
 
         $financialHighlight->update($data);
         $this->deleteStoredFiles($obsolete);
@@ -90,9 +90,6 @@ class FinancialHighlightController extends Controller
             abort(404, 'File not found');
         }
 
-        $extension = pathinfo($financialHighlight->financial_highlights, PATHINFO_EXTENSION);
-        $fileName = "Financial-Highlights-FY{$financialHighlight->fiscal_year}.{$extension}";
-
-        return $this->sendPublicFile($financialHighlight->financial_highlights, $fileName);
+        return $this->sendPublicFile($financialHighlight->financial_highlights, $financialHighlight->display_file_name);
     }
 }

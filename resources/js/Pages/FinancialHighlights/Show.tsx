@@ -12,6 +12,7 @@ interface FinancialHighlight {
     id: number;
     fiscal_year: number;
     financial_highlights: string | null;
+    display_file_name: string | null;
     financial_highlights_url: string | null;
     created_at: string;
     updated_at: string;
@@ -39,11 +40,6 @@ export default function ShowFinancialHighlight({ financialHighlight }: Props) {
         if (yearDiff <= 1) return <Badge variant="default">Recent</Badge>;
         if (yearDiff <= 5) return <Badge variant="secondary">Last 5 Years</Badge>;
         return <Badge variant="outline">Older</Badge>;
-    };
-
-    const getCurrentFileName = (filePath: string | null): string => {
-        if (!filePath) return '';
-        return filePath.split('/').pop() || '';
     };
 
     const getFileExtension = (filePath: string | null): string => {
@@ -119,9 +115,7 @@ export default function ShowFinancialHighlight({ financialHighlight }: Props) {
                                             <FileText className="h-6 w-6 text-gray-500" />
                                         </div>
                                         <div className="flex-1">
-                                            <div className="font-medium text-gray-900">
-                                                {getCurrentFileName(financialHighlight.financial_highlights)}
-                                            </div>
+                                            <div className="font-medium text-gray-900">{financialHighlight.display_file_name}</div>
                                             <div className="flex items-center gap-2 text-sm text-gray-500">
                                                 <span>{getFileExtension(financialHighlight.financial_highlights)} File</span>
                                                 <span>•</span>
