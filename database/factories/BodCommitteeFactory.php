@@ -40,8 +40,6 @@ class BodCommitteeFactory extends Factory
             'management_members' => [],
             'is_active' => fake()->boolean(80), // 80% chance of being active
             'sort_order' => fake()->numberBetween(1, 10),
-            'created_by' => 1, // Default admin user
-            'updated_by' => 1,
         ];
     }
 

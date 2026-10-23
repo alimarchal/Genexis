@@ -55,6 +55,8 @@ class DownloadController extends Controller
 
     public function show(Download $download)
     {
+        $download->loadMissing(['creator:id,name', 'updater:id,name']);
+
         return Inertia::render('Download/Show', [
             'download' => $download,
         ]);

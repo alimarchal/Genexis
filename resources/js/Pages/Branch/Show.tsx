@@ -1,3 +1,4 @@
+import AuditInfo from '@/components/audit-info';
 import Heading from '@/components/heading';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -274,6 +275,9 @@ export default function ShowBranch({ branch }: Props) {
                         </Card>
                     </div>
                 </div>
+            </div>
+            <div className="px-10 pb-8">
+                <AuditInfo record={branch} />
             </div>
         </AppLayout>
     );

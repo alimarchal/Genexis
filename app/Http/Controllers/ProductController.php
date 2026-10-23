@@ -43,6 +43,8 @@ class ProductController extends Controller
     {
         $product->load('product_types');
 
+        $product->loadMissing(['creator:id,name', 'updater:id,name']);
+
         return Inertia::render('Products/Show', [
             'product' => $product,
         ]);

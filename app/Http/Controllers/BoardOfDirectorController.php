@@ -48,6 +48,8 @@ class BoardOfDirectorController extends Controller
 
     public function show(BoardOfDirector $boardOfDirector)
     {
+        $boardOfDirector->loadMissing(['creator:id,name', 'updater:id,name']);
+
         return Inertia::render('BoardOfDirector/Show', [
             'boardOfDirector' => $boardOfDirector,
         ]);

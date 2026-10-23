@@ -54,6 +54,8 @@ class BranchServiceController extends Controller
     {
         $branchService->load('branch');
 
+        $branchService->loadMissing(['creator:id,name', 'updater:id,name']);
+
         return Inertia::render('BranchService/Show', [
             'branchService' => $branchService,
         ]);

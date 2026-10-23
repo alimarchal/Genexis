@@ -59,6 +59,8 @@ class BranchController extends Controller
     {
         $branch->load(['district.region', 'contacts', 'branchServices']);
 
+        $branch->loadMissing(['creator:id,name', 'updater:id,name']);
+
         return Inertia::render('Branch/Show', [
             'branch' => $branch,
         ]);

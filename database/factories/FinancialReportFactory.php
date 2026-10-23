@@ -30,8 +30,6 @@ class FinancialReportFactory extends Factory
                 'financial-reports/annual-2024.pdf',
                 'financial-reports/yearly-report.pdf',
             ]),
-            'created_by' => 1,
-            'updated_by' => 1,
         ];
     }
 }

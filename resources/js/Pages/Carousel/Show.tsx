@@ -1,3 +1,4 @@
+import AuditInfo from '@/components/audit-info';
 import Heading from '@/components/heading';
 import SafeImage from '@/components/safe-image';
 import { Badge } from '@/components/ui/badge';
@@ -196,6 +197,9 @@ export default function ShowCarousel({ carousel }: Props) {
                         </Card>
                     </div>
                 </div>
+            </div>
+            <div className="px-10 pb-8">
+                <AuditInfo record={carousel} />
             </div>
         </AppLayout>
     );

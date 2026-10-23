@@ -53,6 +53,8 @@ class BankServiceController extends Controller
 
     public function show(BankService $bankService)
     {
+        $bankService->loadMissing(['creator:id,name', 'updater:id,name']);
+
         return Inertia::render('BankService/Show', [
             'bankService' => $bankService,
         ]);

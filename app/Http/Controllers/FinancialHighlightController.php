@@ -47,6 +47,8 @@ class FinancialHighlightController extends Controller
 
     public function show(FinancialHighlight $financialHighlight)
     {
+        $financialHighlight->loadMissing(['creator:id,name', 'updater:id,name']);
+
         return Inertia::render('FinancialHighlights/Show', [
             'financialHighlight' => $financialHighlight,
         ]);

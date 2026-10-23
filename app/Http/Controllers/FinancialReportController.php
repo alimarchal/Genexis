@@ -54,6 +54,8 @@ class FinancialReportController extends Controller
 
     public function show(FinancialReport $financialReport)
     {
+        $financialReport->loadMissing(['creator:id,name', 'updater:id,name']);
+
         return Inertia::render('FinancialReports/Show', [
             'financialReport' => $financialReport,
         ]);

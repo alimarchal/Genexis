@@ -48,6 +48,8 @@ class RegionController extends Controller
 
     public function show(Region $region)
     {
+        $region->loadMissing(['creator:id,name', 'updater:id,name']);
+
         return Inertia::render('Region/Show', [
             'region' => $region,
         ]);

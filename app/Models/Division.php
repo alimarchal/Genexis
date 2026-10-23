@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\UserTracking;
 use Database\Factories\DivisionFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Division extends Model
 {
     /** @use HasFactory<DivisionFactory> */
-    use HasFactory;
+    use HasFactory, UserTracking;
 
     protected $fillable = [
         'name',

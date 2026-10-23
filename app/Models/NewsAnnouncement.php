@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\UserTracking;
 use Database\Factories\NewsAnnouncementFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +11,7 @@ use Illuminate\Support\Str;
 class NewsAnnouncement extends Model
 {
     /** @use HasFactory<NewsAnnouncementFactory> */
-    use HasFactory;
+    use HasFactory, UserTracking;
 
     protected $fillable = [
         'title',

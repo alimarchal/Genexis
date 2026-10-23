@@ -48,6 +48,8 @@ class CareerController extends Controller
     {
         $career->incrementViews();
 
+        $career->loadMissing(['creator:id,name', 'updater:id,name']);
+
         return Inertia::render('Careers/Show', [
             'career' => $career,
         ]);

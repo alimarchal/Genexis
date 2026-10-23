@@ -41,6 +41,8 @@ class AboutUsController extends Controller
 
     public function show(AboutUs $aboutUs)
     {
+        $aboutUs->loadMissing(['creator:id,name', 'updater:id,name']);
+
         return Inertia::render('AboutUs/Show', [
             'aboutUs' => $aboutUs,
         ]);

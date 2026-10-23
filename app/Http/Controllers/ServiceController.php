@@ -90,6 +90,8 @@ class ServiceController extends Controller
     {
         $service->load('attributes');
 
+        $service->loadMissing(['creator:id,name', 'updater:id,name']);
+
         return Inertia::render('Services/Show', [
             'service' => [
                 ...$service->toArray(),

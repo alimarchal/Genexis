@@ -54,6 +54,8 @@ class DistrictController extends Controller
     {
         $district->load('region');
 
+        $district->loadMissing(['creator:id,name', 'updater:id,name']);
+
         return Inertia::render('District/Show', [
             'district' => $district,
         ]);

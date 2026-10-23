@@ -53,6 +53,8 @@ class ProductTypeAccountController extends Controller
     {
         $productTypeAccount->load(['productType.product', 'productSchemes']);
 
+        $productTypeAccount->loadMissing(['creator:id,name', 'updater:id,name']);
+
         return Inertia::render('ProductTypeAccount/Show', [
             'productTypeAccount' => $productTypeAccount,
         ]);

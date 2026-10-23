@@ -27,8 +27,6 @@ class ScheduleOfChargeFactory extends Factory
             'attachment' => fake()->boolean(60) ? 'schedule-of-charges/'.fake()->uuid().'.pdf' : null,
             'description' => fake()->boolean(80) ? fake()->paragraph() : null,
             'is_active' => fake()->boolean(85),
-            'created_by' => 1, // Assuming user ID 1 exists
-            'updated_by' => 1,
         ];
     }
 }

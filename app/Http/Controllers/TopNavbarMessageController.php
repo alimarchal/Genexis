@@ -45,6 +45,8 @@ class TopNavbarMessageController extends Controller
 
     public function show(TopNavbarMessage $topNavbarMessage)
     {
+        $topNavbarMessage->loadMissing(['creator:id,name', 'updater:id,name']);
+
         return Inertia::render('TopNavbarMessages/Show', [
             'message' => $topNavbarMessage,
         ]);

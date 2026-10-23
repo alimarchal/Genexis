@@ -50,6 +50,8 @@ class CarouselController extends Controller
 
     public function show(Carousel $carousel)
     {
+        $carousel->loadMissing(['creator:id,name', 'updater:id,name']);
+
         return Inertia::render('Carousel/Show', [
             'carousel' => $carousel,
         ]);

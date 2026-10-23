@@ -138,6 +138,6 @@ class Download extends Model
 
     public function incrementDownloadCount()
     {
-        $this->increment('download_count');
+        $this->incrementQuietly('download_count');
     }
 }
