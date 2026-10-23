@@ -13,6 +13,7 @@
  */
 
 use App\Http\Controllers\AboutUsController;
+use App\Http\Controllers\Admin\ChangeRequestController;
 use App\Http\Controllers\Admin\ContactSubmissionController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\MenuController;
@@ -316,6 +317,12 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
         Route::post('uploads/{uploadSession}/complete', [UploadController::class, 'complete'])->name('uploads.complete');
         Route::delete('uploads/{uploadSession}', [UploadController::class, 'destroy'])->name('uploads.destroy');
     });
+
+    // Maker-checker: pending changes made by makers, decided by checkers
+    Route::get('change-requests', [ChangeRequestController::class, 'index'])->name('change-requests.index');
+    Route::get('change-requests/{changeRequest}', [ChangeRequestController::class, 'show'])->name('change-requests.show');
+    Route::post('change-requests/{changeRequest}/approve', [ChangeRequestController::class, 'approve'])->name('change-requests.approve');
+    Route::post('change-requests/{changeRequest}/reject', [ChangeRequestController::class, 'reject'])->name('change-requests.reject');
 
     // Menu Management System
     Route::resource('menus', MenuController::class)->guardedBy('menus');

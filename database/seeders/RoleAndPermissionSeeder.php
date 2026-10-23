@@ -161,6 +161,10 @@ class RoleAndPermissionSeeder extends Seeder
             // Uploads
             'view uploads',
             'upload large files',
+
+            // Maker-checker (a maker's changes are held until a checker approves them)
+            'submit changes for approval',
+            'approve changes',
         ];
 
         $createdPermissions = [];
@@ -179,7 +183,10 @@ class RoleAndPermissionSeeder extends Seeder
         $superAdminRole = Role::firstOrCreate(['name' => 'super-admin', 'guard_name' => 'web']);
         // Super-admin holds real, editable permissions like any other role. Only newly created
         // permissions are granted here, so ones an administrator removed are never silently restored.
-        $superAdminRole->givePermissionTo($superAdminRole->wasRecentlyCreated ? Permission::where('guard_name', 'web')->get() : $createdPermissions);
+        // Super-admin is a checker, never a maker (a maker's changes are held for approval).
+        $granted = collect($superAdminRole->wasRecentlyCreated ? Permission::where('guard_name', 'web')->get() : $createdPermissions)
+            ->reject(fn (Permission $permission) => $permission->name === config('bank.maker_checker.maker_permission'));
+        $superAdminRole->givePermissionTo($granted);
 
         // Admin (Default example role)
         $adminRole = Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'web']);

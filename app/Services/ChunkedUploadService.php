@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Enums\UploadStatus;
+use App\Models\ChangeRequest;
 use App\Models\UploadSession;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -343,9 +344,12 @@ class ChunkedUploadService
                 $expired++;
             });
 
+        $neededByPendingChanges = ChangeRequest::pendingUploadIds();
+
         UploadSession::where('status', UploadStatus::Completed)
             ->whereNull('consumed_at')
             ->where('completed_at', '<', $cutoff)
+            ->whereNotIn('uuid', $neededByPendingChanges)
             ->each(function (UploadSession $session) use (&$orphaned) {
                 if ($session->final_path) {
                     Storage::disk('public')->delete($session->final_path);
