@@ -52,6 +52,7 @@ export interface SharedData {
     auth: Auth;
     ziggy: Config & { location: string } & Record<string, unknown>;
     sidebarOpen: boolean;
+    flash?: { success?: string | null; error?: string | null };
     bankBranchesCount: number;
     contact_phone: string;
     contact_email: string;

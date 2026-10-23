@@ -311,15 +311,13 @@ export default function DownloadIndex({ downloads, filters, categories }: Props)
                                                             </DropdownMenuItem>
                                                         )}
                                                         <DropdownMenuSeparator />
-                                                        <DropdownMenuItem asChild>
-                                                            <a
-                                                                href={route('downloads.admin-download', download.id)}
-                                                                target="_blank"
-                                                                rel="noopener noreferrer"
-                                                            >
-                                                                <Download className="mr-2 h-4 w-4" />
-                                                                Download
-                                                            </a>
+                                                        <DropdownMenuItem
+                                                            onSelect={() =>
+                                                                window.open(route('downloads.admin-download', download.id), '_blank', 'noopener')
+                                                            }
+                                                        >
+                                                            <Download className="mr-2 h-4 w-4" />
+                                                            Download
                                                         </DropdownMenuItem>
                                                         <DropdownMenuSeparator />
                                                         {auth.permissions.includes('delete downloads') && (

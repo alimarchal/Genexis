@@ -1,3 +1,4 @@
+import FormErrorSummary from '@/components/form-error-summary';
 import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -20,7 +21,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function CreateDownload({ categories }: { categories: string[] }) {
-    const { data, setData, post, processing, errors } = useForm({
+    const { data, setData, post, processing, errors, setError, clearErrors } = useForm({
         title: '',
         description: '',
         file_upload_id: null as string | null,
@@ -33,6 +34,13 @@ export default function CreateDownload({ categories }: { categories: string[] })
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
+
+        if (!data.file_upload_id) {
+            setError('file_upload_id', 'Please upload a file first. The Create button works once the upload has finished.');
+            return;
+        }
+
+        clearErrors();
         post(route('downloads.store'));
     };
 
@@ -43,6 +51,7 @@ export default function CreateDownload({ categories }: { categories: string[] })
                 <Heading title="Create Download" description="Add a new downloadable file or resource" />
                 <div className="mt-8">
                     <form onSubmit={submit} className="space-y-8">
+                        <FormErrorSummary errors={errors} />
                         <Card>
                             <CardHeader>
                                 <CardTitle>Basic Information</CardTitle>
