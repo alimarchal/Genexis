@@ -153,7 +153,7 @@ describe('other modules', function () {
         $id = chunkedUpload($this->root, 'downloads', 'tender.pdf', pdf(77));
 
         $this->actingAs($this->root)->post(route('downloads.store'), [
-            'title' => 'Tender', 'category' => 'general', 'is_active' => true, 'file_upload_id' => $id,
+            'title' => 'Tender', 'category' => 'General', 'is_active' => true, 'file_upload_id' => $id,
         ])->assertRedirect(route('downloads.index'));
 
         $download = Download::where('title', 'Tender')->firstOrFail();
@@ -163,7 +163,7 @@ describe('other modules', function () {
     });
 
     it('requires a file for a new download', function () {
-        $this->actingAs($this->root)->post(route('downloads.store'), ['title' => 'Nothing', 'category' => 'general'])
+        $this->actingAs($this->root)->post(route('downloads.store'), ['title' => 'Nothing', 'category' => 'General'])
             ->assertSessionHasErrors('file');
     });
 

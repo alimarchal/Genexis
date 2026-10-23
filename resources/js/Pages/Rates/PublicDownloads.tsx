@@ -33,19 +33,22 @@ interface PaginatedPublicDownloads {
 
 interface PublicDownloadsPublicProps {
     downloads: PaginatedPublicDownloads;
+    categories: string[];
+    activeCategory: string | null;
 }
 
-const PublicDownloadsPublic = ({ downloads }: PublicDownloadsPublicProps) => {
+const PublicDownloadsPublic = ({ downloads, categories, activeCategory }: PublicDownloadsPublicProps) => {
     const tableTop = useRef<HTMLDivElement>(null);
 
-    const visitPage = (url: string, data?: Record<string, number>) => {
+    const visitPage = (url: string, data?: Record<string, number | string>) => {
         router.get(url, data, {
             preserveState: true,
             preserveScroll: true,
             onSuccess: () => tableTop.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }),
         });
     };
-    const goToPage = (page: number) => visitPage(route('public-downloads'), { page });
+    const goToPage = (page: number) => visitPage(route('public-downloads'), activeCategory ? { page, category: activeCategory } : { page });
+    const chooseCategory = (category: string | null) => visitPage(route('public-downloads'), category ? { category } : {});
     const goToUrl = (url: string) => visitPage(url);
 
     const [search, setSearch] = useState('');
@@ -89,6 +92,25 @@ const PublicDownloadsPublic = ({ downloads }: PublicDownloadsPublicProps) => {
                         Access important documents, forms, and resources from Bank of Azad Jammu & Kashmir. Download forms, reports, brochures, and
                         other essential documents.
                     </p>
+                </div>
+
+                {/* Category filter: runs on the server so every file in the category is listed, not just this page */}
+                <div className="mb-4 flex flex-wrap gap-2" role="group" aria-label="Filter by category">
+                    {[null, ...categories].map((category) => (
+                        <button
+                            key={category ?? 'all'}
+                            type="button"
+                            onClick={() => chooseCategory(category)}
+                            aria-pressed={activeCategory === category}
+                            className={`rounded-full border px-4 py-1.5 text-sm font-medium transition-colors ${
+                                activeCategory === category
+                                    ? 'border-[#4A7C59] bg-[#4A7C59] text-white'
+                                    : 'border-[#4A7C59] bg-white text-[#4A7C59] hover:bg-green-50'
+                            }`}
+                        >
+                            {category ?? 'All'}
+                        </button>
+                    ))}
                 </div>
 
                 {/* Search */}

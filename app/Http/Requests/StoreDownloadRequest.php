@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\DownloadCategory;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreDownloadRequest extends FormRequest
 {
@@ -26,8 +28,8 @@ class StoreDownloadRequest extends FormRequest
             'file_upload_id' => ['nullable', 'uuid'],
             'title' => 'required|string|max:255',
             'description' => 'nullable|string|max:5000',
-            'file' => 'required_without:file_upload_id|nullable|file|mimes:pdf,doc,docx,xls,xlsx,jpg,jpeg,png,gif,zip,rar|max:51200', // 50MB when posted directly
-            'category' => 'required|string|in:general,Document,picture,form,forms,reports',
+            'file' => 'required_without:file_upload_id|nullable|file|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,jpg,jpeg,png,gif,zip,rar|max:51200', // 50MB when posted directly
+            'category' => ['required', Rule::enum(DownloadCategory::class)],
             'is_featured' => 'boolean',
             'is_active' => 'boolean',
         ];
@@ -44,10 +46,10 @@ class StoreDownloadRequest extends FormRequest
             'title.required' => 'The title field is required.',
             'title.max' => 'The title may not be greater than 255 characters.',
             'file.required_without' => 'Please upload a file.',
-            'file.mimes' => 'The file must be a PDF, Word document, Excel file, image, or archive file.',
+            'file.mimes' => 'The file must be a PDF, Word, Excel or PowerPoint document, image, or archive file.',
             'file.max' => 'The file size may not be greater than 50MB when posted directly (use the large-file uploader).',
             'category.required' => 'Please select a category.',
-            'category.in' => 'The selected category is invalid.',
+            'category.enum' => 'The selected category is invalid.',
             'description.max' => 'The description may not be greater than 5000 characters.',
         ];
     }
