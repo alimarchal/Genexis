@@ -31,14 +31,17 @@ class AppServiceProvider extends ServiceProvider
         /**
          * Guard a resource route with one permission per action:
          * view (index, show), create (create, store), edit (edit, update), delete (destroy).
+         * A maker's store / update / destroy is held for approval instead of being executed (see ChangeRequestService).
          */
         PendingResourceRegistration::macro('guardedBy', function (string $permission) {
             /** @var PendingResourceRegistration $this */
             return $this
                 ->middlewareFor(['index', 'show'], "permission:view {$permission}")
-                ->middlewareFor(['create', 'store'], "permission:create {$permission}")
-                ->middlewareFor(['edit', 'update'], "permission:edit {$permission}")
-                ->middlewareFor('destroy', "permission:delete {$permission}");
+                ->middlewareFor('create', "permission:create {$permission}")
+                ->middlewareFor('store', ["permission:create {$permission}", 'maker.checker'])
+                ->middlewareFor('edit', "permission:edit {$permission}")
+                ->middlewareFor('update', ["permission:edit {$permission}", 'maker.checker'])
+                ->middlewareFor('destroy', ["permission:delete {$permission}", 'maker.checker']);
         });
     }
 

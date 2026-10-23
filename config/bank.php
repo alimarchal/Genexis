@@ -188,4 +188,14 @@ return [
             'gif' => ['image/gif'],
         ],
     ],
+    /*
+     * Maker-checker. A user holding the "submit changes for approval" permission is a maker: what they add, edit or
+     * delete in the admin panel is held as a change request until someone with "approve changes" (a checker) approves it.
+     * Users without that permission are not affected. Resource route prefixes listed here are never held.
+     */
+    'maker_checker' => [
+        'maker_permission' => 'submit changes for approval',
+        'checker_permission' => 'approve changes',
+        'excluded_modules' => ['admin.menus', 'admin.contact-submissions'],
+    ],
 ];

@@ -301,6 +301,18 @@ const sidebarGroups = [
         defaultExpanded: false,
         items: [
             {
+                title: 'Change Approvals',
+                href: '/admin/change-requests',
+                icon: Handshake,
+                permission: 'approve changes',
+            },
+            {
+                title: 'My Submitted Changes',
+                href: '/admin/change-requests',
+                icon: Handshake,
+                permission: 'submit changes for approval',
+            },
+            {
                 title: 'Upload Log',
                 href: '/admin/uploads',
                 icon: Download,

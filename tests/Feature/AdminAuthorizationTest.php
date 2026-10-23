@@ -208,8 +208,11 @@ describe('super-admin permissions are editable', function () {
     it('holds real permissions instead of bypassing every check', function () {
         $root = $this->createAdminUser();
 
-        expect(Role::findByName('super-admin')->permissions->count())->toBe(Permission::count())
-            ->and($root->can('view users'))->toBeTrue();
+        // Every permission except the maker one: a maker's changes are held for approval, and super-admin is a checker.
+        expect(Role::findByName('super-admin')->permissions->count())->toBe(Permission::where('name', '!=', config('bank.maker_checker.maker_permission'))->count())
+            ->and($root->can('view users'))->toBeTrue()
+            ->and($root->can('approve changes'))->toBeTrue()
+            ->and($root->can('submit changes for approval'))->toBeFalse();
     });
 
     it('stops granting a permission once it is removed from the super-admin role', function () {
