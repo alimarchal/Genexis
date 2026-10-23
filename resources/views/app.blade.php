@@ -31,7 +31,8 @@
         }
     </style>
 
-    <title inertia>{{ config('app.name', 'Laravel') }}</title>
+    <meta name="application-name" content="{{ config('app.name', 'Bank of AJK') }}">
+    <title inertia>{{ config('app.name', 'Bank of AJK') }}</title>
 
     <link rel="icon" href="/favicon-32x32.png" sizes="any">
     <link rel="icon" href="/favicon-32x32.png" type="image/svg+xml">
