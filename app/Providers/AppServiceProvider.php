@@ -62,13 +62,15 @@ class AppServiceProvider extends ServiceProvider
     }
 
     /**
-     * Per-IP limits: public pages, the public JSON API, file downloads.
+     * Per-IP limits: public pages, the public JSON API, file downloads; per-token limit for the extraction API.
      */
     protected function configureRateLimiting(): void
     {
         RateLimiter::for('web-public', fn (Request $request) => Limit::perMinute(config('bank.security.web_rate_limit'))->by($request->ip()));
         RateLimiter::for('api', fn (Request $request) => Limit::perMinute(config('bank.security.api_rate_limit'))->by($request->ip()));
         RateLimiter::for('uploads', fn (Request $request) => Limit::perMinute(3000)->by($request->user()?->id ?: $request->ip()));
+        RateLimiter::for('extract-ip', fn (Request $request) => Limit::perMinute(config('bank.extraction.rate_limit') * 4)->by($request->ip()));
+        RateLimiter::for('extract', fn (Request $request) => Limit::perMinute(config('bank.extraction.rate_limit'))->by($request->bearerToken() ? hash('sha256', $request->bearerToken()) : $request->ip()));
         RateLimiter::for('downloads', fn (Request $request) => Limit::perMinute(config('bank.security.download_rate_limit'))->by($request->ip()));
     }
 }

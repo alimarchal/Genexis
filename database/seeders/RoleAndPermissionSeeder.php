@@ -165,6 +165,10 @@ class RoleAndPermissionSeeder extends Seeder
             // Maker-checker (a maker's changes are held until a checker approves them)
             'submit changes for approval',
             'approve changes',
+
+            // Data extraction API
+            'extract data',
+            'extract sensitive data',
         ];
 
         $createdPermissions = [];
