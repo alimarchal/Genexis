@@ -85,6 +85,8 @@ declare module '@inertiajs/core' {
                 goajk: string;
                 gopak: string;
                 ajk_tourism: string;
+                ajk_pdo: string;
+                ajk_pm_portal: string | null;
                 loan_calculator: string;
             };
             banking: {
