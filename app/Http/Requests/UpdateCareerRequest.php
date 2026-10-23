@@ -2,7 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Career;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Carbon;
+use Illuminate\Validation\Rule;
+use Throwable;
 
 class UpdateCareerRequest extends FormRequest
 {
@@ -20,7 +24,7 @@ class UpdateCareerRequest extends FormRequest
             'requirements' => 'required|string|max:5000',
             'location' => 'required|string|max:255',
             'document' => 'nullable|file|mimes:pdf,doc,docx|max:51200',
-            'closing_date' => 'nullable|date|after_or_equal:today',
+            'closing_date' => ['nullable', 'date', Rule::when($this->isChangingClosingDate(), 'after_or_equal:today')],
             'is_active' => 'required|in:0,1', // Accept string values
             'is_featured' => 'required|in:0,1', // Accept string values
             'benefits' => 'nullable|string|max:3000',
@@ -38,5 +42,26 @@ class UpdateCareerRequest extends FormRequest
             'document.mimes' => 'The document must be a PDF or Word file.',
             'document.max' => 'The document size cannot exceed 50MB when posted directly (use the large-file uploader).',
         ];
+    }
+
+    /**
+     * An expired posting must stay editable, so the date only has to be in the future when it is being changed.
+     */
+    private function isChangingClosingDate(): bool
+    {
+        $submitted = $this->input('closing_date');
+
+        if (blank($submitted)) {
+            return false;
+        }
+
+        $career = $this->route('career');
+        $current = $career instanceof Career ? $career->closing_date?->toDateString() : null;
+
+        try {
+            return Carbon::parse($submitted)->toDateString() !== $current;
+        } catch (Throwable) {
+            return true;
+        }
     }
 }
