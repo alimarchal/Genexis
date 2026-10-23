@@ -454,7 +454,7 @@ class PageController extends Controller
                 return [
                     'id' => $highlight->id,
                     'fiscal_year' => $highlight->fiscal_year,
-                    'file_name' => $highlight->financial_highlights ? basename($highlight->financial_highlights) : null,
+                    'file_name' => $highlight->display_file_name,
                     'file_size' => $highlight->financial_highlights ? (file_exists(storage_path('app/public/'.$highlight->financial_highlights)) ? filesize(storage_path('app/public/'.$highlight->financial_highlights)) : 0) : 0,
                     'download_url' => $highlight->financial_highlights ? route('financial-highlights.download', $highlight) : null,
                     'created_at' => $highlight->created_at->format('M d, Y'),

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasReadableFileName;
 use App\Traits\UserTracking;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,11 +11,12 @@ use Spatie\QueryBuilder\AllowedFilter;
 
 class FinancialHighlight extends Model
 {
-    use HasFactory, UserTracking;
+    use HasFactory, HasReadableFileName, UserTracking;
 
     protected $fillable = [
         'fiscal_year',
         'financial_highlights',
+        'file_name',
         'created_by',
         'updated_by',
     ];
@@ -25,6 +27,7 @@ class FinancialHighlight extends Model
 
     protected $appends = [
         'financial_highlights_url',
+        'display_file_name',
     ];
 
     public static function getAllowedFilters(): array
@@ -81,6 +84,18 @@ class FinancialHighlight extends Model
         }
 
         return null;
+    }
+
+    /**
+     * The name shown on the website and used for the downloaded file.
+     */
+    public function getDisplayFileNameAttribute(): ?string
+    {
+        if (blank($this->financial_highlights)) {
+            return null;
+        }
+
+        return $this->readableFileName($this->financial_highlights, $this->file_name, "Financial Highlights {$this->fiscal_year}");
     }
 
     public function getHasHighlightsAttribute(): bool

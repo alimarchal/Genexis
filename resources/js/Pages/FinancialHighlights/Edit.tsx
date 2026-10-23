@@ -14,6 +14,7 @@ interface FinancialHighlight {
     id: number;
     fiscal_year: number;
     financial_highlights: string | null;
+    display_file_name: string | null;
     financial_highlights_url: string | null;
 }
 
@@ -39,11 +40,6 @@ export default function EditFinancialHighlight({ financialHighlight }: Props) {
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
         post(route('financial-highlights.update', financialHighlight.id));
-    };
-
-    const getCurrentFileName = (filePath: string | null): string => {
-        if (!filePath) return '';
-        return filePath.split('/').pop() || '';
     };
 
     return (
@@ -94,9 +90,7 @@ export default function EditFinancialHighlight({ financialHighlight }: Props) {
                                             <div className="flex flex-1 items-center gap-3">
                                                 <FileText className="h-5 w-5 text-gray-500" />
                                                 <div>
-                                                    <div className="font-medium text-gray-900">
-                                                        {getCurrentFileName(financialHighlight.financial_highlights)}
-                                                    </div>
+                                                    <div className="font-medium text-gray-900">{financialHighlight.display_file_name}</div>
                                                     <div className="text-sm text-gray-500">Currently uploaded file</div>
                                                 </div>
                                             </div>
@@ -116,7 +110,7 @@ export default function EditFinancialHighlight({ financialHighlight }: Props) {
                                     context="financial-highlights"
                                     label="File"
                                     accept={['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx']}
-                                    currentFileName={financialHighlight.financial_highlights?.split('/').pop()}
+                                    currentFileName={financialHighlight.display_file_name}
                                     onChange={(id) => setData('financial_highlights_upload_id', id)}
                                     onBusyChange={setUploading}
                                     error={
@@ -154,7 +148,7 @@ export default function EditFinancialHighlight({ financialHighlight }: Props) {
                                             <p className="mb-2 text-sm font-medium text-gray-700">Current File:</p>
                                             <div className="flex items-center gap-2 text-sm text-gray-600">
                                                 <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                                                <span>Financial Highlights: {getCurrentFileName(financialHighlight.financial_highlights)}</span>
+                                                <span>Financial Highlights: {financialHighlight.display_file_name}</span>
                                             </div>
                                         </div>
                                     )}
