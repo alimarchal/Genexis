@@ -13,7 +13,7 @@ class DownloadSeeder extends Seeder
         // Create specific downloads
         $downloads = [
             [
-                'title' => 'Tendor For Services',
+                'title' => 'Tender For Services',
                 'description' => 'Tender of services document outlining bidding details for specified services.',
                 'file_path' => 'downloads/tendor1.pdf',
                 'file_type' => 'application/pdf',
@@ -65,7 +65,7 @@ class DownloadSeeder extends Seeder
                 'download_count' => 156,
             ],
             [
-                'title' => 'Tender For Services-Hairing Of Testing Service Firm ',
+                'title' => 'Tender For Services-Hiring Of Testing Service Firm ',
                 'description' => 'Tender for services regarding the hiring of a testing service firm, issued on 05-06-2024.',
                 'file_path' => 'downloads/5-6-2024 tender for services.pdf',
                 'file_type' => 'application/pdf',
@@ -199,7 +199,7 @@ class DownloadSeeder extends Seeder
                 'updated_at' => Carbon::parse('2024-02-15 10:00:00'),
             ],
             [
-                'title' => 'Carrer Opportunities ',
+                'title' => 'Career Opportunities ',
                 'description' => 'Career opportunities announced on 15-02-2024 for various professional roles within the organization.',
                 'file_path' => 'downloads/Career Opportunities 15-02-2024.pdf',
                 'file_type' => 'application/pdf',
@@ -213,7 +213,7 @@ class DownloadSeeder extends Seeder
 
             ],
             [
-                'title' => 'Corrigendum - Carrer Opportunities - ',
+                'title' => 'Corrigendum - Career Opportunities - ',
                 'description' => 'Career opportunities announced on 12-02-2024 for various professional roles within the organization.',
                 'file_path' => 'downloads/corrigendum 12-02-2024.jpeg',
                 'file_type' => 'application/pic',
@@ -1517,7 +1517,7 @@ class DownloadSeeder extends Seeder
             ],
 
             [
-                'title' => 'Evalutioan Report (Renovation Work Islamgarh Branch Mirpur)',
+                'title' => 'Evaluation Report (Renovation Work Islamgarh Branch Mirpur)',
                 'description' => 'Evaluation Report for Renovation Work at Islamgarh Branch, Mirpur – detailing the assessment of bids and selection process for renovation contractors.',
                 'file_path' => 'downloads/islamgarh.pdf',
                 'file_type' => 'application/pdf',
@@ -1569,7 +1569,7 @@ class DownloadSeeder extends Seeder
             ],
 
             [
-                'title' => 'Evalutioan Report',
+                'title' => 'Evaluation Report',
                 'description' => 'Official document summarizing the assessment and comparison of bids or proposals received.',
                 'file_path' => 'downloads/evalutiaonreport.pdf',
                 'file_type' => 'application/pdf',
