@@ -1,3 +1,4 @@
+import FormErrorSummary from '@/components/form-error-summary';
 import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -67,6 +68,7 @@ export default function EditDownload({ download, categories }: Props) {
                 <Heading title="Edit Download" description="Update the downloadable file or resource" />
                 <div className="mt-8">
                     <form onSubmit={submit} className="space-y-8">
+                        <FormErrorSummary errors={errors} />
                         <Card>
                             <CardHeader>
                                 <CardTitle>Basic Information</CardTitle>
