@@ -35,8 +35,6 @@ class DownloadFactory extends Factory
             'is_featured' => fake()->boolean(20),
             'is_active' => fake()->boolean(90),
             'download_count' => fake()->numberBetween(0, 500),
-            'created_by' => 1, // Assuming user ID 1 exists
-            'updated_by' => 1,
         ];
     }
 }

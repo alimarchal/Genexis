@@ -54,6 +54,8 @@ class ContactController extends Controller
     {
         $contact->load('branch');
 
+        $contact->loadMissing(['creator:id,name', 'updater:id,name']);
+
         return Inertia::render('ContactManagement/Show', [
             'contact' => $contact,
         ]);

@@ -28,8 +28,6 @@ class ManagementFactory extends Factory
             'description' => fake()->paragraph(3),
             'order' => fake()->numberBetween(1, 100),
             'status' => fake()->randomElement(['active', 'inactive']),
-            'created_by' => 1,
-            'updated_by' => 1,
         ];
     }
 

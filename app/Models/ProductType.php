@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\UserTracking;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\QueryBuilder\AllowedFilter;
 
 class ProductType extends Model
 {
-    use HasFactory;
+    use HasFactory, UserTracking;
 
     protected $fillable = [
         'product_id',

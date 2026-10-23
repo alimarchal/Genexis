@@ -53,6 +53,8 @@ class NewsAnnouncementController extends Controller
 
     public function show(NewsAnnouncement $newsAnnouncement)
     {
+        $newsAnnouncement->loadMissing(['creator:id,name', 'updater:id,name']);
+
         return Inertia::render('NewsAnnouncement/Show', [
             'newsAnnouncement' => $newsAnnouncement,
         ]);

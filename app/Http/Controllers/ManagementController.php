@@ -50,6 +50,8 @@ class ManagementController extends Controller
 
     public function show(Management $management)
     {
+        $management->loadMissing(['creator:id,name', 'updater:id,name']);
+
         return Inertia::render('Management/Show', [
             'management' => $management,
         ]);

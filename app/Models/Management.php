@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use App\Support\PublicFile;
+use App\Traits\UserTracking;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\QueryBuilder\AllowedFilter;
 
 class Management extends Model
 {
-    use HasFactory;
+    use HasFactory, UserTracking;
 
     protected $table = 'managements';
 

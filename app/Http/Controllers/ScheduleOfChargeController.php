@@ -46,6 +46,8 @@ class ScheduleOfChargeController extends Controller
 
     public function show(ScheduleOfCharge $scheduleOfCharge)
     {
+        $scheduleOfCharge->loadMissing(['creator:id,name', 'updater:id,name']);
+
         return Inertia::render('ScheduleOfCharges/Show', [
             'scheduleOfCharge' => $scheduleOfCharge,
         ]);

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\UserTracking;
 use Database\Factories\AboutUsFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +11,7 @@ use Spatie\QueryBuilder\AllowedFilter;
 class AboutUs extends Model
 {
     /** @use HasFactory<AboutUsFactory> */
-    use HasFactory;
+    use HasFactory, UserTracking;
 
     protected $fillable = [
         'title',

@@ -41,6 +41,8 @@ class ProfitRateController extends Controller
 
     public function show(ProfitRate $profitRate)
     {
+        $profitRate->loadMissing(['creator:id,name', 'updater:id,name']);
+
         return Inertia::render('ProfitRates/Show', [
             'profitRate' => $profitRate,
         ]);

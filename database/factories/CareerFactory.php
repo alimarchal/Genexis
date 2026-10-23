@@ -47,8 +47,6 @@ class CareerFactory extends Factory
             'is_active' => fake()->boolean(85),
             'is_featured' => fake()->boolean(15),
             'views_count' => fake()->numberBetween(0, 100),
-            'created_by' => 1, // Assuming user ID 1 exists
-            'updated_by' => 1,
         ];
     }
 }

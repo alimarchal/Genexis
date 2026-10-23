@@ -63,6 +63,8 @@ class BodCommitteeController extends Controller
         $bodCommittee->board_members_list = $bodCommittee->boardMembersList;
         $bodCommittee->management_members_list = $bodCommittee->managementMembersList;
 
+        $bodCommittee->loadMissing(['creator:id,name', 'updater:id,name']);
+
         return Inertia::render('BodCommittees/Show', [
             'bodCommittee' => $bodCommittee,
         ]);

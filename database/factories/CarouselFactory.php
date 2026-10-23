@@ -25,7 +25,6 @@ class CarouselFactory extends Factory
             'button_url' => '/'.fake()->slug(2),
             'order' => fake()->numberBetween(1, 10),
             'status' => fake()->randomElement(['active', 'inactive']),
-            'created_by' => 1,
         ];
     }
 }

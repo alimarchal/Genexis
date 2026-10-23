@@ -47,6 +47,8 @@ class AnnualReportController extends Controller
 
     public function show(AnnualReport $annualReport)
     {
+        $annualReport->loadMissing(['creator:id,name', 'updater:id,name']);
+
         return Inertia::render('AnnualReports/Show', [
             'annualReport' => $annualReport,
         ]);

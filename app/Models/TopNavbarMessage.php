@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\UserTracking;
 use Database\Factories\TopNavbarMessageFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 class TopNavbarMessage extends Model
 {
     /** @use HasFactory<TopNavbarMessageFactory> */
-    use HasFactory;
+    use HasFactory, UserTracking;
 
     protected $fillable = [
         'type',

@@ -154,12 +154,12 @@ class Career extends Model
 
     public function incrementViews()
     {
-        $this->increment('views_count');
+        $this->incrementQuietly('views_count');
     }
 
     public function incrementViewsCount()
     {
-        $this->increment('views_count');
+        $this->incrementQuietly('views_count');
     }
 
     public function scopeExpired($query)

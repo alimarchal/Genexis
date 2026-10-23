@@ -52,6 +52,8 @@ class ProductSchemeController extends Controller
     {
         $productScheme->load(['productTypeAccount.productType.product', 'attributes']);
 
+        $productScheme->loadMissing(['creator:id,name', 'updater:id,name']);
+
         return Inertia::render('ProductScheme/Show', [
             'productScheme' => $productScheme,
         ]);
