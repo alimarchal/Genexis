@@ -1,5 +1,6 @@
 import BankServicesSection from '@/components/BankServicesSection';
 import BankHeroCarousel from '@/components/carousel/BankHeroCarousel';
+import CorporateHighlights, { type Highlight } from '@/components/CorporateHighlights';
 import NewsAnnouncements from '@/components/NewsAnnouncements';
 import WebsiteLayout from '@/layouts/WebsiteLayout';
 
@@ -44,16 +45,18 @@ interface NewsAnnouncement {
 }
 
 interface Props {
+    corporateHighlights: Highlight[];
     carousels: CarouselSlide[];
     bankServices: BankService[];
     newsAnnouncements: NewsAnnouncement[];
 }
 
-export default function HomePage({ carousels, bankServices, newsAnnouncements }: Props) {
+export default function HomePage({ corporateHighlights, carousels, bankServices, newsAnnouncements }: Props) {
     return (
         <div className="w-full">
             <BankHeroCarousel slides={carousels} />
             <BankServicesSection bankServices={bankServices} />
+            <CorporateHighlights highlights={corporateHighlights} />
             <NewsAnnouncements newsAnnouncements={newsAnnouncements} />
             {/* Uncomment the following line to include customer testimonials section */}
             {/* <CustomerTestimonials /> */}

@@ -138,6 +138,12 @@ return [
         'established_year' => (int) env('BANK_ESTABLISHED_YEAR', 2006),
         'serving_districts' => env('BANK_SERVING_DISTRICTS', 'All Districts of AJK'),
     ],
+    'highlights' => [
+        ['value' => '2', 'label' => 'Ladies branches (Muzaffarabad and Mirpur)'],
+        ['value' => '10%+', 'label' => 'Female managers'],
+        ['value' => '17', 'label' => 'Asset products'],
+        ['value' => null, 'label' => 'Micro finance for low-income communities'],
+    ],
     'contact' => [
         'form_recipient' => env('CONTACT_FORM_RECIPIENT', env('CONTACT_EMAIL', 'info@bankajk.com')),
         'contact_phone' => env('CONTACT_PHONE', '+92.5822.924244'),

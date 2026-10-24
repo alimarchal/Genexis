@@ -124,10 +124,24 @@ class PageController extends Controller
             });
 
         return Inertia::render('Welcome', [
+            'corporateHighlights' => $this->corporateHighlights(),
             'carousels' => $carousels,
             'bankServices' => $bankServices,
             'newsAnnouncements' => $newsAnnouncements,
         ]);
+    }
+
+    /**
+     * The Corporate Highlights block of the home page: the configured items plus the branch count that every page shares.
+     *
+     * @return list<array{value: string|null, label: string}>
+     */
+    private function corporateHighlights(): array
+    {
+        return [
+            ['value' => (string) config('bank.stats.branches_count'), 'label' => 'Locations across Azad Jammu & Kashmir'],
+            ...config('bank.highlights', []),
+        ];
     }
 
     public function about()
