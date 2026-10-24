@@ -20,17 +20,18 @@ Public website and administration panel for the Bank of Azad Jammu & Kashmir.
 ## Contents
 
 1. [Quick start (local development)](#quick-start-local-development)
-2. [Configuration (`.env`)](#configuration-env)
-3. [Creating the first administrator](#creating-the-first-administrator)
-4. [Everyday commands](#everyday-commands)
-5. [Project structure](#project-structure)
-6. [Roles and permissions](#roles-and-permissions)
-7. [Public API v1](#public-api-v1)
-8. [Security](#security)
-9. [Testing and quality](#testing-and-quality)
-10. [Deployment to production](#deployment-to-production)
-11. [Upgrading Laravel](#upgrading-laravel)
-12. [Troubleshooting](#troubleshooting)
+2. [Screenshots](#screenshots)
+3. [Configuration (`.env`)](#configuration-env)
+4. [Creating the first administrator](#creating-the-first-administrator)
+5. [Everyday commands](#everyday-commands)
+6. [Project structure](#project-structure)
+7. [Roles and permissions](#roles-and-permissions)
+8. [Public API v1](#public-api-v1)
+9. [Security](#security)
+10. [Testing and quality](#testing-and-quality)
+11. [Deployment to production](#deployment-to-production)
+12. [Upgrading Laravel](#upgrading-laravel)
+13. [Troubleshooting](#troubleshooting)
 
 ---
 
@@ -86,6 +87,19 @@ composer run dev                  # PHP server + queue worker + log viewer + Vit
 Open <http://localhost:8000> for the website and <http://localhost:8000/login> for the admin panel.
 
 > If you see "Unable to locate file in Vite manifest", run `npm run build` once, or keep `composer run dev` running.
+
+## Screenshots
+
+| | |
+|---|---|
+| ![Home page with Corporate Highlights](docs/screenshots/02-home-corporate-highlights.jpg) | ![Photo Gallery](docs/screenshots/03-gallery-albums.jpg) |
+| Home page: Corporate Highlights | Photo Gallery |
+| ![Tourist Attractions](docs/screenshots/06-tourist-attractions.jpg) | ![Admin: gallery album](docs/screenshots/23-admin-gallery-album-edit.jpg) |
+| Tourist Attractions | Admin panel: gallery album |
+
+**All pages and admin screens: [docs/screenshots.md](docs/screenshots.md)**
+
+---
 
 ## Configuration (`.env`)
 
