@@ -38,6 +38,7 @@ use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\FinancialHighlightController;
 use App\Http\Controllers\FinancialReportController;
+use App\Http\Controllers\GalleryAlbumController;
 use App\Http\Controllers\LoanCalculatorController;
 use App\Http\Controllers\ManagementController;
 use App\Http\Controllers\NewsAnnouncementController;
@@ -58,6 +59,7 @@ use App\Http\Controllers\ServiceAttributeController;
 use App\Http\Controllers\ServiceController;
 // API Controllers
 use App\Http\Controllers\TopNavbarMessageController;
+use App\Http\Controllers\TouristAttractionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -83,6 +85,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('bank-services', BankServiceController::class)->guardedBy('bank services');
     Route::resource('news-announcements', NewsAnnouncementController::class)->guardedBy('news announcements');
     Route::resource('top-navbar-messages', TopNavbarMessageController::class)->guardedBy('top navbar messages');
+    Route::resource('gallery-albums', GalleryAlbumController::class)->guardedBy('gallery albums');
+    Route::resource('tourist-attractions', TouristAttractionController::class)->guardedBy('tourist attractions');
 
     // -------------------------------------------------------------------------
     // ORGANIZATIONAL STRUCTURE MANAGEMENT
@@ -219,6 +223,14 @@ Route::prefix('rates')->name('rates.')->group(function () {
 // -------------------------------------------------------------------------
 Route::get('/news', [PageController::class, 'news'])->name('news');
 Route::get('/news/{slug}', [PageController::class, 'newsDetail'])->name('news.detail');
+
+// -------------------------------------------------------------------------
+// PHOTO GALLERY & TOURIST ATTRACTIONS
+// -------------------------------------------------------------------------
+Route::get('/gallery', [GalleryAlbumController::class, 'publicIndex'])->name('gallery');
+Route::get('/gallery/{slug}', [GalleryAlbumController::class, 'publicShow'])->name('gallery.show');
+Route::get('/places-to-visit', [TouristAttractionController::class, 'publicIndex'])->name('tourist-attractions.public');
+Route::get('/places-to-visit/{slug}', [TouristAttractionController::class, 'publicShow'])->name('tourist-attractions.public.show');
 
 // -------------------------------------------------------------------------
 // CAREER OPPORTUNITIES SECTION
