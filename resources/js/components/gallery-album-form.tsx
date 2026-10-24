@@ -34,7 +34,7 @@ type AlbumForm = {
 };
 
 export default function GalleryAlbumForm({ album }: { album?: GalleryAlbumRecord }) {
-    const { data, setData, post, processing, errors } = useForm<AlbumForm>({
+    const { data, setData, post, transform, processing, errors } = useForm<AlbumForm>({
         title: album?.title ?? '',
         description: album?.description ?? '',
         cover_image: null,
@@ -48,8 +48,10 @@ export default function GalleryAlbumForm({ album }: { album?: GalleryAlbumRecord
         e.preventDefault();
 
         if (album) {
-            post(route('gallery-albums.update', album.id), { forceFormData: true, transform: (formData) => ({ ...formData, _method: 'put' }) });
+            transform((formData) => ({ ...formData, _method: 'put' }));
+            post(route('gallery-albums.update', album.id), { forceFormData: true });
         } else {
+            transform((formData) => formData);
             post(route('gallery-albums.store'), { forceFormData: true });
         }
     };

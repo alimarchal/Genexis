@@ -29,7 +29,7 @@ type AttractionForm = {
 };
 
 export default function TouristAttractionForm({ attraction }: { attraction?: TouristAttractionRecord }) {
-    const { data, setData, post, processing, errors } = useForm<AttractionForm>({
+    const { data, setData, post, transform, processing, errors } = useForm<AttractionForm>({
         title: attraction?.title ?? '',
         summary: attraction?.summary ?? '',
         content: attraction?.content ?? '',
@@ -43,11 +43,10 @@ export default function TouristAttractionForm({ attraction }: { attraction?: Tou
         e.preventDefault();
 
         if (attraction) {
-            post(route('tourist-attractions.update', attraction.id), {
-                forceFormData: true,
-                transform: (formData) => ({ ...formData, _method: 'put' }),
-            });
+            transform((formData) => ({ ...formData, _method: 'put' }));
+            post(route('tourist-attractions.update', attraction.id), { forceFormData: true });
         } else {
+            transform((formData) => formData);
             post(route('tourist-attractions.store'), { forceFormData: true });
         }
     };
