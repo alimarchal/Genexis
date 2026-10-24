@@ -442,4 +442,11 @@ return (
 - For MySQL-specific migration checks, use a separate disposable non-production database, verify the active connection, and get approval before changing any persistent database.
 - Use factories or dedicated test accounts. Never reset a real user's password with Tinker or store credentials in project files or memory.
 - Verify code changes with focused tests. For UI changes, inspect the affected screen and relevant interactions in the browser, and review recent browser errors.
+
+## Graphify Refresh
+
+- After completing code or documentation changes under `resources/`, incrementally update the existing Graphify graph with the `/graphify resources --update` workflow. Follow `.agents/skills/graphify/references/update.md` and verify that `graphify-out/graph.json` and its report reflect the changes.
+- The current graph is scoped to `resources/`; changes elsewhere in the repository are not represented unless the graph scope is deliberately expanded and rebuilt.
+- Graph refreshes run locally when the coding workflow updates the graph; this instruction does not automatically detect or rebuild for remote GitHub changes.
+
 </laravel-boost-guidelines>
