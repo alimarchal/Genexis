@@ -71,17 +71,21 @@ const ProfitRatesPublic = ({ profitRates }: ProfitRatesPublicProps) => {
                     </div>
                 ) : (
                     <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-lg">
-                        <table className="w-full min-w-full table-auto divide-y divide-gray-200 bg-white text-sm sm:text-base">
+                        <table className="w-full table-auto divide-y divide-gray-200 bg-white text-sm sm:text-base">
                             <thead className="bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A]">
                                 <tr>
-                                    <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-white uppercase sm:text-sm">
+                                    <th className="px-3 py-3 text-left text-xs font-medium tracking-wider text-white uppercase sm:px-6 sm:text-sm">
                                         Category
                                     </th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-white uppercase sm:text-sm">Rate</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-white uppercase sm:text-sm">
+                                    <th className="px-3 py-3 text-left text-xs font-medium tracking-wider text-white uppercase sm:px-6 sm:text-sm">
+                                        Rate
+                                    </th>
+                                    <th className="px-3 py-3 text-left text-xs font-medium tracking-wider text-white uppercase sm:px-6 sm:text-sm">
                                         Validity
                                     </th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-white uppercase sm:text-sm">Status</th>
+                                    <th className="px-3 py-3 text-left text-xs font-medium tracking-wider text-white uppercase sm:px-6 sm:text-sm">
+                                        Status
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200 bg-white">
@@ -89,18 +93,18 @@ const ProfitRatesPublic = ({ profitRates }: ProfitRatesPublicProps) => {
                                     const type = getCategoryType(rate.category);
                                     return (
                                         <tr key={rate.id} className="hover:bg-gray-50">
-                                            <td className="px-6 py-4 whitespace-nowrap">
+                                            <td className="px-2 py-4 sm:px-6">
                                                 <div className="text-sm font-medium text-gray-900">{rate.category}</div>
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap">
+                                            <td className="px-2 py-4 sm:px-6">
                                                 <div className="text-sm text-gray-900">{formatRate(rate.rate)}</div>
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap">
+                                            <td className="px-2 py-4 sm:px-6">
                                                 <div className="text-sm text-gray-900">
                                                     {rate.valid_from} - {rate.valid_to || 'Ongoing'}
                                                 </div>
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap">
+                                            <td className="px-2 py-4 sm:px-6">
                                                 <span
                                                     className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium ${type.color}`}
                                                 >

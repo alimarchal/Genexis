@@ -311,9 +311,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
     // -------------------------------------------------------------------------
     // USER MANAGEMENT SYSTEM
     // -------------------------------------------------------------------------
-    Route::resource('users', UserController::class);
-    Route::resource('roles', RoleController::class);
-    Route::resource('permissions', PermissionController::class);
+    Route::resource('users', UserController::class)->except('show');
+    Route::resource('roles', RoleController::class)->except('show');
+    Route::resource('permissions', PermissionController::class)->except('show');
 
     Route::resource('contact-submissions', ContactSubmissionController::class)
         ->only(['index', 'show', 'destroy'])

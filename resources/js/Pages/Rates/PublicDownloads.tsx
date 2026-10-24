@@ -131,95 +131,144 @@ const PublicDownloadsPublic = ({ downloads, categories, activeCategory }: Public
                         <p className="text-gray-600">Downloads will be updated here as they become available.</p>
                     </div>
                 ) : (
-                    <div ref={tableTop} className="w-full scroll-mt-40 overflow-x-auto rounded-lg border border-gray-200 shadow-lg">
-                        <table className="w-full min-w-[900px] table-fixed divide-y divide-gray-200 bg-white text-sm">
-                            <colgroup>
-                                <col className="w-[30%]" />
-                                <col className="w-[15%]" />
-                                <col className="w-[15%]" />
-                                <col className="w-[10%]" />
-                                <col className="w-[15%]" />
-                                <col className="w-[15%]" />
-                            </colgroup>
-                            <thead className="bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A]">
-                                <tr>
-                                    <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-white uppercase sm:text-sm">Title</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-white uppercase sm:text-sm">
-                                        Category
-                                    </th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-white uppercase sm:text-sm">
-                                        File Info
-                                    </th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-white uppercase sm:text-sm">
-                                        Downloads
-                                    </th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-white uppercase sm:text-sm">
-                                        Created At
-                                    </th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-white uppercase sm:text-sm">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-gray-200 bg-white">
-                                {(filteredDownloads.length > 0 ? filteredDownloads : []).map((download) => {
-                                    const type = getCategoryType(download.category);
-                                    return (
-                                        <tr key={download.id} className="hover:bg-gray-50">
-                                            <td className="px-4 py-4">
-                                                <div className="text-sm leading-relaxed font-medium break-words text-gray-900">{download.title}</div>
-                                                <div>
-                                                    {download.description && (
-                                                        <div className="mt-1 text-xs leading-relaxed break-words text-gray-500">
-                                                            {download.description}
-                                                        </div>
-                                                    )}
-                                                    {download.is_featured && (
-                                                        <span className="mt-2 inline-flex items-center rounded-full bg-yellow-100 px-2 py-1 text-xs font-medium text-yellow-800">
-                                                            ⭐ Featured
-                                                        </span>
-                                                    )}
-                                                </div>
-                                            </td>
-                                            <td className="px-4 py-4">
-                                                <span
-                                                    className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium ${type.color}`}
-                                                >
-                                                    <span className="break-words">
-                                                        {type.icon} {download.category.charAt(0).toUpperCase() + download.category.slice(1)}
-                                                    </span>
+                    <div ref={tableTop} className="scroll-mt-40">
+                        {/* Phones and tablets: one card per document */}
+                        <ul className="space-y-4 lg:hidden">
+                            {filteredDownloads.map((download) => {
+                                const type = getCategoryType(download.category);
+                                return (
+                                    <li key={download.id} className="rounded-xl border border-gray-200 bg-white p-4 shadow">
+                                        <h2 className="text-base font-semibold break-words text-gray-900">{download.title}</h2>
+                                        {download.description && <p className="mt-1 text-sm break-words text-gray-500">{download.description}</p>}
+                                        <div className="mt-2 flex flex-wrap items-center gap-2">
+                                            <span
+                                                className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium ${type.color}`}
+                                            >
+                                                {type.icon} {download.category.charAt(0).toUpperCase() + download.category.slice(1)}
+                                            </span>
+                                            {download.is_featured && (
+                                                <span className="inline-flex items-center rounded-full bg-yellow-100 px-2 py-1 text-xs font-medium text-yellow-800">
+                                                    ⭐ Featured
                                                 </span>
-                                            </td>
-                                            <td className="px-4 py-4">
-                                                <div className="text-xs text-gray-900">
-                                                    <div className="font-medium break-words">{download.file_size_formatted}</div>
-                                                    <div className="break-words text-gray-500">{download.file_type || 'Unknown'}</div>
-                                                </div>
-                                            </td>
-                                            <td className="px-4 py-4">
-                                                <div className="text-xs font-medium text-gray-900">{download.download_count}</div>
-                                            </td>
-                                            <td className="px-4 py-4">
-                                                <div className="text-xs break-words text-gray-900">
-                                                    {new Date(download.created_at).toLocaleDateString('en-US', {
-                                                        year: 'numeric',
-                                                        month: 'short',
-                                                        day: 'numeric',
-                                                    })}
-                                                </div>
-                                            </td>
-                                            <td className="px-4 py-4">
-                                                <a
-                                                    href={route('public-downloads.download', download.id)}
-                                                    className="inline-flex items-center gap-1 rounded-lg bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A] px-3 py-2 text-xs font-medium text-white transition-all duration-200 hover:from-[#3d6b4a] hover:to-[#5a8a69] hover:shadow-lg"
-                                                >
-                                                    <Download className="h-3 w-3" />
-                                                    Download
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    );
-                                })}
-                            </tbody>
-                        </table>
+                                            )}
+                                        </div>
+                                        <p className="mt-2 text-xs text-gray-500">
+                                            {download.file_size_formatted} · {download.file_type || 'Unknown'} ·{' '}
+                                            {new Date(download.created_at).toLocaleDateString('en-US', {
+                                                year: 'numeric',
+                                                month: 'short',
+                                                day: 'numeric',
+                                            })}
+                                        </p>
+                                        <a
+                                            href={route('public-downloads.download', download.id)}
+                                            className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A] px-4 py-2 text-sm font-medium text-white"
+                                        >
+                                            <Download className="h-4 w-4" />
+                                            Download
+                                        </a>
+                                    </li>
+                                );
+                            })}
+                            {filteredDownloads.length === 0 && <li className="py-8 text-center text-gray-500">No downloads match your search.</li>}
+                        </ul>
+
+                        <div className="hidden w-full overflow-x-auto rounded-lg border border-gray-200 shadow-lg lg:block">
+                            <table className="w-full table-fixed divide-y divide-gray-200 bg-white text-sm">
+                                <colgroup>
+                                    <col className="w-[30%]" />
+                                    <col className="w-[15%]" />
+                                    <col className="w-[15%]" />
+                                    <col className="w-[10%]" />
+                                    <col className="w-[15%]" />
+                                    <col className="w-[15%]" />
+                                </colgroup>
+                                <thead className="bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A]">
+                                    <tr>
+                                        <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-white uppercase sm:text-sm">
+                                            Title
+                                        </th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-white uppercase sm:text-sm">
+                                            Category
+                                        </th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-white uppercase sm:text-sm">
+                                            File Info
+                                        </th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-white uppercase sm:text-sm">
+                                            Downloads
+                                        </th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-white uppercase sm:text-sm">
+                                            Created At
+                                        </th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-white uppercase sm:text-sm">
+                                            Action
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-gray-200 bg-white">
+                                    {(filteredDownloads.length > 0 ? filteredDownloads : []).map((download) => {
+                                        const type = getCategoryType(download.category);
+                                        return (
+                                            <tr key={download.id} className="hover:bg-gray-50">
+                                                <td className="px-4 py-4">
+                                                    <div className="text-sm leading-relaxed font-medium break-words text-gray-900">
+                                                        {download.title}
+                                                    </div>
+                                                    <div>
+                                                        {download.description && (
+                                                            <div className="mt-1 text-xs leading-relaxed break-words text-gray-500">
+                                                                {download.description}
+                                                            </div>
+                                                        )}
+                                                        {download.is_featured && (
+                                                            <span className="mt-2 inline-flex items-center rounded-full bg-yellow-100 px-2 py-1 text-xs font-medium text-yellow-800">
+                                                                ⭐ Featured
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                </td>
+                                                <td className="px-4 py-4">
+                                                    <span
+                                                        className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium ${type.color}`}
+                                                    >
+                                                        <span className="break-words">
+                                                            {type.icon} {download.category.charAt(0).toUpperCase() + download.category.slice(1)}
+                                                        </span>
+                                                    </span>
+                                                </td>
+                                                <td className="px-4 py-4">
+                                                    <div className="text-xs text-gray-900">
+                                                        <div className="font-medium break-words">{download.file_size_formatted}</div>
+                                                        <div className="break-words text-gray-500">{download.file_type || 'Unknown'}</div>
+                                                    </div>
+                                                </td>
+                                                <td className="px-4 py-4">
+                                                    <div className="text-xs font-medium text-gray-900">{download.download_count}</div>
+                                                </td>
+                                                <td className="px-4 py-4">
+                                                    <div className="text-xs break-words text-gray-900">
+                                                        {new Date(download.created_at).toLocaleDateString('en-US', {
+                                                            year: 'numeric',
+                                                            month: 'short',
+                                                            day: 'numeric',
+                                                        })}
+                                                    </div>
+                                                </td>
+                                                <td className="px-4 py-4">
+                                                    <a
+                                                        href={route('public-downloads.download', download.id)}
+                                                        className="inline-flex items-center gap-1 rounded-lg bg-gradient-to-r from-[#4A7C59] to-[#6B9B7A] px-3 py-2 text-xs font-medium text-white transition-all duration-200 hover:from-[#3d6b4a] hover:to-[#5a8a69] hover:shadow-lg"
+                                                    >
+                                                        <Download className="h-3 w-3" />
+                                                        Download
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 )}
 

@@ -4,7 +4,7 @@ import { Search, X } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
 interface SearchResult {
-    id: number;
+    id: number | string;
     title: string;
     type: string;
     url: string;
@@ -101,7 +101,17 @@ export default function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
             case 'product':
                 return 'bg-purple-100 text-purple-800';
             case 'page':
+            case 'about us':
                 return 'bg-orange-100 text-orange-800';
+            case 'career':
+                return 'bg-teal-100 text-teal-800';
+            case 'photo gallery':
+            case 'tourist attraction':
+                return 'bg-pink-100 text-pink-800';
+            case 'branch':
+                return 'bg-yellow-100 text-yellow-800';
+            case 'download':
+                return 'bg-indigo-100 text-indigo-800';
             default:
                 return 'bg-gray-100 text-gray-800';
         }
@@ -111,7 +121,7 @@ export default function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
 
     return (
         <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm" onClick={onClose}>
-            <div className="mx-auto mt-16 max-w-2xl px-4">
+            <div className="mx-auto mt-4 max-w-2xl px-3 sm:mt-16 sm:px-4">
                 <div className="rounded-lg bg-white shadow-2xl" onClick={(e) => e.stopPropagation()}>
                     {/* Search Input */}
                     <div className="flex items-center border-b border-gray-200 p-4">
@@ -122,7 +132,7 @@ export default function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
                             value={query}
                             onChange={(e) => setQuery(e.target.value)}
                             onKeyDown={handleKeyDown}
-                            placeholder="Search for news, services, products..."
+                            placeholder="Search news, products, careers, branches, gallery..."
                             className="flex-1 text-lg text-gray-900 placeholder-gray-500 caret-gray-900 focus:outline-none"
                         />
                         <button onClick={onClose} className="ml-3 p-1 text-gray-400 hover:text-gray-600">
@@ -131,7 +141,7 @@ export default function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
                     </div>
 
                     {/* Results */}
-                    <div ref={resultsRef} className="max-h-96 overflow-y-auto">
+                    <div ref={resultsRef} className="max-h-[70vh] overflow-y-auto sm:max-h-96">
                         {isLoading && (
                             <div className="p-6 text-center">
                                 <div className="inline-block h-6 w-6 animate-spin rounded-full border-2 border-gray-300 border-t-[#4A7C59]"></div>
@@ -149,7 +159,7 @@ export default function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
                             <div className="py-2">
                                 {results.map((result, index) => (
                                     <div
-                                        key={result.id}
+                                        key={`${result.type}-${result.id}-${index}`}
                                         className={`cursor-pointer px-4 py-3 transition-colors ${
                                             index === selectedIndex ? 'bg-[#4A7C59]/10' : 'hover:bg-gray-50'
                                         }`}
