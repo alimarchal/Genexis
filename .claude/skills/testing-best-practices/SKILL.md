@@ -19,6 +19,13 @@ A pattern repeated throughout the project is a convention, and project conventio
 
 These rules govern the tests you write now. An existing test that follows a project convention is not defective merely because it conflicts with this skill. Do not delete or rewrite it. If the convention has drawbacks, explain them and let the user decide.
 
+## Genexis Database and Account Safety
+
+- `phpunit.xml` configures tests to use SQLite `:memory:`, and Pest feature tests use `RefreshDatabase`. Use that isolated test setup; do not import `database/backup/demo.sql` or run migrations against the database configured by the local `.env` to prepare tests.
+- Treat database backups as sensitive, real-world data. Never import or index `database/backup/`, use its contents as test fixtures, print them, or include them in generated artifacts. If a migration needs MySQL-specific verification, use a separate disposable non-production database, verify the active connection before running commands, and get approval before changing any persistent database.
+- Use factories or a dedicated test account for authentication tests. Never set or reset a real user's password through Tinker, and never save credentials in source files, project instructions, or memory.
+- For each code change, add or update relevant tests and run the narrowest useful test command. Report what ran and whether it passed. For UI changes, inspect the affected page and relevant interactions in the browser, review recent browser errors, and capture a screenshot when it helps verify the result.
+
 ## What to Test
 
 Read this section before you write a test.

@@ -193,4 +193,12 @@ This project has domain-specific skills available in `**/skills/**`. You MUST ac
 
 - IMPORTANT: Activate `inertia-react-development` when working with Inertia React client-side patterns.
 
+## Project Testing Safety
+
+- Follow `.github/skills/testing-best-practices/SKILL.md` for test design and execution.
+- Tests use the SQLite in-memory database configured in `phpunit.xml`; do not import `database/backup/demo.sql` or run migrations against the local `.env` database to prepare tests. Treat backups as sensitive real-world data and exclude them from Graphify or other indexing tools.
+- For MySQL-specific migration checks, use a separate disposable non-production database, verify the active connection, and get approval before changing any persistent database.
+- Use factories or dedicated test accounts. Never reset a real user's password with Tinker or store credentials in project files or memory.
+- Verify code changes with focused tests. For UI changes, inspect the affected screen and relevant interactions in the browser, and review recent browser errors.
+
 </laravel-boost-guidelines>
