@@ -82,6 +82,18 @@ const sidebarGroups = [
                 permission: 'view carousels',
             },
             {
+                title: 'Photo Gallery',
+                href: '/gallery-albums',
+                icon: Images,
+                permission: 'view gallery albums',
+            },
+            {
+                title: 'Tourist Attractions',
+                href: '/tourist-attractions',
+                icon: Info,
+                permission: 'view tourist attractions',
+            },
+            {
                 title: 'Bank Services',
                 href: '/bank-services',
                 icon: Building,

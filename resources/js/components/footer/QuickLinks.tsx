@@ -13,6 +13,8 @@ const quickLinkItems: QuickLinkItem[] = [
     { label: 'Organogram', href: route('about.organogram') },
     { label: 'Branch Network', href: route('about.branch-network') },
     { label: 'News & Updates', href: route('news') },
+    { label: 'Photo Gallery', href: route('gallery') },
+    { label: 'Tourist Attractions', href: route('tourist-attractions.public') },
     { label: 'Downloads', href: route('public-downloads') },
     { label: 'Careers', href: route('public-careers') },
 ];
