@@ -57,8 +57,12 @@ export default function ShowTouristAttraction({ attraction }: { attraction: Reco
                             {attraction.summary && <p className="text-sm font-medium text-gray-700">{attraction.summary}</p>}
                             {attraction.content && <p className="text-sm whitespace-pre-line text-gray-700">{attraction.content}</p>}
                             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                                {attraction.image_url && <img src={attraction.image_url} alt={attraction.title} className="w-full rounded-md object-cover" />}
-                                {attraction.route_map_image_url && <img src={attraction.route_map_image_url} alt="Route map" className="w-full rounded-md object-cover" />}
+                                {attraction.image_url && (
+                                    <img src={attraction.image_url} alt={attraction.title} className="w-full rounded-md object-cover" />
+                                )}
+                                {attraction.route_map_image_url && (
+                                    <img src={attraction.route_map_image_url} alt="Route map" className="w-full rounded-md object-cover" />
+                                )}
                             </div>
                         </CardContent>
                     </Card>

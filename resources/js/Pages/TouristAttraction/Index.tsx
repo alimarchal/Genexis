@@ -21,7 +21,6 @@ interface Row {
     image_url: string | null;
     order: number;
     status: 'active' | 'inactive';
-    
 }
 
 interface Props {
@@ -81,7 +80,7 @@ export default function TouristAttractionIndex({ attractions, filters }: Props) 
                                 <TableRow>
                                     <TableHead>Order</TableHead>
                                     <TableHead>Title</TableHead>
-                                    
+
                                     <TableHead>Status</TableHead>
                                     <TableHead className="text-right">Actions</TableHead>
                                 </TableRow>
@@ -100,12 +99,17 @@ export default function TouristAttractionIndex({ attractions, filters }: Props) 
                                             <TableCell>
                                                 <div className="flex items-center gap-3">
                                                     {row.image_url && (
-                                                        <SafeImage kind="generic" src={row.image_url} alt={row.title} className="h-10 w-16 rounded-md object-cover" />
+                                                        <SafeImage
+                                                            kind="generic"
+                                                            src={row.image_url}
+                                                            alt={row.title}
+                                                            className="h-10 w-16 rounded-md object-cover"
+                                                        />
                                                     )}
                                                     <span className="font-medium">{row.title}</span>
                                                 </div>
                                             </TableCell>
-                                            
+
                                             <TableCell>
                                                 <Badge variant={row.status === 'active' ? 'default' : 'secondary'}>
                                                     {row.status === 'active' ? 'Active' : 'Inactive'}
@@ -148,12 +152,20 @@ export default function TouristAttractionIndex({ attractions, filters }: Props) 
                             </div>
                             <div className="flex gap-2">
                                 {attractions.current_page > 1 && (
-                                    <Button variant="outline" size="sm" onClick={() => router.get(route('tourist-attractions.index'), { page: attractions.current_page - 1 })}>
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => router.get(route('tourist-attractions.index'), { page: attractions.current_page - 1 })}
+                                    >
                                         Previous
                                     </Button>
                                 )}
                                 {attractions.current_page < attractions.last_page && (
-                                    <Button variant="outline" size="sm" onClick={() => router.get(route('tourist-attractions.index'), { page: attractions.current_page + 1 })}>
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => router.get(route('tourist-attractions.index'), { page: attractions.current_page + 1 })}
+                                    >
                                         Next
                                     </Button>
                                 )}

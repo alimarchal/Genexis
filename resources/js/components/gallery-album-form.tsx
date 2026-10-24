@@ -119,7 +119,9 @@ export default function GalleryAlbumForm({ album }: { album?: GalleryAlbumRecord
                                         onClick={() => toggleRemoval(photo.id)}
                                         className={`relative overflow-hidden rounded-md border-2 ${data.remove_photo_ids.includes(photo.id) ? 'border-red-500 opacity-40' : 'border-transparent'}`}
                                     >
-                                        {photo.image_url && <img src={photo.image_url} alt={photo.caption ?? ''} className="h-20 w-full object-cover" />}
+                                        {photo.image_url && (
+                                            <img src={photo.image_url} alt={photo.caption ?? ''} className="h-20 w-full object-cover" />
+                                        )}
                                     </button>
                                 ))}
                             </div>

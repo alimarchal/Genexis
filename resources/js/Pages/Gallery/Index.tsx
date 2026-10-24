@@ -22,7 +22,9 @@ export default function GalleryIndex({ albums }: { albums: Album[] }) {
                 <div className="mx-auto max-w-7xl px-6 py-8">
                     <div className="mb-12 text-center">
                         <h1 className="mb-4 text-4xl font-bold text-gray-900">Photo Gallery</h1>
-                        <p className="mx-auto max-w-3xl text-xl text-gray-600">Moments from the events, meetings and initiatives of Bank of Azad Jammu & Kashmir</p>
+                        <p className="mx-auto max-w-3xl text-xl text-gray-600">
+                            Moments from the events, meetings and initiatives of Bank of Azad Jammu & Kashmir
+                        </p>
                     </div>
 
                     {albums.length === 0 ? (

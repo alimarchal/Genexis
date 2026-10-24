@@ -100,7 +100,12 @@ export default function GalleryAlbumIndex({ albums, filters }: Props) {
                                             <TableCell>
                                                 <div className="flex items-center gap-3">
                                                     {row.cover_image_url && (
-                                                        <SafeImage kind="generic" src={row.cover_image_url} alt={row.title} className="h-10 w-16 rounded-md object-cover" />
+                                                        <SafeImage
+                                                            kind="generic"
+                                                            src={row.cover_image_url}
+                                                            alt={row.title}
+                                                            className="h-10 w-16 rounded-md object-cover"
+                                                        />
                                                     )}
                                                     <span className="font-medium">{row.title}</span>
                                                 </div>
@@ -148,12 +153,20 @@ export default function GalleryAlbumIndex({ albums, filters }: Props) {
                             </div>
                             <div className="flex gap-2">
                                 {albums.current_page > 1 && (
-                                    <Button variant="outline" size="sm" onClick={() => router.get(route('gallery-albums.index'), { page: albums.current_page - 1 })}>
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => router.get(route('gallery-albums.index'), { page: albums.current_page - 1 })}
+                                    >
                                         Previous
                                     </Button>
                                 )}
                                 {albums.current_page < albums.last_page && (
-                                    <Button variant="outline" size="sm" onClick={() => router.get(route('gallery-albums.index'), { page: albums.current_page + 1 })}>
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => router.get(route('gallery-albums.index'), { page: albums.current_page + 1 })}
+                                    >
                                         Next
                                     </Button>
                                 )}

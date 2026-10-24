@@ -55,7 +55,11 @@ export default function ShowGalleryAlbum({ album }: { album: Record }) {
                             {album.description && <p className="text-sm text-gray-700">{album.description}</p>}
                             <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
                                 {album.photos.map((photo) => (
-                                    <div key={photo.id}>{photo.image_url && <img src={photo.image_url} alt={photo.caption ?? ''} className="h-28 w-full rounded-md object-cover" />}</div>
+                                    <div key={photo.id}>
+                                        {photo.image_url && (
+                                            <img src={photo.image_url} alt={photo.caption ?? ''} className="h-28 w-full rounded-md object-cover" />
+                                        )}
+                                    </div>
                                 ))}
                             </div>
                             {album.photos.length === 0 && <p className="text-sm text-gray-500">No photos uploaded yet.</p>}

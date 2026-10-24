@@ -64,7 +64,12 @@ export default function GalleryShow({ album }: { album: Album }) {
                                     onClick={() => setActive(index)}
                                     className="overflow-hidden rounded-lg bg-white shadow transition-transform hover:scale-[1.02]"
                                 >
-                                    <img src={photo.image_url} alt={photo.caption ?? album.title} loading="lazy" className="h-44 w-full object-cover" />
+                                    <img
+                                        src={photo.image_url}
+                                        alt={photo.caption ?? album.title}
+                                        loading="lazy"
+                                        className="h-44 w-full object-cover"
+                                    />
                                 </button>
                             ))}
                         </div>
@@ -73,7 +78,12 @@ export default function GalleryShow({ album }: { album: Album }) {
             </div>
 
             {current && (
-                <div role="dialog" aria-modal="true" className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4" onClick={() => setActive(null)}>
+                <div
+                    role="dialog"
+                    aria-modal="true"
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4"
+                    onClick={() => setActive(null)}
+                >
                     <button type="button" aria-label="Close" className="absolute top-4 right-4 text-white" onClick={() => setActive(null)}>
                         <X className="h-8 w-8" />
                     </button>

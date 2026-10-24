@@ -94,7 +94,12 @@ export default function TouristAttractionForm({ attraction }: { attraction?: Tou
                         <div className="space-y-2">
                             <Label htmlFor="image">Photo</Label>
                             {attraction?.image_url && <img src={attraction.image_url} alt="" className="h-24 w-40 rounded-md object-cover" />}
-                            <Input id="image" type="file" accept="image/jpeg,image/png" onChange={(e) => setData('image', e.target.files?.[0] ?? null)} />
+                            <Input
+                                id="image"
+                                type="file"
+                                accept="image/jpeg,image/png"
+                                onChange={(e) => setData('image', e.target.files?.[0] ?? null)}
+                            />
                             {errors.image && <p className="text-sm text-red-500">{errors.image}</p>}
                         </div>
                         <div className="space-y-2">

@@ -26,7 +26,12 @@ export default function TouristAttractionsShow({ attraction }: { attraction: Att
                     {attraction.summary && <p className="mb-6 text-lg text-gray-600">{attraction.summary}</p>}
 
                     {attraction.image_url && (
-                        <SafeImage kind="generic" src={attraction.image_url} alt={attraction.title} className="mb-8 max-h-[28rem] w-full rounded-xl object-cover shadow" />
+                        <SafeImage
+                            kind="generic"
+                            src={attraction.image_url}
+                            alt={attraction.title}
+                            className="mb-8 max-h-[28rem] w-full rounded-xl object-cover shadow"
+                        />
                     )}
 
                     {attraction.content && <div className="mb-10 leading-relaxed whitespace-pre-line text-gray-800">{attraction.content}</div>}
@@ -34,7 +39,11 @@ export default function TouristAttractionsShow({ attraction }: { attraction: Att
                     {attraction.route_map_image_url && (
                         <section>
                             <h2 className="mb-4 text-2xl font-semibold text-gray-900">Route Map</h2>
-                            <img src={attraction.route_map_image_url} alt={`Route map for ${attraction.title}`} className="w-full rounded-xl shadow" />
+                            <img
+                                src={attraction.route_map_image_url}
+                                alt={`Route map for ${attraction.title}`}
+                                className="w-full rounded-xl shadow"
+                            />
                         </section>
                     )}
                 </div>

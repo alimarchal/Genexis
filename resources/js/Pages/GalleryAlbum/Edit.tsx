@@ -1,5 +1,5 @@
-import Heading from '@/components/heading';
 import GalleryAlbumForm, { GalleryAlbumRecord } from '@/components/gallery-album-form';
+import Heading from '@/components/heading';
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
