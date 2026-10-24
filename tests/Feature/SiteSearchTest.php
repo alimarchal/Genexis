@@ -1,8 +1,12 @@
 <?php
 
 use App\Models\BankService;
+use App\Models\Career;
+use App\Models\GalleryAlbum;
+use App\Models\Menu;
 use App\Models\NewsAnnouncement;
 use App\Models\Service;
+use App\Models\TouristAttraction;
 
 function searchTitles(string $term): array
 {
@@ -95,4 +99,45 @@ it('links bank services to working pages', function () {
 
 it('caps very long queries', function () {
     $this->getJson('/api/search?q='.str_repeat('a', 5000))->assertOk();
+});
+
+describe('searching the rest of the site', function () {
+    it('finds open career postings but not inactive ones', function () {
+        Career::factory()->create(['title' => 'Quokka Analyst', 'is_active' => true]);
+        Career::factory()->create(['title' => 'Quokka Hidden', 'is_active' => false]);
+
+        expect(searchTitles('quokka'))->toBe(['Quokka Analyst']);
+    });
+
+    it('finds active gallery albums and tourist attractions and links to their pages', function () {
+        $album = GalleryAlbum::factory()->create(['title' => 'Zephyr Meetings']);
+        GalleryAlbum::factory()->inactive()->create(['title' => 'Zephyr Secret']);
+        $place = TouristAttraction::factory()->create(['title' => 'Zephyr Lake']);
+
+        $results = collect($this->getJson('/api/search?q=zephyr')->assertOk()->json('results'));
+
+        expect($results->pluck('title')->all())->toBe(['Zephyr Meetings', 'Zephyr Lake'])
+            ->and($results->firstWhere('type', 'Photo Gallery')['url'])->toBe(route('gallery.show', $album->slug))
+            ->and($results->firstWhere('type', 'Tourist Attraction')['url'])->toBe(route('tourist-attractions.public.show', $place->slug));
+    });
+
+    it('finds the static pages that have no database record', function (string $term, string $title) {
+        expect(searchTitles($term))->toContain($title);
+    })->with([
+        'loan calculator' => ['calculator', 'Loan Calculator'],
+        'contact' => ['helpline', 'Contact Us'],
+        'organogram' => ['hierarchy', 'Organogram'],
+        'careers' => ['internship', 'Careers'],
+        'gallery' => ['pictures', 'Photo Gallery'],
+        'tourism' => ['tourism', 'Tourist Attractions'],
+        'annual reports' => ['yearly', 'Annual Reports'],
+    ]);
+
+    it('finds visible menu items and skips parents without a link', function () {
+        Menu::create(['title' => 'Quasar Corner', 'slug' => 'quasar', 'url' => '/quasar', 'sort_order' => 1, 'is_active' => true]);
+        Menu::create(['title' => 'Quasar Parent', 'slug' => 'quasar-parent', 'url' => '#', 'sort_order' => 2, 'is_active' => true]);
+        Menu::create(['title' => 'Quasar Off', 'slug' => 'quasar-off', 'url' => '/off', 'sort_order' => 3, 'is_active' => false]);
+
+        expect(searchTitles('quasar'))->toBe(['Quasar Corner']);
+    });
 });

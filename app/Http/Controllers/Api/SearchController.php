@@ -3,14 +3,19 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\AboutUs;
 use App\Models\AnnualReport;
 use App\Models\BankService;
 use App\Models\BoardOfDirector;
+use App\Models\BodCommittee;
 use App\Models\Branch;
+use App\Models\Career;
 use App\Models\Download;
 use App\Models\FinancialHighlight;
 use App\Models\FinancialReport;
+use App\Models\GalleryAlbum;
 use App\Models\Management;
+use App\Models\Menu;
 use App\Models\NewsAnnouncement;
 use App\Models\Page;
 use App\Models\Product;
@@ -19,6 +24,7 @@ use App\Models\ProductType;
 use App\Models\ProfitRate;
 use App\Models\ScheduleOfCharge;
 use App\Models\Service;
+use App\Models\TouristAttraction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
@@ -48,6 +54,33 @@ class SearchController extends Controller
         $text = trim(preg_replace('/\s+/u', ' ', html_entity_decode(strip_tags((string) $html), ENT_QUOTES | ENT_HTML5, 'UTF-8')) ?? '');
 
         return Str::limit($text, $limit);
+    }
+
+    /**
+     * Static public pages that have no database record, with the words visitors use to look for them.
+     *
+     * @return list<array{title: string, url: string, keywords: string, excerpt: string}>
+     */
+    private function sitePages(): array
+    {
+        return [
+            ['title' => 'Loan Calculator', 'url' => route('loan-calculator'), 'keywords' => 'loan calculator emi installment markup monthly', 'excerpt' => 'Calculate your monthly installment'],
+            ['title' => 'Contact Us', 'url' => route('contact'), 'keywords' => 'contact phone email address complaint feedback helpline uan', 'excerpt' => 'Phone, email and a message form'],
+            ['title' => 'Branch Network', 'url' => route('about.branch-network'), 'keywords' => 'branch network atm location map nearest district region', 'excerpt' => 'Find a branch near you'],
+            ['title' => 'Organogram', 'url' => route('about.organogram'), 'keywords' => 'organogram organization structure chart hierarchy', 'excerpt' => 'Organisation structure of the Bank'],
+            ['title' => 'Management', 'url' => route('about.management'), 'keywords' => 'management executives president ceo team', 'excerpt' => 'Senior management of the Bank'],
+            ['title' => 'Board of Directors', 'url' => route('about.board-directors'), 'keywords' => 'board directors bod chairman', 'excerpt' => 'Members of the Board'],
+            ['title' => 'Careers', 'url' => route('public-careers'), 'keywords' => 'careers jobs vacancies internship join apply recruitment', 'excerpt' => 'Current job and internship openings'],
+            ['title' => 'News & Announcements', 'url' => route('news'), 'keywords' => 'news announcements press updates', 'excerpt' => 'Latest news from the Bank'],
+            ['title' => 'Downloads & Tenders', 'url' => route('public-downloads'), 'keywords' => 'downloads documents forms tender bids notices', 'excerpt' => 'Forms, tenders and notices'],
+            ['title' => 'Photo Gallery', 'url' => route('gallery'), 'keywords' => 'photo gallery pictures images events album', 'excerpt' => 'Photos of events and initiatives'],
+            ['title' => 'Tourist Attractions', 'url' => route('tourist-attractions.public'), 'keywords' => 'tourist tourism attractions neelum jehlum valley lake places visit travel', 'excerpt' => 'Places to visit in Azad Kashmir'],
+            ['title' => 'Annual Reports', 'url' => '/financials/annual-reports', 'keywords' => 'annual reports yearly financial', 'excerpt' => 'Annual reports of the Bank'],
+            ['title' => 'Financial Statements', 'url' => '/financials/statements', 'keywords' => 'financial statements accounts quarterly', 'excerpt' => 'Quarterly and annual statements'],
+            ['title' => 'Financial Highlights', 'url' => '/financials/financial-highlights', 'keywords' => 'financial highlights profit assets deposits', 'excerpt' => 'Key figures of the Bank'],
+            ['title' => 'Profit Rates', 'url' => '/rates/profit-rates', 'keywords' => 'profit rates deposit return percent', 'excerpt' => 'Profit rates on deposits'],
+            ['title' => 'Schedule of Charges', 'url' => route('rates.schedule-of-charges'), 'keywords' => 'schedule charges fees tariff', 'excerpt' => 'Banking charges and fees'],
+        ];
     }
 
     public function search(Request $request)
@@ -449,6 +482,92 @@ class SearchController extends Controller
             }
         }
 
+        $careers = $this->searchColumns(Career::active()->latest(), ['title', 'description', 'location', 'requirements'], $query)
+            ->limit(3)
+            ->get()
+            ->map(fn (Career $item) => [
+                'id' => $item->id,
+                'title' => $item->title,
+                'type' => 'Career',
+                'url' => route('public-careers.detail', $item->id),
+                'excerpt' => $this->excerpt($item->description) ?: ($item->location ?: 'Career opportunity'),
+                'image' => null,
+            ]);
+
+        $galleryAlbums = $this->searchColumns(GalleryAlbum::active()->orderBy('order'), ['title', 'description'], $query)
+            ->limit(3)
+            ->get()
+            ->map(fn (GalleryAlbum $item) => [
+                'id' => $item->id,
+                'title' => $item->title,
+                'type' => 'Photo Gallery',
+                'url' => route('gallery.show', $item->slug),
+                'excerpt' => $item->description ?: 'Photo album',
+                'image' => $item->cover_image_url,
+            ]);
+
+        $touristAttractions = $this->searchColumns(TouristAttraction::active()->orderBy('order'), ['title', 'summary', 'content'], $query)
+            ->limit(3)
+            ->get()
+            ->map(fn (TouristAttraction $item) => [
+                'id' => $item->id,
+                'title' => $item->title,
+                'type' => 'Tourist Attraction',
+                'url' => route('tourist-attractions.public.show', $item->slug),
+                'excerpt' => $item->summary ?: $this->excerpt($item->content),
+                'image' => $item->image_url,
+            ]);
+
+        $committees = $this->searchColumns(BodCommittee::query()->where('is_active', true)->orderBy('sort_order'), ['name', 'description'], $query)
+            ->limit(2)
+            ->get()
+            ->map(fn (BodCommittee $item) => [
+                'id' => $item->id,
+                'title' => $item->name,
+                'type' => 'Committee',
+                'url' => route('about.bod-committees'),
+                'excerpt' => $this->excerpt($item->description) ?: 'Board committee',
+                'image' => null,
+            ]);
+
+        $aboutUs = $this->searchColumns(AboutUs::query()->where('is_active', true)->orderBy('sort_order'), ['title', 'content', 'vision', 'mission'], $query)
+            ->limit(2)
+            ->get()
+            ->map(fn (AboutUs $item) => [
+                'id' => $item->id,
+                'title' => $item->title,
+                'type' => 'About Us',
+                'url' => route('about.about-us'),
+                'excerpt' => $this->excerpt($item->vision ?: $item->content),
+                'image' => null,
+            ]);
+
+        $menuPages = $this->searchColumns(Menu::active()->orderBy('sort_order'), ['title'], $query)
+            ->limit(8)
+            ->get()
+            ->filter(fn (Menu $item) => $item->url !== '#' && ! str_starts_with($item->url, 'http'))
+            ->map(fn (Menu $item) => [
+                'id' => $item->id,
+                'title' => $item->title,
+                'type' => 'Page',
+                'url' => $item->url,
+                'excerpt' => 'Go to '.$item->title,
+                'image' => null,
+            ]);
+
+        $sitePages = collect($this->sitePages())
+            ->filter(fn (array $page) => str_contains(mb_strtolower($page['title'].' '.$page['keywords']), mb_strtolower($query)))
+            ->reject(fn (array $page) => $menuPages->contains('url', $page['url']))
+            ->take(5)
+            ->map(fn (array $page) => [
+                'id' => $page['url'],
+                'title' => $page['title'],
+                'type' => 'Page',
+                'url' => $page['url'],
+                'excerpt' => $page['excerpt'],
+                'image' => null,
+            ]);
+
         // Combine and sort results (high priority items first)
         $results = $results->concat($news)
             ->concat($services)
@@ -466,7 +585,15 @@ class SearchController extends Controller
             ->concat($scheduleOfCharges)
             ->concat($profitRates)
             ->concat($pages)
-            ->take(25);
+            ->concat($careers)
+            ->concat($galleryAlbums)
+            ->concat($touristAttractions)
+            ->concat($committees)
+            ->concat($aboutUs)
+            ->concat($menuPages)
+            ->concat($sitePages)
+            ->unique(fn (array $item) => $item['type'].'|'.$item['url'].'|'.$item['title'])
+            ->take(40);
 
         return response()->json([
             'results' => $results->values(),

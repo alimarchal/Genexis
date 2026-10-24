@@ -85,6 +85,47 @@ News, Careers and Downloads already support everything needed to enter the migra
 
 ![Downloads admin](screenshots/29-admin-downloads.jpg)
 
+## Mobile, tablet and desktop
+
+Every public and admin route was opened at 375 px (phone), 768 px (tablet) and 1440 px (desktop) and checked for page-level horizontal scrolling, HTTP errors and console errors. The pages that needed work now switch layout instead of forcing a sideways scroll.
+
+### Careers (`/join-the-bank`)
+
+Phones and tablets show one card per posting; large screens show a table whose cells wrap.
+
+| Phone | Tablet | Desktop |
+|---|---|---|
+| ![Careers on a phone](screenshots/responsive/join-the-bank-mobile.jpg) | ![Careers on a tablet](screenshots/responsive/join-the-bank-tablet.jpg) | ![Careers on a desktop](screenshots/responsive/join-the-bank-desktop.jpg) |
+
+Full-length captures: [phone](screenshots/responsive/join-the-bank-mobile-full.jpg), [tablet](screenshots/responsive/join-the-bank-tablet-full.jpg), [desktop](screenshots/responsive/join-the-bank-desktop-full.jpg).
+
+### Downloads (`/documents`)
+
+| Phone | Tablet | Desktop |
+|---|---|---|
+| ![Downloads on a phone](screenshots/responsive/downloads-mobile.jpg) | ![Downloads on a tablet](screenshots/responsive/downloads-tablet.jpg) | ![Downloads on a desktop](screenshots/responsive/downloads-desktop.jpg) |
+
+### Profit rates (`/rates/profit-rates`)
+
+| Phone | Tablet | Desktop |
+|---|---|---|
+| ![Profit rates on a phone](screenshots/responsive/profit-rates-mobile.jpg) | ![Profit rates on a tablet](screenshots/responsive/profit-rates-tablet.jpg) | ![Profit rates on a desktop](screenshots/responsive/profit-rates-desktop.jpg) |
+
+### Photo Gallery and Home
+
+| Page | Phone | Tablet | Desktop |
+|---|---|---|---|
+| Gallery | ![](screenshots/responsive/gallery-mobile.jpg) | ![](screenshots/responsive/gallery-tablet.jpg) | ![](screenshots/responsive/gallery-desktop.jpg) |
+| Home | ![](screenshots/responsive/home-mobile.jpg) | ![](screenshots/responsive/home-tablet.jpg) | ![](screenshots/responsive/home-desktop.jpg) |
+
+## Site search
+
+The search (magnifier in the header, `/api/search?q=`) now covers news, services, products, downloads and tenders, branches, board members, management, committees, About Us, financial reports, rates and charges, **careers, photo gallery albums, tourist attractions**, every visible menu item, and the static pages that have no database record (loan calculator, contact, organogram and so on). Results are labelled by type and capped at 40.
+
+| Phone | Tablet | Desktop |
+|---|---|---|
+| ![Search on a phone](screenshots/responsive/search-mobile.jpg) | ![Search on a tablet](screenshots/responsive/search-tablet.jpg) | ![Search on a desktop](screenshots/responsive/search-desktop.jpg) |
+
 ## Regenerating the screenshots
 
 1. Install and build as in the [Quick start](../README.md#quick-start-local-development), seed the database and create an admin with `php artisan bank:create-admin`.

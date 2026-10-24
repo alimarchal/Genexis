@@ -97,7 +97,13 @@ Open <http://localhost:8000> for the website and <http://localhost:8000/login> f
 | ![Tourist Attractions](docs/screenshots/06-tourist-attractions.jpg) | ![Admin: gallery album](docs/screenshots/23-admin-gallery-album-edit.jpg) |
 | Tourist Attractions | Admin panel: gallery album |
 
-**All pages and admin screens: [docs/screenshots.md](docs/screenshots.md)**
+| Careers on a phone | Site search on a phone |
+|---|---|
+| ![Careers on a phone](docs/screenshots/responsive/join-the-bank-mobile.jpg) | ![Search on a phone](docs/screenshots/responsive/search-mobile.jpg) |
+
+Every page works on phones, tablets and desktops.
+
+**All pages, admin screens and the mobile / tablet / desktop views: [docs/screenshots.md](docs/screenshots.md)**
 
 ---
 
