@@ -3107,7 +3107,7 @@ INSERT INTO `top_navbar_messages` (`id`, `type`, `priority`, `icon`, `text`, `co
 
 CREATE TABLE `upload_sessions` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `uuid` uuid NOT NULL,
+  `uuid` char(36) NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `context` varchar(60) NOT NULL,
   `original_name` varchar(255) NOT NULL,
