@@ -14,7 +14,7 @@ const ServicesLinks: React.FC = () => {
         { label: 'Interest Rates', href: footerLinks.banking.interest_rates },
         { label: 'Forms & Applications', href: footerLinks.banking.forms },
         { label: 'Tenders & Notices', href: footerLinks.banking.tenders },
-    ];
+    ].filter((service): service is { label: string; href: string } => Boolean(service.href));
 
     return (
         <div className="space-y-6">

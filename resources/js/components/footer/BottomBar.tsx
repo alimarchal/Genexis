@@ -12,7 +12,7 @@ const BottomBar: React.FC = () => {
     const links = [
         { label: 'Email Login', href: atob(encodedEmailUrl), isExternal: true, windowName: 'EmailLogin' },
         { label: 'Portal Login', href: footerLinks.banking.portal_login, isExternal: true, windowName: 'PortalLogin' },
-    ];
+    ].filter((link): link is typeof link & { href: string } => Boolean(link.href));
 
     const getYearRange = () => {
         const currentYear = new Date().getFullYear();
