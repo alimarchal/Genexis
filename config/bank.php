@@ -97,7 +97,8 @@ return [
     ],
     'footer' => [
         'banking' => [
-            'portal_login' => env('PORTAL_LOGIN_URL', 'https://bankajk.com/portal-login'),
+            // No default: the link is hidden in the footer until the real portal address is set.
+            'portal_login' => env('PORTAL_LOGIN_URL'),
             'branch_locator' => env('BRANCH_LOCATOR_URL', 'https://bankajk.com/branch-locator'),
             'atm_locator' => env('ATM_LOCATOR_URL', 'https://bankajk.com/atm-locator'),
             'exchange_rates' => env('EXCHANGE_RATES_URL', 'https://bankajk.com/exchange-rates'),

@@ -90,7 +90,7 @@ declare module '@inertiajs/core' {
                 loan_calculator: string;
             };
             banking: {
-                portal_login: string;
+                portal_login: string | null;
                 branch_locator: string;
                 atm_locator: string;
                 exchange_rates: string;
