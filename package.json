@@ -57,7 +57,7 @@
     "exceljs": "^4.4.0",
     "globals": "^17.14.0",
     "html2canvas": "^1.4.1",
-    "laravel-vite-plugin": "^3.2.0",
+    "laravel-vite-plugin": "^3.2.1",
     "lucide-react": "^1.68.0",
     "react": "^19.3.1",
     "react-chartjs-2": "^5.3.1",
